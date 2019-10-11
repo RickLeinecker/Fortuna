@@ -1,8 +1,9 @@
 //@flow strict
 
-import React from 'react';
+import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
+import SampleComponent from './SampleComponent.js'
 
 const styleForRow = {
   'margin-top':'20px',
@@ -11,9 +12,10 @@ const styleForRow = {
 //This is the Login Page Display
 class LoginPageDisplay extends React.Component<{||}> {
   
-  render() {
+  render(): React.Node {
     return (
       <div id = "Parent">
+					<SampleComponent/>	
           <div class = "row">
               <h4 class = "col-md-4">LeaderBoard</h4>
               <h1 class = "col-md-4 text-center">Fortuna</h1>
