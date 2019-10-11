@@ -4,9 +4,10 @@ import ReactDOM from 'react-dom';
 
 
 
-var styleForRow = {
+const styleForRow = {
   'margin-top':'20px',
 };
+
 //This is the Login Page Display
 class LoginPageDisplay extends React.Component{
   
