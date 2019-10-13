@@ -8,7 +8,7 @@ const styleForRow = {
   'margin-top':'20px',
 };
 
-// This is for the login page.
+// This is the login page.
 class Login extends React.Component<{||}> {
 
   render(): React.Node {
