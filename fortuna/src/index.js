@@ -3,7 +3,8 @@
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
-import SampleComponent from './SampleComponent.js'
+import SampleComponent from './SampleComponent.js';
+import CasusContainer from './casus/CasusContainer.js';
 
 const styleForRow = {
   'margin-top':'20px',
@@ -13,6 +14,9 @@ const styleForRow = {
 class LoginPageDisplay extends React.Component<{||}> {
   
   render(): React.Node {
+		if (true) {
+			return (<CasusContainer />);
+		}
     return (
       <div id = "Parent">
 					<SampleComponent/>	
