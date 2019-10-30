@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Before you start
+## Before You Start
 
 If you have cloned the repository for the first time, be sure to install the node packages using:
 
