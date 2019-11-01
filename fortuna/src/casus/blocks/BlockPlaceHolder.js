@@ -6,13 +6,15 @@ class BlockPlaceHolder extends React.Component<{||}> {
 	
 	render(): React.Node {
 		const blockStyle = {
-			height: '10px'
-			width: '30px',
+			alignSelf: 'flex-end',
+			backgroundColor: '#00aa0f',
+			height: '10px',
+			width: '30px'
 		}
 		return (
-			<div style={blockStyle}>
+			<span style={blockStyle}>
 				Command
-			</div>
+			</span>
 		);
 	}
 }
