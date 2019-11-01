@@ -7,7 +7,7 @@ import CasusEditor from './CasusEditor.js';
 class CasusContainer extends React.Component<{||}> {
 
 	render(): React.Node {
-		const containerStyle= {
+		const containerStyle = {
 			padding: 20,
 			margin: 20
 		};
@@ -15,7 +15,6 @@ class CasusContainer extends React.Component<{||}> {
 		return (
 			<div style={containerStyle}>
 				<BlockBank />
-				<hr />
 				<CasusEditor />
 			</div>
 		);
