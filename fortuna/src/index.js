@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
 import SampleComponent from './SampleComponent.js';
 import CasusContainer from './casus/CasusContainer.js';
+import './App.css';
 
 const styleForRow = {
   'margin-top':'20px',
