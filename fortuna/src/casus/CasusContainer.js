@@ -15,7 +15,6 @@ class CasusContainer extends React.Component<{||}> {
 		return (
 			<div style={containerStyle}>
 				<BlockBank />
-				<hr />
 				<CasusEditor />
 			</div>
 		);
