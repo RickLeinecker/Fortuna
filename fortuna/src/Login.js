@@ -1,16 +1,15 @@
+//@flow strict
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
-import MarketPlaceDisplay from './MarketPlace.js';
-const styleForRow = {
-    'margin-top':'20px',
-  };
+import MarketPlace from './MarketPlace.js';
+import './Login.css';
   
   //This is the Login Page Display
   class LoginPageDisplay extends React.Component {
     handleLoginClick = () => {
         LoginFunction();
-      }
+      };
     render(){
       return (
         <div id = "Parent">
@@ -19,12 +18,12 @@ const styleForRow = {
                 <h1 class = "col-md-4 text-center">Fortuna</h1>
                 <h4 class = "col-md-4 text-right">What is Fortuna?</h4>
             </div>
-            <div class = "row" style = {styleForRow}>
+            <div class = "row styleForRow">
               <div class="col text-center">
                   <button type="button" class="btn btn-success btn-lg" onClick={this.handleLoginClick}>Login</button>
               </div>
             </div>
-            <div class = "row" style = {styleForRow}>
+            <div class = "row styleForRow">
               <div class="col text-center">
                   <button type="button" class="btn btn-secondary btn-sm">Signup</button>
               </div>
@@ -40,7 +39,7 @@ const styleForRow = {
   {
     const rootComponent=document.getElementById('root');
     if (rootComponent != null) {
-        ReactDOM.render(<MarketPlaceDisplay/>, rootComponent);
+        ReactDOM.render(<MarketPlace/>, rootComponent);
     }
   }
 
