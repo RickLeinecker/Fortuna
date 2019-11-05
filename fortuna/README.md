@@ -6,6 +6,10 @@ If you have cloned the repository for the first time, be sure to install the nod
 
 ### `npm install`
 
+Be sure to check your code:
+
+### 'npm run flow'
+
 ## Available Scripts
 
 In the project directory, you can run:
