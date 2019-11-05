@@ -8,7 +8,7 @@ If you have cloned the repository for the first time, be sure to install the nod
 
 Be sure to check your code:
 
-### 'npm run flow'
+### `npm run flow`
 
 ## Available Scripts
 
