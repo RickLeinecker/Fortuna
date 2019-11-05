@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './components/Login.js';
+import Login from './login/Login.js';
 
 // This builds the page.
 class App extends React.Component<{||}> {
