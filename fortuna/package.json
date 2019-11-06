@@ -16,8 +16,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "nodemon ./src/backend/server.js",
-    "prodserver": "node ./src/backend/server.js"
+    "devserver": "NODE_ENV=development nodemon ./src/backend/server.js",
+    "prodserver": "NODE_ENV=production node ./src/backend/server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
