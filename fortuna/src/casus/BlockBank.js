@@ -9,8 +9,7 @@ class BlockBank extends React.Component<{||}> {
 		//display: 'inline-block',
 		const style = {
 			backgroundColor: '#ffaaff',
-			height: '100px',
-			overflow: 'hidden',
+			height: '200px',
 			justifyContent: 'center',
 			textAlign: 'justify',
 			width: '100%'
