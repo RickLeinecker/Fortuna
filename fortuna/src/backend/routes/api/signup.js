@@ -13,8 +13,6 @@ router.get('/', (req, res) => {
 
 // Register a new User
 router.post('/', (req, res) => {
-
-    //console.log(req.body);
     
     // bcyrpt hash passwords
     bcrypt.hash(req.body.password, 5, async function(err, hash) {

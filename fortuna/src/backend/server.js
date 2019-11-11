@@ -17,6 +17,8 @@ const app = express();
 // As of express v4.16, npm body-parser is bundled with express again
 app.use(express.json());
 
+// Use the api routes as middleware
+// First param is the url?uri  directory second is the api path
 app.use('/', home);
 app.use('/signup', signups);
 
