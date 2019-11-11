@@ -2,7 +2,15 @@
 
 import * as React from 'react';
 
-class CasusEditor extends React.Component<{||}> {
+type Props = {||}
+type State = {||}
+
+class CasusEditor extends React.Component<Props, State> {
+
+	componentDidMount(): void {
+		const canvas=this.refs.canvas;
+		console.log("Here "+canvas);
+	}
 
 	render(): React.Node {
 		const style = {
@@ -11,10 +19,15 @@ class CasusEditor extends React.Component<{||}> {
 			justifyContent: 'center',
 			width: '100%'
 		};
+		const canvasSytle = {
+			backgroundColor: '#ffffff'
+		}
+
 
 		return (
 			<div style={style}>
 				Casus Editor
+				<canvas ref="canvas" width={640} height={425} style={style}/>
 			</div>
 		);
 	}

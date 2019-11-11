@@ -2,7 +2,13 @@
 
 import * as React from 'react';
 
-class BlockPlaceHolder extends React.Component<{||}> {
+type Props = {|
+	
+|};
+
+type State = {||};
+
+class BlockPlaceHolder extends React.Component<Props, State> {
 	
 	render(): React.Node {
 		const blockStyle = {
