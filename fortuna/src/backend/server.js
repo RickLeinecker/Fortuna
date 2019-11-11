@@ -9,10 +9,16 @@ const mongoose = require('mongoose');
 // Port constant so we may edit as needed
 const PORT = process.env.PORT || 4000;
 
+const signups = require('./routes/api/signup');
+const home = require('./routes/api/home');
+
 // Server Instance
 const app = express();
 // As of express v4.16, npm body-parser is bundled with express again
 app.use(express.json());
+
+app.use('/', home);
+app.use('/signup', signups);
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
