@@ -1,21 +1,16 @@
 //@flow strict
 
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from './LoginPopup.js';
-import MainMenu from '../mainmenu/MainMenu.js';
 
 const styleForRow = {
   'margin-top':'20px',
 };
 
-// This is the login page.
+// Login component.
 class Login extends React.Component<{||}> {
-
-  handleMainMenuClick = () => {
-      MainMenuFunction();
-  };
   
   render(): React.Node {
     return (
@@ -26,7 +21,9 @@ class Login extends React.Component<{||}> {
         </div>
 	    	<div class = "row" style = {styleForRow}>
       	  <div class="col text-center">
-      	    <button type="button" class="btn btn-success btn-lg" onClick={this.handleMainMenuClick}>Login</button>
+      	    <Link to="/MainMenu">  
+              <button type="button" class="btn btn-success btn-lg">Login</button>
+            </Link>
       	  </div>
       	</div>
       	<div class = "row" style = {styleForRow}>
@@ -41,13 +38,6 @@ class Login extends React.Component<{||}> {
         </div>
 	    </div>
 	  );
-  }
-}
-
-function MainMenuFunction() {
-  const rootComponent = document.getElementById('root');
-  if (rootComponent != null) {
-    ReactDOM.render(<MainMenu/>, rootComponent);
   }
 }
 

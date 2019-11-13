@@ -1,23 +1,21 @@
 //@flow strict
 
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import MainMenu from '../mainmenu/MainMenu.js';
-
   
-//This is the MarketPlace Display
+// Marketplace component.
 class Marketplace extends React.Component<{||}> {
-	
-  handleMainMenuClick = () => {
-	MainMenuFunction();
-  };
 	
   render(){
     return (
       <div id = "Parent">
         <div class = "row">
-          <div class = "col-md-4"><button type="button" class="btn btn-secondary btn-lg" onClick={this.handleMainMenuClick}>&lt;- Back to Main Menu</button></div>
+          <div class = "col-md-4">
+		    <Link to="/MainMenu">
+		      <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
+		    </Link>
+		  </div>
           <h1 class = "col-md-4 text-center">Marketplace</h1>
           <h4 class = "col-md-4 text-right">Currency: $9432</h4>
         </div>
@@ -47,13 +45,6 @@ class Marketplace extends React.Component<{||}> {
         </div>
       </div>
     );
-  }
-}
-
-function MainMenuFunction() {
-  const rootComponent = document.getElementById('root');
-  if (rootComponent != null) {
-    ReactDOM.render(<MainMenu/>, rootComponent);
   }
 }
 

@@ -4,7 +4,7 @@ import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Popup from 'reactjs-popup';
 
-// Informational popup for login page.
+// Informational Login Popup component..
 class LoginPopup extends React.Component<{||}> {
   render(): React.Node {
     return(
