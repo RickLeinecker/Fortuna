@@ -15,11 +15,11 @@ class Login extends React.Component<{||}> {
   render(): React.Node {
     return (
       <div id = "Parent">
-	  	  <div class = "row">
-	    	  <h4 class = "col-md-4">LeaderBoard</h4>
-	    	  <h1 class = "col-md-4 text-center">Fortuna</h1>
+        <div class = "row">
+	  <h4 class = "col-md-4">LeaderBoard</h4>
+	  <h1 class = "col-md-4 text-center">Fortuna</h1>
         </div>
-	    	<div class = "row" style = {styleForRow}>
+	<div class = "row" style = {styleForRow}>
       	  <div class="col text-center">
       	    <Link to="/MainMenu">  
               <button type="button" class="btn btn-success btn-lg">Login</button>
@@ -36,8 +36,8 @@ class Login extends React.Component<{||}> {
             <LoginPopup/>
           </div>
         </div>
-	    </div>
-	  );
+      </div>
+    );
   }
 }
 
