@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import BlockPlaceHolder from './blocks/BlockPlaceHolder.js';
 
 class BlockBank extends React.Component<{||}> {
 
@@ -23,7 +22,6 @@ class BlockBank extends React.Component<{||}> {
 		return (
 			<div style={style}> 
 				<span style={leftSidebarStyle}>Block Bank</span>
-				<BlockPlaceHolder/>
 			</div>
 		);
 	}
