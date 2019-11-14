@@ -5,7 +5,7 @@
 const mongoose = require('mongoose');
 
 // model('NameOfAreaInDB', Mongoose Schema)
-const Tank = new mongoose.model('User', new mongoose.Schema ({
+const Tank = new mongoose.model('Tank', new mongoose.Schema ({
     // Name of tank
     tankName: {
         type: String,
