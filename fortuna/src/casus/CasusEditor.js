@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import CasusBlock from './blocks/CasusBlock.js';
-import SampleBlock from './blocks/SampleBlock.js';
+import AndBlock from './blocks/AndBlock.js';
 
 type Props = {||}
 type State = {||}
@@ -14,8 +14,9 @@ class CasusEditor extends React.Component<Props, State> {
 		const ctx : CanvasRenderingContext2D = canvas.getContext('2d');
 		//ctx.font= '16px Arial';
 		//ctx.fillText("This is a block", 210, 75);
-		const emptyBlock: CasusBlock = new SampleBlock();
-		emptyBlock.precompBoundingBox(10, 10);
+		const emptyBlock: CasusBlock = new AndBlock();
+		emptyBlock.precompBounds();
+		emptyBlock.precompXY(10, 10);
 		emptyBlock.renderDFS(ctx);
 	}
 

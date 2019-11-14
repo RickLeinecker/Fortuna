@@ -8,15 +8,19 @@ const RAMP_WIDTH = 10;
 const CENTER_WIDTH = 50;
 const HEIGHT=30;
 
-class SampleBlock extends CasusBlock {
+class EmptyBooleanBlock extends CasusBlock {
 
-	precompBoundingBox(minX: number, minY: number): void {
+	precompBounds(): void {
 		this.boundingBox=new BoundingBox(
-			minX, 
-			minY, 
+			0, 
+			0,
 			RAMP_WIDTH + CENTER_WIDTH + RAMP_WIDTH, 
 			HEIGHT
 		);	
+	}
+
+	precompXY(x: number, y:number): void {
+		this.boundingBox=new BoundingBox(x, y, this.boundingBox.w, this.boundingBox.h);
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
@@ -47,4 +51,4 @@ class SampleBlock extends CasusBlock {
 	}
 }
 
-export default SampleBlock;
+export default EmptyBooleanBlock;

@@ -6,8 +6,11 @@ import BoundingBox from './BoundingBox.js';
 //methods that will be called on blocks by the casus editor
 //
 //The following methods must be implemented:
-//	precompBoundingBox(minX, minY) - calls precompBoundingBox on all child blocks of this,
-//		then calculates the bounding box for this block
+//	precompBounds() - calls precompBounds on all child blocks of this,
+//		then calculates this block's bounds
+//
+//	precompXY(x, y) - sets the x and y coordintates of this block now that
+//		its bounds are known, and sets the absolute coordinates of all child blocks
 //
 //	getChildBlocks() - returns all child blocks of this block
 //
@@ -30,13 +33,15 @@ class CasusBlock {
 
 
 	// ----------------------- Methods to overload --------------------------
-	precompBoundingBox(minX: number, minY: number): void {
-		// blocks should override this to include their own custom logic
-		this.boundingBox=new BoundingBox(minX, minY, 0, 0);
+	precompBounds(): void {
+		this.boundingBox=new BoundingBox(0, 0, 0, 0);
+	}
+
+	precompXY(x: number, y:number): void {
+		this.boundingBox=new BoundingBox(x, y, this.boundingBox.w, this.boundingBox.h);
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
-		// blocks that may contain children should override this
 		return [];
 	}
 
