@@ -2,7 +2,7 @@
 
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
-import EmptyBooleanBlock from './EmptyBooleanBlock.js';
+import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js'
 import generateCornerPerim from './generateCornerPerim.js'
 
@@ -21,8 +21,8 @@ class BinaryOperationBlock extends CasusBlock {
 	constructor(paramType: DataType, returnType: DataType, centerText: string) {
 		super();
 
-		this.lChild=new EmptyBooleanBlock();
-		this.rChild=new EmptyBooleanBlock();
+		this.lChild=new EmptyBlock(paramType);
+		this.rChild=new EmptyBlock(paramType);
 		this.paramType=paramType;
 		this.returnType=returnType;
 		this.centerText=centerText;

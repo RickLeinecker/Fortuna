@@ -3,6 +3,8 @@
 import * as React from 'react';
 import CasusBlock from './blocks/CasusBlock.js';
 import OrBlock from './blocks/OrBlock.js';
+import VariableBlock from './blocks/VariableBlock.js';
+import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 
 type Props = {||}
 type State = {||}
@@ -15,10 +17,21 @@ class CasusEditor extends React.Component<Props, State> {
 		//ctx.font= '16px Arial';
 		//ctx.fillText("This is a block", 210, 75);
 		const emptyBlock: CasusBlock = new OrBlock();
-		console.log(emptyBlock);
 		emptyBlock.precompBounds();
 		emptyBlock.precompXY(10, 10);
 		emptyBlock.renderDFS(ctx);
+
+		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
+		testVariable.precompBounds();
+		testVariable.precompXY(10, 90);
+		testVariable.renderDFS(ctx);
+
+		const testEquals: CasusBlock = new IntEqualsBlock();
+		testEquals.lChild=new VariableBlock('INT', 'answer');
+		testEquals.rChild=new VariableBlock('INT', 'otherAnswer');
+		testEquals.precompBounds();
+		testEquals.precompXY(10, 150);
+		testEquals.renderDFS(ctx);
 	}
 
 	render(): React.Node {

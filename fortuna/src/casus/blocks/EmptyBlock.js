@@ -6,7 +6,16 @@ import Vec from './Vec.js';
 import {RAMP_WIDTH, CENTER_WIDTH, EMPTY_STATEMENT_HEIGHT} from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
 
-class EmptyBooleanBlock extends CasusBlock {
+import type {DataType} from './DataType.js';
+
+class EmptyBlock extends CasusBlock {
+
+	dataType: DataType;
+
+	constructor(dataType: DataType) {
+		super();
+		this.dataType=dataType;
+	}
 
 	precompBounds(): void {
 		this.boundingBox=new BoundingBox(
@@ -28,7 +37,7 @@ class EmptyBooleanBlock extends CasusBlock {
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 		ctx.fillStyle = '#222222';
 		ctx.beginPath();
-		const perim: Array<Vec> = generateCornerPerim(this.boundingBox, 'BOOLEAN');
+		const perim: Array<Vec> = generateCornerPerim(this.boundingBox, this.dataType);
 		ctx.moveTo(perim[0].x, perim[0].y);
 		for (const p of perim) {
 			ctx.lineTo(p.x, p.y);
@@ -38,4 +47,4 @@ class EmptyBooleanBlock extends CasusBlock {
 	}
 }
 
-export default EmptyBooleanBlock;
+export default EmptyBlock;
