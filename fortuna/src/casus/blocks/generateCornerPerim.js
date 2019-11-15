@@ -10,6 +10,8 @@ const VPADDING = 3;
 const EMPTY_STATEMENT_HEIGHT = 23;
 const SET_VARIABLE_SET_WIDTH=35;
 const SET_VARIABLE_TO_WIDTH=25;
+const FOR_BLOCK_FOR_WIDTH = 35;
+const FOR_BLOCK_SEMICOLON_WIDTH = 10;
 
 const N_POINTS_TO_APROX_CIRCLE = 8;
 
@@ -73,10 +75,20 @@ function _generateDoublePerim(boundingBox: BoundingBox): Array<Vec> {
 	return perim;
 }
 
+function _generateVoidPerim(boundingBox: BoundingBox): Array<Vec> {
+	const perim: Array<Vec> = [];
+	perim.push(new Vec(boundingBox.x, boundingBox.y));
+	perim.push(new Vec(boundingBox.x + boundingBox.w, boundingBox.y));
+	perim.push(new Vec(boundingBox.x + boundingBox.w, boundingBox.y + boundingBox.h));
+	perim.push(new Vec(boundingBox.x, boundingBox.y + boundingBox.h));
+	return perim;
+}
+
 function generateCornerPerim(boundingBox: BoundingBox, dataType: DataType): Array<Vec> {
 	if (dataType==='BOOLEAN') return _generateBoolPerim(boundingBox);
 	if (dataType==='INT') return _generateIntPerim(boundingBox);
 	if (dataType==='DOUBLE') return _generateDoublePerim(boundingBox);
+	if (dataType==='VOID') return _generateVoidPerim(boundingBox);
 	return [];
 }
 
@@ -86,7 +98,9 @@ export {
 	VPADDING, 
 	EMPTY_STATEMENT_HEIGHT, 
 	SET_VARIABLE_SET_WIDTH, 
-	SET_VARIABLE_TO_WIDTH
+	SET_VARIABLE_TO_WIDTH,
+	FOR_BLOCK_FOR_WIDTH,
+	FOR_BLOCK_SEMICOLON_WIDTH
 };
 export default generateCornerPerim;
 

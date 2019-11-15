@@ -6,6 +6,7 @@ import OrBlock from './blocks/OrBlock.js';
 import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
+import ForBlock from './blocks/ForBlock.js';
 
 type Props = {||}
 type State = {||}
@@ -38,6 +39,11 @@ class CasusEditor extends React.Component<Props, State> {
 		setIntVariable.precompBounds();
 		setIntVariable.precompXY(10, 200);
 		setIntVariable.renderDFS(ctx);
+
+		const testForLoop: CasusBlock = new ForBlock();
+		testForLoop.precompBounds();
+		testForLoop.precompXY(10, 260);
+		testForLoop.renderDFS(ctx);
 	}
 
 	render(): React.Node {
