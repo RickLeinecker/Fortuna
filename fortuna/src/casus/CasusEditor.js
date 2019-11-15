@@ -26,7 +26,7 @@ class CasusEditor extends React.Component<Props, State> {
 		testVariable.precompXY(10, 90);
 		testVariable.renderDFS(ctx);
 
-		const testEquals: CasusBlock = new IntEqualsBlock();
+		const testEquals: IntEqualsBlock = new IntEqualsBlock();
 		testEquals.lChild=new VariableBlock('INT', 'answer');
 		testEquals.rChild=new VariableBlock('INT', 'otherAnswer');
 		testEquals.precompBounds();

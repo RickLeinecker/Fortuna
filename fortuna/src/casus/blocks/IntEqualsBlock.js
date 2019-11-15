@@ -2,7 +2,7 @@
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
 
-class OrBlock extends BinaryOperationBlock {
+class IntEqualsBlock extends BinaryOperationBlock {
 
 	constructor() {
 		super('INT', 'BOOLEAN', '==');
@@ -10,4 +10,4 @@ class OrBlock extends BinaryOperationBlock {
 
 }
 
-export default OrBlock;
+export default IntEqualsBlock;
