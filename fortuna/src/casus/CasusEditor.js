@@ -5,6 +5,7 @@ import CasusBlock from './blocks/CasusBlock.js';
 import OrBlock from './blocks/OrBlock.js';
 import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
+import SetVariableBlock from './blocks/SetVariableBlock.js';
 
 type Props = {||}
 type State = {||}
@@ -32,6 +33,11 @@ class CasusEditor extends React.Component<Props, State> {
 		testEquals.precompBounds();
 		testEquals.precompXY(10, 150);
 		testEquals.renderDFS(ctx);
+
+		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
+		setIntVariable.precompBounds();
+		setIntVariable.precompXY(10, 200);
+		setIntVariable.renderDFS(ctx);
 	}
 
 	render(): React.Node {

@@ -8,6 +8,8 @@ const CENTER_WIDTH = 50;
 const RAMP_WIDTH = 12;
 const VPADDING = 3;
 const EMPTY_STATEMENT_HEIGHT = 23;
+const SET_VARIABLE_SET_WIDTH=35;
+const SET_VARIABLE_TO_WIDTH=25;
 
 const N_POINTS_TO_APROX_CIRCLE = 8;
 
@@ -78,6 +80,13 @@ function generateCornerPerim(boundingBox: BoundingBox, dataType: DataType): Arra
 	return [];
 }
 
-export {CENTER_WIDTH, RAMP_WIDTH, VPADDING, EMPTY_STATEMENT_HEIGHT};
+export {
+	CENTER_WIDTH, 
+	RAMP_WIDTH, 
+	VPADDING, 
+	EMPTY_STATEMENT_HEIGHT, 
+	SET_VARIABLE_SET_WIDTH, 
+	SET_VARIABLE_TO_WIDTH
+};
 export default generateCornerPerim;
 

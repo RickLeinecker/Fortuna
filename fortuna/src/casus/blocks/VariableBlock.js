@@ -5,10 +5,10 @@ import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {RAMP_WIDTH, EMPTY_STATEMENT_HEIGHT} from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
+import measureText from './measureText.js';
 
 import type {DataType} from './DataType.js';
 
-const measuringCTX: CanvasRenderingContext2D=document.createElement('canvas').getContext('2d');
 
 class VariableBlock extends CasusBlock {
 
@@ -22,12 +22,11 @@ class VariableBlock extends CasusBlock {
 	}
 
 	precompBounds(): void {
-		measuringCTX.font = '16px Arial';
-		const mainWidth = measuringCTX.measureText(this.name).width;
+		const mainWidth = measureText(this.name);
 		this.boundingBox=new BoundingBox(
 			0, 
 			0,
-			RAMP_WIDTH + mainWidth + RAMP_WIDTH, 
+			RAMP_WIDTH + mainWidth.w + RAMP_WIDTH, 
 			EMPTY_STATEMENT_HEIGHT
 		);	
 	}
