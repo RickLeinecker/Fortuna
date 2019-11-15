@@ -4,12 +4,12 @@ import BinaryOperationBlock from './BinaryOperationBlock.js';
 
 import type DataType from './DataType.js'
 
-class AndBlock extends BinaryOperationBlock {
+class OrBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('BOOLEAN', 'BOOLEAN', 'and');
+		super('BOOLEAN', 'BOOLEAN', 'or');
 	}
 
 }
 
-export default AndBlock;
+export default OrBlock;
