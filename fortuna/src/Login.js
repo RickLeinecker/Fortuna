@@ -7,9 +7,41 @@ import './Login.css';
   
   //This is the Login Page Display
   class LoginPageDisplay extends React.Component {
-    handleLoginClick = () => {
-        LoginFunction();
-      };
+    state = {
+      response: '',
+      userName: '',
+      password: '',
+      responseToPost: '',
+    };
+    
+    componentDidMount() {
+      this.callApi()
+        .then(res => this.setState({ response: res.express }))
+        .catch(err => console.log(err));
+    }
+    
+    callApi = async () => {
+      const response = await fetch('./routes/api/signup');
+      const body = await response.json();
+      if (response.status !== 200) throw Error(body.message);
+      
+      return body;
+    };
+    
+    handleLoginClick = async e => {
+      e.preventDefault();
+      LoginFunction();
+      const response = await fetch('./routes/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
+      });
+      const body = await response.text();
+      console.log(body);
+    };
+
     render(){
       return (
         <div id = "Parent">
@@ -20,6 +52,16 @@ import './Login.css';
             </div>
             <div class = "row styleForRow">
               <div class="col text-center">
+                  <input
+                    type="text"
+                    value={this.state.userName}
+                    onChange={e => this.setState({ userName: e.target.value })}
+                  />
+                  <input
+                    type="text"
+                    value={this.state.password}
+                    onChange={e => this.setState({ password: e.target.value })}
+                  />
                   <button type="button" class="btn btn-success btn-lg" onClick={this.handleLoginClick}>Login</button>
               </div>
             </div>

@@ -22,6 +22,8 @@ app.use(express.json());
 app.use('/', home);
 app.use('/signup', signups);
 
+
+
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
     useUnifiedTopology: true })
