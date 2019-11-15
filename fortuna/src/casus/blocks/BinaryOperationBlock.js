@@ -4,12 +4,11 @@ import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBooleanBlock from './EmptyBooleanBlock.js';
 import Vec from './Vec.js'
+import generateCornerPerim from './generateCornerPerim.js'
+
+import {CENTER_WIDTH, RAMP_WIDTH, VPADDING} from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js'
-
-const CENTER_WIDTH = 50;
-const RAMP_WIDTH = 10;
-const VPADDING = 5;
 
 class BinaryOperationBlock extends CasusBlock {
 
@@ -63,7 +62,8 @@ class BinaryOperationBlock extends CasusBlock {
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 		ctx.fillStyle = '#eeee22';
 
-		const perim: Array<Vec> = this.getPerimiter();
+		console.log(this.returnType);
+		const perim: Array<Vec> = generateCornerPerim(this.boundingBox, this.returnType);
 		ctx.beginPath();
 		ctx.moveTo(perim[0].x, perim[0].y);
 		for (const p of perim) {
@@ -84,16 +84,6 @@ class BinaryOperationBlock extends CasusBlock {
 
 	}
 
-	getPerimiter(): Array<Vec> {
-		const perim: Array<Vec> = [];
-		perim.push(new Vec(this.boundingBox.x, this.boundingBox.y + this.boundingBox.h/2));
-		perim.push(new Vec(this.boundingBox.x + RAMP_WIDTH, this.boundingBox.y));
-		perim.push(new Vec(this.boundingBox.x + this.boundingBox.w - RAMP_WIDTH, this.boundingBox.y));
-		perim.push(new Vec(this.boundingBox.x + this.boundingBox.w, this.boundingBox.y + this.boundingBox.h/2));
-		perim.push(new Vec(this.boundingBox.x + this.boundingBox.w - RAMP_WIDTH, this.boundingBox.y + this.boundingBox.h));
-		perim.push(new Vec(this.boundingBox.x + RAMP_WIDTH, this.boundingBox.y + this.boundingBox.h));
-		return perim;
-	}
 }
 
 export default BinaryOperationBlock;
