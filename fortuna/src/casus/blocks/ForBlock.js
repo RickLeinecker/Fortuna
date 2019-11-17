@@ -3,9 +3,6 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
-import Vec from './Vec.js'
-import generateCornerPerim from './generateCornerPerim.js'
-import measureText from './measureText.js';
 
 import {
 	FOR_BLOCK_FOR_WIDTH,
@@ -13,8 +10,6 @@ import {
 	RAMP_WIDTH, 
 	VPADDING
 } from './generateCornerPerim.js';
-
-import type {DataType} from './DataType.js'
 
 class ForBlock extends CasusBlock {
 

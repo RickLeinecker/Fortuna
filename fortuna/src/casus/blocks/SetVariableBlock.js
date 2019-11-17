@@ -3,8 +3,6 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
-import Vec from './Vec.js'
-import generateCornerPerim from './generateCornerPerim.js'
 import measureText from './measureText.js';
 
 import {
