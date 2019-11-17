@@ -16,8 +16,8 @@ class Casus extends React.Component<{||}> {
 		return (
 		    <div id = "Parent">
 			  <div class = "col-md-4">
-                <Link to="/Login">
-                  <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Login</button>
+                <Link to="/MainMenu">
+                  <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
                 </Link>
               </div>
 			  <div style={containerStyle}>
