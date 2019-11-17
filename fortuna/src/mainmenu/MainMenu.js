@@ -3,10 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-const styleForRow = {
-  'margin-top':'20px',
-};
+import './MainMenu.css';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {
@@ -20,28 +17,30 @@ class MainMenu extends React.Component<{||}> {
               <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Login</button>
             </Link>
           </div>
-	  <h1 class = "col-md-4 text-center">Main Menu</h1>
-	</div>
-	<div class="row" style={styleForRow}>
-	  <div class="col text-center">
+	      <h1 class = "col-md-4 text-center">Main Menu</h1>
+	    </div>
+ 	    <div class="row" style={styleForRow}>
+	      <div class="col text-center">
             <button type="button" class="btn btn-primary">Battle Arena</button>
           </div>
         </div>
         <div class="row" style={styleForRow}>
-	  <div class="col text-center">
+	      <div class="col text-center">
             <button type="button" class="btn btn-info">Training Arena</button>
           </div>
         </div>
         <div class="row" style={styleForRow}>
-	  <div class="col text-center">
+	      <div class="col text-center">
             <Link to="/Marketplace">
               <button type="button" class="btn btn-info">Marketplace</button>
             </Link>
           </div>
         </div>
         <div class="row" style={styleForRow}>
-	  <div class="col text-center">
-            <button type="button" class="btn btn-info">Armory</button>
+	      <div class="col text-center">
+		    <Link to="/Casus">
+			  <button type="button" class="btn btn-info">Armory</button>
+			</Link>
           </div>
         </div>
       </div>

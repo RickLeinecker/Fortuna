@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Before You Start
+
+If you have cloned the repository for the first time, be sure to install the node packages using:
+
+### `npm install`
+
+Be sure to check your code:
+
+### `npm run flow`
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -36,6 +46,14 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+### `npm run devserver`
+
+Runs Node Express server that hosts the API using Nodemon, which restarts the server upon any live saved changes in files. Useful for back-end development to make sure nothing breaks. Will also be the option to use to view any debugging info.
+
+### `npm run prodserver`
+
+Runs Node Express server using Node. No debugging info is viewable, and it starts the server only once and that's it. Meant to be used (probably in a startup script) when we want to finally just turn on the server for good.
 
 ## Learn More
 

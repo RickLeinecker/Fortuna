@@ -7,6 +7,7 @@ import App from './App.js';
 import Login from './login/Login.js';
 import MainMenu from './mainmenu/MainMenu.js';
 import Marketplace from './marketplace/Marketplace.js';
+import Casus from './casus/Casus.js';
 
 // The routing const holds the paths to other react components.
 const routing = (
@@ -17,6 +18,7 @@ const routing = (
         <Route path="/Login" component={Login} />
         <Route path="/MainMenu" component={MainMenu} />
         <Route path="/Marketplace" component={Marketplace} />
+		<Route path="/Casus" component={Casus} />
       </Switch>
     </div>
   </Router>
