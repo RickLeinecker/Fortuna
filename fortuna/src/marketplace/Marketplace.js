@@ -12,10 +12,10 @@ class Marketplace extends React.Component<{||}> {
       <div id = "Parent">
         <div class = "row">
           <div class = "col-md-4">
-	          <Link to="/MainMenu">
-	            <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
-	          </Link>
-	        </div>
+	    <Link to="/MainMenu">
+	      <button type="button" class="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
+	    </Link>
+	  </div>
           <h1 class = "col-md-4 text-center">Marketplace</h1>
           <h4 class = "col-md-4 text-right">Currency: $9432</h4>
         </div>
