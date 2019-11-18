@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
 import MarketPlace from './MarketPlace.js';
 import './Login.css';
-  
+const PORT = 4000;
+
   //This is the Login Page Display
   class LoginPageDisplay extends React.Component {
     state = {
@@ -21,7 +22,7 @@ import './Login.css';
     }
     
     callApi = async () => {
-      const response = await fetch('./routes/api/signup');
+      const response = await fetch('http://localhost:'+PORT+'/backend/routes/api/signup');
       const body = await response.json();
       if (response.status !== 200) throw Error(body.message);
       
@@ -31,7 +32,7 @@ import './Login.css';
     handleLoginClick = async e => {
       e.preventDefault();
       LoginFunction();
-      const response = await fetch('./routes/api/signup', {
+      const response = await fetch('http://localhost:'+PORT+'/backend/routes/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,13 +46,13 @@ import './Login.css';
     render(){
       return (
         <div id = "Parent">
-            <div class = "row">
-                <h4 class = "col-md-4">LeaderBoard</h4>
-                <h1 class = "col-md-4 text-center">Fortuna</h1>
-                <h4 class = "col-md-4 text-right">What is Fortuna?</h4>
+            <div className = "row">
+                <h4 className = "col-md-4">LeaderBoard</h4>
+                <h1 className = "col-md-4 text-center">Fortuna</h1>
+                <h4 className = "col-md-4 text-right">What is Fortuna?</h4>
             </div>
-            <div class = "row styleForRow">
-              <div class="col text-center">
+            <div className = "row styleForRow">
+              <div className="col text-center">
                   <input
                     type="text"
                     value={this.state.userName}
@@ -62,12 +63,12 @@ import './Login.css';
                     value={this.state.password}
                     onChange={e => this.setState({ password: e.target.value })}
                   />
-                  <button type="button" class="btn btn-success btn-lg" onClick={this.handleLoginClick}>Login</button>
+                  <button type="button" className="btn btn-success btn-lg" onClick={this.handleLoginClick}>Login</button>
               </div>
             </div>
-            <div class = "row styleForRow">
-              <div class="col text-center">
-                  <button type="button" class="btn btn-secondary btn-sm">Signup</button>
+            <div className = "row styleForRow">
+              <div className="col text-center">
+                  <button type="button" className="btn btn-secondary btn-sm">Signup</button>
               </div>
             </div>
           </div>
