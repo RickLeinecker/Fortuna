@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 4000;
 
 const signups = require('./routes/api/signup');
 const home = require('./routes/api/home');
+const auth = require('./routes/api/auth');
+
 
 // Server Instance
 const app = express();
@@ -21,6 +23,9 @@ app.use(express.json());
 // First param is the url?uri  directory second is the api path
 app.use('/', home);
 app.use('/signup', signups);
+// Login route
+app.use('/auth', auth);
+
 
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 

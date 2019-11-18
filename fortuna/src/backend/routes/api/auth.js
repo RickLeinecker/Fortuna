@@ -1,24 +1,33 @@
-//@flow strict
-
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-// Contains jwtSecret
 const config = require('config');
+const bcrypt = require('bcrypt');
 
 
-
-// User Model
 const User = require('../../../models/userModel');
 
-// Register a new User
+
+router.get('/', auth, async (req, res) => {
+    try{
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+
+// Authenticate user & get token
+// Public
 router.post('/', [
     check('userName', 'Please enter a username with 3 or more characters')
         .isLength(3),
-    check('password', 'Please enter a password with 5 or more characters')
-        .isLength({ min: 5})
+    check('password', 'Password is required')
+        .exists()
     ], 
     async (req, res) => {
         // Makes sure the signup is valid
@@ -36,26 +45,21 @@ router.post('/', [
     try{
         // See if User already exists
         let user = await User.findOne({ userName });
-        if(user){
+        if(!user){
             return res
                 .status(400)
-                .json({ errors: [ {msg: 'User already exists' }] });
+                .json({ errors: [ {msg: 'Invalid Credentials' }] });
         }
 
-        // Instantiate a new user
-        user = new User({
-            userName,
-            password
-        });
+        // Checks if the plaintext password matches the hashed pass form db
+        const isMatch = await bcrypt.compare(password, user.password);
 
-        // Creates salt with 10 rounds(recommended)
-        const salt = await bcrypt.genSalt(10);
+        if(!isMatch) {
+            return res
+                .status(400)
+                .json({ errors: [ {msg: 'Invalid Credentials' }] });
+        }
 
-        // bcyrpt hash passwords
-        user.password = await bcrypt.hash(password, salt);
-
-        // Save to MongoDB
-        await user.save();
 
         const payload = {
             user: {
@@ -64,7 +68,6 @@ router.post('/', [
             }
         }
 
-        // Need to manage the config path so that the jwttoken is not here see require('config')
         // expiresIn 1 hour == 3600 seconds
         jwt.sign(payload, config.get('jwtSecret'), 
         { expiresIn: 3600},
@@ -80,5 +83,4 @@ router.post('/', [
     
     
 });
-
 module.exports = router;
