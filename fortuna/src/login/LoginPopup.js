@@ -8,22 +8,22 @@ class LoginPopup extends React.Component<{||}> {
     return (
       <Popup trigger={<button className="button">What is Fortuna?</button>} modal>
         {close => (
-	      <div className="modal">
+	        <div className="modal">
             <div className="header">What is Fortuna?</div>
-	        <div className="content">
-	          Fortuna is a tank simulation game available online for free.
-	  	      Players can build and customize their tanks and instead of manually
-  		      controlling their tank, they will build an AI to controll it.
-		      <br />	  
-		      Fortuna is meant to teach players simple AI and simple programming.
-		      <br />	
-		      Creators: Adam Blair, Emil Dolorfino, Jorge Vidal, Baylor Maloney, David Harmeyer
-		      Sponsor: Richard Leinecker
+	          <div className="content">
+	            Fortuna is a tank simulation game available online for free.
+	  	        Players can build and customize their tanks and instead of manually
+  		        controlling their tank, they will build an AI to controll it.
+		          <br />
+      		    Fortuna is meant to teach players simple AI and simple programming.
+		          <br />
+		          Creators: Adam Blair, Emil Dolorfino, Jorge Vidal, Baylor Maloney, David Harmeyer
+		          Sponsor: Richard Leinecker
             </div>
-            <div className="actions"> 
+            <div className="actions">
               <button className="button" onClick={() => {close();}}>
 	            Close
-	          </button>
+	            </button>
             </div>
           </div>
         )}
