@@ -12,19 +12,20 @@ const bcrypt = require('bcrypt');
 
 const User = require('../../../models/userModel');
 
-
+// req: application/json
+// res: json || error code
 router.get('/', auth, async (req, res) => {
     try{
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({msg: 'Server Error'});
     }
 });
 
-
-// Authenticate user & get token
+// @TYPE POST
+// @DESC Login - Authenticate user & get token
 // Public
 router.post('/', [
     check('userName', 'Please enter a username with 3 or more characters')
@@ -32,6 +33,8 @@ router.post('/', [
     check('password', 'Password is required')
         .exists()
     ], 
+    // req: application/json
+    // res: json || error code
     async (req, res) => {
         // Makes sure the signup is valid
         const errors = validationResult(req);
@@ -48,7 +51,7 @@ router.post('/', [
     try{
         // See if User already exists
         let user = await User.findOne({ userName });
-        if(!user){
+        if(user == null){
             return res
                 .status(400)
                 .json({ errors: [ {msg: 'Invalid Credentials' }] });
@@ -60,7 +63,7 @@ router.post('/', [
         if(!isMatch) {
             return res
                 .status(400)
-                .json({ errors: [ {msg: 'Invalid Credentials' }] });
+                .json({ errors: [ { msg: 'Invalid Credentials' }] });
         }
 
 
@@ -71,16 +74,16 @@ router.post('/', [
             }
         }
 
-        // expiresIn 1 hour == 3600 seconds
+        // expiresIn 4 hour 
         jwt.sign(payload, config.get('jwtSecret'), 
-        { expiresIn: 3600},
+        { expiresIn: 14400},
         (err, token) => {
             if(err) throw err;
             res.json({ token });
         });
     } catch(err) {
         console.error(err.message);
-        res.status(500).send('Server error')
+        res.status(500).json({ msg:'Server error'});
     }
     
     
