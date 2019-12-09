@@ -11,11 +11,16 @@ import ForBlock from './blocks/ForBlock.js';
 type Props = {||}
 type State = {||}
 
+type ClickEvent = {
+	clientX: number,
+	clientY: number
+}
+
 class CasusEditor extends React.Component<Props, State> {
 
 	componentDidMount(): void {
-		const canvas=this.refs.canvas;
-		const ctx : CanvasRenderingContext2D = canvas.getContext('2d');
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 		//ctx.font= '16px Arial';
 		//ctx.fillText("This is a block", 210, 75);
 		const emptyBlock: CasusBlock = new OrBlock();
@@ -46,6 +51,17 @@ class CasusEditor extends React.Component<Props, State> {
 		testForLoop.renderDFS(ctx);
 	}
 
+	processMouseClick(clickEvent: ClickEvent): void {
+		console.log(clickEvent);
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const boundingBox: ClientRect = canvas.getBoundingClientRect();
+
+		const x = clickEvent.clientX - boundingBox.left;
+		const y = clickEvent.clientY - boundingBox.top;
+
+		console.log('Processing click event at '+x+' '+y);
+	}
+
 	render(): React.Node {
 		const style = {
 			backgroundColor: '#ffffaa',
@@ -59,7 +75,12 @@ class CasusEditor extends React.Component<Props, State> {
 
 		return (
 			<div style={style}>
-				<canvas ref="canvas" width={640} height={425} style={canvasStyle}/>
+				<canvas 
+					height={425} 
+					onClick={e => this.processMouseClick(e)}
+					ref="canvas" 
+					style={canvasStyle}
+					width={640} />
 			</div>
 		);
 	}
