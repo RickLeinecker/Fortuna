@@ -9,6 +9,7 @@ import CasusContainer from './casus/CasusContainer.js';
 //This is where we render the view for the login page
 const rootComponent=document.getElementById('root');
 if (rootComponent != null) {
-	ReactDOM.render(<LoginPageDisplay />, rootComponent);
+	ReactDOM.render(<CasusContainer />, rootComponent);
+	//ReactDOM.render(<LoginPageDisplay />, rootComponent);
 }
 

@@ -120,7 +120,7 @@ class ForBlock extends CasusBlock {
 			curX + FOR_BLOCK_SEMICOLON_WIDTH/2,
 			this.boundingBox.y + this.headerBoundingBox.h/2
 		);
-		curX += FOR_BLOCK_SEMICOLON_WIDTH + this.expressionBlock.boundingBox.h;
+		curX += FOR_BLOCK_SEMICOLON_WIDTH + this.expressionBlock.boundingBox.w;
 		ctx.fillText(
 			';',
 			curX + FOR_BLOCK_SEMICOLON_WIDTH/2,
