@@ -4,6 +4,7 @@ import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import measureText from './measureText.js';
+import Vec from './Vec.js';
 
 import {
 	SET_VARIABLE_SET_WIDTH, 
@@ -55,6 +56,18 @@ class SetVariableBlock extends CasusBlock {
 
 	getChildBlocks(): Array<CasusBlock> {
 		return [this.expressionBlock];
+	}
+
+	getPerim(): Array<Vec> {
+		const toReturn: Array<Vec> = [];
+		const bounds=this.boundingBox;
+
+		toReturn.push(new Vec(bounds.x, bounds.y));
+		toReturn.push(new Vec(bounds.x+bounds.w, bounds.y));
+		toReturn.push(new Vec(bounds.x+bounds.w, bounds.y+bounds.h));
+		toReturn.push(new Vec(bounds.x, bounds.y+bounds.h));
+
+		return toReturn;
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {

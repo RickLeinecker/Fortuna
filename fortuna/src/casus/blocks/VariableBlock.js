@@ -39,10 +39,14 @@ class VariableBlock extends CasusBlock {
 		return [];
 	}
 
+	getPerim(): Array<Vec> {
+		return generateCornerPerim(this.boundingBox, this.dataType);
+	}
+
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 		ctx.fillStyle = '#ee5522';
 		ctx.beginPath();
-		const perim: Array<Vec> = generateCornerPerim(this.boundingBox, this.dataType);
+		const perim: Array<Vec> = this.getPerim();
 		ctx.moveTo(perim[0].x, perim[0].y);
 		for (const p of perim) {
 			ctx.lineTo(p.x, p.y);

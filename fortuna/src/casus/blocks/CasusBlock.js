@@ -1,7 +1,7 @@
 //@flow strict
 
 import BoundingBox from './BoundingBox.js';
-import typeof Vec from './Vec.js';
+import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 
 //Casus Block is the parent class that defines
@@ -20,12 +20,12 @@ import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 //		block will then be rendered on top of this
 //
 class CasusBlock {
-	boundingBox:BoundingBox;
+	boundingBox: BoundingBox;
 	highlighted: boolean;
 
 	constructor() {
 		this.boundingBox = new BoundingBox(0, 0, 0, 0);
-		this.highlighted = true;
+		this.highlighted = false;
 	}
 
 	renderDFS(ctx: CanvasRenderingContext2D): void {
@@ -33,9 +33,9 @@ class CasusBlock {
 		for (const child of this.getChildBlocks()) {
 			child.renderDFS(ctx);
 		}
-		if (this.highlighted) {
-			const perim=this.getPerim();
 
+		const perim=this.getPerim();
+		if (this.highlighted && perim.length !== 0) {
 			ctx.beginPath();
 			ctx.strokeStyle = '#eeeeee';
 			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
@@ -55,6 +55,15 @@ class CasusBlock {
 		}
 	}
 
+	getDeepestChildContainingPoint(v: Vec): CasusBlock {
+		for (const child of this.getChildBlocks()) {
+			if (child.boundingBox.contains(v)) {
+				return child.getDeepestChildContainingPoint(v);
+			}
+		}
+		return this;
+	}
+
 	// ----------------------- Methods to overload --------------------------
 	precompBounds(): void {
 		this.boundingBox=new BoundingBox(0, 0, 0, 0);
@@ -72,8 +81,12 @@ class CasusBlock {
 	}
 
 	getPerim(): Array<Vec> {
-		console.log("Error! A casus block did not extend getPerim()!");
-		return [this.boundingBox.x, this.boundingBox.y];
+		return [
+			new Vec(this.boundingBox.x, this.boundingBox.y),
+			new Vec(this.boundingBox.x + this.boundingBox.w, this.boundingBox.y),
+			new Vec(this.boundingBox.x + this.boundingBox.w, this.boundingBox.y + this.boundingBox.h),
+			new Vec(this.boundingBox.x, this.boundingBox.y + this.boundingBox.h)
+		];
 	}
 
 
