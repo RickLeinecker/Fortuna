@@ -11,21 +11,21 @@ import CasusContainer from './casus/CasusContainer.js';
 
 // The routing const holds the paths to other react components.
 const routing = (
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/Login" component={Login} />
-        <Route path="/MainMenu" component={MainMenu} />
-        <Route path="/Marketplace" component={Marketplace} />
+	<Router>
+		<div>
+			<Switch>
+				<Route exact path="/" component={App} />
+				<Route path="/Login" component={Login} />
+				<Route path="/MainMenu" component={MainMenu} />
+				<Route path="/Marketplace" component={Marketplace} />
 				<Route path="/Casus" component={CasusContainer} />
-      </Switch>
-    </div>
-  </Router>
+			</Switch>
+		</div>
+	</Router>
 )
 
 // Renders the page.
 const rootComponent = document.getElementById('root');
 if (rootComponent != null) {
-  ReactDOM.render(routing, rootComponent);
+	ReactDOM.render(routing, rootComponent);
 }
