@@ -1,6 +1,8 @@
 //@flow strict
 
 import BoundingBox from './BoundingBox.js';
+import typeof Vec from './Vec.js';
+import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
@@ -19,9 +21,11 @@ import BoundingBox from './BoundingBox.js';
 //
 class CasusBlock {
 	boundingBox:BoundingBox;
+	highlighted: boolean;
 
 	constructor() {
 		this.boundingBox = new BoundingBox(0, 0, 0, 0);
+		this.highlighted = true;
 	}
 
 	renderDFS(ctx: CanvasRenderingContext2D): void {
@@ -29,8 +33,27 @@ class CasusBlock {
 		for (const child of this.getChildBlocks()) {
 			child.renderDFS(ctx);
 		}
+		if (this.highlighted) {
+			const perim=this.getPerim();
+
+			ctx.beginPath();
+			ctx.strokeStyle = '#eeeeee';
+			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
+			ctx.moveTo(perim[0].x, perim[0].y);
+			for (const p: Vec of perim) {
+				ctx.lineTo(p.x, p.y);
+			}
+			ctx.closePath();
+			ctx.stroke();
+		}
 	}
 
+	unhighlightEverything(): void {
+		this.highlighted=false;
+		for (const child of this.getChildBlocks()) {
+			child.unhighlightEverything();
+		}
+	}
 
 	// ----------------------- Methods to overload --------------------------
 	precompBounds(): void {
@@ -47,6 +70,12 @@ class CasusBlock {
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 	}
+
+	getPerim(): Array<Vec> {
+		console.log("Error! A casus block did not extend getPerim()!");
+		return [this.boundingBox.x, this.boundingBox.y];
+	}
+
 
 }
 
