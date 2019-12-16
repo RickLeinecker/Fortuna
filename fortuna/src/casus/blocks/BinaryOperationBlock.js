@@ -6,7 +6,11 @@ import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js'
 import generateCornerPerim from './generateCornerPerim.js'
 
-import {CENTER_WIDTH, RAMP_WIDTH, VPADDING} from './generateCornerPerim.js';
+import {
+	CENTER_WIDTH, 
+	RAMP_WIDTH, 
+	VPADDING, 
+} from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js'
 
@@ -59,11 +63,14 @@ class BinaryOperationBlock extends CasusBlock {
 		return [this.lChild, this.rChild];
 	}
 
+	getPerim(): Array<Vec> {
+		return generateCornerPerim(this.boundingBox, this.returnType);
+	}
+
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 		ctx.fillStyle = '#eeee22';
 
-		console.log(this.returnType);
-		const perim: Array<Vec> = generateCornerPerim(this.boundingBox, this.returnType);
+		const perim: Array<Vec> = this.getPerim();
 		ctx.beginPath();
 		ctx.moveTo(perim[0].x, perim[0].y);
 		for (const p of perim) {
@@ -81,6 +88,7 @@ class BinaryOperationBlock extends CasusBlock {
 			this.boundingBox.x + RAMP_WIDTH + this.lChild.boundingBox.w + CENTER_WIDTH/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
+
 
 	}
 

@@ -3,6 +3,7 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
+import Vec from './Vec.js';
 
 import {
 	FOR_BLOCK_FOR_WIDTH,
@@ -54,6 +55,23 @@ class ForBlock extends CasusBlock {
 		this.boundingBox = new BoundingBox(0, 0, width, height);
 	}
 
+	getPerim(): Array<Vec> {
+		const toReturn: Array<Vec> = [];
+		const header=this.headerBoundingBox;
+		const bounding=this.boundingBox;
+
+		toReturn.push(new Vec(header.x, header.y));
+		toReturn.push(new Vec(header.x+header.w, header.y));
+		toReturn.push(new Vec(header.x+header.w, header.y+header.h));
+		toReturn.push(new Vec(header.x+RAMP_WIDTH, header.y+header.h));
+		toReturn.push(new Vec(header.x+RAMP_WIDTH, bounding.y+bounding.h-RAMP_WIDTH));
+		toReturn.push(new Vec(bounding.x+bounding.w, bounding.y+bounding.h-RAMP_WIDTH));
+		toReturn.push(new Vec(bounding.x+bounding.w, bounding.y+bounding.h));
+		toReturn.push(new Vec(bounding.x, bounding.y+bounding.h));
+
+		return toReturn;
+	}
+
 	precompXY(x: number, y:number): void {
 		this.headerBoundingBox.x=x;
 		this.headerBoundingBox.y=y;
@@ -89,6 +107,15 @@ class ForBlock extends CasusBlock {
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 		ctx.fillStyle = '#3322ee';
 
+		const perim: Array<Vec> = this.getPerim();
+		ctx.beginPath();
+		ctx.moveTo(perim[0].x, perim[0].y);
+		for (const p of perim) {
+			ctx.lineTo(p.x, p.y);
+		}
+		ctx.fill();
+
+		/*
 		ctx.fillRect(
 			this.headerBoundingBox.x, 
 			this.headerBoundingBox.y, 
@@ -101,7 +128,7 @@ class ForBlock extends CasusBlock {
 			this.boundingBox.y + this.boundingBox.h - RAMP_WIDTH,
 			this.boundingBox.w,
 			RAMP_WIDTH
-		);
+		);*/
 
 		ctx.fillStyle = '#000000';
 		ctx.font = '16px Arial';
@@ -120,7 +147,7 @@ class ForBlock extends CasusBlock {
 			curX + FOR_BLOCK_SEMICOLON_WIDTH/2,
 			this.boundingBox.y + this.headerBoundingBox.h/2
 		);
-		curX += FOR_BLOCK_SEMICOLON_WIDTH + this.expressionBlock.boundingBox.h;
+		curX += FOR_BLOCK_SEMICOLON_WIDTH + this.expressionBlock.boundingBox.w;
 		ctx.fillText(
 			';',
 			curX + FOR_BLOCK_SEMICOLON_WIDTH/2,

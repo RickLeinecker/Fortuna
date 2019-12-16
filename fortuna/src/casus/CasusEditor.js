@@ -7,43 +7,61 @@ import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
 import ForBlock from './blocks/ForBlock.js';
+import ContainerBlock from './blocks/ContainerBlock.js';
+import Vec from './blocks/Vec.js';
 
 type Props = {||}
-type State = {||}
+type State = {|
+	containerBlock: CasusBlock
+|}
+
+type ClickEvent = {
+	clientX: number,
+	clientY: number
+}
 
 class CasusEditor extends React.Component<Props, State> {
 
 	componentDidMount(): void {
-		const canvas=this.refs.canvas;
-		const ctx : CanvasRenderingContext2D = canvas.getContext('2d');
-		//ctx.font= '16px Arial';
-		//ctx.fillText("This is a block", 210, 75);
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
 		const emptyBlock: CasusBlock = new OrBlock();
-		emptyBlock.precompBounds();
-		emptyBlock.precompXY(10, 10);
-		emptyBlock.renderDFS(ctx);
-
 		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
-		testVariable.precompBounds();
-		testVariable.precompXY(10, 90);
-		testVariable.renderDFS(ctx);
-
 		const testEquals: IntEqualsBlock = new IntEqualsBlock();
-		testEquals.lChild=new VariableBlock('INT', 'answer');
-		testEquals.rChild=new VariableBlock('INT', 'otherAnswer');
-		testEquals.precompBounds();
-		testEquals.precompXY(10, 150);
-		testEquals.renderDFS(ctx);
-
 		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
-		setIntVariable.precompBounds();
-		setIntVariable.precompXY(10, 200);
-		setIntVariable.renderDFS(ctx);
-
 		const testForLoop: CasusBlock = new ForBlock();
-		testForLoop.precompBounds();
-		testForLoop.precompXY(10, 260);
-		testForLoop.renderDFS(ctx);
+
+		const containerBlock: ContainerBlock = new ContainerBlock();
+
+		containerBlock.children.push(emptyBlock);
+		containerBlock.children.push(testVariable);
+		containerBlock.children.push(testEquals);
+		containerBlock.children.push(setIntVariable);
+		containerBlock.children.push(testForLoop);
+
+		containerBlock.precompBounds();
+		containerBlock.precompXY(0, 0);
+		containerBlock.renderDFS(ctx);
+
+		this.setState({
+			containerBlock: containerBlock,
+		});
+	}
+
+	processMouseClick(clickEvent: ClickEvent): void {
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const boundingBox: ClientRect = canvas.getBoundingClientRect();
+
+		const x = clickEvent.clientX - boundingBox.left;
+		const y = clickEvent.clientY - boundingBox.top;
+
+		this.state.containerBlock.unhighlightEverything();
+		const deepestClicked: CasusBlock = this.state.containerBlock.getDeepestChildContainingPoint(new Vec(x, y));
+		deepestClicked.highlighted=true;
+		
+		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+		this.state.containerBlock.renderDFS(ctx);
 	}
 
 	render(): React.Node {
@@ -59,7 +77,12 @@ class CasusEditor extends React.Component<Props, State> {
 
 		return (
 			<div style={style}>
-				<canvas ref="canvas" width={640} height={425} style={canvasStyle}/>
+				<canvas 
+					height={425} 
+					onClick={e => this.processMouseClick(e)}
+					ref="canvas" 
+					style={canvasStyle}
+					width={640} />
 			</div>
 		);
 	}
