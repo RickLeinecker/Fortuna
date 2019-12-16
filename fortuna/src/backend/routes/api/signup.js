@@ -1,4 +1,5 @@
-//@flow strict
+// @flow strict
+
 
 const express = require('express');
 const router = express.Router();
@@ -6,12 +7,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 // Contains jwtSecret
-const config = require('config');
-
+require('dotenv').config();
 
 
 // User Model
 const User = require('../../../models/userModel');
+
+import type {
+    $Request,
+    $Response,
+    NextFunction,
+    Middleware,
+  } from 'express';
 
 // TYPE: POST
 // @DESC Register a new User
@@ -23,7 +30,7 @@ router.post('/', [
     ], 
     // req: application/json
     // res: JSON or error message or both
-    async (req, res) => {
+    async (req: $Request, res: $Response) => {
 
         // Makes sure the signup is valid
         const errors = validationResult(req);
@@ -70,10 +77,11 @@ router.post('/', [
 
             // Need to manage the config path so that the jwttoken is not here see require('config')
             // expiresIn 4 hrs
-            jwt.sign(payload, config.get('jwtSecret'), 
+            jwt.sign(payload, process.env.SECRET, 
             { expiresIn: 14400},
             (err, token) => {
                 if(err != null) throw err;
+                console.log("this is a test");
                 res.json({ token });
             });
         } catch(err) {

@@ -1,12 +1,19 @@
-//@flow strict
+// @flow strict
 
 const jwt = require('jsonwebtoken');
-const config = require('config');
+require('dotenv').config();
+
+  import type {
+    $Request,
+    $Response,
+    NextFunction,
+    Middleware,
+  } from 'express';
 
 // req: parsed as JSON
 // res: JSON or error message
 // next: JSON(?)
-function auth (req, res, next){
+function auth (req: $Request, res: $Response, next: NextFunction){
     // Get token from header
     const token = req.header('x-auth-token');
 
@@ -17,7 +24,7 @@ function auth (req, res, next){
 
     // Verify token
     try {
-        const decoded = jwt.verify(token, config.get('jwtSecret'));
+        const decoded = jwt.verify(token, process.env.SECRET);
 
         req.user = decoded.user;
         next();

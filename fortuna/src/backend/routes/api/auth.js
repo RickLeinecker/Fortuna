@@ -1,4 +1,4 @@
-//@flow strict
+// @flow strict
 
 
 const express = require('express');
@@ -6,16 +6,25 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const config = require('config');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
+import type {
+    $Request,
+    $Response,
+    NextFunction,
+    Middleware,
+  } from 'express';
 
 const User = require('../../../models/userModel');
 
+
 // req: application/json
 // res: json || error code
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req: $Request, res: $Response) => {
     try{
+        //console.log(res);
+        //console.log(req);
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
@@ -35,7 +44,7 @@ router.post('/', [
     ], 
     // req: application/json
     // res: json || error code
-    async (req, res) => {
+    async (req: $Request, res: $Response) => {
         // Makes sure the signup is valid
         const errors = validationResult(req);
         if(!errors.isEmpty()){
@@ -75,7 +84,7 @@ router.post('/', [
         }
 
         // expiresIn 4 hour 
-        jwt.sign(payload, config.get('jwtSecret'), 
+        jwt.sign(payload, process.env.SECRET, 
         { expiresIn: 14400},
         (err, token) => {
             if(err) throw err;
