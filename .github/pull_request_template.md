@@ -8,8 +8,8 @@ Check options that are relevant.
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+- [ ] Fix or feature that would cause existing functionality to not work as expected
+- [ ] This change requires a update in the design document
 
 **Checklist:**
 Go down the list and check them off.
@@ -17,6 +17,6 @@ Go down the list and check them off.
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation (if applicable)
+- [ ] I have made corresponding changes to the design document (if applicable)
 - [ ] My changes generate no new warnings
 - [ ] Any dependent changes have been merged and published in downstream modules
