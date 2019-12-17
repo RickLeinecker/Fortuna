@@ -2,10 +2,10 @@
 // Document Schema for the User Model
 
 // Required Imports
-import mongoose from 'mongoose';
+import Mongoose from 'mongoose';
 
 // model('NameOfAreaInDB', Mongoose Schema)
-const User = new mongoose.model('User', new mongoose.Schema ({
+const User = new Mongoose.Model('User', new Mongoose.Schema ({
     // NOTE: _id fields are made upon User creation
 
     // Username required upon creation. Checks for uniqueness done via API call
