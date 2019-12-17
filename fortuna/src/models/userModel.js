@@ -8,20 +8,24 @@ import mongoose from 'mongoose';
 const User = new mongoose.model('User', new mongoose.Schema ({
     // NOTE: _id fields are made upon User creation
 
+    // Username required upon creation. Checks for uniqueness done via API call
     userName: {
         type: String,
         required: true
     },
+    // Email required upon creation. Checks for uniqueness done via API call
     email: {
         type: String,
         // Might be overkill pattern to match. I'll remove it if needed
         match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         required: true
     },
+    // Password required upon creation.
     password: {
         type: String,
         required: true
     },
+    // User starts with 0 money by default. This can be changed as needed
     currentCurrency: {
         type: Number,
         default: 0
@@ -30,20 +34,26 @@ const User = new mongoose.model('User', new mongoose.Schema ({
     favoriteTank: {
         type: String
     },
+    // Created users start with clean slate of stats. Defaults can be changed as needed
     stats: {
         wins: {
-            type: Number
+            type: Number,
+            default: 0
         },
         losses: {
-            type: Number
+            type: Number,
+            default: 0
         },
         ties: {
-            type: Number
+            type: Number,
+            default: 0
         },
         elo: {
-            type: Number
+            type: Number,
+            default: 0
         }
     },
+    // Records date/time when user was created.
     dateCreated: {
         type: Date,
         default: Date.now
