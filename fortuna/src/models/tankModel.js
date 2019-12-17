@@ -13,7 +13,7 @@ const Tank = new Mongoose.Model('Tank', new Mongoose.Schema ({
         type: String,
         required: true
     },
-    // UserID of tank owner required on creation. String representation of ObjectID.
+    // UserID of tank owner required on creation. String representation of ObjectID for user.
     userId: {
         type: String,
         required: true
