@@ -7,12 +7,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 // Port constant so we may edit as needed
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 const signups = require('./routes/api/signup');
 const home = require('./routes/api/home');
 const auth = require('./routes/api/auth');
-
 
 // Server Instance
 const app = express();

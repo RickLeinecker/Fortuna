@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 // Contains jwtSecret
-require('dotenv').config();
 
 
 // User Model
@@ -77,11 +76,10 @@ router.post('/', [
 
             // Need to manage the config path so that the jwttoken is not here see require('config')
             // expiresIn 4 hrs
-            jwt.sign(payload, process.env.SECRET, 
+            jwt.sign(payload, 'hide this at production', 
             { expiresIn: 14400},
             (err, token) => {
                 if(err != null) throw err;
-                console.log("this is a test");
                 res.json({ token });
             });
         } catch(err) {

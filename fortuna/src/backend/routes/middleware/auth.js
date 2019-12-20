@@ -1,7 +1,6 @@
 // @flow strict
 
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 
   import type {
     $Request,
@@ -24,7 +23,7 @@ function auth (req: $Request, res: $Response, next: NextFunction){
 
     // Verify token
     try {
-        const decoded = jwt.verify(token, process.env.SECRET);
+        const decoded = jwt.verify(token, 'hide this at production');
 
         req.user = decoded.user;
         next();
