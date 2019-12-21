@@ -32,6 +32,8 @@ app.use('/signup', signups);
 app.use('/auth', auth);
 
 
+
+
 // MongoDB Connection
 mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
     useUnifiedTopology: true })
