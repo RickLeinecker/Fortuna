@@ -5,10 +5,11 @@
 // Required Packages/Imports
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // Port constant so we may edit as needed
-const PORT = process.env.PORT || 3000;
-
+//const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 const signups = require('./routes/api/signup');
 const home = require('./routes/api/home');
 const auth = require('./routes/api/auth');
@@ -18,8 +19,13 @@ const app = express();
 // As of express v4.16, npm body-parser is bundled with express again
 app.use(express.json());
 
+// Enables cross server comminications
+// At production we should limit what servers it can read from
+// See https://daveceddia.com/access-control-allow-origin-cors-errors-in-react-express/
+app.use(cors());
+
 // Use the api routes as middleware
-// First param is the url?uri  directory second is the api path
+// First param is the url?uri  directory second is the api route object
 app.use('/', home);
 app.use('/signup', signups);
 // Login route

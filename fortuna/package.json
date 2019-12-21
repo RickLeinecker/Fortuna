@@ -8,6 +8,7 @@
     "bcrypt": "^3.0.6",
     "bootstrap": "^4.3.1",
     "browser": "^0.2.6",
+    "cors": "^2.8.5",
     "dotenv-flow": "^3.1.0",
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
@@ -22,7 +23,7 @@
     "reactjs-popup": "^1.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3000 react-scripts start",
     "build": "flow-remove-types src/ -d lib/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -30,6 +31,7 @@
     "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js",
     "prodserver": "NODE_ENV=production node ./lib/backend/server.js"
   },
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": "react-app"
   },
