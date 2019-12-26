@@ -22,3 +22,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#temperarily ignore until we have packages finalized to reduce merge conflicts
+#and make code reviewing easier
+package-lock.json
