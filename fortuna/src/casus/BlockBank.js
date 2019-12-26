@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import BlockBankTypeSelector from './BlockBankTypeSelector.js';
 
 class BlockBank extends React.Component<{||}> {
 
@@ -21,10 +22,12 @@ class BlockBank extends React.Component<{||}> {
 
 		return (
 			<div style={style}> 
+				<BlockBankTypeSelector />
 				<span style={leftSidebarStyle}>Block Bank</span>
 			</div>
 		);
 	}
+
 }
 
 export default BlockBank;
