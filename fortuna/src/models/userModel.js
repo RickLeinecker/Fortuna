@@ -31,7 +31,7 @@ const User = new Mongoose.Model('User', new Mongoose.Schema ({
         default: 0
     },
     // String is the ObjectId of tank that is marked as favorite
-    favoriteTank: {
+    favoriteTankId: {
         type: String
     },
     // Created users start with clean slate of stats. Defaults can be changed as needed
