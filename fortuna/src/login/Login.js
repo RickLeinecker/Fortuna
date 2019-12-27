@@ -77,22 +77,22 @@ class Login extends React.Component<Props,State> {
 									<form data-toggle="validator" role="form" method="post" action="#">
 										<div className="row">
 											<div className="col-md-12">
-												<div classname="form-group">
+												<div className="form-group">
 													<label>username</label>
-													<div classname="input-group">
-														<input type="text" classname="form-control" name="loginusername" value={this.state.username} onchange={e => this.setstate({ username: e.target.value })} />
+													<div className="input-group">
+														<input type="text" className="form-control" name="loginusername" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} />
 													</div>
 												</div>
 											</div>
 										</div>
-										<div classname="row">
-											<div classname="col-md-12">
-												<div classname="form-group">
+										<div className="row">
+											<div className="col-md-12">
+												<div className="form-group">
 													<label>password</label>
-													<div classname="input-group">
-														<input type="password" name="loginpassword" classname="form-control"/>
+													<div className="input-group">
+														<input type="password" name="loginpassword" className="form-control"/>
 													</div>
-													<div classname="help-block with-errors text-danger"></div>
+													<div className="help-block with-errors text-danger"></div>
 												</div>
 											</div>
 										</div>
