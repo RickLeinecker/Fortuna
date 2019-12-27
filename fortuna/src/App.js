@@ -6,12 +6,12 @@ import Login from './login/Login.js';
 
 // App class builds the front page.
 class App extends React.Component<{||}> {
-  
-  render(): React.Node {
-    return (
-      <Login/>
-    );
-  }
+	
+	render(): React.Node {
+		return (
+			<Login/>
+		);
+	}
 }
 
 export default App;
