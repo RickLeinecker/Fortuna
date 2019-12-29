@@ -5,7 +5,7 @@
 import Mongoose from 'mongoose';
 
 // model('NameOfAreaInDB', Mongoose Schema)
-const Tank = new Mongoose.Model('Tank', new Mongoose.Schema ({
+const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
     // _id field made upon creation
     
     // Name of tank required upon creation. Uniqueness checked using an API.
