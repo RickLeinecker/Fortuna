@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from './LoginPopup.js';
 import './Login.css';
-const PORT = 3000;
+//const PORT = 3000;
 
   //This is the Login Page Display
   class Login extends React.Component<{||}> {
@@ -22,7 +22,7 @@ const PORT = 3000;
     };
     
     callApi = async () => {
-      const response = await fetch('http://localhost:'+PORT+'/backend/routes/api/signup.js');
+      const response = await fetch('/routes/api/signup');
       const body = await response.json();
       if (response.status !== 200) throw Error(body.message);
       
@@ -31,7 +31,7 @@ const PORT = 3000;
     
     handleLoginClick = async e => {
       e.preventDefault();
-      const response = await fetch('http://localhost:'+PORT+'/backend/routes/api/signup.js', {
+      const response = await fetch('/routes/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

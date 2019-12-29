@@ -10,9 +10,10 @@ const cors = require('cors');
 // Port constant so we may edit as needed
 //const PORT = process.env.PORT || 3001;
 const PORT = 3001;
-const signups = require('./routes/api/signup');
-const home = require('./routes/api/home');
+
 const auth = require('./routes/api/auth');
+const userRoutes = require('./routes/api/userRoutes');
+const tankRoutes = require('./routes/api/tankRoutes');
 
 // Server Instance
 const app = express();
@@ -22,14 +23,13 @@ app.use(express.json());
 // Enables cross server comminications
 // At production we should limit what servers it can read from
 // See https://daveceddia.com/access-control-allow-origin-cors-errors-in-react-express/
-app.use(cors());
+// app.use(cors());
 
 // Use the api routes as middleware
 // First param is the url?uri  directory second is the api route object
-app.use('/', home);
-app.use('/signup', signups);
-// Login route
 app.use('/auth', auth);
+app.use('/tank', tankRoutes);
+app.use('/user', userRoutes);
 
 
 

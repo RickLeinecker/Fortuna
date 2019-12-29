@@ -23,8 +23,6 @@ const User = require('../../../models/userModel');
 // res: json || error code
 router.get('/', auth, async (req: $Request, res: $Response) => {
     try{
-        //console.log(res);
-        //console.log(req);
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
