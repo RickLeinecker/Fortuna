@@ -38,12 +38,12 @@ class Login extends React.Component<Props,State> {
 		.then(res => this.setState({ response: res.express }))
 		.catch(err => console.log(err));
 	};
-
+	
 	callApi = async ():Promise<SignupResponse> => {
 		const response:Response = await fetch('http://localhost:'+PORT+'/signup');
 		const body:SignupResponse  = await response.json();
 		if (response.status !== 200) throw Error(body.message);
-
+		
 		return body;
 	};
 
@@ -60,15 +60,16 @@ class Login extends React.Component<Props,State> {
 		const body = await response.text();
 		console.log(body);
 	};
+	
 	render(): React.Node {
 		return (
-			<div id = "Parent">
-				<div className = "row">
-					<h4 className = "col-md-4">LeaderBoard</h4>
-					<h1 className = "col-md-4 text-center">Fortuna</h1>
-					<h4 className = "col-md-4 text-right">What is Fortuna?</h4>
+			<div id="Parent">
+				<div className="row">
+					<h4 className="col-md-4">LeaderBoard</h4>
+					<h1 className="col-md-4 text-center">Fortuna</h1>
+					<h4 className="col-md-4 text-right">What is Fortuna?</h4>
 				</div>
-				<div className = "row styleForRow">
+				<div className="row styleForRow">
 					<div className="container h-100">
 						<div className="row h-100 justify-content-center align-items-center">
 							<div className="card">
@@ -78,9 +79,9 @@ class Login extends React.Component<Props,State> {
 										<div className="row">
 											<div className="col-md-12">
 												<div className="form-group">
-													<label>username</label>
+													<label>UserName</label>
 													<div className="input-group">
-														<input type="text" className="form-control" name="loginusername" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} />
+														<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} />
 													</div>
 												</div>
 											</div>
@@ -88,9 +89,9 @@ class Login extends React.Component<Props,State> {
 										<div className="row">
 											<div className="col-md-12">
 												<div className="form-group">
-													<label>password</label>
+													<label>Password</label>
 													<div className="input-group">
-														<input type="password" name="loginpassword" className="form-control"/>
+														<input type="password" name="loginPassword" className="form-control"/>
 													</div>
 													<div className="help-block with-errors text-danger"></div>
 												</div>
@@ -104,7 +105,7 @@ class Login extends React.Component<Props,State> {
 											</div>
 										</div>
 									</form>
-									<div className = "row styleForRow">
+									<div className="row styleForRow">
 										<div className="col text-center">
 											<button type="button" className="btn btn-secondary btn-sm">Signup</button>
 										</div>
