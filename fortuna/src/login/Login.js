@@ -9,16 +9,16 @@ const PORT = 3000;
 // Login component.
 type Props = {||}; 
 type State = {|
-		response: string,
-		userName: string,
-		password: string,
-		responseToPost: string,
+	response: string,
+	userName: string,
+	password: string,
+	responseToPost: string,
 |};
 //DO NOT USE THIS AS PART OF A BIGGER OBJECT.
 //ONCE SIGNUP API IS DONE PUT || AT THE END
 type SignupResponse = {
-		express: string,
-		message: string
+	express: string,
+	message: string
 };
 //END OF NOTE
 
