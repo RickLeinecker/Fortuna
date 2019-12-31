@@ -1,7 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import BlockBank from './BlockBank.js';
+import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 
 class CasusContainer extends React.Component<{||}> {

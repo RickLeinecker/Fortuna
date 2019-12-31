@@ -1,0 +1,13 @@
+.flexContainer {
+	display: flex;
+	background-color: #ffaaff;
+	flex-direction: row;
+	align-content: stretch;
+	width: 100%;
+}
+.flexLeft {
+}
+.flexRight {
+	background-color: #aeeaae;
+	width: 100%;
+}

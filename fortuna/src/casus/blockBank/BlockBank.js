@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 import BlockBankTypeSelector from './BlockBankTypeSelector.js';
+import BlockBankBlockShelf from './BlockBankBlockShelf.js';
+import './BlockBank.css';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -18,28 +20,19 @@ class BlockBank extends React.Component<Props, State> {
 	}
 
 	onSectionClicked = (section: BlockBankType) => {
-		console.log('In block bank, section: '+section);
+		this.setState({selectedSection: section});
 	}
 
 	render(): React.Node {
-		//display: 'inline-block',
-		const style = {
-			backgroundColor: '#ffaaff',
-			height: '200px',
-			justifyContent: 'center',
-			textAlign: 'justify',
-			width: '100%'
-		};
-		const leftSidebarStyle = {
-			backgroundColor: '#aaaaff',
-			height: '100%',
-			width: '200px'
-		};
-
 		return (
-			<div style={style}> 
-				<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
-				<span style={leftSidebarStyle}>Block Bank</span>
+			<div className="flexContainer"> 
+				<div className="flexLeft">
+					<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
+				</div>
+				<div className="flexRight">
+					<BlockBankBlockShelf selectedSection={this.state.selectedSection} />
+				</div>
+				<br/>
 			</div>
 		);
 	}
