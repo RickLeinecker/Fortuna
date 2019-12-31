@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import ForBlock from '../blocks/ForBlock.js';
+import CasusBlock from '../blocks/CasusBlock.js';
 
 import type {BlockBankType} from './BlockBankType.js';
 
