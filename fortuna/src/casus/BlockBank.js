@@ -3,7 +3,23 @@
 import * as React from 'react';
 import BlockBankTypeSelector from './BlockBankTypeSelector.js';
 
-class BlockBank extends React.Component<{||}> {
+import type {BlockBankType} from './BlockBankType.js';
+
+type Props = {||};
+type State = {|
+	selectedSection: BlockBankType	
+|};
+
+class BlockBank extends React.Component<Props, State> {
+
+	constructor(props: Props) {
+		super(props);
+		this.state = {selectedSection: 'CONTROL_FLOW'};
+	}
+
+	onSectionClicked = (section: BlockBankType) => {
+		console.log('In block bank, section: '+section);
+	}
 
 	render(): React.Node {
 		//display: 'inline-block',
@@ -22,7 +38,7 @@ class BlockBank extends React.Component<{||}> {
 
 		return (
 			<div style={style}> 
-				<BlockBankTypeSelector />
+				<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
 				<span style={leftSidebarStyle}>Block Bank</span>
 			</div>
 		);

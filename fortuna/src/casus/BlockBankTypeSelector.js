@@ -6,10 +6,14 @@ import './BlockBankTypeSelector.css';
 
 import type {BlockBankType} from './BlockBankType.js';
 
-class BlockBankTypeSelector extends React.Component<{||}> {
+type Props = {|
+	onSectionClicked: (section: BlockBankType) => void
+|};
+
+class BlockBankTypeSelector extends React.Component<Props> {
 
 	showSection(section: BlockBankType):void {
-		console.log('showing section '+section);
+		this.props.onSectionClicked(section);
 	}
 
 	render():React.Node {
