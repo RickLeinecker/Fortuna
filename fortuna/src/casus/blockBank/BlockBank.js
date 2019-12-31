@@ -32,7 +32,6 @@ class BlockBank extends React.Component<Props, State> {
 				<div className="flexRight">
 					<BlockBankBlockShelf selectedSection={this.state.selectedSection} />
 				</div>
-				<br/>
 			</div>
 		);
 	}

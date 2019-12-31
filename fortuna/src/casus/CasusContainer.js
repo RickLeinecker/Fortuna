@@ -9,7 +9,7 @@ class CasusContainer extends React.Component<{||}> {
 	render(): React.Node {
 		const containerStyle = {
 			padding: 20,
-			margin: 20
+			backgroundColor: '#00ff00'
 		};
 
 		return (
