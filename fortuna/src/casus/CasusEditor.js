@@ -46,9 +46,6 @@ class CasusEditor extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		window.addEventListener('resize', () => this._rerender());
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-
 		this._rerender();
 	}
 
@@ -83,8 +80,6 @@ class CasusEditor extends React.Component<Props, State> {
 					onClick={e => this.processMouseClick(e)}
 					ref="canvas" 
 					style={canvasStyle}
-					width={1000}
-					height={650}
 					/>
 			</div>
 		);
