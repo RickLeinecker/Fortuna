@@ -9,10 +9,9 @@ class ContainerBlock extends CasusBlock {
 
 	children: Array<CasusBlock>;
 
-	constructor() {
+	constructor(children: Array<CasusBlock> = [new EmptyBlock('VOID')]) {
 		super();
-
-		this.children=[new EmptyBlock('VOID')];
+		this.children=children;
 	}
 
 	precompBounds(): void {

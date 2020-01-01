@@ -10,12 +10,20 @@ import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import Vec from './blocks/Vec.js';
 
-type Props = {||}
-type State = {|
-	containerBlock: CasusBlock
-|}
+type Props = {|
+	draggedBlocks: ?Array<CasusBlock>,
+	onDraggedBlocksReleased: () => void,
+	onBlocksDragged: (Array<CasusBlock>) => void
+|};
 
-type ClickEvent = {
+type State = {|
+	containerBlock: CasusBlock,
+	mouseX: number,
+	mouseY: number,
+	mouseOnScreen: boolean
+|};
+
+type MouseEvent = {
 	clientX: number,
 	clientY: number
 }
@@ -40,16 +48,25 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.children.push(testForLoop);
 
 		this.state={
-			containerBlock: containerBlock
+			containerBlock: containerBlock,
+			mouseX: 0,
+			mouseY: 0,
+			mouseOnScreen: false
 		}
 	}
 
 	componentDidMount(): void {
 		window.addEventListener('resize', () => this._rerender());
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
+		canvas.onmouseout = () => this.onMouseOut();
+		canvas.onmouseup = () => this.onMouseUp();
+		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
+
 		this._rerender();
 	}
 
-	processMouseClick(clickEvent: ClickEvent): void {
+	processMouseClick(clickEvent: MouseEvent): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const boundingBox: ClientRect = canvas.getBoundingClientRect();
 
@@ -85,6 +102,39 @@ class CasusEditor extends React.Component<Props, State> {
 		);
 	}
 
+	onMouseMove(e: MouseEvent): void {
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const boundingBox: ClientRect = canvas.getBoundingClientRect();
+		this.setState({
+			mouseX: e.clientX - boundingBox.left,
+			mouseY: e.clientY - boundingBox.top,
+			mouseOnScreen: true
+		});
+
+		this._rerender();
+	}
+
+	onMouseOut(): void {
+		this.setState({mouseOnScreen: false});
+		this._rerender();
+	}
+
+	onMouseUp(): void {
+		this.props.onDraggedBlocksReleased();
+		this._rerender();
+	}
+
+	onMouseDown(e: mouseEvent) {
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const boundingBox: ClientRect = canvas.getBoundingClientRect();
+
+		const eventPos=new Vec(e.clientX - boundingBox.left, e.clientY - boundingBox.top);
+		
+		//TODO: do some logic here to select and delete the blocks that were clicked
+
+		this._rerender();
+	}
+
 	_rerender(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -96,6 +146,18 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.precompBounds();
 		containerBlock.precompXY(0, 0);
 		containerBlock.renderDFS(ctx);
+
+		if (this.state.mouseOnScreen && this.props.draggedBlocks != null) {
+			const oldAlpha=ctx.globalAlpha;
+			ctx.globalAlpha=0.5;
+	
+			const containerBlock=new ContainerBlock(this.props.draggedBlocks);
+			containerBlock.precompBounds();
+			containerBlock.precompXY(this.state.mouseX, this.state.mouseY);
+			containerBlock.renderDFS(ctx);
+
+			ctx.globalAlpha=oldAlpha;
+		}
 	}
 
 	_clearBackground(ctx: CanvasRenderingContext2D): void {
