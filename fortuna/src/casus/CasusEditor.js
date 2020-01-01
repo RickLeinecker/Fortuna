@@ -9,6 +9,7 @@ import SetVariableBlock from './blocks/SetVariableBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import Vec from './blocks/Vec.js';
+import './CasusEditor.css';
 
 type Props = {||}
 type State = {|
@@ -22,9 +23,8 @@ type ClickEvent = {
 
 class CasusEditor extends React.Component<Props, State> {
 
-	componentDidMount(): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+	constructor(props: Props) {
+		super(props);
 
 		const emptyBlock: CasusBlock = new OrBlock();
 		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
@@ -40,13 +40,14 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
 
-		containerBlock.precompBounds();
-		containerBlock.precompXY(0, 0);
-		containerBlock.renderDFS(ctx);
+		this.state={
+			containerBlock: containerBlock
+		}
+	}
 
-		this.setState({
-			containerBlock: containerBlock,
-		});
+	componentDidMount(): void {
+		window.addEventListener('resize', () => this._rerender());
+		this._rerender();
 	}
 
 	processMouseClick(clickEvent: ClickEvent): void {
@@ -60,31 +61,46 @@ class CasusEditor extends React.Component<Props, State> {
 		const deepestClicked: CasusBlock = this.state.containerBlock.getDeepestChildContainingPoint(new Vec(x, y));
 		deepestClicked.highlighted=true;
 		
-		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		this.state.containerBlock.renderDFS(ctx);
+		this._rerender();
 	}
 
 	render(): React.Node {
-		const style = {
-			backgroundColor: '#ffffaa',
-			height: '500px',
-			justifyContent: 'center',
-			width: '100%'
-		};
-		const canvasStyle = {
-			backgroundColor: '#ffffff'
-		}
-
 		return (
-			<div style={style}>
+			<div className="casusEditorContainingDiv">
 				<canvas 
-					height={425} 
+					className="casusEditorCanvas"
 					onClick={e => this.processMouseClick(e)}
 					ref="canvas" 
-					style={canvasStyle}
-					width={640} />
+					/>
 			</div>
 		);
+	}
+
+	_rerender(): void {
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
+		this._resizeCanvas();
+		this._clearBackground(ctx);
+
+		const containerBlock=this.state.containerBlock;
+		containerBlock.precompBounds();
+		containerBlock.precompXY(0, 0);
+		containerBlock.renderDFS(ctx);
+	}
+
+	_clearBackground(ctx: CanvasRenderingContext2D): void {
+		//fill background
+		ctx.fillStyle = 'white';
+		ctx.fillRect(0, 0, 100000, 100000);
+	}
+
+	_resizeCanvas(): void {
+		const canvas: HTMLCanvasElement = this.refs.canvas;
+		if (canvas.width !== canvas.clientWidth || canvas.height !==canvas.clientHeight) {
+			canvas.width=canvas.clientWidth;
+			canvas.height=canvas.clientHeight;
+		}
 	}
 
 }

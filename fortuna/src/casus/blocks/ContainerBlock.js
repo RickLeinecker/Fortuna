@@ -4,15 +4,6 @@ import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js'
-import generateCornerPerim from './generateCornerPerim.js'
-
-import {
-	CENTER_WIDTH, 
-	RAMP_WIDTH, 
-	VPADDING, 
-} from './generateCornerPerim.js';
-
-import type {DataType} from './DataType.js'
 
 class ContainerBlock extends CasusBlock {
 

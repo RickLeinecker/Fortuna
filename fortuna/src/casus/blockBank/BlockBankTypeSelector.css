@@ -1,0 +1,9 @@
+.paddedButton {
+	margin: 5px;
+}
+
+.blockBankTypeSelectorDiv {
+	background-color: #111111;
+	height: 100%;
+	width: 200px;
+}

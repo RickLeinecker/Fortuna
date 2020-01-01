@@ -22,7 +22,6 @@ type SignupResponse = {
 };
 //END OF NOTE
 
-
 class Login extends React.Component<Props,State> {
 	constructor(){
 		super();
@@ -31,13 +30,13 @@ class Login extends React.Component<Props,State> {
 			userName: '',
 			password: '',
 			responseToPost: ''
+		}
 	}
-}
-	
+
 	componentDidMount():void {
 		this.callApi()
-			.then(res => this.setState({ response: res.express }))
-			.catch(err => console.log(err));
+		.then(res => this.setState({ response: res.express }))
+		.catch(err => console.log(err));
 	};
 	
 	callApi = async ():Promise<SignupResponse> => {
@@ -47,7 +46,7 @@ class Login extends React.Component<Props,State> {
 		
 		return body;
 	};
-	
+
 	handleLoginClick = async ():Promise<void> => {
 		const response = await fetch('http://localhost:'+PORT+'/signup', {
 			method: 'POST',

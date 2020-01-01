@@ -1,19 +1,15 @@
 //@flow strict
 
 import * as React from 'react';
-import BlockBank from './BlockBank.js';
+import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
+import './CasusContainer.css';
 
 class CasusContainer extends React.Component<{||}> {
 
 	render(): React.Node {
-		const containerStyle = {
-			padding: 20,
-			margin: 20
-		};
-
 		return (
-			<div style={containerStyle}>
+			<div className="casusContainerDiv">
 				<BlockBank />
 				<CasusEditor />
 			</div>
