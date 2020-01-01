@@ -41,7 +41,7 @@ class Login extends React.Component<Props,State> {
   };
   
   callApi = async ():Promise<SignupResponse> => {
-    const response:Response = await fetch('http://localhost:'+PORT+'/signup');
+    const response:Response = await fetch('/user/newUser');
     const body:SignupResponse  = await response.json();
     if (response.status !== 200) throw Error(body.message);
     
@@ -49,7 +49,7 @@ class Login extends React.Component<Props,State> {
   };
   
   handleLoginClick = async ():Promise<void> => {
-    const response = await fetch('http://localhost:'+PORT+'/signup', {
+    const response = await fetch('/user/newUser', {
       method: 'POST',
       headers: {
         'Access-Control-Allow-Origin': '*',

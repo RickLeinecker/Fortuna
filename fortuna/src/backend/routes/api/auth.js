@@ -7,6 +7,7 @@ const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+require("regenerator-runtime/runtime");
 require('dotenv').config();
 
 import type {
