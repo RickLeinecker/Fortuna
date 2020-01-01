@@ -10,6 +10,7 @@ import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
 import IntLessThanBlock from '../blocks/IntLessThanBlock.js';
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
+import './BlockBankBlockShelf.css';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -71,13 +72,9 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const canvasStyle={
-			height: '150px',
-			width: '100%'
-		}
 		return (
 			<canvas
-				style={canvasStyle}
+				className="blockBankBlockShelfCanvas"
 				ref="canvas"
 			/>
 		);
@@ -183,6 +180,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 				break;
 			default:
 				console.err('unexpected BlockBankType: '+type+' in getBlocksOfType!');
+				break;
+			default:
 				break;
 		}
 

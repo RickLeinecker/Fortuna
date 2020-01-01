@@ -5,6 +5,7 @@ import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import ForBlock from './blocks/ForBlock.js';
+import './CasusContainer.css';
 
 type Props = {||};
 
@@ -23,13 +24,8 @@ class CasusContainer extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const containerStyle = {
-			padding: 20,
-			backgroundColor: '#00ff00'
-		};
-
 		return (
-			<div style={containerStyle}>
+			<div className="casusContainerDiv">
 				<BlockBank 
 					draggedBlocks={this.state.draggedBlocks}
 					onBlocksDragged={this.onBlocksDragged} 
