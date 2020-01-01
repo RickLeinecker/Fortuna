@@ -9,6 +9,7 @@ import SetVariableBlock from './blocks/SetVariableBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import Vec from './blocks/Vec.js';
+import './CasusEditor.css';
 
 type Props = {||}
 type State = {|
@@ -64,22 +65,12 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const style = {
-			backgroundColor: '#ffffaa',
-			justifyContent: 'center',
-		};
-		const canvasStyle = {
-			backgroundColor: '#ffffff',
-			height: '650px',
-			width: '100%',
-		};
-
 		return (
-			<div style={style}>
+			<div className="casusEditorContainingDiv">
 				<canvas 
+					className="casusEditorCanvas"
 					onClick={e => this.processMouseClick(e)}
 					ref="canvas" 
-					style={canvasStyle}
 					/>
 			</div>
 		);

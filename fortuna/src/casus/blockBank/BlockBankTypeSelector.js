@@ -17,11 +17,6 @@ class BlockBankTypeSelector extends React.Component<Props> {
 	}
 
 	render():React.Node {
-		const style = {
-			backgroundColor: '#111111',
-			height: '100%',
-			width: '200px'
-		}
 
 		//sections:
 		//	- Control Flow (if / if-else / loops)
@@ -30,7 +25,7 @@ class BlockBankTypeSelector extends React.Component<Props> {
 		//	- Logic (and / or / xor)
 		//	- Lists
 		return (
-			<div style={style}>
+			<div className="blockBankTypeSelectorDiv">
 				<button 
 					className="btn btn-secondary paddedButton" 
 					onClick={() => this.showSection('CONTROL_FLOW')}>

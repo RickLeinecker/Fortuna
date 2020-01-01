@@ -3,6 +3,7 @@
 import * as React from 'react';
 import ForBlock from '../blocks/ForBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
+import './BlockBankBlockShelf.css';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -26,13 +27,9 @@ class BlockBankBlockShelf extends React.Component<Props> {
 	}
 
 	render(): React.Node {
-		const canvasStyle={
-			height: '150px',
-			width: '100%'
-		}
 		return (
 			<canvas
-				style={canvasStyle}
+				className="blockBankBlockShelfCanvas"
 				ref="canvas"
 			/>
 		);
@@ -56,6 +53,8 @@ class BlockBankBlockShelf extends React.Component<Props> {
 			case 'LOGIC':
 				break;
 			case 'LISTS':
+				break;
+			default:
 				break;
 		}
 
