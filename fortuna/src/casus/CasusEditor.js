@@ -115,7 +115,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this._rerender();
 	}
 
-	onMouseDown(e: mouseEvent) {
+	onMouseDown(e: MouseEvent) {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const boundingBox: ClientRect = canvas.getBoundingClientRect();
 

@@ -179,9 +179,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 				blocks = [];
 				break;
 			default:
-				console.err('unexpected BlockBankType: '+type+' in getBlocksOfType!');
-				break;
-			default:
+				console.log('unexpected BlockBankType: '+type+' in getBlocksOfType!');
 				break;
 		}
 
