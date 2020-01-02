@@ -3,6 +3,7 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
+import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
 
 import {
@@ -17,7 +18,7 @@ class ForBlock extends CasusBlock {
 	initializationBlock: CasusBlock;
 	expressionBlock: CasusBlock;
 	incrementBlock: CasusBlock;
-	contents: Array<CasusBlock>;
+	contents: ContainerBlock;
 	headerBoundingBox: BoundingBox;
 
 	constructor() {
@@ -25,7 +26,7 @@ class ForBlock extends CasusBlock {
 		this.initializationBlock = new EmptyBlock('VOID');
 		this.expressionBlock = new EmptyBlock('BOOLEAN');
 		this.incrementBlock = new EmptyBlock('VOID');
-		this.contents=[new EmptyBlock('VOID')];
+		this.contents=new ContainerBlock();
 	}
 
 	precompBounds(): void {
@@ -46,10 +47,9 @@ class ForBlock extends CasusBlock {
 
 		this.headerBoundingBox = new BoundingBox(0, 0, width, height);	
 
-		for (const statement: CasusBlock of this.contents) {
-			statement.precompBounds();
-			height += statement.boundingBox.h;
-		}
+		this.contents.precompBounds();
+		height+=this.contents.boundingBox.h;
+
 		height+=RAMP_WIDTH;
 
 		this.boundingBox = new BoundingBox(0, 0, width, height);
@@ -94,14 +94,44 @@ class ForBlock extends CasusBlock {
 
 		curX = x + RAMP_WIDTH;
 		curY = y + this.headerBoundingBox.h;
-		for (const statement: CasusBlock of this.contents) {
-			statement.precompXY(curX, curY);
-			curY+=statement.boundingBox.h;
-		}
+		this.contents.precompXY(curX, curY);
+		curY+=this.contents.boundingBox.h;
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
-		return [this.initializationBlock, this.expressionBlock, this.incrementBlock].concat(this.contents);
+		return [this.initializationBlock, this.expressionBlock, this.incrementBlock, this.contents];
+	}
+
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		const initializationRes = this.initializationBlock.removeBlockAt(v);
+		if (initializationRes.length > 0) {
+			return initializationRes;
+		}
+		if (this.initializationBlock.boundingBox.contains(v) && this.initializationBlock.draggable()) {
+			const toReturn = [this.initializationBlock];
+			this.initializationBlock = new EmptyBlock('VOID');
+			return toReturn;
+		}
+		const expressionRes=this.expressionBlock.removeBlockAt(v);
+		if (expressionRes.length > 0) {
+			return expressionRes;
+		}
+		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
+			const toReturn = [this.expressionBlock];
+			this.expressionBlock = new EmptyBlock('BOOLEAN');
+			return toReturn;
+		}
+		const incrementRes = this.incrementBlock.removeBlockAt(v);
+		if (incrementRes.length > 0) {
+			return incrementRes;
+		}
+		if (this.incrementBlock.boundingBox.contains(v) && this.incrementBlock.draggable()) {
+			const toReturn = [this.incrementBlock];
+			this.incrementBlock = new EmptyBlock('VOID');
+			return toReturn;
+		}
+
+		return this.contents.removeBlockAt(v);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {

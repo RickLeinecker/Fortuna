@@ -73,7 +73,7 @@ class BinaryOperationBlock extends CasusBlock {
 		}
 		if (this.lChild.boundingBox.contains(v) && this.lChild.draggable()) {
 			const toReturn=[this.lChild];
-			this.lChild=new EmptyBlock();
+			this.lChild=new EmptyBlock(this.paramType);
 			return toReturn;
 		}
 
@@ -83,7 +83,7 @@ class BinaryOperationBlock extends CasusBlock {
 		}
 		if (this.rChild.boundingBox.contains(v) && this.rChild.draggable()) {
 			const toReturn=[this.rChild];
-			this.rChild=new EmptyBlock();
+			this.rChild=new EmptyBlock(this.paramType);
 			return toReturn;
 		}
 

@@ -58,6 +58,17 @@ class SetVariableBlock extends CasusBlock {
 		return [this.expressionBlock];
 	}
 
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		const expressionRes=this.expressionBlock.removeBlockAt(v);
+		if (expressionRes.length > 0) {
+			return expressionRes;
+		}
+		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
+			return [this.expressionBlock];
+		}
+		return [];
+	}
+
 	getPerim(): Array<Vec> {
 		const toReturn: Array<Vec> = [];
 		const bounds=this.boundingBox;

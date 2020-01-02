@@ -41,15 +41,18 @@ class CasusEditor extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		const emptyBlock: CasusBlock = new OrBlock();
+		const orBlock: OrBlock = new OrBlock();
+		const orBlock2: CasusBlock = new OrBlock();
 		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
 		const testEquals: IntEqualsBlock = new IntEqualsBlock();
 		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
 		const testForLoop: CasusBlock = new ForBlock();
 
-		const containerBlock: ContainerBlock = new ContainerBlock();
+		const containerBlock: ContainerBlock = new ContainerBlock([]);
 
-		containerBlock.children.push(emptyBlock);
+		orBlock.lChild = orBlock2;
+
+		containerBlock.children.push(orBlock);
 		containerBlock.children.push(testVariable);
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
@@ -115,7 +118,6 @@ class CasusEditor extends React.Component<Props, State> {
 		const eventPos=new Vec(e.clientX - boundingBox.left, e.clientY - boundingBox.top);
 		const rightButton = e.button === RIGHT_BUTTON_CODE;
 		
-		//TODO: do some logic here to select and delete the blocks that were clicked
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
 			toSelect = this.state.containerBlock.removeBlocksAtAndAfter(eventPos);
@@ -123,7 +125,6 @@ class CasusEditor extends React.Component<Props, State> {
 		else {
 			toSelect = this.state.containerBlock.removeBlockAt(eventPos);
 		}
-		console.log("Was right button: "+rightButton);
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
 		}
