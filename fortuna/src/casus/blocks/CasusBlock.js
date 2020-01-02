@@ -2,7 +2,7 @@
 
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
-import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
+import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
@@ -26,6 +26,9 @@ import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 //	removeBlocksAtAndAfter(v) - same as removeBlockAt(pos), but also removes and returns
 //		all blocks following that block
 //
+//	(maybe):
+//	getPerim() - returns an array of the perimeter of this block
+//
 
 class CasusBlock {
 	boundingBox: BoundingBox;
@@ -43,10 +46,16 @@ class CasusBlock {
 		}
 
 		const perim=this.getPerim();
-		if (this.highlighted && perim.length !== 0) {
+		if (perim.length !== 0) {
 			ctx.beginPath();
-			ctx.strokeStyle = '#eeeeee';
-			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
+			if (this.highlighted) {
+				ctx.strokeStyle = '#eeeeee';
+				ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
+			}
+			else {
+				ctx.strokeStyle = '#444444';
+				ctx.lineWidth = BOARDER_STROKE_WIDTH;
+			}
 			ctx.moveTo(perim[0].x, perim[0].y);
 			for (const p: Vec of perim) {
 				ctx.lineTo(p.x, p.y);
