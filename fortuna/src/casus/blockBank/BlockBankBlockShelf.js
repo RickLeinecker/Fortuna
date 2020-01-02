@@ -30,10 +30,14 @@ type State = {|
 	mouseOnScreen: boolean
 |};
 
-type MouseEvent = {|
+type MouseEvent = {
 	clientX: number;
 	clientY: number;
-|};
+};
+
+type CanPreventDefaultEvent = {
+	preventDefault: () => void;
+};
 
 class BlockBankBlockShelf extends React.Component<Props, State> {
 
@@ -54,6 +58,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		canvas.onmouseout = () => this.onMouseOut();
 		canvas.onmouseup = () => this.onMouseUp();
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
+		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();}; 
 
 		this._rerender();
 	}
@@ -128,21 +133,16 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		this._clearBackground(ctx);
 		this._renderBlocks(ctx, this.state.blocksOnShelf);
 
-		if (this.state.mouseOnScreen) {
-			ctx.fillStyle='red';
-			ctx.fillRect(this.state.mouseX, this.state.mouseY, 20, 20);
+		if (this.state.mouseOnScreen && this.props.draggedBlocks != null) {
+			const oldAlpha=ctx.globalAlpha;
+			ctx.globalAlpha=0.5;
 
-			if (this.props.draggedBlocks != null) {
-				const oldAlpha=ctx.globalAlpha;
-				ctx.globalAlpha=0.5;
+			const containerBlock=new ContainerBlock(this.props.draggedBlocks);
+			containerBlock.precompBounds();
+			containerBlock.precompXY(this.state.mouseX, this.state.mouseY);
+			containerBlock.renderDFS(ctx);
 
-				const containerBlock=new ContainerBlock(this.props.draggedBlocks);
-				containerBlock.precompBounds();
-				containerBlock.precompXY(this.state.mouseX, this.state.mouseY);
-				containerBlock.renderDFS(ctx);
-
-				ctx.globalAlpha=oldAlpha;
-			}
+			ctx.globalAlpha=oldAlpha;
 		}
 	}
 

@@ -63,6 +63,33 @@ class BinaryOperationBlock extends CasusBlock {
 		return [this.lChild, this.rChild];
 	}
 
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		if (!this.boundingBox.contains(v)) {
+			return [];
+		}
+		const lChildRes = this.lChild.removeBlockAt(v);
+		if (lChildRes.length > 0) {
+			return lChildRes;
+		}
+		if (this.lChild.boundingBox.contains(v) && this.lChild.draggable()) {
+			const toReturn=[this.lChild];
+			this.lChild=new EmptyBlock();
+			return toReturn;
+		}
+
+		const rChildRes = this.rChild.removeBlockAt(v);
+		if (rChildRes.length > 0) {
+			return rChildRes;
+		}
+		if (this.rChild.boundingBox.contains(v) && this.rChild.draggable()) {
+			const toReturn=[this.rChild];
+			this.rChild=new EmptyBlock();
+			return toReturn;
+		}
+
+		return [];
+	}
+
 	getPerim(): Array<Vec> {
 		return generateCornerPerim(this.boundingBox, this.returnType);
 	}

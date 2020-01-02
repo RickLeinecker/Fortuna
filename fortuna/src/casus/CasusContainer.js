@@ -18,8 +18,7 @@ class CasusContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			//draggedBlocks: null
-			draggedBlocks: [new ForBlock()]
+			draggedBlocks: null
 		};
 	}
 

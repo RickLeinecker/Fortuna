@@ -38,6 +38,10 @@ class EmptyBlock extends CasusBlock {
 		return [];
 	}
 
+	draggable(): boolean {
+		return false;
+	}
+
 	getPerim(): Array<Vec> {
 		return generateCornerPerim(this.boundingBox, this.dataType);
 	}

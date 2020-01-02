@@ -41,6 +41,40 @@ class ContainerBlock extends CasusBlock {
 		return this.children;
 	}
 
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		for (let i=0; i<this.children.length; i++) {
+			const child: CasusBlock = this.children[i];
+			const childRes = child.removeBlockAt(v);
+			if (childRes.length > 0) {
+				return childRes;
+			}
+			if (child.boundingBox.contains(v) && child.draggable()) {
+				return this.children.splice(i, 1);
+			}
+		}
+
+		return [];
+	}
+
+	removeBlocksAtAndAfter(v: Vec): Array<CasusBlock> {
+		for (let i=0; i<this.children.length; i++) {
+			const child: CasusBlock = this.children[i];
+			const childRes = child.removeBlockAt(v);
+			if (childRes.length > 0) {
+				return childRes;
+			}
+			if (child.boundingBox.contains(v) && child.draggable()) {
+				return this.children.splice(i);
+			}
+		}
+
+		return [];
+	}
+
+	draggable(): boolean {
+		return false;
+	}
+
 	getPerim(): Array<Vec> {
 		return [];
 	}

@@ -26,8 +26,15 @@ type State = {|
 
 type MouseEvent = {
 	clientX: number,
-	clientY: number
+	clientY: number,
+	button: ?number
 }
+
+type CanPreventDefaultEvent = {
+	preventDefault: () => void;
+}
+
+const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
 
@@ -63,21 +70,8 @@ class CasusEditor extends React.Component<Props, State> {
 		canvas.onmouseout = () => this.onMouseOut();
 		canvas.onmouseup = () => this.onMouseUp();
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
+		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();};
 
-		this._rerender();
-	}
-
-	processMouseClick(clickEvent: MouseEvent): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const boundingBox: ClientRect = canvas.getBoundingClientRect();
-
-		const x = clickEvent.clientX - boundingBox.left;
-		const y = clickEvent.clientY - boundingBox.top;
-
-		this.state.containerBlock.unhighlightEverything();
-		const deepestClicked: CasusBlock = this.state.containerBlock.getDeepestChildContainingPoint(new Vec(x, y));
-		deepestClicked.highlighted=true;
-		
 		this._rerender();
 	}
 
@@ -86,9 +80,8 @@ class CasusEditor extends React.Component<Props, State> {
 			<div className="casusEditorContainingDiv">
 				<canvas 
 					className="casusEditorCanvas"
-					onClick={e => this.processMouseClick(e)}
 					ref="canvas" 
-					/>
+				/>
 			</div>
 		);
 	}
@@ -120,8 +113,20 @@ class CasusEditor extends React.Component<Props, State> {
 		const boundingBox: ClientRect = canvas.getBoundingClientRect();
 
 		const eventPos=new Vec(e.clientX - boundingBox.left, e.clientY - boundingBox.top);
+		const rightButton = e.button === RIGHT_BUTTON_CODE;
 		
 		//TODO: do some logic here to select and delete the blocks that were clicked
+		let toSelect: Array<CasusBlock> = [];
+		if (rightButton) {
+			toSelect = this.state.containerBlock.removeBlocksAtAndAfter(eventPos);
+		}
+		else {
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos);
+		}
+		console.log("Was right button: "+rightButton);
+		if (toSelect.length > 0) {
+			this.props.onBlocksDragged(toSelect);
+		}
 
 		this._rerender();
 	}

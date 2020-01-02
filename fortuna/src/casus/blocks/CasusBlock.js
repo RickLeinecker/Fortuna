@@ -16,9 +16,17 @@ import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 //
 //	getChildBlocks() - returns all child blocks of this block
 //
+//	removeBlockAt(v) - removes and returns the deepest block that contains
+//		the defined position. If there is no block at the position, returns an empty array.
+//
 //	drawSelf(CanvasRenderingContext2D) - renders this block. All children of this
 //		block will then be rendered on top of this
 //
+//	(maybe):
+//	removeBlocksAtAndAfter(v) - same as removeBlockAt(pos), but also removes and returns
+//		all blocks following that block
+//
+
 class CasusBlock {
 	boundingBox: BoundingBox;
 	highlighted: boolean;
@@ -55,14 +63,23 @@ class CasusBlock {
 		}
 	}
 
-	getDeepestChildContainingPoint(v: Vec): CasusBlock {
+	getDeepestChildContainingPoint(v: Vec): ?CasusBlock {
 		for (const child of this.getChildBlocks()) {
 			if (child.boundingBox.contains(v)) {
 				return child.getDeepestChildContainingPoint(v);
 			}
 		}
-		return this;
+		return this.boundingBox.contains(v) ? this : null;
 	}
+
+	removeBlocksAtAndAfter(v: Vec): Array<CasusBlock> {
+		return this.removeBlockAt(v);
+	}
+
+	draggable(): boolean {
+		return true;
+	}
+
 
 	// ----------------------- Methods to overload --------------------------
 	precompBounds(): void {
@@ -74,6 +91,10 @@ class CasusBlock {
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
+		return [];
+	}
+
+	removeBlockAt(v: Vec): Array<CasusBlock> {
 		return [];
 	}
 
