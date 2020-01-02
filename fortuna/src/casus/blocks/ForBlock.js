@@ -6,6 +6,8 @@ import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
 
+import type {DataType} from './DataType.js';
+
 import {
 	FOR_BLOCK_FOR_WIDTH,
 	FOR_BLOCK_SEMICOLON_WIDTH,
@@ -183,6 +185,10 @@ class ForBlock extends CasusBlock {
 			curX + FOR_BLOCK_SEMICOLON_WIDTH/2,
 			this.boundingBox.y + this.headerBoundingBox.h/2
 		);
+	}
+
+	getReturnType(): DataType {
+		return 'VOID';
 	}
 
 }

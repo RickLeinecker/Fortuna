@@ -4,6 +4,8 @@ import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
 
+import type {DataType} from './DataType.js';
+
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
 //
@@ -21,6 +23,8 @@ import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPeri
 //
 //	drawSelf(CanvasRenderingContext2D) - renders this block. All children of this
 //		block will then be rendered on top of this
+//
+//	getReturnType() - gets the return type of the block
 //
 //	(maybe):
 //	removeBlocksAtAndAfter(v) - same as removeBlockAt(pos), but also removes and returns
@@ -119,6 +123,9 @@ class CasusBlock {
 		];
 	}
 
+	getReturnType(): DataType {
+		return 'VOID';
+	}
 
 }
 

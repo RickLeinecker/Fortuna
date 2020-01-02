@@ -62,7 +62,10 @@ class VariableBlock extends CasusBlock {
 			this.boundingBox.x + this.boundingBox.w/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
+	}
 
+	getReturnType(): DataType {
+		return this.dataType;
 	}
 }
 

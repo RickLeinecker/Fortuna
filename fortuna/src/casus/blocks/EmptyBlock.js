@@ -56,6 +56,10 @@ class EmptyBlock extends CasusBlock {
 		}
 		ctx.fill();
 	}
+
+	getReturnType(): DataType {
+		return this.dataType;
+	}
 }
 
 export default EmptyBlock;

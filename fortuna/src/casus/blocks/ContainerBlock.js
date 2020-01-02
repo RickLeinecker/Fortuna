@@ -5,6 +5,8 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js'
 
+import type {DataType} from './DataType.js';
+
 class ContainerBlock extends CasusBlock {
 
 	children: Array<CasusBlock>;
@@ -80,6 +82,10 @@ class ContainerBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
+	}
+
+	getReturnType(): DataType {
+		return 'VOID';
 	}
 
 }

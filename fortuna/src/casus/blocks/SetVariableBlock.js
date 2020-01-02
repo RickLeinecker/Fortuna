@@ -109,6 +109,9 @@ class SetVariableBlock extends CasusBlock {
 		);
 	}
 
+	getReturnType(): DataType {
+		return 'VOID';
+	}
 }
 
 export default SetVariableBlock;
