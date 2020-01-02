@@ -68,7 +68,7 @@ class VariableBlock extends CasusBlock {
 		return this.dataType;
 	}
 
-	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
 		return null;
 	}
 

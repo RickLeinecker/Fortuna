@@ -108,6 +108,19 @@ class CasusBlock {
 		return this.boundingBox.contains(v) ? this : null;
 	}
 
+	//returns true if we were able to place it in some container, false otherwise
+	tryToPlaceInContainer(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): boolean {
+		if (!this.boundingBox.contains(v)) {
+			return false;
+		}
+		for (const child of this.getChildBlocks()) {
+			if (child.tryToPlaceInContainer(v, blockToPlace, ctx)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	removeBlocksAtAndAfter(v: Vec): Array<CasusBlock> {
 		return this.removeBlockAt(v);
 	}
@@ -149,7 +162,7 @@ class CasusBlock {
 		return 'VOID';
 	}
 
-	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
 		return null;
 	}
 

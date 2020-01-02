@@ -176,7 +176,7 @@ class ForBlock extends CasusBlock {
 		return 'VOID';
 	}
 
-	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
 		if (!this.boundingBox.contains(v)) {
 			return null;
 		}

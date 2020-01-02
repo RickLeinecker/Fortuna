@@ -4,7 +4,6 @@ import * as React from 'react';
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
-import ForBlock from './blocks/ForBlock.js';
 import './CasusContainer.css';
 
 type Props = {||};

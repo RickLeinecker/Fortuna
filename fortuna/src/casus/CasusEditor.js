@@ -8,6 +8,7 @@ import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
+import EmptyBlock from './blocks/EmptyBlock.js';
 import Vec from './blocks/Vec.js';
 import './CasusEditor.css';
 
@@ -107,9 +108,15 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onMouseUp(): void {
+		const wouldPlaceOnEmptyVoid = this._wouldPlaceOnEmptyVoid();
 		this._tryToPlace(null);
+		if (!wouldPlaceOnEmptyVoid) {
+			this._tryToPlaceInContainerBlock(null);
+		}
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
+		console.log('Code state: ');
+		console.log(this.state.containerBlock);
 	}
 
 	onMouseDown(e: MouseEvent) {
@@ -131,6 +138,8 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 
 		this._rerender();
+		console.log("Code tree: ");
+		console.log(this.state.containerBlock);
 	}
 
 	_rerender(): void {
@@ -143,14 +152,17 @@ class CasusEditor extends React.Component<Props, State> {
 		const containerBlock=this.state.containerBlock;
 		containerBlock.precompBounds();
 		containerBlock.precompXY(0, 0);
+		containerBlock.renderDFS(ctx);
 
 		//deal with highlights
 		this.state.containerBlock.unhighlightEverything();
+		const wouldPlaceOnEmptyVoid = this._wouldPlaceOnEmptyVoid();
 		if (this.state.mouseOnScreen) {
 			this._tryToPlace(ctx);
 		}
-
-		containerBlock.renderDFS(ctx);
+		if (!wouldPlaceOnEmptyVoid) {
+			this._tryToPlaceInContainerBlock(ctx);
+		}
 		containerBlock.highlightDFS(ctx);
 
 		if (this.state.mouseOnScreen && this.props.draggedBlocks != null) {
@@ -180,7 +192,19 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 	}
 
-	_tryToPlace(ctx: CanvasRenderingContext2D) {
+	//checks if a realeased block would be placed on an empty block with void return type
+	_wouldPlaceOnEmptyVoid(): boolean {
+		if (this.props.draggedBlocks != null) {
+			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
+			const deepest=this.state.containerBlock.getDeepestChildContainingPoint(mousePos);
+			if ((deepest instanceof EmptyBlock) && deepest.getReturnType() === 'VOID') {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	_tryToPlace(ctx: ?CanvasRenderingContext2D) {
 		if (this.props.draggedBlocks != null) {
 			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
 			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
@@ -188,7 +212,20 @@ class CasusEditor extends React.Component<Props, State> {
 				new ContainerBlock(this.props.draggedBlocks);
 			blockToTryPlace.precompBounds();
 			blockToTryPlace.precompXY(mousePos.x, mousePos.y);
+
 			this.state.containerBlock.tryToPlace(mousePos, blockToTryPlace, ctx);
+		}
+	}
+
+	_tryToPlaceInContainerBlock(ctx: ?CanvasRenderingContext2D) {
+		if (this.props.draggedBlocks != null) {
+			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
+			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
+				this.props.draggedBlocks[0] :
+				new ContainerBlock(this.props.draggedBlocks);
+			blockToTryPlace.precompBounds();
+
+			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx);	
 		}
 	}
 
