@@ -121,6 +121,15 @@ class BinaryOperationBlock extends CasusBlock {
 		return this.returnType;
 	}
 
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.lChild = this.lChild.tryToPlace(v, blockToPlace, ctx) ?? this.lChild;
+		this.rChild = this.rChild.tryToPlace(v, blockToPlace, ctx) ?? this.rChild;
+		return null;
+	}
+
 }
 
 export default BinaryOperationBlock;

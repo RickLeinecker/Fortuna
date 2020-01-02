@@ -107,6 +107,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onMouseUp(): void {
+		this._tryToPlace(null);
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
 	}
@@ -142,7 +143,15 @@ class CasusEditor extends React.Component<Props, State> {
 		const containerBlock=this.state.containerBlock;
 		containerBlock.precompBounds();
 		containerBlock.precompXY(0, 0);
+
+		//deal with highlights
+		this.state.containerBlock.unhighlightEverything();
+		if (this.state.mouseOnScreen) {
+			this._tryToPlace(ctx);
+		}
+
 		containerBlock.renderDFS(ctx);
+		containerBlock.highlightDFS(ctx);
 
 		if (this.state.mouseOnScreen && this.props.draggedBlocks != null) {
 			const oldAlpha=ctx.globalAlpha;
@@ -168,6 +177,18 @@ class CasusEditor extends React.Component<Props, State> {
 		if (canvas.width !== canvas.clientWidth || canvas.height !==canvas.clientHeight) {
 			canvas.width=canvas.clientWidth;
 			canvas.height=canvas.clientHeight;
+		}
+	}
+
+	_tryToPlace(ctx: CanvasRenderingContext2D) {
+		if (this.props.draggedBlocks != null) {
+			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
+			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
+				this.props.draggedBlocks[0] :
+				new ContainerBlock(this.props.draggedBlocks);
+			blockToTryPlace.precompBounds();
+			blockToTryPlace.precompXY(mousePos.x, mousePos.y);
+			this.state.containerBlock.tryToPlace(mousePos, blockToTryPlace, ctx);
 		}
 	}
 

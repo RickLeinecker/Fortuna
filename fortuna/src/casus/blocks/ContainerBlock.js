@@ -88,6 +88,15 @@ class ContainerBlock extends CasusBlock {
 		return 'VOID';
 	}
 
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		for (let i = 0; i<this.children.length; i++) {
+			this.children[i] = this.children[i].tryToPlace(v, blockToPlace, ctx) ?? this.children[i];
+		}
+	}
+
 }
 
 export default ContainerBlock;

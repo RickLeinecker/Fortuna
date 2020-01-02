@@ -67,6 +67,11 @@ class VariableBlock extends CasusBlock {
 	getReturnType(): DataType {
 		return this.dataType;
 	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		return null;
+	}
+
 }
 
 export default VariableBlock;

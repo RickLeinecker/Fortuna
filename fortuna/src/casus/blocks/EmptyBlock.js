@@ -60,6 +60,26 @@ class EmptyBlock extends CasusBlock {
 	getReturnType(): DataType {
 		return this.dataType;
 	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		//if the return types don't match, you can't place it here
+		if (this.getReturnType() !== blockToPlace.getReturnType()) {
+			return null;
+		}
+		if (ctx == null) {
+			//then actually place the block
+			return blockToPlace;
+		}
+		else {
+			//just draw the highlights
+			this.highlighted=true;
+			return null;
+		}
+	}
+
 }
 
 export default EmptyBlock;

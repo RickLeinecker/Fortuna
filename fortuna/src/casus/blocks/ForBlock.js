@@ -147,21 +147,6 @@ class ForBlock extends CasusBlock {
 		}
 		ctx.fill();
 
-		/*
-		ctx.fillRect(
-			this.headerBoundingBox.x, 
-			this.headerBoundingBox.y, 
-			this.headerBoundingBox.w, 
-			this.headerBoundingBox.h
-		);
-		ctx.fillRect(this.boundingBox.x, this.boundingBox.y, RAMP_WIDTH, this.boundingBox.h);
-		ctx.fillRect(
-			this.boundingBox.x,
-			this.boundingBox.y + this.boundingBox.h - RAMP_WIDTH,
-			this.boundingBox.w,
-			RAMP_WIDTH
-		);*/
-
 		ctx.fillStyle = '#000000';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
@@ -190,6 +175,24 @@ class ForBlock extends CasusBlock {
 	getReturnType(): DataType {
 		return 'VOID';
 	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.initializationBlock = this.initializationBlock.tryToPlace(v, blockToPlace, ctx) 
+			?? this.initializationBlock;
+		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx)
+			?? this.expressionBlock;
+		this.incrementBlock = this.incrementBlock.tryToPlace(v, blockToPlace, ctx)
+			?? this.incrementBlock;
+		const result = this.contents.tryToPlace(v, blockToPlace, ctx);
+		if (result != null) {
+			console.log('ERROR! placing block in for loop contents returned non-null meaning it got replaced!');
+		}
+		return null;
+	}
+
 
 }
 

@@ -112,6 +112,15 @@ class SetVariableBlock extends CasusBlock {
 	getReturnType(): DataType {
 		return 'VOID';
 	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx) ?? this.expressionBlock;
+		return null;
+	}
+
 }
 
 export default SetVariableBlock;
