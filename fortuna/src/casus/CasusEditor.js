@@ -223,6 +223,10 @@ class CasusEditor extends React.Component<Props, State> {
 			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
 				this.props.draggedBlocks[0] :
 				new ContainerBlock(this.props.draggedBlocks);
+			if (blockToTryPlace.getReturnType() !== 'VOID') {
+				return;
+			}
+
 			blockToTryPlace.precompBounds();
 
 			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx);	
