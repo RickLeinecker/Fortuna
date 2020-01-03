@@ -115,8 +115,6 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
-		console.log('Code state: ');
-		console.log(this.state.containerBlock);
 	}
 
 	onMouseDown(e: MouseEvent) {
