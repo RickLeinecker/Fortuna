@@ -62,8 +62,16 @@ class VariableBlock extends CasusBlock {
 			this.boundingBox.x + this.boundingBox.w/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
-
 	}
+
+	getReturnType(): DataType {
+		return this.dataType;
+	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		return null;
+	}
+
 }
 
 export default VariableBlock;

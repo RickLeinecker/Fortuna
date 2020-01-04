@@ -58,6 +58,17 @@ class SetVariableBlock extends CasusBlock {
 		return [this.expressionBlock];
 	}
 
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		const expressionRes=this.expressionBlock.removeBlockAt(v);
+		if (expressionRes.length > 0) {
+			return expressionRes;
+		}
+		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
+			return [this.expressionBlock];
+		}
+		return [];
+	}
+
 	getPerim(): Array<Vec> {
 		const toReturn: Array<Vec> = [];
 		const bounds=this.boundingBox;
@@ -96,6 +107,18 @@ class SetVariableBlock extends CasusBlock {
 				SET_VARIABLE_TO_WIDTH/2,
 			this.boundingBox.y + this.boundingBox.h/2
 		);
+	}
+
+	getReturnType(): DataType {
+		return 'VOID';
+	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx) ?? this.expressionBlock;
+		return null;
 	}
 
 }

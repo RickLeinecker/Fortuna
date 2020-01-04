@@ -63,6 +63,33 @@ class BinaryOperationBlock extends CasusBlock {
 		return [this.lChild, this.rChild];
 	}
 
+	removeBlockAt(v: Vec): Array<CasusBlock> {
+		if (!this.boundingBox.contains(v)) {
+			return [];
+		}
+		const lChildRes = this.lChild.removeBlockAt(v);
+		if (lChildRes.length > 0) {
+			return lChildRes;
+		}
+		if (this.lChild.boundingBox.contains(v) && this.lChild.draggable()) {
+			const toReturn=[this.lChild];
+			this.lChild=new EmptyBlock(this.paramType);
+			return toReturn;
+		}
+
+		const rChildRes = this.rChild.removeBlockAt(v);
+		if (rChildRes.length > 0) {
+			return rChildRes;
+		}
+		if (this.rChild.boundingBox.contains(v) && this.rChild.draggable()) {
+			const toReturn=[this.rChild];
+			this.rChild=new EmptyBlock(this.paramType);
+			return toReturn;
+		}
+
+		return [];
+	}
+
 	getPerim(): Array<Vec> {
 		return generateCornerPerim(this.boundingBox, this.returnType);
 	}
@@ -88,8 +115,19 @@ class BinaryOperationBlock extends CasusBlock {
 			this.boundingBox.x + RAMP_WIDTH + this.lChild.boundingBox.w + CENTER_WIDTH/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
+	}
 
+	getReturnType(): DataType {
+		return this.returnType;
+	}
 
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.lChild = this.lChild.tryToPlace(v, blockToPlace, ctx) ?? this.lChild;
+		this.rChild = this.rChild.tryToPlace(v, blockToPlace, ctx) ?? this.rChild;
+		return null;
 	}
 
 }
