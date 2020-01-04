@@ -36,7 +36,7 @@ class ForBlock extends CasusBlock {
 		this.expressionBlock.precompBounds();
 		this.incrementBlock.precompBounds();
 
-		const width = RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH + 
+		let width = RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH + 
 			this.initializationBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.expressionBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.incrementBlock.boundingBox.w +
@@ -47,9 +47,11 @@ class ForBlock extends CasusBlock {
 				this.incrementBlock.boundingBox.h))
 			+ VPADDING;
 
-		this.headerBoundingBox = new BoundingBox(0, 0, width, height);	
 
 		this.contents.precompBounds();
+		width = Math.max(width, this.contents.boundingBox.w + RAMP_WIDTH);
+		this.headerBoundingBox = new BoundingBox(0, 0, width, height);	
+
 		height+=this.contents.boundingBox.h;
 
 		height+=RAMP_WIDTH;
