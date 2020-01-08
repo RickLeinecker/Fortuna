@@ -3,13 +3,13 @@
 import SingleConditionHeader from './SingleConditionHeader.js';
 
 import {
-	IF_BLOCK_IF_WIDTH
+	WHILE_BLOCK_WHILE_WIDTH
 } from './generateCornerPerim.js';
 
-class IfBlock extends SingleConditionHeader {
+class WhileBlock extends SingleConditionHeader {
 	constructor() {
-		super(IF_BLOCK_IF_WIDTH, 'if');
+		super(WHILE_BLOCK_WHILE_WIDTH, 'while');
 	}
 }
 
-export default IfBlock;
+export default WhileBlock;

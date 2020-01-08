@@ -3,6 +3,7 @@
 import * as React from 'react';
 import ForBlock from '../blocks/ForBlock.js';
 import IfBlock from '../blocks/IfBlock.js';
+import WhileBlock from '../blocks/WhileBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
@@ -199,6 +200,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		const blocks: Array<CasusBlock> = [];
 		blocks.push(new ForBlock());
 		blocks.push(new IfBlock());
+		blocks.push(new WhileBlock());
 		return blocks;
 	}
 
