@@ -36,7 +36,7 @@ class ForBlock extends CasusBlock {
 		this.expressionBlock.precompBounds();
 		this.incrementBlock.precompBounds();
 
-		let width = RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH + 
+		let width = FOR_BLOCK_FOR_WIDTH + 
 			this.initializationBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.expressionBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.incrementBlock.boundingBox.w +
@@ -82,7 +82,7 @@ class ForBlock extends CasusBlock {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
 
-		let curX = x + RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH;
+		let curX = x + FOR_BLOCK_FOR_WIDTH;
 		let curY = y;
 
 		let vSpace = this.headerBoundingBox.h-this.initializationBlock.boundingBox.h;
@@ -154,7 +154,7 @@ class ForBlock extends CasusBlock {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 
-		let curX = this.boundingBox.x + RAMP_WIDTH;
+		let curX = this.boundingBox.x;
 		ctx.fillText(
 			'for', 
 			curX + FOR_BLOCK_FOR_WIDTH/2,
