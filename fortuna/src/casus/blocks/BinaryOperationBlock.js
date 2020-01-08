@@ -63,11 +63,11 @@ class BinaryOperationBlock extends CasusBlock {
 		return [this.lChild, this.rChild];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
 		if (!this.boundingBox.contains(v)) {
 			return [];
 		}
-		const lChildRes = this.lChild.removeBlockAt(v);
+		const lChildRes = this.lChild.removeBlockAt(v, removeAfter);
 		if (lChildRes.length > 0) {
 			return lChildRes;
 		}
@@ -77,7 +77,7 @@ class BinaryOperationBlock extends CasusBlock {
 			return toReturn;
 		}
 
-		const rChildRes = this.rChild.removeBlockAt(v);
+		const rChildRes = this.rChild.removeBlockAt(v, removeAfter);
 		if (rChildRes.length > 0) {
 			return rChildRes;
 		}

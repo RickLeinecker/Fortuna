@@ -111,8 +111,8 @@ class IfElseBlock extends CasusBlock {
 		return [this.conditionBlock, this.ifContents, this.elseContents];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
-		const conditionRes = this.conditionBlock.removeBlockAt(v);
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter);
 		if (conditionRes.length > 0) {
 			return conditionRes;
 		}
@@ -122,11 +122,11 @@ class IfElseBlock extends CasusBlock {
 			return toReturn;
 		}
 
-		const ifContentsRes = this.ifContents.removeBlockAt(v);
+		const ifContentsRes = this.ifContents.removeBlockAt(v, removeAfter);
 		if (ifContentsRes.length > 0) {
 			return ifContentsRes;
 		}
-		return this.elseContents.removeBlockAt(v);
+		return this.elseContents.removeBlockAt(v, removeAfter);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {

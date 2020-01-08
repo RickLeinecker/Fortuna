@@ -86,8 +86,8 @@ class SingleConditionHeader extends CasusBlock {
 		return [this.conditionBlock, this.contents];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
-		const conditionRes = this.conditionBlock.removeBlockAt(v);
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter);
 		if (conditionRes.length > 0) {
 			return conditionRes;
 		}
@@ -97,7 +97,7 @@ class SingleConditionHeader extends CasusBlock {
 			return toReturn;
 		}
 
-		return this.contents.removeBlockAt(v);
+		return this.contents.removeBlockAt(v, removeAfter);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
