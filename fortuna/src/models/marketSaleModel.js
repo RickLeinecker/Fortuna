@@ -4,7 +4,7 @@
 // Required Imports
 import Mongoose from 'mongoose';
 
-const MarketSale = new Mongoose.Model('MarketplaceSale', new Mongoose.Schema({
+const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     // _id field made on creation
 
     // SellerID required on creation. String representation of seller's ObjectID.

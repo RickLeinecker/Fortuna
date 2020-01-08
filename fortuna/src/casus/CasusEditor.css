@@ -1,0 +1,10 @@
+.casusEditorContainerDiv {
+	background-color: #ffffaa;
+	justifyContent: center;
+}
+
+.casusEditorCanvas {
+	background-color: #ffffff;
+	height: 650px;
+	width: 100%;
+}

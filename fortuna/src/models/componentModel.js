@@ -4,7 +4,7 @@
 // Required Imports
 import Mongoose from 'mongoose';
 
-const Component = new Mongoose.Model('Component', new Mongoose.Schema({
+const Component = new Mongoose.model('Component', new Mongoose.Schema({
     // _id field made upon creation
     
     // Name of component required on creation

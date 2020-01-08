@@ -4,7 +4,7 @@
 // Required Imports
 import Mongoose from 'mongoose';
 
-const CasusBlock = new Mongoose.Model('CasusBlock', new Mongoose.Schema({
+const CasusBlock = new Mongoose.model('CasusBlock', new Mongoose.Schema({
     // _id field made on creation
 
     // Block name required on creation.
