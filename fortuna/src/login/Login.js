@@ -65,54 +65,16 @@ class Login extends React.Component<Props,State> {
 		return (
 			<div id="Parent">
 				<div className="row">
-					<h4 className="col-md-4">LeaderBoard</h4>
-					<h1 className="col-md-4 text-center">Fortuna</h1>
-					<h4 className="col-md-4 text-right">What is Fortuna?</h4>
-				</div>
-				<div className="row styleForRow">
-					<div className="container h-100">
-						<div className="row h-100 justify-content-center align-items-center">
-							<div className="card">
-								<h4 className="card-header">Login</h4>
-								<div className="card-body">
-									<form data-toggle="validator" role="form" method="post" action="#">
-										<div className="row">
-											<div className="col-md-12">
-												<div className="form-group">
-													<label>UserName</label>
-													<div className="input-group">
-														<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value })} />
-													</div>
-												</div>
-											</div>
-										</div>
-										<div className="row">
-											<div className="col-md-12">
-												<div className="form-group">
-													<label>Password</label>
-													<div className="input-group">
-														<input type="password" name="loginPassword" className="form-control"/>
-													</div>
-													<div className="help-block with-errors text-danger"></div>
-												</div>
-											</div>
-										</div>
-										<div className="row">
-											<div className="col-md-12">
-												<Link to="/MainMenu">
-													<button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.handleLoginClick}>Login</button>
-												</Link>
-											</div>
-										</div>
-									</form>
-									<div className="row styleForRow">
-										<div className="col text-center">
-											<button type="button" className="btn btn-secondary btn-sm">Signup</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div className="column left">
+						<h4>Leaderboard</h4>
+					</div>
+					<div className="column middle">
+						<h1>Fortuna</h1><h6>Welcome Commander</h6>
+						<button type="button" className="loginbtn">Login</button>
+						<button type="button" className="signupbtn">Signup</button>
+					</div>
+					<div className="column right">
+						<h4>What is Fortuna?</h4>
 					</div>
 				</div>
 			</div>

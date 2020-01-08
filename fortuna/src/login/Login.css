@@ -1,3 +1,42 @@
 .styleForRow {
     margin-top:20px;
 }
+
+body {
+    background-color: #2a2a2a;
+    color: #0000ff
+}
+
+/* Column Styling */
+.column {
+    float: left;
+    text-align: center;
+    font-family: "Lucida Console";
+}
+
+.left, .right {
+    width: 25%;
+}
+
+.middle {
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Button Styling */
+.loginbtn {
+    background-color: #696969;
+    color: #0000CD;
+    border: 2px solid #0000CD;
+}
+
+.signupbtn {
+    background-color: #696969;
+    color: #0000CD;
+    border: 2px solid #0000CD;
+}
