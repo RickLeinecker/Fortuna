@@ -9,8 +9,8 @@ class BattleArena extends React.Component<{||}> {
         <div id="Parent">
             <div className="row styleForRow">
                 <div className="col-md-4">
-                    <Link to="/Login">
-                        <button type="button" className="btn btn-secondary btn-lg">&lt;- Back to Login</button>
+                    <Link to="/MainMenu">
+                        <button type="button" className="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
                     </Link>
                 </div>
                 <h1 className="col-md-4 text-center">Battle Arena</h1>
