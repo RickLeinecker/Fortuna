@@ -36,7 +36,7 @@ class ForBlock extends CasusBlock {
 		this.expressionBlock.precompBounds();
 		this.incrementBlock.precompBounds();
 
-		let width = RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH + 
+		let width = FOR_BLOCK_FOR_WIDTH + 
 			this.initializationBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.expressionBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.incrementBlock.boundingBox.w +
@@ -82,7 +82,7 @@ class ForBlock extends CasusBlock {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
 
-		let curX = x + RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH;
+		let curX = x + FOR_BLOCK_FOR_WIDTH;
 		let curY = y;
 
 		let vSpace = this.headerBoundingBox.h-this.initializationBlock.boundingBox.h;
@@ -106,8 +106,8 @@ class ForBlock extends CasusBlock {
 		return [this.initializationBlock, this.expressionBlock, this.incrementBlock, this.contents];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
-		const initializationRes = this.initializationBlock.removeBlockAt(v);
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const initializationRes = this.initializationBlock.removeBlockAt(v, removeAfter);
 		if (initializationRes.length > 0) {
 			return initializationRes;
 		}
@@ -116,7 +116,7 @@ class ForBlock extends CasusBlock {
 			this.initializationBlock = new EmptyBlock('VOID');
 			return toReturn;
 		}
-		const expressionRes=this.expressionBlock.removeBlockAt(v);
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
 		if (expressionRes.length > 0) {
 			return expressionRes;
 		}
@@ -125,7 +125,7 @@ class ForBlock extends CasusBlock {
 			this.expressionBlock = new EmptyBlock('BOOLEAN');
 			return toReturn;
 		}
-		const incrementRes = this.incrementBlock.removeBlockAt(v);
+		const incrementRes = this.incrementBlock.removeBlockAt(v, removeAfter);
 		if (incrementRes.length > 0) {
 			return incrementRes;
 		}
@@ -135,7 +135,7 @@ class ForBlock extends CasusBlock {
 			return toReturn;
 		}
 
-		return this.contents.removeBlockAt(v);
+		return this.contents.removeBlockAt(v, removeAfter);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
@@ -154,7 +154,7 @@ class ForBlock extends CasusBlock {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 
-		let curX = this.boundingBox.x + RAMP_WIDTH;
+		let curX = this.boundingBox.x;
 		ctx.fillText(
 			'for', 
 			curX + FOR_BLOCK_FOR_WIDTH/2,
