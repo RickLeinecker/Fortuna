@@ -8,9 +8,18 @@ import IfElseBlock from '../blocks/IfElseBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
+
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
+import IntGreaterThanOrEqualBlock from '../blocks/IntGreaterThanOrEqualBlock.js';
 import IntLessThanBlock from '../blocks/IntLessThanBlock.js';
+import IntLessThanOrEqualBlock from '../blocks/IntLessThanOrEqualBlock.js';
+import DoubleEqualsBlock from '../blocks/DoubleEqualsBlock.js';
+import DoubleGreaterThanBlock from '../blocks/DoubleGreaterThanBlock.js';
+import DoubleGreaterThanOrEqualBlock from '../blocks/DoubleGreaterThanOrEqualBlock.js';
+import DoubleLessThanBlock from '../blocks/DoubleLessThanBlock.js';
+import DoubleLessThanOrEqualBlock from '../blocks/DoubleLessThanOrEqualBlock.js';
+
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
 import './BlockBankBlockShelf.css';
@@ -188,8 +197,14 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 		let x=10;
 		let y=10;
+		let nextY=y;
 		for (const block: CasusBlock of blocks) {
+			if (x>1600) {
+				x=10;
+				y=nextY+10;
+			}
 			block.precompBounds();
+			nextY=Math.max(nextY, y+block.boundingBox.h);
 			block.precompXY(x, y);
 			x += block.boundingBox.w + ADJACENT_BLOCK_PADDING;
 		}
@@ -210,7 +225,14 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		const blocks: Array<CasusBlock> = [];
 		blocks.push(new IntEqualsBlock());
 		blocks.push(new IntGreaterThanBlock());
+		blocks.push(new IntGreaterThanOrEqualBlock());
 		blocks.push(new IntLessThanBlock());
+		blocks.push(new IntLessThanOrEqualBlock());
+		blocks.push(new DoubleEqualsBlock());
+		blocks.push(new DoubleGreaterThanBlock());
+		blocks.push(new DoubleGreaterThanOrEqualBlock());
+		blocks.push(new DoubleLessThanBlock());
+		blocks.push(new DoubleLessThanOrEqualBlock());
 		return blocks;
 	}
 
