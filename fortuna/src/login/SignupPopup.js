@@ -25,8 +25,8 @@ type SignupResponse = {
 // END OF NOTE
 
 
-// Login Popup component.
-class LoginPopup extends React.Component<Props, State> {
+// Signup Popup component.
+class SignupPopup extends React.Component<Props, State> {
 
 	constructor(){
 		super();
@@ -68,11 +68,17 @@ class LoginPopup extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="loginbtn">Login</button>} modal>
-				<div className="loginpopup">
-					<h1>Login</h1>
+			<Popup trigger={<button type="button" className="signupbtn">Signup</button>} modal>
+				<div className="signuppopup">
+					<h1>Signup</h1>
 					<form data-toggle="validator" role="form" method="post" action="#">
-						<div className="row col-md-12 form-group">
+                        <div className="row col-md-12 form-group">
+							<label>Email</label>
+							<div className="input-group">
+								<input type="text" className="form-control"/>
+							</div>
+						</div>
+                        <div className="row col-md-12 form-group">
 							<label>Username</label>
 							<div className="input-group">
 								<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
@@ -80,6 +86,12 @@ class LoginPopup extends React.Component<Props, State> {
 						</div>
 						<div className="row col-md-12 form-group">
 							<label>Password</label>
+							<div className="input-group">
+								<input type="password" name="loginPassword" className="form-control"/>
+							</div>
+						</div>
+						<div className="row col-md-12 form-group">
+                            <label>Confirm Password</label>
 							<div className="input-group">
 								<input type="password" name="loginPassword" className="form-control"/>
 							</div>
@@ -97,4 +109,4 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 }
 
-export default LoginPopup;
+export default SignupPopup;
