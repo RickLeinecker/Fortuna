@@ -22,9 +22,11 @@ class BinaryOperationBlock extends CasusBlock {
 	paramType: DataType;
 	returnType: DataType;
 	centerText: string;
-	textWidth: number;
+	centerTextWidth: number;
+	leftText: string;
+	leftTextWidth: number;
 
-	constructor(paramType: DataType, returnType: DataType, centerText: string) {
+	constructor(paramType: DataType, returnType: DataType, centerText: string, leftText: string = "") {
 		super();
 
 		this.lChild=new EmptyBlock(paramType);
@@ -32,7 +34,14 @@ class BinaryOperationBlock extends CasusBlock {
 		this.paramType=paramType;
 		this.returnType=returnType;
 		this.centerText=centerText;
-		this.textWidth=measureText(centerText).w + CENTER_WIDTH;
+		this.centerTextWidth=measureText(centerText).w + CENTER_WIDTH;
+		this.leftText=leftText;
+		if (this.leftText.length === 0) {
+			this.leftTextWidth = 0;
+		}
+		else {
+			this.leftTextWidth = measureText(leftText).w + CENTER_WIDTH;
+		}
 	}
 
 	precompBounds(): void {
@@ -42,7 +51,8 @@ class BinaryOperationBlock extends CasusBlock {
 		this.boundingBox=new BoundingBox(
 			0, 
 			0, 
-			RAMP_WIDTH + this.lChild.boundingBox.w + this.textWidth + this.rChild.boundingBox.w + RAMP_WIDTH, 
+			RAMP_WIDTH + this.leftTextWidth + 
+				this.lChild.boundingBox.w + this.centerTextWidth + this.rChild.boundingBox.w + RAMP_WIDTH, 
 			VPADDING+Math.max(this.lChild.boundingBox.h, this.rChild.boundingBox.h)+VPADDING
 		);	
 	}
@@ -50,8 +60,8 @@ class BinaryOperationBlock extends CasusBlock {
 	precompXY(x: number, y:number): void {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
-		const lChildX = x + RAMP_WIDTH;
-		const rChildX = lChildX + this.lChild.boundingBox.w + this.textWidth;
+		const lChildX = x + RAMP_WIDTH + this.leftTextWidth;
+		const rChildX = lChildX + this.lChild.boundingBox.w + this.centerTextWidth;
 
 		const lChildYSpace=this.boundingBox.h-this.lChild.boundingBox.h;
 		const rChildYSpace=this.boundingBox.h-this.rChild.boundingBox.h;
@@ -114,8 +124,13 @@ class BinaryOperationBlock extends CasusBlock {
 		ctx.textBaseline = 'middle';
 
 		ctx.fillText(
+			this.leftText, 
+			this.boundingBox.x + RAMP_WIDTH + this.leftTextWidth/2,
+			this.boundingBox.y + this.boundingBox.h/2
+		);
+		ctx.fillText(
 			this.centerText, 
-			this.boundingBox.x + RAMP_WIDTH + this.lChild.boundingBox.w + this.textWidth/2, 
+			this.boundingBox.x + RAMP_WIDTH + this.leftTextWidth + this.lChild.boundingBox.w + this.centerTextWidth/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
 	}

@@ -136,8 +136,6 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 
 		this._rerender();
-		console.log("Code tree: ");
-		console.log(this.state.containerBlock);
 	}
 
 	_rerender(): void {

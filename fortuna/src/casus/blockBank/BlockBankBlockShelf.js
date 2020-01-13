@@ -22,6 +22,8 @@ import IntDivideBlock from '../blocks/IntDivideBlock.js';
 import IntModuloBlock from '../blocks/IntModuloBlock.js';
 import IntToDoubleBlock from '../blocks/IntToDoubleBlock.js';
 import IntAbsBlock from '../blocks/IntAbsBlock.js';
+import IntMaxBlock from '../blocks/IntMaxBlock.js';
+import IntMinBlock from '../blocks/IntMinBlock.js';
 
 import DoubleEqualsBlock from '../blocks/DoubleEqualsBlock.js';
 import DoubleGreaterThanBlock from '../blocks/DoubleGreaterThanBlock.js';
@@ -35,6 +37,8 @@ import DoubleDivideBlock from '../blocks/DoubleDivideBlock.js';
 import DoubleRoundBlock from '../blocks/DoubleRoundBlock.js';
 import DoubleTruncateBlock from '../blocks/DoubleTruncateBlock.js';
 import DoubleAbsBlock from '../blocks/DoubleAbsBlock.js';
+import DoubleMaxBlock from '../blocks/DoubleMaxBlock.js';
+import DoubleMinBlock from '../blocks/DoubleMinBlock.js';
 
 import MathCosBlock from '../blocks/MathCosBlock.js';
 import MathSinBlock from '../blocks/MathSinBlock.js';
@@ -279,6 +283,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new IntModuloBlock());
 		blocks.push(new IntToDoubleBlock());
 		blocks.push(new IntAbsBlock());
+		blocks.push(new IntMaxBlock());
+		blocks.push(new IntMinBlock());
 		return blocks;
 	}
 
@@ -296,6 +302,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new DoubleRoundBlock());
 		blocks.push(new DoubleTruncateBlock());
 		blocks.push(new DoubleAbsBlock());
+		blocks.push(new DoubleMaxBlock());
+		blocks.push(new DoubleMinBlock());
 		return blocks;
 	}
 
