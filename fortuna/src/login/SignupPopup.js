@@ -1,7 +1,10 @@
+//@flow strict
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Login.css';
 import Popup from 'reactjs-popup';
+
 
 // Login component.
 const PORT = 3000;
@@ -21,7 +24,8 @@ type SignupResponse = {
 };
 // END OF NOTE
 
-// Informational Login Popup component.
+
+// Signup Popup component.
 class SignupPopup extends React.Component<Props, State> {
 
 	constructor(){
@@ -85,6 +89,8 @@ class SignupPopup extends React.Component<Props, State> {
 							<div className="input-group">
 								<input type="password" name="loginPassword" className="form-control"/>
 							</div>
+						</div>
+						<div className="row col-md-12 form-group">
                             <label>Confirm Password</label>
 							<div className="input-group">
 								<input type="password" name="loginPassword" className="form-control"/>

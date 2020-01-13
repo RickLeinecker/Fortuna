@@ -2,41 +2,89 @@
     margin-top:20px;
 }
 
-body {
-    background-color: #2a2a2a;
-    color: #0000ff
+body, html {
+    height: 100%;
+    color: white;
+    background-image: linear-gradient(to bottom, #000428, #004e92, #000428);
 }
+
+h1 {
+    padding: 5px 5px 5px 5px;
+}
+
 
 /* Column Styling */
 .column {
     float: left;
-    text-align: center;
     font-family: "Lucida Console";
 }
 
-.left, .right {
+.left {
     width: 25%;
+    margin-top: 275px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.right {
+    width: 25%;
+    margin-top: 375px;
+    text-align: center;
 }
 
 .middle {
     width: 50%;
+    text-align: center;
+    margin-top: 375px;
 }
 
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
 
 /* Button Styling */
 .loginbtn {
-    background-color: #696969;
-    color: #0000CD;
-    border: 2px solid #0000CD;
+    color: white;
+    background: none;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 25%;
+}
+
+.loginbtn:hover {
+    color: #39a9dd;
 }
 
 .signupbtn {
-    background-color: #696969;
-    color: #0000CD;
-    border: 2px solid #0000CD;
+    color: white;
+    border: none;
+    background: none;
+}
+
+.signupbtn:hover {
+    color: #39a9dd;
+}
+
+.infobtn {
+    color: white;
+    border: none;
+    background: none;
+}
+
+.infobtn:hover {
+    color: #39a9dd;
+}
+
+
+/* Popup Styling */
+.loginpopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
+}
+
+.signuppopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
+}
+
+.infopopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
 }

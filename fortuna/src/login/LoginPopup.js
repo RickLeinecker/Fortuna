@@ -1,7 +1,10 @@
+//@flow strict
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Login.css';
 import Popup from 'reactjs-popup';
+
 
 // Login component.
 const PORT = 3000;
@@ -21,7 +24,8 @@ type SignupResponse = {
 };
 // END OF NOTE
 
-// Informational Login Popup component.
+
+// Login Popup component.
 class LoginPopup extends React.Component<Props, State> {
 
 	constructor(){
