@@ -21,7 +21,9 @@ class MainMenu extends React.Component<{||}> {
 				</div>
  				<div className="row styleForRow">
 					<div className="col text-center">
-						<button type="button" className="btn btn-primary">Battle Arena</button>
+						<Link to="/BattleArena">
+							<button type="button" class="btn btn-primary">Battle Arena</button>
+						</Link>
 					</div>
 				</div>
 				<div className="row styleForRow">

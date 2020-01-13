@@ -58,8 +58,8 @@ class SetVariableBlock extends CasusBlock {
 		return [this.expressionBlock];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
-		const expressionRes=this.expressionBlock.removeBlockAt(v);
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
 		if (expressionRes.length > 0) {
 			return expressionRes;
 		}

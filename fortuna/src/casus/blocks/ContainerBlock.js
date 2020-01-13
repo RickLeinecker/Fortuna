@@ -44,34 +44,15 @@ class ContainerBlock extends CasusBlock {
 		return this.children;
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
 		for (let i=0; i<this.children.length; i++) {
 			const child: CasusBlock = this.children[i];
-			const childRes = child.removeBlockAt(v);
+			const childRes = child.removeBlockAt(v, removeAfter);
 			if (childRes.length > 0) {
 				return childRes;
 			}
 			if (child.boundingBox.contains(v) && child.draggable()) {
-				const toReturn=this.children.splice(i, 1);
-				if (this.children.length === 0) {
-					this.children.push(new EmptyBlock('VOID'));
-				}
-				return toReturn;
-			}
-		}
-
-		return [];
-	}
-
-	removeBlocksAtAndAfter(v: Vec): Array<CasusBlock> {
-		for (let i=0; i<this.children.length; i++) {
-			const child: CasusBlock = this.children[i];
-			const childRes = child.removeBlockAt(v);
-			if (childRes.length > 0) {
-				return childRes;
-			}
-			if (child.boundingBox.contains(v) && child.draggable()) {
-				const toReturn=this.children.splice(i);
+				const toReturn=removeAfter? this.children.splice(i) : this.children.splice(i, 1);
 				if (this.children.length === 0) {
 					this.children.push(new EmptyBlock('VOID'));
 				}
@@ -103,6 +84,13 @@ class ContainerBlock extends CasusBlock {
 		}
 		for (let i = 0; i<this.children.length; i++) {
 			this.children[i] = this.children[i].tryToPlace(v, blockToPlace, ctx) ?? this.children[i];
+		}
+		//If I only had one child that was an empty block and I just replaced him with another
+		//container block, then I should just comendeer the container block's children
+		for (let i = 0; i<this.children.length; i++) {
+			if (this.children[i] instanceof ContainerBlock) {
+				this.children.splice(i, 1, ...this.children[i].children);
+			}
 		}
 	}
 

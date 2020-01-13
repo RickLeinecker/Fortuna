@@ -8,6 +8,7 @@ import Login from './login/Login.js';
 import MainMenu from './mainmenu/MainMenu.js';
 import Marketplace from './marketplace/Marketplace.js';
 import CasusContainer from './casus/CasusContainer.js';
+import BattleArena from './BattleArena/BattleArena.js';
 
 // The routing const holds the paths to other react components.
 const routing = (
@@ -19,6 +20,7 @@ const routing = (
 				<Route path="/MainMenu" component={MainMenu} />
 				<Route path="/Marketplace" component={Marketplace} />
 				<Route path="/Casus" component={CasusContainer} />
+				<Route path="/BattleArena" component={BattleArena} />
 			</Switch>
 		</div>
 	</Router>

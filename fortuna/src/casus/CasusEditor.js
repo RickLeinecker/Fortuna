@@ -126,10 +126,10 @@ class CasusEditor extends React.Component<Props, State> {
 		
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
-			toSelect = this.state.containerBlock.removeBlocksAtAndAfter(eventPos);
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true);
 		}
 		else {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos);
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false);
 		}
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);

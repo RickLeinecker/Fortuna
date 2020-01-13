@@ -18,17 +18,13 @@ import type {DataType} from './DataType.js';
 //
 //	getChildBlocks() - returns all child blocks of this block
 //
-//	removeBlockAt(v) - removes and returns the deepest block that contains
+//	removeBlockAt(v, removeAfter) - removes and returns the deepest block that contains
 //		the defined position. If there is no block at the position, returns an empty array.
 //
 //	drawSelf(CanvasRenderingContext2D) - renders this block. All children of this
 //		block will then be rendered on top of this
 //
 //	getReturnType() - gets the return type of the block
-//
-//	(maybe):
-//	removeBlocksAtAndAfter(v) - same as removeBlockAt(pos), but also removes and returns
-//		all blocks following that block
 //
 //	(maybe):
 //	getPerim() - returns an array of the perimeter of this block
@@ -121,10 +117,6 @@ class CasusBlock {
 		return false;
 	}
 
-	removeBlocksAtAndAfter(v: Vec): Array<CasusBlock> {
-		return this.removeBlockAt(v);
-	}
-
 	draggable(): boolean {
 		return true;
 	}
@@ -142,7 +134,7 @@ class CasusBlock {
 		return [];
 	}
 
-	removeBlockAt(v: Vec): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
 		return [];
 	}
 
