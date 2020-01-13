@@ -7,6 +7,8 @@ import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
 import InfoPopup from './InfoPopup.js';
 
+
+// Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {
 	render(): React.Node {
 		return (
