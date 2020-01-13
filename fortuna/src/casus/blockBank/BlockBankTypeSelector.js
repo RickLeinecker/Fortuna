@@ -43,6 +43,16 @@ class BlockBankTypeSelector extends React.Component<Props> {
 				</button>
 				<button 
 					className="btn btn-secondary paddedButton" 
+					onClick={() => this.showSection('INTS')}>
+						Ints
+				</button>
+				<button 
+					className="btn btn-secondary paddedButton" 
+					onClick={() => this.showSection('DOUBLES')}>
+						Doubles
+				</button>
+				<button 
+					className="btn btn-secondary paddedButton" 
 					onClick={() => this.showSection('LOGIC')}>
 						Logic
 				</button>

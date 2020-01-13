@@ -8,17 +8,28 @@ import IfElseBlock from '../blocks/IfElseBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
+import XorBlock from '../blocks/XorBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
 import IntGreaterThanOrEqualBlock from '../blocks/IntGreaterThanOrEqualBlock.js';
 import IntLessThanBlock from '../blocks/IntLessThanBlock.js';
 import IntLessThanOrEqualBlock from '../blocks/IntLessThanOrEqualBlock.js';
+import IntAddBlock from '../blocks/IntAddBlock.js';
+import IntSubtractBlock from '../blocks/IntSubtractBlock.js';
+import IntMultiplyBlock from '../blocks/IntMultiplyBlock.js';
+import IntDivideBlock from '../blocks/IntDivideBlock.js';
+import IntModuloBlock from '../blocks/IntModuloBlock.js';
+
 import DoubleEqualsBlock from '../blocks/DoubleEqualsBlock.js';
 import DoubleGreaterThanBlock from '../blocks/DoubleGreaterThanBlock.js';
 import DoubleGreaterThanOrEqualBlock from '../blocks/DoubleGreaterThanOrEqualBlock.js';
 import DoubleLessThanBlock from '../blocks/DoubleLessThanBlock.js';
 import DoubleLessThanOrEqualBlock from '../blocks/DoubleLessThanOrEqualBlock.js';
+import DoubleAddBlock from '../blocks/DoubleAddBlock.js';
+import DoubleSubtractBlock from '../blocks/DoubleSubtractBlock.js';
+import DoubleMultiplyBlock from '../blocks/DoubleMultiplyBlock.js';
+import DoubleDivideBlock from '../blocks/DoubleDivideBlock.js';
 
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
@@ -181,6 +192,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 			case 'MATH':
 				blocks = this._getMathBlocks();
 				break;
+			case 'INTS':
+				blocks = this._getIntsBlocks();
+				break;
+			case 'DOUBLES':
+				blocks = this._getDoublesBlocks();
+				break;
 			case 'VARIABLES':
 				blocks = [];
 				break;
@@ -199,7 +216,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		let y=10;
 		let nextY=y;
 		for (const block: CasusBlock of blocks) {
-			if (x>1600) {
+			if (x>1000) {
 				x=10;
 				y=nextY+10;
 			}
@@ -223,16 +240,35 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_getMathBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
+		return blocks;
+	}
+
+	_getIntsBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
 		blocks.push(new IntEqualsBlock());
 		blocks.push(new IntGreaterThanBlock());
 		blocks.push(new IntGreaterThanOrEqualBlock());
 		blocks.push(new IntLessThanBlock());
 		blocks.push(new IntLessThanOrEqualBlock());
+		blocks.push(new IntAddBlock());
+		blocks.push(new IntSubtractBlock());
+		blocks.push(new IntMultiplyBlock());
+		blocks.push(new IntDivideBlock());
+		blocks.push(new IntModuloBlock());
+		return blocks;
+	}
+
+	_getDoublesBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
 		blocks.push(new DoubleEqualsBlock());
 		blocks.push(new DoubleGreaterThanBlock());
 		blocks.push(new DoubleGreaterThanOrEqualBlock());
 		blocks.push(new DoubleLessThanBlock());
 		blocks.push(new DoubleLessThanOrEqualBlock());
+		blocks.push(new DoubleAddBlock());
+		blocks.push(new DoubleSubtractBlock());
+		blocks.push(new DoubleMultiplyBlock());
+		blocks.push(new DoubleDivideBlock());
 		return blocks;
 	}
 
@@ -240,6 +276,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		const blocks: Array<CasusBlock> = [];
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
+		blocks.push(new XorBlock());
 		return blocks;
 	}
 
