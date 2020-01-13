@@ -4,13 +4,14 @@ import type {DataType} from './DataType.js';
 import Vec from './Vec.js';
 import BoundingBox from './BoundingBox.js';
 
-const CENTER_WIDTH = 50;
+const CENTER_WIDTH = 10;
 const RAMP_WIDTH = 12;
 const VPADDING = 3;
 const HIGHLIGHT_STROKE_WIDTH = 5;
 const BOARDER_STROKE_WIDTH = 1;
 
 const EMPTY_STATEMENT_HEIGHT = 23;
+const EMPTY_STATEMENT_WIDTH = 40;
 const SET_VARIABLE_SET_WIDTH = 35;
 const SET_VARIABLE_TO_WIDTH = 25;
 const FOR_BLOCK_FOR_WIDTH = 35;
@@ -104,6 +105,7 @@ export {
 	VPADDING, 
 	HIGHLIGHT_STROKE_WIDTH,
 	BOARDER_STROKE_WIDTH,
+	EMPTY_STATEMENT_WIDTH, 
 	EMPTY_STATEMENT_HEIGHT, 
 	SET_VARIABLE_SET_WIDTH, 
 	SET_VARIABLE_TO_WIDTH,

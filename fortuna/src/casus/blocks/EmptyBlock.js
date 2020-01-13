@@ -5,7 +5,7 @@ import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {
 	RAMP_WIDTH, 
-	CENTER_WIDTH, 
+	EMPTY_STATEMENT_WIDTH, 
 	EMPTY_STATEMENT_HEIGHT,
 } from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
@@ -25,7 +25,7 @@ class EmptyBlock extends CasusBlock {
 		this.boundingBox=new BoundingBox(
 			0, 
 			0,
-			RAMP_WIDTH + CENTER_WIDTH + RAMP_WIDTH, 
+			RAMP_WIDTH + EMPTY_STATEMENT_WIDTH + RAMP_WIDTH, 
 			EMPTY_STATEMENT_HEIGHT
 		);	
 	}

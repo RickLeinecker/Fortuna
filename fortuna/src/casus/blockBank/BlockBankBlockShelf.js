@@ -8,9 +8,47 @@ import IfElseBlock from '../blocks/IfElseBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
+import XorBlock from '../blocks/XorBlock.js';
+
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
+import IntGreaterThanOrEqualBlock from '../blocks/IntGreaterThanOrEqualBlock.js';
 import IntLessThanBlock from '../blocks/IntLessThanBlock.js';
+import IntLessThanOrEqualBlock from '../blocks/IntLessThanOrEqualBlock.js';
+import IntAddBlock from '../blocks/IntAddBlock.js';
+import IntSubtractBlock from '../blocks/IntSubtractBlock.js';
+import IntMultiplyBlock from '../blocks/IntMultiplyBlock.js';
+import IntDivideBlock from '../blocks/IntDivideBlock.js';
+import IntModuloBlock from '../blocks/IntModuloBlock.js';
+import IntToDoubleBlock from '../blocks/IntToDoubleBlock.js';
+import IntAbsBlock from '../blocks/IntAbsBlock.js';
+import IntMaxBlock from '../blocks/IntMaxBlock.js';
+import IntMinBlock from '../blocks/IntMinBlock.js';
+
+import DoubleEqualsBlock from '../blocks/DoubleEqualsBlock.js';
+import DoubleGreaterThanBlock from '../blocks/DoubleGreaterThanBlock.js';
+import DoubleGreaterThanOrEqualBlock from '../blocks/DoubleGreaterThanOrEqualBlock.js';
+import DoubleLessThanBlock from '../blocks/DoubleLessThanBlock.js';
+import DoubleLessThanOrEqualBlock from '../blocks/DoubleLessThanOrEqualBlock.js';
+import DoubleAddBlock from '../blocks/DoubleAddBlock.js';
+import DoubleSubtractBlock from '../blocks/DoubleSubtractBlock.js';
+import DoubleMultiplyBlock from '../blocks/DoubleMultiplyBlock.js';
+import DoubleDivideBlock from '../blocks/DoubleDivideBlock.js';
+import DoubleRoundBlock from '../blocks/DoubleRoundBlock.js';
+import DoubleTruncateBlock from '../blocks/DoubleTruncateBlock.js';
+import DoubleAbsBlock from '../blocks/DoubleAbsBlock.js';
+import DoubleMaxBlock from '../blocks/DoubleMaxBlock.js';
+import DoubleMinBlock from '../blocks/DoubleMinBlock.js';
+
+import MathCosBlock from '../blocks/MathCosBlock.js';
+import MathSinBlock from '../blocks/MathSinBlock.js';
+import MathTanBlock from '../blocks/MathTanBlock.js';
+import MathAcosBlock from '../blocks/MathAcosBlock.js';
+import MathAsinBlock from '../blocks/MathAsinBlock.js';
+import MathAtanBlock from '../blocks/MathAtanBlock.js';
+import MathSqrtBlock from '../blocks/MathSqrtBlock.js';
+import MathPowBlock from '../blocks/MathPowBlock.js';
+
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
 import './BlockBankBlockShelf.css';
@@ -172,6 +210,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 			case 'MATH':
 				blocks = this._getMathBlocks();
 				break;
+			case 'INTS':
+				blocks = this._getIntsBlocks();
+				break;
+			case 'DOUBLES':
+				blocks = this._getDoublesBlocks();
+				break;
 			case 'VARIABLES':
 				blocks = [];
 				break;
@@ -188,8 +232,14 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 		let x=10;
 		let y=10;
+		let nextY=y;
 		for (const block: CasusBlock of blocks) {
+			if (x>940) {
+				x=10;
+				y=nextY+10;
+			}
 			block.precompBounds();
+			nextY=Math.max(nextY, y+block.boundingBox.h);
 			block.precompXY(x, y);
 			x += block.boundingBox.w + ADJACENT_BLOCK_PADDING;
 		}
@@ -208,9 +258,52 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_getMathBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
+		blocks.push(new MathCosBlock());
+		blocks.push(new MathSinBlock());
+		blocks.push(new MathTanBlock());
+		blocks.push(new MathAcosBlock());
+		blocks.push(new MathAsinBlock());
+		blocks.push(new MathAtanBlock());
+		blocks.push(new MathSqrtBlock());
+		blocks.push(new MathPowBlock());
+		return blocks;
+	}
+
+	_getIntsBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
 		blocks.push(new IntEqualsBlock());
 		blocks.push(new IntGreaterThanBlock());
+		blocks.push(new IntGreaterThanOrEqualBlock());
 		blocks.push(new IntLessThanBlock());
+		blocks.push(new IntLessThanOrEqualBlock());
+		blocks.push(new IntAddBlock());
+		blocks.push(new IntSubtractBlock());
+		blocks.push(new IntMultiplyBlock());
+		blocks.push(new IntDivideBlock());
+		blocks.push(new IntModuloBlock());
+		blocks.push(new IntToDoubleBlock());
+		blocks.push(new IntAbsBlock());
+		blocks.push(new IntMaxBlock());
+		blocks.push(new IntMinBlock());
+		return blocks;
+	}
+
+	_getDoublesBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new DoubleEqualsBlock());
+		blocks.push(new DoubleGreaterThanBlock());
+		blocks.push(new DoubleGreaterThanOrEqualBlock());
+		blocks.push(new DoubleLessThanBlock());
+		blocks.push(new DoubleLessThanOrEqualBlock());
+		blocks.push(new DoubleAddBlock());
+		blocks.push(new DoubleSubtractBlock());
+		blocks.push(new DoubleMultiplyBlock());
+		blocks.push(new DoubleDivideBlock());
+		blocks.push(new DoubleRoundBlock());
+		blocks.push(new DoubleTruncateBlock());
+		blocks.push(new DoubleAbsBlock());
+		blocks.push(new DoubleMaxBlock());
+		blocks.push(new DoubleMinBlock());
 		return blocks;
 	}
 
@@ -218,6 +311,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		const blocks: Array<CasusBlock> = [];
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
+		blocks.push(new XorBlock());
 		return blocks;
 	}
 
