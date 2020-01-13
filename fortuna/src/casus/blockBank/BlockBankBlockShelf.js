@@ -20,6 +20,7 @@ import IntSubtractBlock from '../blocks/IntSubtractBlock.js';
 import IntMultiplyBlock from '../blocks/IntMultiplyBlock.js';
 import IntDivideBlock from '../blocks/IntDivideBlock.js';
 import IntModuloBlock from '../blocks/IntModuloBlock.js';
+import IntToDoubleBlock from '../blocks/IntToDoubleBlock.js';
 
 import DoubleEqualsBlock from '../blocks/DoubleEqualsBlock.js';
 import DoubleGreaterThanBlock from '../blocks/DoubleGreaterThanBlock.js';
@@ -30,6 +31,8 @@ import DoubleAddBlock from '../blocks/DoubleAddBlock.js';
 import DoubleSubtractBlock from '../blocks/DoubleSubtractBlock.js';
 import DoubleMultiplyBlock from '../blocks/DoubleMultiplyBlock.js';
 import DoubleDivideBlock from '../blocks/DoubleDivideBlock.js';
+import DoubleRoundBlock from '../blocks/DoubleRoundBlock.js';
+import DoubleTruncateBlock from '../blocks/DoubleTruncateBlock.js';
 
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
@@ -216,7 +219,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		let y=10;
 		let nextY=y;
 		for (const block: CasusBlock of blocks) {
-			if (x>1000) {
+			if (x>940) {
 				x=10;
 				y=nextY+10;
 			}
@@ -255,6 +258,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new IntMultiplyBlock());
 		blocks.push(new IntDivideBlock());
 		blocks.push(new IntModuloBlock());
+		blocks.push(new IntToDoubleBlock());
 		return blocks;
 	}
 
@@ -269,6 +273,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new DoubleSubtractBlock());
 		blocks.push(new DoubleMultiplyBlock());
 		blocks.push(new DoubleDivideBlock());
+		blocks.push(new DoubleRoundBlock());
+		blocks.push(new DoubleTruncateBlock());
 		return blocks;
 	}
 

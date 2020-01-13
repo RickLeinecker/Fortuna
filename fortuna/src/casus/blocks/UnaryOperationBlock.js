@@ -4,8 +4,8 @@ import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js'
+import measureText from './measureText.js';
 import generateCornerPerim from './generateCornerPerim.js'
-import measureText from './measureText.js'
 
 import {
 	CENTER_WIDTH, 
@@ -15,9 +15,8 @@ import {
 
 import type {DataType} from './DataType.js'
 
-class BinaryOperationBlock extends CasusBlock {
+class UnaryOperationBlock extends CasusBlock {
 
-	lChild: CasusBlock;
 	rChild: CasusBlock;
 	paramType: DataType;
 	returnType: DataType;
@@ -27,7 +26,6 @@ class BinaryOperationBlock extends CasusBlock {
 	constructor(paramType: DataType, returnType: DataType, centerText: string) {
 		super();
 
-		this.lChild=new EmptyBlock(paramType);
 		this.rChild=new EmptyBlock(paramType);
 		this.paramType=paramType;
 		this.returnType=returnType;
@@ -36,48 +34,29 @@ class BinaryOperationBlock extends CasusBlock {
 	}
 
 	precompBounds(): void {
-		this.lChild.precompBounds();
 		this.rChild.precompBounds();
 
 		this.boundingBox=new BoundingBox(
 			0, 
 			0, 
-			RAMP_WIDTH + this.lChild.boundingBox.w + this.textWidth + this.rChild.boundingBox.w + RAMP_WIDTH, 
-			VPADDING+Math.max(this.lChild.boundingBox.h, this.rChild.boundingBox.h)+VPADDING
+			RAMP_WIDTH + this.textWidth + this.rChild.boundingBox.w + RAMP_WIDTH, 
+			VPADDING + this.rChild.boundingBox.h + VPADDING
 		);	
 	}
 
 	precompXY(x: number, y:number): void {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
-		const lChildX = x + RAMP_WIDTH;
-		const rChildX = lChildX + this.lChild.boundingBox.w + this.textWidth;
-
-		const lChildYSpace=this.boundingBox.h-this.lChild.boundingBox.h;
-		const rChildYSpace=this.boundingBox.h-this.rChild.boundingBox.h;
-		const lChildY=y+lChildYSpace/2;
-		const rChildY=y+rChildYSpace/2;
-
-		this.lChild.precompXY(lChildX, lChildY);
-		this.rChild.precompXY(rChildX, rChildY);
+		this.rChild.precompXY(x + RAMP_WIDTH + this.textWidth, y + VPADDING);
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
-		return [this.lChild, this.rChild];
+		return [this.rChild];
 	}
 
 	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
 		if (!this.boundingBox.contains(v)) {
 			return [];
-		}
-		const lChildRes = this.lChild.removeBlockAt(v, removeAfter);
-		if (lChildRes.length > 0) {
-			return lChildRes;
-		}
-		if (this.lChild.boundingBox.contains(v) && this.lChild.draggable()) {
-			const toReturn=[this.lChild];
-			this.lChild=new EmptyBlock(this.paramType);
-			return toReturn;
 		}
 
 		const rChildRes = this.rChild.removeBlockAt(v, removeAfter);
@@ -115,7 +94,7 @@ class BinaryOperationBlock extends CasusBlock {
 
 		ctx.fillText(
 			this.centerText, 
-			this.boundingBox.x + RAMP_WIDTH + this.lChild.boundingBox.w + this.textWidth/2, 
+			this.boundingBox.x + RAMP_WIDTH + this.textWidth/2, 
 			this.boundingBox.y + this.boundingBox.h/2
 		);
 	}
@@ -128,11 +107,10 @@ class BinaryOperationBlock extends CasusBlock {
 		if (!this.boundingBox.contains(v)) {
 			return null;
 		}
-		this.lChild = this.lChild.tryToPlace(v, blockToPlace, ctx) ?? this.lChild;
 		this.rChild = this.rChild.tryToPlace(v, blockToPlace, ctx) ?? this.rChild;
 		return null;
 	}
 
 }
 
-export default BinaryOperationBlock;
+export default UnaryOperationBlock;
