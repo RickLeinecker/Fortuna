@@ -24,7 +24,7 @@ const User = require('../../../models/userModel');
 // res: json || error code
 router.get('/', auth, async (req: $Request, res: $Response) => {
     try{
-        const user = await User.findById(req.user.id).select('-password');
+        const user = await User.findById(req.userId).select('-password');
         res.json(user);
     } catch(err) {
         console.error(err.message);
@@ -93,8 +93,6 @@ router.post('/', [
         console.error(err.message);
         res.status(500).json({ msg:'Server error'});
     }
-    
-    
     
 });
 module.exports = router;
