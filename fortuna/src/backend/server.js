@@ -1,6 +1,5 @@
 //@flow strict
-// Main file for the Node and Express server that will
-// handle all the API routes
+// Main file for the Node and Express server 
 
 // Required Packages/Imports
 const express = require('express');
@@ -11,9 +10,9 @@ const cors = require('cors');
 //const PORT = process.env.PORT || 3001;
 const PORT = 3001;
 
-const auth = require('./routes/api/auth');
-const userRoutes = require('./routes/api/userRoutes');
-const tankRoutes = require('./routes/api/tankRoutes');
+const auth = require('./routes/auth');
+const userRoutes = require('./routes/userRoutes');
+const tankRoutes = require('./routes/tankRoutes');
 
 // Server Instance
 const app = express();
@@ -26,7 +25,7 @@ app.use(express.json());
 // app.use(cors());
 
 // Use the api routes as middleware
-// First param is the url?uri  directory second is the api route object
+// First param is the url directory second is the api route object
 app.use('/auth', auth);
 app.use('/tank', tankRoutes);
 app.use('/user', userRoutes);
