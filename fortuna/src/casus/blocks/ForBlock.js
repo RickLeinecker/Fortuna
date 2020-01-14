@@ -3,7 +3,10 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
+import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
+
+import type {DataType} from './DataType.js';
 
 import {
 	FOR_BLOCK_FOR_WIDTH,
@@ -17,7 +20,7 @@ class ForBlock extends CasusBlock {
 	initializationBlock: CasusBlock;
 	expressionBlock: CasusBlock;
 	incrementBlock: CasusBlock;
-	contents: Array<CasusBlock>;
+	contents: ContainerBlock;
 	headerBoundingBox: BoundingBox;
 
 	constructor() {
@@ -25,7 +28,7 @@ class ForBlock extends CasusBlock {
 		this.initializationBlock = new EmptyBlock('VOID');
 		this.expressionBlock = new EmptyBlock('BOOLEAN');
 		this.incrementBlock = new EmptyBlock('VOID');
-		this.contents=[new EmptyBlock('VOID')];
+		this.contents=new ContainerBlock();
 	}
 
 	precompBounds(): void {
@@ -33,7 +36,7 @@ class ForBlock extends CasusBlock {
 		this.expressionBlock.precompBounds();
 		this.incrementBlock.precompBounds();
 
-		const width = RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH + 
+		let width = FOR_BLOCK_FOR_WIDTH + 
 			this.initializationBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.expressionBlock.boundingBox.w + FOR_BLOCK_SEMICOLON_WIDTH +
 			this.incrementBlock.boundingBox.w +
@@ -44,12 +47,13 @@ class ForBlock extends CasusBlock {
 				this.incrementBlock.boundingBox.h))
 			+ VPADDING;
 
+
+		this.contents.precompBounds();
+		width = Math.max(width, this.contents.boundingBox.w + RAMP_WIDTH);
 		this.headerBoundingBox = new BoundingBox(0, 0, width, height);	
 
-		for (const statement: CasusBlock of this.contents) {
-			statement.precompBounds();
-			height += statement.boundingBox.h;
-		}
+		height+=this.contents.boundingBox.h;
+
 		height+=RAMP_WIDTH;
 
 		this.boundingBox = new BoundingBox(0, 0, width, height);
@@ -78,7 +82,7 @@ class ForBlock extends CasusBlock {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
 
-		let curX = x + RAMP_WIDTH + FOR_BLOCK_FOR_WIDTH;
+		let curX = x + FOR_BLOCK_FOR_WIDTH;
 		let curY = y;
 
 		let vSpace = this.headerBoundingBox.h-this.initializationBlock.boundingBox.h;
@@ -94,14 +98,44 @@ class ForBlock extends CasusBlock {
 
 		curX = x + RAMP_WIDTH;
 		curY = y + this.headerBoundingBox.h;
-		for (const statement: CasusBlock of this.contents) {
-			statement.precompXY(curX, curY);
-			curY+=statement.boundingBox.h;
-		}
+		this.contents.precompXY(curX, curY);
+		curY+=this.contents.boundingBox.h;
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
-		return [this.initializationBlock, this.expressionBlock, this.incrementBlock].concat(this.contents);
+		return [this.initializationBlock, this.expressionBlock, this.incrementBlock, this.contents];
+	}
+
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const initializationRes = this.initializationBlock.removeBlockAt(v, removeAfter);
+		if (initializationRes.length > 0) {
+			return initializationRes;
+		}
+		if (this.initializationBlock.boundingBox.contains(v) && this.initializationBlock.draggable()) {
+			const toReturn = [this.initializationBlock];
+			this.initializationBlock = new EmptyBlock('VOID');
+			return toReturn;
+		}
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
+		if (expressionRes.length > 0) {
+			return expressionRes;
+		}
+		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
+			const toReturn = [this.expressionBlock];
+			this.expressionBlock = new EmptyBlock('BOOLEAN');
+			return toReturn;
+		}
+		const incrementRes = this.incrementBlock.removeBlockAt(v, removeAfter);
+		if (incrementRes.length > 0) {
+			return incrementRes;
+		}
+		if (this.incrementBlock.boundingBox.contains(v) && this.incrementBlock.draggable()) {
+			const toReturn = [this.incrementBlock];
+			this.incrementBlock = new EmptyBlock('VOID');
+			return toReturn;
+		}
+
+		return this.contents.removeBlockAt(v, removeAfter);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
@@ -115,27 +149,12 @@ class ForBlock extends CasusBlock {
 		}
 		ctx.fill();
 
-		/*
-		ctx.fillRect(
-			this.headerBoundingBox.x, 
-			this.headerBoundingBox.y, 
-			this.headerBoundingBox.w, 
-			this.headerBoundingBox.h
-		);
-		ctx.fillRect(this.boundingBox.x, this.boundingBox.y, RAMP_WIDTH, this.boundingBox.h);
-		ctx.fillRect(
-			this.boundingBox.x,
-			this.boundingBox.y + this.boundingBox.h - RAMP_WIDTH,
-			this.boundingBox.w,
-			RAMP_WIDTH
-		);*/
-
 		ctx.fillStyle = '#000000';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 
-		let curX = this.boundingBox.x + RAMP_WIDTH;
+		let curX = this.boundingBox.x;
 		ctx.fillText(
 			'for', 
 			curX + FOR_BLOCK_FOR_WIDTH/2,
@@ -154,6 +173,28 @@ class ForBlock extends CasusBlock {
 			this.boundingBox.y + this.headerBoundingBox.h/2
 		);
 	}
+
+	getReturnType(): DataType {
+		return 'VOID';
+	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		this.initializationBlock = this.initializationBlock.tryToPlace(v, blockToPlace, ctx) 
+			?? this.initializationBlock;
+		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx)
+			?? this.expressionBlock;
+		this.incrementBlock = this.incrementBlock.tryToPlace(v, blockToPlace, ctx)
+			?? this.incrementBlock;
+		const result = this.contents.tryToPlace(v, blockToPlace, ctx);
+		if (result != null) {
+			console.log('ERROR! placing block in for loop contents returned non-null meaning it got replaced!');
+		}
+		return null;
+	}
+
 
 }
 

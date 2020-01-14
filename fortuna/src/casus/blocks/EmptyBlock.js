@@ -5,7 +5,7 @@ import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {
 	RAMP_WIDTH, 
-	CENTER_WIDTH, 
+	EMPTY_STATEMENT_WIDTH, 
 	EMPTY_STATEMENT_HEIGHT,
 } from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
@@ -25,7 +25,7 @@ class EmptyBlock extends CasusBlock {
 		this.boundingBox=new BoundingBox(
 			0, 
 			0,
-			RAMP_WIDTH + CENTER_WIDTH + RAMP_WIDTH, 
+			RAMP_WIDTH + EMPTY_STATEMENT_WIDTH + RAMP_WIDTH, 
 			EMPTY_STATEMENT_HEIGHT
 		);	
 	}
@@ -36,6 +36,10 @@ class EmptyBlock extends CasusBlock {
 
 	getChildBlocks(): Array<CasusBlock> {
 		return [];
+	}
+
+	draggable(): boolean {
+		return false;
 	}
 
 	getPerim(): Array<Vec> {
@@ -52,6 +56,30 @@ class EmptyBlock extends CasusBlock {
 		}
 		ctx.fill();
 	}
+
+	getReturnType(): DataType {
+		return this.dataType;
+	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		if (!this.boundingBox.contains(v)) {
+			return null;
+		}
+		//if the return types don't match, you can't place it here
+		if (this.getReturnType() !== blockToPlace.getReturnType()) {
+			return null;
+		}
+		if (ctx == null) {
+			//then actually place the block
+			return blockToPlace;
+		}
+		else {
+			//just draw the highlights
+			this.highlighted=true;
+			return null;
+		}
+	}
+
 }
 
 export default EmptyBlock;

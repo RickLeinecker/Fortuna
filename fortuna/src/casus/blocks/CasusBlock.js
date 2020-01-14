@@ -2,7 +2,9 @@
 
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
-import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
+import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
+
+import type {DataType} from './DataType.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
@@ -16,9 +18,28 @@ import {HIGHLIGHT_STROKE_WIDTH} from './generateCornerPerim.js';
 //
 //	getChildBlocks() - returns all child blocks of this block
 //
+//	removeBlockAt(v, removeAfter) - removes and returns the deepest block that contains
+//		the defined position. If there is no block at the position, returns an empty array.
+//
 //	drawSelf(CanvasRenderingContext2D) - renders this block. All children of this
 //		block will then be rendered on top of this
 //
+//	getReturnType() - gets the return type of the block
+//
+//	(maybe):
+//	getPerim() - returns an array of the perimeter of this block
+//
+//	(maybe):
+//	tryToPlace(v, blockToPlace, ctx) - consider placing blockToPlace at
+//		when it is realeased at v. Ignore call if v outside of boundingBox.
+//		Return null if no change was made, or the block that replaces an empty
+//		block if a change is made.
+//		- If ctx is null, actually place it;
+//		-	If ctx is nonnull, just draw highlights of it. 
+//		- For everything other than EmptyBlock and ContainerBlock, this just needs to call
+//		a dfs and maintain the set variables for all forms of children.
+//
+
 class CasusBlock {
 	boundingBox: BoundingBox;
 	highlighted: boolean;
@@ -33,9 +54,28 @@ class CasusBlock {
 		for (const child of this.getChildBlocks()) {
 			child.renderDFS(ctx);
 		}
-
+		//draw outline
 		const perim=this.getPerim();
-		if (this.highlighted && perim.length !== 0) {
+		if (perim.length !== 0 && !this.highlighted) {
+			ctx.beginPath();
+			ctx.strokeStyle = '#444444';
+			ctx.lineWidth = BOARDER_STROKE_WIDTH;
+			ctx.moveTo(perim[0].x, perim[0].y);
+			for (const p: Vec of perim) {
+				ctx.lineTo(p.x, p.y);
+			}
+			ctx.closePath();
+			ctx.stroke();
+		}
+	}
+
+	highlightDFS(ctx: CanvasRenderingContext2D): void {
+		for (const child of this.getChildBlocks()) {
+			child.highlightDFS(ctx);
+		}
+		//draw highlights
+		const perim=this.getPerim();
+		if (perim.length !== 0 && this.highlighted) {
 			ctx.beginPath();
 			ctx.strokeStyle = '#eeeeee';
 			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
@@ -55,13 +95,30 @@ class CasusBlock {
 		}
 	}
 
-	getDeepestChildContainingPoint(v: Vec): CasusBlock {
+	getDeepestChildContainingPoint(v: Vec): ?CasusBlock {
 		for (const child of this.getChildBlocks()) {
 			if (child.boundingBox.contains(v)) {
 				return child.getDeepestChildContainingPoint(v);
 			}
 		}
-		return this;
+		return this.boundingBox.contains(v) ? this : null;
+	}
+
+	//returns true if we were able to place it in some container, false otherwise
+	tryToPlaceInContainer(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): boolean {
+		if (!this.boundingBox.contains(v)) {
+			return false;
+		}
+		for (const child of this.getChildBlocks()) {
+			if (child.tryToPlaceInContainer(v, blockToPlace, ctx)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	draggable(): boolean {
+		return true;
 	}
 
 	// ----------------------- Methods to overload --------------------------
@@ -77,6 +134,10 @@ class CasusBlock {
 		return [];
 	}
 
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		return [];
+	}
+
 	drawSelf(ctx: CanvasRenderingContext2D): void {
 	}
 
@@ -89,6 +150,13 @@ class CasusBlock {
 		];
 	}
 
+	getReturnType(): DataType {
+		return 'VOID';
+	}
+
+	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		return null;
+	}
 
 }
 

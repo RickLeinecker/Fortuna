@@ -1,35 +1,100 @@
+//@flow strict
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Login.css';
 import Popup from 'reactjs-popup';
 
-// Informational Login Popup component.
-class LoginPopup extends React.Component<{||}> {
-  render(): React.Node {
-    return (
-      <Popup trigger={<button className="button">What is Fortuna?</button>} modal>
-        {close => (
-	  <div className="modal">
-            <div className="header">What is Fortuna?</div>
-	    <div className="content">
-	      Fortuna is a tank simulation game available online for free.
-	      Players can build and customize their tanks and instead of manually
-  	      controlling their tank, they will build an AI to controll it.
-	      <br />
-      	      Fortuna is meant to teach players simple AI and simple programming.
-	      <br />
-	      Creators: Adam Blair, Emil Dolorfino, Jorge Vidal, Baylor Maloney, David Harmeyer
-	      Sponsor: Richard Leinecker
-            </div>
-            <div className="actions">
-              <button className="button" onClick={() => {close();}}>
-	      Close
-	      </button>
-            </div>
-          </div>
-        )}
-      </Popup>
-    );
-  }
+
+// Login component.
+const PORT = 3000;
+type Props = {||}; 
+type State = {|
+	response: string,
+	userName: string,
+	password: string,
+	responseToPost: string,
+|};
+
+//DO NOT USE THIS AS PART OF A BIGGER OBJECT.
+//ONCE SIGNUP API IS DONE PUT || AT THE END
+type SignupResponse = {
+	express: string,
+	message: string
+};
+// END OF NOTE
+
+
+// Login Popup component.
+class LoginPopup extends React.Component<Props, State> {
+
+	constructor(){
+		super();
+		this.state={
+			response: '',
+			userName: '',
+			password: '',
+			responseToPost: ''
+		}
+	}
+
+	componentDidMount():void {
+		this.callApi()
+		.then(res => this.setState({ response: res.express }))
+		.catch(err => console.log(err));
+	};
+	
+	callApi = async ():Promise<SignupResponse> => {
+		const response:Response = await fetch('http://localhost:'+PORT+'/signup');
+		const body:SignupResponse  = await response.json();
+		if (response.status !== 200) throw Error(body.message);
+		
+		return body;
+	};
+
+	handleLoginClick = async ():Promise<void> => {
+		const response = await fetch('http://localhost:'+PORT+'/signup', {
+			method: 'POST',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
+		});
+		const body = await response.text();
+		console.log(body);
+	};
+
+	render(): React.Node {
+		return (
+			<Popup trigger={<button type="button" className="loginbtn">Login</button>} modal>
+				<div className="loginpopup">
+					<h1>Login</h1>
+					<form data-toggle="validator" role="form" method="post" action="#">
+						<div className="row col-md-12 form-group">
+							<label>Username</label>
+							<div className="input-group">
+								<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+							</div>
+						</div>
+						<div className="row col-md-12 form-group">
+							<label>Password</label>
+							<div className="input-group">
+								<input type="password" name="loginPassword" className="form-control"/>
+							</div>
+							<div className="help-block with-errors text-danger"></div>
+						</div>
+						<div className="row col-md-12">
+							<Link to="/MainMenu">
+								<button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.handleLoginClick}>Login</button>
+							</Link>
+						</div>
+					</form>
+				</div>
+			</Popup>
+		);
+	}
 }
 
 export default LoginPopup;

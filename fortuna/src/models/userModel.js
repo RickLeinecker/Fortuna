@@ -34,6 +34,53 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     favoriteTankId: {
         type: String
     },
+    // Casus inventory
+    casusInventory: {
+        andBlocks: {
+            type: Number,
+            default: 0
+        },
+        forBlocks: {
+            type: Number,
+            default: 0
+        },
+        ifBlocks: {
+            type: Number,
+            default: 0
+        },
+        ifElseBlocks: {
+            type: Number,
+            default: 0
+        },
+        intEqualsBlocks: {
+            type: Number,
+            default: 0
+        },
+        intGreaterThanBlocks: {
+            type: Number,
+            default: 0
+        },
+        intLessThanBlocks: {
+            type: Number,
+            default: 0
+        },
+        orBlocks: {
+            type: Number,
+            default: 0
+        },
+        setVariableBlocks: {
+            type: Number,
+            default: 0
+        },
+        variableBlocks: {
+            type: Number,
+            default: 0
+        },
+        whileBlocks: {
+            type: Number,
+            default: 0
+        }                                                        
+    },
     // Created users start with clean slate of stats. Defaults can be changed as needed
     stats: {
         wins: {

@@ -2,8 +2,6 @@
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
 
-import type DataType from './DataType.js'
-
 class AndBlock extends BinaryOperationBlock {
 
 	constructor() {
