@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
+import '../Main.css';
 import Popup from 'reactjs-popup';
 
 
@@ -68,8 +68,8 @@ class SignupPopup extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="signupbtn">Signup</button>} modal>
-				<div className="signuppopup">
+			<Popup trigger={<button type="button" className="clearbtn">Signup</button>} modal>
+				<div className="popup">
 					<h1>Signup</h1>
 					<form data-toggle="validator" role="form" method="post" action="#">
                         <div className="row col-md-12 form-group">
@@ -99,7 +99,7 @@ class SignupPopup extends React.Component<Props, State> {
 						</div>
 						<div className="row col-md-12">
 							<Link to="/MainMenu">
-								<button type="button" className="btn btn-primary btn-lg btn-block" onClick={this.handleLoginClick}>Login</button>
+								<button type="button" className="popupbtn" onClick={this.handleLoginClick}>Signup</button>
 							</Link>
 						</div>
 					</form>

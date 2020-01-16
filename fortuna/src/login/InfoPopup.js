@@ -1,7 +1,7 @@
 //@flow strict
 import * as React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Login.css';
+import '../Main.css';
 import Popup from 'reactjs-popup';
 
 
@@ -9,8 +9,8 @@ import Popup from 'reactjs-popup';
 class InfoPopup extends React.Component<{||}> {
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="infobtn"><h5>&#60; Click Here &#62;</h5></button>} modal>
-				<div className="infopopup">
+			<Popup trigger={<button type="button" className="clearbtn"><h5>&#60; Click Here &#62;</h5></button>} modal>
+				<div className="popup">
 					<p>
 						Fortuna is a tank simulation game available online for free.
 						Players can build and customize their tanks and instead of manually
