@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Main.css';
 import ChassisView from './ChassisView.js';
 import CannonsViews from './CannonsView.js';
 import CasusBlocksView from './CasusBlocksView.js';
@@ -70,16 +71,14 @@ class Marketplace extends React.Component<Props, State> {
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">
-						<a href="#" className="list-group-item list-group-item-action disabled">
-							Category
-						</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CwHASSIS')}>Chassis</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CANNONS')}>Cannons</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('SCANNERS')}>Scanners</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('JAMMERS')}>Jammers</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('TREADS')}>Treads</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('ACCESSORIES')}>Accessories</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CASUS_BLOCKS')}>Casus Blocks</a>
+						<a className="list-group-item list-group-item-action disabled">Category</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CANNONS')}>Cannons</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('SCANNERS')}>Scanners</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CHASSIS')}>Chassis</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('JAMMERS')}>Jammers</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('TREADS')}>Treads</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('ACCESSORIES')}>Accessories</a>
+						<a className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CASUS_BLOCKS')}>Casus Blocks</a>
 					  </div>
 		  			</div>
 		  			<div className="col-md-4">

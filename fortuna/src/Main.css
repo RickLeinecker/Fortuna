@@ -1,0 +1,106 @@
+.styleForRow {
+    margin-top:20px;
+}
+
+body, html {
+    height: 100%;
+    color: #04CCFF;
+    background: #000921;
+}
+
+h1 {
+    padding: 5px 5px 5px 5px;
+}
+
+
+/* Column Styling */
+.column {
+    float: left;
+    font-family: "Lucida Console";
+}
+
+.left {
+    width: 25%;
+    margin-top: 275px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.right {
+    width: 25%;
+    margin-top: 375px;
+    text-align: center;
+}
+
+.middle {
+    width: 50%;
+    text-align: center;
+    margin-top: 350px;
+}
+
+
+/* Button Styling */
+.loginbtn {
+    color: #000921;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: 25%;
+}
+
+.loginbtn:hover {
+	color: #04CCFF;
+	background: #000921;
+	border: 2px solid #04CCFF;
+}
+
+.signupbtn {
+    color: #04CCFF;
+    border: none;
+    background: none;
+}
+
+.signupbtn:hover {
+    color: #39a9dd;
+}
+
+.infobtn {
+    color: #04CCFF;
+    border: none;
+    background: none;
+}
+
+.infobtn:hover {
+    color: #39a9dd;
+}
+
+
+/* Popup Styling */
+.loginpopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
+}
+
+.signuppopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
+}
+
+.infopopup {
+    padding: 5px 50px 20px 50px;
+    background: #004e92;
+}
+
+/* Leaderboard */
+.leaderboard {
+	padding-left: 10px;
+	margin-right: 200px;
+	background-color: #04213F;
+	border: 5px solid black;
+	border-radius: 8px;
+}
+
+.list-group-item list-group-item-action{
+    color:"black";
+    font:12px;
+}
