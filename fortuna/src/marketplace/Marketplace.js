@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import type {TankPartsTypes} from './TankPartsTypes.js';
 import ChassisView from './ChassisView.js';
 import CannonsViews from './CannonsView.js';
 import CasusBlocksView from './CasusBlocksView.js';
@@ -15,7 +14,7 @@ import ScannersView from './ScannersView.js';
 
 type Props = {||}; 
 type State = {|
-	marketplaceView: any,
+	marketplaceView: React.Element<any>,
 |};
 
 
@@ -52,7 +51,7 @@ class Marketplace extends React.Component<Props, State> {
 			this.setState({marketplaceView:<CasusBlocksView></CasusBlocksView>});
 			break;
 		  default:
-			return <h2>Select a type on the left</h2>;
+			return this.setState({marketplaceView:<h2>Select a type on the left</h2>});
 		}
 	  }
 
@@ -74,7 +73,7 @@ class Marketplace extends React.Component<Props, State> {
 						<a href="#" className="list-group-item list-group-item-action disabled">
 							Category
 						</a>
-						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CHASSIS')}>Chassis</a>
+						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CwHASSIS')}>Chassis</a>
 						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('CANNONS')}>Cannons</a>
 						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('SCANNERS')}>Scanners</a>
 						<a href="#" className="list-group-item list-group-item-action" onClick={() => this.showMarketView('JAMMERS')}>Jammers</a>
