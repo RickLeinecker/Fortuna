@@ -11,16 +11,24 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
+
+
+type Props = {||}; 
+type State = {|
+	marketplaceView: any,
+|};
+
+
 // Marketplace component.
-class Marketplace extends React.Component<{||}> {
+class Marketplace extends React.Component<Props, State> {
 
 	constructor(){
 		super();
 		this.state={
-			marketplaceView: this.showMarketView()
+			marketplaceView: <h2>Select a type on the left</h2>
 		}
 	}
-	showMarketView(selectedTankPartType: String) {
+	showMarketView(selectedTankPartType: string) {
 		switch(selectedTankPartType) {
 		  case 'CHASSIS':
 			this.setState({marketplaceView:<ChassisView></ChassisView>});
