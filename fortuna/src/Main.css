@@ -23,7 +23,7 @@ h1 {
     width: 25%;
     margin-top: 275px;
     padding-left: 20px;
-    text-align: left;
+    text-align: justify;
 }
 
 .right {
@@ -40,61 +40,49 @@ h1 {
 
 
 /* Button Styling */
-.loginbtn {
+.btn {
     color: #000921;
     background: #04CCFF;
     border: 2px solid #04CCFF;
     border-radius: 8px;
-    width: 25%;
+    width: 175px;
 }
 
-.loginbtn:hover {
+.btn:hover {
 	color: #04CCFF;
 	background: #000921;
 	border: 2px solid #04CCFF;
 }
 
-.signupbtn {
+.clearbtn {
     color: #04CCFF;
     border: none;
     background: none;
 }
 
-.signupbtn:hover {
+.clearbtn:hover {
     color: #39a9dd;
 }
 
-.infobtn {
-    color: #04CCFF;
-    border: none;
-    background: none;
-}
-
-.infobtn:hover {
-    color: #39a9dd;
+.popupbtn {
+    color: #000921;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: 150%;
 }
 
 
 /* Popup Styling */
-.loginpopup {
+.popup {
     padding: 5px 50px 20px 50px;
-    background: #004e92;
-}
-
-.signuppopup {
-    padding: 5px 50px 20px 50px;
-    background: #004e92;
-}
-
-.infopopup {
-    padding: 5px 50px 20px 50px;
-    background: #004e92;
+    background: #04213F;
 }
 
 /* Leaderboard */
 .leaderboard {
 	padding-left: 10px;
-	margin-right: 200px;
+	margin-right: auto;
 	background-color: #04213F;
 	border: 5px solid black;
 	border-radius: 8px;
