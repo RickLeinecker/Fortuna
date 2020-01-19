@@ -9,6 +9,8 @@ import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
+import SetVariableBlock from '../blocks/SetVariableBlock.js';
+import GetVariableBlock from '../blocks/GetVariableBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
@@ -217,7 +219,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 				blocks = this._getDoublesBlocks();
 				break;
 			case 'VARIABLES':
-				blocks = [];
+				blocks = this._getVariablesBlocks();
 				break;
 			case 'LOGIC':
 				blocks = this._getLogicBlocks();
@@ -304,6 +306,17 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new DoubleAbsBlock());
 		blocks.push(new DoubleMaxBlock());
 		blocks.push(new DoubleMinBlock());
+		return blocks;
+	}
+
+	_getVariablesBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new SetVariableBlock('[int variable]', 'INT'));
+		blocks.push(new SetVariableBlock('[boolean variable]', 'BOOLEAN'));
+		blocks.push(new SetVariableBlock('[double variable]', 'DOUBLE'));
+		blocks.push(new GetVariableBlock('[int variable]', 'INT'));
+		blocks.push(new GetVariableBlock('[boolean variable]', 'BOOLEAN'));
+		blocks.push(new GetVariableBlock('[double variable]', 'DOUBLE'));
 		return blocks;
 	}
 
