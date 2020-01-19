@@ -10,6 +10,7 @@ import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import EmptyBlock from './blocks/EmptyBlock.js';
 import Vec from './blocks/Vec.js';
+import SelectVariablePopup from './userInteraction/SelectVariablePopup.js';
 import './CasusEditor.css';
 
 type Props = {|
@@ -86,6 +87,7 @@ class CasusEditor extends React.Component<Props, State> {
 					className="casusEditorCanvas"
 					ref="canvas" 
 				/>
+				<SelectVariablePopup />
 			</div>
 		);
 	}
