@@ -8,7 +8,6 @@ import generateCornerPerim from './generateCornerPerim.js';
 
 import {
 	RAMP_WIDTH, 
-	VPADDING,
 	EMPTY_STATEMENT_HEIGHT
 } from './generateCornerPerim.js';
 
