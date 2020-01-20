@@ -71,7 +71,7 @@ class SignupPopup extends React.Component<Props, State> {
 			<Popup trigger={<button type="button" className="clearbtn">Signup</button>} modal>
 				<div className="popup">
 					<h1>Signup</h1>
-					<form data-toggle="validator" role="form" method="post" action="#">
+					<form data-toggle="validator" method="post" action="#">
                         <div className="row col-md-12 form-group">
 							<label>Email</label>
 							<div className="input-group">
