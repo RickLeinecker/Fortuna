@@ -96,8 +96,19 @@ body, html {
     margin-left: 20px;
 }
 
+<<<<<<< HEAD
 .closebtn:hover {
     color: #04CCFF;
 	background: #04213F;
 	border: 2px solid #04CCFF;
 }
+=======
+/* Leaderboard */
+.leaderboard {
+	padding-left: 10px;
+	margin-right: auto;
+	background-color: #04213F;
+	border: 5px solid black;
+	border-radius: 8px;
+}
+>>>>>>> f38838e5f83995f1392f29f64cdc1e976b728759
