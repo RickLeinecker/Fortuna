@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
+import './Login.css';
 import Popup from 'reactjs-popup';
 
 
@@ -69,29 +70,32 @@ class LoginPopup extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
-				<div className="popup">
-					<h1>Login</h1>
-					<form data-toggle="validator" role="form" method="post" action="#">
-						<div className="row col-md-12 form-group">
-							<label>Username</label>
-							<div className="input-group">
-								<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+				{close => (
+					<div className="popup">
+						<h1>Login</h1>
+						<form data-toggle="validator" role="form" method="post" action="#">
+							<div className="row col-md-12 form-group">
+								<label>Username</label>
+								<div className="input-group">
+									<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+								</div>
 							</div>
-						</div>
-						<div className="row col-md-12 form-group">
-							<label>Password</label>
-							<div className="input-group">
-								<input type="password" name="loginPassword" className="form-control"/>
+							<div className="row col-md-12 form-group">
+								<label>Password</label>
+								<div className="input-group">
+									<input type="password" name="loginPassword" className="form-control"/>
+								</div>
+								<div className="help-block with-errors text-danger"></div>
 							</div>
-							<div className="help-block with-errors text-danger"></div>
-						</div>
-						<div className="row col-md-12">
-							<Link to="/MainMenu">
-								<button type="button" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
-							</Link>
-						</div>
-					</form>
-				</div>
+							<div className="row col-md-12">
+								<Link to="/MainMenu">
+									<button type="button" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
+								</Link>
+								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
+							</div>
+						</form>
+					</div>
+				)}
 			</Popup>
 		);
 	}
