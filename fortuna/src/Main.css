@@ -3,39 +3,43 @@
 }
 
 body, html {
-    height: 100%;
     color: #04CCFF;
     background: #000921;
 }
 
-h1 {
-    padding: 5px 5px 5px 5px;
+/* Navbar Styling */
+.topnav {
+    background-color: #3E5A6F;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 5px 10px 5px 10px;
 }
 
-
-/* Column Styling */
-.column {
+.navbtn {
+    background-color: #3E5A6F;
+    color: #04CCFF;
     float: left;
-    font-family: "Lucida Console";
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
 }
 
-.left {
-    width: 25%;
-    margin-top: 275px;
-    padding-left: 20px;
-    text-align: justify;
+.navbtn:hover {
+    background-color: #000921;
 }
 
-.right {
+.navleft {
     width: 25%;
-    margin-top: 375px;
+}
+
+.navmiddle {
     text-align: center;
-}
-
-.middle {
     width: 50%;
-    text-align: center;
-    margin-top: 350px;
+}
+
+.navright {
+    text-align: right;
+    width: 25%;
 }
 
 
@@ -64,26 +68,36 @@ h1 {
     color: #39a9dd;
 }
 
-.popupbtn {
-    color: #000921;
-    background: #04CCFF;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
-    width: 150%;
-}
-
 
 /* Popup Styling */
 .popup {
     padding: 5px 50px 20px 50px;
-    background: #04213F;
+    background-color: #04213F;
 }
 
-/* Leaderboard */
-.leaderboard {
-	padding-left: 10px;
-	margin-right: auto;
-	background-color: #04213F;
-	border: 5px solid black;
-	border-radius: 8px;
+.popupbtn {
+    color: #04213F;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+}
+
+.popupbtn:hover {
+    color: #04CCFF;
+	background: #04213F;
+	border: 2px solid #04CCFF;
+}
+
+.closebtn {
+    color: #04213F;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    margin-left: 20px;
+}
+
+.closebtn:hover {
+    color: #04CCFF;
+	background: #04213F;
+	border: 2px solid #04CCFF;
 }
