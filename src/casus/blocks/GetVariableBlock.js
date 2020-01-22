@@ -28,6 +28,8 @@ class GetVariableBlock extends CasusBlock {
 	}
 
 	precompBounds(): void {
+		this._variableNameBoundingBox = measureText(this.variableName);
+
 		const width = RAMP_WIDTH + this._variableNameBoundingBox.w + RAMP_WIDTH;
 		const height = EMPTY_STATEMENT_HEIGHT;
 

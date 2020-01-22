@@ -28,12 +28,13 @@ class SetVariableBlock extends CasusBlock {
 
 		this.variableName = variableName;
 		this.expressionBlock = new EmptyBlock(paramType);
-		this._variableNameBoundingBox = measureText(variableName);
 		this.paramType = paramType;
+		this._variableNameBoundingBox = measureText(variableName);
 	}
 
 	precompBounds(): void {
 		this.expressionBlock.precompBounds();
+		this._variableNameBoundingBox = measureText(this.variableName);
 
 		const width = RAMP_WIDTH + SET_VARIABLE_SET_WIDTH + this._variableNameBoundingBox.w + 
 			SET_VARIABLE_TO_WIDTH + this.expressionBlock.boundingBox.w + RAMP_WIDTH;

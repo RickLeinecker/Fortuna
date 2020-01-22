@@ -54,6 +54,11 @@ import MathPowBlock from '../blocks/MathPowBlock.js';
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
 import './BlockBankBlockShelf.css';
+import {
+	DEFAULT_INT_VARIABLE_NAME,
+	DEFAULT_DOUBLE_VARIABLE_NAME,
+	DEFAULT_BOOLEAN_VARIABLE_NAME
+} from '../userInteraction/defaultVariableNames.js';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -311,12 +316,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_getVariablesBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
-		blocks.push(new SetVariableBlock('[int variable]', 'INT'));
-		blocks.push(new SetVariableBlock('[boolean variable]', 'BOOLEAN'));
-		blocks.push(new SetVariableBlock('[double variable]', 'DOUBLE'));
-		blocks.push(new GetVariableBlock('[int variable]', 'INT'));
-		blocks.push(new GetVariableBlock('[boolean variable]', 'BOOLEAN'));
-		blocks.push(new GetVariableBlock('[double variable]', 'DOUBLE'));
+		blocks.push(new SetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
+		blocks.push(new SetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
+		blocks.push(new SetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
+		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
 		return blocks;
 	}
 
