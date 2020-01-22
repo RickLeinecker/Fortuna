@@ -13,12 +13,12 @@ require('dotenv').config();
 //const PORT = process.env.PORT || 3001;
 const PORT = 3001;
 
-const auth = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 
 // Server Instance
 const app = express();
+
 // As of express v4.16, npm body-parser is bundled with express again
 app.use(express.json());
 
@@ -29,7 +29,6 @@ app.use(express.json());
 
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
-app.use('/auth', auth);
 app.use('/tank', tankRoutes);
 app.use('/user', userRoutes);
 

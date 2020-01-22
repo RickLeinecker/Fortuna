@@ -8,6 +8,8 @@ const { validationResult } = require('express-validator');
 // User Model
 const User = require('../../models/userModel');
 
+// Throws an error if this isn't here because of async functions
+const regeneratorRuntime = require("regenerator-runtime");
 
 import type {
     $Request,
