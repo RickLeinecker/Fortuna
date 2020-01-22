@@ -32,7 +32,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
         }
     });
 }
-//asdfasdf
+
 exports.userTanks = async (req: $Request, res: $Response) => {
     await user.find({ userId: req.params.userId }, function(err, tanks){
         if(err){
