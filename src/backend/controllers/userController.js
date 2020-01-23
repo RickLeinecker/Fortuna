@@ -2,7 +2,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-// Contains jwtSecret
 
 
 // User Model
@@ -10,6 +9,9 @@ const User = require('../../models/userModel');
 
 // Throws an error if this isn't here because of async functions
 const regeneratorRuntime = require("regenerator-runtime");
+const jwtSecret = 'change this at deployment';
+
+
 
 import type {
     $Request,
@@ -67,9 +69,9 @@ exports.register = async (req: $Request, res: $Response) => {
 
             // Need to manage the config path so that the jwttoken is not here see require('config')
             // expiresIn 4 hrs
-            jwt.sign(payload, process.env.SECRET, 
+            jwt.sign(payload, jwtSecret, 
             { expiresIn: 14400},
-            (err, token) => {
+            (err: Error, token: jwt) => {
                 if(err != null) throw err;
                 res.json({ token });
             });
@@ -94,7 +96,7 @@ exports.login = async (req: $Request, res: $Response) => {
 
     try{
         // See if User exists - might change this to const
-        let user = await User.findOne({ userName });
+        const user = await User.findOne({ userName });
         if(user == null){
             return res
                 .status(400)
@@ -120,9 +122,9 @@ exports.login = async (req: $Request, res: $Response) => {
         }
 
         // expiresIn 4 hour 
-        jwt.sign(payload, process.env.SECRET, 
+        jwt.sign(payload, jwtSecret, 
         { expiresIn: 14400},
-        (err, token) => {
+        (err: Error, token: jwt) => {
             if(err) throw err;
             res.json({ token });
         });
@@ -132,7 +134,6 @@ exports.login = async (req: $Request, res: $Response) => {
     }
 
 }
-
 
 exports.getUser = async ( req: $Request, res: $Response) => {
         try{
@@ -144,17 +145,6 @@ exports.getUser = async ( req: $Request, res: $Response) => {
         }
 }
 
-/*exports.updateCassus = async (req: $Request, res: $Response){
-    try{
-        const user = await User.findById(req.params.userId);
-        const { andBlocks, forBlocks, ifBlocks, ifElseBlocks, intEqualsBlocks, intGreaterThanBlocks, intLessThanBlocks, orBlocks, setVariableBlocks, variableBlocks, whileBlocks } = req.body;
-
-    }
-    catch(err){
-
-    }
-}*/
-
 exports.checkAuth = async (req: $Request, res: $Response) => {
     try{
         const user = await User.findById(req.userId).select('-password');
@@ -164,6 +154,8 @@ exports.checkAuth = async (req: $Request, res: $Response) => {
         res.status(500).json({msg: 'Server Error'});
     }
 }
-//exports.retrieveAll
 
+
+// FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
+// They in essence serve the same purpose.
 
