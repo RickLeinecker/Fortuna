@@ -68,7 +68,6 @@ body, html {
     color: #39a9dd;
 }
 
-
 /* Popup Styling */
 .popup {
     padding: 5px 50px 20px 50px;
@@ -100,4 +99,28 @@ body, html {
     color: #04CCFF;
 	background: #04213F;
 	border: 2px solid #04CCFF;
+}
+  
+.popupbtn {
+    color: #000921;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: 150%;
+}
+
+
+/* Popup Styling */
+.popup {
+    padding: 5px 50px 20px 50px;
+    background: #04213F;
+}
+
+/* Leaderboard */
+.leaderboard {
+	padding-left: 10px;
+	margin-right: auto;
+	background-color: #04213F;
+	border: 5px solid black;
+	border-radius: 8px;
 }
