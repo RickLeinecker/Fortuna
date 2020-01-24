@@ -1,8 +1,5 @@
 //@flow strict
 import * as React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Main.css';
-import './Login.css';
 import Popup from 'reactjs-popup';
 
 

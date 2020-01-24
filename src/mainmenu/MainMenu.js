@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './MainMenu.css';
+import Navbar from '../components/Navbar.js';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {
@@ -11,14 +10,7 @@ class MainMenu extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<div className="row styleForRow">
-					<div className="col-md-4">
-						<Link to="/Login">
-							<button type="button" className="btn btn-secondary btn-lg">&lt;- Back to Login</button>
-						</Link>
-					</div>
-					<h1 className="col-md-4 text-center">Main Menu</h1>
-				</div>
+				<Navbar styleName="navbtn" linkName="/Login" returnName="Back to Login" pageName="Main Menu" userName="FRIcker | $465128"/>
  				<div className="row styleForRow">
 					<div className="col text-center">
 						<Link to="/BattleArena">

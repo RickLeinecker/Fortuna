@@ -2,21 +2,44 @@
     margin-top:20px;
 }
 
+body {
+    background-color: #000921;
+    color: #04CCFF;
+}
+
+/* Login/Signup Page Styling */
+.column {
+    float: left;
+    font-family: "Lucida Console";
+}
+
+.left {
+    width: 25%;
+    margin-top: 275px;
+    padding-left: 20px;
+    text-align: justify;
+}
+
+.right {
+    width: 25%;
+    margin-top: 375px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.middle {
+    width: 50%;
+    text-align: center;
+    margin-top: 350px;
+}
+
 /* Navbar Styling */
-.topnav {
+.navbar {
     background-color: #3E5A6F;
     overflow: hidden;
     display: flex;
     flex-direction: row;
     padding: 5px 10px 5px 10px;
-}
-
-.navbtn {
-    background-color: #3E5A6F;
-    color: #04CCFF;
-    float: left;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
 }
 
 .navbtn:hover {
@@ -37,6 +60,19 @@
     width: 25%;
 }
 
+.navbtn {
+    color: #04CCFF;
+    background: #3E5A6F;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: auto;
+}
+
+.navbtn:hover {
+	color: #3E5A6F;
+	background: #04CCFF;
+	border: 2px solid #04CCFF;
+}
 
 /* Button Styling */
 .btn {
@@ -61,6 +97,10 @@
 
 .clearbtn:hover {
     color: #39a9dd;
+}
+
+.nobtn {
+    display: none;
 }
 
 /* Popup Styling */
@@ -104,14 +144,7 @@
     width: 150%;
 }
 
-
-/* Popup Styling */
-.popup {
-    padding: 5px 50px 20px 50px;
-    background: #04213F;
-}
-
-/* Leaderboard */
+/* Leaderboard Styling */
 .leaderboard {
 	padding-left: 10px;
 	margin-right: auto;

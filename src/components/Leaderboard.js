@@ -9,10 +9,6 @@ import * as React from 'react';
 //
 // Needs to be updated to pass actual Users to it.
 class Leaderboard extends React.Component<Props> {
-	constructor(props) {
-		super(props);
-	}
-
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
