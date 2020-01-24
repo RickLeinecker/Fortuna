@@ -1,9 +1,6 @@
 //@flow strict
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Main.css';
-import './Login.css';
 import Popup from 'reactjs-popup';
 
 

@@ -2,11 +2,6 @@
     margin-top:20px;
 }
 
-body, html {
-    color: #04CCFF;
-    background: #000921;
-}
-
 /* Navbar Styling */
 .topnav {
     background-color: #3E5A6F;
@@ -92,7 +87,7 @@ body, html {
     background: #04CCFF;
     border: 2px solid #04CCFF;
     border-radius: 8px;
-    margin-left: 20px;
+    margin-left: 40px;
 }
 
 .closebtn:hover {
