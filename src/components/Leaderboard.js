@@ -3,8 +3,10 @@
 import * as React from 'react';
 
 // Leaderboard component. Displays top 10 players. The props takes a list of 10 players.
-// PROPNAME = "leaderNames"
-//
+// 
+// Prop Names:
+// leaderNames (Pass the list of 10 top players to display on the leaderboard)
+// 
 // EXAMPLE PROP USAGE = '<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />'
 //
 // Needs to be updated to pass actual Users to it.
