@@ -11,31 +11,24 @@ class MainMenu extends React.Component<{||}> {
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="/Login" returnName="Back to Login" pageName="Main Menu" userName="FRIcker | $465128"/>
- 				<div className="row styleForRow">
-					<div className="col text-center">
-						<Link to="/BattleArena">
-							<button type="button" class="btn btn-primary">Battle Arena</button>
-						</Link>
-					</div>
+				<h1 className="menuheader">Where to Commander?</h1>
+ 				<div className="column menuleft">
+					<h6>Buy and sell tank parts.</h6>
+				 	<Link to="/Marketplace">
+						<button type="button" className="btn">Marketplace</button>
+					</Link>
 				</div>
-				<div className="row styleForRow">
-					<div className="col text-center">
-						<button type="button" className="btn btn-info">Training Arena</button>
-					</div>
+				<div className="column menumiddle">
+				<h6>Combat your tanks against Bots or other Commanders.</h6>
+					<Link to="/BattleArena">
+						<button type="button" class="btn">Battle Arena</button>
+					</Link>
 				</div>
-				<div className="row styleForRow">
-					<div className="col text-center">
-						<Link to="/Marketplace">
-							<button type="button" className="btn btn-info">Marketplace</button>
-						</Link>
-					</div>
-				</div>
-				<div className="row styleForRow">
-					<div className="col text-center">
-						<Link to="/Casus">
-							<button type="button" className="btn btn-info">Armory</button>
-						</Link>
-					</div>
+				<div className="column menuright">
+				<h6>Customize your tank and its code.</h6>
+					<Link to="/Casus">
+						<button type="button" className="btn">Armory</button>
+					</Link>
 				</div>
 			</div>
 		);

@@ -8,29 +8,56 @@ body {
 }
 
 /* Login/Signup Page Styling */
-.column {
-    float: left;
-    font-family: "Lucida Console";
-}
-
-.left {
+.loginleft {
     width: 25%;
     margin-top: 275px;
     padding-left: 20px;
     text-align: justify;
 }
 
-.right {
+.loginright {
     width: 25%;
     margin-top: 375px;
     padding-right: 5px;
     text-align: center;
 }
 
-.middle {
+.loginmiddle {
     width: 50%;
     text-align: center;
     margin-top: 350px;
+}
+
+/* Main Menu Page Styling */
+.menuleft {
+    width: 25%;
+    margin-top: 250px;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.menuright {
+    width: 25%;
+    margin-top: 250px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.menumiddle {
+    width: 50%;
+    margin-top: 250px;
+    text-align: center;
+}
+
+.menuheader {
+    text-align: center;
+    padding-top: 90px;
+}
+
+/* Column Styling */
+.column {
+    float: left;
+    font-family: "Lucida Console";
 }
 
 /* Navbar Styling */
