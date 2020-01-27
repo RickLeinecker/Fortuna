@@ -54,6 +54,45 @@ body {
     padding-top: 90px;
 }
 
+/* Battle Arena Page Styling */
+.baleft {
+    width: 36%;
+    margin: 150px 0px 0px 0px;
+    text-align: center;
+}
+
+.baleft h6 {
+    margin-top: 50px;
+}
+
+.bamiddle {
+    width: 28%;
+    text-align: center;
+    margin: 100px 0px 0px 0px;
+}
+
+.baright {
+    width: 29%;
+    margin: 150px 0px 0px 80px;
+}
+
+/* Armory Page Styling */
+
+/* Input Styling */
+.inputText {
+    margin-top: 10px;
+    padding-left: 5px;
+    width: 75%;
+    border-radius: 4px;
+}
+
+/* Dropdown Menu Styling */
+.dropdownMenu {
+    width: 90%;
+    padding: 10px 10px 10px 10px;
+    border-radius: 4px;
+}
+
 /* Column Styling */
 .column {
     float: left;
@@ -174,7 +213,7 @@ body {
 /* Leaderboard Styling */
 .leaderboard {
 	padding-left: 10px;
-	margin-right: auto;
+    margin-right: auto;
 	background-color: #04213F;
 	border: 5px solid black;
 	border-radius: 8px;

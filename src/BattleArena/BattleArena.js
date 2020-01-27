@@ -1,74 +1,35 @@
 //@flow strict
+
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './BattleArena.css'
+import Navbar from '../components/Navbar.js';
+import Leaderboard from '../components/Leaderboard.js';
+
 class BattleArena extends React.Component<{||}> {
     render(): React.Node {
         return (
         <div id="Parent">
-            <div className="row styleForRow">
-                <div className="col-md-4">
-                    <Link to="/MainMenu">
-                        <button type="button" className="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
-                    </Link>
-                </div>
-                <h1 className="col-md-4 text-center">Battle Arena</h1>
-                <h3 className="col-md-4 text-right">UserName: $9432</h3> 
+            <Navbar styleName="navbtn" returnName="Back to Main Menu" pageName="Battle Arena" linkName="Mainmenu" userName="FRIcker | $465128"/>
+            <div className="column baleft">
+                <h2>Find a Player to Challenge</h2>
+                <input type="text" className="inputText" placeholder="Search Players" aria-label="searchPlayer" aria-describedby="basic-addon1"/>
+                <h6>Find the First Challenger Available</h6>
+                <button type="button" className="btn">Quickplay</button>
+                <h6>Practice Against Bots</h6>
+                <button type="button" className="btn">Training Arena</button>
             </div>
-            <div className="row styleForRow">
-                <div className="col-md-6">
-                    <div className = "row mb-3">
-                        <div className = "col-md-1"></div>
-                        <div className= "col-md-10">
-                            <input type="text" className="form-control" placeholder="Search Players" aria-label="searchPlayer" aria-describedby="basic-addon1"/>
-                        </div>
-                        <div className = "col-md-1"></div>
-                    </div>
-                    <div className = "row mb-3">
-                        <div className = "col-md-1"></div>
-                        <div className= "col-md-10">
-                            <button type="button" className="btn btn-primary">Quickplay</button>
-                        </div>
-                        <div className = "col-md-1"></div>
-                    </div>
-                    <div className = "row">
-                        <div className = "col-md-1"></div>
-                        <div className= "col-md-10">
-                            <button type="button" className="btn btn-success">Training Arena</button>
-                        </div>
-                        <div className = "col-md-1"></div>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className = "row mb-3">
-                        <div className = "col-md-1"></div>
-                        <div className= "col-md-10">
-                        <select className="custom-select">
-                            <option defaultValue>Choose A Tank</option>
-                            <option value="1">Tank One</option>
-                            <option value="2">Tank Two</option>
-                            <option value="3">Tank Three</option>
-                        </select>
-                        </div>
-                        <div className = "col-md-1"></div>
-                    </div>
-                    <div className = "row mb-3">
-                        <div className = "col-md-1"></div>
-                        <div className= "col-md-10">
-                            <h4>Leaderboard</h4>
-                            <p className = "leaderboardPlayer">Player One</p>
-                            <p className = "leaderboardPlayer">Player Two</p>
-                            <p className = "leaderboardPlayer">Player Three</p>
-                            <p className = "leaderboardPlayer">Player Four</p>
-                            <p className = "leaderboardPlayer">Player Five</p>
-                            <p className = "leaderboardPlayer">Player Six</p>
-                            <p className = "leaderboardPlayer">Player Seven</p>
-                        </div>
-                        <div className = "col-md-1"></div>
-                    </div>
-                </div>
-            </div>
+			<div className="column bamiddle">
+				<h2>Choose your Tank, Commander</h2>
+				<select className="dropdownMenu">
+                    <option defaultValue>Select a Tank</option>
+                    <option value="1">Child Consumer</option>
+                    <option value="2">Fast Bang</option>
+                    <option value="3">Biggest Gun</option>
+                </select>
+			</div>
+			<div className="column baright">
+				<h2>FORTUNA's Best and Brightest</h2>
+				<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
+			</div>
         </div>
         );
     }

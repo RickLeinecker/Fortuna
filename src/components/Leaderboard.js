@@ -7,7 +7,7 @@ import * as React from 'react';
 // Prop Names:
 // leaderNames (Pass the list of 10 top players to display on the leaderboard)
 // 
-// EXAMPLE PROP USAGE = '<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />'
+// EXAMPLE PROP USAGE = <Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
 //
 // Needs to be updated to pass actual Users to it.
 class Leaderboard extends React.Component<Props> {

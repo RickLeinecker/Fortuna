@@ -3,6 +3,14 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
+type Props = {
+	styleName: String,
+	linkName: String,
+	returnName: String,
+	pageName: String,
+	userName: String
+}
+
 // Navbar component. Displays back button and player's name and currency.
 // The Navbar has 3 columns:
 // The left column is the back button.
@@ -11,14 +19,16 @@ import { Link } from 'react-router-dom';
 //
 // Prop names:
 // styleName (takes the CSS style for the back button, two options are navbtn and nobtn)
+// linkName (where the back button will take you)
 // returnName (takes text for describing the back button)
 // pageName (takes a title for top of the page)
 // userName (takes user's name and currency)
 //
-// EXAMPLE PROP USAGE = <Navbar styleName="navbtn" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128"/>
+// EXAMPLE PROP USAGE = <Navbar styleName="navbtn" linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128"/>
 //
 // Right column needs to be updated to have the logged in user's name and current currency passed to it.
 class Navbar extends React.Component<Props> {
+
 	render(): React.Node {
 		return (
 			<div className="navbar">
