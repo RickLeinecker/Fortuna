@@ -155,6 +155,16 @@ exports.checkAuth = async (req: $Request, res: $Response) => {
     }
 }
 
+exports.getLeaders = async (req: $Request, res: $Response) => {
+    // skip and limit determine how many to return and the -1 in the sort if for descending order based on elo
+    User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 20, sort:{'stats.elo': -1} }, function(err, leaders){
+        if(err)
+            res.send(err);
+        
+        res.send(leaders);
+    });
+}
+
 
 // FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
 // They in essence serve the same purpose.

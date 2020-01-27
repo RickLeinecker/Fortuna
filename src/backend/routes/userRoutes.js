@@ -48,10 +48,11 @@ router.get('/auth', auth, userController.checkAuth);
 // Returns a JSON object containing all the user's info
 router.get('/:userId/Retrieve', userController.getUser);
 
-// Update a single user with the userID
-//router.patch('/user/:userId/Update', userController.updateUser);
-
-//router.get('/leaderboard', userController.getLeaders);
+// Retrieve top 20 users as of rn, that can be easily changed if needed - see userController
+// Route call: /leaderboard
+// Req requires no info
+// Returns an array of json users including the elo, _id, and userName
+router.get('/leaderboard', userController.getLeaders);
 
 
 module.exports = router;
