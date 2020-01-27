@@ -88,9 +88,9 @@ function _generateDoublePerim(boundingBox: BoundingBox): Array<Vec> {
 function _generateIntListPerim(boundingBox: BoundingBox): Array<Vec> {
 	const perim: Array<Vec> = [];
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h/2));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h/2));
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y+boundingBox.h/2));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h));
 
 	for (let i:number = -N_POINTS_TO_APROX_CIRCLE; i<=N_POINTS_TO_APROX_CIRCLE; i++) {
 		const centerX = boundingBox.x+RAMP_WIDTH;
@@ -107,9 +107,9 @@ function _generateIntListPerim(boundingBox: BoundingBox): Array<Vec> {
 function _generateDoubleListPerim(boundingBox: BoundingBox): Array<Vec> {
 	const perim: Array<Vec> = [];
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h/2));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h/2));
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y+boundingBox.h/2));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h));
 
 	perim.push(new Vec(boundingBox.x, boundingBox.y+boundingBox.h));
 	for (let i:number = 0; i<=N_POINTS_TO_APROX_CIRCLE; i++) {
@@ -128,9 +128,9 @@ function _generateDoubleListPerim(boundingBox: BoundingBox): Array<Vec> {
 function _generateBooleanListPerim(boundingBox: BoundingBox): Array<Vec> {
 	const perim: Array<Vec> = [];
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h/2));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h/2));
 	perim.push(new Vec(boundingBox.x+boundingBox.w, boundingBox.y+boundingBox.h/2));
-	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH, boundingBox.y+boundingBox.h));
+	perim.push(new Vec(boundingBox.x+boundingBox.w-RAMP_WIDTH/2, boundingBox.y+boundingBox.h));
 
 	perim.push(new Vec(boundingBox.x + RAMP_WIDTH, boundingBox.y + boundingBox.h));
 	perim.push(new Vec(boundingBox.x, boundingBox.y + boundingBox.h/2));

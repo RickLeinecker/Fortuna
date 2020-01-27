@@ -15,36 +15,39 @@ import {
 	VPADDING
 } from './generateCornerPerim.js';
 
+import {listVersionOf} from './DataType.js'
+
 import type {DataType} from './DataType.js'
 
 class SetListAtBlock extends CasusBlock {
 
-	listName: string;
+	list: CasusBlock;
 	indexBlock: CasusBlock;
 	expressionBlock: CasusBlock;
-	_listNameBoundingBox: BoundingBox;
 	paramType: DataType;
 
-	constructor(listName: string, paramType: DataType) {
+	constructor(paramType: DataType) {
 		super();
 
-		this.listName = listName;
+		this.list = new EmptyBlock(listVersionOf(paramType));
 		this.indexBlock = new EmptyBlock('INT');
 		this.expressionBlock = new EmptyBlock(paramType);
-		this._listNameBoundingBox = measureText(listName);
 		this.paramType = paramType;
 	}
 
 	precompBounds(): void {
+		this.list.precompBounds();
 		this.indexBlock.precompBounds();
 		this.expressionBlock.precompBounds();
-		this._listNameBoundingBox = measureText(this.listName);
 
-		const width = RAMP_WIDTH + SET_LIST_AT_SET_WIDTH + this._listNameBoundingBox.w + 
+		const width = RAMP_WIDTH + SET_LIST_AT_SET_WIDTH + this.list.boundingBox.w + 
 			SET_LIST_AT_AT_WIDTH + this.indexBlock.boundingBox.w + SET_LIST_AT_TO_WIDTH +
 			this.expressionBlock.boundingBox.w + RAMP_WIDTH;
 		const height = VPADDING + 
-			Math.max(this.expressionBlock.boundingBox.h, this.indexBlock.boundingBox.h) + 
+			Math.max(
+				this.list.boundingBox.h, 
+				this.expressionBlock.boundingBox.h, 
+				this.indexBlock.boundingBox.h) + 
 			VPADDING;
 
 		this.boundingBox=new BoundingBox(
@@ -58,21 +61,35 @@ class SetListAtBlock extends CasusBlock {
 	precompXY(x: number, y:number): void {
 		this.boundingBox.x=x;
 		this.boundingBox.y=y;
-		let curX = x + RAMP_WIDTH + SET_LIST_AT_SET_WIDTH + this._listNameBoundingBox.w
-			+ SET_LIST_AT_AT_WIDTH;
+		let curX = x + RAMP_WIDTH + SET_LIST_AT_SET_WIDTH;
 		const centerY = y + this.boundingBox.h/2;
+		
+		this.list.precompXY(curX, centerY-this.list.boundingBox.h/2);
+		curX+=this.list.boundingBox.w;
+		curX+=SET_LIST_AT_AT_WIDTH;
 
 		this.indexBlock.precompXY(curX, centerY-this.indexBlock.boundingBox.h/2);
 		curX+=this.indexBlock.boundingBox.w;
 		curX+=SET_LIST_AT_TO_WIDTH;
+
 		this.expressionBlock.precompXY(curX, centerY-this.expressionBlock.boundingBox.h/2);
 	}
 
 	getChildBlocks(): Array<CasusBlock> {
-		return [this.indexBlock, this.expressionBlock];
+		return [this.list, this.indexBlock, this.expressionBlock];
 	}
 
 	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+		const listRes=this.list.removeBlockAt(v, removeAfter);
+		if (listRes.length > 0) {
+			return listRes;
+		}
+		if (this.list.boundingBox.contains(v) && this.list.draggable()) {
+			const toReturn=[this.list];
+			this.list = new EmptyBlock(listVersionOf(this.paramType));
+			return toReturn;
+		}
+
 		const indexRes=this.indexBlock.removeBlockAt(v, removeAfter);
 		if (indexRes.length > 0) {
 			return indexRes;
@@ -117,12 +134,7 @@ class SetListAtBlock extends CasusBlock {
 			middleY
 		);
 		curX+=SET_LIST_AT_SET_WIDTH;
-		ctx.fillText(
-			this.listName, 
-			curX + this._listNameBoundingBox.w/2,
-			middleY
-		);
-		curX+= this._listNameBoundingBox.w;
+		curX+= this.list.boundingBox.w;
 		ctx.fillText(
 			'at', 
 			curX + SET_LIST_AT_AT_WIDTH/2,
@@ -146,6 +158,7 @@ class SetListAtBlock extends CasusBlock {
 		if (!this.boundingBox.contains(v)) {
 			return null;
 		}
+		this.list = this.list.tryToPlace(v, blockToPlace, ctx) ?? this.list;
 		this.indexBlock = this.indexBlock.tryToPlace(v, blockToPlace, ctx) ?? this.indexBlock;
 		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx) ?? this.expressionBlock;
 		return null;

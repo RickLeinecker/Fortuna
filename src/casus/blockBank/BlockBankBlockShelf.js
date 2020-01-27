@@ -58,7 +58,10 @@ import './BlockBankBlockShelf.css';
 import {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
-	DEFAULT_BOOLEAN_VARIABLE_NAME
+	DEFAULT_BOOLEAN_VARIABLE_NAME,
+	DEFAULT_INT_LIST_NAME,
+	DEFAULT_DOUBLE_LIST_NAME,
+	DEFAULT_BOOLEAN_LIST_NAME
 } from '../userInteraction/defaultVariableNames.js';
 
 import type {BlockBankType} from './BlockBankType.js';
@@ -336,7 +339,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_getListBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
-		blocks.push(new SetListAtBlock('some name', 'BOOLEAN'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_LIST_NAME, 'BOOLEAN_LIST'));
+		blocks.push(new GetVariableBlock(DEFAULT_INT_LIST_NAME, 'INT_LIST'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_LIST_NAME, 'DOUBLE_LIST'));
+		blocks.push(new SetListAtBlock('BOOLEAN'));
+		blocks.push(new SetListAtBlock('INT'));
+		blocks.push(new SetListAtBlock('DOUBLE'));
 		return blocks;
 	}
 
