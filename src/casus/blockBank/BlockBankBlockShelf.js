@@ -10,6 +10,7 @@ import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
+import SetListAtBlock from '../blocks/SetListAtBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
@@ -230,7 +231,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 				blocks = this._getLogicBlocks();
 				break;
 			case 'LISTS':
-				blocks = [];
+				blocks = this._getListBlocks();
 				break;
 			default:
 				console.log('unexpected BlockBankType: '+type+' in getBlocksOfType!');
@@ -330,6 +331,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
 		blocks.push(new XorBlock());
+		return blocks;
+	}
+
+	_getListBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new SetListAtBlock('some name', 'BOOLEAN'));
 		return blocks;
 	}
 
