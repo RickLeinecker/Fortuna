@@ -10,8 +10,9 @@ import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
-import SetListAtBlock from '../blocks/SetListAtBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
+import SetListAtBlock from '../blocks/SetListAtBlock.js';
+import GetListAtBlock from '../blocks/GetListAtBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
@@ -345,6 +346,9 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new SetListAtBlock('BOOLEAN'));
 		blocks.push(new SetListAtBlock('INT'));
 		blocks.push(new SetListAtBlock('DOUBLE'));
+		blocks.push(new GetListAtBlock('BOOLEAN'));
+		blocks.push(new GetListAtBlock('INT'));
+		blocks.push(new GetListAtBlock('DOUBLE'));
 		return blocks;
 	}
 
