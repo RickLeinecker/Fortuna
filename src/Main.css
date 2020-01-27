@@ -77,6 +77,80 @@ body {
 }
 
 /* Armory Page Styling */
+.armoryright {
+    margin: 100px 0px 0px 20px;
+}
+
+.armoryright h6 {
+    margin-top: 50px;
+}
+
+.armorymiddle {
+
+}
+
+.armoryleft {
+
+}
+
+/* Radio Button and Checkbox Styling */
+.defaultRadioButton {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.defaultRadioButton input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #04CCFF;
+    border-radius: 50%;
+}
+
+.defaultRadioButton:hover input ~ .checkmark {
+    background-color: rgb(1, 150, 187);
+}
+
+.defaultRadioButton input:checked ~ .checkmark {
+    background-color: rgb(1, 150, 187);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.defaultRadioButton input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.defaultRadioButton .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000921;
+}
 
 /* Input Styling */
 .inputText {
@@ -84,6 +158,14 @@ body {
     padding-left: 5px;
     width: 75%;
     border-radius: 4px;
+    border-color: #04CCFF;
+    background-color: #04CCFF;
+    color: #000921;
+}
+
+::placeholder {
+    color: #04213F;
+    opacity: 0.75;
 }
 
 /* Dropdown Menu Styling */
@@ -91,6 +173,9 @@ body {
     width: 90%;
     padding: 10px 10px 10px 10px;
     border-radius: 4px;
+    border-color: #04CCFF;
+    background-color: #04CCFF;
+    color: #000921;
 }
 
 /* Column Styling */

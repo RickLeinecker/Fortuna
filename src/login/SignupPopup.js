@@ -74,25 +74,25 @@ class SignupPopup extends React.Component<Props, State> {
 							<div className="row col-md-12 form-group">
 								<label>Email</label>
 								<div className="input-group">
-									<input type="text" className="form-control"/>
+									<input type="text" className="inputText"/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Username</label>
 								<div className="input-group">
-									<input type="text" className="form-control" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+									<input type="text" className="inputText" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Password</label>
 								<div className="input-group">
-									<input type="password" name="loginPassword" className="form-control"/>
+									<input type="password" name="loginPassword" className="inputText"/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Confirm Password</label>
 								<div className="input-group">
-									<input type="password" name="loginPassword" className="form-control"/>
+									<input type="password" name="loginPassword" className="inputText"/>
 								</div>
 								<div className="help-block with-errors text-danger"></div>
 							</div>
