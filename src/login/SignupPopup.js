@@ -98,7 +98,7 @@ class SignupPopup extends React.Component<Props, State> {
 							</div>
 							<div className="row col-md-12">
 								<Link to="/MainMenu">
-									<button type="button" className="popupbtn" onClick={this.handleLoginClick}>Signup</button>
+									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Signup</button>
 								</Link>
 								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
 							</div>
