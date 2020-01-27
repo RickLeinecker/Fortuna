@@ -18,7 +18,6 @@ exports.getFavorite = (req: $Request, res: $Response) => {
         } 
         res.send(myUser.favoriteTankId);
     });
-    //res.sendStatus(200);
 }
 
 exports.favoriteTank = async (req: $Request, res: $Response) => {
@@ -34,7 +33,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 }
 
 exports.userTanks = async (req: $Request, res: $Response) => {
-    await user.find({ userId: req.params.userId }, function(err: Error, tanks: user){
+    await tank.find({ userId: req.params.userId }, function(err: Error, tanks: user){
         if(err){
             res.send(err);
         }
@@ -43,3 +42,9 @@ exports.userTanks = async (req: $Request, res: $Response) => {
         }
     });
 }
+
+//exports.giveTank = async (req: $Request, res: $Response) => {
+
+//}
+//exports.takeTank
+//exports.giveComponent

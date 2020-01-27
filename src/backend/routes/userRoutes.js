@@ -51,5 +51,7 @@ router.get('/:userId/Retrieve', userController.getUser);
 // Update a single user with the userID
 //router.patch('/user/:userId/Update', userController.updateUser);
 
+//router.get('/leaderboard', userController.getLeaders);
+
 
 module.exports = router;

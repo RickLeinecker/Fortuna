@@ -17,13 +17,13 @@ router.get('/:userId/getFavorite', tankController.getFavorite);
 
 // Set a favorite tank
 // Route call: /<userId>/favoriteTank
-// Req must include the userId in the url field and the favoriteTankId in the body
-// returns the id of the favorited tank upon success and an error message upon failure
+// Req must include the userId in the url field in place of <userId> and the favoriteTankId in the body
+// Returns the id of the favorited tank upon success and an error message upon failure
 router.patch('/:userId/favoriteTank', tankController.favoriteTank);
 
 // Retrieve array of all a users tanks
 // Route call: /<userId>/userTanks
-// Req must include the userId in the url
+// Req must include the userId in the url field in place of <userId>
 // Returns array of tanks
 router.get('/:userId/userTanks', tankController.userTanks);
 
