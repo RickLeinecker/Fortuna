@@ -36,20 +36,12 @@ router.get('/login', [
         .exists()
     ], userController.login);
 
-
-// Retrieve all users
-//router.get('/allUsers', userController.retrieveAll);
-
 router.get('/auth', auth, userController.checkAuth);
 
 // Retrieve a single user based on userID
-// Route call: /<userId>/Retrieve
+// Route call: /<userId>/retrieve
 // Req must include the userId in the param
 // Returns a JSON object containing all the user's info
-router.get('/:userId/Retrieve', userController.getUser);
-
-// Update a single user with the userID
-//router.patch('/user/:userId/Update', userController.updateUser);
-
+router.get('/:userId/retrieve', userController.getUser);
 
 module.exports = router;
