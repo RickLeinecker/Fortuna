@@ -1,26 +1,37 @@
 //@flow strict
-// Main file for the Node and Express server that will
-// handle all the API routes
+// Main file for the Node and Express server 
 
 // Required Packages/Imports
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+
+// config for environment variables using the npm dotenv package
+require('dotenv').config();
 
 // Port constant so we may edit as needed
+//const PORT = process.env.PORT || 3001;
 const PORT = 3001;
 
-const signups = require('./routes/api/signup');
-const home = require('./routes/api/home');
-const cors = require('cors');
+const userRoutes = require('./routes/userRoutes');
+const tankRoutes = require('./routes/tankRoutes');
+
 // Server Instance
 const app = express();
+
 // As of express v4.16, npm body-parser is bundled with express again
 app.use(express.json());
-app.use(cors());
+
+// Enables cross server comminications
+// At production we should limit what servers it can read from
+// See https://daveceddia.com/access-control-allow-origin-cors-errors-in-react-express/
+// app.use(cors());
+
 // Use the api routes as middleware
-// First param is the url?uri  directory second is the api path
-app.use('/', home);
-app.use('/signup', signups);
+// First param is the url directory second is the api route object
+app.use('/tank', tankRoutes);
+app.use('/user', userRoutes);
+
 
 
 

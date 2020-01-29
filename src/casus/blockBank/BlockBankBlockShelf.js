@@ -9,6 +9,11 @@ import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
+import SetVariableBlock from '../blocks/SetVariableBlock.js';
+import GetVariableBlock from '../blocks/GetVariableBlock.js';
+import SetListAtBlock from '../blocks/SetListAtBlock.js';
+import GetListAtBlock from '../blocks/GetListAtBlock.js';
+import ListSizeBlock from '../blocks/ListSizeBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
@@ -52,6 +57,14 @@ import MathPowBlock from '../blocks/MathPowBlock.js';
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
 import './BlockBankBlockShelf.css';
+import {
+	DEFAULT_INT_VARIABLE_NAME,
+	DEFAULT_DOUBLE_VARIABLE_NAME,
+	DEFAULT_BOOLEAN_VARIABLE_NAME,
+	DEFAULT_INT_LIST_NAME,
+	DEFAULT_DOUBLE_LIST_NAME,
+	DEFAULT_BOOLEAN_LIST_NAME
+} from '../userInteraction/defaultVariableNames.js';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -217,13 +230,13 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 				blocks = this._getDoublesBlocks();
 				break;
 			case 'VARIABLES':
-				blocks = [];
+				blocks = this._getVariablesBlocks();
 				break;
 			case 'LOGIC':
 				blocks = this._getLogicBlocks();
 				break;
 			case 'LISTS':
-				blocks = [];
+				blocks = this._getListBlocks();
 				break;
 			default:
 				console.log('unexpected BlockBankType: '+type+' in getBlocksOfType!');
@@ -307,11 +320,39 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		return blocks;
 	}
 
+	_getVariablesBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new SetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
+		blocks.push(new SetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
+		blocks.push(new SetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
+		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
+		return blocks;
+	}
+
 	_getLogicBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
 		blocks.push(new XorBlock());
+		return blocks;
+	}
+
+	_getListBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_LIST_NAME, 'BOOLEAN_LIST'));
+		blocks.push(new GetVariableBlock(DEFAULT_INT_LIST_NAME, 'INT_LIST'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_LIST_NAME, 'DOUBLE_LIST'));
+		blocks.push(new SetListAtBlock('BOOLEAN'));
+		blocks.push(new SetListAtBlock('INT'));
+		blocks.push(new SetListAtBlock('DOUBLE'));
+		blocks.push(new GetListAtBlock('BOOLEAN'));
+		blocks.push(new GetListAtBlock('INT'));
+		blocks.push(new GetListAtBlock('DOUBLE'));
+		blocks.push(new ListSizeBlock('BOOLEAN'));
+		blocks.push(new ListSizeBlock('INT'));
+		blocks.push(new ListSizeBlock('DOUBLE'));
 		return blocks;
 	}
 
