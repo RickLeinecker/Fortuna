@@ -8,7 +8,7 @@ class BattleArena extends React.Component<{||}> {
     render(): React.Node {
         return (
         <div id="Parent">
-            <Navbar styleName="navbtn" returnName="Back to Main Menu" pageName="Battle Arena" linkName="Mainmenu" userName="FRIcker | $465128"/>
+            <Navbar styleName="navbtn" returnName="Back to Main Menu" pageName="Battle Arena" linkName="MainMenu" userName="FRIcker | $465128"/>
             <div className="column baleft">
                 <h2>Find a Player to Challenge</h2>
                 <input type="text" className="inputText" placeholder="Search Players" aria-label="searchPlayer" aria-describedby="basic-addon1"/>

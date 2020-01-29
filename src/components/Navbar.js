@@ -3,12 +3,14 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
+import type {LinkType} from './LinkType.js';
+
 type Props = {
-	styleName: String,
-	linkName: String,
-	returnName: String,
-	pageName: String,
-	userName: String
+	styleName: string,
+	linkName: LinkType,
+	returnName: string,
+	pageName: string,
+	userName: string
 }
 
 // Navbar component. Displays back button and player's name and currency.
