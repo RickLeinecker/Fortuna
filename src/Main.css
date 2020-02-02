@@ -81,12 +81,16 @@ body {
 }
 
 /* Armory Page Styling */
-.armoryright {
-    margin: 100px 0px 0px 20px;
+.armoryleft {
+    margin: 0px 0px 0px 20px;
 }
 
-.armoryright h6 {
+.armoryleft h6 {
     margin-top: 50px;
+}
+
+.armoryleft h3 {
+    margin-top: 150px;
 }
 
 .armorymiddle {

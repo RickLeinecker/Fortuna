@@ -1,7 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -10,7 +10,7 @@ class Armory extends React.Component<{||}> {
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
-				<div className="column armoryright">
+				<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu">
                     <option defaultValue>Select a Tank</option>
@@ -23,11 +23,15 @@ class Armory extends React.Component<{||}> {
 						<input type="checkbox" />
 						<span class="checkmark"></span>
 					</label>
+					<h3>Edit Tank's Code</h3>
+					<Link to="Casus">
+						<button type="button" className="btn">Casus</button>
+					</Link>
 				</div>
 				<div className="column armorymiddle">
 
 				</div>
-				<div className="column armoryleft">
+				<div className="column armoryright">
 
 				</div>
 			</div>
