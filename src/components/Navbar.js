@@ -7,8 +7,8 @@ import type {LinkType} from './LinkType.js';
 
 type Props = {
 	styleName: string,
-	linkName: LinkType,
-	returnName: string,
+	linkName?: LinkType,
+	returnName?: string,
 	pageName: string,
 	userName: string
 }
@@ -21,8 +21,8 @@ type Props = {
 //
 // Prop names:
 // styleName (takes the CSS style for the back button, two options are navbtn and nobtn)
-// linkName (where the back button will take you)
-// returnName (takes text for describing the back button)
+// linkName (where the back button will take you; leave blank if there is no back option)
+// returnName (takes text for describing the back button; leave blank if there is no back option)
 // pageName (takes a title for top of the page)
 // userName (takes user's name and currency)
 //
@@ -32,12 +32,16 @@ type Props = {
 class Navbar extends React.Component<Props> {
 
 	render(): React.Node {
+		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
+			<Link to={this.props.linkName}>
+				<button type="button" className={this.props.styleName}>&#60;&#45; {this.props.returnName}</button>
+			</Link>
+		);
+
 		return (
 			<div className="navbar">
 				<div className="navleft">
-					<Link to={this.props.linkName}>
-						<button type="button" className={this.props.styleName}>&#60;&#45; {this.props.returnName}</button>
-					</Link>
+					{link}	
 				</div>
 				<div className="navmiddle">
 					<h4>{this.props.pageName}</h4>
