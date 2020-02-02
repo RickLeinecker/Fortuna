@@ -8,7 +8,7 @@ import Login from './login/Login.js';
 import MainMenu from './mainmenu/MainMenu.js';
 import Marketplace from './marketplace/Marketplace.js';
 import CasusContainer from './casus/CasusContainer.js';
-import BattleArena from './battlearena/BattleArena.js';
+import BattleArena from './BattleArena/BattleArena.js';
 import Armory from './armory/Armory.js';
 
 // The routing const holds the paths to other react components.
