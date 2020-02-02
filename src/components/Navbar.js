@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import type {LinkType} from './LinkType.js';
 
 type Props = {
-	styleName: string,
 	linkName?: LinkType,
 	returnName?: string,
 	pageName: string,
@@ -34,7 +33,7 @@ class Navbar extends React.Component<Props> {
 	render(): React.Node {
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
 			<Link to={this.props.linkName}>
-				<button type="button" className={this.props.styleName}>&#60;&#45; {this.props.returnName}</button>
+				<button type="button" className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);
 
