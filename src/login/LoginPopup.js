@@ -85,7 +85,7 @@ class LoginPopup extends React.Component<Props, State> {
 								<div className="help-block with-errors text-danger"></div>
 							</div>
 							<div className="row col-md-12">
-								<Link to="/MainMenu">
+								<Link to="MainMenu">
 									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
 								</Link>
 								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>

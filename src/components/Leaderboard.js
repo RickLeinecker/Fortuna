@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 type Props = {
-	leaderNames: Array;
+	leaderNames: string[];
 }
 
 // Leaderboard component. Displays top 10 players. The props takes a list of 10 players.
