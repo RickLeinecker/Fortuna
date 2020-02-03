@@ -97,7 +97,7 @@ class CasusEditor extends React.Component<Props, State> {
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
 				/>
 			</div>
-		);
+	);
 	}
 
 	onMouseMove(e: MouseEvent): void {
@@ -118,13 +118,14 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onMouseUp(): void {
+		this._openSelectVariablePopupIfNeeded();
+
 		const wouldPlaceOnEmptyVoid = this._wouldPlaceOnEmptyVoid();
 		this._tryToPlace(null);
 		if (!wouldPlaceOnEmptyVoid) {
 			this._tryToPlaceInContainerBlock(null);
 		}
 
-		this._openSelectVariablePopupIfNeeded();
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
 	}
@@ -164,9 +165,17 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onCancelClicked() {
+		//delete variableBlockToRename
+		const block=this.state.variableBlockToRename;
+		if (block!=null) {
+			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
+			this.state.containerBlock.removeBlockAt(toRemovePos, false);
+		}
+
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+
 	}
 
 	_rerender(): void {
@@ -271,7 +280,6 @@ class CasusEditor extends React.Component<Props, State> {
 		if (released instanceof GetVariableBlock || released instanceof SetVariableBlock) {
 			if (isDefaultVariableName(released.variableName)) {
 				this.setState({variableBlockToRename: released});
-				console.log('released something and should open popup!');
 			}
 		}
 	}

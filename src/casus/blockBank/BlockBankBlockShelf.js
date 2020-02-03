@@ -61,6 +61,11 @@ import {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
 	DEFAULT_BOOLEAN_VARIABLE_NAME,
+
+	DEFAULT_INT_VARIABLE_NAME_OR_CONST,
+	DEFAULT_DOUBLE_VARIABLE_NAME_OR_CONST,
+	DEFAULT_BOOLEAN_VARIABLE_NAME_OR_CONST,
+
 	DEFAULT_INT_LIST_NAME,
 	DEFAULT_DOUBLE_LIST_NAME,
 	DEFAULT_BOOLEAN_LIST_NAME
@@ -325,9 +330,10 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new SetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
 		blocks.push(new SetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
 		blocks.push(new SetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
-		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
-		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
-		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
+
+		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME_OR_CONST, 'INT'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME_OR_CONST, 'BOOLEAN'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME_OR_CONST, 'DOUBLE'));
 		return blocks;
 	}
 
