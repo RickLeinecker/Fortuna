@@ -175,7 +175,6 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
-
 	}
 
 	_rerender(): void {
