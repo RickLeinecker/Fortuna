@@ -4,9 +4,12 @@ import Popup from 'reactjs-popup';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
 import {
+	TRUE_KEYWORD,
+	FALSE_KEYWORD,
 	isLegalVariableName,
-	isLegalConstant
+	isLegalConstant,
 } from '../userInteraction/defaultVariableNames.js';
+import type {DataType} from '../blocks/DataType.js';
 
 import './SelectVariablePopup.css';
 
@@ -40,6 +43,8 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 	render(): React.Node {
 		const enabled=this.getShouldBeAbleToClickCreateVariable();
+		const prepopulatedVariables=this.getPrepopulatedValues();
+
 		return (
 			<Popup
 				open={this.props.variableBlockToRename != null}
@@ -48,21 +53,15 @@ class SelectVariablePopup extends React.Component<Props, State> {
 			>
 				<div>
 					<h1>Select Variable:</h1>
-					<button 
-						className="btn normalPadding" 
-						onClick= {() => this.props.onVariableCreated('Foo')}>
-							Foo
-					</ button>
-					<button 
-						className="btn normalPadding" 
-						onClick= {() => this.props.onVariableCreated('i')}>
-							i
-					</ button>
-					<button 
-						className="btn normalPadding" 
-						onClick= {() => this.props.onVariableCreated('Bar')}>
-							Bar
-					</ button>
+
+					{prepopulatedVariables.map(name => (
+						<button
+							className="btn normalPadding" 
+							onClick= {() => this.props.onVariableCreated(name)}
+							key={name}>
+							{name}
+						</button>
+					))}
 
 					<div className="centered">
 						<input className="normalPadding" onChange={(e) => this.handleInputChange(e.target.value)}/>
@@ -85,6 +84,20 @@ class SelectVariablePopup extends React.Component<Props, State> {
 		);
 	}
 
+	getExpectedDataType(): DataType {
+		if (this.props.variableBlockToRename == null) {
+			return 'VOID';
+		}
+		return (this.props.variableBlockToRename instanceof GetVariableBlock) ?
+			this.props.variableBlockToRename.dataType:
+			this.props.variableBlockToRename.paramType;
+	}
+
+	canHaveConstants(): boolean {
+		return this.props.variableBlockToRename != null &&
+			this.props.variableBlockToRename instanceof GetVariableBlock;
+	}
+
 	getTypedLegalVariableName(): boolean {
 		if (this.props.variableBlockToRename == null) {
 			return false;
@@ -96,11 +109,11 @@ class SelectVariablePopup extends React.Component<Props, State> {
 		if (this.props.variableBlockToRename == null) {
 			return false;
 		}
-		const expectedType = (this.props.variableBlockToRename instanceof GetVariableBlock) ?
-			this.props.variableBlockToRename.dataType:
-			this.props.variableBlockToRename.paramType;
+		if (!this.canHaveConstants()) {
+			return false;
+		}
 
-		return isLegalConstant(this.state.variableNameToCreate, expectedType);
+		return isLegalConstant(this.state.variableNameToCreate, this.getExpectedDataType());
 	}
 
 	getShouldBeAbleToClickCreateVariable(): boolean {
@@ -109,13 +122,39 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 	//returns "Constant/Create Variable", "Constant", or "Create Variable"
 	getCreateVariableText(): 'Enter a Constant or Variable To Create' | 'Constant' | 'Create Variable' {
-		if (this.getTypedLegalVariableName()) {
+		if (this.getTypedLegalVariableName() || !this.canHaveConstants()) {
 			return 'Create Variable';
 		}
 		if (this.getTypedLegalConstant()) {
 			return 'Constant';
 		}
 		return 'Enter a Constant or Variable To Create';
+	}
+
+	getPrepopulatedValues(): Array<string> {
+		const dataType=this.getExpectedDataType();
+		switch(dataType) {
+			case 'INT':
+				return this.getPrepoulatedInts();
+			case 'DOUBLE':
+				return this.getPrepoulatedDoubles();
+			case 'BOOLEAN':
+				return this.getPrepopulatedBooleans();
+			default:
+				return [];
+		}
+	}
+
+	getPrepoulatedInts(): Array<string> {
+		return this.canHaveConstants() ? ['0', '1', '2'] : [];
+	}
+
+	getPrepoulatedDoubles(): Array<string> {
+		return this.canHaveConstants() ? ['0.0', '1.0', '2.0'] : [];
+	}
+
+	getPrepopulatedBooleans(): Array<string> {
+		return this.canHaveConstants() ? [TRUE_KEYWORD, FALSE_KEYWORD] : [];
 	}
 
 }

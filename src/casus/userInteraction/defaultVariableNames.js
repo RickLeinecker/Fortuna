@@ -79,6 +79,9 @@ export {
 	DEFAULT_DOUBLE_LIST_NAME,
 	DEFAULT_BOOLEAN_LIST_NAME,
 
+	TRUE_KEYWORD,
+	FALSE_KEYWORD,
+
 	isDefaultVariableName,
 	isLegalVariableName,
 	isLegalConstant
