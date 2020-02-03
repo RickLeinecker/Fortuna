@@ -45,13 +45,13 @@ function isLegalVariableName(name: string): boolean {
 }
 
 function isLegalConstant(constant: string, expectedType: DataType):boolean {
-	if (expectedType == 'INT') {
+	if (expectedType === 'INT') {
 		return /^[0-9]+$/.test(constant);
 	}
-	else if (expectedType == 'DOUBLE') {
+	else if (expectedType === 'DOUBLE') {
 		return /^(([0-9]+[.][0-9]*)|([0-9]+))$/.test(constant);
 	}
-	else if (expectedType == 'BOOLEAN') {
+	else if (expectedType === 'BOOLEAN') {
 		return constant === TRUE_KEYWORD || constant === FALSE_KEYWORD;
 	}
 
