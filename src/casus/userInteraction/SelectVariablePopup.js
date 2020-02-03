@@ -33,8 +33,14 @@ class SelectVariablePopup extends React.Component<Props, State> {
 		}
 	}
 
-	onCreateVariableSelected(): void {
-		this.props.onVariableCreated(this.state.variableNameToCreate);
+	onCreateVariableSelected(variableName: ?string): void {
+		this.props.onVariableCreated(variableName ?? this.state.variableNameToCreate);
+		this.setState({variableNameToCreate: ''});
+	}
+
+	onCancelClicked(): void {
+		this.props.onCancelClicked();
+		this.setState({variableNameToCreate: ''});
 	}
 
 	handleInputChange(newVariableName: string): void {
@@ -57,7 +63,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 					{prepopulatedVariables.map(name => (
 						<button
 							className="btn normalPadding" 
-							onClick= {() => this.props.onVariableCreated(name)}
+							onClick= {() => this.onCreateVariableSelected(name)}
 							key={name}>
 							{name}
 						</button>
@@ -69,13 +75,13 @@ class SelectVariablePopup extends React.Component<Props, State> {
 						<button 
 							className="btn normalPadding" 
 							disabled={!enabled}
-							onClick= {() => this.onCreateVariableSelected()}> 
+							onClick= {() => this.onCreateVariableSelected(null)}> 
 								{this.getCreateVariableText()}
 						</button>
 
 						<button
 							className="btn normalPadding"
-							onClick={() => this.props.onCancelClicked()}>
+							onClick={() => this.onCancelClicked()}>
 								Cancel
 						</button>
 					</div>
