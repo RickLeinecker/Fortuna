@@ -15,7 +15,7 @@ import MarketPlaceViewDataTypes from './MarketPlaceViewDataTypes.js';
 
 type Props = {||}; 
 type State = {|
-	marketplaceView: MarketPlaceViewDataTypes,
+	marketplaceViewClicked: MarketPlaceViewDataTypes,
 |};
 
 
