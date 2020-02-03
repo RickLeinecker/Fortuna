@@ -10,8 +10,6 @@ import InterpriterState from '../interpriter/InterpriterState.js';
 import GetVariableBlock from './GetVariableBlock.js';
 import {
 	verifyInt, 
-	verifyBoolean, 
-	verifyDouble, 
 	verifyIntList,
 	verifyBooleanList,
 	verifyDoubleList,

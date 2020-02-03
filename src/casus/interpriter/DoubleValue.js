@@ -23,13 +23,13 @@ class DoubleValue {
 
 	div(o: DoubleValue): DoubleValue {
 		//ignore divide by zeros
-		if (o.val==0)
+		if (o.val === 0)
 			return this;
 		return new DoubleValue(this.val/o.val);
 	}
 
 	equals(o: DoubleValue): boolean {
-		return this.val==o.val;
+		return this.val===o.val;
 	}
 
 	greaterThan(o: DoubleValue): boolean {

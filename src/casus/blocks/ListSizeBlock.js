@@ -5,14 +5,19 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
-
+import {listVersionOf} from './DataType.js'
+import IntValue from '../interpriter/IntValue.js';
+import {
+	verifyIntList,
+	verifyBooleanList,
+	verifyDoubleList
+} from '../interpriter/Value.js';
 import {
 	LIST_SIZE_SIZE_WIDTH, 
 	RAMP_WIDTH, 
 	VPADDING
 } from './generateCornerPerim.js';
 
-import {listVersionOf} from './DataType.js'
 
 import type {DataType} from './DataType.js'
 
@@ -109,6 +114,20 @@ class ListSizeBlock extends CasusBlock {
 		}
 		this.list = this.list.tryToPlace(v, blockToPlace, ctx) ?? this.list;
 		return null;
+	}
+
+	evaluate(): IntValue {
+		const list=this.list.evaluate();
+		switch (this.paramType) {
+			case 'INT':
+				return verifyIntList(list).sizeOf();
+			case 'BOOLEAN':
+				return verifyBooleanList(list).sizeOf();
+			case 'DOUBLE':
+				return verifyDoubleList(list).sizeOf();
+			default:
+				throw new Error('Unexpected list type in sizeOfList block!');
+		}
 	}
 
 }

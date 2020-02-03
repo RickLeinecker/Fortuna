@@ -42,9 +42,9 @@ class IntValue {
 
 		//now b is nonnegative
 		let res=0;
-		while (b!=0) {
+		while (b!==0) {
 			res=this.normalize(res*2);
-			if (res%2!=0) {
+			if (res%2!==0) {
 				res=this.normalize(res+a);
 			}
 			b=Math.trunc(b/2);
@@ -54,19 +54,19 @@ class IntValue {
 
 	div(o: IntValue): IntValue {
 		//ignore divide by zeros
-		if (o.val==0)
+		if (o.val===0)
 			return this;
 		return new IntValue(Math.trunc(this.val/o.val));
 	}
 
 	mod(o: IntValue): IntValue {
-		if (o.val==0)
+		if (o.val===0)
 			return new IntValue(0);
 		return new IntValue(this.val%o.val);
 	}
 	
 	equals(o: IntValue): boolean {
-		return this.val==o.val;
+		return this.val===o.val;
 	}
 
 	greaterThan(o: IntValue): boolean {
