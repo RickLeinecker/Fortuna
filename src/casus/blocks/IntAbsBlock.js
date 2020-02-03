@@ -15,7 +15,6 @@ class IntAbsBlock extends UnaryOperationBlock {
 		return childRes.abs();
 	}
 
-
 }
 
 export default IntAbsBlock;

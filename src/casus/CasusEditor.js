@@ -94,7 +94,7 @@ class CasusEditor extends React.Component<Props, State> {
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
 				/>
 			</div>
-	);
+		);
 	}
 
 	onMouseMove(e: MouseEvent): void {
