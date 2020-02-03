@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class ScannersView extends React.Component<{||}> {
     render(){
-		return (
-            <h2>This is the Scanners View</h2>
-            );
+      return (
+              <h2>This is the Scanners View</h2>
+              );
 	  }
 }
 

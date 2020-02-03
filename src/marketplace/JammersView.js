@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 class JammersView extends React.Component<{||}> {
     render(){
-		return (
-            <h2>This is the Jammers View</h2>
-            );
+      return (
+              <h2>This is the Jammers View</h2>
+              );
 	  }
 }
 
