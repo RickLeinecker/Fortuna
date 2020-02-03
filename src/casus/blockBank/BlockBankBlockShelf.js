@@ -14,6 +14,7 @@ import GetVariableBlock from '../blocks/GetVariableBlock.js';
 import SetListAtBlock from '../blocks/SetListAtBlock.js';
 import GetListAtBlock from '../blocks/GetListAtBlock.js';
 import ListSizeBlock from '../blocks/ListSizeBlock.js';
+import ListAppendBlock from '../blocks/ListAppendBlock.js';
 import PrintBlock from '../blocks/PrintBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
@@ -357,9 +358,15 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new SetListAtBlock('INT'));
 		blocks.push(new SetListAtBlock('BOOLEAN'));
 		blocks.push(new SetListAtBlock('DOUBLE'));
+
 		blocks.push(new GetListAtBlock('INT'));
 		blocks.push(new GetListAtBlock('BOOLEAN'));
 		blocks.push(new GetListAtBlock('DOUBLE'));
+
+		blocks.push(new ListAppendBlock('INT'));
+		blocks.push(new ListAppendBlock('BOOLEAN'));
+		blocks.push(new ListAppendBlock('DOUBLE'));
+
 		blocks.push(new ListSizeBlock('INT'));
 		blocks.push(new ListSizeBlock('BOOLEAN'));
 		blocks.push(new ListSizeBlock('DOUBLE'));
