@@ -3,7 +3,6 @@
 import * as React from 'react';
 import CasusBlock from './blocks/CasusBlock.js';
 import OrBlock from './blocks/OrBlock.js';
-import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
@@ -48,7 +47,6 @@ class CasusEditor extends React.Component<Props, State> {
 
 		const orBlock: OrBlock = new OrBlock();
 		const orBlock2: CasusBlock = new OrBlock();
-		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
 		const testEquals: IntEqualsBlock = new IntEqualsBlock();
 		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
 		const testForLoop: CasusBlock = new ForBlock();
@@ -58,7 +56,6 @@ class CasusEditor extends React.Component<Props, State> {
 		orBlock.lChild = orBlock2;
 
 		containerBlock.children.push(orBlock);
-		containerBlock.children.push(testVariable);
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
