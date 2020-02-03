@@ -5,6 +5,7 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
+import {verifyBoolean} from '../interpriter/Value.js';
 
 import type {DataType} from './DataType.js';
 
@@ -191,6 +192,15 @@ class ForBlock extends CasusBlock {
 		const result = this.contents.tryToPlace(v, blockToPlace, ctx);
 		if (result != null) {
 			console.log('ERROR! placing block in for loop contents returned non-null meaning it got replaced!');
+		}
+		return null;
+	}
+
+	evaluate(): null {
+		this.initializationBlock.evaluate();
+		while (verifyBoolean(this.expressionBlock.evaluate()).val) {
+			this.contents.evaluate();
+			this.incrementBlock.evaluate();
 		}
 		return null;
 	}
