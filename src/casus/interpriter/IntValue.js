@@ -1,22 +1,19 @@
 //@flow strict
 
-import Value from './Value.js';
-
-class IntVal extends Value {
+class IntValue {
 	val: number;
 
 	constructor(val: number) {
-		super();
 		this.val=this.normalize(val);
 	}
 
-	add(o: IntVal): IntVal {
-		return new IntVal(this.val+o.val);
+	add(o: IntValue): IntValue {
+		return new IntValue(this.val+o.val);
 	}
-	sub(o: IntVal): IntVal {
-		return new IntVal(this.val-o.val);
+	sub(o: IntValue): IntValue {
+		return new IntValue(this.val-o.val);
 	}
-	mul(o: IntVal): IntVal {
+	mul(o: IntValue): IntValue {
 		// we can't just multiply these numbers because we will lose precision on lower digits.
 		// As a demo, run the following JS:
 		//
@@ -48,21 +45,21 @@ class IntVal extends Value {
 			}
 			b=Math.trunc(b/2);
 		}
-		return new IntVal(res);
+		return new IntValue(res);
 	}
-	div(o: IntVal): IntVal {
+	div(o: IntValue): IntValue {
 		//ignore divide by zeros
 		if (o.val==0)
 			return this;
-		return new IntVal(Math.trunc(this.val/o.val));
+		return new IntValue(Math.trunc(this.val/o.val));
 	}
-	mod(o: IntVal): IntVal {
+	mod(o: IntValue): IntValue {
 		if (o.val==0)
-			return new IntVal(0);
-		return new IntVal(this.val%o.val);
+			return new IntValue(0);
+		return new IntValue(this.val%o.val);
 	}
 	
-	equals(o: IntVal): boolean {
+	equals(o: IntValue): boolean {
 		return this.val==o.val;
 	}
 
@@ -83,4 +80,4 @@ class IntVal extends Value {
 	}
 }
 
-export default IntVal;
+export default IntValue;

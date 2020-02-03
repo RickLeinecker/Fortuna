@@ -5,6 +5,7 @@ import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js';
+import type {Value} from '../interpriter/Value.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
@@ -25,6 +26,8 @@ import type {DataType} from './DataType.js';
 //		block will then be rendered on top of this
 //
 //	getReturnType() - gets the return type of the block
+//
+//	evaluate() - evaluates this block and returns a Value of the appropriate return type
 //
 //	(maybe):
 //	getPerim() - returns an array of the perimeter of this block
@@ -155,6 +158,10 @@ class CasusBlock {
 	}
 
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
+		return null;
+	}
+
+	evaluate(): ?Value {
 		return null;
 	}
 
