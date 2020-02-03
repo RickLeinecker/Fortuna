@@ -7,6 +7,10 @@ class BooleanValue {
 		this.val=val;
 	}
 
+	xor(o: BooleanValue): BooleanValue {
+		return new BooleanValue(this.val !== o.val);
+	}
+
 }
 
 export default BooleanValue;
