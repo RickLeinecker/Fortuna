@@ -1,5 +1,7 @@
 //@flow strict
 
+import DoubleValue from './DoubleValue.js';
+
 class IntValue {
 	val: number;
 
@@ -10,9 +12,11 @@ class IntValue {
 	add(o: IntValue): IntValue {
 		return new IntValue(this.val+o.val);
 	}
+
 	sub(o: IntValue): IntValue {
 		return new IntValue(this.val-o.val);
 	}
+
 	mul(o: IntValue): IntValue {
 		// we can't just multiply these numbers because we will lose precision on lower digits.
 		// As a demo, run the following JS:
@@ -47,12 +51,14 @@ class IntValue {
 		}
 		return new IntValue(res);
 	}
+
 	div(o: IntValue): IntValue {
 		//ignore divide by zeros
 		if (o.val==0)
 			return this;
 		return new IntValue(Math.trunc(this.val/o.val));
 	}
+
 	mod(o: IntValue): IntValue {
 		if (o.val==0)
 			return new IntValue(0);
@@ -61,6 +67,30 @@ class IntValue {
 	
 	equals(o: IntValue): boolean {
 		return this.val==o.val;
+	}
+
+	greaterThan(o: IntValue): boolean {
+		return this.val>o.val;
+	}
+
+	lessThan(o: IntValue): boolean {
+		return this.val<o.val;
+	}
+
+	abs(): IntValue {
+		return new IntValue(Math.abs(this.val));
+	}
+
+	maxWith(o: IntValue): IntValue {
+		return new IntValue(Math.max(this.val, o.val));
+	}
+
+	minWith(o: IntValue): IntValue {
+		return new IntValue(Math.min(this.val, o.val));
+	}
+
+	toDoubleValue(): DoubleValue {
+		return new DoubleValue(this.val);
 	}
 
 	normalize(input: number):number {
@@ -78,6 +108,7 @@ class IntValue {
 		}
 		return x;
 	}
+
 }
 
 export default IntValue;
