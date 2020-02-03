@@ -5,6 +5,9 @@ import CasusBlock from './CasusBlock.js';
 import measureText from './measureText.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
+import {getInterpriterState} from '../interpriter/InterpriterState.js';
+import InterpriterState from '../interpriter/InterpriterState.js';
+import type {Value} from '../interpriter/Value.js';
 
 import {
 	RAMP_WIDTH, 
@@ -87,6 +90,11 @@ class GetVariableBlock extends CasusBlock {
 
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
 		return null;
+	}
+
+	evaluate(): ?Value {
+		const interpriter: InterpriterState = getInterpriterState();
+		return interpriter.getVariable(this.dataType, this.variableName);
 	}
 
 }
