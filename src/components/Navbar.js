@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import type {LinkType} from './LinkType.js';
+import type { LinkType } from './LinkType.js';
 
 type Props = {
 	linkName?: LinkType,

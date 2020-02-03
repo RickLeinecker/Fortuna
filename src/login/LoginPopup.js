@@ -26,7 +26,7 @@ type SignupResponse = {
 // Login Popup component.
 class LoginPopup extends React.Component<Props, State> {
 
-	constructor(){
+	constructor() {
 		super();
 		this.state={
 			response: '',
