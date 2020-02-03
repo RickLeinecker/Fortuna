@@ -60,9 +60,51 @@ class DoubleValue {
 		return new IntValue(Math.trunc(this.val));
 	}
 
-	abs() {
+	abs(): DoubleValue {
 		return new DoubleValue(Math.abs(this.val));
 	}
+
+	arccos(): DoubleValue {
+		if (this.val<-1 || this.val>1) {
+			return new DoubleValue(0);
+		}
+		return new DoubleValue(Math.acos(this.val));
+	}
+
+	arcsin(): DoubleValue {
+		if (this.val<-1 || this.val>1) {
+			return new DoubleValue(0);
+		}
+		return new DoubleValue(Math.asin(this.val));
+	}
+
+	arctan(): DoubleValue {
+		return new DoubleValue(Math.atan(this.val));
+	}
+
+	sin(): DoubleValue {
+		return new DoubleValue(Math.sin(this.val));
+	}
+
+	cos(): DoubleValue {
+		return new DoubleValue(Math.cos(this.val));
+	}
+
+	tan(): DoubleValue {
+		return new DoubleValue(Math.tan(this.val));
+	}
+
+	pow(o: DoubleValue): DoubleValue {
+		if (this.val===0 && o.val === 0) {
+			return new DoubleValue(0);
+		}
+		return new DoubleValue(Math.pow(this.val, o.val));
+	}
+
+	sqrt(): DoubleValue {
+		return new DoubleValue(Math.sqrt(Math.abs(this.val)));
+	}
+
 }
 
 export default DoubleValue;
