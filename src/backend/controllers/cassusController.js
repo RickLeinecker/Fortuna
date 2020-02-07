@@ -2,6 +2,13 @@
 
 const user = require('../../models/userModel');
 
+import type {
+    $Request,
+    $Response,
+    NextFunction,
+    Middleware,
+  } from 'express';
+
 exports.update = async (req: $Request, res: $Response) => {
 
     switch(req.body.block){

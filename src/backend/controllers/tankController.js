@@ -11,7 +11,7 @@ import type {
   } from 'express';
 
 exports.getFavorite = async (req: $Request, res: $Response) => {
-    await User.findById(req.params.userId, 'favoriteTankId', function(err: Error, myUser: user){
+    await User.findById(req.user.id, 'favoriteTankId', function(err: Error, myUser: user){
         if(err){
             res.send(err);
             console.log('could not find user');
@@ -21,8 +21,7 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 }
 
 exports.favoriteTank = async (req: $Request, res: $Response) => {
-    const favoriteTankId = req.body;
-    await User.findOneAndUpdate( { _id: req.params.userId }, {favoriteTankId : favoriteTankId}, function(err: Error, result: user){
+    await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true}, function(err: Error, result: user){
         if(err){
             res.send(err);
         }
@@ -33,7 +32,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 }
 
 exports.userTanks = async (req: $Request, res: $Response) => {
-    await Tank.find({ userId: req.params.userId }, function(err: Error, tanks: user){
+    await Tank.find({ userId: req.user.id }, function(err: Error, tanks: user){
         if(err){
             res.send(err);
         }

@@ -40,13 +40,17 @@ router.get('/login', [
 // Retrieve all users
 //router.get('/allUsers', userController.retrieveAll);
 
-router.get('/auth', auth, userController.checkAuth);
+// Retrieve a single user based on userID
+// Route call: /getUser
+// Req must include the jwt as a header: x-auth-token
+// Returns a JSON object containing all the user's info except the password
+router.get('/getUser', auth, userController.getUser);
 
 // Retrieve a single user based on userID
 // Route call: /<userId>/Retrieve
 // Req must include the userId in the param
 // Returns a JSON object containing all the user's info
-router.get('/:userId/Retrieve', userController.getUser);
+// router.get('/:userId/retrieve', userController.getUser);
 
 // Retrieve top 20 users as of rn, that can be easily changed if needed - see userController
 // Route call: /leaderboard
