@@ -21,7 +21,7 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 }
 
 exports.favoriteTank = async (req: $Request, res: $Response) => {
-    await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true}, function(err: Error, result: user){
+    await user.findOneAndUpdate( { _id: req.params.userId }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: user){
         if(err){
             res.send(err);
         }

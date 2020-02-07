@@ -1,7 +1,7 @@
 **Description**
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
-Fixes #(issue)
+Resolves #(replace parentheses and the stuff here with the issue number, if there isn't one, create one.) 
 
 **Type of change**
 Check options that are relevant.
@@ -11,7 +11,10 @@ Check options that are relevant.
 - [ ] Fix or feature that would cause existing functionality to not work as expected
 - [ ] This change requires a update in the design document
 
-**Checklist:**
+**Steps to Verify Functionality**
+Make a bulleted/numbered list of steps to verify this feature/bugfix. Include screenshots if necessary.
+
+**Final Checklist:**
 Go down the list and check them off.
 
 - [ ] My code follows the style guidelines of this project
@@ -19,4 +22,4 @@ Go down the list and check them off.
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the design document (if applicable)
 - [ ] My changes generate no new warnings
-- [ ] Any dependent changes have been merged and published in downstream modules
+- [ ] Pulled updated master branch (if changed since branch creation) and corrected any conflicts, if any occur.

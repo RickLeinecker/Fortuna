@@ -5,11 +5,14 @@ import CasusBlock from './blocks/CasusBlock.js';
 import OrBlock from './blocks/OrBlock.js';
 import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
-import SetVariableBlock from './blocks/SetVariableBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import EmptyBlock from './blocks/EmptyBlock.js';
 import Vec from './blocks/Vec.js';
+import SelectVariablePopup from './userInteraction/SelectVariablePopup.js';
+import GetVariableBlock from './blocks/GetVariableBlock.js';
+import SetVariableBlock from './blocks/SetVariableBlock.js';
+import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 
 type Props = {|
@@ -22,7 +25,8 @@ type State = {|
 	containerBlock: CasusBlock,
 	mouseX: number,
 	mouseY: number,
-	mouseOnScreen: boolean
+	mouseOnScreen: boolean,
+	variableBlockToRename: GetVariableBlock | SetVariableBlock | null
 |};
 
 type MouseEvent = {
@@ -63,7 +67,8 @@ class CasusEditor extends React.Component<Props, State> {
 			containerBlock: containerBlock,
 			mouseX: 0,
 			mouseY: 0,
-			mouseOnScreen: false
+			mouseOnScreen: false,
+			variableBlockToRename: null
 		}
 	}
 
@@ -85,6 +90,11 @@ class CasusEditor extends React.Component<Props, State> {
 				<canvas 
 					className="casusEditorCanvas"
 					ref="canvas" 
+				/>
+				<SelectVariablePopup 
+					variableBlockToRename={this.state.variableBlockToRename}
+					onCancelClicked={() => this.onCancelClicked()}
+					onVariableCreated={(created: string) => this.onVariableCreated(created)}
 				/>
 			</div>
 		);
@@ -113,6 +123,8 @@ class CasusEditor extends React.Component<Props, State> {
 		if (!wouldPlaceOnEmptyVoid) {
 			this._tryToPlaceInContainerBlock(null);
 		}
+
+		this._openSelectVariablePopupIfNeeded();
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
 	}
@@ -134,6 +146,25 @@ class CasusEditor extends React.Component<Props, State> {
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
 		}
+
+		this._rerender();
+	}
+
+	onVariableCreated(variableName: string) {
+		const toRename=this.state.variableBlockToRename;
+		if (toRename instanceof GetVariableBlock) {
+			toRename.variableName = variableName;
+		}
+		if (toRename instanceof SetVariableBlock) {
+			toRename.variableName = variableName;
+		}
+		this.setState({variableBlockToRename: null});
+
+		this._rerender();
+	}
+
+	onCancelClicked() {
+		this.setState({variableBlockToRename: null});
 
 		this._rerender();
 	}
@@ -200,7 +231,7 @@ class CasusEditor extends React.Component<Props, State> {
 		return false;
 	}
 
-	_tryToPlace(ctx: ?CanvasRenderingContext2D) {
+	_tryToPlace(ctx: ?CanvasRenderingContext2D):void {
 		if (this.props.draggedBlocks != null) {
 			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
 			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
@@ -213,7 +244,7 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 	}
 
-	_tryToPlaceInContainerBlock(ctx: ?CanvasRenderingContext2D) {
+	_tryToPlaceInContainerBlock(ctx: ?CanvasRenderingContext2D): void {
 		if (this.props.draggedBlocks != null) {
 			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
 			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
@@ -226,6 +257,22 @@ class CasusEditor extends React.Component<Props, State> {
 			blockToTryPlace.precompBounds();
 
 			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx);	
+		}
+	}
+
+	_openSelectVariablePopupIfNeeded(): void {
+		if (this.props.draggedBlocks == null) {
+			return;
+		}
+		if (this.props.draggedBlocks.length !== 1) {
+			return;
+		}
+		const released=this.props.draggedBlocks[0];
+		if (released instanceof GetVariableBlock || released instanceof SetVariableBlock) {
+			if (isDefaultVariableName(released.variableName)) {
+				this.setState({variableBlockToRename: released});
+				console.log('released something and should open popup!');
+			}
 		}
 	}
 

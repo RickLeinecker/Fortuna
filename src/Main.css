@@ -2,15 +2,186 @@
     margin-top:20px;
 }
 
-body, html {
+body {
+    background-color: #000921;
     color: #04CCFF;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Login/Signup Page Styling */
+.loginleft {
+    width: 25%;
+    margin-top: 275px;
+    padding-left: 20px;
+    text-align: justify;
+}
+
+.loginright {
+    width: 25%;
+    margin-top: 375px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.loginmiddle {
+    width: 50%;
+    text-align: center;
+    margin-top: 350px;
+}
+
+/* Main Menu Page Styling */
+.menuleft {
+    width: 25%;
+    margin-top: 250px;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.menuright {
+    width: 25%;
+    margin-top: 250px;
+    padding-right: 5px;
+    text-align: center;
+}
+
+.menumiddle {
+    width: 50%;
+    margin-top: 250px;
+    text-align: center;
+}
+
+.menuheader {
+    text-align: center;
+    padding-top: 90px;
+}
+
+/* Battle Arena Page Styling */
+.baleft {
+    width: 36%;
+    margin: 150px 0px 0px 0px;
+    text-align: center;
+}
+
+.baleft h6 {
+    margin-top: 50px;
+}
+
+.bamiddle {
+    width: 28%;
+    text-align: center;
+    margin: 100px 0px 0px 0px;
+}
+
+.baright {
+    width: 29%;
+    margin: 150px 0px 0px 80px;
+}
+
+/* Armory Page Styling */
+.armoryright {
+    margin: 100px 0px 0px 20px;
+}
+
+.armoryright h6 {
+    margin-top: 50px;
+}
+
+.armorymiddle {
+
+}
+
+.armoryleft {
+
+}
+
+/* Radio Button and Checkbox Styling */
+.defaultRadioButton {
+    display: block;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.defaultRadioButton input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #04CCFF;
+    border-radius: 50%;
+}
+
+.defaultRadioButton:hover input ~ .checkmark {
+    background-color: rgb(1, 150, 187);
+}
+
+.defaultRadioButton input:checked ~ .checkmark {
+    background-color: rgb(1, 150, 187);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.defaultRadioButton input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.defaultRadioButton .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     background: #000921;
 }
 
-h1 {
-    padding: 5px 5px 5px 5px;
+/* Input Styling */
+.inputText {
+    margin-top: 10px;
+    padding-left: 5px;
+    width: 75%;
+    border-radius: 4px;
+    border-color: #04CCFF;
+    background-color: #04CCFF;
+    color: #000921;
 }
 
+::placeholder {
+    color: #04213F;
+    opacity: 0.75;
+}
+
+/* Dropdown Menu Styling */
+.dropdownMenu {
+    cursor: pointer;
+    width: 90%;
+    padding: 10px 10px 10px 10px;
+    border-radius: 4px;
+    border-color: #04CCFF;
+    background-color: #04CCFF;
+    color: #000921;
+}
 
 /* Column Styling */
 .column {
@@ -18,25 +189,46 @@ h1 {
     font-family: "Lucida Console";
 }
 
-.left {
-    width: 25%;
-    margin-top: 275px;
-    padding-left: 20px;
-    text-align: justify;
+/* Navbar Styling */
+.navbar {
+    background-color: #3E5A6F;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    padding: 5px 10px 5px 10px;
 }
 
-.right {
+.navbtn:hover {
+    background-color: #000921;
+}
+
+.navleft {
     width: 25%;
-    margin-top: 375px;
+}
+
+.navmiddle {
     text-align: center;
-}
-
-.middle {
     width: 50%;
-    text-align: center;
-    margin-top: 350px;
 }
 
+.navright {
+    text-align: right;
+    width: 25%;
+}
+
+.navbtn {
+    color: #04CCFF;
+    background: #3E5A6F;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: auto;
+}
+
+.navbtn:hover {
+	color: #3E5A6F;
+	background: #04CCFF;
+	border: 2px solid #04CCFF;
+}
 
 /* Button Styling */
 .btn {
@@ -63,6 +255,43 @@ h1 {
     color: #39a9dd;
 }
 
+.nobtn {
+    display: none;
+}
+
+/* Popup Styling */
+.popup {
+    padding: 5px 50px 20px 50px;
+    background-color: #04213F;
+}
+
+.popupbtn {
+    color: #04213F;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+}
+
+.popupbtn:hover {
+    color: #04CCFF;
+	background: #04213F;
+	border: 2px solid #04CCFF;
+}
+
+.closebtn {
+    color: #04213F;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    margin-left: 50px;
+}
+
+.closebtn:hover {
+    color: #04CCFF;
+	background: #04213F;
+	border: 2px solid #04CCFF;
+}
+  
 .popupbtn {
     color: #000921;
     background: #04CCFF;
@@ -71,17 +300,10 @@ h1 {
     width: 150%;
 }
 
-
-/* Popup Styling */
-.popup {
-    padding: 5px 50px 20px 50px;
-    background: #04213F;
-}
-
-/* Leaderboard */
+/* Leaderboard Styling */
 .leaderboard {
 	padding-left: 10px;
-	margin-right: auto;
+    margin-right: auto;
 	background-color: #04213F;
 	border: 5px solid black;
 	border-radius: 8px;

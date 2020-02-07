@@ -47,7 +47,7 @@ router.get('/login', [
 router.get('/getUser', auth, userController.getUser);
 
 // Retrieve a single user based on userID
-// Route call: /<userId>/Retrieve
+// Route call: /<userId>/retrieve
 // Req must include the userId in the param
 // Returns a JSON object containing all the user's info
 // router.get('/:userId/retrieve', userController.getUser);
