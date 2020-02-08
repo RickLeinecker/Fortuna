@@ -113,6 +113,33 @@ body {
     padding-right: 20px;
 }
 
+/* Training Arena Styling */
+.taleft {
+    width: 30%;
+    margin-top: 150px;
+    padding-left: 20px;
+}
+
+.tamiddle {
+    width: 40%;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.tamiddle button {
+    margin-top: 500px;
+}
+
+.tamiddle select {
+    width: 80%;
+}
+
+.taright {
+    width: 30%;
+    margin-top: 150px;
+    padding-right: 20px;
+}
+
 /* Input Styling */
 .inputText {
     margin-top: 10px;

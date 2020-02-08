@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 import Leaderboard from '../components/Leaderboard.js';
 
@@ -15,7 +16,9 @@ class BattleArena extends React.Component<{||}> {
                 <h6>Find the First Challenger Available</h6>
                 <button type="button" className="btn">Quickplay</button>
                 <h6>Practice Against Bots</h6>
-                <button type="button" className="btn">Training Arena</button>
+                <Link to="TrainingArena">
+                    <button type="button" className="btn">Training Arena</button>
+                </Link>
             </div>
 			<div className="column bamiddle">
 				<h2>Choose your Tank, Commander</h2>

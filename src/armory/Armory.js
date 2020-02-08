@@ -4,12 +4,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 
-type Props = {||};
-
-type State = {
-	points: integer
-};
-
 // Tracks points to component names.
 const componentPoints = [
 	// Chassis
@@ -60,18 +54,6 @@ const componentPoints = [
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
 
-	constructor(props: Props) {
-		super(props)
-		
-		this.state = {
-			points: 0
-		}
-	}
-
-	updatePoints() {
-		console.log(this);
-	}
-
 	render(): React.Node {
 		return (
 			<div id="Parent">
@@ -93,11 +75,11 @@ class Armory extends React.Component<{||}> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>BIG TANK GUY</h1>
-					<h6>Points Used: {this.state.points}/10</h6>
+					<h6>Points Used: 0/10</h6>
 				</div>
 				<div className="column armoryright">
 					<h6>Chassis</h6>
-					<select className="tankComponentMenu" onChange={this.updatePoints.bind(this)}>
+					<select className="tankComponentMenu">
                     	<option defaultValue></option>
                     	<option value="moddableLight">Moddable Light</option>
                     	<option value="light">Light</option>
