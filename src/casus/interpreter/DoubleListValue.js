@@ -13,11 +13,9 @@ class DoubleListValue {
 
 	setAt(index: IntValue, to:DoubleValue): void {
 		if (index.val<0 || index.val>this.list.length) {
-			//just ignore it
-		}
-		else {
 			this.list[index.val]=to;
 		}
+		//otherwise just ignore it
 	}
 	
 	getAt(index: IntValue): DoubleValue {

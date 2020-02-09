@@ -12,12 +12,10 @@ class BooleanListValue {
 	}
 
 	setAt(index: IntValue, to:BooleanValue): void {
-		if (index.val<0 || index.val>this.list.length) {
-			//just ignore it
-		}
-		else {
+		if (index.val>=0 || index.val<this.list.length) {
 			this.list[index.val]=to;
 		}
+		//otherwise just ignore it
 	}
 	
 	getAt(index: IntValue): BooleanValue {
