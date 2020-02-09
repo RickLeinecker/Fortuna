@@ -14,6 +14,8 @@ import GetVariableBlock from '../blocks/GetVariableBlock.js';
 import SetListAtBlock from '../blocks/SetListAtBlock.js';
 import GetListAtBlock from '../blocks/GetListAtBlock.js';
 import ListSizeBlock from '../blocks/ListSizeBlock.js';
+import ListAppendBlock from '../blocks/ListAppendBlock.js';
+import PrintBlock from '../blocks/PrintBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
@@ -61,6 +63,11 @@ import {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
 	DEFAULT_BOOLEAN_VARIABLE_NAME,
+
+	DEFAULT_INT_VARIABLE_NAME_OR_CONST,
+	DEFAULT_DOUBLE_VARIABLE_NAME_OR_CONST,
+	DEFAULT_BOOLEAN_VARIABLE_NAME_OR_CONST,
+
 	DEFAULT_INT_LIST_NAME,
 	DEFAULT_DOUBLE_LIST_NAME,
 	DEFAULT_BOOLEAN_LIST_NAME
@@ -238,6 +245,9 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 			case 'LISTS':
 				blocks = this._getListBlocks();
 				break;
+			case 'DEBUG':
+				blocks = this._getDebugBlocks();
+				break;
 			default:
 				console.log('unexpected BlockBankType: '+type+' in getBlocksOfType!');
 				break;
@@ -325,9 +335,10 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new SetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
 		blocks.push(new SetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
 		blocks.push(new SetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
-		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME, 'INT'));
-		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME, 'BOOLEAN'));
-		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME, 'DOUBLE'));
+
+		blocks.push(new GetVariableBlock(DEFAULT_INT_VARIABLE_NAME_OR_CONST, 'INT'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_VARIABLE_NAME_OR_CONST, 'BOOLEAN'));
+		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_VARIABLE_NAME_OR_CONST, 'DOUBLE'));
 		return blocks;
 	}
 
@@ -341,18 +352,33 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_getListBlocks(): Array<CasusBlock> {
 		const blocks: Array<CasusBlock> = [];
-		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_LIST_NAME, 'BOOLEAN_LIST'));
 		blocks.push(new GetVariableBlock(DEFAULT_INT_LIST_NAME, 'INT_LIST'));
+		blocks.push(new GetVariableBlock(DEFAULT_BOOLEAN_LIST_NAME, 'BOOLEAN_LIST'));
 		blocks.push(new GetVariableBlock(DEFAULT_DOUBLE_LIST_NAME, 'DOUBLE_LIST'));
-		blocks.push(new SetListAtBlock('BOOLEAN'));
 		blocks.push(new SetListAtBlock('INT'));
+		blocks.push(new SetListAtBlock('BOOLEAN'));
 		blocks.push(new SetListAtBlock('DOUBLE'));
-		blocks.push(new GetListAtBlock('BOOLEAN'));
+
 		blocks.push(new GetListAtBlock('INT'));
+		blocks.push(new GetListAtBlock('BOOLEAN'));
 		blocks.push(new GetListAtBlock('DOUBLE'));
-		blocks.push(new ListSizeBlock('BOOLEAN'));
+
+		blocks.push(new ListAppendBlock('INT'));
+		blocks.push(new ListAppendBlock('BOOLEAN'));
+		blocks.push(new ListAppendBlock('DOUBLE'));
+
 		blocks.push(new ListSizeBlock('INT'));
+		blocks.push(new ListSizeBlock('BOOLEAN'));
 		blocks.push(new ListSizeBlock('DOUBLE'));
+		return blocks;
+	}
+
+	_getDebugBlocks(): Array<CasusBlock> {
+		const blocks: Array<CasusBlock> = [];
+		blocks.push(new PrintBlock('INT'));
+		blocks.push(new PrintBlock('BOOLEAN'));
+		blocks.push(new PrintBlock('DOUBLE'));
+
 		return blocks;
 	}
 

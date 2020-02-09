@@ -61,6 +61,11 @@ class BlockBankTypeSelector extends React.Component<Props> {
 					onClick={() => this.showSection('LISTS')}>
 						Lists
 				</button>
+				<button 
+					className="btn btn-secondary paddedButton" 
+					onClick={() => this.showSection('DEBUG')}>
+						Debug
+				</button>
 			</div>
 		);
 	}

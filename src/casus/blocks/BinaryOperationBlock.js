@@ -20,22 +20,31 @@ class BinaryOperationBlock extends CasusBlock {
 	lChild: CasusBlock;
 	rChild: CasusBlock;
 	paramType: DataType;
+	rightParamType: DataType;
 	returnType: DataType;
 	centerText: string;
 	centerTextWidth: number;
 	leftText: string;
 	leftTextWidth: number;
 
-	constructor(paramType: DataType, returnType: DataType, centerText: string, leftText: string = "") {
+	constructor(
+		paramType: DataType, 
+		returnType: DataType, 
+		centerText: string, 
+		leftText: string = "", 
+		rightParam: ?DataType = null
+	) {
 		super();
 
-		this.lChild=new EmptyBlock(paramType);
-		this.rChild=new EmptyBlock(paramType);
 		this.paramType=paramType;
 		this.returnType=returnType;
 		this.centerText=centerText;
 		this.centerTextWidth=measureText(centerText).w + CENTER_WIDTH;
 		this.leftText=leftText;
+		this.rightParamType=rightParam ?? paramType; 
+		this.lChild=new EmptyBlock(paramType);
+		this.rChild=new EmptyBlock(this.rightParamType);
+
 		if (this.leftText.length === 0) {
 			this.leftTextWidth = 0;
 		}
@@ -96,7 +105,7 @@ class BinaryOperationBlock extends CasusBlock {
 		}
 		if (this.rChild.boundingBox.contains(v) && this.rChild.draggable()) {
 			const toReturn=[this.rChild];
-			this.rChild=new EmptyBlock(this.paramType);
+			this.rChild=new EmptyBlock(this.rightParamType);
 			return toReturn;
 		}
 
