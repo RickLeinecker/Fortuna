@@ -15,7 +15,6 @@ class MathCosBlock extends UnaryOperationBlock {
 		return res.cos();
 	}
 
-
 }
 
 export default MathCosBlock;

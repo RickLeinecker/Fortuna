@@ -15,7 +15,6 @@ class MathSinBlock extends UnaryOperationBlock {
 		return res.sin();
 	}
 
-
 }
 
 export default MathSinBlock;
