@@ -1,8 +1,8 @@
 //@flow strict
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
-import BooleanValue from '../interpriter/BooleanValue.js';
-import {verifyInt} from '../interpriter/Value.js';
+import BooleanValue from '../interpreter/BooleanValue.js';
+import {verifyInt} from '../interpreter/Value.js';
 
 class IntLessThanOrEqualBlock extends BinaryOperationBlock {
 

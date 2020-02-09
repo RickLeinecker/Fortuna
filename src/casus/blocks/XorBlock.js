@@ -1,8 +1,8 @@
 //@flow strict
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
-import BooleanValue from '../interpriter/BooleanValue.js';
-import {verifyBoolean} from '../interpriter/Value.js';
+import BooleanValue from '../interpreter/BooleanValue.js';
+import {verifyBoolean} from '../interpreter/Value.js';
 
 class XorBlock extends BinaryOperationBlock {
 

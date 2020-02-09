@@ -6,12 +6,12 @@ import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
 import {listVersionOf} from './DataType.js'
-import IntValue from '../interpriter/IntValue.js';
+import IntValue from '../interpreter/IntValue.js';
 import {
 	verifyIntList,
 	verifyBooleanList,
 	verifyDoubleList
-} from '../interpriter/Value.js';
+} from '../interpreter/Value.js';
 import {
 	LIST_SIZE_SIZE_WIDTH, 
 	RAMP_WIDTH, 

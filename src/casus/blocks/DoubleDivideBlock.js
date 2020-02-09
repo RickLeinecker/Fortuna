@@ -1,8 +1,8 @@
 //@flow strict
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
-import DoubleValue from '../interpriter/DoubleValue.js';
-import {verifyDouble} from '../interpriter/Value.js';
+import DoubleValue from '../interpreter/DoubleValue.js';
+import {verifyDouble} from '../interpreter/Value.js';
 
 class DoubleDivideBlock extends BinaryOperationBlock {
 

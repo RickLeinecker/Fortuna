@@ -5,7 +5,7 @@ import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js';
-import type {Value} from '../interpriter/Value.js';
+import type {Value} from '../interpreter/Value.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor

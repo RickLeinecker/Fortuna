@@ -1,8 +1,8 @@
 //@flow strict
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
-import IntValue from '../interpriter/IntValue.js';
-import {verifyInt} from '../interpriter/Value.js';
+import IntValue from '../interpreter/IntValue.js';
+import {verifyInt} from '../interpreter/Value.js';
 
 class IntMultiplyBlock extends BinaryOperationBlock {
 

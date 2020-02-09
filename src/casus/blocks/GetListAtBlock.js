@@ -5,8 +5,8 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
-import {getInterpriterState} from '../interpriter/InterpriterState.js';
-import InterpriterState from '../interpriter/InterpriterState.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
+import InterpriterState from '../interpreter/InterpriterState.js';
 import GetVariableBlock from './GetVariableBlock.js';
 import {
 	verifyInt, 
@@ -14,7 +14,7 @@ import {
 	verifyBooleanList,
 	verifyDoubleList,
 	defaultValueFor
-} from '../interpriter/Value.js';
+} from '../interpreter/Value.js';
 import {
 	GET_LIST_AT_AT_WIDTH, 
 	RAMP_WIDTH, 
@@ -23,7 +23,7 @@ import {
 import {listVersionOf} from './DataType.js'
 
 import type {DataType} from './DataType.js'
-import type {Value} from '../interpriter/Value.js';
+import type {Value} from '../interpreter/Value.js';
 
 class GetListAtBlock extends CasusBlock {
 
@@ -143,7 +143,7 @@ class GetListAtBlock extends CasusBlock {
 
 	evaluate(): ?Value {
 		const index = verifyInt(this.indexBlock.evaluate());
-		const interpriter: InterpriterState = getInterpriterState();
+		const interpreter: InterpriterState = getInterpriterState();
 		const expectedListType = listVersionOf(this.paramType);
 		if (!(this.list instanceof GetVariableBlock)) {
 			return defaultValueFor(this.paramType);
@@ -151,7 +151,7 @@ class GetListAtBlock extends CasusBlock {
 
 		const listName = this.list.variableName;
 
-		const list = interpriter.getVariable(expectedListType, listName);
+		const list = interpreter.getVariable(expectedListType, listName);
 		switch(this.paramType) {
 			case 'INT':
 				return verifyIntList(list).getAt(index);

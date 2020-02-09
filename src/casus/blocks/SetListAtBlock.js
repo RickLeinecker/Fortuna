@@ -12,7 +12,7 @@ import {
 	verifyIntList,
 	verifyBooleanList,
 	verifyDoubleList
-} from '../interpriter/Value.js';
+} from '../interpreter/Value.js';
 import {
 	SET_LIST_AT_SET_WIDTH, 
 	SET_LIST_AT_AT_WIDTH, 

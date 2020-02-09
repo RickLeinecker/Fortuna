@@ -1,8 +1,8 @@
 //@flow strict
 
 import BinaryOperationBlock from './BinaryOperationBlock.js';
-import BooleanValue from '../interpriter/BooleanValue.js';
-import {verifyDouble} from '../interpriter/Value.js';
+import BooleanValue from '../interpreter/BooleanValue.js';
+import {verifyDouble} from '../interpreter/Value.js';
 
 class DoubleLessThanBlock extends BinaryOperationBlock {
 

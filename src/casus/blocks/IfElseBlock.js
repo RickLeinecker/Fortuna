@@ -5,7 +5,7 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
-import {verifyBoolean} from '../interpriter/Value.js';
+import {verifyBoolean} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
 

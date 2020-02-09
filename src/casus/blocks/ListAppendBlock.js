@@ -9,7 +9,7 @@ import {
 	verifyIntList,
 	verifyBooleanList,
 	verifyDoubleList
-} from '../interpriter/Value.js';
+} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
 

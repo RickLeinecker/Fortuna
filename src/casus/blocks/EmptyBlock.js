@@ -9,10 +9,10 @@ import {
 	EMPTY_STATEMENT_HEIGHT,
 } from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
-import {defaultValueFor} from '../interpriter/Value.js';
+import {defaultValueFor} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
-import type {Value} from '../interpriter/Value.js';
+import type {Value} from '../interpreter/Value.js';
 
 class EmptyBlock extends CasusBlock {
 

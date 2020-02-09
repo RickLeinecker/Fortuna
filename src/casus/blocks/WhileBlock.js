@@ -1,7 +1,7 @@
 //@flow strict
 
 import SingleConditionHeader from './SingleConditionHeader.js';
-import {verifyBoolean} from '../interpriter/Value.js';
+import {verifyBoolean} from '../interpreter/Value.js';
 import {
 	WHILE_BLOCK_WHILE_WIDTH
 } from './generateCornerPerim.js';

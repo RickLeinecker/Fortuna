@@ -5,9 +5,9 @@ import CasusBlock from './CasusBlock.js';
 import measureText from './measureText.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
-import {getInterpriterState} from '../interpriter/InterpriterState.js';
-import InterpriterState from '../interpriter/InterpriterState.js';
-import type {Value} from '../interpriter/Value.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
+import InterpriterState from '../interpreter/InterpriterState.js';
+import type {Value} from '../interpreter/Value.js';
 
 import {
 	RAMP_WIDTH, 
@@ -93,8 +93,8 @@ class GetVariableBlock extends CasusBlock {
 	}
 
 	evaluate(): ?Value {
-		const interpriter: InterpriterState = getInterpriterState();
-		return interpriter.getVariable(this.dataType, this.variableName);
+		const interpreter: InterpriterState = getInterpriterState();
+		return interpreter.getVariable(this.dataType, this.variableName);
 	}
 
 }

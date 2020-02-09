@@ -6,8 +6,8 @@ import EmptyBlock from './EmptyBlock.js';
 import measureText from './measureText.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
-import InterpriterState from '../interpriter/InterpriterState.js'
-import {getInterpriterState} from '../interpriter/InterpriterState.js'
+import InterpriterState from '../interpreter/InterpriterState.js'
+import {getInterpriterState} from '../interpreter/InterpriterState.js'
 
 import {
 	SET_VARIABLE_SET_WIDTH, 
@@ -122,12 +122,12 @@ class SetVariableBlock extends CasusBlock {
 	}
 
 	evaluate(): null {
-		const interpriter : InterpriterState = getInterpriterState();
+		const interpreter : InterpriterState = getInterpriterState();
 		const setTo = this.expressionBlock.evaluate();
 		if (setTo == null) {
 			throw new Error('Didnt expect expression block to return null!');
 		}
-		interpriter.setVariable(this.paramType, this.variableName, setTo);
+		interpreter.setVariable(this.paramType, this.variableName, setTo);
 		return null;
 	}
 

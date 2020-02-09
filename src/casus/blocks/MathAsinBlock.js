@@ -1,8 +1,8 @@
 //@flow strict
 
 import UnaryOperationBlock from './UnaryOperationBlock.js';
-import DoubleValue from '../interpriter/DoubleValue.js';
-import {verifyDouble} from '../interpriter/Value.js';
+import DoubleValue from '../interpreter/DoubleValue.js';
+import {verifyDouble} from '../interpreter/Value.js';
 
 class MathAsinBlock extends UnaryOperationBlock {
 
