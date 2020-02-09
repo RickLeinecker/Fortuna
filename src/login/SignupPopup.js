@@ -5,11 +5,11 @@ import Popup from 'reactjs-popup';
 
 
 // Login component.
-const PORT = 3000;
 type Props = {||}; 
 type State = {|
 	response: string,
 	userName: string,
+	email: string,
 	password: string,
 	responseToPost: string,
 |};
@@ -31,34 +31,21 @@ class SignupPopup extends React.Component<Props, State> {
 		this.state={
 			response: '',
 			userName: '',
+			email: '',
 			password: '',
 			responseToPost: ''
 		}
 	}
 
-	componentDidMount():void {
-		this.callApi()
-		.then(res => this.setState({ response: res.express }))
-		.catch(err => console.log(err));
-	};
-	
-	callApi = async ():Promise<SignupResponse> => {
-		const response:Response = await fetch('http://localhost:'+PORT+'/signup');
-		const body:SignupResponse  = await response.json();
-		if (response.status !== 200) throw Error(body.message);
-		
-		return body;
-	};
-
-	handleLoginClick = async ():Promise<void> => {
-		const response = await fetch('http://localhost:'+PORT+'/signup', {
+	handleSignUpClick = async ():Promise<void> => {
+		const response = await fetch('user/registerUser', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
+			body: JSON.stringify({ userName: this.state.userName, email: this.state.email, password:this.state.password }),
 		});
 		const body = await response.text();
 		console.log(body);
@@ -86,7 +73,7 @@ class SignupPopup extends React.Component<Props, State> {
 							<div className="row col-md-12 form-group">
 								<label>Password</label>
 								<div className="input-group">
-									<input type="password" name="loginPassword" className="inputText"/>
+									<input type="password" name="loginPassword" className="inputText" value={this.state.password} onChange={e => this.setState({ password: e.target.value})}/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
@@ -98,7 +85,7 @@ class SignupPopup extends React.Component<Props, State> {
 							</div>
 							<div className="row col-md-12">
 								<Link to="/MainMenu">
-									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Signup</button>
+									<button type="submit" className="popupbtn" onClick={this.handleSignUpClick}>Signup</button>
 								</Link>
 								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
 							</div>

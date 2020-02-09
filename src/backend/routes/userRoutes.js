@@ -29,7 +29,7 @@ router.post('/registerUser', [
 // Route call: login
 // Req must include username and password in body
 // Returns a jwt upon success
-router.get('/login', [
+router.post('/login', [
     check('userName', 'Please enter a username with 3 or more characters')
         .isLength(3),
     check('password', 'Password is required')
@@ -52,7 +52,7 @@ router.get('/getUser', auth, userController.getUser);
 // Returns a JSON object containing all the user's info
 // router.get('/:userId/retrieve', userController.getUser);
 
-// Retrieve top 20 users as of rn, that can be easily changed if needed - see userController
+// Retrieve top 10 users as of rn, that can be easily changed if needed - see userController
 // Route call: /leaderboard
 // Req requires no info
 // Returns an array of json users including the elo, _id, and userName

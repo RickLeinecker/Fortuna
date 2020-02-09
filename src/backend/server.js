@@ -15,7 +15,7 @@ const PORT = 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
-const cassusRoutes = require('./routes/cassusRoutes');
+const cassusRoutes = require('./routes/casusRoutes');
 
 // Server Instance
 const app = express();
@@ -30,9 +30,9 @@ app.use(express.json());
 
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
-app.use('/tank', tankRoutes);
-app.use('/user', userRoutes);
-app.use('/cassus', cassusRoutes);
+app.use('/api/tank', tankRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/cassus', cassusRoutes);
 
 
 
