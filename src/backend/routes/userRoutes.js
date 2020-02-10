@@ -29,7 +29,7 @@ router.post('/registerUser', [
 // Route call: login
 // Req must include username and password in body
 // Returns a jwt upon success
-router.get('/login', [
+router.post('/login', [
     check('userName', 'Please enter a username with 3 or more characters')
         .isLength(3),
     check('password', 'Password is required')

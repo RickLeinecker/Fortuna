@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
 import ChassisView from './ChassisView.js';
@@ -11,7 +12,7 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
-import MarketPlaceViewDataTypes from './MarketPlaceViewDataTypes.js';
+import type {MarketPlaceViewDataTypes} from './MarketPlaceViewDataTypes.js';
 
 type Props = {||}; 
 type State = {|
@@ -33,7 +34,6 @@ class Marketplace extends React.Component<Props, State> {
 		let partView='NONE';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
-				console.log("Here");
 				partView=(<ChassisView></ChassisView>);
 				break;
 			case 'CANNONS':
@@ -57,18 +57,10 @@ class Marketplace extends React.Component<Props, State> {
 			case 'NONE':
 				partView=(<h2>Select a type on the left</h2>);
 				break;
-			}
+		}
 		return (
 	  		<div id="Parent">
-				<div className="row">
-		  			<div className="col-md-4">
-						<Link to="/MainMenu">
-		  					<button type="button" className="btn btn-secondary btn-lg">&lt;- Back to Main Menu</button>
-						</Link>
-	  				</div>
-		  			<h1 className="col-md-4 text-center">Marketplace</h1>
-		  			<h4 className="col-md-4 text-right">Currency: $9432</h4>
-				</div>
+				<Navbar styleName="navbtn" linkName="Mainmenu" returnName="Back to Main Menu" pageName="Marketplace" userName="FRIcker | $465128"/>
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">

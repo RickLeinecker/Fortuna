@@ -1,8 +1,8 @@
 //@flow strict
 import * as React from 'react';
 class ChassisView extends React.Component<{||}> {
-    render()
-    {    return (
+    render(){
+        return (
             <h1>This is the Chassis View</h1>
         );
     }

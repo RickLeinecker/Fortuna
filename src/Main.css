@@ -230,34 +230,7 @@ body {
 	border: 2px solid #04CCFF;
 }
 
-/* Button Styling */
-.btn {
-    color: #000921;
-    background: #04CCFF;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
-    width: 175px;
-}
 
-.btn:hover {
-	color: #04CCFF;
-	background: #000921;
-	border: 2px solid #04CCFF;
-}
-
-.clearbtn {
-    color: #04CCFF;
-    border: none;
-    background: none;
-}
-
-.clearbtn:hover {
-    color: #39a9dd;
-}
-
-.nobtn {
-    display: none;
-}
 
 /* Popup Styling */
 .popup {
@@ -310,6 +283,7 @@ body {
 }
 
 /* Button Styling */
+
 .btn {
     color: #000921;
     background: #04CCFF;
