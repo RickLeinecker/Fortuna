@@ -4,53 +4,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 
-// Tracks points to component names.
-const componentPoints = [
-	// Chassis
-	{ moddableLight: -1 },
-	{ light: 0 },
-	{ moddable: -1 },
-	{ heavy: 0 },
-	{ moddableHeavy: -1 },
-
-	// Weapons
-	{ machineGun: 1 },
-	{ grenadeLauncher: 1 },
-	{ missile: 1 },
-	{ shotgun: 1 },
-	{ vulcanCannon: 1 },
-	{ laser: 1 },
-	{ plasma: 2 },
-	{ pulseLaser: 1 },
-	{ lancer: 2 },
-	{ deathRay: 2 },
-
-	// Scanners
-	{ shortRangeScanner: 1 },
-	{ mediumRangeScanner: 2 },
-	{ longRangeScanner: 3 },
-	{ itemScanner: 1 },
-	{ antiJammerScanner: 1 },
-
-	// Jammers
-	{ closeRangeJammer: 1 },
-	{ mediumRangeJammer: 1 },
-	{ longRangeJammer: 1 },
-
-	// Treads
-	{ advancedTreads: 2 },
-	{ fastTreads: 1 },
-	{ armoredTreads: 1 },
-	{ heavilyArmoredTreads: 2 },
-
-	// Single-Use Items
-	{ mine: 1 },
-	{ c4: 2 },
-	{ nitroRepair: 1 },
-	{ overdrive: 2 },
-	{ missileTrackingBeacon: 2 }
-];
-
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
 
