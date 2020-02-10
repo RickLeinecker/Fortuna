@@ -49,7 +49,7 @@ const componentPoints = [
 	{ nitroRepair: 1 },
 	{ overdrive: 2 },
 	{ missileTrackingBeacon: 2 }
-]
+];
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
