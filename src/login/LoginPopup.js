@@ -50,7 +50,7 @@ class LoginPopup extends React.Component<Props, State> {
 	};*/
 
 	handleLoginClick = async ():Promise<void> => {
-		const response = await fetch('user/login', {
+		const response = await fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
