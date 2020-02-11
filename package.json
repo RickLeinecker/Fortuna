@@ -25,11 +25,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "babel src/ -d lib/",
+    "deploy": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js",
-    "prodserver": "NODE_ENV=production node ./lib/backend/server.js"
+    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
