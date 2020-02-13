@@ -1,7 +1,7 @@
 //@flow strict
 import * as React from 'react';
 class CasusBlocksView extends React.Component<{||}> {
-    render(){
+    render() {
         return (
             <h1>This is the Casus Blocks View</h1>
         );

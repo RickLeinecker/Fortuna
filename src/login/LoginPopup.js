@@ -35,20 +35,6 @@ class LoginPopup extends React.Component<Props, State> {
 		}
 	}
 
-	/*componentDidMount():void {
-		this.callApi()
-		.then(res => this.setState({ response: res.express }))
-		.catch(err => console.log(err));
-	};
-	
-	callApi = async ():Promise<SignupResponse> => {
-		const response:Response = await fetch('user/login');
-		const body:SignupResponse  = await response.json();
-		if (response.status !== 200) throw Error(body.message);
-		
-		return body;
-	};*/
-
 	handleLoginClick = async ():Promise<void> => {
 		const response = await fetch('user/login', {
 			method: 'POST',

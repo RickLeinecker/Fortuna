@@ -30,7 +30,7 @@ class Marketplace extends React.Component<Props, State> {
 		}
 	}
 
-  	render(){
+  	render() {
 		let partView='NONE';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
@@ -76,7 +76,7 @@ class Marketplace extends React.Component<Props, State> {
 		  			</div>
 		  			<div className="col-md-4">
 						<div className="text-center">
-						{partView}
+							{partView}
 						</div>
 		  			</div>
 				</div>
