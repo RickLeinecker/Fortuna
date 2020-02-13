@@ -25,7 +25,7 @@ type SignupResponse = {
 // Login Popup component.
 class LoginPopup extends React.Component<Props, State> {
 
-	constructor(){
+	constructor() {
 		super();
 		this.state={
 			response: '',
@@ -36,7 +36,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick = async ():Promise<void> => {
-		const response = await fetch('user/login', {
+		const response = await fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -70,7 +70,7 @@ class LoginPopup extends React.Component<Props, State> {
 								<div className="help-block with-errors text-danger"></div>
 							</div>
 							<div className="row col-md-12">
-								<Link to="/MainMenu">
+								<Link to="MainMenu">
 									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
 								</Link>
 								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>

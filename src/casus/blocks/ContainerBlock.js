@@ -141,6 +141,13 @@ class ContainerBlock extends CasusBlock {
 		}
 		return true;
 	}
+	
+	evaluate(): null {
+		for (const child: CasusBlock of this.children) {
+			child.evaluate();
+		}
+		return null;
+	}
 
 }
 

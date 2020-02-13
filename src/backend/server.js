@@ -29,8 +29,8 @@ app.use(express.json());
 
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
-app.use('/tank', tankRoutes);
-app.use('/user', userRoutes);
+app.use('/api/tank', tankRoutes);
+app.use('/api/user', userRoutes);
 
 
 

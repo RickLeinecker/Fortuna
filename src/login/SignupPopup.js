@@ -38,7 +38,7 @@ class SignupPopup extends React.Component<Props, State> {
 	}
 
 	handleSignUpClick = async ():Promise<void> => {
-		const response = await fetch('user/registerUser', {
+		const response = await fetch('/api/user/registerUser', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
