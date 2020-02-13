@@ -9,8 +9,10 @@ import {
 	EMPTY_STATEMENT_HEIGHT,
 } from './generateCornerPerim.js';
 import generateCornerPerim from './generateCornerPerim.js';
+import {defaultValueFor} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
+import type {Value} from '../interpreter/Value.js';
 
 class EmptyBlock extends CasusBlock {
 
@@ -78,6 +80,10 @@ class EmptyBlock extends CasusBlock {
 			this.highlighted=true;
 			return null;
 		}
+	}
+
+	evaluate(): ?Value {
+		return defaultValueFor(this.dataType);
 	}
 
 }

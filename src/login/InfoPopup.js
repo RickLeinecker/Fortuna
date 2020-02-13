@@ -7,7 +7,7 @@ import Popup from 'reactjs-popup';
 class InfoPopup extends React.Component<{||}> {
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="clearbtn"><h4>&#60; Click for Fortuna Briefing &#62;</h4></button>} modal>
+			<Popup trigger={<button type="button" className="clearbtn"><h4>&#60; Fortuna Briefing &#62;</h4></button>} modal>
 				{close => (
 					<div className="popup">
 						<p>

@@ -5,6 +5,7 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
+import {verifyBoolean} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
 
@@ -176,6 +177,15 @@ class IfElseBlock extends CasusBlock {
 		return null;
 	}
 
+	evaluate(): null {
+		const condition=verifyBoolean(this.conditionBlock.evaluate());
+		if (condition.val) {
+			return this.ifContents.evaluate();
+		}
+		else {
+			return this.elseContents.evaluate();
+		}
+	}
 
 }
 

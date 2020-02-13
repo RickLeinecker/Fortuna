@@ -3,7 +3,6 @@
 import * as React from 'react';
 import CasusBlock from './blocks/CasusBlock.js';
 import OrBlock from './blocks/OrBlock.js';
-import VariableBlock from './blocks/VariableBlock.js';
 import IntEqualsBlock from './blocks/IntEqualsBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
@@ -48,7 +47,6 @@ class CasusEditor extends React.Component<Props, State> {
 
 		const orBlock: OrBlock = new OrBlock();
 		const orBlock2: CasusBlock = new OrBlock();
-		const testVariable: CasusBlock = new VariableBlock('DOUBLE', 'Some variable with a really long name');
 		const testEquals: IntEqualsBlock = new IntEqualsBlock();
 		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
 		const testForLoop: CasusBlock = new ForBlock();
@@ -58,7 +56,6 @@ class CasusEditor extends React.Component<Props, State> {
 		orBlock.lChild = orBlock2;
 
 		containerBlock.children.push(orBlock);
-		containerBlock.children.push(testVariable);
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
@@ -118,13 +115,14 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onMouseUp(): void {
+		this._openSelectVariablePopupIfNeeded();
+
 		const wouldPlaceOnEmptyVoid = this._wouldPlaceOnEmptyVoid();
 		this._tryToPlace(null);
 		if (!wouldPlaceOnEmptyVoid) {
 			this._tryToPlaceInContainerBlock(null);
 		}
 
-		this._openSelectVariablePopupIfNeeded();
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
 	}
@@ -164,6 +162,13 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onCancelClicked() {
+		//delete variableBlockToRename
+		const block=this.state.variableBlockToRename;
+		if (block!=null) {
+			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
+			this.state.containerBlock.removeBlockAt(toRemovePos, false);
+		}
+
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
@@ -271,7 +276,6 @@ class CasusEditor extends React.Component<Props, State> {
 		if (released instanceof GetVariableBlock || released instanceof SetVariableBlock) {
 			if (isDefaultVariableName(released.variableName)) {
 				this.setState({variableBlockToRename: released});
-				console.log('released something and should open popup!');
 			}
 		}
 	}
