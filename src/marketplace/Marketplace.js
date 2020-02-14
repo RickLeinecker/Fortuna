@@ -31,7 +31,7 @@ class Marketplace extends React.Component<Props, State> {
 	}
 
   	render() {
-		let partView='NONE';
+		let partView='';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
 				partView=(<ChassisView></ChassisView>);
@@ -54,13 +54,13 @@ class Marketplace extends React.Component<Props, State> {
 			case 'CASUS_BLOCKS':
 				partView=(<CasusBlocksView></CasusBlocksView>);
 				break;
-			case 'NONE':
+			default:
 				partView=(<h2>Select a type on the left</h2>);
 				break;
 		}
 		return (
 	  		<div id="Parent">
-				<Navbar styleName="navbtn" linkName="Mainmenu" returnName="Back to Main Menu" pageName="Marketplace" userName="FRIcker | $465128"/>
+				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Marketplace" userName="FRIcker | $465128"/>
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">
