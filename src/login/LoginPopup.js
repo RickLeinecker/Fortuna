@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 
 
 // Login component.
-const PORT = 3000;
 type Props = {||}; 
 type State = {|
 	response: string,
@@ -14,13 +13,6 @@ type State = {|
 	responseToPost: string,
 |};
 
-//DO NOT USE THIS AS PART OF A BIGGER OBJECT.
-//ONCE SIGNUP API IS DONE PUT || AT THE END
-type SignupResponse = {
-	express: string,
-	message: string
-};
-// END OF NOTE
 
 
 // Login Popup component.
@@ -36,22 +28,8 @@ class LoginPopup extends React.Component<Props, State> {
 		}
 	}
 
-	componentDidMount():void {
-		this.callApi()
-		.then(res => this.setState({ response: res.express }))
-		.catch(err => console.log(err));
-	};
-	
-	callApi = async ():Promise<SignupResponse> => {
-		const response:Response = await fetch('http://localhost:'+PORT+'/signup');
-		const body:SignupResponse  = await response.json();
-		if (response.status !== 200) throw Error(body.message);
-		
-		return body;
-	};
-
 	handleLoginClick = async ():Promise<void> => {
-		const response = await fetch('http://localhost:'+PORT+'/signup', {
+		const response = await fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -70,7 +48,7 @@ class LoginPopup extends React.Component<Props, State> {
 				{close => (
 					<div className="popup">
 						<h1>Login</h1>
-						<form data-toggle="validator" role="form" method="post" action="#">
+						<form data-toggle="validator" method="post" action="#">
 							<div className="row col-md-12 form-group">
 								<label>Username</label>
 								<div className="input-group">
@@ -80,7 +58,7 @@ class LoginPopup extends React.Component<Props, State> {
 							<div className="row col-md-12 form-group">
 								<label>Password</label>
 								<div className="input-group">
-									<input type="password" name="loginPassword" className="inputText"/>
+									<input type="password" name="loginPassword" className="inputText" value={this.state.password} onChange={e => this.setState({ password: e.target.value})} />
 								</div>
 								<div className="help-block with-errors text-danger"></div>
 							</div>
