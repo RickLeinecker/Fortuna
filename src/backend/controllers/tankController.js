@@ -21,7 +21,7 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 }
 
 exports.favoriteTank = async (req: $Request, res: $Response) => {
-    await user.findOneAndUpdate( { _id: req.params.userId }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: user){
+    await user.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: user){
         if(err){
             res.send(err);
         }
@@ -42,8 +42,22 @@ exports.userTanks = async (req: $Request, res: $Response) => {
     });
 }
 
-//exports.giveTank = async (req: $Request, res: $Response) => {
+exports.assignTank = async (req: $Request, res: $Response) => {
+    const tank = new Tank();
+    tank.userId = req.user.id;
+    tank.tankName = req.body.tankName;
+    await tank.save();
+    res.send(tank.id);
+}
 
-//}
-//exports.takeTank
-//exports.giveComponent
+exports.tankTrade = async (req: $Request, res: $Response) => {
+    await Tank.findOneAndUpdate({ _id: req.body.tankId}, {userId: req.user.id}, {'useFindAndModify':false}, function(err: Error, result: Tank){
+        if(err){
+            res.send(err);
+        }
+        else{
+            res.send(result)
+        }
+    });
+}
+
