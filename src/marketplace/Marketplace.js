@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
@@ -64,14 +63,14 @@ class Marketplace extends React.Component<Props, State> {
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">
-						<a className="list-group-item list-group-item-action disabled">Category</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CANNONS'})}>Cannons</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'SCANNERS'})}>Scanners</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CHASSIS'})}>Chassis</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'JAMMERS'})}>Jammers</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'TREADS'})}>Treads</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'ACCESSORIES'})}>Accessories</a>
-						<a className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CASUS_BLOCKS'})}>Casus Blocks</a>
+						<button className="list-group-item list-group-item-action disabled">Category</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CANNONS'})}>Cannons</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'SCANNERS'})}>Scanners</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CHASSIS'})}>Chassis</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'JAMMERS'})}>Jammers</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'TREADS'})}>Treads</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'ACCESSORIES'})}>Accessories</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CASUS_BLOCKS'})}>Casus Blocks</button>
 					  </div>
 		  			</div>
 		  			<div className="col-md-4">

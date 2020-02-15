@@ -13,13 +13,6 @@ type State = {|
 	responseToPost: string,
 |};
 
-//DO NOT USE THIS AS PART OF A BIGGER OBJECT.
-//ONCE SIGNUP API IS DONE PUT || AT THE END
-type SignupResponse = {
-	express: string,
-	message: string
-};
-// END OF NOTE
 
 
 // Login Popup component.
@@ -55,7 +48,7 @@ class LoginPopup extends React.Component<Props, State> {
 				{close => (
 					<div className="popup">
 						<h1>Login</h1>
-						<form data-toggle="validator" role="form" method="post" action="#">
+						<form data-toggle="validator" method="post" action="#">
 							<div className="row col-md-12 form-group">
 								<label>Username</label>
 								<div className="input-group">
