@@ -47,7 +47,10 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
     }
     catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Unable to add Market Sale.' })
+        res.status(500).json({ 
+            msg: 'Unable to add Market Sale.',
+            errors: err.message
+            })
     }
 }
 
