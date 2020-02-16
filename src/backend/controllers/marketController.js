@@ -41,6 +41,9 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
 
         // Save a Marketplace Sale to the DB
         await sale.save();
+
+        // Send back success confirmation
+        res.status(201).json({ msg: 'Successfully created Market Sale.' })
     }
     catch (err) {
         console.error(err.message);
