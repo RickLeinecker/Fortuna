@@ -225,34 +225,7 @@ body {
 	border: 2px solid #04CCFF;
 }
 
-/* Button Styling */
-.btn {
-    color: #000921;
-    background: #04CCFF;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
-    width: 175px;
-}
 
-.btn:hover {
-	color: #04CCFF;
-	background: #000921;
-	border: 2px solid #04CCFF;
-}
-
-.clearbtn {
-    color: #04CCFF;
-    border: none;
-    background: none;
-}
-
-.clearbtn:hover {
-    color: #39a9dd;
-}
-
-.nobtn {
-    display: none;
-}
 
 /* Popup Styling */
 .popup {
@@ -302,4 +275,107 @@ body {
 	background-color: #04213F;
 	border: 5px solid black;
 	border-radius: 8px;
+}
+
+/* Button Styling */
+
+.btn {
+    color: #000921;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    width: 175px;
+}
+
+.btn:hover {
+	color: #04CCFF;
+	background: #000921;
+	border: 2px solid #04CCFF;
+}
+
+.clearbtn {
+    color: #04CCFF;
+    border: none;
+    background: none;
+}
+
+.clearbtn:hover {
+    color: #39a9dd;
+}
+
+.primarybtn{
+    position: relative;
+    background: none;
+    color: aqua;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 0.2em solid aqua;
+    padding: 0.5em 1em;
+}
+.primarybtn::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10%;
+    background: #222;
+    height: 0.3em;
+    right: 20%;
+    top: -0.21em;
+    transform: skewX(-45deg);
+    -webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+  }
+.primarybtn::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10%;
+    background: #222;
+    height: 0.3em;
+    left: 20%;
+    bottom: -0.25em;
+    transform: skewX(45deg);
+    -webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
+    transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+.primarybtn:hover::before {
+    right: 80%;
+}
+.primarybtn:hover::after {
+    left: 80%;
+}
+
+
+.secondarybtn{
+    display: inline-block;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: #007bff;
+    border: solid transparent;
+}
+
+.secondarybtn:disabled,
+.secondarybtn[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+/*Select Styling*/
+
+select{
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
