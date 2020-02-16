@@ -11,11 +11,11 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
-import type {MarketPlaceViewDataTypes} from './MarketPlaceViewDataTypes.js';
+import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
 type State = {|
-	marketplaceViewClicked: MarketPlaceViewDataTypes,
+	marketplaceViewClicked: MarketplaceViewDataTypes,
 |};
 
 
