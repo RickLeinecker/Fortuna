@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {

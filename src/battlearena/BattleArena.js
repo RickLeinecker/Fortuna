@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar.js';
-import Leaderboard from '../components/Leaderboard.js';
+import Navbar from '../globalComponents/Navbar.js';
+import Leaderboard from '../globalComponents/Leaderboard.js';
 
 class BattleArena extends React.Component<{||}> {
     render(): React.Node {

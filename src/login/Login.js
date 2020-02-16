@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
 import InfoPopup from './InfoPopup.js';
-import Leaderboard from '../components/Leaderboard.js';
+import Leaderboard from '../globalComponents/Leaderboard.js';
 
 // Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {

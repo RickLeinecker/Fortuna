@@ -1,7 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
 import ChassisView from './ChassisView.js';
