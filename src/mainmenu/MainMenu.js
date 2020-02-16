@@ -26,7 +26,7 @@ class MainMenu extends React.Component<{||}> {
 				</div>
 				<div className="column menuright">
 				<h6>Customize your tank and its code.</h6>
-					<Link to="Casus">
+					<Link to="Armory">
 						<button type="button" className="btn">Armory</button>
 					</Link>
 				</div>
