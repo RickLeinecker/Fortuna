@@ -15,6 +15,7 @@ const PORT = 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
+const marketRoutes = require('./routes/marketRoutes');
 
 // Server Instance
 const app = express();
@@ -31,7 +32,7 @@ app.use(express.json());
 // First param is the url directory second is the api route object
 app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
-
+app.use('/api/marketplace', marketRoutes);
 
 
 
