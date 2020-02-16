@@ -9,8 +9,9 @@ import type {
 } from 'express';
 import { validationResult } from 'express-validator';
 
-// MarketplaceSale Model
+// MarketplaceSale Model and User Model
 import MarketSale from '../../models/marketSaleModel';
+import User from '../../models/userModel';
 
 // Adds a Marketplace Sale
 exports.addMarketSale = async (req: $Request, res: $Response) => {
@@ -50,7 +51,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
         res.status(500).json({ 
             msg: 'Unable to add Market Sale.',
             errors: err.message
-            })
+            });
     }
 }
 
@@ -62,6 +63,22 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
     }
     catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Unable to find list of sales' });
+        res.status(500).json({ msg: 'Unable to find list of Sales.' });
     }
 }
+
+// Gets a single Marketplace Sale
+exports.getMarketSale = async (req: $Request, res: $Response) => {
+    try {
+        const sale = await MarketSale.findById(req.params.saleID);
+        res.json(sale);
+    }
+    catch (err) {
+        res.status(500).json({
+            msg: 'Cannot retrieve Marketplace Sale.',
+            errors: err.message
+        });
+    }
+}
+
+// Transaction between players
