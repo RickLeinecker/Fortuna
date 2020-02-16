@@ -16,6 +16,9 @@ import Tank from '../../models/tankModel';
 import CasusBlock from '../../models/casusBlockModel';
 
 // Adds a Marketplace Sale
+// Still need to implement affecting the user inventory
+// but this is blocked by how we are identifying inventory
+// from a front-end perspective.
 exports.addMarketSale = async (req: $Request, res: $Response) => {
     // Validation
     const errors = validationResult(req);
@@ -53,7 +56,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
         res.status(500).json({ 
             msg: 'Unable to add Market Sale.',
             errors: err.message
-            });
+        });
     }
 }
 
@@ -64,8 +67,10 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
         res.json(salesList);
     }
     catch (err) {
-        console.error(err.message);
-        res.status(500).json({ msg: 'Unable to find list of Sales.' });
+        res.status(500).json({ 
+            msg: 'Unable to find list of Sales.',
+            errors: err.message 
+        });
     }
 }
 
@@ -84,6 +89,7 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
 }
 
 // Transaction between players
+// Only implemented for tank transactions at the moment, will update later
 exports.marketTransaction = async (req: $Request, res: $Response) => {
 
 }
