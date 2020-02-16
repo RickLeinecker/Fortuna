@@ -9,9 +9,11 @@ import type {
 } from 'express';
 import { validationResult } from 'express-validator';
 
-// MarketplaceSale Model and User Model
+// MarketplaceSale Model, User Model, Tank Model
 import MarketSale from '../../models/marketSaleModel';
 import User from '../../models/userModel';
+import Tank from '../../models/tankModel';
+import CasusBlock from '../../models/casusBlockModel';
 
 // Adds a Marketplace Sale
 exports.addMarketSale = async (req: $Request, res: $Response) => {
@@ -82,3 +84,6 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
 }
 
 // Transaction between players
+exports.marketTransaction = async (req: $Request, res: $Response) => {
+
+}
