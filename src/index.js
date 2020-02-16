@@ -26,7 +26,7 @@ const routing = (
 				<Route path="/BattleArena" component={BattleArena} />
 				<Route path="/Armory" component={Armory} />
 				<Route path="/TrainingArena" component={TrainingArena} />
-				<Route path="/Battleground" component={Battlegrounds} />
+				<Route path="/Battleground" component={Battleground} />
 			</Switch>
 		</div>
 	</Router>
