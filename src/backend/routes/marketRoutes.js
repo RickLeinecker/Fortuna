@@ -18,9 +18,9 @@ const marketController = require('../controllers/marketController');
 // Returns a confirmation message or an error
 // Check messages can be edited
 router.post('/addMarketSale', [
-    check('sellerID', 'Missing a sellerID'),
+    check('sellerId', 'Missing a sellerId'),
     check('salePrice', 'Missing a salePrice'),
-    check('itemID', 'Missing an itemID'),
+    check('itemId', 'Missing an itemId'),
     check('itemType', 'Missing an itemType')
     ], marketController.addMarketSale);
 
@@ -35,6 +35,19 @@ router.get('/getMarketSales', marketController.getMarketSales);
 // Route call: getMarketSale
 // Req needs sale ID (MongoDB _id field)
 // Returns the Marketplace Sale with that ID or an error
-router.get('/getMarketsale/:saleID', marketController.getMarketSale);
+router.get('/getMarketsale/:saleId', marketController.getMarketSale);
+
+// Market Transaction
+// Route call: marketTransaction
+// Req needs buyer ID, seller ID, item ID, item type, sale price, sale ID
+// Returns updated buyer (ie logged in user)
+router.put('/marketTransaction', [
+    check('buyerId', 'Missing buyerId'),
+    check('sellerId', 'Missing sellerId'),
+    check('itemId', 'Missing itemId'),
+    check('saleId', 'Missing saleId'),
+    check('itemType', 'Missing itemType'),
+    check('salePrice', 'Missing salePrice'),
+    ], marketController.marketTransaction);
 
 module.exports = router;
