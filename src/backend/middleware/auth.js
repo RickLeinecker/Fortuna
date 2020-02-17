@@ -2,6 +2,8 @@
 
 const jwt = require('jsonwebtoken');
 
+const jwtSecret = 'change this at deployment';
+
   import type {
     $Request,
     $Response,
@@ -23,7 +25,7 @@ function auth (req: $Request, res: $Response, next: NextFunction){
 
     // Verify token
     try {
-        const decoded = jwt.verify(token, process.env.SECRET);
+        const decoded = jwt.verify(token, jwtSecret);
 
         req.user = decoded.user;
         next();
