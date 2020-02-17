@@ -13,21 +13,20 @@ class RenderTank extends React.Component<Props> {
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
         // Create Background.
-        const grad = ctx.createRadialGradient(75, 50, 10, 90, 60, 100);
-        grad.addColorStop(0, "#04CCFF");
-        grad.addColorStop(1, "#000921");
-        ctx.fillStyle = grad;
-        ctx.fillRect(10, 10, 150, 80);
+        canvas.width = 300;
+        canvas.height = 300;
+        ctx.fillStyle = "#04CCFF";
+        ctx.fillRect(0, 0, 300, 300);
 
         // Once mounted, parse through the tank array and render all components.
-        const component = new Image();
         let i: number = 0;
 
         if(this.props.tank != null) {
             for(i; i < this.props.tank.length; i++) {
+                const component = new Image();
                 component.src = this.props.tank[i] + ".png";
                 component.onload = () => {
-                    ctx.drawImage(component, 0, 0, 100, 100);
+                    ctx.drawImage(component, 100, 100, 100, 100);
                };
             }
         }
@@ -35,8 +34,8 @@ class RenderTank extends React.Component<Props> {
 
     render(): React.Node {
         return (
-            <div>
-                <canvas className="tankCanvas" ref="canvas" />
+            <div className="tankCanvas">
+                <canvas ref="canvas" />
             </div>
         );
     }

@@ -31,7 +31,7 @@ class BattleArena extends React.Component<{||}> {
 						<option value="2">Fast Bang</option>
 						<option value="3">Biggest Gun</option>
 					</select>
-					<RenderTank tank={ ["Chassis4",  "Treads1"] }/>
+					<RenderTank tank={ ["Tread1",  "Chassis4"] }/>
 				</div>
 				<div className="column baright">
 					<h2>FORTUNA's Best and Brightest</h2>

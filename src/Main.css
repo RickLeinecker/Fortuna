@@ -141,6 +141,9 @@ body {
 }
 
 /* Canvas Styling */
+.tankCanvas {
+    margin-top: 20px;
+}
 
 /* Input Styling */
 .inputText {
