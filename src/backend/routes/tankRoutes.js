@@ -6,28 +6,36 @@
 
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 const tankController = require('../controllers/tankController');
 
 // Retrieve favoriteTankId of the user
-// Route call: /<userId>/getFavorite
-// Req must include the userId in the url field in place of <userId>
+// Route call: /getFavorite
+// Req must include the user jwt as a header: x-auth-token
 // Returns the id of the favorited tank upon success and an error message upon failure
-router.get('/:userId/getFavorite', tankController.getFavorite);
+router.get('/getFavorite', auth, tankController.getFavorite);
 
 // Set a favorite tank
-// Route call: /<userId>/favoriteTank
-// Req must include the userId in the url field and the favoriteTankId in the body
-// returns the id of the favorited tank upon success and an error message upon failure
-router.patch('/:userId/favoriteTank', tankController.favoriteTank);
+// Route call: /favoriteTank
+// Req must include the favoriteTankId in the body and the user jwt as a header: x-auth-token
+// Returns the id of the favorited tank upon success and an error message upon failure
+router.patch('/favoriteTank', auth, tankController.favoriteTank);
 
 // Retrieve array of all a users tanks
-// Route call: /<userId>/userTanks
-// Req must include the userId in the url
+// Route call: /userTanks
+// Req must include the user jwt in the header: x-auth-token
 // Returns array of tanks
-router.get('/:userId/userTanks', tankController.userTanks);
+router.get('/userTanks', auth, tankController.userTanks);
 
-//router.post('/:userId/assignTank', tankController.assignTank);
+// Creates a new tank and assigns it to a user
+// Route Call: /assignTank
+// Req must contain the x-auth-token header and the name of the created tank in the body
+// Returns the id of the new tank
+router.post('/assignTank', auth, tankController.assignTank);
+
+
+router.patch('/tankTrade', auth, tankController.tankTrade);
 
 
 module.exports = router;

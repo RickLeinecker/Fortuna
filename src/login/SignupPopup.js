@@ -9,6 +9,7 @@ type Props = {||};
 type State = {|
 	response: string,
 	userName: string,
+	email: string,
 	password: string,
 	responseToPost: string,
 	email:string,
