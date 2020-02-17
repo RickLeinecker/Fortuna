@@ -32,7 +32,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 }
 
 exports.userTanks = async (req: $Request, res: $Response) => {
-    await Tank.find({ userId: req.user.id }, function(err: Error, tanks: Tank){
+    await Tank.find({ userId: req.user.id }, function(err: Error, tanks: Array<Tank>){
         if(err){
             res.send(err);
         }
