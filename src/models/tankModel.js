@@ -35,4 +35,4 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
     }
 }));
 
-module.exports = Tank;
+module.exports =  Mongoose.models.Tank || Tank;

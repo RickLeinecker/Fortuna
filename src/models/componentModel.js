@@ -25,4 +25,4 @@ const Component = new Mongoose.model('Component', new Mongoose.Schema({
     }
 }));
 
-module.exports = Component;
+module.exports = Mongoose.models.Component || Component;
