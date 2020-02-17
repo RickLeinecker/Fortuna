@@ -15,7 +15,8 @@ class BattleArena extends React.Component<{||}> {
 					returnName="Back to Main Menu" 
 					pageName="Battle Arena" 
 					linkName="MainMenu" 
-					userName="FRIcker | $465128"/>
+					userName="FRIcker | $465128"
+				/>
 				<div className="column baleft">
 					<h2>Find a Player to Challenge</h2>
 					<input 
@@ -25,7 +26,9 @@ class BattleArena extends React.Component<{||}> {
 						aria-label="searchPlayer" 
 						aria-describedby="basic-addon1"/>
 					<h6>Find the First Challenger Available</h6>
-					<button type="button" className="btn">Quickplay</button>
+					<Link to="Battleground">	
+						<button type="button" className="btn">Quickplay</button>
+					</Link>
 					<h6>Practice Against Bots</h6>
 					<Link to="TrainingArena">
 							<button type="button" className="btn">Training Arena</button>
@@ -43,7 +46,8 @@ class BattleArena extends React.Component<{||}> {
 				<div className="column baright">
 					<h2>FORTUNA's Best and Brightest</h2>
 					<Leaderboard 
-						leaderNames={ ["We", "Need", "To", "Get", "These", "With", "An", "API", "Call", "Still"] } />
+						leaderNames={ ["We", "Need", "To", "Get", "These", "With", "An", "API", "Call", "Still"] } 
+					/>
 				</div>
 			</div>
 		);
