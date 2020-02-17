@@ -1,7 +1,7 @@
 // @flow strict
 
-const user = require('../../models/userModel');
-const tank = require('../../models/tankModel');
+const User = require('../../models/userModel');
+const Tank = require('../../models/tankModel');
 
 import type {
     $Request,
@@ -10,19 +10,18 @@ import type {
     Middleware,
   } from 'express';
 
-exports.getFavorite = (req: $Request, res: $Response) => {
-    user.findById(req.params.userId, 'favoriteTankId', function(err: Error, myUser: user){
+exports.getFavorite = async (req: $Request, res: $Response) => {
+    await User.findById(req.user.id, 'favoriteTankId', function(err: Error, myUser: User){
         if(err){
             res.send(err);
             console.log('could not find user');
         } 
         res.send(myUser.favoriteTankId);
     });
-    //res.sendStatus(200);
 }
 
 exports.favoriteTank = async (req: $Request, res: $Response) => {
-    await user.findOneAndUpdate( { _id: req.params.userId }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: user){
+    await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: User){
         if(err){
             res.send(err);
         }
@@ -33,7 +32,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 }
 
 exports.userTanks = async (req: $Request, res: $Response) => {
-    await user.find({ userId: req.params.userId }, function(err: Error, tanks: user){
+    await Tank.find({ userId: req.user.id }, function(err: Error, tanks: Array<Tank>){
         if(err){
             res.send(err);
         }
@@ -42,3 +41,23 @@ exports.userTanks = async (req: $Request, res: $Response) => {
         }
     });
 }
+
+exports.assignTank = async (req: $Request, res: $Response) => {
+    const tank = new Tank();
+    tank.userId = req.user.id;
+    tank.tankName = req.body.tankName;
+    await tank.save();
+    res.send(tank.id);
+}
+
+exports.tankTrade = async (req: $Request, res: $Response) => {
+    await Tank.findOneAndUpdate({ _id: req.body.tankId}, {userId: req.user.id}, {'useFindAndModify':false}, function(err: Error, result: Tank){
+        if(err){
+            res.send(err);
+        }
+        else{
+            res.send(result)
+        }
+    });
+}
+

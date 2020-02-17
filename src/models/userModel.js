@@ -265,6 +265,9 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Date,
         default: Date.now
     },
+    lastLogin: {
+        type: Date
+    },
     // This should be updated in the API call when a user gets updated.
     dateUpdated: {
         type: Date
