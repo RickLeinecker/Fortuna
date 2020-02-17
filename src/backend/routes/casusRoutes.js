@@ -1,4 +1,4 @@
-const cassusController = require('../controllers/casusController');
+const casusController = require('../controllers/casusController');
 
 const express = require('express');
 const router = express.Router();
@@ -13,6 +13,6 @@ const auth = require('../middleware/auth');
 // Req must include the user jwt in the header: x-auth-token
 // the body should specify which 'block' is being updated and the 'value' it should be set to
 // Returns a json object of the user with updated counts
-router.patch('/update', cassusController.update);
+router.patch('/update', casusController.update);
 
 module.exports = router;
