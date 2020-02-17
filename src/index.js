@@ -11,6 +11,7 @@ import CasusContainer from './casus/CasusContainer.js';
 import BattleArena from './battlearena/BattleArena.js';
 import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
+import Battleground from './battleground/Battleground.js';
 
 // The routing const holds the paths to other react components.
 const routing = (
@@ -25,6 +26,7 @@ const routing = (
 				<Route path="/BattleArena" component={BattleArena} />
 				<Route path="/Armory" component={Armory} />
 				<Route path="/TrainingArena" component={TrainingArena} />
+				<Route path="/Battleground" component={Battleground} />
 			</Switch>
 		</div>
 	</Router>

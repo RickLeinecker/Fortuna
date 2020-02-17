@@ -1,7 +1,8 @@
 //@flow strict
 
 import * as React from 'react';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
+import { Link } from 'react-router-dom';
 
 class TrainingArena extends React.Component<{||}> {
     
@@ -26,7 +27,9 @@ class TrainingArena extends React.Component<{||}> {
                         <option value="2">Small Arena</option>
                         <option value="3">Arena I am, yes</option>
                     </select>
-                    <button type="button" className="btn">Start Battle</button>
+										<Link to="Battleground">
+                    	<button type="button" className="btn">Start Battle</button>
+										</Link>
                 </div>
                 <div className="column taright">
                     <h2>Choose Training Bot</h2>
