@@ -14,22 +14,22 @@
     "express-validator": "^6.3.1",
     "for": "^0.1.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.3",
+    "mongoose": "^5.8.11",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.3.1",
     "reactjs-popup": "^1.5.0",
     "regenerator-runtime": "^0.13.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "babel src/ -d lib/",
+    "deploy": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js",
-    "prodserver": "NODE_ENV=production node ./lib/backend/server.js"
+    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
@@ -48,11 +48,11 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.5",
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.7",
-    "@babel/preset-flow": "^7.7.4",
-    "@babel/preset-react": "^7.7.4",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-flow": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
     "flow-bin": "^0.109.0",
     "nodemon": "^1.19.4"
   }

@@ -32,7 +32,7 @@ app.use(express.json());
 // First param is the url directory second is the api route object
 app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
-app.use('/api/cassus', casusRoutes);
+app.use('/api/casus', casusRoutes);
 
 
 

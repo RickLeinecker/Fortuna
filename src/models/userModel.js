@@ -40,7 +40,71 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             type: Number,
             default: 0
         },
+        doubleAbsBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleAddBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleDivideBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleEqualsBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleGreaterThanBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleGreaterThanOrEqualBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleLessThanBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleLessThanOrEqualBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleMaxBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleMinBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleMultiplyBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleRoundBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleSubtractBlocks: {
+            type: Number,
+            default: 0
+        },
+        doubleTruncateBlocks: {
+            type: Number,
+            default: 0
+        },
         forBlocks: {
+            type: Number,
+            default: 0
+        },
+        getListAtBlocks: {
+            type: Number,
+            default: 0
+        },
+        getVariableBlocks: {
             type: Number,
             default: 0
         },
@@ -52,6 +116,18 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             type: Number,
             default: 0
         },
+        intAbsBlocks: {
+            type: Number,
+            default: 0
+        },
+        intAddBlocks: {
+            type: Number,
+            default: 0
+        },
+        intDivideBlocks: {
+            type: Number,
+            default: 0
+        },
         intEqualsBlocks: {
             type: Number,
             default: 0
@@ -60,7 +136,79 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             type: Number,
             default: 0
         },
+        intGreaterThanOrEqualBlocks: {
+            type: Number,
+            default: 0
+        },
         intLessThanBlocks: {
+            type: Number,
+            default: 0
+        },
+        intLessThanOrEqualBlocks: {
+            type: Number,
+            default: 0
+        },
+        intMaxBlocks: {
+            type: Number,
+            default: 0
+        },
+        intMinBlocks: {
+            type: Number,
+            default: 0
+        },
+        intModuloBlocks: {
+            type: Number,
+            default: 0
+        },
+        intMultiplyBlocks: {
+            type: Number,
+            default: 0
+        },
+        intSubtractBlocks: {
+            type: Number,
+            default: 0
+        },
+        intToDoubleBlocks: {
+            type: Number,
+            default: 0
+        },
+        listAppendBlocks: {
+            type: Number,
+            default: 0
+        },
+        listSizeBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathAcosBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathAsinBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathAtanBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathCosBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathPowBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathSinBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathSqrtBlocks: {
+            type: Number,
+            default: 0
+        },
+        mathTanBlocks: {
             type: Number,
             default: 0
         },
@@ -68,18 +216,30 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             type: Number,
             default: 0
         },
+        printBlocks: {
+            type: Number,
+            default: 0
+        },
+        setListAtBlocks: {
+            type: Number,
+            default: 0
+        },
         setVariableBlocks: {
             type: Number,
             default: 0
         },
-        variableBlocks: {
+        unaryOperationBlocks: {
             type: Number,
             default: 0
         },
         whileBlocks: {
             type: Number,
             default: 0
-        }                                                        
+        },
+        XorBlocks: {
+            type: Number,
+            default: 0
+        },                                                        
     },
     // Created users start with clean slate of stats. Defaults can be changed as needed
     stats: {

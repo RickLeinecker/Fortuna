@@ -5,7 +5,14 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
-
+import {
+	verifyInt,
+	verifyBoolean,
+	verifyDouble,
+	verifyIntList,
+	verifyBooleanList,
+	verifyDoubleList
+} from '../interpreter/Value.js';
 import {
 	SET_LIST_AT_SET_WIDTH, 
 	SET_LIST_AT_AT_WIDTH, 
@@ -160,6 +167,26 @@ class SetListAtBlock extends CasusBlock {
 		this.list = this.list.tryToPlace(v, blockToPlace, ctx) ?? this.list;
 		this.indexBlock = this.indexBlock.tryToPlace(v, blockToPlace, ctx) ?? this.indexBlock;
 		this.expressionBlock = this.expressionBlock.tryToPlace(v, blockToPlace, ctx) ?? this.expressionBlock;
+		return null;
+	}
+
+	evaluate(): null {
+		const list = this.list.evaluate();
+		const index = verifyInt(this.indexBlock.evaluate());
+		const value = this.expressionBlock.evaluate();
+		switch (this.paramType) {
+			case 'INT':
+				verifyIntList(list).setAt(index, verifyInt(value));
+				break;
+			case 'BOOLEAN':
+				verifyBooleanList(list).setAt(index, verifyBoolean(value));
+				break;
+			case 'DOUBLE':
+				verifyDoubleList(list).setAt(index, verifyDouble(value));
+				break;
+			default:
+				throw new Error('Unexpected type in SetListAtBlock!');
+		}
 		return null;
 	}
 
