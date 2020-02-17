@@ -34,11 +34,15 @@ app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/marketplace', marketRoutes);
 
-
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+};
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
-    useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/fortuna', options)
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
 
