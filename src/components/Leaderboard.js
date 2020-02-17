@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 
-type Props = {
+type Props = {|
 	leaderNames: Array<string>;
-}
+|};
 
 // Leaderboard component. Displays top 10 players. The props takes a list of 10 players.
 // 
@@ -14,7 +14,9 @@ type Props = {
 // EXAMPLE PROP USAGE = <Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
 //
 // Needs to be updated to pass actual Users to it.
+
 class Leaderboard extends React.Component<Props> {
+	
 	render(): React.Node {
 		return (
 			<div className="leaderboard">

@@ -6,6 +6,15 @@ type Props = {|
     tank: ?Array<string>
 |};
 
+// Render Tank Component. Takes an array of tank components and renders their images.
+//
+// Props Names:
+// tank (Pass the array of components to render the images)
+//
+// EXAMPLE PROP USAGE = <RenderTank tank={ ["moddable", "machineGun", "shortRangeScanner", "shortRangeJammer", "advancedTreads", "c4", "mine"] }
+//
+// Needs to be updated to pass the tank array from an API call.
+
 class RenderTank extends React.Component<Props> {
 
     componentDidMount(): void {
