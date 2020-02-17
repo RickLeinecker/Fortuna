@@ -1,6 +1,6 @@
+// @flow strict
 
-
-const user = require('../../models/userModel');
+const User = require('../../models/userModel');
 
 import type {
     $Request,
@@ -13,7 +13,7 @@ exports.update = async (req: $Request, res: $Response) => {
 
     switch(req.body.block){
         case 'andBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.andBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.andBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 //res.send(req.body.value);
@@ -21,7 +21,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'forBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.forBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.forBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -29,7 +29,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'ifBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.ifBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.ifBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -37,7 +37,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'ifElseBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.ifElseBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.ifElseBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -45,7 +45,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'intEqualsBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.intEqualsBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.intEqualsBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -53,7 +53,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'intGreaterThanBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.intGreaterThanBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.intGreaterThanBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -61,7 +61,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'intLessThanBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.intLessThanBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.intLessThanBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -69,7 +69,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'orBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.orBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.orBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -77,7 +77,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'setVariableBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.setVariableBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.setVariableBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -85,7 +85,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'variableBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.variableBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.variableBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
@@ -93,7 +93,7 @@ exports.update = async (req: $Request, res: $Response) => {
             });
             break;
         case 'whileBlocks':
-            await user.findByIdAndUpdate(req.params.userId, { 'casusInventory.whileBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err, updatedUser){
+            await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.whileBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
                 
