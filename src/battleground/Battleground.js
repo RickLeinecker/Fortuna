@@ -2,13 +2,14 @@
 
 import * as React from 'react';
 import './Battleground.css';
-
-const dirtBackground=new Image();
+import getBattlegroundWidth from './getBattlegroundWidth.js';
+import getBattlegroundHeight from './getBattlegroundHeight.js';
 
 let imagesLoaded=0;
-const numImages=1;
-const width=1600;
-const height=900;
+const NUM_IMAGES=1;
+
+//images to load
+const dirtBackground=new Image();
 
 class Battleground extends React.Component<{||}> {
 
@@ -32,13 +33,13 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_rerender(): void {
-		if (imagesLoaded !== numImages) {
+		if (imagesLoaded !== NUM_IMAGES) {
 			return;
 		}
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		ctx.drawImage(dirtBackground, 0, 0, width, height);
+		ctx.drawImage(dirtBackground, 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 	}
 
 	_resizeCanvas() {
@@ -53,8 +54,11 @@ class Battleground extends React.Component<{||}> {
 
 	_anotherImageLoaded() {
 		imagesLoaded++;
-		if (imagesLoaded === numImages) {
+		if (imagesLoaded === NUM_IMAGES) {
 			this._rerender();
+		}
+		if (imagesLoaded > NUM_IMAGES) {
+			console.log('ERROR: NUM_IMAGES is only '+NUM_IMAGES+' but more than that were loaded!');
 		}
 	}
 
