@@ -31,7 +31,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
     }
     
     // Deconstructing information from request body
-    const { sellerID, salePrice, itemID, itemType } = req.body;
+    const { sellerId, salePrice, itemId, itemType } = req.body;
 
     try {
         // See if there is a listing for the given itemID (Not sure?)
@@ -39,9 +39,9 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
 
         // Make new Marketplace Sale
         let sale = new MarketSale({
-            sellerID,
+            sellerId,
             salePrice,
-            itemID,
+            itemId,
             itemType
         });
 
@@ -91,5 +91,34 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
 // Transaction between players
 // Only implemented for tank transactions at the moment, will update later
 exports.marketTransaction = async (req: $Request, res: $Response) => {
+    // Validation
+    const errors = validationResult(req);
 
+    if (!errors.isEmpty()) {
+        // Return 400 for a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    // Deconstruct request body
+    const { buyerId, sellerId, 
+            saleId, itemId, 
+            salePrice, itemType } = req.body;   
+    
+    try {
+        // Get everything together
+        const buyer = await User.findByIdAndUpdate(buyerId, { $inc: { currentCurrency: (salePrice * -1) } }, { new: true });
+        const seller = await User.findByIdAndUpdate(sellerId, { $inc: { currentCurrency: salePrice } });
+        const item = await Tank.findByIdAndUpdate(itemId, { $set: { userId: buyerId } }, { new: true });
+
+        // Return current buyer
+        res.status(201).json(buyer);
+    }   
+    catch (err) {
+        res.status(500).json({
+            msg: 'Cannot make Market Transaction.',
+            errors: err.message
+        });
+    }
 }
