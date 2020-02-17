@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-
-
+import Cookies from 'universal-cookie';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -41,16 +40,20 @@ class LoginPopup extends React.Component<Props, State> {
 			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
 		});
 		const body = await response.text();
-		this.state.loggedIn = true;
+		this.setState({token:body});
+		const cookies = new Cookies();
+		cookies.set('token', body, { path: '/' });
+		console.log(cookies.get('token'));
+		this.setState({loggedIn: true});
 		
 	};
 
 	render(): React.Node {
 		let loginButton = (<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>)
-		if (this.state.loggedIn == true)
-		{
+		//if (this.state.loggedIn == true)
+		//{
 			loginButton = (<Link to="MainMenu"><button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button></Link>)
-		}
+		//}
 		return (
 			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
 				{close => (
