@@ -5,7 +5,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 
 //==========================================================================//
-// TO USE ROUTES: all route calls in this file will be /cassus/<Route call> //
+// TO USE ROUTES: all route calls in this file will be /casus/<Route call> //
 //==========================================================================//
 
 // Update the amount of cassus blocks a player has
