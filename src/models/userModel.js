@@ -176,7 +176,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         // Casus inventory, tracks number of types of Casus blocks owned by a user.
         // Likely not going to be used in v1.0 but remains here for implementation
         // if it is desired to track an inventory of Casus blocks.
-        casusInventory: {
+        casusBlocks: {
             andBlocks: {
                 type: Number,
                 default: 0
