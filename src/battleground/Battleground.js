@@ -5,19 +5,30 @@ import './Battleground.css';
 import getBattlegroundWidth from './getBattlegroundWidth.js';
 import getBattlegroundHeight from './getBattlegroundHeight.js';
 
-let imagesLoaded=0;
 const NUM_IMAGES=1;
 
-//images to load
-const dirtBackground=new Image();
+type Props = {||};
+type State = {|
+	imagesLoaded:number,
 
-class Battleground extends React.Component<{||}> {
+	//images to load
+	dirtBackground: Image,
+|};
+
+class Battleground extends React.Component<Props, State> {
+
+	constructor(props: Props) {
+		super();
+		this.state={
+			imagesLoaded: 0,
+			dirtBackground: new Image()
+		};
+		window.addEventListener('resize', () => this._rerender());
+		this.state.dirtBackground.src='DirtBackground.png';
+		this.state.dirtBackground.onload = ()=> {this._anotherImageLoaded();};
+	}
 
 	componentDidMount(): void {
-		window.addEventListener('resize', () => this._rerender());
-		dirtBackground.src='DirtBackground.png';
-		dirtBackground.onload = ()=> {this._anotherImageLoaded();};
-
 		this._rerender();
 	}
 
@@ -33,13 +44,13 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_rerender(): void {
-		if (imagesLoaded !== NUM_IMAGES) {
+		if (this.state.imagesLoaded !== NUM_IMAGES) {
 			return;
 		}
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		ctx.drawImage(dirtBackground, 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
+		ctx.drawImage(this.state.dirtBackground, 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 	}
 
 	_resizeCanvas() {
@@ -53,11 +64,11 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_anotherImageLoaded() {
-		imagesLoaded++;
-		if (imagesLoaded === NUM_IMAGES) {
+		this.setState({imagesLoaded: this.state.imagesLoaded+1});
+		if (this.state.imagesLoaded === NUM_IMAGES) {
 			this._rerender();
 		}
-		if (imagesLoaded > NUM_IMAGES) {
+		if (this.state.imagesLoaded > NUM_IMAGES) {
 			console.log('ERROR: NUM_IMAGES is only '+NUM_IMAGES+' but more than that were loaded!');
 		}
 	}
