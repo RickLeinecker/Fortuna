@@ -10,7 +10,7 @@ class MainMenu extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="Login" returnName="Back to Login" pageName="Main Menu" userName="FRIcker | $465128"/>
+				<Navbar styleName="navbtn" linkName="Login" returnName="Back to Login" pageName="Main Menu" userName="FRIcker" userCurrency={465128} />
 				<h1 className="menuheader">Where to Commander?</h1>
  				<div className="column menuleft">
 					<h6>Buy and sell tank parts.</h6>

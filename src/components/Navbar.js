@@ -9,7 +9,8 @@ type Props = {
 	linkName?: LinkType,
 	returnName?: string,
 	pageName: string,
-	userName: string
+	userName: string,
+	userCurrency: number
 }
 
 // Navbar component. Displays back button and player's name and currency.
@@ -22,9 +23,10 @@ type Props = {
 // linkName (where the back button will take you; leave blank if there is no back option)
 // returnName (takes text for describing the back button; leave blank if there is no back option)
 // pageName (takes a title for top of the page)
-// userName (takes user's name and currency)
+// userName (takes user's name)
+// userCurrency (takes user's currency)
 //
-// EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128"/>
+// EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker" userCurrency="44229"/>
 //
 // Right column needs to be updated to have the logged in user's name and current currency passed to it.
 class Navbar extends React.Component<Props> {
@@ -45,7 +47,7 @@ class Navbar extends React.Component<Props> {
 					<h4>{this.props.pageName}</h4>
 				</div>
 				<div className="navright">
-					<h5>{this.props.userName}</h5>
+					<h5>{this.props.userName} | ${this.props.userCurrency}</h5>
 				</div>
 			</div>
 		)
