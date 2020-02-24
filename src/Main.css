@@ -140,6 +140,40 @@ body {
     padding-right: 20px;
 }
 
+/* Search Player List Styling */
+.searchPlayersList {
+    margin-top: 20px;
+}
+
+.searchPlayersList ul {
+    width: 50%;
+    height: 200px;
+    text-align: center;
+    overflow:hidden;
+    overflow-y: scroll;
+    list-style-type: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #222;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #04CCFF;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #39a9dd;
+}
+
+.searchPlayers button {
+    margin-top: 10px;
+}
+
 /* Canvas Styling */
 .tankCanvas {
     margin-top: 20px;
