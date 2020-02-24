@@ -4,7 +4,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
 import RenderTank from '../components/RenderTank.js';
-//import ComponentMenu from '../components/ComponentMenu.js';
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
