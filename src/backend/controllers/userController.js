@@ -39,7 +39,7 @@ exports.register = async (req: $Request, res: $Response) => {
         try{
             // See if a user already exists with that username.
             let user = await User.findOne({ userName });
-            if(user != null){
+            if(user != null) {
                 return res
                     .status(400)
                     .json({ errors: [{ msg: 'A user with that username already exists' }] });
@@ -47,7 +47,7 @@ exports.register = async (req: $Request, res: $Response) => {
 
             // See if a user already exists with that email
             user = await User.findOne({ email });
-            if(user != null){
+            if(user != null) {
                 return res
                     .status(400)
                     .json({ errors: [{ msg: 'A user with that email already exists' }] });
