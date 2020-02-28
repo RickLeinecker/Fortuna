@@ -109,12 +109,11 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
     try {
         // Internal check for user's currency
         const user = await User.findById(buyerId);
-        if (user.money) {
-
+        if (user.money < salePrice) {
+            throw "Not enough money for this transaction."
         }
 
-
-        // Get everything together
+        // Initiate transaction
         const buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (salePrice * -1) } }, { new: true });
         await User.findByIdAndUpdate(sellerId, { $inc: { money: salePrice } });
         await Tank.findByIdAndUpdate(itemId, { $set: { userId: buyerId } });
