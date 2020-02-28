@@ -30,7 +30,7 @@ class Armory extends React.Component<{||}> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>BIG TANK GUY</h1>
-					<RenderTank tank={ ["Chassis4", "Tread1"] } />
+					<RenderTank tank={ ["moddableLight", "advanceTreads"] } />
 					<h6>Points Used: 0/10</h6>
 				</div>
 				<div className="column armoryright">
