@@ -271,4 +271,4 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     }
 }));
 
-module.exports = Mongoose.models.User || User;
+module.exports = User;

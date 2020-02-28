@@ -35,4 +35,4 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     }
 }));
 
-module.exports = Mongoose.models.MarketSale || MarketSale;
+module.exports = MarketSale;

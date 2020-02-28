@@ -19,4 +19,4 @@ const CasusBlock = new Mongoose.model('CasusBlock', new Mongoose.Schema({
     }
 }));
 
-module.exports = Mongoose.models.CasusBlock || CasusBlock;
+module.exports = CasusBlock;
