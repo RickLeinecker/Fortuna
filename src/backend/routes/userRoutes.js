@@ -19,9 +19,11 @@ const userController = require('../controllers/userController');
 // Returns a jwt upon success
 router.post('/registerUser', [
     check('userName', 'Please enter a username with 3 or more characters')
-        .isLength(3),
+        .isLength({ min: 3 }),
     check('password', 'Please enter a password with 5 or more characters')
-        .isLength({ min: 5})
+        .isLength({ min: 5 }),
+    check('email', 'Please enter a valid email')
+        .isEmail()
     ], userController.register);
 
 
