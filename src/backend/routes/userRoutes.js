@@ -29,11 +29,11 @@ router.post('/registerUser', [
 
 // Login a User
 // Route call: login
-// Req must include username and password in body
+// Req must include email and password in body
 // Returns a jwt upon success
 router.post('/login', [
-    check('userName', 'Please enter a username with 3 or more characters')
-        .isLength(3),
+    check('email', 'Please enter a valid email')
+        .isEmail(),
     check('password', 'Password is required')
         .exists()
     ], userController.login);
