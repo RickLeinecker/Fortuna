@@ -22,7 +22,7 @@ import type {
 
 exports.register = async (req: $Request, res: $Response) => {
     
-        // Makes sure the signup is valid
+        // Creates a place where errors that fail validation can accrue.
         const errors = validationResult(req);
 
         if(!errors.isEmpty()){
@@ -32,16 +32,25 @@ exports.register = async (req: $Request, res: $Response) => {
                     .json({ errors: errors.array() });
         }
 
-        // Assigns request body to user schema fields
+        // Deconstructs request body to assign to user schema fields
         const { userName, email, password } = req.body;
 
+        // Attempts to add User to the database
         try{
-            // See if User already exists
+            // See if a user already exists with that username.
             let user = await User.findOne({ userName });
             if(user != null){
                 return res
                     .status(400)
-                    .json({ errors: [ {msg: 'User already exists' }] });
+                    .json({ errors: [{ msg: 'A user with that username already exists' }] });
+            }
+
+            // See if a user already exists with that email
+            user = await User.findOne({ email });
+            if(user != null){
+                return res
+                    .status(400)
+                    .json({ errors: [{ msg: 'A user with that email already exists' }] });
             }
 
             // Instantiate a new user
