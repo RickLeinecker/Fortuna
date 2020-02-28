@@ -26,7 +26,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         required: true
     },
     // User starts with 0 money by default. This can be changed as needed
-    currentCurrency: {
+    money: {
         type: Number,
         default: 0
     },

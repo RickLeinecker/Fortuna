@@ -104,13 +104,20 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
     // Deconstruct request body
     const { buyerId, sellerId, 
             saleId, itemId, 
-            salePrice, itemType } = req.body;   
+            salePrice, itemType } = req.body;
     
     try {
+        // Internal check for user's currency
+        const user = await User.findById(buyerId);
+        if (user.money) {
+
+        }
+
+
         // Get everything together
-        const buyer = await User.findByIdAndUpdate(buyerId, { $inc: { currentCurrency: (salePrice * -1) } }, { new: true });
-        const seller = await User.findByIdAndUpdate(sellerId, { $inc: { currentCurrency: salePrice } });
-        const item = await Tank.findByIdAndUpdate(itemId, { $set: { userId: buyerId } }, { new: true });
+        const buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (salePrice * -1) } }, { new: true });
+        await User.findByIdAndUpdate(sellerId, { $inc: { money: salePrice } });
+        await Tank.findByIdAndUpdate(itemId, { $set: { userId: buyerId } });
 
         // Return current buyer
         res.status(201).json(buyer);
