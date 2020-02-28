@@ -166,8 +166,14 @@ body {
     margin-top: 20px;
 }
 
+.searchPlayerListItem {
+    display: list-item;
+}
+
 .searchPlayersList ul {
-    width: 50%;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
     height: 200px;
     text-align: center;
     overflow:hidden;
