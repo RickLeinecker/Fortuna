@@ -10,6 +10,7 @@ class InfoPopup extends React.Component<{||}> {
 			<Popup trigger={<button type="button" className="clearbtn"><h4>&#60; Fortuna Briefing &#62;</h4></button>} modal>
 				{close => (
 					<div className="popup">
+						<h3>Version 1.0</h3>
 						<p>
 							Fortuna is a tank simulation game available online for free.
 							Players can build and customize their tanks and instead of manually

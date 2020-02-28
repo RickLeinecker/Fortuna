@@ -26,7 +26,6 @@ type State = {|
 |};
 
 // ComponentMenu Component.
-
 class ComponentMenu extends React.Component<Props, State> {
 
 	constructor(props: Props) {
