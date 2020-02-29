@@ -25,7 +25,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: String,
         required: true
     },
-    verified: {
+    isVerified: {
         type: Boolean,
         default: false
     },
