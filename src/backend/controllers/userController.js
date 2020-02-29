@@ -23,12 +23,6 @@ const regeneratorRuntime = require("regenerator-runtime");
 const jwtSecret = process.env.JWT_SECRET;
 
 exports.register = async (req: $Request, res: $Response) => {
-
-    console.log({
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-    });
-
     // Creates a place where errors that fail validation can accrue.
     const errors = validationResult(req);
 
