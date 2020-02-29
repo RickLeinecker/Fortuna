@@ -96,7 +96,7 @@ exports.register = async (req: $Request, res: $Response) => {
                 subject: 'Account Verification Token',
                 text: 'Greetings Commander ' + user.userName + '!\n\n' + 
                     'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-                    req.headers.host + '\/confirmation\/' + token.token + '.\n'
+                    req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
             };
 
             // Send confirmation email with token
@@ -141,7 +141,7 @@ exports.login = async (req: $Request, res: $Response) => {
         if (!isMatch) {
             return res
                 .status(401)
-                .json({ msg: 'Invalid email or password' });
+                .json({ msg: 'Invalid Password. Please try again.' });
         }
 
         // Checks if the user's email has been verified
@@ -175,11 +175,65 @@ exports.login = async (req: $Request, res: $Response) => {
     }
 }
 
+exports.confirmToken = async (req: $Request, res: $Response) => {
+    // Creates a place where errors that fail validation can accrue.
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        // 400 is a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    try {
+        // Find a token if it hasn't expired
+        // If it expired, it would have been removed from the DB
+        const { email, token } = req.body;
+
+        const dbToken = await Token.findOne({ token: token });
+        if (!dbToken) {
+            return res
+                .status(400)
+                .json({ type: 'not-verified',
+                msg: 'The token you are using is not a valid token. ' +
+                'Check your confirmation email and try again. ' + 
+                'Otherwise, your token may have expired.' })
+        }
+
+        // If token was found, find the user associated with it
+        let user = await User.findOne({ _id: dbToken._userId, email: email });
+        if (!user) {
+            return res
+                .status(400)
+                .json({ msg: 'We were unable to find a user for this token. ' +
+                'Check your email address and try again.' })
+        }
+        
+        // If user is already verified, what the heck are you doing here?
+        if (user.isVerified) {
+            return res
+                .status(400)
+                .json({ type: 'already-verified', 
+                msg: 'This user has already been verified.' })
+        }
+
+        // Assuming you got past all that nonsense, the user is now made to be verified
+        user.isVerified = true;
+        await user.save();
+        res.status(200).json({ msg: 'The account has been verified. Please log in.' });
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg: 'Server Error'});       
+    }
+}
+
 exports.getUser = async (req: $Request, res: $Response) => {
-    try{
+    try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
-    } catch(err) {
+    } catch (err) {
         console.error(err.message);
         res.status(500).json({msg: 'Server Error'});
     }
@@ -198,4 +252,3 @@ exports.getLeaders = async (req: $Request, res: $Response) => {
 
 // FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
 // They in essence serve the same purpose.
-

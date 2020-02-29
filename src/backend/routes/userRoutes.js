@@ -38,6 +38,18 @@ router.post('/login', [
         .exists()
     ], userController.login);
 
+// Confirm a User's email
+// Route call: confirmToken
+// Req must include email in body provided by user
+// Token should be in the body as an input from the URL
+// in the email.
+// Returns success prompt, then user can go login
+router.get('/confirmEmail', [
+    check('email', 'Please enter a valid email')
+        .isEmail(),
+    check('token', 'A verification token is required')
+        .exists()
+    ], userController.confirmToken);
 
 // Retrieve all users
 //router.get('/allUsers', userController.retrieveAll);
