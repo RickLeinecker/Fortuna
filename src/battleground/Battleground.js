@@ -5,6 +5,8 @@ import './Battleground.css';
 import getBattlegroundWidth from './getBattlegroundWidth.js';
 import getBattlegroundHeight from './getBattlegroundHeight.js';
 import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
+import Tank from '../tanks/Tank.js';
+import {getTestTank} from '../tanks/TankLoader.js';
 
 class Battleground extends React.Component<{||}> {
 
@@ -35,6 +37,9 @@ class Battleground extends React.Component<{||}> {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
+
+		const testTank: Tank = getTestTank();
+		testTank.drawSelf(ctx);
 	}
 
 	_resizeCanvas() {
