@@ -5,8 +5,7 @@ import Vec from '../casus/blocks/Vec.js';
 class Tank {
 	position: Vec;
 
-	constructor(pos: Vec) {
-		super();
+	constructor(position: Vec) {
 		this.position = position;
 	}
 
@@ -16,7 +15,7 @@ class Tank {
 	executePhysics(): void {
 	}
 
-	drawSelf(CanvasRenderingContext2D): void {
+	drawSelf(ctx: CanvasRenderingContext2D): void {
 		//TODO: render this tank
 	}
 
