@@ -109,7 +109,7 @@ exports.register = async (req: $Request, res: $Response) => {
 
         // Send confirmation email with token
         await transporter.sendMail(mailOptions);
-        res.status(200).send('A verification email has been sent to ' + user.email + '.');
+        res.status(200).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
     } catch (err) {
         console.error(err.message);
@@ -301,7 +301,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 
         // Send confirmation email with token
         await transporter.sendMail(mailOptions);
-        res.status(200).send('A verification email has been sent to ' + user.email + '.')
+        res.status(200).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
     } catch (err) {
         console.error(err.message);
