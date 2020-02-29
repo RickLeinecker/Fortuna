@@ -1,18 +1,11 @@
 // @flow strict
+
+// Required imports
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-
-// Model imports
-const User = require('../../models/userModel');
-const Token = require('../../models/tokenModel');
-
-// Throws an error if this isn't here because of async functions
-const regeneratorRuntime = require("regenerator-runtime");
-const jwtSecret = 'change this at deployment';
-
 import type {
     $Request,
     $Response,
@@ -20,7 +13,21 @@ import type {
     Middleware,
   } from 'express';
 
+// Model imports
+const User = require('../../models/userModel');
+const Token = require('../../models/tokenModel');
+
+// Throws an error if this isn't here because of async functions
+const regeneratorRuntime = require("regenerator-runtime");
+// JWT Secret
+const jwtSecret = process.env.JWT_SECRET;
+
 exports.register = async (req: $Request, res: $Response) => {
+
+    console.log({
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    });
 
     // Creates a place where errors that fail validation can accrue.
     const errors = validationResult(req);
@@ -81,20 +88,20 @@ exports.register = async (req: $Request, res: $Response) => {
         // Create nodemailer transport
         // Temporary account used for testing
         let transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            secure: false,
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
-                user: 'caroline97@ethereal.email',
-                pass: 'aeRKtC5atkDRVZcjvc'
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS
             }
         });
 
         // Set email options
         let mailOptions = {
-            from: 'no-reply@fortunaproject.com',
+            from: 'Fortuna Project <no-reply@fortunaproject.com>',
             to: user.email,
-            subject: 'Account Verification Token',
+            subject: 'Fortuna Account Confirmation Token',
             text: 'Greetings Commander ' + user.userName + '!\n\n' + 
                 'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
                 req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
@@ -270,22 +277,22 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
         await token.save();
 
         // Create nodemailer transport
-        // Temporary account used for testing.
+        // Temporary account used for testing
         let transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            secure: false,
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
-                user: 'caroline97@ethereal.email',
-                pass: 'aeRKtC5atkDRVZcjvc'
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS
             }
         });
 
         // Set email options
         let mailOptions = {
-            from: 'no-reply@fortunaproject.com',
+            from: 'Fortuna Project <no-reply@fortunaproject.com>',
             to: user.email,
-            subject: 'Account Verification Token',
+            subject: 'Fortuna Account Reconfirmation Token',
             text: 'Greetings Commander ' + user.userName + '!\n\n' +
                 'We recieved word that you needed to reconfirm your email again.\n' + 
                 'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
