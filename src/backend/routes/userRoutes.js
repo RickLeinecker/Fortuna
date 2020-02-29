@@ -16,7 +16,7 @@ const userController = require('../controllers/userController');
 // Create a new user
 // Route call: registerUser
 // Req must include userName and password in body
-// Returns a jwt upon success
+// Returns a prompt that a email confirmation was sent.
 router.post('/registerUser', [
     check('userName', 'Please enter a username with 3 or more characters')
         .isLength({ min: 3 }),
@@ -25,7 +25,6 @@ router.post('/registerUser', [
     check('email', 'Please enter a valid email')
         .isEmail()
     ], userController.register);
-
 
 // Login a User
 // Route call: login
@@ -50,6 +49,15 @@ router.get('/confirmEmail', [
     check('token', 'A verification token is required')
         .exists()
     ], userController.confirmToken);
+
+// Resend a confirmation email to User's email
+// Route call: resendConfirm
+// Req must include email in body provided by user
+// Returns success prompt that email was sent.
+router.get('/resendConfirm', [
+    check('email', 'Please enter a valid email')
+        .isEmail()
+    ], userController.resendConfirm);
 
 // Retrieve all users
 //router.get('/allUsers', userController.retrieveAll);

@@ -21,92 +21,93 @@ import type {
   } from 'express';
 
 exports.register = async (req: $Request, res: $Response) => {
-    
-        // Creates a place where errors that fail validation can accrue.
-        const errors = validationResult(req);
 
-        if(!errors.isEmpty()){
-                // 400 is a bad request
-                return res
-                    .status(400)
-                    .json({ errors: errors.array() });
+    // Creates a place where errors that fail validation can accrue.
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()){
+            // 400 is a bad request
+            return res
+                .status(400)
+                .json({ errors: errors.array() });
+    }
+
+    // Deconstructs request body to assign to user schema fields
+    const { userName, email, password } = req.body;
+
+    // Attempts to add User to the database
+    try{
+        // See if a user already exists with that username.
+        let user = await User.findOne({ userName });
+        if(user != null) {
+            return res
+                .status(400)
+                .json({ msg: 'A user with that username already exists' });
         }
 
-        // Deconstructs request body to assign to user schema fields
-        const { userName, email, password } = req.body;
-
-        // Attempts to add User to the database
-        try{
-            // See if a user already exists with that username.
-            let user = await User.findOne({ userName });
-            if(user != null) {
-                return res
-                    .status(400)
-                    .json({ msg: 'A user with that username already exists' });
-            }
-
-            // See if a user already exists with that email
-            user = await User.findOne({ email });
-            if(user != null) {
-                return res
-                    .status(400)
-                    .json({ msg: 'A user with that email already exists' });
-            }
-
-            // Instantiate a new user
-            user = new User({
-                userName,
-                email,
-                password
-            });
-
-            // Creates salt with 10 rounds(recommended)
-            const salt = await bcrypt.genSalt(10);
-
-            // bcrypt hash passwords
-            user.password = await bcrypt.hash(password, salt);
-
-            // Save to MongoDB
-            await user.save();
-
-            // Create a verification token for this user
-            let token = new Token({
-                _userId: user.id,
-                token: crypto.randomBytes(16).toString('hex')
-            });
-
-            // Save verification token to MongoDB
-            await token.save();
-
-            // Create nodemailer transport
-            let transporter = nodemailer.createTransport({
-                host: 'smtp.ethereal.email',
-                port: 587,
-                secure: false,
-                auth: {
-                    user: 'caroline97@ethereal.email',
-                    pass: 'aeRKtC5atkDRVZcjvc'
-                }
-            });
-
-            // Set email options
-            let mailOptions = {
-                from: 'no-reply@fortunaproject.com',
-                to: user.email,
-                subject: 'Account Verification Token',
-                text: 'Greetings Commander ' + user.userName + '!\n\n' + 
-                    'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-                    req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
-            };
-
-            // Send confirmation email with token
-            await transporter.sendMail(mailOptions);
-            res.status(200).send('A verification email has been sent to ' + user.email + '.');
-
-        } catch(err) {
-            console.error(err.message);
-            res.status(500).json({ msg: 'Server Error' });
+        // See if a user already exists with that email
+        user = await User.findOne({ email });
+        if(user != null) {
+            return res
+                .status(400)
+                .json({ msg: 'A user with that email already exists' });
         }
+
+        // Instantiate a new user
+        user = new User({
+            userName,
+            email,
+            password
+        });
+
+        // Creates salt with 10 rounds(recommended)
+        const salt = await bcrypt.genSalt(10);
+
+        // bcrypt hash passwords
+        user.password = await bcrypt.hash(password, salt);
+
+        // Save to MongoDB
+        await user.save();
+
+        // Create a verification token for this user
+        let token = new Token({
+            _userId: user.id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+
+        // Save verification token to MongoDB
+        await token.save();
+
+        // Create nodemailer transport
+        // Temporary account used for testing
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false,
+            auth: {
+                user: 'caroline97@ethereal.email',
+                pass: 'aeRKtC5atkDRVZcjvc'
+            }
+        });
+
+        // Set email options
+        let mailOptions = {
+            from: 'no-reply@fortunaproject.com',
+            to: user.email,
+            subject: 'Account Verification Token',
+            text: 'Greetings Commander ' + user.userName + '!\n\n' + 
+                'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
+                req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+        };
+
+        // Send confirmation email with token
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('A verification email has been sent to ' + user.email + '.');
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ msg: 'Server Error' });
+    }
 }
 
 exports.login = async (req: $Request, res: $Response) => {
@@ -227,6 +228,78 @@ exports.confirmToken = async (req: $Request, res: $Response) => {
         console.error(err.message);
         res.status(500).json({msg: 'Server Error'});       
     }
+}
+
+exports.resendConfirm = async (req: $Request, res: $Response) => {
+    // Creates a place where errors that fail validation can accrue.
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        // 400 is a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    try {
+        // Deconstruct body
+        const { email } = req.body;
+
+        // Find a user with this email.
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return res
+                .status(400)
+                .json({ msg: 'Unable to find a user with that email.' })
+        }
+
+        // If found, check if they are already verified.
+        if (user.isVerified) {
+            return res
+                .status(400)
+                .json({ msg: 'This account has been verified. Please log in.' })
+        }
+
+        // If user isn't verified, make a new token, save it, and send email.
+        let token = new Token({
+            _userId: user.id,
+            token: crypto.randomBytes(16).toString('hex')
+        });
+
+        // Save verification token to MongoDB
+        await token.save();
+
+        // Create nodemailer transport
+        // Temporary account used for testing.
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            secure: false,
+            auth: {
+                user: 'caroline97@ethereal.email',
+                pass: 'aeRKtC5atkDRVZcjvc'
+            }
+        });
+
+        // Set email options
+        let mailOptions = {
+            from: 'no-reply@fortunaproject.com',
+            to: user.email,
+            subject: 'Account Verification Token',
+            text: 'Greetings Commander ' + user.userName + '!\n\n' +
+                'We recieved word that you needed to reconfirm your email again.\n' + 
+                'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
+                req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+        };
+
+        // Send confirmation email with token
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('A verification email has been sent to ' + user.email + '.')
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg: 'Server Error'});
+    } 
 }
 
 exports.getUser = async (req: $Request, res: $Response) => {
