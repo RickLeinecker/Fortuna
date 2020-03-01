@@ -37,7 +37,7 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     },
     amount: {
         type: Number,
-        default: 1
+        required: true
     }
 }));
 
