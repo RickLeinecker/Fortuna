@@ -80,8 +80,7 @@ exports.register = async (req: $Request, res: $Response) => {
         await token.save();
 
         // Create nodemailer transport
-        // Temporary account used for testing
-        let transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
@@ -92,7 +91,7 @@ exports.register = async (req: $Request, res: $Response) => {
         });
 
         // Set email options
-        let mailOptions = {
+        const mailOptions = {
             from: 'Fortuna Project <no-reply@fortunaproject.com>',
             to: user.email,
             subject: 'Fortuna Account Confirmation Token',
@@ -271,8 +270,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
         await token.save();
 
         // Create nodemailer transport
-        // Temporary account used for testing
-        let transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,
             secure: true,
@@ -283,7 +281,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
         });
 
         // Set email options
-        let mailOptions = {
+        const mailOptions = {
             from: 'Fortuna Project <no-reply@fortunaproject.com>',
             to: user.email,
             subject: 'Fortuna Account Reconfirmation Token',
