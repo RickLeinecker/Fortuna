@@ -13,14 +13,11 @@ import { validationResult } from 'express-validator';
 import MarketSale from '../../models/marketSaleModel';
 import User from '../../models/userModel';
 import Tank from '../../models/tankModel';
-import CasusBlock from '../../models/casusBlockModel';
 
 // Adds a Marketplace Sale
-// Still need to implement affecting the user inventory
-// but this is blocked by how we are identifying inventory
-// from a front-end perspective.
+// Different branches depending the itemType
 exports.addMarketSale = async (req: $Request, res: $Response) => {
-    // Validation
+    // Contains errors for failed validation.
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -31,12 +28,48 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
     }
     
     // Deconstructing information from request body
-    const { sellerId, salePrice, itemId, itemType } = req.body;
+    const { sellerId, salePrice, itemId, itemType, amount } = req.body;
+
+    // If the item is a tank
+    if (itemType === 'tank') {
+        try { 
+            // Check if tank is actually owned by user
+            let tank = await Tank.findOne({ id: itemId, userId: sellerId });
+            if (!tank) {
+                return res
+                    .status(400)
+                    .json({ msg: 'Tank does not exist under this user.' })
+            }            
+
+            // Make a new Marketplace Sale
+            // if it exists
+            const sale = new MarketSale({
+                sellerId,
+                salePrice,
+                itemId,
+                itemType,
+                amount 
+            });
+
+            // Mark tank as being sold and save change to DB
+            tank.userId = 'Marketplace';
+            await tank.save();
+
+            // Save the sale to DB
+            await sale.save();
+
+            // Send back success confirmation
+            res.status(201).json({ msg: 'Successfully created Market Sale.' })           
+
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).json({ msg: 'Unable to add Market Sale.' });
+        }
+    } else { // If the item is a component or casus block
+
+    }
 
     try {
-        // See if there is a listing for the given itemID (Not sure?)
-        // let sale = new Sale();
-
         // Make new Marketplace Sale
         let sale = new MarketSale({
             sellerId,
