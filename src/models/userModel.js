@@ -165,213 +165,213 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
                 type: Number,
                 default: 0
             }
+        },
+        casusBlocks: {
+            and: {
+                type: Number,
+                default: 0
+            },
+            doubleAbs: {
+                type: Number,
+                default: 0
+            },
+            doubleAdd: {
+                type: Number,
+                default: 0
+            },
+            doubleDivide: {
+                type: Number,
+                default: 0
+            },
+            doubleEquals: {
+                type: Number,
+                default: 0
+            },
+            doubleGreaterThan: {
+                type: Number,
+                default: 0
+            },
+            doubleGreaterThanOrEqual: {
+                type: Number,
+                default: 0
+            },
+            doubleLessThan: {
+                type: Number,
+                default: 0
+            },
+            doubleLessThanOrEqual: {
+                type: Number,
+                default: 0
+            },
+            doubleMax: {
+                type: Number,
+                default: 0
+            },
+            doubleMin: {
+                type: Number,
+                default: 0
+            },
+            doubleMultiply: {
+                type: Number,
+                default: 0
+            },
+            doubleRound: {
+                type: Number,
+                default: 0
+            },
+            doubleSubtract: {
+                type: Number,
+                default: 0
+            },
+            doubleTruncate: {
+                type: Number,
+                default: 0
+            },
+            for: {
+                type: Number,
+                default: 0
+            },
+            getListAt: {
+                type: Number,
+                default: 0
+            },
+            getVariable: {
+                type: Number,
+                default: 0
+            },
+            if: {
+                type: Number,
+                default: 0
+            },
+            ifElse: {
+                type: Number,
+                default: 0
+            },
+            intAbs: {
+                type: Number,
+                default: 0
+            },
+            intAdd: {
+                type: Number,
+                default: 0
+            },
+            intDivide: {
+                type: Number,
+                default: 0
+            },
+            intEquals: {
+                type: Number,
+                default: 0
+            },
+            intGreaterThan: {
+                type: Number,
+                default: 0
+            },
+            intGreaterThanOrEqual: {
+                type: Number,
+                default: 0
+            },
+            intLessThan: {
+                type: Number,
+                default: 0
+            },
+            intLessThanOrEqual: {
+                type: Number,
+                default: 0
+            },
+            intMax: {
+                type: Number,
+                default: 0
+            },
+            intMin: {
+                type: Number,
+                default: 0
+            },
+            intModulo: {
+                type: Number,
+                default: 0
+            },
+            intMultiply: {
+                type: Number,
+                default: 0
+            },
+            intSubtract: {
+                type: Number,
+                default: 0
+            },
+            intToDouble: {
+                type: Number,
+                default: 0
+            },
+            listAppend: {
+                type: Number,
+                default: 0
+            },
+            listSize: {
+                type: Number,
+                default: 0
+            },
+            mathAcos: {
+                type: Number,
+                default: 0
+            },
+            mathAsin: {
+                type: Number,
+                default: 0
+            },
+            mathAtan: {
+                type: Number,
+                default: 0
+            },
+            mathCos: {
+                type: Number,
+                default: 0
+            },
+            mathPow: {
+                type: Number,
+                default: 0
+            },
+            mathSin: {
+                type: Number,
+                default: 0
+            },
+            mathSqrt: {
+                type: Number,
+                default: 0
+            },
+            mathTan: {
+                type: Number,
+                default: 0
+            },
+            or: {
+                type: Number,
+                default: 0
+            },
+            print: {
+                type: Number,
+                default: 0
+            },
+            setListAt: {
+                type: Number,
+                default: 0
+            },
+            setVariable: {
+                type: Number,
+                default: 0
+            },
+            unaryOperation: {
+                type: Number,
+                default: 0
+            },
+            while: {
+                type: Number,
+                default: 0
+            },
+            xOr: {
+                type: Number,
+                default: 0
+            }                                                        
         }
-    },
-    casusBlocks: {
-        and: {
-            type: Number,
-            default: 0
-        },
-        doubleAbs: {
-            type: Number,
-            default: 0
-        },
-        doubleAdd: {
-            type: Number,
-            default: 0
-        },
-        doubleDivide: {
-            type: Number,
-            default: 0
-        },
-        doubleEquals: {
-            type: Number,
-            default: 0
-        },
-        doubleGreaterThan: {
-            type: Number,
-            default: 0
-        },
-        doubleGreaterThanOrEqual: {
-            type: Number,
-            default: 0
-        },
-        doubleLessThan: {
-            type: Number,
-            default: 0
-        },
-        doubleLessThanOrEqual: {
-            type: Number,
-            default: 0
-        },
-        doubleMax: {
-            type: Number,
-            default: 0
-        },
-        doubleMin: {
-            type: Number,
-            default: 0
-        },
-        doubleMultiply: {
-            type: Number,
-            default: 0
-        },
-        doubleRound: {
-            type: Number,
-            default: 0
-        },
-        doubleSubtract: {
-            type: Number,
-            default: 0
-        },
-        doubleTruncate: {
-            type: Number,
-            default: 0
-        },
-        for: {
-            type: Number,
-            default: 0
-        },
-        getListAt: {
-            type: Number,
-            default: 0
-        },
-        getVariable: {
-            type: Number,
-            default: 0
-        },
-        if: {
-            type: Number,
-            default: 0
-        },
-        ifElse: {
-            type: Number,
-            default: 0
-        },
-        intAbs: {
-            type: Number,
-            default: 0
-        },
-        intAdd: {
-            type: Number,
-            default: 0
-        },
-        intDivide: {
-            type: Number,
-            default: 0
-        },
-        intEquals: {
-            type: Number,
-            default: 0
-        },
-        intGreaterThan: {
-            type: Number,
-            default: 0
-        },
-        intGreaterThanOrEqual: {
-            type: Number,
-            default: 0
-        },
-        intLessThan: {
-            type: Number,
-            default: 0
-        },
-        intLessThanOrEqual: {
-            type: Number,
-            default: 0
-        },
-        intMax: {
-            type: Number,
-            default: 0
-        },
-        intMin: {
-            type: Number,
-            default: 0
-        },
-        intModulo: {
-            type: Number,
-            default: 0
-        },
-        intMultiply: {
-            type: Number,
-            default: 0
-        },
-        intSubtract: {
-            type: Number,
-            default: 0
-        },
-        intToDouble: {
-            type: Number,
-            default: 0
-        },
-        listAppend: {
-            type: Number,
-            default: 0
-        },
-        listSize: {
-            type: Number,
-            default: 0
-        },
-        mathAcos: {
-            type: Number,
-            default: 0
-        },
-        mathAsin: {
-            type: Number,
-            default: 0
-        },
-        mathAtan: {
-            type: Number,
-            default: 0
-        },
-        mathCos: {
-            type: Number,
-            default: 0
-        },
-        mathPow: {
-            type: Number,
-            default: 0
-        },
-        mathSin: {
-            type: Number,
-            default: 0
-        },
-        mathSqrt: {
-            type: Number,
-            default: 0
-        },
-        mathTan: {
-            type: Number,
-            default: 0
-        },
-        or: {
-            type: Number,
-            default: 0
-        },
-        print: {
-            type: Number,
-            default: 0
-        },
-        setListAt: {
-            type: Number,
-            default: 0
-        },
-        setVariable: {
-            type: Number,
-            default: 0
-        },
-        unaryOperation: {
-            type: Number,
-            default: 0
-        },
-        while: {
-            type: Number,
-            default: 0
-        },
-        xOr: {
-            type: Number,
-            default: 0
-        },                                                        
     },
     // Created users start with clean slate of stats. Defaults can be changed as needed
     stats: {
