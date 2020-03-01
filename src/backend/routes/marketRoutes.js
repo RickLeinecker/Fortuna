@@ -34,13 +34,14 @@ router.get('/getMarketSales', marketController.getMarketSales);
 
 // Get a single market sale by ID
 // Route call: getMarketSale
-// Req needs saleId in params in API route
+// Req needs saleId in body
 // Returns the Marketplace Sale with that ID or an error
-router.get('/getMarketsale/:saleId', marketController.getMarketSale);
+router.get('/getMarketsale', marketController.getMarketSale);
 
 // Market Transaction
 // Route call: marketTransaction
-// Req needs buyer ID, seller ID, item ID, item type, sale price, sale ID
+// Req body needs buyer ID, seller ID, 
+// item ID, item type, sale price, sale ID
 // Returns updated buyer (ie logged in user)
 router.put('/marketTransaction', [
     check('buyerId', 'Missing buyerId'),

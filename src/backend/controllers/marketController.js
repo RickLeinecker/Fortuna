@@ -167,7 +167,7 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
 exports.getMarketSale = async (req: $Request, res: $Response) => {
     try {
         // Get market sale from DB
-        const sale = await MarketSale.findById(req.params.saleID);
+        const sale = await MarketSale.findById(req.body.saleId);
         if (!sale) {
             return res
                 .status(400)
@@ -186,7 +186,6 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
 }
 
 // Transaction between players
-// Only implemented for tank transactions at the moment, will update later
 exports.marketTransaction = async (req: $Request, res: $Response) => {
     // Validation
     const errors = validationResult(req);
