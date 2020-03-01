@@ -31,16 +31,16 @@ class BattleArena extends React.Component<{||}> {
 					</Link>
 					<h6>Practice Against Bots</h6>
 					<Link to="TrainingArena">
-							<button type="button" className="btn">Training Arena</button>
+						<button type="button" className="btn">Training Arena</button>
 					</Link>
 				</div>
 				<div className="column bamiddle">
 					<h2>Choose your Tank, Commander</h2>
 					<select className="dropdownMenu">
-							<option defaultValue>Select a Tank</option>
-							<option value="1">Child Consumer</option>
-							<option value="2">Fast Bang</option>
-							<option value="3">Biggest Gun</option>
+						<option defaultValue>Select a Tank</option>
+						<option value="1">Child Consumer</option>
+						<option value="2">Fast Bang</option>
+						<option value="3">Biggest Gun</option>
 					</select>
 				</div>
 				<div className="column baright">

@@ -17,7 +17,7 @@ class Tank {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		const treadsImage = getImage('GREY_TREAD_1');
+		const treadsImage = getImage('GRAY_TREAD_1');
 		const chassisImage = getImage('BLUE_CHASSIS_1');
 		const gunImage = getImage('RED_GUN_1');
 		ctx.drawImage(treadsImage, this.position.x, this.position.y, 100, 100);

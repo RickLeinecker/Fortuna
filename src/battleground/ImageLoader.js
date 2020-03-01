@@ -16,7 +16,7 @@ const allImages: {[ImageName]: Image}= {
 	DIRT_BACKGROUND: new Image(),
 	BLUE_CHASSIS_1: new Image(),
 	RED_GUN_1: new Image(),
-	GREY_TREAD_1: new Image()
+	GRAY_TREAD_1: new Image()
 };
 const callbacksWhenLoaded: Array<()=>void> = [];
 
@@ -30,7 +30,7 @@ function imageLoaderInit(): void {
 	allImages.DIRT_BACKGROUND.src='DirtBackground.png';
 	allImages.BLUE_CHASSIS_1.src='Chassis1Blue.png';
 	allImages.RED_GUN_1.src='gun1GrayRed.png';
-	allImages.GREY_TREAD_1.src='Tread1Gray.png';
+	allImages.GRAY_TREAD_1.src='Tread1Gray.png';
 	//------------------END ADD MORE IMAGE HERE-----------------------
 	
 	for (const name: ImageName of Object.keys(allImages)) {
