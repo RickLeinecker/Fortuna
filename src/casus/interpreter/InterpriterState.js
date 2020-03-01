@@ -59,6 +59,9 @@ class InterpriterState {
 					this.doubleListVariables.set(name, new DoubleListValue());
 				}
 				return this.booleanListVariables.get(name);
+			default:
+				console.log('Unexpected variable type '+type+' in InterpreterState.getVariable!');
+				return null;
 		}
 	}
 
@@ -82,6 +85,8 @@ class InterpriterState {
 			case 'DOUBLE_LIST':
 				this.doubleListVariables.set(name, verifyDoubleList(value));
 				break;
+			default:
+				console.log('Unexpected variable type '+type+' in InterpreterState.setVariable!');
 		}
 	}
 }

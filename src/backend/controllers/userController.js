@@ -135,24 +135,24 @@ exports.login = async (req: $Request, res: $Response) => {
 
 }
 
-exports.getUser = async ( req: $Request, res: $Response) => {
-        try{
-            const user = await User.findById(req.params.userId);
-            res.json(user);
-        } catch(err){
-            console.error(err.message);
-            res.status(500).json({ msg: 'Server Error'});
-        }
-}
-
-exports.checkAuth = async (req: $Request, res: $Response) => {
+exports.getUser = async (req: $Request, res: $Response) => {
     try{
-        const user = await User.findById(req.userId).select('-password');
+        const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
         console.error(err.message);
         res.status(500).json({msg: 'Server Error'});
     }
+}
+
+exports.getLeaders = async (req: $Request, res: $Response) => {
+    // skip and limit determine how many to return and the -1 in the sort if for descending order based on elo
+    await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err, leaders){
+        if(err)
+            res.send(err);
+        
+        res.send(leaders);
+    });
 }
 
 

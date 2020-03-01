@@ -16,6 +16,7 @@ const PORT = 3001;
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 const marketRoutes = require('./routes/marketRoutes');
+const casusRoutes = require('./routes/casusRoutes');
 
 // Server Instance
 const app = express();
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/marketplace', marketRoutes);
+app.use('/api/casus', casusRoutes);
 
 const options = {
     useNewUrlParser: true,

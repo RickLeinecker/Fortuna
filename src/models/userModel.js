@@ -34,9 +34,11 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     favoriteTankId: {
         type: String
     },
-    // Player inventory
+    // User's inventory. Separate sections for tank components and Casus blocks
     inventory: {
+        // Tracks number of tank components a user has.
         tankComponents: {
+            // Chassis components
             moddableLight: {
                 type: Number,
                 default: 0
@@ -56,67 +58,70 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             moddableHeavy: {
                 type: Number,
                 default: 0
-            },
+            },           
+            // Weapons
             machineGun: {
                 type: Number,
                 default: 0
-            },
+            },        
             grenadeLauncher: {
                 type: Number,
                 default: 0
-            },
+            },              
             missile: {
                 type: Number,
                 default: 0
-            },
+            },     
             shotgun: {
                 type: Number,
                 default: 0
-            },
+            },     
             vulcanCannon: {
                 type: Number,
                 default: 0
-            },
+            },          
             laser: {
                 type: Number,
                 default: 0
-            },
+            },   
             plasma: {
                 type: Number,
                 default: 0
-            },
+            },    
             pulseLaser: {
                 type: Number,
                 default: 0
-            },
+            },        
             lancer: {
                 type: Number,
                 default: 0
-            },
+            },    
             deathRay: {
                 type: Number,
                 default: 0
-            },
+            },  
+            // Scanners
             shortRangeScanner: {
                 type: Number,
                 default: 0
-            },
+            },               
             mediumRangeScanner: {
                 type: Number,
                 default: 0
-            },
+            },                
             longRangeScanner: {
                 type: Number,
                 default: 0
-            },
+            },              
             itemScanner: {
                 type: Number,
                 default: 0
-            },
+            },         
             antiJammerScanner: {
                 type: Number,
                 default: 0
             },
+            // Jammers
             shortRangeJammer: {
                 type: Number,
                 default: 0
@@ -129,6 +134,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
                 type: Number,
                 default: 0
             },
+            // Treads
             advancedTreads: {
                 type: Number,
                 default: 0
@@ -145,6 +151,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
                 type: Number,
                 default: 0
             },
+            // Single-use Items
             mine: {
                 type: Number,
                 default: 0
@@ -166,212 +173,215 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
                 default: 0
             }
         },
+        // Casus inventory, tracks number of types of Casus blocks owned by a user.
+        // Likely not going to be used in v1.0 but remains here for implementation
+        // if it is desired to track an inventory of Casus blocks.
         casusBlocks: {
-            and: {
+            andBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleAbs: {
+            doubleAbsBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleAdd: {
+            doubleAddBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleDivide: {
+            doubleDivideBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleEquals: {
+            doubleEqualsBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleGreaterThan: {
+            doubleGreaterThanBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleGreaterThanOrEqual: {
+            doubleGreaterThanOrEqualBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleLessThan: {
+            doubleLessThanBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleLessThanOrEqual: {
+            doubleLessThanOrEqualBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleMax: {
+            doubleMaxBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleMin: {
+            doubleMinBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleMultiply: {
+            doubleMultiplyBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleRound: {
+            doubleRoundBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleSubtract: {
+            doubleSubtractBlocks: {
                 type: Number,
                 default: 0
             },
-            doubleTruncate: {
+            doubleTruncateBlocks: {
                 type: Number,
                 default: 0
             },
-            for: {
+            forBlocks: {
                 type: Number,
                 default: 0
             },
-            getListAt: {
+            getListAtBlocks: {
                 type: Number,
                 default: 0
             },
-            getVariable: {
+            getVariableBlocks: {
                 type: Number,
                 default: 0
             },
-            if: {
+            ifBlocks: {
                 type: Number,
                 default: 0
             },
-            ifElse: {
+            ifElseBlocks: {
                 type: Number,
                 default: 0
             },
-            intAbs: {
+            intAbsBlocks: {
                 type: Number,
                 default: 0
             },
-            intAdd: {
+            intAddBlocks: {
                 type: Number,
                 default: 0
             },
-            intDivide: {
+            intDivideBlocks: {
                 type: Number,
                 default: 0
             },
-            intEquals: {
+            intEqualsBlocks: {
                 type: Number,
                 default: 0
             },
-            intGreaterThan: {
+            intGreaterThanBlocks: {
                 type: Number,
                 default: 0
             },
-            intGreaterThanOrEqual: {
+            intGreaterThanOrEqualBlocks: {
                 type: Number,
                 default: 0
             },
-            intLessThan: {
+            intLessThanBlocks: {
                 type: Number,
                 default: 0
             },
-            intLessThanOrEqual: {
+            intLessThanOrEqualBlocks: {
                 type: Number,
                 default: 0
             },
-            intMax: {
+            intMaxBlocks: {
                 type: Number,
                 default: 0
             },
-            intMin: {
+            intMinBlocks: {
                 type: Number,
                 default: 0
             },
-            intModulo: {
+            intModuloBlocks: {
                 type: Number,
                 default: 0
             },
-            intMultiply: {
+            intMultiplyBlocks: {
                 type: Number,
                 default: 0
             },
-            intSubtract: {
+            intSubtractBlocks: {
                 type: Number,
                 default: 0
             },
-            intToDouble: {
+            intToDoubleBlocks: {
                 type: Number,
                 default: 0
             },
-            listAppend: {
+            listAppendBlocks: {
                 type: Number,
                 default: 0
             },
-            listSize: {
+            listSizeBlocks: {
                 type: Number,
                 default: 0
             },
-            mathAcos: {
+            mathAcosBlocks: {
                 type: Number,
                 default: 0
             },
-            mathAsin: {
+            mathAsinBlocks: {
                 type: Number,
                 default: 0
             },
-            mathAtan: {
+            mathAtanBlocks: {
                 type: Number,
                 default: 0
             },
-            mathCos: {
+            mathCosBlocks: {
                 type: Number,
                 default: 0
             },
-            mathPow: {
+            mathPowBlocks: {
                 type: Number,
                 default: 0
             },
-            mathSin: {
+            mathSinBlocks: {
                 type: Number,
                 default: 0
             },
-            mathSqrt: {
+            mathSqrtBlocks: {
                 type: Number,
                 default: 0
             },
-            mathTan: {
+            mathTanBlocks: {
                 type: Number,
                 default: 0
             },
-            or: {
+            orBlocks: {
                 type: Number,
                 default: 0
             },
-            print: {
+            printBlocks: {
                 type: Number,
                 default: 0
             },
-            setListAt: {
+            setListAtBlocks: {
                 type: Number,
                 default: 0
             },
-            setVariable: {
+            setVariableBlocks: {
                 type: Number,
                 default: 0
             },
-            unaryOperation: {
+            unaryOperationBlocks: {
                 type: Number,
                 default: 0
             },
-            while: {
+            whileBlocks: {
                 type: Number,
                 default: 0
             },
-            xOr: {
+            XorBlocks: {
                 type: Number,
                 default: 0
-            }                                                        
-        }
+            }                                                     
+        }    
     },
     // Created users start with clean slate of stats. Defaults can be changed as needed
     stats: {
@@ -396,6 +406,9 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     dateCreated: {
         type: Date,
         default: Date.now
+    },
+    lastLogin: {
+        type: Date
     },
     // This should be updated in the API call when a user gets updated.
     dateUpdated: {
