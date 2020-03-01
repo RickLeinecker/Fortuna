@@ -12,13 +12,13 @@ class ImageDrawer {
 		this.ctx=ctx;
 	}
 
-	draw(i: Image, center: Vec, width: number, angle: number) {
+	draw(i: Image, center: Vec, width: number, angle: number): void {
 		const convertedPos = this._uncompressPosition(center);
 		const convertedWidth = this._uncompressWidth(width);
 		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, angle);
 	}
 
-	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number) {
+	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number): void {
 		this.ctx.translate(xRaw, yRaw);
 		this.ctx.rotate(angle);
 		this.ctx.drawImage(i, -width/2, -width/2, width, width);
@@ -33,7 +33,7 @@ class ImageDrawer {
 	//	- y coordinates range from +/- 60
 	//	- up is positive y, right is positive x
 	//
-	_uncompressPosition(oldPosition: Vec) {
+	_uncompressPosition(oldPosition: Vec): Vec {
 		const positive=oldPosition.add(new Vec(100, 60));
 		const scalar=getBattlegroundWidth()/200.0;
 		const newX=positive.x*scalar;
@@ -41,7 +41,7 @@ class ImageDrawer {
 		return new Vec(newX, getBattlegroundHeight()-newY);
 	}
 
-	_uncompressWidth(oldWidth: number) {
+	_uncompressWidth(oldWidth: number): number {
 		const scalar=getBattlegroundWidth()/200.0;
 		return oldWidth*scalar;
 	}

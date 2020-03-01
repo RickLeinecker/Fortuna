@@ -7,6 +7,8 @@ import getBattlegroundHeight from './getBattlegroundHeight.js';
 import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
 import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
+import Wall from './Wall.js';
+import Vec from '../casus/blocks/Vec.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
 class Battleground extends React.Component<{||}> {
@@ -41,7 +43,16 @@ class Battleground extends React.Component<{||}> {
 		const drawer=new ImageDrawer(ctx);
 
 		const testTank: Tank = getTestTank();
+		const testWall1: Wall = new Wall(new Vec(10, 0), Math.PI/2);
+		const testWall2: Wall = new Wall(new Vec(60, 0), 0);
+		const testWall3: Wall = new Wall(new Vec(-50, 30), Math.PI/5);
+		const testWall4: Wall = new Wall(new Vec(-50, -30), -Math.PI/5);
+
 		testTank.drawSelf(drawer);
+		testWall1.drawSelf(drawer);
+		testWall2.drawSelf(drawer);
+		testWall3.drawSelf(drawer);
+		testWall4.drawSelf(drawer);
 	}
 
 	_resizeCanvas() {
