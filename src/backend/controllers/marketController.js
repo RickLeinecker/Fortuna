@@ -146,14 +146,20 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
 // Gets all Marketplace Sales
 exports.getMarketSales = async (req: $Request, res: $Response) => {
     try {
+        // Get list of sales from DB
         const salesList = await MarketSale.find();
-        res.json(salesList);
+        if (!salesList) {
+            return res
+                .status(400)
+                .json({ msg: 'Unable to get list of Market Sales.' })
+        }
+
+        // Return list of sales
+        res.status(200).json(salesList);
+
     }
     catch (err) {
-        res.status(500).json({ 
-            msg: 'Unable to find list of Sales.',
-            errors: err.message 
-        });
+        res.status(500).json({ msg: 'Unable to find list of Sales.' });
     }
 }
 
