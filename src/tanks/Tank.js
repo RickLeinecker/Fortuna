@@ -2,6 +2,7 @@
 
 import Vec from '../casus/blocks/Vec.js';
 import {getImage} from '../battleground/ImageLoader.js';
+import ImageDrawer from '../battleground/ImageDrawer.js';
 
 class Tank {
 	position: Vec;
@@ -16,13 +17,13 @@ class Tank {
 	executePhysics(): void {
 	}
 
-	drawSelf(ctx: CanvasRenderingContext2D): void {
+	drawSelf(drawer: ImageDrawer): void {
 		const treadsImage = getImage('GRAY_TREAD_1');
 		const chassisImage = getImage('BLUE_CHASSIS_1');
 		const gunImage = getImage('RED_GUN_1');
-		ctx.drawImage(treadsImage, this.position.x, this.position.y, 100, 100);
-		ctx.drawImage(chassisImage, this.position.x, this.position.y, 100, 100);
-		ctx.drawImage(gunImage, this.position.x-25, this.position.y-25, 150, 150);
+		drawer.draw(treadsImage, this.position, 100, 0);
+		drawer.draw(chassisImage, this.position, 100, 0);
+		drawer.draw(gunImage, this.position, 150, 1);
 	}
 
 }
