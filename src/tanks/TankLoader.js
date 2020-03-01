@@ -7,7 +7,7 @@ import Gun from './Gun.js';
 import Treads from './Treads.js';
 
 function getTestTank(): Tank {
-	const toReturn: Tank = new Tank(new Vec(300, 150), new Chassis(), new Treads(), new Gun());
+	const toReturn: Tank = new Tank(new Vec(50, 20), new Chassis(), new Treads(), new Gun());
 	return toReturn;
 }
 

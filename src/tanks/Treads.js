@@ -8,7 +8,7 @@ import Vec from '../casus/blocks/Vec.js';
 class Treads extends TankPart {
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
-		drawer.draw(getImage('GRAY_TREAD_1'), parentPos, 100, parentRotation);
+		drawer.draw(getImage('GRAY_TREAD_1'), parentPos, 10, parentRotation);
 	}
 
 }

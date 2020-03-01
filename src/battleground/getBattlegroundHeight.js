@@ -1,7 +1,9 @@
 //@flow strict
 
+import getBattlegroundWidth from './getBattlegroundWidth.js';
+
 function getBattlegroundHeight(): number {
-	return 800;
+	return getBattlegroundWidth()/200.0*120;
 }
 
 export default getBattlegroundHeight;
