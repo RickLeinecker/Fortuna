@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {
@@ -21,7 +21,7 @@ class MainMenu extends React.Component<{||}> {
 				<div className="column menumiddle">
 				<h6>Combat your tanks against Bots or other Commanders.</h6>
 					<Link to="BattleArena">
-						<button type="button" class="btn">Battle Arena</button>
+						<button type="button" className="btn">Battle Arena</button>
 					</Link>
 				</div>
 				<div className="column menuright">
