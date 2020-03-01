@@ -34,209 +34,341 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     favoriteTankId: {
         type: String
     },
-    // Casus inventory
-    casusInventory: {
-        andBlocks: {
+    // Player inventory
+    inventory: {
+        tankComponents: {
+            moddableLight: {
+                type: Number,
+                default: 0
+            },
+            light: {
+                type: Number,
+                default: 0
+            },
+            moddable: {
+                type: Number,
+                default: 0
+            },
+            heavy: {
+                type: Number,
+                default: 0
+            },
+            moddableHeavy: {
+                type: Number,
+                default: 0
+            },
+            machineGun: {
+                type: Number,
+                default: 0
+            },
+            grenadeLauncher: {
+                type: Number,
+                default: 0
+            },
+            missile: {
+                type: Number,
+                default: 0
+            },
+            shotgun: {
+                type: Number,
+                default: 0
+            },
+            vulcanCannon: {
+                type: Number,
+                default: 0
+            },
+            laser: {
+                type: Number,
+                default: 0
+            },
+            plasma: {
+                type: Number,
+                default: 0
+            },
+            pulseLaser: {
+                type: Number,
+                default: 0
+            },
+            lancer: {
+                type: Number,
+                default: 0
+            },
+            deathRay: {
+                type: Number,
+                default: 0
+            },
+            shortRangeScanner: {
+                type: Number,
+                default: 0
+            },
+            mediumRangeScanner: {
+                type: Number,
+                default: 0
+            },
+            longRangeScanner: {
+                type: Number,
+                default: 0
+            },
+            itemScanner: {
+                type: Number,
+                default: 0
+            },
+            antiJammerScanner: {
+                type: Number,
+                default: 0
+            },
+            shortRangeJammer: {
+                type: Number,
+                default: 0
+            },
+            mediumRangeJammer: {
+                type: Number,
+                default: 0
+            },
+            longRangeJammer: {
+                type: Number,
+                default: 0
+            },
+            advancedTreads: {
+                type: Number,
+                default: 0
+            },
+            fastTreads: {
+                type: Number,
+                default: 0
+            },
+            armoredTreads: {
+                type: Number,
+                default: 0
+            },
+            heavilyArmoredTreads: {
+                type: Number,
+                default: 0
+            },
+            mine: {
+                type: Number,
+                default: 0
+            },
+            c4: {
+                type: Number,
+                default: 0
+            },
+            nitroRepair: {
+                type: Number,
+                default: 0
+            },
+            overdrive: {
+                type: Number,
+                default: 0
+            },
+            missileTrackingBeacon: {
+                type: Number,
+                default: 0
+            }
+        }
+    },
+    casusBlocks: {
+        and: {
             type: Number,
             default: 0
         },
-        doubleAbsBlocks: {
+        doubleAbs: {
             type: Number,
             default: 0
         },
-        doubleAddBlocks: {
+        doubleAdd: {
             type: Number,
             default: 0
         },
-        doubleDivideBlocks: {
+        doubleDivide: {
             type: Number,
             default: 0
         },
-        doubleEqualsBlocks: {
+        doubleEquals: {
             type: Number,
             default: 0
         },
-        doubleGreaterThanBlocks: {
+        doubleGreaterThan: {
             type: Number,
             default: 0
         },
-        doubleGreaterThanOrEqualBlocks: {
+        doubleGreaterThanOrEqual: {
             type: Number,
             default: 0
         },
-        doubleLessThanBlocks: {
+        doubleLessThan: {
             type: Number,
             default: 0
         },
-        doubleLessThanOrEqualBlocks: {
+        doubleLessThanOrEqual: {
             type: Number,
             default: 0
         },
-        doubleMaxBlocks: {
+        doubleMax: {
             type: Number,
             default: 0
         },
-        doubleMinBlocks: {
+        doubleMin: {
             type: Number,
             default: 0
         },
-        doubleMultiplyBlocks: {
+        doubleMultiply: {
             type: Number,
             default: 0
         },
-        doubleRoundBlocks: {
+        doubleRound: {
             type: Number,
             default: 0
         },
-        doubleSubtractBlocks: {
+        doubleSubtract: {
             type: Number,
             default: 0
         },
-        doubleTruncateBlocks: {
+        doubleTruncate: {
             type: Number,
             default: 0
         },
-        forBlocks: {
+        for: {
             type: Number,
             default: 0
         },
-        getListAtBlocks: {
+        getListAt: {
             type: Number,
             default: 0
         },
-        getVariableBlocks: {
+        getVariable: {
             type: Number,
             default: 0
         },
-        ifBlocks: {
+        if: {
             type: Number,
             default: 0
         },
-        ifElseBlocks: {
+        ifElse: {
             type: Number,
             default: 0
         },
-        intAbsBlocks: {
+        intAbs: {
             type: Number,
             default: 0
         },
-        intAddBlocks: {
+        intAdd: {
             type: Number,
             default: 0
         },
-        intDivideBlocks: {
+        intDivide: {
             type: Number,
             default: 0
         },
-        intEqualsBlocks: {
+        intEquals: {
             type: Number,
             default: 0
         },
-        intGreaterThanBlocks: {
+        intGreaterThan: {
             type: Number,
             default: 0
         },
-        intGreaterThanOrEqualBlocks: {
+        intGreaterThanOrEqual: {
             type: Number,
             default: 0
         },
-        intLessThanBlocks: {
+        intLessThan: {
             type: Number,
             default: 0
         },
-        intLessThanOrEqualBlocks: {
+        intLessThanOrEqual: {
             type: Number,
             default: 0
         },
-        intMaxBlocks: {
+        intMax: {
             type: Number,
             default: 0
         },
-        intMinBlocks: {
+        intMin: {
             type: Number,
             default: 0
         },
-        intModuloBlocks: {
+        intModulo: {
             type: Number,
             default: 0
         },
-        intMultiplyBlocks: {
+        intMultiply: {
             type: Number,
             default: 0
         },
-        intSubtractBlocks: {
+        intSubtract: {
             type: Number,
             default: 0
         },
-        intToDoubleBlocks: {
+        intToDouble: {
             type: Number,
             default: 0
         },
-        listAppendBlocks: {
+        listAppend: {
             type: Number,
             default: 0
         },
-        listSizeBlocks: {
+        listSize: {
             type: Number,
             default: 0
         },
-        mathAcosBlocks: {
+        mathAcos: {
             type: Number,
             default: 0
         },
-        mathAsinBlocks: {
+        mathAsin: {
             type: Number,
             default: 0
         },
-        mathAtanBlocks: {
+        mathAtan: {
             type: Number,
             default: 0
         },
-        mathCosBlocks: {
+        mathCos: {
             type: Number,
             default: 0
         },
-        mathPowBlocks: {
+        mathPow: {
             type: Number,
             default: 0
         },
-        mathSinBlocks: {
+        mathSin: {
             type: Number,
             default: 0
         },
-        mathSqrtBlocks: {
+        mathSqrt: {
             type: Number,
             default: 0
         },
-        mathTanBlocks: {
+        mathTan: {
             type: Number,
             default: 0
         },
-        orBlocks: {
+        or: {
             type: Number,
             default: 0
         },
-        printBlocks: {
+        print: {
             type: Number,
             default: 0
         },
-        setListAtBlocks: {
+        setListAt: {
             type: Number,
             default: 0
         },
-        setVariableBlocks: {
+        setVariable: {
             type: Number,
             default: 0
         },
-        unaryOperationBlocks: {
+        unaryOperation: {
             type: Number,
             default: 0
         },
-        whileBlocks: {
+        while: {
             type: Number,
             default: 0
         },
-        XorBlocks: {
+        xOr: {
             type: Number,
             default: 0
         },                                                        
