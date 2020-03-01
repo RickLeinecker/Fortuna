@@ -27,14 +27,14 @@ router.post('/addMarketSale', [
 
 // Get the list of all Market Sales
 // Route call: getMarketSales
-// Req does not need anything (as far as I know)
+// Req does not need anything
 // Returns list of all Market Sales or an error
 // Check messages can be edited
 router.get('/getMarketSales', marketController.getMarketSales);
 
 // Get a single market sale by ID
 // Route call: getMarketSale
-// Req needs sale ID (MongoDB _id field)
+// Req needs saleId in params in API route
 // Returns the Marketplace Sale with that ID or an error
 router.get('/getMarketsale/:saleId', marketController.getMarketSale);
 

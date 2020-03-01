@@ -166,8 +166,16 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
 // Gets a single Marketplace Sale
 exports.getMarketSale = async (req: $Request, res: $Response) => {
     try {
+        // Get market sale from DB
         const sale = await MarketSale.findById(req.params.saleID);
-        res.json(sale);
+        if (!sale) {
+            return res
+                .status(400)
+                .json({ msg: 'Unable to fetch Market Sale.' })
+        }
+
+        // Return sale confirmation
+        res.status(200).json(sale);
     }
     catch (err) {
         res.status(500).json({
