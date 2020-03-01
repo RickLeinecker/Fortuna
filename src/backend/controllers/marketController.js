@@ -34,6 +34,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
     if (itemType === 'tank') {
         try { 
             // Check if tank is actually owned by user
+            // Also acts as a way to check if user is real
             let tank = await Tank.findOne({ id: itemId, userId: sellerId });
             if (!tank) {
                 return res
@@ -42,7 +43,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
             }            
 
             // Make a new Marketplace Sale
-            // if it exists
+            // if tank exists
             const sale = new MarketSale({
                 sellerId,
                 salePrice,
@@ -66,30 +67,79 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
             res.status(500).json({ msg: 'Unable to add Market Sale.' });
         }
     } else { // If the item is a component or casus block
+        try {
+            // Check if user exists
+            let user = await User.findById(sellerId);
+            if (!user) {
+                return res
+                    .status(400)
+                    .json({ msg: 'User not found in DB' })
+            }
 
-    }
+            if (itemType === 'component') { // Components
+                // Check if they have enough
+                // of the component to sell
+                const userItem = user['inventory']['tankComponents'][itemId];
+                if (userItem < amount) {
+                    return res
+                        .status(400)
+                        .json({ msg: 'User does not have enough of this item to sell' })
+                }
 
-    try {
-        // Make new Marketplace Sale
-        let sale = new MarketSale({
-            sellerId,
-            salePrice,
-            itemId,
-            itemType
-        });
+                // If they have enough to sell
+                // make new Marketplace sale
+                const sale = new MarketSale({
+                    sellerId,
+                    salePrice,
+                    itemId,
+                    itemType,
+                    amount 
+                });
 
-        // Save a Marketplace Sale to the DB
-        await sale.save();
+                // Subtract the amount of items from the user inventory
+                user['inventory']['tankComponents'][itemId] -= amount;
+                await user.save();
 
-        // Send back success confirmation
-        res.status(201).json({ msg: 'Successfully created Market Sale.' })
-    }
-    catch (err) {
-        console.error(err.message);
-        res.status(500).json({ 
-            msg: 'Unable to add Market Sale.',
-            errors: err.message
-        });
+                // Add the new sale to the DB.
+                await sale.save();
+
+                // Send back success confirmation
+                res.status(201).json({ msg: 'Successfully created Market Sale.' });            
+            } else { // Casus Blocks
+                // Check if they have enough
+                // Casus blocks to sell
+                const userItem = user['inventory']['casusBlocks'][itemId];
+                if (userItem < amount) {
+                    return res
+                        .status(400)
+                        .json({ msg: 'User does not have enough of this item to sell' })
+                }
+
+                // If they have enough to sell
+                // make new Marketplace sale
+                const sale = new MarketSale({
+                    sellerId,
+                    salePrice,
+                    itemId,
+                    itemType,
+                    amount 
+                });
+
+                // Subtract the amount of items from the user inventory
+                user['inventory']['casusBlocks'][itemId] -= amount;
+                await user.save();
+
+                // Add the new sale to the DB.
+                await sale.save();
+
+                // Send back success confirmation
+                res.status(201).json({ msg: 'Successfully created Market Sale.' });                    
+            }
+
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).json({ msg: 'Unable to add Market Sale.' });
+        }
     }
 }
 
