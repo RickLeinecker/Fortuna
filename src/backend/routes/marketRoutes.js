@@ -14,14 +14,15 @@ const marketController = require('../controllers/marketController');
 
 // Create new Market Sale
 // Route call: addMarketSale
-// Req must have sellerID, salePrice, itemID, and itemType in body
+// Req in body: sellerID, salePrice, itemID, itemType
+// Optional in body: amount
 // Returns a confirmation message or an error
 // Check messages can be edited
 router.post('/addMarketSale', [
-    check('sellerId', 'Missing a sellerId'),
-    check('salePrice', 'Missing a salePrice'),
-    check('itemId', 'Missing an itemId'),
-    check('itemType', 'Missing an itemType')
+    check('sellerId', 'Enter a sellerId'),
+    check('salePrice', 'Enter a salePrice'),
+    check('itemId', 'Enter an itemId'),
+    check('itemType', 'Enter an itemType')
     ], marketController.addMarketSale);
 
 // Get the list of all Market Sales
