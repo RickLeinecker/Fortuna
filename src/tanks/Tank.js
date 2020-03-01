@@ -1,14 +1,24 @@
 //@flow strict
 
 import Vec from '../casus/blocks/Vec.js';
-import {getImage} from '../battleground/ImageLoader.js';
+import TankPart from './TankPart.js'
 import ImageDrawer from '../battleground/ImageDrawer.js';
 
 class Tank {
 	position: Vec;
+	rotation: number;
 
-	constructor(position: Vec) {
+	// parts: 
+	chassis: TankPart;
+	treads: TankPart;
+	mainGun: TankPart;
+
+	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: TankPart) {
 		this.position = position;
+
+		this.chassis = chassis;
+		this.treads = treads;
+		this.mainGun = mainGun;
 	}
 
 	executeCasusFrame(): void {
@@ -18,12 +28,9 @@ class Tank {
 	}
 
 	drawSelf(drawer: ImageDrawer): void {
-		const treadsImage = getImage('GRAY_TREAD_1');
-		const chassisImage = getImage('BLUE_CHASSIS_1');
-		const gunImage = getImage('RED_GUN_1');
-		drawer.draw(treadsImage, this.position, 100, 0);
-		drawer.draw(chassisImage, this.position, 100, 0);
-		drawer.draw(gunImage, this.position, 150, 1);
+		this.treads.drawSelf(drawer, this.position, this.rotation);
+		this.chassis.drawSelf(drawer, this.position, this.rotation);
+		this.mainGun.drawSelf(drawer, this.position, this.rotation);
 	}
 
 }
