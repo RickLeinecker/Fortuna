@@ -255,21 +255,46 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
             console.error(err.message);
             res.status(500).json({ msg: 'Cannot make Market Transaction.' });
         }
-    } else {
-        
-    }
+    } else { 
+        // Component 
+        if (sale.itemType === 'component') {       
+            try {
+                // Start transaction
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+                // Add items to buyer
+                buyer['inventory']['tankComponents'][sale.itemId] += sale.amount;
+                await buyer.save();
 
-    try {
+                // Remove the sale from database
+                await MarketSale.deleteOne({ id: saleId });
 
+                // Return current buyer
+                res.status(201).json(buyer); 
 
+            } catch (err) {
+                console.error(err.message);
+                res.status(500).json({ msg: 'Cannot make Market Transaction.' }); 
+            }
+        } else { // Casus Block
+            try {
+                // Start transaction
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+                // Add items to buyer
+                buyer['inventory']['casusBlocks'][sale.itemId] += sale.amount;
+                await buyer.save();
 
+                // Remove the sale from database
+                await MarketSale.deleteOne({ id: saleId });
 
+                // Return current buyer
+                res.status(201).json(buyer); 
 
-    }   
-    catch (err) {
-        res.status(500).json({
-            msg: 'Cannot make Market Transaction.',
-            errors: err.message
-        });
+            } catch (err) {
+                console.error(err.message);
+                res.status(500).json({ msg: 'Cannot make Market Transaction.' }); 
+            }            
+        }
     }
 }
