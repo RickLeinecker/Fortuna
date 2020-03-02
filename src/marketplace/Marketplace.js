@@ -1,7 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
 import ChassisView from './ChassisView.js';
@@ -11,11 +11,11 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
-import type {MarketPlaceViewDataTypes} from './MarketPlaceViewDataTypes.js';
+import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
 type State = {|
-	marketplaceViewClicked: MarketPlaceViewDataTypes,
+	marketplaceViewClicked: MarketplaceViewDataTypes,
 |};
 
 

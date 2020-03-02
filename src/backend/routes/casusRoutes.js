@@ -1,3 +1,5 @@
+//@flow strict
+
 const casusController = require('../controllers/casusController');
 
 const express = require('express');

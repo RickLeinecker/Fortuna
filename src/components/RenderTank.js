@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 
+
 type Props = {|
-    tank: Array<string>
+    tank: Array<>
 |};
 
 // Render Tank Component. Takes an array of tank components and renders their images.
@@ -17,52 +18,17 @@ type Props = {|
 
 class RenderTank extends React.Component<Props> {
 
-    constructor(props: Props) {
-        super(props);
-
-        // Tracks category for each component.
-        const componentCategories: Map<string, string> = new Map();
-		// Chassis:
-		componentCategories.set("moddableLight", "chassis");
-		componentCategories.set("light", "chassis");
-		componentCategories.set("moddable", "chassis");
-		componentCategories.set("heavy", "chassis");
-		componentCategories.set("moddableHeavy", "chassis");
-		// Weapons:
-		componentCategories.set("machineGun", "weapons");
-		componentCategories.set("grenadeLauncher", "weapons");
-		componentCategories.set("missile", "weapons");
-		componentCategories.set("shotgun", "weapons");
-		componentCategories.set("vulcanCannon", "weapons");
-		componentCategories.set("laser", "weapons");
-		componentCategories.set("plasma", "weapons");
-		componentCategories.set("pulseLaser", "weapons");
-		componentCategories.set("lancer", "weapons");
-		componentCategories.set("deathRay", "weapons");
-		// Scanner:
-		componentCategories.set("shortRangeScanner", "scanners");
-		componentCategories.set("mediumRangeScanner", "scanners");
-		componentCategories.set("longRangeScanner", "scanners");
-		componentCategories.set("itemScanner", "scanners");
-		componentCategories.set("antiJammerScanner", "scanners");
-		// Jammer:
-		componentCategories.set("shortRangeJammer", "jammers");
-		componentCategories.set("mediumRangeJammer", "jammers");
-		componentCategories.set("longRangeJammer", "jammers");
-		// Treads:
-		componentCategories.set("advancedTreads", "treads");
-		componentCategories.set("fastTreads", "treads");
-		componentCategories.set("armoredTreads", "treads");
-		componentCategories.set("heavilyArmoredTreads", "treads");
-		// Items:
-		componentCategories.set("mine", "items");
-		componentCategories.set("c4", "items");
-		componentCategories.set("nitroRepair", "items");
-		componentCategories.set("overdrive", "items");
-		componentCategories.set("missileTrackingBeacon", "items");
+    pathCheck: boolean = (path) => {
+        
+        try {
+            require(path);
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
-    componentDidMount = () => {
+    componentDidMount(): void {
 
         const canvas: HTMLCanvasElement = this.refs.canvas;
         const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -78,10 +44,23 @@ class RenderTank extends React.Component<Props> {
         if(this.props.tank != null) {
             for(i; i < this.props.tank.length; i++) {
                 const component = new Image();
-                component.src = "../assets/art/" + this.componentCategories.get(this.props.tank[i]) + this.props.tank[i] + ".png";
+                
+                // Find art location and set src path.
+                if (this.pathCheck("../assets/art/" + "chassis/" + this.props.tank[i] + ".png")) {
+                    component.src = "../assets/art/" + "chassis/" + this.props.tank[i] + ".png";
+                } /* else if (fs.existsSync("../assets/art/" + "weapons/" + this.props.tank[i] + ".png")) {
+                    component.src = "../assets/art/" + "weapons/" + this.props.tank[i] + ".png";
+                } else if (fs.existsSync("../assets/art/" + "scanners/" + this.props.tank[i] + ".png")) {
+                    component.src = "../assets/art/" + "scanners/" + this.props.tank[i] + ".png";
+                } else if (fs.existsSync("../assets/art/" + "jammers/" + this.props.tank[i] + ".png")) {
+                    component.src = "../assets/art/" + "jammers/" + this.props.tank[i] + ".png";
+                } else if (fs.existsSync("../assets/art/" + "treads/" + this.props.tank[i] + ".png")) {
+                    component.src = "../assets/art/" + "items/" + this.props.tank[i] + ".png";
+                } */
+                
                 component.onload = () => {
                     ctx.drawImage(component, 100, 100, 100, 100);
-               };
+                };
             }
         }
     }

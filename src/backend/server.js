@@ -1,23 +1,22 @@
 //@flow strict
 // Main file for the Node and Express server 
 
+// Config for environment variables using the npm dotenv package
+require('dotenv').config();
+
 // Required Packages/Imports
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// config for environment variables using the npm dotenv package
-require('dotenv').config();
-
-// Port constant so we may edit as needed
-//const PORT = process.env.PORT || 3001;
-const PORT = 3001;
+// Port constant
+const PORT = process.env.PORT || 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 const casusRoutes = require('./routes/casusRoutes');
 
-// Server Instance
+// API Server Instance
 const app = express();
 
 // As of express v4.16, npm body-parser is bundled with express again
@@ -38,7 +37,7 @@ app.use('/api/casus', casusRoutes);
 
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
+mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, 
     useUnifiedTopology: true })
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
