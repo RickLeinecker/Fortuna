@@ -8,9 +8,10 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     // _id field made on creation
 
     // SellerID required on creation. String representation of seller's ObjectID.
-    sellerID: {
+    sellerId: {
         type: String,
-        required: true
+        required: true,
+        ref: 'User'
     },
     // Date sale was created. Defaulted to date of creation.
     dateCreated: {
@@ -22,15 +23,20 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
         type: Number,
         required: true
     },
-    // ItemID is required on creation. String representation of ObjectID of item being sold.
-    itemID: {
+    // ItemID is required on creation. String representation of ObjectID for a tank
+    // or a String description of the type of component or casus block.
+    itemId: {
         type: String,
         required: true
     },
     // Enum item category required on creation.
     itemType: {
         type: String,
-        enum: ['component', 'tank', 'casusblock'],
+        enum: ['component', 'tank', 'casus'],
+        required: true
+    },
+    amount: {
+        type: Number,
         required: true
     }
 }));

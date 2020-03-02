@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
+const marketRoutes = require('./routes/marketRoutes');
 const casusRoutes = require('./routes/casusRoutes');
 
 // API Server Instance
@@ -31,10 +32,15 @@ app.use(express.json());
 // First param is the url directory second is the api route object
 app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/marketplace', marketRoutes);
 app.use('/api/casus', casusRoutes);
 
-
-
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+};
 
 // MongoDB Connection
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, 
