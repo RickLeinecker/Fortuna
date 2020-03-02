@@ -183,207 +183,207 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         // Likely not going to be used in v1.0 but remains here for implementation
         // if it is desired to track an inventory of Casus blocks.
         casusBlocks: {
-            andBlocks: {
+            and: {
                 type: Number,
                 default: 0
             },
-            doubleAbsBlocks: {
+            doubleAbs: {
                 type: Number,
                 default: 0
             },
-            doubleAddBlocks: {
+            doubleAdd: {
                 type: Number,
                 default: 0
             },
-            doubleDivideBlocks: {
+            doubleDivide: {
                 type: Number,
                 default: 0
             },
-            doubleEqualsBlocks: {
+            doubleEquals: {
                 type: Number,
                 default: 0
             },
-            doubleGreaterThanBlocks: {
+            doubleGreaterThan: {
                 type: Number,
                 default: 0
             },
-            doubleGreaterThanOrEqualBlocks: {
+            doubleGreaterThanOrEqual: {
                 type: Number,
                 default: 0
             },
-            doubleLessThanBlocks: {
+            doubleLessThan: {
                 type: Number,
                 default: 0
             },
-            doubleLessThanOrEqualBlocks: {
+            doubleLessThanOrEqual: {
                 type: Number,
                 default: 0
             },
-            doubleMaxBlocks: {
+            doubleMax: {
                 type: Number,
                 default: 0
             },
-            doubleMinBlocks: {
+            doubleMin: {
                 type: Number,
                 default: 0
             },
-            doubleMultiplyBlocks: {
+            doubleMultiply: {
                 type: Number,
                 default: 0
             },
-            doubleRoundBlocks: {
+            doubleRound: {
                 type: Number,
                 default: 0
             },
-            doubleSubtractBlocks: {
+            doubleSubtract: {
                 type: Number,
                 default: 0
             },
-            doubleTruncateBlocks: {
+            doubleTruncate: {
                 type: Number,
                 default: 0
             },
-            forBlocks: {
+            for: {
                 type: Number,
                 default: 0
             },
-            getListAtBlocks: {
+            getListAt: {
                 type: Number,
                 default: 0
             },
-            getVariableBlocks: {
+            getVariable: {
                 type: Number,
                 default: 0
             },
-            ifBlocks: {
+            if: {
                 type: Number,
                 default: 0
             },
-            ifElseBlocks: {
+            ifElse: {
                 type: Number,
                 default: 0
             },
-            intAbsBlocks: {
+            intAbs: {
                 type: Number,
                 default: 0
             },
-            intAddBlocks: {
+            intAdd: {
                 type: Number,
                 default: 0
             },
-            intDivideBlocks: {
+            intDivide: {
                 type: Number,
                 default: 0
             },
-            intEqualsBlocks: {
+            intEquals: {
                 type: Number,
                 default: 0
             },
-            intGreaterThanBlocks: {
+            intGreaterThan: {
                 type: Number,
                 default: 0
             },
-            intGreaterThanOrEqualBlocks: {
+            intGreaterThanOrEqual: {
                 type: Number,
                 default: 0
             },
-            intLessThanBlocks: {
+            intLessThan: {
                 type: Number,
                 default: 0
             },
-            intLessThanOrEqualBlocks: {
+            intLessThanOrEqual: {
                 type: Number,
                 default: 0
             },
-            intMaxBlocks: {
+            intMax: {
                 type: Number,
                 default: 0
             },
-            intMinBlocks: {
+            intMin: {
                 type: Number,
                 default: 0
             },
-            intModuloBlocks: {
+            intModulo: {
                 type: Number,
                 default: 0
             },
-            intMultiplyBlocks: {
+            intMultiply: {
                 type: Number,
                 default: 0
             },
-            intSubtractBlocks: {
+            intSubtract: {
                 type: Number,
                 default: 0
             },
-            intToDoubleBlocks: {
+            intToDouble: {
                 type: Number,
                 default: 0
             },
-            listAppendBlocks: {
+            listAppend: {
                 type: Number,
                 default: 0
             },
-            listSizeBlocks: {
+            listSize: {
                 type: Number,
                 default: 0
             },
-            mathAcosBlocks: {
+            mathAcos: {
                 type: Number,
                 default: 0
             },
-            mathAsinBlocks: {
+            mathAsin: {
                 type: Number,
                 default: 0
             },
-            mathAtanBlocks: {
+            mathAtan: {
                 type: Number,
                 default: 0
             },
-            mathCosBlocks: {
+            mathCos: {
                 type: Number,
                 default: 0
             },
-            mathPowBlocks: {
+            mathPow: {
                 type: Number,
                 default: 0
             },
-            mathSinBlocks: {
+            mathSin: {
                 type: Number,
                 default: 0
             },
-            mathSqrtBlocks: {
+            mathSqrt: {
                 type: Number,
                 default: 0
             },
-            mathTanBlocks: {
+            mathTan: {
                 type: Number,
                 default: 0
             },
-            orBlocks: {
+            or: {
                 type: Number,
                 default: 0
             },
-            printBlocks: {
+            print: {
                 type: Number,
                 default: 0
             },
-            setListAtBlocks: {
+            setListAt: {
                 type: Number,
                 default: 0
             },
-            setVariableBlocks: {
+            setVariable: {
                 type: Number,
                 default: 0
             },
-            unaryOperationBlocks: {
+            unaryOperation: {
                 type: Number,
                 default: 0
             },
-            whileBlocks: {
+            while: {
                 type: Number,
                 default: 0
             },
-            XorBlocks: {
+            xOr: {
                 type: Number,
                 default: 0
             }                                                     
