@@ -12,16 +12,30 @@ import Vec from '../casus/blocks/Vec.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
 class Battleground extends React.Component<{||}> {
+	intervalID: number;
+	alive: boolean;
+	testTank: Tank;
+	walls: Array<Wall>;
 
 	constructor() {
 		super();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
+
+		this.testTank = getTestTank();
+		this.walls=[
+			new Wall(new Vec(10, 0), Math.PI/2),
+			new Wall(new Vec(60, 0), 0),
+			new Wall(new Vec(-50, 30), Math.PI/5),
+			new Wall(new Vec(-50, -30), -Math.PI/5)
+		];
 	}
 
 	componentDidMount(): void {
 		this._rerender();
+		this.alive=true;
+		setTimeout(() => this._gameLoop(), 1000/20);
 	}
 
 	render(): React.Node {
@@ -35,6 +49,25 @@ class Battleground extends React.Component<{||}> {
 		);
 	}
 
+	componentWillUnmount() {
+		this.alive=false;
+	}
+
+	_gameLoop(): void {
+		if (!this.alive) {
+			//stop updating
+			return;
+		}
+		this._update();
+		this._rerender();
+		setTimeout(() => this._gameLoop(), 1000/20);
+	}
+
+	_update(): void {
+		this.testTank.executeCasusFrame();
+		this.testTank.executePhysics();
+	}
+
 	_rerender(): void {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
@@ -42,17 +75,11 @@ class Battleground extends React.Component<{||}> {
 		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 		const drawer=new ImageDrawer(ctx);
 
-		const testTank: Tank = getTestTank();
-		const testWall1: Wall = new Wall(new Vec(10, 0), Math.PI/2);
-		const testWall2: Wall = new Wall(new Vec(60, 0), 0);
-		const testWall3: Wall = new Wall(new Vec(-50, 30), Math.PI/5);
-		const testWall4: Wall = new Wall(new Vec(-50, -30), -Math.PI/5);
 
-		testTank.drawSelf(drawer);
-		testWall1.drawSelf(drawer);
-		testWall2.drawSelf(drawer);
-		testWall3.drawSelf(drawer);
-		testWall4.drawSelf(drawer);
+		this.testTank.drawSelf(drawer);
+		for (const wall: Wall of this.walls) {
+			wall.drawSelf(drawer);
+		}
 	}
 
 	_resizeCanvas() {
