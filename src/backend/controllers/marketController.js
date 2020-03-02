@@ -159,6 +159,7 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
 
     }
     catch (err) {
+        console.error(err.message);
         res.status(500).json({ msg: 'Unable to find list of Sales.' });
     }
 }
@@ -178,10 +179,8 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
         res.status(200).json(sale);
     }
     catch (err) {
-        res.status(500).json({
-            msg: 'Cannot retrieve Marketplace Sale.',
-            errors: err.message
-        });
+        console.error(err.message);
+        res.status(500).json({ msg: 'Cannot retrieve Marketplace Sale.' });
     }
 }
 
@@ -198,24 +197,74 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
     }
 
     // Deconstruct request body
-    const { buyerId, sellerId, 
-            saleId, itemId, 
-            salePrice, itemType } = req.body;
-    
-    try {
-        // Internal check for user's currency
-        const user = await User.findById(buyerId);
-        if (user.money < salePrice) {
-            throw "Not enough money for this transaction."
+    const { buyerId, sellerId, saleId } = req.body;
+
+    // Check if users exist
+    let buyer = await User.findById(buyerId);
+    const seller = await User.findById(sellerId);
+    if (!buyer) {
+        return res  
+            .status(400)
+            .json({ msg: 'Buyer user does not exist' })
+    }
+
+    if (!seller) {
+        return res  
+            .status(400)
+            .json({ msg: 'Seller user does not exist' })
+    }
+
+    // Check if sale exists
+    const sale = await MarketSale.findById(saleId);
+    if (!sale) {
+        return res
+            .status(400)
+            .json({ msg: 'Sale post does not exist' })
+    }
+
+    // Check if buyer has enough money
+    if (buyer.money < sale.salePrice) {
+        return res
+            .status(400)
+            .json({ msg: 'Not enough money for this transaction.' })
+    }
+
+    // Buying a Tank or a Component
+    if (sale.itemType === 'tank') {
+        try {         
+            // Check if tank exists
+            const tank = await Tank.findById(sale.itemId);
+            if (!tank) {
+                return res
+                    .status(400)
+                    .json({ msg: 'Tank does not exist' })
+            }
+
+            // Start transaction
+            buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+            await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+            await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } });
+
+            // Remove the sale from database
+            await MarketSale.deleteOne({ id: saleId });
+
+            // Return current buyer
+            res.status(201).json(buyer);
+
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).json({ msg: 'Cannot make Market Transaction.' });
         }
+    } else {
+        
+    }
 
-        // Initiate transaction
-        const buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (salePrice * -1) } }, { new: true });
-        await User.findByIdAndUpdate(sellerId, { $inc: { money: salePrice } });
-        await Tank.findByIdAndUpdate(itemId, { $set: { userId: buyerId } });
+    try {
 
-        // Return current buyer
-        res.status(201).json(buyer);
+
+
+
+
     }   
     catch (err) {
         res.status(500).json({

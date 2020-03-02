@@ -40,16 +40,12 @@ router.get('/getMarketsale', marketController.getMarketSale);
 
 // Market Transaction
 // Route call: marketTransaction
-// Req body needs buyer ID, seller ID, 
-// item ID, item type, sale price, sale ID
+// Req body needs buyer ID, seller ID, sale ID
 // Returns updated buyer (ie logged in user)
 router.put('/marketTransaction', [
     check('buyerId', 'Missing buyerId'),
     check('sellerId', 'Missing sellerId'),
-    check('itemId', 'Missing itemId'),
-    check('saleId', 'Missing saleId'),
-    check('itemType', 'Missing itemType'),
-    check('salePrice', 'Missing salePrice'),
+    check('saleId', 'Missing saleId')
     ], marketController.marketTransaction);
 
 module.exports = router;

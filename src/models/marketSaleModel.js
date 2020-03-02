@@ -8,7 +8,7 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     // _id field made on creation
 
     // SellerID required on creation. String representation of seller's ObjectID.
-    sellerID: {
+    sellerId: {
         type: String,
         required: true,
         ref: 'User'
@@ -25,7 +25,7 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     },
     // ItemID is required on creation. String representation of ObjectID for a tank
     // or a String description of the type of component or casus block.
-    itemID: {
+    itemId: {
         type: String,
         required: true
     },
