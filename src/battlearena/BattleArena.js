@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
-import RenderTank from '../globalComponents/RenderTank.js';
 
 class BattleArena extends React.Component<{||}> {
 
@@ -45,7 +44,6 @@ class BattleArena extends React.Component<{||}> {
 						<option value="2">Fast Bang</option>
 						<option value="3">Biggest Gun</option>
 					</select>
-					<RenderTank tank={ ["moddableLight",  "advancedTreads"] }/>
 				</div>
 				<div className="column baright">
 					<h2>FORTUNA's Best and Brightest</h2>
