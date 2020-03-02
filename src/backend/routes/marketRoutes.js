@@ -18,11 +18,16 @@ const marketController = require('../controllers/marketController');
 // Returns a confirmation message or an error
 // Check messages can be edited
 router.post('/addMarketSale', [
-    check('sellerId', 'Enter a sellerId'),
-    check('salePrice', 'Enter a salePrice'),
-    check('itemId', 'Enter an itemId'),
-    check('itemType', 'Enter an itemType'),
+    check('sellerId', 'Enter a sellerId')
+        .isString(),
+    check('salePrice', 'Enter a salePrice')
+        .isNumber(),
+    check('itemId', 'Enter an itemId')
+        .isString(),
+    check('itemType', 'Enter an itemType')
+        .isString(),
     check('amount', 'Enter an item amount')
+        .isNumber()
     ], marketController.addMarketSale);
 
 // Get the list of all Market Sales
@@ -43,9 +48,12 @@ router.get('/getMarketsale', marketController.getMarketSale);
 // Req body needs buyer ID, seller ID, sale ID
 // Returns updated buyer (ie logged in user)
 router.put('/marketTransaction', [
-    check('buyerId', 'Missing buyerId'),
-    check('sellerId', 'Missing sellerId'),
+    check('buyerId', 'Missing buyerId')
+        .isString(),
+    check('sellerId', 'Missing sellerId')
+        .isString(),
     check('saleId', 'Missing saleId')
+        .isString()
     ], marketController.marketTransaction);
 
 module.exports = router;
