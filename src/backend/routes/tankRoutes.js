@@ -7,6 +7,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const { check } = require('express-validator');
 
 const tankController = require('../controllers/tankController');
 
@@ -40,7 +41,18 @@ router.post('/assignTank', auth, tankController.assignTank);
 // Req must contain the tankId within the uri of the api call in place of <tankId>
 // Req must also include each component of the tank even the ones that arent to be updated to work
 // Returns the updated tank
-router.patch('/tankUpdate/:tankId', tankController.tankUpdate);
+router.put('/tankUpdate/:tankId', [ 
+    check('tankName', 'tankName is required')
+        .isString(),
+    check('userId', 'userId is required')
+        .isString(),
+    check('components', 'components is required')
+        .isArray(),
+    check('casusCode', 'casusCode is required')
+        .exists(),
+    check('isBot', 'isBot is required')
+        .isBoolean()
+    ], tankController.tankUpdate);
 
 
 module.exports = router;
