@@ -19,11 +19,11 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
         required: true,
         ref: 'user'
     },
-    // 0 = Tie, 1 = User one, 2 = User two
+    // -1 = Battle not evaluated, 0 = Tie, 1 = User one victory, 2 = User two victory
     winner: {
         type: Number,
         required: true,
-        enum: [0, 1, 2]
+        enum: [-1, 0, 1, 2]
     },
     // Total of money wagered
     prizeMoney: {
