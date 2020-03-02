@@ -28,6 +28,10 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
     }
     
     // Deconstructing information from request body
+    // Note: Depending on the itemType, if it is a tank,
+    // itemID is the ObjectId of the tank, otherwise it is
+    // the string identifier of the component/Casus block equivalent
+    // to the property in the User Model.
     const { sellerId, salePrice, itemId, itemType, amount } = req.body;
 
     // If the item is a tank
@@ -230,6 +234,10 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
     }
 
     // Buying a Tank or a Component
+    // Note: Depending on the itemType, if it is a tank,
+    // itemID is the ObjectId of the tank, otherwise it is
+    // the string identifier of the component/Casus block equivalent
+    // to the property in the User Model.
     if (sale.itemType === 'tank') {
         try {         
             // Check if tank exists
