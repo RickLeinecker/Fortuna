@@ -25,6 +25,10 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: String,
         required: true
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     // User starts with 0 money by default. This can be changed as needed
     currentCurrency: {
         type: Number,
