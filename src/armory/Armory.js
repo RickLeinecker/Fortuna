@@ -7,6 +7,33 @@ import Navbar from '../components/Navbar.js';
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
 
+	constructor() {
+		super();
+		this.state={
+			response: '',
+			tankName: '',
+			userId: '',
+			components: '',
+			casusCode: '',
+			isBot: '',
+			responseToPost: ''
+		}
+	}
+
+	handleArmoryClick = async ():Promise<void> => {
+		const response = await fetch('/api/tank/tankUpdate/' + tankId, {
+			method: 'PUT',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify({ tankName: this.state.tankName, userId: this.state.userId, components: this.state.components, casusCode: this.state.casusCode, isBot: this.state.isBot }),
+		});
+		const body = await response.text();
+		console.log(body);
+	};
+
 	render(): React.Node {
 		return (
 			<div id="Parent">
