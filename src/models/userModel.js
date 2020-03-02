@@ -16,8 +16,6 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     // Email required upon creation. Checks for uniqueness done via API call
     email: {
         type: String,
-        // Might be overkill pattern to match. I'll remove it if needed
-        match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         required: true
     },
     // Password required upon creation.
@@ -30,12 +28,16 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         default: false
     },
     // User starts with 0 money by default. This can be changed as needed
-    currentCurrency: {
+    money: {
+        type: Number,
+        default: 0
+    },
+    wager: {
         type: Number,
         default: 0
     },
     // String is the ObjectId of tank that is marked as favorite
-    favoriteTankId: {
+    favoriteTank: {
         type: String
     },
     // User's inventory. Separate sections for tank components and Casus blocks
@@ -410,13 +412,6 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     dateCreated: {
         type: Date,
         default: Date.now
-    },
-    lastLogin: {
-        type: Date
-    },
-    // This should be updated in the API call when a user gets updated.
-    dateUpdated: {
-        type: Date
     }
 }));
 
