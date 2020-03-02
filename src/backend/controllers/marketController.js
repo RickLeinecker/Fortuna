@@ -81,9 +81,16 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
             }
 
             if (itemType === 'component') { // Components
-                // Check if they have enough
-                // of the component to sell
+                // Check if the referenced field is valid
                 const userItem = user['inventory']['tankComponents'][itemId];
+                if (!userItem) {
+                    return res
+                        .status(400)
+                        .json({ msg: 'Invalid Tank Component' })
+                }
+
+                // If field is valid, check if the user has the right number
+                // of items to sell
                 if (userItem < amount) {
                     return res
                         .status(400)
@@ -110,9 +117,16 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
                 // Send back success confirmation
                 res.status(201).json({ msg: 'Successfully created Market Sale.' });            
             } else { // Casus Blocks
-                // Check if they have enough
-                // Casus blocks to sell
+                // Check if the referenced field is valid
                 const userItem = user['inventory']['casusBlocks'][itemId];
+                if (!userItem) {
+                    return res
+                        .status(400)
+                        .json({ msg: 'Invalid Casus Block' })
+                }
+
+                // If field is valid, check if the user has the right number
+                // of items to sell                
                 if (userItem < amount) {
                     return res
                         .status(400)
