@@ -21,13 +21,13 @@ router.post('/addMarketSale', [
     check('sellerId', 'Enter a sellerId')
         .isString(),
     check('salePrice', 'Enter a salePrice')
-        .isNumber(),
+        .isNumeric(),
     check('itemId', 'Enter an itemId')
         .isString(),
     check('itemType', 'Enter an itemType')
         .isString(),
     check('amount', 'Enter an item amount')
-        .isNumber()
+        .isNumeric()
     ], marketController.addMarketSale);
 
 // Get the list of all Market Sales
