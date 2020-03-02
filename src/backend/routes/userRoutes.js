@@ -1,7 +1,7 @@
 // @flow strict
 
 //========================================================================//
-// TO USE ROUTES: all route calls in this file will be /user/<Route call> //
+// TO USE ROUTES: all route calls in this file will be /api/user/<Route call> //
 //========================================================================//
 
 const express = require('express');
@@ -26,7 +26,7 @@ router.post('/registerUser', [
 
 
 // Login a User
-// Route call: login
+// Route call: /login
 // Req must include username and password in body
 // Returns a jwt upon success
 router.post('/login', [
@@ -38,7 +38,10 @@ router.post('/login', [
 
 
 // Retrieve all users
-//router.get('/allUsers', userController.retrieveAll);
+// Route call: /allUsers
+// Req doesnt need anything
+// Currently returns the entire document of each user
+router.get('/allUsers', userController.allUsers);
 
 // Retrieve a single user based on userID
 // Route call: /getUser
@@ -46,12 +49,19 @@ router.post('/login', [
 // Returns a JSON object containing all the user's info except the password
 router.get('/getUser', auth, userController.getUser);
 
+// Retrieve a single user using the userId rather than the auth token
+// routecall: /userNoAuth/<userId>
+// Req must include the user id in the <userId> field of the route
+// Returns a JSON object with all the user's info except the pass
+router.get('/retrieveUser/:userId', userController.retrieveUser);
+
 
 // Retrieve top 10 users as of rn, that can be easily changed if needed - see userController
 // Route call: /leaderboard
 // Req requires no info
 // Returns an array of json users including the elo, _id, and userName
 router.get('/leaderboard', userController.getLeaders);
+
 
 
 module.exports = router;

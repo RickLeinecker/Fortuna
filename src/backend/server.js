@@ -30,8 +30,12 @@ app.use(express.json());
 
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
+
+// Routes for things pertaining to the Tank model
 app.use('/api/tank', tankRoutes);
+// Routes for things pertaining to the User model
 app.use('/api/user', userRoutes);
+// Routes for things pertaining to the casus blocks
 app.use('/api/casus', casusRoutes);
 
 

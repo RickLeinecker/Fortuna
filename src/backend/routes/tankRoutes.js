@@ -1,7 +1,7 @@
 // @flow strict 
 
 //========================================================================//
-// TO USE ROUTES: all route calls in this file will be /tank/<Route call> //
+// TO USE ROUTES: all route calls in this file will be /api/tank/<Route call> //
 //========================================================================//
 
 const express = require('express');
@@ -35,7 +35,12 @@ router.get('/userTanks', auth, tankController.userTanks);
 router.post('/assignTank', auth, tankController.assignTank);
 
 
-router.patch('/tankTrade', auth, tankController.tankTrade);
+// Updates the entire document of the tank
+// Route Call: /tankUpdate/<tankId>
+// Req must contain the tankId within the uri of the api call in place of <tankId>
+// Req must also include each component of the tank even the ones that arent to be updated to work
+// Returns the updated tank
+router.patch('/tankUpdate/:tankId', tankController.tankUpdate);
 
 
 module.exports = router;
