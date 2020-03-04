@@ -11,13 +11,10 @@ class BattleArena extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar 
-					styleName="navbtn" 
+				<Navbar
 					returnName="Back to Main Menu" 
 					pageName="Battle Arena" 
-					linkName="MainMenu" 
-					userName="FRIcker "
-					userCurrency={465128}
+					linkName="MainMenu"
 				/>
 				<div className="column baleft">
 					<h4>Find the First Challenger Available</h4>

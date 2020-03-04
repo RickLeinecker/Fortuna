@@ -14,6 +14,7 @@ import ScannersView from './ScannersView.js';
 import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
+
 type State = {|
 	marketplaceViewClicked: MarketplaceViewDataTypes,
 |};
@@ -59,7 +60,11 @@ class Marketplace extends React.Component<Props, State> {
 		}
 		return (
 	  		<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Marketplace" userName="FRIcker | $465128"/>
+				<Navbar 
+					linkName="MainMenu" 
+					returnName="Back to Main Menu" 
+					pageName="Marketplace"
+				/>
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">
