@@ -7,10 +7,44 @@ import Cookies from 'universal-cookie';
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
-
-	render(): React.Node {
+	getTankInfo = async ():Promise<void> => {
+		//gets the token and formats it from JSON
 		const cookies = new Cookies();
-		console.log(cookies.get('token'));
+		let token =  cookies.get('token');
+		token = token.token;
+		const response = await fetch('/api/tank/getFavorite', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		const body = await response.text();
+		return body;
+	};
+	getTanks = async ():Promise<void> => {
+		//gets the token and formats it from JSON
+		const cookies = new Cookies();
+		let token =  cookies.get('token');
+		token = token.token;
+		const response = await fetch('/api/tank/userTanks', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		const body = await response.text();
+		console.log(body);
+		return body;
+	};
+	render(): React.Node {
+		let favoriteTank = this.getTankInfo();
+		let tanks = this.getTanks();
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />

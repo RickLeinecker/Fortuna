@@ -32,7 +32,8 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     },
     // String is the ObjectId of tank that is marked as favorite
     favoriteTankId: {
-        type: String
+        type: String,
+        default: 0
     },
     // Casus inventory
     casusInventory: {
