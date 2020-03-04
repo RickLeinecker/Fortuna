@@ -23,51 +23,14 @@ type State = {|
 |};
 
 //This is the array of options for each part of the tank
-let tankOptions = [
-    { value: 'flavor', label: 'flavor' },
-    { value: 'yummy', label: 'yummy' },
-    { value: 'red', label: 'red' },
-    { value: 'green', label: 'green' },
-    { value: 'yellow', label: 'yellow' },
-];
-let chassisOptions = [
-    { value: 'ModarateLight', label: 'Modarate Light' },
-    { value: 'Light', label: 'Light' },
-    { value: 'Heavy', label: 'Heavy' },
-];
-let weaponOptions = [
-    { value: 'Laser', label: 'Laser' },
-    { value: 'MachineGun', label: 'Machine Gun' },
-    { value: 'VulcanCannon', label: 'Vulcan Cannon' }
-];
-let scannerOneOptions= [
-    { value: 'ShortRangeScanner', label: 'Short Range Scanner' },
-    { value: 'MediumRangeScanner', label: 'Medium Range Scanner' },
-    { value: 'LongRangeScanner', label: 'Long Range Scanner' },
-];
-let scannerTwoOptions= [
-    { value: 'AntiJammerScanner', label: 'Anti Jammer Scanner' },
-    { value: 'ItemScanner', label: 'Item Scanner' },
-];
-let scannerThreeOptions= [
-    { value: 'AntiJammerScanner', label: 'Anti Jammer Scanner' },
-    { value: 'ItemScanner', label: 'Item Scanner' },
-];
-let jammerOptions = [
-    { value: 'ShortRangeJammer', label: 'Short Range Jammer' },
-    { value: 'MediumRangeJammer', label: 'Medium Range Jammer' },
-    { value: 'LongRangeJammer', label: 'Long Range Jammer' },
-];
-let treadsOptions = [
-    { value: 'AdvancedThreads', label: 'Advanced Threads' },
-    { value: 'ArmoredThreads', label: 'Armored Threads' },
-    { value: 'FastThreads', label: 'Fast Threads' },
-];
-let singleUseItemsOne = [
-    { value: 'MissileTrackingBeacon', label: 'Missile Tracking Beacon' },
-    { value: 'C4', label: 'C4' },
-    { value: 'Mine', label: 'Mine' },
-];
+let tankOptions = [];
+let chassisOptions = [];
+let weaponOptions = [];
+let scannerOneOptions= [];
+let scannerTwoOptions= [];
+let jammerOptions = [];
+let treadsOptions = [];
+let singleUseItemsOne = [];
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<Props, State> {
 
@@ -76,6 +39,7 @@ class Armory extends React.Component<Props, State> {
 		this.state={
 			//This tank id is the one the user is currently working on
 			selectedTankId: 'None',
+			selectedTankName: '',
 			selectedChassis: '',
 			selectedWeaponOne: '',
 			selectedWeaponTwo: '',
@@ -87,89 +51,173 @@ class Armory extends React.Component<Props, State> {
 			selectedSingleUseItemOne: '',
 			selectedSingleUseItemTwo: '',
 			selectedSingleUseItemThree: '',
+			selectedCasusCode: '',
+			selectedIsBot: '',
 		}
 	}
 	//This is used to get the current favorite tank of the user
 	getFavoriteTank = async ():Promise<void> => {
 		const cookies = new Cookies();
-		const token = cookies.get('token');
-		console.log(token);
+		const token = cookies.get('token').token;
 		const response = await fetch('/api/tank/getFavorite/', {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'X-Auth-Token': token
+				'x-auth-token': token
 			},
+		});
+		const body = await response.text();
+		this.setState({selectedTankId: body});
+		this.getSelectedTank();
+	};
+	//This can get a tank with the same id as the selected one and will fill out the info for all the items
+	getSelectedTank = async ():Promise<void> => {
+		const cookies = new Cookies();
+		const token = cookies.get('token').token;
+		const response = await fetch('/api/tank/userTanks/', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		const body = await response.text();
+		const jsonObjectOfTanks = JSON.parse(body);
+		//This will get the seleced tanks info and fill out the selected items
+		for (let key in jsonObjectOfTanks)
+		{
+			let obj = {};
+			console.log(jsonObjectOfTanks[key].tankName);
+			obj['value'] = jsonObjectOfTanks[key]._id;
+			obj['label'] = jsonObjectOfTanks[key].tankName;
+			tankOptions.push(obj);
+			if(jsonObjectOfTanks[key]._id === this.state.selectedTankId)
+			{
+				this.setState({selectedTankName:jsonObjectOfTanks[key].tankName});
+				this.setState({selectedCasusCode:jsonObjectOfTanks[key].casusCode});
+				this.setState({selectedIsBot:jsonObjectOfTanks[key].isBot});
+				this.setState({selectedChassis: jsonObjectOfTanks[key].components[0]});
+				this.setState({selectedWeaponOne: jsonObjectOfTanks[key].components[1]});
+				this.setState({selectedWeaponTwo: jsonObjectOfTanks[key].components[2]});
+				this.setState({selectedScannerOne: jsonObjectOfTanks[key].components[3]});
+				this.setState({selectedScannerTwo: jsonObjectOfTanks[key].components[4]});
+				this.setState({selectedScannerThree: jsonObjectOfTanks[key].components[5]});
+				this.setState({selectedJammer: jsonObjectOfTanks[key].components[6]});
+				this.setState({selectedThreads: jsonObjectOfTanks[key].components[7]});
+				this.setState({selectedSingleUseItemOne: jsonObjectOfTanks[key].components[8]});
+				this.setState({selectedSingleUseItemTwo: jsonObjectOfTanks[key].components[9]});
+				this.setState({selectedSingleUseItemThree: jsonObjectOfTanks[key].components[10]});
+			}
+		}
+		this.getUserInventory();
+	};
+	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
+	getUserInventory = async ():Promise<void> => {
+		const cookies = new Cookies();
+		const token = cookies.get('token').token;
+		const response = await fetch('/api/user/getUser/', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		const body = await response.text();
+		const jsonObjectOfUser = JSON.parse(body);
+		//This will add the chassis that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.chassis) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			chassisOptions.push(obj);
+		}
+		//This will add the weapons that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.weapons) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			weaponOptions.push(obj);
+		}
+		//This will add the scanners that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.scanners) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			scannerOneOptions.push(obj);
+		}
+		//This will add the scanners secondary that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.scannerSecondary) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			scannerTwoOptions.push(obj);
+		}
+		//This will add the jammers that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.jammers) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			jammerOptions.push(obj);
+		}
+		//This will add the threads that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.threads) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			treadsOptions.push(obj);
+		}
+		//This will add the single use items that the user has
+		for (let key in jsonObjectOfUser.inventory.tankComponents.singleUseItems) {
+			let obj = {};
+			obj['value'] = key;
+			obj['label'] = key;
+			singleUseItemsOne.push(obj);;
+		}
+	};
+	
+	
+	//This handles the changes if a user changes tanks or its components
+	handleChangeInTankOptions = ({ target }) => {this.setState({ selectedTankId: target.value});}
+	handleChangeInChassisOptions = ({ target }) => {this.setState({selectedChassis: target.value});}
+	handleChangeInWeaponOneOptions = ({ target }) => {this.setState({selectedWeaponOne: target.value});}
+	handleChangeInWeaponTwoOptions = ({ target }) => {this.setState({selectedWeaponTwo: target.value});}
+	handleChangeInScannerOneOptions = ({ target }) => {this.setState({selectedScannerOne: target.value});}
+	handleChangeInScannerTwoOptions = ({ target }) => {this.setState({selectedScannerTwo: target.value});}
+	handleChangeInScannerThreeOptions = ({ target }) => {this.setState({selectedScannerThree: target.value});}
+	handleChangeInJammerOptions = ({ target }) => {this.setState({selectedJammer: target.value});}
+	handleChangeInTreadsOptions = ({ target }) => {this.setState({selectedThreads: target.value });}
+	handleChangeInSingleUseItemsOneOptions = ({ target }) => { this.setState({selectedSingleUseItemOne: target.value});}
+	handleChangeInSingleUseItemsTwoOptions = ({ target }) => {this.setState({selectedSingleUseItemTwo: target.value });}
+	handleChangeInSingleUseItemsThreeOptions = ({ target }) => {this.setState({selectedSingleUseItemThree: target.value});}
+
+	//This will save a tank
+	saveTank  = async ():Promise<void> => {
+		let componentsArray = [this.state.selectedChassis,this.state.selectedWeaponOne,this.state.selectedWeaponTwo,this.state.selectedScannerOne,this.state.selectedScannerTwo,this.state.selectedScannerThree,this.state.selectedJammer,this.state.selectedThreads,this.state.selectedSingleUseItemOne,this.state.selectedSingleUseItemTwo,this.state.selectedSingleUseItemThree];
+		const response = await fetch('/api/tank/tankUpdate/' + this.state.selectedTankId, {
+			method: 'PUT',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify({ tankName: this.state.selectedTankName, userId: this.state.userId, components: componentsArray, casusCode: this.state.selectedCasusCode, isBot: this.state.selectedIsBot }),
 		});
 		const body = await response.text();
 		console.log(body);
 	};
-
-	//This handles the changes if a user changes tanks or its components
-	handleChangeInTankOptions = ({ target }) => {
-        this.setState({
-            selectedTankId: target.value,
-        });
-	}
-	handleChangeInChassisOptions = ({ target }) => {
-        this.setState({
-            selectedChassis: target.value,
-        });
-	}
-	handleChangeInWeaponOneOptions = ({ target }) => {
-        this.setState({
-            selectedWeaponOne: target.value,
-        });
-	}
-	handleChangeInWeaponTwoOptions = ({ target }) => {
-        this.setState({
-            selectedWeaponTwo: target.value,
-        });
-	}
-	handleChangeInScannerOneOptions = ({ target }) => {
-        this.setState({
-            selectedScannerOne: target.value,
-        });
-	}
-	handleChangeInScannerTwoOptions = ({ target }) => {
-        this.setState({
-            selectedScannerTwo: target.value,
-        });
-	}
-	handleChangeInScannerThreeOptions = ({ target }) => {
-        this.setState({
-            selectedScannerThree: target.value,
-        });
-	}
-	handleChangeInJammerOptions = ({ target }) => {
-        this.setState({
-            selectedJammer: target.value,
-        });
-	}
-	handleChangeInTreadsOptions = ({ target }) => {
-        this.setState({
-            selectedThreads: target.value,
-        });
-	}
-	handleChangeInSingleUseItemsOneOptions = ({ target }) => {
-        this.setState({
-            selectedSingleUseItemOne: target.value,
-        });
-	}
-	handleChangeInSingleUseItemsTwoOptions = ({ target }) => {
-        this.setState({
-            selectedSingleUseItemTwo: target.value,
-        });
-	}
-	handleChangeInSingleUseItemsThreeOptions = ({ target }) => {
-        this.setState({
-            selectedSingleUseItemThree: target.value,
-        });
-	}
 	render(): React.Node {
-		this.getFavoriteTank();
+		//Things that we only want running once
+		if(this.state.selectedTankId === 'None')
+		{
+			this.getFavoriteTank();
+			this.getUserInventory();
+		}
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
@@ -196,7 +244,7 @@ class Armory extends React.Component<Props, State> {
 					<h6>Scanner</h6>
 					<select className="tankComponentMenu" value={this.state.selectedScannerOne} onChange={this.handleChangeInScannerOneOptions}>{scannerOneOptions.map(({ value, label }, index) => <option value={value} >{label}</option>)}</select>
 					<select className="tankComponentMenu" value={this.state.selectedScannerTwo} onChange={this.handleChangeInScannerTwoOptions}>{scannerTwoOptions.map(({ value, label }, index) => <option value={value} >{label}</option>)}</select>
-					<select className="tankComponentMenu" value={this.state.selectedScannerThree} onChange={this.handleChangeInScannerThreeOptions}>{scannerThreeOptions.map(({ value, label }, index) => <option value={value} >{label}</option>)}</select>
+					<select className="tankComponentMenu" value={this.state.selectedScannerThree} onChange={this.handleChangeInScannerThreeOptions}>{scannerTwoOptions.map(({ value, label }, index) => <option value={value} >{label}</option>)}</select>
 					<h6>Jammer</h6>
 					<select className="tankComponentMenu" value={this.state.selectedJammer} onChange={this.handleChangeInJammerOptions}>{jammerOptions.map(({ value, label }, index) => <option value={value} >{label}</option>)}</select>
 					<h6>Treads</h6>
