@@ -2,33 +2,39 @@
 
 import * as React from 'react';
 
-type Props = {
-	leaderNames: Array<string>;
-}
+type Props = {||};
 
-// Leaderboard component. Displays top 10 players. The props takes a list of 10 players.
+type State = {|
+	leaderNames: Array<string>
+|};
+
+// Leaderboard component. Displays top 10 players.
 // 
-// Prop Names:
+// State Names:
 // leaderNames (Pass the list of 10 top players to display on the leaderboard)
 // 
-// EXAMPLE PROP USAGE = <Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
+// EXAMPLE PROP USAGE = <Leaderboard />
 //
 // Needs to be updated to pass actual Users to it.
-class Leaderboard extends React.Component<Props> {
+class Leaderboard extends React.Component<Props, State> {
+
+	constructor() {
+		super();
+
+		this.state = {
+			leaderNames: ["BILL", "JOHN", "gosh", "dang", "bro", "Emil", "Baylor", "Adam", "David", "Jorge"] // NEED AN API CALL HERE
+		}
+	}
+
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
-				<h4>Leaderboard</h4>
-				<h6>1.&#9;{this.props.leaderNames[0]}</h6>
-				<h6>2.&#9;{this.props.leaderNames[1]}</h6>
-				<h6>3.&#9;{this.props.leaderNames[2]}</h6>
-				<h6>4.&#9;{this.props.leaderNames[3]}</h6>
-				<h6>5.&#9;{this.props.leaderNames[4]}</h6>
-				<h6>6.&#9;{this.props.leaderNames[5]}</h6>
-				<h6>7.&#9;{this.props.leaderNames[6]}</h6>
-				<h6>8.&#9;{this.props.leaderNames[7]}</h6>
-				<h6>9.&#9;{this.props.leaderNames[8]}</h6>
-				<h6>10.&#9;{this.props.leaderNames[9]}</h6>
+				<h3>FORTUNA's Top Commanders</h3>
+				{this.state.leaderNames.map((name, index) =>
+					<h6 key={index}>
+						{index + 1}.&#9;{name}
+					</h6>
+				)}
 			</div>
 		)
 	}

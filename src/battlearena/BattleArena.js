@@ -40,10 +40,7 @@ class BattleArena extends React.Component<{||}> {
 					</select>
 				</div>
 				<div className="column baright">
-					<h2>FORTUNA's Best and Brightest</h2>
-					<Leaderboard 
-						leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } 
-					/>
+					<Leaderboard />
 				</div>
 			</div>
         );

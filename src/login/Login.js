@@ -14,7 +14,7 @@ class Login extends React.Component<{||}> {
 		return (
 			<div id="Parent">
 				<div className="column loginleft">
-					<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
+					<Leaderboard />
 				</div>
 				<div className="column loginmiddle">
 					<h1>FORTUNA</h1>
