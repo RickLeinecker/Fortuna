@@ -239,7 +239,6 @@ body {
 }
 
 .tankComponentMenu {
-    width: 30%;
     cursor: pointer;
     padding: 10px 10px 10px 10px;
     margin-left: 10px;
@@ -333,13 +332,28 @@ body {
     background: #04CCFF;
     border: 2px solid #04CCFF;
     border-radius: 8px;
-    margin-left: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .closebtn:hover {
     color: #04CCFF;
 	background: #04213F;
 	border: 2px solid #04CCFF;
+}
+
+.cancelbtn {
+    color: #04213F;
+    background: #04CCFF;
+    border: 2px solid #04CCFF;
+    border-radius: 8px;
+    margin-left: 50px;
+}
+
+.cancelbtn:hover {
+    color: #04CCFF;
+    background: #04213F;
+    border: 2px solid #04CCFF;
 }
   
 .popupbtn {
