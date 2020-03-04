@@ -10,15 +10,22 @@ class Armory extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
+				<Navbar 
+					styleName="navbtn" 
+					linkName="MainMenu" 
+					returnName="Back to Main Menu" 
+					pageName="Armory" 
+					userName="FRIcker"
+					userCurrency={465128}
+				/>
 				<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu">
-                    				<option defaultValue>Select a Tank</option>
-                    				<option value="Child Consumer">Child Consumer</option>
-                    				<option value="Fast Bang">Fast Bang</option>
-                    				<option value="Biggest Gun">Biggest Gun</option>
-                			</select>
+                    	<option defaultValue>Select a Tank</option>
+                    	<option value="Child Consumer">Child Consumer</option>
+                    	<option value="Fast Bang">Fast Bang</option>
+                    	<option value="Biggest Gun">Biggest Gun</option>
+                	</select>
 					<h6>Set this tank as default?</h6>
 					<button type="button" className="btn">Set Default</button>
 					<h3>Edit tank's Code</h3>
@@ -33,18 +40,18 @@ class Armory extends React.Component<{||}> {
 				<div className="column armoryright">
 					<h6>Chassis</h6>
 					<select className="tankComponentMenu">
-                    				<option defaultValue></option>
-                    				<option value="moddableLight">Moddable Light</option>
-                    				<option value="light">Light</option>
-                    				<option value="heavy">Heavy</option>
-                			</select>
+                    	<option defaultValue></option>
+                    	<option value="moddableLight">Moddable Light</option>
+                    	<option value="light">Light</option>
+                    	<option value="heavy">Heavy</option>
+                	</select>
 					<h6>Weapons</h6>
 					<select className="tankComponentMenu">
-                    				<option defaultValue></option>
-                    				<option value="1">Laser</option>
-                    				<option value="2">Machine Gun</option>
-                    				<option value="3">Vulcan Cannon</option>
-                			</select>
+                    	<option defaultValue></option>
+                    	<option value="1">Laser</option>
+                    	<option value="2">Machine Gun</option>
+                    	<option value="3">Vulcan Cannon</option>
+                	</select>
 					<select className="tankComponentMenu">
 						<option defaultValue></option>
 						<option value="1">Laser</option>
