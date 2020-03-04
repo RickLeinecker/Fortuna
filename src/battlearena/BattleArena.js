@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
+import SearchPlayers from './SearchPlayers.js';
 
 class BattleArena extends React.Component<{||}> {
 
@@ -33,6 +34,7 @@ class BattleArena extends React.Component<{||}> {
 					<Link to="TrainingArena">
 						<button type="button" className="btn">Training Arena</button>
 					</Link>
+					<SearchPlayers playerList={ ["jeffery", "jeff", "john", "illeatbutt", "childeatbigtime", "childconsumer"] }/>
 				</div>
 				<div className="column bamiddle">
 					<h2>Choose your Tank, Commander</h2>
@@ -45,14 +47,11 @@ class BattleArena extends React.Component<{||}> {
 				</div>
 				<div className="column baright">
 					<h2>FORTUNA's Best and Brightest</h2>
-					<Leaderboard 
-						leaderNames={ ["We", "Need", "To", "Get", "These", "With", "An", "API", "Call", "Still"] } 
-					/>
+					<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
 				</div>
 			</div>
-		);
-	}
-
+        );
+    }
 }
 
 export default BattleArena;
