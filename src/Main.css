@@ -231,6 +231,8 @@ body {
     border-color: #04CCFF;
     background-color: #04CCFF;
     color: #000921;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tankComponentMenu {
@@ -380,7 +382,7 @@ body {
     color: #39a9dd;
 }
 
-.primarybtn{
+.primarybtn {
     position: relative;
     background: none;
     color: aqua;
@@ -389,6 +391,7 @@ body {
     border: 0.2em solid aqua;
     padding: 0.5em 1em;
 }
+
 .primarybtn::before {
     content: "";
     display: block;
@@ -401,7 +404,8 @@ body {
     transform: skewX(-45deg);
     -webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
     transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
-  }
+}
+
 .primarybtn::after {
     content: "";
     display: block;
@@ -414,16 +418,18 @@ body {
     transform: skewX(45deg);
     -webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
     transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
-    }
+}
+
 .primarybtn:hover::before {
     right: 80%;
 }
+
 .primarybtn:hover::after {
     left: 80%;
 }
 
 
-.secondarybtn{
+.secondarybtn {
     display: inline-block;
     font-weight: 400;
     color: #fff;
@@ -435,7 +441,7 @@ body {
 }
 
 .secondarybtn:disabled,
-.secondarybtn[disabled]{
+.secondarybtn[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
@@ -443,7 +449,7 @@ body {
 
 /*Select Styling*/
 
-select{
+select {
     display: block;
     width: 100%;
     padding: .375rem .75rem;

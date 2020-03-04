@@ -30,32 +30,41 @@ class InterpriterState {
 	booleanListVariables: Map<string, BooleanListValue>;
 	doubleListVariables: Map<string, DoubleListValue>;
 	
+	constructor() {
+		this.intVariables = new Map<string, IntValue>();
+		this.booleanVariables = new Map<string, BooleanValue>();
+		this.doubleVariables = new Map<string, DoubleValue>();
+		this.intListVariables = new Map<string, IntListValue>();
+		this.booleanListVariables = new Map<string, BooleanListValue>();
+		this.doubleListVariables = new Map<string, DoubleListValue>();
+	}
+
 	getVariable(type: DataType, name: string): ?Value {
 		switch(type) {
 			case 'INT':
-				return name in this.intVariables ?
+				return this.intVariables.has(name) ?
 					this.intVariables.get(name) :
 					defaultValueFor('INT');
 			case 'BOOLEAN':
-				return name in this.booleanVariables ?
+				return this.booleanVariables.has(name) ?
 					this.booleanVariables.get(name) :
 					defaultValueFor('BOOLEAN');
 			case 'DOUBLE':
-				return name in this.doubleVariables ?
+				return this.doubleVariables.has(name) ?
 					this.doubleVariables.get(name) :
 					defaultValueFor('DOUBLE');
 			case 'INT_LIST':
-				if (!(name in this.intListVariables)) {
+				if (!this.intListVariables.has(name)) {
 					this.intListVariables.set(name, new IntListValue());
 				}
 				return this.intListVariables.get(name);
 			case 'BOOLEAN_LIST':
-				if (!(name in this.booleanListVariables)) {
+				if (!this.booleanListVariables.has(name)) {
 					this.booleanListVariables.set(name, new BooleanListValue());
 				}
 				return this.booleanListVariables.get(name);
 			case 'DOUBLE_LIST':
-				if (!(name in this.doubleListVariables)) {
+				if (!this.doubleListVariables.has(name)) {
 					this.doubleListVariables.set(name, new DoubleListValue());
 				}
 				return this.booleanListVariables.get(name);
