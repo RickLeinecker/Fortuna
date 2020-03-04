@@ -12,7 +12,7 @@ const regeneratorRuntime = require("regenerator-runtime");
 const jwtSecret = 'change this at deployment';
 
 
-
+// Flowtype import
 import type {
     $Request,
     $Response,
@@ -137,21 +137,49 @@ exports.login = async (req: $Request, res: $Response) => {
 
 exports.getUser = async (req: $Request, res: $Response) => {
     try{
+        // Find the user using the id and dont return the password field
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
         console.error(err.message);
-        res.status(500).json({msg: 'Server Error'});
+        // res.status just gives the status of the call
+        res.status(500).json({msg: 'Unable to find user'});
     }
 }
 
-exports.getLeaders = async (req: $Request, res: $Response) => {
-    // skip and limit determine how many to return and the -1 in the sort if for descending order based on elo
-    await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err, leaders){
+exports.retrieveUser  = async (req: $Request, res: $Response) => {
+    await User.findById(req.params.userId, '-password', function(err: Error, user: User){
         if(err)
+        {
             res.send(err);
-        
-        res.send(leaders);
+            console.error(err.message);
+        }
+        else
+            res.send(user)
+    });
+}
+
+exports.getLeaders = async (req: $Request, res: $Response) => {
+    // skip and limit determine how many to return
+    // the -1 in the sort is for descending order based on elo
+    await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
+        if(err){
+            res.send(err);
+            console.error(err.message);
+        }
+        else
+            res.send(leaders);
+    });
+}
+
+exports.allUsers = async (req: $Request, res: $Response) => {
+    await User.find({}, '-password', function(err: Error, users: Array<User>){
+        if(err){
+            res.send(err);
+            console.error(err.message);
+        }
+        else
+            res.send(users);
     });
 }
 

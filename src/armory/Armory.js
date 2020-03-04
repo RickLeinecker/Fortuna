@@ -7,41 +7,34 @@ import Cookies from 'universal-cookie';
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
-	getTankInfo = async ():Promise<void> => {
-		//gets the token and formats it from JSON
-		const cookies = new Cookies();
-		let token =  cookies.get('token');
-		token = token.token;
-		const response = await fetch('/api/tank/getFavorite', {
-			method: 'GET',
+
+	constructor() {
+		super();
+		this.state={
+			response: '',
+			tankName: '',
+			userId: '',
+			components: '',
+			casusCode: '',
+			isBot: '',
+			responseToPost: ''
+		}
+	}
+
+	handleArmoryClick = async ():Promise<void> => {
+		const response = await fetch('/api/tank/tankUpdate/' + tankId, {
+			method: 'PUT',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
+				'Access-Control-Allow-Credentials': 'true'
 			},
-		});
-		const body = await response.text();
-		return body;
-	};
-	getTanks = async ():Promise<void> => {
-		//gets the token and formats it from JSON
-		const cookies = new Cookies();
-		let token =  cookies.get('token');
-		token = token.token;
-		const response = await fetch('/api/tank/userTanks', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
+			body: JSON.stringify({ tankName: this.state.tankName, userId: this.state.userId, components: this.state.components, casusCode: this.state.casusCode, isBot: this.state.isBot }),
 		});
 		const body = await response.text();
 		console.log(body);
-		return body;
 	};
+
 	render(): React.Node {
 		let favoriteTank = this.getTankInfo();
 		let tanks = this.getTanks();
