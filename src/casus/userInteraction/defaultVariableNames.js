@@ -1,6 +1,10 @@
 //@flow strict
 
 import type {DataType} from '../blocks/DataType.js';
+import type {Value} from '../interpreter/Value.js';
+import IntValue from '../interpreter/IntValue.js';
+import BooleanValue from '../interpreter/BooleanValue.js';
+import DoubleValue from '../interpreter/DoubleValue.js';
 
 const DEFAULT_INT_VARIABLE_NAME = '[Int variable]';
 const DEFAULT_DOUBLE_VARIABLE_NAME = '[Double variable]';
@@ -66,6 +70,27 @@ function _isIllegalKeyword(name: string): boolean {
 	return false;
 }
 
+function getNameAsConstant(name: string, expectedType: DataType): ?Value {
+	if (expectedType === 'BOOLEAN') {
+		if (name === TRUE_KEYWORD) {
+			return new BooleanValue(true);
+		}
+		if (name === FALSE_KEYWORD) {
+			return new BooleanValue(false);
+		}
+		console.log('expected a boolean constant but found: ' + name);
+		return null;
+	}
+	else if (expectedType === 'INT') {
+		return new IntValue(Number(name));
+	}
+	else if (expectedType === 'DOUBLE') {
+		return new DoubleValue(Number(name));
+	}
+	console.log('tried to get the constant equivalent of type '+expectedType+" which isn't supported!");
+	return null;
+}
+
 export {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
@@ -84,5 +109,6 @@ export {
 
 	isDefaultVariableName,
 	isLegalVariableName,
-	isLegalConstant
+	isLegalConstant,
+	getNameAsConstant,
 };

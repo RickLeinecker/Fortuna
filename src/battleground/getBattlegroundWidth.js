@@ -1,7 +1,7 @@
 //@flow strict
 
 function getBattlegroundWidth(): number {
-	return 1600;
+	return 900;
 }
 
 export default getBattlegroundWidth;
