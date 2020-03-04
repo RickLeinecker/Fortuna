@@ -2,8 +2,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
-
-
+import Cookies from 'universal-cookie';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -11,6 +10,7 @@ type State = {|
 	userName: string,
 	password: string,
 	responseToPost: string,
+	loggedIn: Boolean,
 |};
 
 
@@ -24,7 +24,8 @@ class LoginPopup extends React.Component<Props, State> {
 			response: '',
 			userName: '',
 			password: '',
-			responseToPost: ''
+			responseToPost: '',
+			loggedIn: false
 		}
 	}
 
@@ -39,10 +40,20 @@ class LoginPopup extends React.Component<Props, State> {
 			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
 		});
 		const body = await response.text();
-		console.log(body);
+		this.setState({token:body});
+		const cookies = new Cookies();
+		cookies.set('token', body, { path: '/' });
+		console.log(cookies.get('token'));
+		this.setState({loggedIn: true});
+		
 	};
 
 	render(): React.Node {
+		let loginButton = (<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>)
+		//if (this.state.loggedIn == true)
+		//{
+			loginButton = (<Link to="MainMenu"><button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button></Link>)
+		//}
 		return (
 			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
 				{close => (
@@ -63,9 +74,7 @@ class LoginPopup extends React.Component<Props, State> {
 								<div className="help-block with-errors text-danger"></div>
 							</div>
 							<div className="row col-md-12">
-								<Link to="MainMenu">
-									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
-								</Link>
+								{loginButton}
 								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
 							</div>
 						</form>

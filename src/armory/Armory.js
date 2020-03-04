@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.js';
+import Cookies from 'universal-cookie';
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
 class Armory extends React.Component<{||}> {
@@ -35,6 +36,8 @@ class Armory extends React.Component<{||}> {
 	};
 
 	render(): React.Node {
+		let favoriteTank = this.getTankInfo();
+		let tanks = this.getTanks();
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
