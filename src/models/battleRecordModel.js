@@ -30,6 +30,11 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
         type: Number,
         required: true
     },
+    // Amount of Elo exchanged between players
+    eloExchanged: {
+        type: Number,
+        required: true
+    },
     // User one's tank
     tankOne: {
         tankName: {
