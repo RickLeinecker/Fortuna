@@ -17,12 +17,12 @@ import BattleRecord from '../../models/battleRecordModel';
 // Import Constants
 const router = express.Router();
 
-// Get list of replays for a user
+// Get list of records for a user for replays
 // Route call: getReplayList
 // Req body: userId
 // Returns: List of all replays that the user
 // is associated with.
 router.get('/getReplayList', [
     check('userId', 'Please enter a valid userId')
-        .isAlphanumeric()
+        .isString()
     ], replayController.getReplayList);
