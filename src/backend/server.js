@@ -43,8 +43,7 @@ const options = {
 };
 
 // MongoDB Connection
-mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, 
-    useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URL, options)
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
 
