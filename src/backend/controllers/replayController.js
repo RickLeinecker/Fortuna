@@ -35,16 +35,16 @@ exports.getReplayList = async (req: $Request, res: $Response) => {
     // If user exists, can attempt to get list of records
     // Note: query and use populate('field that has the ObjectID', [array of properties to only show])
     try {
-        const replays = await BattleRecord.find({ $or: [{ userOne: userId }, { userTwo: userId }] })
+        const records = await BattleRecord.find({ $or: [{ userOne: userId }, { userTwo: userId }] })
             .populate('userOne userTwo', 'userName');
-        if (!replays) {
+        if (!records) {
             return res
                 .status(400)
                 .json({ msg: 'Unable to find any battle records for user.' })
         }
 
-        // Return the list
-        res.status(200).json(replays);
+        // Return the list of records
+        res.status(200).json(records);
 
     } catch (err) {
         console.error(err.message);

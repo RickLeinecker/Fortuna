@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 const marketRoutes = require('./routes/marketRoutes');
 const casusRoutes = require('./routes/casusRoutes');
+const replayRoutes = require('./routes/replayRoutes');
 
 // API Server Instance
 const app = express();
@@ -34,6 +35,7 @@ app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/marketplace', marketRoutes);
 app.use('/api/casus', casusRoutes);
+app.use('/api/replay', replayRoutes);
 
 const options = {
     useNewUrlParser: true,

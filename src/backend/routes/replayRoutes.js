@@ -20,7 +20,7 @@ const router = express.Router();
 // Get list of battle records for a user for replays
 // Route call: getReplayList
 // Req body: userId
-// Returns: List of all replays that the user
+// Returns: List of all records that the user
 // is associated with.
 router.get('/getReplayList', [
     check('userId', 'Please enter a valid userId')
