@@ -9,7 +9,11 @@ class TrainingArena extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar linkName="BattleArena" returnName="Back to Battle Arena" pageName="Training Arena" userName="FRIcker | $465128" />
+				<Navbar 
+					linkName="BattleArena" 
+					returnName="Back to Battle Arena" 
+					pageName="Training Arena" 
+				/>
 				<div className="column taleft">
 					<h2>Choose your Tank, Commander</h2>
 					<select className="dropdownMenu">

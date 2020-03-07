@@ -1,11 +1,11 @@
 //@flow strict
+
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-
-// Login component.
 type Props = {||}; 
+
 type State = {|
 	response: string,
 	userName: string,
@@ -13,13 +13,12 @@ type State = {|
 	responseToPost: string,
 |};
 
-
-
-// Login Popup component.
+// Login Popup component. Display Login Form.
 class LoginPopup extends React.Component<Props, State> {
 
 	constructor() {
 		super();
+
 		this.state={
 			response: '',
 			userName: '',
@@ -29,6 +28,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick = async ():Promise<void> => {
+
 		const response = await fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
@@ -36,15 +36,21 @@ class LoginPopup extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
+			body: JSON.stringify({ userName: this.state.userName, password: this.state.password }),
 		});
+
 		const body = await response.text();
 		console.log(body);
 	};
 
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
+			<Popup 
+				trigger={
+					<button type="button" className="btn">
+						Login
+					</button>
+				} modal>
 				{close => (
 					<div className="popup">
 						<h1>Login</h1>
@@ -66,7 +72,7 @@ class LoginPopup extends React.Component<Props, State> {
 								<Link to="MainMenu">
 									<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
 								</Link>
-								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
+								<button className="cancelbtn" onClick={() => { close(); }}>Cancel</button>
 							</div>
 						</form>
 					</div>
