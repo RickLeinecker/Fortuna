@@ -10,14 +10,14 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
     
     // ID of users
     userOne: {
-        type: String,
+        type: Mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'user'
+        ref: 'User'
     },
     userTwo: {
-        type: String,
+        type: Mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'user'
+        ref: 'User'
     },
     // -1 = Battle not evaluated, 0 = Tie, 1 = User one victory, 2 = User two victory
     winner: {
@@ -30,13 +30,14 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
         type: Number,
         required: true
     },
-    // User one's tank
+    // Amount of Elo exchanged between players
+    eloExchanged: {
+        type: Number,
+        required: true
+    },
+    // User one's tank state for this battle
     tankOne: {
         tankName: {
-            type: String,
-            required: true
-        },
-        ownerID: {
             type: String,
             required: true
         },
@@ -49,13 +50,9 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
             required: true
         }
     },
-    // User two's tank
+    // User two's tank state for this battle
     tankTwo: {
         tankName: {
-            type: String,
-            required: true
-        },
-        ownerID: {
             type: String,
             required: true
         },
