@@ -13,6 +13,7 @@ import GetVariableBlock from './blocks/GetVariableBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
+import saveCasus from './saveCasus.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -125,6 +126,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onMouseDown(e: MouseEvent) {
@@ -278,6 +280,10 @@ class CasusEditor extends React.Component<Props, State> {
 				this.setState({variableBlockToRename: released});
 			}
 		}
+	}
+
+	_saveCasus(): void {
+		saveCasus();
 	}
 
 }
