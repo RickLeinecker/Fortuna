@@ -140,7 +140,6 @@ class Armory extends React.Component<Props, State> {
 			}
 			tankOptions.push(obj);
 		}
-		console.log(tankOptions);
 		this.getUserInventory();
 	};
 	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
@@ -226,7 +225,6 @@ class Armory extends React.Component<Props, State> {
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
 	handleChangeInTankOptions = ({ target }:{target:any}) => {
-		console.log(target);
 		this.setState({ selectedTankId: target.value});
 		this.setState({ selectedTankName: target.label});
 		this.getSelectedTank();
@@ -246,8 +244,6 @@ class Armory extends React.Component<Props, State> {
 	//This will save a tank
 	saveTank  = async ():Promise<void> => {
 		let componentsArray = [this.state.selectedChassis,this.state.selectedWeaponOne,this.state.selectedWeaponTwo,this.state.selectedScannerOne,this.state.selectedScannerTwo,this.state.selectedScannerThree,this.state.selectedJammer,this.state.selectedThreads,this.state.selectedSingleUseItemOne,this.state.selectedSingleUseItemTwo,this.state.selectedSingleUseItemThree];
-		const cookies = new Cookies();
-		const token = cookies.get('token').token;
 		fetch('/api/tank/tankUpdate/' + this.state.selectedTankId, {
 			
 			method: 'PUT',
