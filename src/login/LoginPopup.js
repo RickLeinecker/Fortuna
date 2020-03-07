@@ -10,7 +10,7 @@ type State = {|
 	userName: string,
 	password: string,
 	responseToPost: string,
-	loggedIn: Boolean,
+	loggedIn: boolean,
 |};
 
 
@@ -40,10 +40,10 @@ class LoginPopup extends React.Component<Props, State> {
 			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
 		});
 		const body = await response.text();
-		this.setState({token:body});
+		let token =body;
 		const cookies = new Cookies();
 		cookies.set('token', body, { path: '/' });
-		const token = cookies.get('token');
+		token = cookies.get('token');
 		console.log(token);
 		this.setState({loggedIn: true});
 		
