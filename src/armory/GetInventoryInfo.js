@@ -188,4 +188,4 @@ function getItems(inventory: Array<ComponentType>): Array<ComponentType> {
 	return items;
 }
 
-export {getComponentType, getComponentPoints, getChassis, getWeapons, getScanners, getJammers, getItems};
+export {getComponentType, getComponentPoints, getChassis, getWeapons, getScanners, getJammers, getItems, getTreads};

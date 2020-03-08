@@ -44,7 +44,6 @@ class LoginPopup extends React.Component<Props, State> {
 		});
 
 		const body = await response.text();
-		const token = body;
 		const cookies = new Cookies();
 		cookies.set('token', body, { path: '/' });
 		this.setState({loggedIn: true});
