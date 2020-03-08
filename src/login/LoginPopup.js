@@ -40,21 +40,19 @@ class LoginPopup extends React.Component<Props, State> {
 			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
 		});
 		const body = await response.text();
-		let token =body;
+		const token = body;
 		const cookies = new Cookies();
 		cookies.set('token', body, { path: '/' });
-		token = cookies.get('token');
-		console.log(token);
 		this.setState({loggedIn: true});
-		
 	};
 
 	render(): React.Node {
-		let loginButton = (<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>)
-		//if (this.state.loggedIn == true)
-		//{
-			loginButton = (<Link to="MainMenu"><button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button></Link>)
-		//}
+		const loginButton = (
+			<Link to="MainMenu">
+				<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
+			</Link>
+		);
+		
 		return (
 			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
 				{close => (
