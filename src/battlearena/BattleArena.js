@@ -11,22 +11,13 @@ class BattleArena extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar 
-					styleName="navbtn" 
+				<Navbar
 					returnName="Back to Main Menu" 
 					pageName="Battle Arena" 
-					linkName="MainMenu" 
-					userName="FRIcker | $465128"
+					linkName="MainMenu"
 				/>
 				<div className="column baleft">
-					<h2>Find a Player to Challenge</h2>
-					<input 
-						type="text" 
-						className="inputText" 
-						placeholder="Search Players" 
-						aria-label="searchPlayer" 
-						aria-describedby="basic-addon1"/>
-					<h6>Find the First Challenger Available</h6>
+					<h4>Find the First Challenger Available</h4>
 					<Link to="Battleground">	
 						<button type="button" className="btn">Quickplay</button>
 					</Link>
@@ -34,7 +25,7 @@ class BattleArena extends React.Component<{||}> {
 					<Link to="TrainingArena">
 						<button type="button" className="btn">Training Arena</button>
 					</Link>
-					<SearchPlayers playerList={ ["jeffery", "jeff", "john", "illeatbutt", "childeatbigtime", "childconsumer"] }/>
+					<SearchPlayers />
 				</div>
 				<div className="column bamiddle">
 					<h2>Choose your Tank, Commander</h2>
@@ -46,8 +37,7 @@ class BattleArena extends React.Component<{||}> {
 					</select>
 				</div>
 				<div className="column baright">
-					<h2>FORTUNA's Best and Brightest</h2>
-					<Leaderboard leaderNames={ ["John", "Bill", "Suck", "Big Suck", "HEhaw", "XXXXXfweckerXXXXX", "Yes", "2more", "9", "10haha"] } />
+					<Leaderboard />
 				</div>
 			</div>
         );

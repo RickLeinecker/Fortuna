@@ -38,7 +38,7 @@ router.post('/login', [
     ], userController.login);
 
 // Confirm a User's email
-// Route call: confirmToken
+// Route call: confirmEmail
 // Req must include email in body provided by user
 // Token should be in the body as an input from the URL
 // in the email.

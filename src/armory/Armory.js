@@ -10,7 +10,11 @@ class Armory extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
+				<Navbar
+					linkName="MainMenu" 
+					returnName="Back to Main Menu" 
+					pageName="Armory" 
+				/>
 				<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu">

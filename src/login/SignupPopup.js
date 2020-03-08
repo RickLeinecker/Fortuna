@@ -3,9 +3,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 
-
-// Login component.
 type Props = {||}; 
+
 type State = {|
 	response: string,
 	userName: string,
@@ -16,11 +15,12 @@ type State = {|
 |};
 
 
-// Signup Popup component.
+// Signup Popup component. Display Signup Form.
 class SignupPopup extends React.Component<Props, State> {
 
-	constructor(){
+	constructor() {
 		super();
+
 		this.state={
 			response: '',
 			userName: '',
@@ -31,6 +31,7 @@ class SignupPopup extends React.Component<Props, State> {
 	}
 
 	handleSignUpClick = async ():Promise<void> => {
+
 		const response = await fetch('/api/user/registerUser', {
 			method: 'POST',
 			headers: {
@@ -40,13 +41,19 @@ class SignupPopup extends React.Component<Props, State> {
 			},
 			body: JSON.stringify({ userName: this.state.userName, email: this.state.email, password:this.state.password }),
 		});
+
 		const body = await response.text();
 		console.log(body);
 	};
 
 	render(): React.Node {
 		return (
-			<Popup trigger={<button type="button" className="clearbtn">Signup</button>} modal>
+			<Popup 
+				trigger = {
+					<button type="button" className="clearbtn">
+						Signup
+					</button>
+				} modal>
 				{close => (
 					<div className="popup">
 						<h1>Signup</h1>
@@ -77,10 +84,10 @@ class SignupPopup extends React.Component<Props, State> {
 								<div className="help-block with-errors text-danger"></div>
 							</div>
 							<div className="row col-md-12">
-								<Link to="/MainMenu">
+								<Link to="MainMenu">
 									<button type="submit" className="popupbtn" onClick={this.handleSignUpClick}>Signup</button>
 								</Link>
-								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
+								<button className="cancelbtn" onClick={() => { close(); }}>Cancel</button>
 							</div>
 						</form>
 					</div>

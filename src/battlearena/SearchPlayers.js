@@ -2,50 +2,47 @@
 
 import * as React from 'react';
 
-type Props = {|
-	playerList: Array<string>,
-|};
+type Props = {||};
 
 type State = {|
-	searchName: string,
+	playerList: Array<string>,
 	searchList: Array<string>
 |};
 
 // Search Players Component. Takes an array of all players.
 //
-// Prop Names:
-// playerList (Array of all users)
-//
 // State Names:
-// searchName (the keyword the user is searching with)
+// playerList (API call to get all usernames)
 // searchList (list of all users that match searchName)
 // 
-// EXAMPLE PROP USAGE = <SearchPlayers playerList={ ["jeffery", "jeff", "john", "illeatbutt", "childeatbigtime", "childconsumer"] }/>
+// EXAMPLE PROP USAGE = <SearchPlayers />
 //
-// Needs to be updated to have a challenge player button.
+// Needs to be updated to have a challenge player button and API call implemented.
 class SearchPlayers extends React.Component<Props, State> {
 
-	constructor(props: Props) {
-		super(props);
+	constructor() {
+		super();
+
+		this.handleSearch.bind(this);
+		this.handleKeyPress.bind(this);
 
 		this.state = {
-			searchName: "",
+			playerList: ["Jim", "John", "Jimfrey", "Eich", "Eichers", "Baylor", "Jorge", "David", "Emil", "Adam"], // NEEDS API CALL HERE
 			searchList: []
 		}
 	}
 
-	// When typing in the searchbar, update searchName.
-	handleChange = (e: string) => {
-		this.setState({
-			searchName: e
-		});
+	// When a key is pressed, update the search results with handleSearch.
+	handleKeyPress = (e: SyntheticKeyboardEvent<HTMLInputElement>):void => {
+		if(e.key === 'Enter') {
+			this.handleSearch(e.currentTarget.value);
+		}
 	}
 
 	// When a user clicks search, handleSearch will activate.
-	handleSearch = () => {
+	handleSearch(searchName: string): void {
 
-		const playerList: Array<string> = this.props.playerList;
-		const searchName: string = this.state.searchName;
+		const playerList: Array<string> = this.state.playerList;
 
 		// Create a filtered list showing user's desired results.
 		let list: Array<string> = [];
@@ -62,15 +59,20 @@ class SearchPlayers extends React.Component<Props, State> {
 
 	// Challenge the player chosen.
 	challengePlayer(): void {
-		
+		// NEEDS TO HANDLE THE BATTLEGROUND SIMULATION.
 	}
 
 	render(): React.Node {
 		return (
 			<div className="searchPlayers">
 				<h6>Click the Player's Name you wish to Challenge</h6>
-				<input type="text" className="inputText" onChange={(e) => this.handleChange(e.target.value)} placeholder="Search Players" />
-				<button type="button" onClick={this.handleSearch} className="btn">Search</button>
+				<input 
+					type="text" 
+					className="inputText" 
+					placeholder="Search Players" 
+					onKeyPress={this.handleKeyPress}
+				/>
+				<h6>Press Enter to Search</h6>
 				<div className="searchPlayersList">
 					<ul>
 						{this.state.searchList.map((name, index) => 

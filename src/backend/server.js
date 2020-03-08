@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 const marketRoutes = require('./routes/marketRoutes');
 const casusRoutes = require('./routes/casusRoutes');
+const replayRoutes = require('./routes/replayRoutes');
 
 // API Server Instance
 const app = express();
@@ -34,6 +35,7 @@ app.use('/api/tank', tankRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/marketplace', marketRoutes);
 app.use('/api/casus', casusRoutes);
+app.use('/api/replay', replayRoutes);
 
 const options = {
     useNewUrlParser: true,
@@ -43,8 +45,7 @@ const options = {
 };
 
 // MongoDB Connection
-mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, 
-    useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URL, options)
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
 
