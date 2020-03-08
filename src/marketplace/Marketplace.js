@@ -1,7 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import Navbar from '../components/Navbar.js';
+import Navbar from '../globalComponents/Navbar.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
 import ChassisView from './ChassisView.js';
@@ -11,11 +11,12 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
-import type {MarketPlaceViewDataTypes} from './MarketPlaceViewDataTypes.js';
+import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
+
 type State = {|
-	marketplaceViewClicked: MarketPlaceViewDataTypes,
+	marketplaceViewClicked: MarketplaceViewDataTypes,
 |};
 
 
@@ -59,7 +60,11 @@ class Marketplace extends React.Component<Props, State> {
 		}
 		return (
 	  		<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Marketplace" userName="FRIcker | $465128"/>
+				<Navbar 
+					linkName="MainMenu" 
+					returnName="Back to Main Menu" 
+					pageName="Marketplace"
+				/>
 				<div className="row mt-5">
 		  			<div className="col-md-4">
 					  <div className="list-group col-md-6">

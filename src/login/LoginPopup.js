@@ -1,10 +1,13 @@
 //@flow strict
+
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
 // Login component.
+
 type Props = {||}; 
+
 type State = {|
 	response: string,
 	userName: string,
@@ -13,13 +16,12 @@ type State = {|
 	loggedIn: boolean,
 |};
 
-
-
-// Login Popup component.
+// Login Popup component. Display Login Form.
 class LoginPopup extends React.Component<Props, State> {
 
 	constructor() {
 		super();
+
 		this.state={
 			response: '',
 			userName: '',
@@ -30,6 +32,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick = async ():Promise<void> => {
+
 		const response = await fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
@@ -37,8 +40,9 @@ class LoginPopup extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ userName: this.state.userName, password:this.state.password }),
+			body: JSON.stringify({ userName: this.state.userName, password: this.state.password }),
 		});
+
 		const body = await response.text();
 		const token = body;
 		const cookies = new Cookies();
@@ -54,7 +58,12 @@ class LoginPopup extends React.Component<Props, State> {
 		);
 		
 		return (
-			<Popup trigger={<button type="button" className="btn">Login</button>} modal>
+			<Popup 
+				trigger={
+					<button type="button" className="btn">
+						Login
+					</button>
+				} modal>
 				{close => (
 					<div className="popup">
 						<h1>Login</h1>

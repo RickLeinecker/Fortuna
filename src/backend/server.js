@@ -1,23 +1,24 @@
 //@flow strict
 // Main file for the Node and Express server 
 
+// Config for environment variables using the npm dotenv package
+require('dotenv').config();
+
 // Required Packages/Imports
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-// config for environment variables using the npm dotenv package
-require('dotenv').config();
-
-// Port constant so we may edit as needed
-//const PORT = process.env.PORT || 3001;
-const PORT = 3001;
+// Port constant
+const PORT = process.env.PORT || 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
+const marketRoutes = require('./routes/marketRoutes');
 const casusRoutes = require('./routes/casusRoutes');
+const replayRoutes = require('./routes/replayRoutes');
 
-// Server Instance
+// API Server Instance
 const app = express();
 
 // As of express v4.16, npm body-parser is bundled with express again
@@ -35,15 +36,23 @@ app.use(express.json());
 app.use('/api/tank', tankRoutes);
 // Routes for things pertaining to the User model
 app.use('/api/user', userRoutes);
+<<<<<<< HEAD
 // Routes for things pertaining to the casus blocks
+=======
+app.use('/api/marketplace', marketRoutes);
+>>>>>>> 947b3ad79b019b4b1e9b8ce1b3d5399a8fe47b67
 app.use('/api/casus', casusRoutes);
+app.use('/api/replay', replayRoutes);
 
-
-
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+};
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost/fortuna', { useNewUrlParser: true, 
-    useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URL, options)
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
 
