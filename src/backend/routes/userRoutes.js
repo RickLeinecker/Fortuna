@@ -27,13 +27,8 @@ router.post('/registerUser', [
     ], userController.register);
 
 // Login a User
-<<<<<<< HEAD
 // Route call: /login
-// Req must include username and password in body
-=======
-// Route call: login
 // Req must include email and password in body
->>>>>>> 947b3ad79b019b4b1e9b8ce1b3d5399a8fe47b67
 // Returns a jwt upon success
 router.post('/login', [
     check('email', 'Please enter a valid email')

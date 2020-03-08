@@ -36,11 +36,7 @@ app.use(express.json());
 app.use('/api/tank', tankRoutes);
 // Routes for things pertaining to the User model
 app.use('/api/user', userRoutes);
-<<<<<<< HEAD
-// Routes for things pertaining to the casus blocks
-=======
 app.use('/api/marketplace', marketRoutes);
->>>>>>> 947b3ad79b019b4b1e9b8ce1b3d5399a8fe47b67
 app.use('/api/casus', casusRoutes);
 app.use('/api/replay', replayRoutes);
 

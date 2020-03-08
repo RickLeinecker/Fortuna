@@ -26,15 +26,6 @@ exports.register = async (req: $Request, res: $Response) => {
     // Creates a place where errors that fail validation can accrue.
     const errors = validationResult(req);
 
-<<<<<<< HEAD
-// Flowtype import
-import type {
-    $Request,
-    $Response,
-    NextFunction,
-    Middleware,
-  } from 'express';
-=======
     if(!errors.isEmpty()){
             // 400 is a bad request
             return res
@@ -44,7 +35,6 @@ import type {
 
     // Deconstructs request body to assign to user schema fields
     const { userName, email, password } = req.body;
->>>>>>> 947b3ad79b019b4b1e9b8ce1b3d5399a8fe47b67
 
     // Attempts to add User to the database
     try{
@@ -312,12 +302,8 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 }
 
 exports.getUser = async (req: $Request, res: $Response) => {
-<<<<<<< HEAD
     try{
         // Find the user using the id and dont return the password field
-=======
-    try {
->>>>>>> 947b3ad79b019b4b1e9b8ce1b3d5399a8fe47b67
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch (err) {
