@@ -16,6 +16,7 @@ const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
 const marketRoutes = require('./routes/marketRoutes');
 const casusRoutes = require('./routes/casusRoutes');
+const replayRoutes = require('./routes/replayRoutes');
 
 // API Server Instance
 const app = express();
@@ -30,10 +31,14 @@ app.use(express.json());
 
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
+
+// Routes for things pertaining to the Tank model
 app.use('/api/tank', tankRoutes);
+// Routes for things pertaining to the User model
 app.use('/api/user', userRoutes);
 app.use('/api/marketplace', marketRoutes);
 app.use('/api/casus', casusRoutes);
+app.use('/api/replay', replayRoutes);
 
 const options = {
     useNewUrlParser: true,
@@ -43,8 +48,7 @@ const options = {
 };
 
 // MongoDB Connection
-mongoose.connect(process.env.DB_URL, { useNewUrlParser: true, 
-    useUnifiedTopology: true })
+mongoose.connect(process.env.DB_URL, options)
     .then(() => console.log(`Connected to MongoDB...`))
     .catch(() => console.error('Could not connect to DB'));
 
