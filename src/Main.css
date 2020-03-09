@@ -317,8 +317,16 @@ body {
     background: #04CCFF;
     border: 2px solid #04CCFF;
     border-radius: 8px;
-    margin-right: auto;
-    margin-left: auto;
+}
+
+.disabled {
+    color: #04CCFF;
+	background: #04213F;
+    border: 2px solid #04CCFF;
+}
+
+.disabled:hover {
+    cursor: default;
 }
 
 .popupbtn:hover {
@@ -354,14 +362,6 @@ body {
     color: #04CCFF;
     background: #04213F;
     border: 2px solid #04CCFF;
-}
-  
-.popupbtn {
-    color: #000921;
-    background: #04CCFF;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
-    width: 150%;
 }
 
 /* Leaderboard Styling */
