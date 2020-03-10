@@ -26,4 +26,22 @@ type ComponentType =
 	'mine' | 'c4' | 'overdrive' | 'nitroRepair' | 'missileTrackingBeacon'
 ;
 
+const allComponents: Array<ComponentType> = [
+	'moddableLight', 'light',  'moddable', 'heavy', 'moddableHeavy',
+
+	'machineGun', 'grenadeLauncher', 'missile', 'shotgun', 'vulcanCannon',
+	'laser', 'plasma', 'pulseLaser', 'lancer', 'deathRay',
+
+	'shortRangeScanner', 'mediumRangeScanner', 'longRangeScanner',
+	'itemScanner', 'antiJammerScanner',
+
+	'shortRangeJammer', 'mediumRangeJammer', 'longRangeJammer',
+
+	'advancedTreads', 'fastTreads', 'armoredTreads', 'heavilyArmoredTreads',
+
+	'mine', 'c4', 'overdrive', 'nitroRepair', 'missileTrackingBeacon'
+]
+
 export type {ComponentType};
+
+export {allComponents};
