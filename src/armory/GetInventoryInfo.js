@@ -1,6 +1,7 @@
 //@flow strict
 
 import type {ComponentType} from './ComponentType.js';
+import {allComponents} from './ComponentType.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
@@ -188,4 +189,23 @@ function getItems(inventory: Array<ComponentType>): Array<ComponentType> {
 	return items;
 }
 
-export {getComponentType, getComponentPoints, getChassis, getWeapons, getScanners, getJammers, getItems, getTreads};
+function verifyComponent(comp: string): ComponentType {
+	const matched=allComponents.filter(x => x === comp);
+	if (matched.length === 1) {
+		return matched[0];
+	}
+
+	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
+}
+
+export {
+	getComponentType, 
+	getComponentPoints, 
+	getChassis, 
+	getWeapons, 
+	getScanners, 
+	getJammers, 
+	getItems, 
+	getTreads,
+	verifyComponent
+};
