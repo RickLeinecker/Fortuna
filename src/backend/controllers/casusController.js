@@ -2,6 +2,7 @@
 
 const User = require('../../models/userModel');
 
+// Flow type import
 import type {
     $Request,
     $Response,
