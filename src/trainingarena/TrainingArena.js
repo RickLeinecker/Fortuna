@@ -1,5 +1,6 @@
 //@flow strict
 
+import './TrainingArena.css';
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
@@ -15,7 +16,7 @@ class TrainingArena extends React.Component<{||}> {
 					pageName="Training Arena" 
 				/>
 				<div className="column taleft">
-					<h2>Choose your Tank, Commander</h2>
+					<h5>Choose your Tank, Commander</h5>
 					<select className="dropdownMenu">
 						<option defaultValue>Select a Tank</option>
 						<option value="1">Child Consumer</option>
@@ -24,7 +25,7 @@ class TrainingArena extends React.Component<{||}> {
 					</select>
 					</div>
 				<div className="column tamiddle">
-					<h2>Choose an Arena to Battle</h2>
+					<h4>Choose an Arena to Battle</h4>
 					<select className="dropdownMenu">
 						<option defaultValue>Select Arena</option>
 						<option value="1">Big Arena</option>
@@ -32,11 +33,11 @@ class TrainingArena extends React.Component<{||}> {
 						<option value="3">Arena I am, yes</option>
 					</select>
 					<Link to="Battleground">
-						<button type="button" className="btn">Start Battle</button>
+						<button type="button" className="primarybtn">Start Battle</button>
 					</Link>
 				</div>
 				<div className="column taright">
-					<h2>Choose Training Bot</h2>
+					<h5>Choose a Training Bot</h5>
 					<select className="dropdownMenu">
 						<option defaultValue>Select a Tank</option>
 						<option value="1">Child Consumer</option>

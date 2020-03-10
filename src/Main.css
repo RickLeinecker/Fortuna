@@ -5,165 +5,6 @@
 body {
     background-color: #000921;
     color: #04CCFF;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-}
-
-/* Login/Signup Page Styling */
-.loginleft {
-    width: 25%;
-    margin-top: 275px;
-    padding-left: 20px;
-    text-align: justify;
-}
-
-.loginright {
-    width: 25%;
-    margin-top: 375px;
-    padding-right: 5px;
-    text-align: center;
-}
-
-.loginmiddle {
-    width: 50%;
-    text-align: center;
-    margin-top: 350px;
-}
-
-/* Main Menu Page Styling */
-.menuleft {
-    width: 25%;
-    margin-top: 250px;
-    padding-left: 20px;
-    text-align: center;
-}
-
-.menuright {
-    width: 25%;
-    margin-top: 250px;
-    padding-right: 5px;
-    text-align: center;
-}
-
-.menumiddle {
-    width: 50%;
-    margin-top: 250px;
-    text-align: center;
-}
-
-.menuheader {
-    text-align: center;
-    padding-top: 90px;
-}
-
-/* Battle Arena Page Styling */
-.baleft {
-    width: 36%;
-    margin: 150px 0px 0px 0px;
-    text-align: center;
-}
-
-.baleft h6 {
-    margin-top: 50px;
-}
-
-.bamiddle {
-    width: 28%;
-    text-align: center;
-    margin: 100px 0px 0px 0px;
-}
-
-.bamiddle select {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.baright {
-    width: 29%;
-    margin: 150px 0px 0px 80px;
-}
-
-/* Armory Page Styling */
-.armoryleft {
-    width: 30%;
-    padding-left: 20px;
-}
-
-.armoryleft h6 {
-    margin-top: 50px;
-}
-
-.armoryleft h3 {
-    margin-top: 150px;
-}
-
-.armorymiddle {
-    width: 40%;
-    text-align: center;
-}
-
-.armorymiddle h6 {
-    padding-top: 450px;
-}
-
-.armorymiddle h1 {
-    margin-top: 150px;
-}
-
-.armoryright {
-    width: 30%;
-    margin-top: 150px;
-    padding-right: 10px;
-}
-
-.armoryright h6 {
-    margin-bottom: 10px;
-    margin-top: 20px;
-}
-
-/* Training Arena Styling */
-.taleft {
-    width: 30%;
-    margin-top: 150px;
-    padding-left: 20px;
-    text-align: center;
-}
-
-.taleft select {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
-}
-
-.tamiddle {
-    width: 40%;
-    margin-top: 150px;
-    text-align: center;
-}
-
-.tamiddle select {
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-}
-
-.tamiddle button {
-    margin-top: 500px;
-}
-
-.taright {
-    width: 30%;
-    margin-top: 150px;
-    padding-right: 20px;
-    text-align: center;
-}
-
-.taright select {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
 }
 
 /* Search Player List Styling */
@@ -186,6 +27,7 @@ body {
     list-style-type: none;
 }
 
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -230,9 +72,9 @@ body {
 /* Dropdown Menu Styling */
 .dropdownMenu {
     cursor: pointer;
-    width: 90%;
+    width: 80%;
     padding: 10px 10px 10px 10px;
-    border-radius: 4px;
+    border-radius: 2px;
     border-color: #04CCFF;
     background-color: #04CCFF;
     color: #000921;
@@ -296,8 +138,6 @@ body {
 	border: 2px solid #04CCFF;
 }
 
-
-
 /* Popup Styling */
 .popup {
     padding: 5px 50px 20px 50px;
@@ -317,8 +157,6 @@ body {
     background: #04CCFF;
     border: 2px solid #04CCFF;
     border-radius: 8px;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 .popupbtn:hover {
@@ -355,21 +193,15 @@ body {
     background: #04213F;
     border: 2px solid #04CCFF;
 }
-  
-.popupbtn {
-    color: #000921;
-    background: #04CCFF;
-    border: 2px solid #04CCFF;
-    border-radius: 8px;
-    width: 150%;
-}
 
 /* Leaderboard Styling */
 .leaderboard {
-	padding-left: 10px;
+    padding-left: 10px;
     margin-right: auto;
+    margin-left: auto;
+    margin-top: 50%;
 	background-color: #04213F;
-	border: 5px solid black;
+	border: 4px solid black;
 	border-radius: 8px;
 }
 
@@ -402,10 +234,10 @@ body {
 .primarybtn {
     position: relative;
     background: none;
-    color: aqua;
+    color: #04CCFF;
     text-transform: uppercase;
     text-decoration: none;
-    border: 0.2em solid aqua;
+    border: 0.2em solid #04CCFF;
     padding: 0.5em 1em;
 }
 
@@ -414,7 +246,7 @@ body {
     display: block;
     position: absolute;
     width: 10%;
-    background: #222;
+    background: #000921;
     height: 0.3em;
     right: 20%;
     top: -0.21em;
@@ -428,7 +260,7 @@ body {
     display: block;
     position: absolute;
     width: 10%;
-    background: #222;
+    background: #000921;
     height: 0.3em;
     left: 20%;
     bottom: -0.25em;

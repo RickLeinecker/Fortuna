@@ -56,24 +56,42 @@ class SignupPopup extends React.Component<Props, State> {
 				} modal>
 				{close => (
 					<div className="popup">
-						<h1>Signup</h1>
+						<h3>Signup</h3>
 						<form data-toggle="validator" method="post" action="#">
 							<div className="row col-md-12 form-group">
 								<label>Email</label>
 								<div className="input-group">
-									<input type="text" className="inputText" name="signUpEmail" value={this.state.email} onChange={e => this.setState({ email: e.target.value})}/>
+									<input 
+										type="text" 
+										className="inputText" 
+										name="signUpEmail" 
+										value={this.state.email} 
+										onChange={e => this.setState({ email: e.target.value})}
+									/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Username</label>
 								<div className="input-group">
-									<input type="text" className="inputText" name="signUpUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+									<input 
+										type="text" 
+										className="inputText" 
+										name="signUpUserName" 
+										value={this.state.userName}
+										onChange={e => this.setState({ userName: e.target.value})} 
+									/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Password</label>
 								<div className="input-group">
-									<input type="password" name="signUpPassword" className="inputText" value={this.state.password} onChange={e => this.setState({ password: e.target.value})}/>
+									<input 
+										type="password" 
+										name="signUpPassword" 
+										className="inputText" 
+										value={this.state.password} 
+										onChange={e => this.setState({ password: e.target.value})}
+									/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
@@ -85,9 +103,20 @@ class SignupPopup extends React.Component<Props, State> {
 							</div>
 							<div className="row col-md-12">
 								<Link to="MainMenu">
-									<button type="submit" className="popupbtn" onClick={this.handleSignUpClick}>Signup</button>
+									<button 
+										type="submit" 
+										className="popupbtn" 
+										onClick={this.handleSignUpClick}
+									>
+										Signup
+									</button>
 								</Link>
-								<button className="cancelbtn" onClick={() => { close(); }}>Cancel</button>
+								<button 
+									className="cancelbtn" 
+									onClick={() => { close(); }}
+								>
+									Cancel
+								</button>
 							</div>
 						</form>
 					</div>

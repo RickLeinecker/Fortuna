@@ -1,5 +1,6 @@
 //@flow strict
 
+import './BattleArena.css';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
@@ -17,9 +18,9 @@ class BattleArena extends React.Component<{||}> {
 					linkName="MainMenu"
 				/>
 				<div className="column baleft">
-					<h4>Find the First Challenger Available</h4>
+					<h5>Find a Challenger</h5>
 					<Link to="Battleground">	
-						<button type="button" className="btn">Quickplay</button>
+						<button type="button" className="primarybtn">Quickplay</button>
 					</Link>
 					<h6>Practice Against Bots</h6>
 					<Link to="TrainingArena">
@@ -28,7 +29,7 @@ class BattleArena extends React.Component<{||}> {
 					<SearchPlayers />
 				</div>
 				<div className="column bamiddle">
-					<h2>Choose your Tank, Commander</h2>
+					<h5>Choose your Tank, Commander</h5>
 					<select className="dropdownMenu">
 						<option defaultValue>Select a Tank</option>
 						<option value="1">Child Consumer</option>
