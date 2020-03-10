@@ -1,7 +1,7 @@
 //@flow strict
 
 // Used to track objects that are to hold component names.
-type ComponentType = 
+type TankComponent = 
 
 	// Chassis
 	'moddableLight' | 'light' |  'moddable' | 'heavy' | 'moddableHeavy' |
@@ -26,7 +26,7 @@ type ComponentType =
 	'mine' | 'c4' | 'overdrive' | 'nitroRepair' | 'missileTrackingBeacon'
 ;
 
-const allComponents: Array<ComponentType> = [
+const allComponents: Array<TankComponent> = [
 	'moddableLight', 'light',  'moddable', 'heavy', 'moddableHeavy',
 
 	'machineGun', 'grenadeLauncher', 'missile', 'shotgun', 'vulcanCannon',
@@ -42,6 +42,6 @@ const allComponents: Array<ComponentType> = [
 	'mine', 'c4', 'overdrive', 'nitroRepair', 'missileTrackingBeacon'
 ]
 
-export type {ComponentType};
+export type {TankComponent};
 
 export {allComponents};

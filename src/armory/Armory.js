@@ -4,7 +4,7 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import {getComponentType, verifyComponent} from './GetInventoryInfo.js';
+import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -158,7 +158,7 @@ class Armory extends React.Component<Props, State> {
 		//set the users id
 		this.setState({userId:jsonObjectOfUser._id});
 		for (const component in jsonObjectOfUser.inventory.tankComponents) {
-			const typeOfItem = getComponentType(verifyComponent(component));
+			const typeOfItem = getTankComponent(verifyComponent(component));
 			//This will add the chassis that the user has
 			if(typeOfItem === 'chassis') {
 				let obj = {};
