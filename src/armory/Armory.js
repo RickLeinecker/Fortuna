@@ -4,7 +4,7 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import {getComponentType} from './GetInventoryInfo.js';
+import {getComponentType, verifyComponent} from './GetInventoryInfo.js';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -116,25 +116,25 @@ class Armory extends React.Component<Props, State> {
 		//Clear the data so that we dont duplicate items
 		this.clearInventoryArrays();
 		//This will get the seleced tanks info and fill out the selected items
-		for (let key in jsonObjectOfTanks) {
+		for (const tank in jsonObjectOfTanks) {
 			let obj = {};
-			obj['value'] = jsonObjectOfTanks[key]._id;
-			obj['label'] = jsonObjectOfTanks[key].tankName;
-			if(jsonObjectOfTanks[key]._id === this.state.selectedTankId) {
-				this.setState({selectedTankName:jsonObjectOfTanks[key].tankName});
-				this.setState({selectedCasusCode:jsonObjectOfTanks[key].casusCode});
-				this.setState({selectedIsBot:jsonObjectOfTanks[key].isBot});
-				this.setState({selectedChassis: jsonObjectOfTanks[key].components[0]});
-				this.setState({selectedWeaponOne: jsonObjectOfTanks[key].components[1]});
-				this.setState({selectedWeaponTwo: jsonObjectOfTanks[key].components[2]});
-				this.setState({selectedScannerOne: jsonObjectOfTanks[key].components[3]});
-				this.setState({selectedScannerTwo: jsonObjectOfTanks[key].components[4]});
-				this.setState({selectedScannerThree: jsonObjectOfTanks[key].components[5]});
-				this.setState({selectedJammer: jsonObjectOfTanks[key].components[6]});
-				this.setState({selectedThreads: jsonObjectOfTanks[key].components[7]});
-				this.setState({selectedSingleUseItemOne: jsonObjectOfTanks[key].components[8]});
-				this.setState({selectedSingleUseItemTwo: jsonObjectOfTanks[key].components[9]});
-				this.setState({selectedSingleUseItemThree: jsonObjectOfTanks[key].components[10]});
+			obj['value'] = jsonObjectOfTanks[tank]._id;
+			obj['label'] = jsonObjectOfTanks[tank].tankName;
+			if(jsonObjectOfTanks[tank]._id === this.state.selectedTankId) {
+				this.setState({selectedTankName:jsonObjectOfTanks[tank].tankName});
+				this.setState({selectedCasusCode:jsonObjectOfTanks[tank].casusCode});
+				this.setState({selectedIsBot:jsonObjectOfTanks[tank].isBot});
+				this.setState({selectedChassis: jsonObjectOfTanks[tank].components[0]});
+				this.setState({selectedWeaponOne: jsonObjectOfTanks[tank].components[1]});
+				this.setState({selectedWeaponTwo: jsonObjectOfTanks[tank].components[2]});
+				this.setState({selectedScannerOne: jsonObjectOfTanks[tank].components[3]});
+				this.setState({selectedScannerTwo: jsonObjectOfTanks[tank].components[4]});
+				this.setState({selectedScannerThree: jsonObjectOfTanks[tank].components[5]});
+				this.setState({selectedJammer: jsonObjectOfTanks[tank].components[6]});
+				this.setState({selectedThreads: jsonObjectOfTanks[tank].components[7]});
+				this.setState({selectedSingleUseItemOne: jsonObjectOfTanks[tank].components[8]});
+				this.setState({selectedSingleUseItemTwo: jsonObjectOfTanks[tank].components[9]});
+				this.setState({selectedSingleUseItemThree: jsonObjectOfTanks[tank].components[10]});
 			}
 			tankOptions.push(obj);
 		}
@@ -157,28 +157,28 @@ class Armory extends React.Component<Props, State> {
 		const jsonObjectOfUser = JSON.parse(body);
 		//set the users id
 		this.setState({userId:jsonObjectOfUser._id});
-		for (let key in jsonObjectOfUser.inventory.tankComponents) {
-			let typeOfItem = getComponentType(key);
+		for (const component in jsonObjectOfUser.inventory.tankComponents) {
+			const typeOfItem = getComponentType(verifyComponent(component));
 			//This will add the chassis that the user has
 			if(typeOfItem === 'chassis') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				chassisOptions.push(obj);
 			}
 			//This will add the weapons that the user has
 			else if(typeOfItem === 'weapon') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				weaponOneOptions.push(obj);
 				weaponTwoOptions.push(obj);
 			}
 			//This will add the scanners that the user has
 			else if(typeOfItem === 'scanner') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				scannerOneOptions.push(obj);
 				scannerTwoOptions.push(obj);
 				scannerThreeOptions.push(obj);
@@ -186,22 +186,22 @@ class Armory extends React.Component<Props, State> {
 			//This will add the jammers that the user has
 			else if(typeOfItem === 'jammer') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				jammerOptions.push(obj);
 			}
 			//This will add the threads that the user has
 			else if(typeOfItem === 'treads') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				treadsOptions.push(obj);
 			}
 			//This will add the single use items that the user has
 			else if(typeOfItem === 'item') {
 				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
+				obj['value'] = component;
+				obj['label'] = component;
 				singleUseItemsOne.push(obj);
 				singleUseItemsTwo.push(obj);
 				singleUseItemsThree.push(obj);
