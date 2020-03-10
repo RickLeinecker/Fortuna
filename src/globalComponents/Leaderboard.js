@@ -29,7 +29,7 @@ class Leaderboard extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
-				<h3>FORTUNA's Top Commanders</h3>
+				<h5>FORTUNA's Top Commanders</h5>
 				{this.state.leaderNames.map((name, index) =>
 					<h6 key={index}>
 						{index + 1}.&#9;{name}
