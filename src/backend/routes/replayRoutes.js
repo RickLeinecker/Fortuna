@@ -26,3 +26,4 @@ router.get('/getReplayList', [
     check('userId', 'Please enter a valid userId')
         .isString()
     ], replayController.getReplayList);
+module.exports = router;

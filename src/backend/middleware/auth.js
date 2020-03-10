@@ -2,7 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 
-const jwtSecret = 'change this at deployment';
+const jwtSecret = process.env.JWT_SECRET;
 
   import type {
     $Request,
