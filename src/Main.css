@@ -4,12 +4,12 @@
 
 body {
     background-color: #000921;
-    color: #04CCFF;
+	color: #04CCFF;
 }
 
 /* Search Player List Styling */
 .searchPlayersList {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 .searchPlayerListItem {
@@ -291,9 +291,9 @@ body {
 
 .secondarybtn:disabled,
 .secondarybtn[disabled] {
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+	border: 1px solid #999999;
+	background-color: #cccccc;
+	color: #666666;
 }
 
 /*Select Styling*/
