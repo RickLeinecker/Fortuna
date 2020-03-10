@@ -1,5 +1,6 @@
 //@flow strict
 
+import './Armory.css';
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';

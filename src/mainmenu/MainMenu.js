@@ -1,5 +1,6 @@
 //@flow strict
 
+import './MainMenu.css';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
@@ -23,13 +24,13 @@ class MainMenu extends React.Component<{||}> {
 					</Link>
 				</div>
 				<div className="column menumiddle">
-				<h6>Combat your tanks against Bots or other Commanders.</h6>
+				<h6>Enter your tanks into the Battle Arena.</h6>
 					<Link to="BattleArena">
 						<button type="button" className="btn">Battle Arena</button>
 					</Link>
 				</div>
 				<div className="column menuright">
-				<h6>Customize your tank and its code.</h6>
+				<h6>Customize your tank.</h6>
 					<Link to="Armory">
 						<button type="button" className="btn">Armory</button>
 					</Link>
