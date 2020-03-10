@@ -114,7 +114,6 @@ exports.register = async (req: $Request, res: $Response) => {
 exports.login = async (req: $Request, res: $Response) => {
 
 	// Creates a place where errors that fail validation can accrue.
-	console.log('logging in!');
 	const errors = validationResult(req);
 
 	if (!errors.isEmpty()) {
@@ -125,16 +124,16 @@ exports.login = async (req: $Request, res: $Response) => {
 	}
 
 	// Deconstructs request body to use individual input
-	const { email, password } = req.body;
+	const { userName, password } = req.body;
 
 	try{
 		// See if User exists - might change this to const
-		const user = await User.findOne({ email });
+		const user = await User.findOne({ userName: userName });
 		if(user == null){
 			return res
 				.status(401)
-				.json({ msg: 'The email address ' + email + 
-					' is not associated with any account. Double-check your email address and try again.' });
+				.json({ msg: 'The user name ' + userName + 
+					' is not associated with any account. Double-check your user name and try again.' });
 		}
 
 		// Checks if the plaintext password matches the hashed pass form db

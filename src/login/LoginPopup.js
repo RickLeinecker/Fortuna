@@ -46,43 +46,61 @@ class LoginPopup extends React.Component<Props, State> {
 		const body = await response.text();
 		const cookies = new Cookies();
 		cookies.set('token', body, { path: '/' });
-		this.setState({loggedIn: true});
+		//this.setState({loggedIn: true});
 	};
 
 	render(): React.Node {
 		const loginButton = (
 			<Link to="MainMenu">
-				<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
+				<button 
+					type="submit" 
+					className="popupbtn" 
+					onClick={this.handleLoginClick}
+				>
+					Login
+				</button>
 			</Link>
 		);
 		
 		return (
 			<Popup 
 				trigger={
-					<button type="button" className="btn">
+					<button type="button" className="primarybtn">
 						Login
 					</button>
 				} modal>
 				{close => (
 					<div className="popup">
-						<h1>Login</h1>
+						<h3>Login</h3>
 						<form data-toggle="validator" method="post" action="#">
 							<div className="row col-md-12 form-group">
 								<label>Username</label>
 								<div className="input-group">
-									<input type="text" className="inputText" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
+									<input 
+										type="text" 
+										className="inputText" 
+										name="loginUserName" 
+										value={this.state.userName} 
+										onChange={e => this.setState({ userName: e.target.value})} 
+									/>
 								</div>
 							</div>
 							<div className="row col-md-12 form-group">
 								<label>Password</label>
 								<div className="input-group">
-									<input type="password" name="loginPassword" className="inputText" value={this.state.password} onChange={e => this.setState({ password: e.target.value})} />
+									<input 
+										type="password" 
+										name="loginPassword" 
+										className="inputText" 
+										value={this.state.password} 
+										onChange={e => this.setState({ password: e.target.value})} 
+									/>
 								</div>
 								<div className="help-block with-errors text-danger"></div>
 							</div>
 							<div className="row col-md-12">
 								{loginButton}
-								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
+								<button className="cancelbtn" onClick={() => { close(); }}>Cancel</button>
 							</div>
 						</form>
 					</div>

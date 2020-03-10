@@ -1,0 +1,42 @@
+/* Training Arena Styling */
+.taleft {
+    width: 30%;
+    margin-top: 10%;
+    padding-left: 20px;
+    text-align: center;
+}
+
+.taleft select {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.tamiddle {
+    width: 40%;
+    margin-top: 9%;
+    text-align: center;
+}
+
+.tamiddle select {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+}
+
+.tamiddle button {
+    margin-top: 30%;
+}
+
+.taright {
+    width: 30%;
+    margin-top: 10%;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.taright select {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}

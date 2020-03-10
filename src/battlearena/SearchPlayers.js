@@ -1,8 +1,11 @@
 //@flow strict
 
 import * as React from 'react';
+import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 
-type Props = {||};
+type Props = {|
+	onChallengePlayer: (string) => void
+|};
 
 type State = {|
 	playerList: Array<string>,
@@ -57,11 +60,6 @@ class SearchPlayers extends React.Component<Props, State> {
 		this.setState({ searchList: list });
 	}
 
-	// Challenge the player chosen.
-	challengePlayer(): void {
-		// NEEDS TO HANDLE THE BATTLEGROUND SIMULATION.
-	}
-
 	render(): React.Node {
 		return (
 			<div className="searchPlayers">
@@ -75,15 +73,13 @@ class SearchPlayers extends React.Component<Props, State> {
 				<h6>Press Enter to Search</h6>
 				<div className="searchPlayersList">
 					<ul>
-						{this.state.searchList.map((name, index) => 
-							<button 
-								key={index} 
-								type="button" 
-								className="clearbtn searchPlayerListItem" 
-								onClick={this.challengePlayer}
-							>
-							{name}
-							</button>
+						{this.state.searchList.map((name, index) =>
+							<div className="searchPlayerListItem" key={index}>
+								<ChallengePlayerPopup 
+									onChallengePlayer={this.props.onChallengePlayer}
+									playerChallenged={name}
+								/>
+							</div>
 						)}
 					</ul>
 				</div>

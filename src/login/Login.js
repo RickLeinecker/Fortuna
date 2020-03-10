@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import '../Main.css';
+import './Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
@@ -13,7 +14,7 @@ class Login extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<div className="column loginleft">
+				<div className="column loginleft align-middle">
 					<Leaderboard />
 				</div>
 				<div className="column loginmiddle">
