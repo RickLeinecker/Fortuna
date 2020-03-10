@@ -7,7 +7,13 @@ import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 
-class BattleArena extends React.Component<{||}> {
+type Props = {||};
+
+type State = {|
+	selectedTank: string;
+|};
+
+class BattleArena extends React.Component<Props, State> {
 
 	onChallengePlayer(player: string) {
 
