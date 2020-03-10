@@ -5,7 +5,7 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import {getComponentType, verifyComponent} from './GetInventoryInfo.js';
+import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -113,6 +113,7 @@ class Armory extends React.Component<Props, State> {
 			},
 		});
 		const body = await response.text();
+		console.log(body);
 		const jsonObjectOfTanks = JSON.parse(body);
 		//Clear the data so that we dont duplicate items
 		this.clearInventoryArrays();
@@ -159,7 +160,7 @@ class Armory extends React.Component<Props, State> {
 		//set the users id
 		this.setState({userId:jsonObjectOfUser._id});
 		for (const component in jsonObjectOfUser.inventory.tankComponents) {
-			const typeOfItem = getComponentType(verifyComponent(component));
+			const typeOfItem = getTankComponent(verifyComponent(component));
 			//This will add the chassis that the user has
 			if(typeOfItem === 'chassis') {
 				let obj = {};
@@ -220,17 +221,50 @@ class Armory extends React.Component<Props, State> {
 		this.setState({ selectedTankName: target.label});
 		this.getSelectedTank();
 	}
-	handleChangeInChassisOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedChassis: target.value});}
-	handleChangeInWeaponOneOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedWeaponOne: target.value});}
-	handleChangeInWeaponTwoOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedWeaponTwo: target.value});}
-	handleChangeInScannerOneOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedScannerOne: target.value});}
-	handleChangeInScannerTwoOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedScannerTwo: target.value});}
-	handleChangeInScannerThreeOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedScannerThree: target.value});}
-	handleChangeInJammerOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedJammer: target.value});}
-	handleChangeInTreadsOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedThreads: target.value });}
-	handleChangeInSingleUseItemsOneOptions = ({ target }:{target:HTMLInputElement }) => { this.setState({selectedSingleUseItemOne: target.value});}
-	handleChangeInSingleUseItemsTwoOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedSingleUseItemTwo: target.value });}
-	handleChangeInSingleUseItemsThreeOptions = ({ target }:{target:HTMLInputElement }) => {this.setState({selectedSingleUseItemThree: target.value});}
+
+	handleChangeInChassisOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedChassis: target.value});
+	}
+
+	handleChangeInWeaponOneOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedWeaponOne: target.value});
+	}
+
+	handleChangeInWeaponTwoOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedWeaponTwo: target.value});
+	}
+
+	handleChangeInScannerOneOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedScannerOne: target.value});
+	}
+
+	handleChangeInScannerTwoOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedScannerTwo: target.value});
+	}
+
+	handleChangeInScannerThreeOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedScannerThree: target.value});
+	}
+
+	handleChangeInJammerOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedJammer: target.value});
+	}
+
+	handleChangeInTreadsOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedThreads: target.value });
+	}
+
+	handleChangeInSingleUseItemsOneOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedSingleUseItemOne: target.value});
+	}
+
+	handleChangeInSingleUseItemsTwoOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedSingleUseItemTwo: target.value });
+	}
+
+	handleChangeInSingleUseItemsThreeOptions = ({ target }:{target:HTMLInputElement }) => {
+		this.setState({selectedSingleUseItemThree: target.value});
+	}
 
 	//This will save a tank
 	saveTank  = async ():Promise<void> => {

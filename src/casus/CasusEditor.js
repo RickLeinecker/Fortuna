@@ -263,7 +263,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 			blockToTryPlace.precompBounds();
 
-			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx);	
+			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx, true);	
 		}
 	}
 
