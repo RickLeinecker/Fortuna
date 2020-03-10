@@ -1,11 +1,12 @@
 //@flow strict
 
 import type {TankComponent} from './TankComponent.js';
+import type {ComponentType} from './ComponentType.js';
 import {allComponents} from './TankComponent.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
-const allTankComponents: {[TankComponent]: string} = {
+const allTankComponents: {[TankComponent]: ComponentType} = {
 
 	// Chassis
 	"moddableLight": "chassis",
@@ -111,101 +112,21 @@ function getComponentPoints(component: TankComponent): number {
 }
 
 // The next 6 functions parse through a players inventory and returns components of only a certain type.
-function getChassis(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let chassis: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "chassis") {
-			chassis.push(component);
-		}
-	}
-
-	return chassis;
-}
-
-function getWeapons(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let weapons: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "weapon") {
-			weapons.push(component);
-		}
-	}
-
-	return weapons;
-}
-
-function getScanners(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let scanners: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "scanner") {
-			scanners.push(component);
-		}
-	}
-
-	return scanners;
-}
-
-function getJammers(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let jammers: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "jammer") {
-			jammers.push(component);
-		}
-	}
-
-	return jammers;
-}
-
-function getTreads(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let treads: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "treads") {
-			treads.push(component);
-		}
-	}
-
-	return treads;
-}
-
-function getItems(inventory: Array<TankComponent>): Array<TankComponent> {
-	
-	let items: Array<TankComponent> = [];
-
-	for(const component of inventory) {
-		if(allTankComponents[component] === "item") {
-			items.push(component);
-		}
-	}
-
-	return items;
+function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentType): Array<TankComponent> {
+	return inventory.filter(comp => allTankComponents[comp] === type);
 }
 
 function verifyComponent(comp: string): TankComponent {
-	const matched=allComponents.filter(x => x === comp);
+	const matched = allComponents.filter(x => x === comp);
 	if (matched.length === 1) {
 		return matched[0];
 	}
-
 	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
 }
 
 export {
-	getTankComponent, 
-	getComponentPoints, 
-	getChassis, 
-	getWeapons, 
-	getScanners, 
-	getJammers, 
-	getItems, 
-	getTreads,
+	getTankComponent,
+	getComponentsOfType,
+	getComponentPoints,
 	verifyComponent
 };
