@@ -1,7 +1,6 @@
 //@flow strict
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import Cookies from 'universal-cookie';
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
