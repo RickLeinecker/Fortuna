@@ -15,6 +15,7 @@ type State = {|
 	responseToPost: string,
 	loggedIn: boolean,
 
+	errorMessage: string,
 	loginDialogOpen: boolean
 |};
 
@@ -35,8 +36,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick(): void {
-
-		const responsePromise = fetch('/api/user/login', {
+		const responsePromise: Promise<Response> = fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -45,16 +45,25 @@ class LoginPopup extends React.Component<Props, State> {
 			},
 			body: JSON.stringify({ userName: this.state.userName, password: this.state.password }),
 		});
-/*
-		const responseStatus=response.status;
-		const body = response.text();
-		console.log('returned body:');
-		console.log(body);
-		console.log(responseStatus);
-		const cookies = new Cookies();
-		cookies.set('token', body, { path: '/' });
-		*/
-		//this.setState({loggedIn: true});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					this.setState({errorMessage: data.msg});
+				}
+				else {
+					console.log(data);
+					new Cookies().set('token', data.token, {path: '/'});
+					window.location='/MainMenu';
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
 
 	handleCancelClick(): void {
@@ -103,6 +112,9 @@ class LoginPopup extends React.Component<Props, State> {
 								/>
 							</div>
 							<div className="help-block with-errors text-danger"></div>
+						</div>
+						<div className="fixedHeight">
+							{this.state.errorMessage}
 						</div>
 						<div className="row col-md-12">
 							{loginButton}
