@@ -162,14 +162,14 @@ class Armory extends React.Component<Props, State> {
 		for (const component in jsonObjectOfUser.inventory.tankComponents) {
 			const typeOfItem = getTankComponent(verifyComponent(component));
 			//This will add the chassis that the user has
-			if(typeOfItem === 'chassis') {
+			if(typeOfItem === 'chassis' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
 				chassisOptions.push(obj);
 			}
 			//This will add the weapons that the user has
-			else if(typeOfItem === 'weapon') {
+			else if(typeOfItem === 'weapon' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
@@ -177,7 +177,7 @@ class Armory extends React.Component<Props, State> {
 				weaponTwoOptions.push(obj);
 			}
 			//This will add the scanners that the user has
-			else if(typeOfItem === 'scanner') {
+			else if(typeOfItem === 'scanner' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
@@ -186,21 +186,21 @@ class Armory extends React.Component<Props, State> {
 				scannerThreeOptions.push(obj);
 			}
 			//This will add the jammers that the user has
-			else if(typeOfItem === 'jammer') {
+			else if(typeOfItem === 'jammer' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
 				jammerOptions.push(obj);
 			}
 			//This will add the threads that the user has
-			else if(typeOfItem === 'treads') {
+			else if(typeOfItem === 'treads' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
 				treadsOptions.push(obj);
 			}
 			//This will add the single use items that the user has
-			else if(typeOfItem === 'item') {
+			else if(typeOfItem === 'item' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
 				let obj = {};
 				obj['value'] = component;
 				obj['label'] = component;
@@ -290,13 +290,6 @@ class Armory extends React.Component<Props, State> {
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu" value={this.state.selectedTankId} onChange={this.handleChangeInTankOptions}>{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
 					<div className="column armoryleft">
-						<h3>Select a Tank to Edit</h3>
-						<select className="dropdownMenu">
-							<option defaultValue>Select a Tank</option>
-							<option value="Child Consumer">Child Consumer</option>
-							<option value="Fast Bang">Fast Bang</option>
-							<option value="Biggest Gun">Biggest Gun</option>
-						</select>
 						<h6>Set this tank as default?</h6>
 						<button type="button" className="btn">Set Default</button>
 						<h3>Edit tank's Code</h3>
