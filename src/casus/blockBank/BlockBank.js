@@ -32,7 +32,7 @@ class BlockBank extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="stickyPosition"> 
-				<div className="flexLeft">
+				<div>
 					<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
 				</div>
 				<div className="flexRight">
