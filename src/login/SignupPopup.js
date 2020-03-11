@@ -1,17 +1,23 @@
 //@flow strict
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import Cookies from 'universal-cookie';
 
-type Props = {||}; 
+type Props = {|
+	onEmailRegisteredCallback: (string, string) => void
+|}; 
 
 type State = {|
 	response: string,
 	userName: string,
 	email: string,
 	password: string,
+	confirmPassword: string,
 	responseToPost: string,
 	email:string,
+
+	errorMessage: string,
+	signupDialogOpen: boolean
 |};
 
 
@@ -26,102 +32,121 @@ class SignupPopup extends React.Component<Props, State> {
 			userName: '',
 			email: '',
 			password: '',
-			responseToPost: ''
+			confirmPassword: '',
+			responseToPost: '', errorMessage: '',
+			signupDialogOpen: false
 		}
 	}
 
-	handleSignUpClick = async ():Promise<void> => {
-
-		const response = await fetch('/api/user/registerUser', {
+	handleSignUpClick(): void {
+		if (this.state.password !== this.state.confirmPassword) {
+			this.setState({errorMessage: 'Passwords do not match!'});	
+			return;
+		}
+		const responsePromise: Promise<Response> = fetch('/api/user/registerUser', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ userName: this.state.userName, email: this.state.email, password:this.state.password }),
+			body: JSON.stringify({ 
+				userName: this.state.userName, 
+				email: this.state.email, 
+				password:this.state.password }),
 		});
-
-		const body = await response.text();
-		console.log(body);
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 201) {
+					console.log(response.status);
+					console.log(data.msg);
+					this.setState({errorMessage: data.msg});
+				}
+				else {
+					console.log(data);
+					this.props.onEmailRegisteredCallback(this.state.email, this.state.password);
+					this.setState({signupDialogOpen: false});
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
+
+	handleCancelClick(): void {
+		this.setState({signupDialogOpen: false});
+	}
 
 	render(): React.Node {
 		return (
-			<Popup 
-				trigger = {
-					<button type="button" className="clearbtn">
-						Signup
-					</button>
-				} modal>
-				{close => (
+			<div>
+				<button type="button" className="clearbtn" onClick={() => this.setState({signupDialogOpen: true})}>
+					Signup
+				</button>
+				<Popup open={this.state.signupDialogOpen}>
 					<div className="popup">
 						<h3>Signup</h3>
-						<form data-toggle="validator" method="post" action="#">
-							<div className="row col-md-12 form-group">
-								<label>Email</label>
-								<div className="input-group">
-									<input 
-										type="text" 
-										className="inputText" 
-										name="signUpEmail" 
-										value={this.state.email} 
-										onChange={e => this.setState({ email: e.target.value})}
-									/>
-								</div>
+						<div className="row col-md-12">
+							<label>Email</label>
+							<div className="input-group">
+								<input 
+									type="text" 
+									className="inputText" 
+									onChange={e => this.setState({ email: e.target.value})}
+								/>
 							</div>
-							<div className="row col-md-12 form-group">
-								<label>Username</label>
-								<div className="input-group">
-									<input 
-										type="text" 
-										className="inputText" 
-										name="signUpUserName" 
-										value={this.state.userName}
-										onChange={e => this.setState({ userName: e.target.value})} 
-									/>
-								</div>
+						</div>
+
+						<div className="row col-md-12">
+							<label>Username</label>
+							<div className="input-group">
+								<input 
+									type="text" 
+									className="inputText" 
+									onChange={e => this.setState({ userName: e.target.value})} 
+								/>
 							</div>
-							<div className="row col-md-12 form-group">
-								<label>Password</label>
-								<div className="input-group">
-									<input 
-										type="password" 
-										name="signUpPassword" 
-										className="inputText" 
-										value={this.state.password} 
-										onChange={e => this.setState({ password: e.target.value})}
-									/>
-								</div>
+						</div>
+
+						<div className="row col-md-12">
+							<label>Password</label>
+							<div className="input-group">
+								<input 
+									type="password" 
+									className="inputText" 
+									onChange={e => this.setState({ password: e.target.value})}
+								/>
 							</div>
-							<div className="row col-md-12 form-group">
-								<label>Confirm Password</label>
-								<div className="input-group">
-									<input type="password" name="signUpPassword" className="inputText"/>
-								</div>
-								<div className="help-block with-errors text-danger"></div>
+						</div>
+
+						<div className="row col-md-12">
+							<label>Confirm Password</label>
+							<div className="input-group">
+								<input 
+									type="password" 
+									className="inputText"
+									onChange={e => this.setState({confirmPassword: e.target.value})}
+								/>
 							</div>
-							<div className="row col-md-12">
-								<Link to="MainMenu">
-									<button 
-										type="submit" 
-										className="popupbtn" 
-										onClick={this.handleSignUpClick}
-									>
-										Signup
-									</button>
-								</Link>
-								<button 
-									className="cancelbtn" 
-									onClick={() => { close(); }}
-								>
-									Cancel
-								</button>
-							</div>
-						</form>
+						</div>
+
+						<div className="fixedHeight">
+							{this.state.errorMessage}
+						</div>
+						<div className="row col-md-12">
+							<button className="popupbtn" onClick={() => this.handleSignUpClick()}>
+								Signup
+							</button>
+							<button className="cancelbtn" onClick={() => this.handleCancelClick()}>
+								Cancel
+							</button>
+						</div>
 					</div>
-				)}
-			</Popup>
+				</Popup>
+			</div>
 		);
 	}
 }

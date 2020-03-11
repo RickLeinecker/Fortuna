@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
 // Login component.
@@ -31,6 +30,8 @@ class LoginPopup extends React.Component<Props, State> {
 			password: '',
 			responseToPost: '',
 			loggedIn: false,
+
+			errorMessage: '',
 			loginDialogOpen: false
 		}
 	}
@@ -68,6 +69,14 @@ class LoginPopup extends React.Component<Props, State> {
 
 	handleCancelClick(): void {
 		this.setState({loginDialogOpen: false});
+	}
+
+	onEmailRegistered(registeredEmail: string, registeredPassword: string) {
+		this.setState({
+			userName: registeredEmail,
+			password: registeredPassword,
+			loginDialogOpen: true
+		});
 	}
 
 	render(): React.Node {
