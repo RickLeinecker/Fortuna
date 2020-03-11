@@ -145,7 +145,7 @@ class Armory extends React.Component<Props, State> {
 	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
 	getUserInventory = async ():Promise<void> => {
 		const cookies = new Cookies();
-		const token = cookies.get('token').token;
+		const token = cookies.get('token');
 		const response = await fetch('/api/user/getUser/', {
 			method: 'GET',
 			headers: {
