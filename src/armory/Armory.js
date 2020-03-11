@@ -215,6 +215,7 @@ class Armory extends React.Component<Props, State> {
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
 	handleChangeInTankOptions = ({ target }:{target:any}) => {
+		console.log(target);
 		this.setState({ selectedTankId: target.value});
 		this.setState({ selectedTankName: target.label});
 		this.getSelectedTank();

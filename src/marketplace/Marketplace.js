@@ -11,6 +11,7 @@ import JammersView from './JammersView.js';
 import TreadsView from './TreadsView.js';
 import AccessoriesView from './AccessoriesView.js';
 import ScannersView from './ScannersView.js';
+import MakeASaleView from './MakeASaleView.js';
 import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
@@ -54,6 +55,9 @@ class Marketplace extends React.Component<Props, State> {
 			case 'CASUS_BLOCKS':
 				partView=(<CasusBlocksView></CasusBlocksView>);
 				break;
+			case 'MAKE_A_SALE':
+				partView=(<MakeASaleView></MakeASaleView>);
+				break;
 			default:
 				partView=(<h2>Select a type on the left</h2>);
 				break;
@@ -75,7 +79,7 @@ class Marketplace extends React.Component<Props, State> {
 						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'JAMMERS'})}>Jammers</button>
 						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'TREADS'})}>Treads</button>
 						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'ACCESSORIES'})}>Accessories</button>
-						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CASUS_BLOCKS'})}>Casus Blocks</button>
+						<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'MAKE_A_SALE'})}>Make A Sale</button>
 					  </div>
 		  			</div>
 		  			<div className="col-md-4">
