@@ -26,12 +26,14 @@ class Marketplace extends React.Component<Props, State> {
 
 	constructor(){
 		super();
+
 		this.state={
 			marketplaceViewClicked: 'NONE'
 		}
 	}
 
   	render() {
+
 		let partView='';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
@@ -62,6 +64,7 @@ class Marketplace extends React.Component<Props, State> {
 				partView=(<h2>Select a type on the left</h2>);
 				break;
 		}
+		
 		return (
 	  		<div id="Parent">
 				<Navbar 

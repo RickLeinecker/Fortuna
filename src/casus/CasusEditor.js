@@ -13,6 +13,7 @@ import GetVariableBlock from './blocks/GetVariableBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
+import saveCasus from './saveCasus.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -77,6 +78,7 @@ class CasusEditor extends React.Component<Props, State> {
 		canvas.onmouseup = () => this.onMouseUp();
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
 		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();};
+		canvas.style.height = '360px';
 
 		this._rerender();
 	}
@@ -125,6 +127,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onMouseDown(e: MouseEvent) {
@@ -208,6 +211,16 @@ class CasusEditor extends React.Component<Props, State> {
 
 			ctx.globalAlpha=oldAlpha;
 		}
+	
+
+		//extend canvas if I need to
+		const heightString=canvas.style.height;
+		const curHeight = parseInt(heightString.substring(0, heightString.length-2));
+		if (curHeight<this.state.containerBlock.boundingBox.h+100) {
+			const setTo=(this.state.containerBlock.boundingBox.h+100)+'px';
+			canvas.style.height=setTo;
+			this._rerender();
+		}
 	}
 
 	_clearBackground(ctx: CanvasRenderingContext2D): void {
@@ -261,7 +274,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 			blockToTryPlace.precompBounds();
 
-			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx);	
+			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx, true);	
 		}
 	}
 
@@ -278,6 +291,10 @@ class CasusEditor extends React.Component<Props, State> {
 				this.setState({variableBlockToRename: released});
 			}
 		}
+	}
+
+	_saveCasus(): void {
+		saveCasus();
 	}
 
 }

@@ -10,7 +10,7 @@ class InfoPopup extends React.Component<{||}> {
 			<Popup 
 				trigger = {
 					<button type="button" className="clearbtn">
-						<h4>&#60; Fortuna Briefing &#62;</h4>
+						<h5>&#60; Fortuna Briefing &#62;</h5>
 					</button>
 				} modal>
 				{close => (

@@ -94,8 +94,13 @@ class ContainerBlock extends CasusBlock {
 		}
 	}
 
-	tryToPlaceInContainer(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): boolean {
-		if (!this.boundingBox.contains(v)) {
+	tryToPlaceInContainer(
+		v: Vec, 
+		blockToPlace: CasusBlock, 
+		ctx: ?CanvasRenderingContext2D, 
+		isOuterContainer: boolean = false
+	): boolean {
+		if (!isOuterContainer && !this.boundingBox.contains(v)) {
 			return false;
 		}
 		//if I can place it in any of my children, don't worry about it here
@@ -121,6 +126,7 @@ class ContainerBlock extends CasusBlock {
 		}
 		if (ctx == null) {
 			//then actually place it
+			this.children = this.children.filter(block => !(block instanceof EmptyBlock));
 			if (blockToPlace instanceof ContainerBlock) {
 				const toPlace=(blockToPlace: ContainerBlock).children;
 				this.children.splice(bestIndex, 0, ...toPlace);

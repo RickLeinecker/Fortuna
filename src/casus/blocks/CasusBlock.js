@@ -108,7 +108,12 @@ class CasusBlock {
 	}
 
 	//returns true if we were able to place it in some container, false otherwise
-	tryToPlaceInContainer(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): boolean {
+	tryToPlaceInContainer(
+		v: Vec, 
+		blockToPlace: CasusBlock, 
+		ctx: ?CanvasRenderingContext2D,
+		isOuterContainer: boolean = false
+	): boolean {
 		if (!this.boundingBox.contains(v)) {
 			return false;
 		}

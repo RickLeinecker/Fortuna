@@ -1,0 +1,26 @@
+/* Battle Arena Page Styling */
+.baleft {
+    width: 36%;
+    margin-top: 13%;
+    text-align: center;
+}
+
+.baleft h6 {
+    margin-top: 50px;
+}
+
+.bamiddle {
+    width: 28%;
+    text-align: center;
+    margin-top: 8%;
+}
+
+.bamiddle select {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.baright {
+	width: 29%;
+	margin-left: 50px;
+}

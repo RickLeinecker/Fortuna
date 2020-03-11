@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 // Port constant
-const PORT = process.env.PORT || 3001;
+const API_PORT = process.env.API_PORT || 3001;
 
 const userRoutes = require('./routes/userRoutes');
 const tankRoutes = require('./routes/tankRoutes');
@@ -32,6 +32,9 @@ app.use(express.json());
 // Use the api routes as middleware
 // First param is the url directory second is the api route object
 
+//const lastPath=__dirname.substring(0, __dirname.lastIndexOf('/'))+'/index.js';
+//console.log(lastPath);
+//app.get('/', (req, res) => res.sendFile(lastPath));
 // Routes for things pertaining to the Tank model
 app.use('/api/tank', tankRoutes);
 // Routes for things pertaining to the User model
@@ -53,6 +56,6 @@ mongoose.connect(process.env.DB_URL, options)
     .catch(() => console.error('Could not connect to DB'));
 
 // Server Listener
-app.listen(PORT, () => {
-    console.log(`Node and Express server listening on port ${PORT}...`);
+app.listen(API_PORT, () => {
+    console.log(`Node and Express server listening on port ${API_PORT}...`);
 });

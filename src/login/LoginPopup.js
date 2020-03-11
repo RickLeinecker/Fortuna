@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
 // Login component.
@@ -14,6 +13,9 @@ type State = {|
 	password: string,
 	responseToPost: string,
 	loggedIn: boolean,
+
+	errorMessage: string,
+	loginDialogOpen: boolean
 |};
 
 // Login Popup component. Display Login Form.
@@ -27,13 +29,15 @@ class LoginPopup extends React.Component<Props, State> {
 			userName: '',
 			password: '',
 			responseToPost: '',
-			loggedIn: false
+			loggedIn: false,
+
+			errorMessage: '',
+			loginDialogOpen: false
 		}
 	}
 
-	handleLoginClick = async ():Promise<void> => {
-
-		const response = await fetch('/api/user/login', {
+	handleLoginClick(): void {
+		const responsePromise: Promise<Response> = fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -42,52 +46,92 @@ class LoginPopup extends React.Component<Props, State> {
 			},
 			body: JSON.stringify({ userName: this.state.userName, password: this.state.password }),
 		});
-
-		const body = await response.text();
-		const cookies = new Cookies();
-		cookies.set('token', body, { path: '/' });
-		//this.setState({loggedIn: true});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					this.setState({errorMessage: data.msg});
+				}
+				else {
+					console.log(data);
+					new Cookies().set('token', data.token, {path: '/'});
+					window.location='/MainMenu';
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
+
+	handleCancelClick(): void {
+		this.setState({loginDialogOpen: false});
+	}
+
+	onEmailRegistered(registeredEmail: string, registeredPassword: string) {
+		this.setState({
+			userName: registeredEmail,
+			password: registeredPassword,
+			loginDialogOpen: true
+		});
+	}
 
 	render(): React.Node {
 		const loginButton = (
-			<Link to="MainMenu">
-				<button type="submit" className="popupbtn" onClick={this.handleLoginClick}>Login</button>
-			</Link>
+			<button className="popupbtn" onClick={() => this.handleLoginClick()}>
+				Login
+			</button>
+		);
+		const cancelButton = (
+			<button className="cancelbtn" onClick={() => this.handleCancelClick()}>Cancel</button>
 		);
 		
 		return (
-			<Popup 
-				trigger={
-					<button type="button" className="btn">
-						Login
-					</button>
-				} modal>
-				{close => (
+			<div>
+				<button type="button" className="primarybtn" onClick={() => this.setState({loginDialogOpen: true})}>
+					Login
+				</button>
+				<Popup open={this.state.loginDialogOpen}>
 					<div className="popup">
-						<h1>Login</h1>
-						<form data-toggle="validator" method="post" action="#">
-							<div className="row col-md-12 form-group">
-								<label>Username</label>
-								<div className="input-group">
-									<input type="text" className="inputText" name="loginUserName" value={this.state.userName} onChange={e => this.setState({ userName: e.target.value})} />
-								</div>
+						<h3>Login</h3>
+						<div className="row col-md-12">
+							<label>Username</label>
+							<div className="input-group">
+								<input 
+									type="text" 
+									className="inputText" 
+									name="loginUserName" 
+									value={this.state.userName} 
+									onChange={e => this.setState({ userName: e.target.value})} 
+								/>
 							</div>
-							<div className="row col-md-12 form-group">
-								<label>Password</label>
-								<div className="input-group">
-									<input type="password" name="loginPassword" className="inputText" value={this.state.password} onChange={e => this.setState({ password: e.target.value})} />
-								</div>
-								<div className="help-block with-errors text-danger"></div>
+						</div>
+						<div className="row col-md-12">
+							<label>Password</label>
+							<div className="input-group">
+								<input 
+									type="password" 
+									name="loginPassword" 
+									className="inputText" 
+									value={this.state.password} 
+									onChange={e => this.setState({ password: e.target.value})} 
+								/>
 							</div>
-							<div className="row col-md-12">
-								{loginButton}
-								<button className="closebtn" onClick={() => { close(); }}>Cancel</button>
-							</div>
-						</form>
+							<div className="help-block with-errors text-danger"></div>
+						</div>
+						<div className="fixedHeight">
+							{this.state.errorMessage}
+						</div>
+						<div className="row col-md-12">
+							{loginButton}
+							{cancelButton}
+						</div>
 					</div>
-				)}
-			</Popup>
+				</Popup>
+			</div>
 		);
 	}
 }

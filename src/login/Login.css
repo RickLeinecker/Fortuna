@@ -1,0 +1,28 @@
+/* Login/Signup Page Styling */
+.loginleft {
+	width: 30%;
+	padding-left: 2%;
+}
+
+.loginright {
+	width: 30%;
+	padding-right: 2%;
+	text-align: center;
+}
+
+.loginright button {
+	margin-top: 60%;
+}
+
+.loginmiddle {
+	width: 40%;
+	text-align: center;
+}
+
+.loginmiddle h1 {
+	margin-top: 40%;
+}
+
+.fixedHeight {
+	height: 60px;
+}
