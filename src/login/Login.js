@@ -11,6 +11,11 @@ import Leaderboard from '../globalComponents/Leaderboard.js';
 
 // Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {
+
+	onEmailRegistered(registeredEmail: string, registeredPassword: string): void {
+		this.refs.loginPopup.onEmailRegistered(registeredEmail, registeredPassword);
+	}
+
 	render(): React.Node {
 		return (
 			<div id="Parent">
@@ -20,9 +25,11 @@ class Login extends React.Component<{||}> {
 				<div className="column loginmiddle">
 					<h1>FORTUNA</h1>
 					<h6>Welcome Commander</h6>
-					<LoginPopup />
+					<LoginPopup ref="loginPopup"/>
 					<br/>
-					<SignupPopup />
+					<SignupPopup 
+						onEmailRegisteredCallback={(email: string, password: string) => this.onEmailRegistered(email, password)}
+					/>
 				</div>
 				<div className="column loginright">
 					<InfoPopup />

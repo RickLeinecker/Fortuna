@@ -24,7 +24,6 @@ const jwtSecret = process.env.JWT_SECRET;
 
 exports.register = async (req: $Request, res: $Response) => {
 	// Creates a place where errors that fail validation can accrue.
-	console.log('registering user!');
 	const errors = validationResult(req);
 
 	if(!errors.isEmpty()) {
@@ -173,7 +172,7 @@ exports.login = async (req: $Request, res: $Response) => {
 
 	} catch(err) {
 		console.error(err.message);
-		res.status(500).json({ msg:'Server error' });
+		return res.status(500).json({ msg:'Server error' });
 	}
 }
 
