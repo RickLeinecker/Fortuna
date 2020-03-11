@@ -126,6 +126,7 @@ class ContainerBlock extends CasusBlock {
 		}
 		if (ctx == null) {
 			//then actually place it
+			this.children = this.children.filter(block => !(block instanceof EmptyBlock));
 			if (blockToPlace instanceof ContainerBlock) {
 				const toPlace=(blockToPlace: ContainerBlock).children;
 				this.children.splice(bestIndex, 0, ...toPlace);
