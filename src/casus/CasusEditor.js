@@ -78,6 +78,7 @@ class CasusEditor extends React.Component<Props, State> {
 		canvas.onmouseup = () => this.onMouseUp();
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
 		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();};
+		canvas.style.height = '360px';
 
 		this._rerender();
 	}
@@ -209,6 +210,16 @@ class CasusEditor extends React.Component<Props, State> {
 			containerBlock.renderDFS(ctx);
 
 			ctx.globalAlpha=oldAlpha;
+		}
+	
+
+		//extend canvas if I need to
+		const heightString=canvas.style.height;
+		const curHeight = parseInt(heightString.substring(0, heightString.length-2));
+		if (curHeight<this.state.containerBlock.boundingBox.h+100) {
+			const setTo=(this.state.containerBlock.boundingBox.h+100)+'px';
+			canvas.style.height=setTo;
+			this._rerender();
 		}
 	}
 
