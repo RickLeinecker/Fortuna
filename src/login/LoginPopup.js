@@ -32,6 +32,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick = async ():Promise<void> => {
+		console.log('handling login click...');
 
 		const response = await fetch('/api/user/login', {
 			method: 'POST',
@@ -44,6 +45,8 @@ class LoginPopup extends React.Component<Props, State> {
 		});
 
 		const body = await response.text();
+		console.log('returned body:');
+		console.log(body);
 		const cookies = new Cookies();
 		cookies.set('token', body, { path: '/' });
 		//this.setState({loggedIn: true});

@@ -113,6 +113,7 @@ exports.register = async (req: $Request, res: $Response) => {
 
 exports.login = async (req: $Request, res: $Response) => {
 
+	console.log('here!!!!!!');
 	// Creates a place where errors that fail validation can accrue.
 	const errors = validationResult(req);
 
@@ -173,7 +174,7 @@ exports.login = async (req: $Request, res: $Response) => {
 
 	} catch(err) {
 		console.error(err.message);
-		res.status(500).json({ msg:'Server error' });
+		return res.status(500).json({ msg:'Server error' });
 	}
 }
 

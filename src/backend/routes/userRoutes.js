@@ -30,12 +30,8 @@ router.post('/registerUser', [
 // Route call: /login
 // Req must include email and password in body
 // Returns a jwt upon success
-router.post('/login', [
-    check('userName', 'Please enter a valid user name')
-        .isString(),
-    check('password', 'Password is required')
-        .exists()
-    ], userController.login);
+router.post('/login', userController.login);
+console.log('registered login route...');
 
 // Confirm a User's email
 // Route call: confirmEmail
