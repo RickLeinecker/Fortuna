@@ -8,9 +8,9 @@ import Cookies from 'universal-cookie';
 type Props = {||}; 
 
 type State = {|
-    newTankName: string,
-    errorMessage: string,
-    newTankDialogOpen: boolean
+	newTankName: string,
+	errorMessage: string,
+	newTankDialogOpen: boolean
 |};
 
 class CreateNewTankPopup extends React.Component<Props, State> {
@@ -18,9 +18,9 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	constructor() {
 		super();
 		this.state={
-            newTankName: '',
-            errorMessage: '',
-            newTankDialogOpen: false,
+ 			newTankName: '',
+			errorMessage: '',
+			newTankDialogOpen: false,
 		}
     }
 	
