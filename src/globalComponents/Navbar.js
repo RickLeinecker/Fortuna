@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-
+import Cookies from 'universal-cookie';
 import type { LinkType } from './LinkType.js';
 
 type Props = {
@@ -40,9 +40,45 @@ class Navbar extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			userName: "FRICK", // NEED API CALL FOR CURRENT USER
-			userCurrency: 145555 // NEED API CALL FOR USER CURRENCY
+			userName: "",
+			userCurrency: 0
 		}
+	}
+
+	componentDidMount(): void {
+		
+		const cookies = new Cookies();
+		const token = cookies.get('token');
+		const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		responsePromise.then (
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+				}
+				else {
+					console.log(data);
+					this.setState({userName: data.userName, userCurrency: data.money});
+				}
+			})
+		)
+
+		/*
+		const body = responsePromise.text();
+		const jsonObjectOfUser = JSON.parse(body);
+		
+		// Set the users name and currency.
+		this.setState({userName:jsonObjectOfUser.userName});
+		this.setState({userCurrency: jsonObjectOfUser.money});
+		*/
 	}
 
 	render(): React.Node {
