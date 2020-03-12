@@ -71,11 +71,12 @@ class LoginPopup extends React.Component<Props, State> {
 		this.setState({loginDialogOpen: false});
 	}
 
-	onEmailRegistered(registeredEmail: string, registeredPassword: string) {
+	onEmailRegistered(registeredUsername: string, registeredPassword: string) {
 		this.setState({
-			userName: registeredEmail,
+			userName: registeredUsername,
 			password: registeredPassword,
-			loginDialogOpen: true
+			loginDialogOpen: true,
+			errorMessage: 'Please click the link we set to your email and the log in.'
 		});
 	}
 
@@ -94,7 +95,10 @@ class LoginPopup extends React.Component<Props, State> {
 				<button type="button" className="primarybtn" onClick={() => this.setState({loginDialogOpen: true})}>
 					Login
 				</button>
-				<Popup open={this.state.loginDialogOpen}>
+				<Popup 
+					open={this.state.loginDialogOpen}
+					onClose={() => this.handleCancelClick()}
+				>
 					<div className="popup">
 						<h3>Login</h3>
 						<div className="row col-md-12">

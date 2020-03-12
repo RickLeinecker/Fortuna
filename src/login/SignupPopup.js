@@ -63,7 +63,7 @@ class SignupPopup extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.props.onEmailRegisteredCallback(this.state.email, this.state.password);
+					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password);
 					this.setState({signupDialogOpen: false});
 				}
 			})
@@ -85,7 +85,10 @@ class SignupPopup extends React.Component<Props, State> {
 				<button type="button" className="clearbtn" onClick={() => this.setState({signupDialogOpen: true})}>
 					Signup
 				</button>
-				<Popup open={this.state.signupDialogOpen}>
+				<Popup 
+					open={this.state.signupDialogOpen}
+					onClose={() => this.handleCancelClick()}
+				>
 					<div className="popup">
 						<h3>Signup</h3>
 						<div className="row col-md-12">

@@ -12,8 +12,8 @@ import Leaderboard from '../globalComponents/Leaderboard.js';
 // Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {
 
-	onEmailRegistered(registeredEmail: string, registeredPassword: string): void {
-		this.refs.loginPopup.onEmailRegistered(registeredEmail, registeredPassword);
+	onEmailRegistered(registeredUsername: string, registeredPassword: string): void {
+		this.refs.loginPopup.onEmailRegistered(registeredUsername, registeredPassword);
 	}
 
 	render(): React.Node {
