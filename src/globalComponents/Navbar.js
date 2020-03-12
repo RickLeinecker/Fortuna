@@ -39,9 +39,8 @@ class Navbar extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
+		// Get initial money from cookies.
 		const cookies = new Cookies();
-
-
 		this.state = {
 			userName: cookies.get('userName'),
 			userCurrency: cookies.get('money')
@@ -54,6 +53,7 @@ class Navbar extends React.Component<Props, State> {
 
 	setCookie(): void {
 		
+		// Set the cookie and update state.
 		const cookies = new Cookies();
 		const token = cookies.get('token');
 		const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
