@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
-// Login component.
+
+// Armory component.
 type Props = {||}; 
 type State = {|
 	selectedTankId: string,
@@ -287,15 +288,15 @@ class Armory extends React.Component<Props, State> {
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
 					<div className="column armoryleft">
-					<h3>Select a Tank to Edit</h3>
-					<select className="dropdownMenu" value={this.state.selectedTankId} onChange={this.handleChangeInTankOptions}>{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
-					<h6>Set this tank as default?</h6>
-					<button type="button" className="btn mb-4">Set Default</button>
-					<CreateNewTankPopup ref="CreateNewTankPopup"/>
-					<h3>Edit tank's Code</h3>
-					<Link to="Casus">
-						<button type="button" className="btn">Casus</button>
-					</Link>
+						<h3>Select a Tank to Edit</h3>
+						<select className="dropdownMenu" value={this.state.selectedTankId} onChange={this.handleChangeInTankOptions}>{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
+						<h6>Set this tank as default?</h6>
+						<button type="button" className="btn mb-4">Set Default</button>
+						<CreateNewTankPopup ref="CreateNewTankPopup"/>
+						<h3>Edit tank's Code</h3>
+						<Link to="Casus">
+							<button type="button" className="btn">Casus</button>
+						</Link>
 					</div>
 					<div className="column armorymiddle">
 						<h1>{this.state.selectedTankName}</h1>
