@@ -54,5 +54,9 @@ router.put('/tankUpdate/:tankId', [
         .isBoolean()
     ], tankController.tankUpdate);
 
+router.put('/casusUpdate/:tankId', [ 
+    check('casusCode', 'casusCode is required')
+        .exists(),
+    ], tankController.casusUpdate);
 
 module.exports = router;
