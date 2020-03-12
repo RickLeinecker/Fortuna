@@ -1,13 +1,14 @@
 //@flow strict
 
+type GeneralError = {
+	msg: string
+}
+
 type ErrorObject = {
 	msg?: string,
 	errors?: Array<GeneralError>
 }
 
-type GeneralError = {
-	msg: string
-}
 //parses the object returned from the database and returns a string
 //describing the error of what went wrong
 function getErrorFromObject(errors: ErrorObject): string {
