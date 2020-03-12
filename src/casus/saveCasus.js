@@ -1,12 +1,9 @@
 //@flow strict
 
-//TODO: get cookies saved on login
-//the cookies don't actually exist at the moment, so waiting on those getting pushed
-//import Cookies from 'universal-cookie';
+import getLoginToken from '../globalComponents/getLoginToken.js';
 
 function saveCasus(): void {
-	console.log('saving...');
-
+	const token=getLoginToken();
 }
 
 export default saveCasus;
