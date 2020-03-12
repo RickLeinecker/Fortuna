@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
+import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 // Login component.
 
 type Props = {||}; 
@@ -51,7 +52,8 @@ class LoginPopup extends React.Component<Props, State> {
 				if (response.status !== 200) {
 					console.log(response.status);
 					console.log(data.msg);
-					this.setState({errorMessage: data.msg});
+					console.log(data);
+					this.setState({errorMessage: getErrorFromObject(data)});
 				}
 				else {
 					console.log(data);
