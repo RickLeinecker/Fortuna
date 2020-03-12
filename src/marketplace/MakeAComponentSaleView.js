@@ -7,11 +7,10 @@ type State = {|
     userId: string,
     salePrice: number,
     itemID: string,
-    itemType: string,
     itemAmount: number,
 |};
 let itemsToSell = [{value: '', label: ''}];
-class MakeASaleView extends React.Component<Props, State> {
+class MakeAComponentSaleView extends React.Component<Props, State> {
 
     
     constructor() {
@@ -20,7 +19,6 @@ class MakeASaleView extends React.Component<Props, State> {
             userId: '',
             salePrice: 0,
             itemID: '',
-            itemType: '',
             itemAmount: 0,
         }
         this.getUserInventory();
@@ -28,6 +26,8 @@ class MakeASaleView extends React.Component<Props, State> {
 
 
     getUserInventory = async ():Promise<void> => {
+        itemsToSell = [];
+        itemsToSell.push({value: '', label: ''});
 		const cookies = new Cookies();
 		const token = cookies.get('token');
 		const response = await fetch('/api/user/getUser/', {
@@ -57,7 +57,6 @@ class MakeASaleView extends React.Component<Props, State> {
 		//Need this to deal with the asynch nature of api calling......fun times
 		this.forceUpdate();
     };
-    
 
     makeASale = async ():Promise<void> => {
 		const response = await fetch('/api/marketplace/addMarketSale/', {
@@ -67,15 +66,15 @@ class MakeASaleView extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
             },
-            body: JSON.stringify({ sellerId: this.state.userId, salePrice: this.state.salePrice, itemID:this.state.itemID,itemType:this.state.itemType, itemAmount:this.state.itemAmount}),
+            body: JSON.stringify({ sellerId: this.state.userId, salePrice: this.state.salePrice, itemId:this.state.itemID, itemType:"component", amount:this.state.itemAmount}),
 		});
         const body = await response.text();
         console.log(body);
 	};
     
-    handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemType: target.value});}
-    handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: target.value});}
-    handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: target.value});}
+    handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
+    handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
+    handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
     render(): React.Node  { 
         return (
             <div id="Parent">
@@ -85,10 +84,10 @@ class MakeASaleView extends React.Component<Props, State> {
                 <input type="number" className="form-control" onChange={this.handleChangeInSalePrice}></input>
                 <label>Amount to Sell</label>
                 <input type="number" className="form-control" onChange={this.handleChangeInAmountToSell}></input>
-                <button className="btn btn-success mt-2">Sell</button>
+                <button className="btn btn-success mt-2" onClick={this.makeASale}>Sell</button>
             </div>
         );
     }
 }
 
-export default MakeASaleView;
+export default MakeAComponentSaleView;
