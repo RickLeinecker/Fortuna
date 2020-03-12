@@ -6,7 +6,7 @@ type ErrorObject = {
 }
 
 type GeneralError = {
-	msg?: string
+	msg: string
 }
 //parses the object returned from the database and returns a string
 //describing the error of what went wrong
