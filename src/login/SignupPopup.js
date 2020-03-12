@@ -1,6 +1,7 @@
 //@flow strict
 import * as React from 'react';
 import Popup from 'reactjs-popup';
+import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
@@ -59,11 +60,12 @@ class SignupPopup extends React.Component<Props, State> {
 				if (response.status !== 201) {
 					console.log(response.status);
 					console.log(data.msg);
-					this.setState({errorMessage: data.msg});
+					console.log(data);
+					this.setState({errorMessage: getErrorFromObject(data)});
 				}
 				else {
 					console.log(data);
-					this.props.onEmailRegisteredCallback(this.state.email, this.state.password);
+					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password);
 					this.setState({signupDialogOpen: false});
 				}
 			})
@@ -85,7 +87,10 @@ class SignupPopup extends React.Component<Props, State> {
 				<button type="button" className="clearbtn" onClick={() => this.setState({signupDialogOpen: true})}>
 					Signup
 				</button>
-				<Popup open={this.state.signupDialogOpen}>
+				<Popup 
+					open={this.state.signupDialogOpen}
+					onClose={() => this.handleCancelClick()}
+				>
 					<div className="popup">
 						<h3>Signup</h3>
 						<div className="row col-md-12">
