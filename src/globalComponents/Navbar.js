@@ -39,13 +39,20 @@ class Navbar extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
+		const cookies = new Cookies();
+
+
 		this.state = {
-			userName: "",
-			userCurrency: 0
+			userName: cookies.get('userName'),
+			userCurrency: cookies.get('money')
 		}
 	}
 
 	componentDidMount(): void {
+		this.setCookie();
+	}
+
+	setCookie(): void {
 		
 		const cookies = new Cookies();
 		const token = cookies.get('token');
@@ -65,20 +72,12 @@ class Navbar extends React.Component<Props, State> {
 					console.log(data.msg);
 				}
 				else {
-					console.log(data);
+					cookies.set('userName', data.userName);
+					cookies.set('money', data.money);
 					this.setState({userName: data.userName, userCurrency: data.money});
 				}
 			})
 		)
-
-		/*
-		const body = responsePromise.text();
-		const jsonObjectOfUser = JSON.parse(body);
-		
-		// Set the users name and currency.
-		this.setState({userName:jsonObjectOfUser.userName});
-		this.setState({userCurrency: jsonObjectOfUser.money});
-		*/
 	}
 
 	render(): React.Node {
