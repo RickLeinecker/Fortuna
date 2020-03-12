@@ -6,6 +6,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
+import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Login component.
 type Props = {||}; 
 type State = {|
@@ -113,7 +114,6 @@ class Armory extends React.Component<Props, State> {
 			},
 		});
 		const body = await response.text();
-		console.log(body);
 		const jsonObjectOfTanks = JSON.parse(body);
 		//Clear the data so that we dont duplicate items
 		this.clearInventoryArrays();
@@ -217,7 +217,6 @@ class Armory extends React.Component<Props, State> {
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
 	handleChangeInTankOptions = ({ target }:{target:any}) => {
-		console.log(target);
 		this.setState({ selectedTankId: target.value});
 		this.setState({ selectedTankName: target.label});
 		this.getSelectedTank();
@@ -287,19 +286,19 @@ class Armory extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
-				<div className="column armoryleft">
+					<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu" value={this.state.selectedTankId} onChange={this.handleChangeInTankOptions}>{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
-					<div className="column armoryleft">
-						<h6>Set this tank as default?</h6>
-						<button type="button" className="btn">Set Default</button>
-						<h3>Edit tank's Code</h3>
-						<Link to="Casus">
+					<h6>Set this tank as default?</h6>
+					<button type="button" className="btn mb-4">Set Default</button>
+					<CreateNewTankPopup ref="CreateNewTankPopup"/>
+					<h3>Edit tank's Code</h3>
+					<Link to="Casus">
 						<button type="button" className="btn">Casus</button>
-						</Link>
+					</Link>
 					</div>
 					<div className="column armorymiddle">
-						<h1>BIG TANK GUY</h1>
+						<h1>{this.state.selectedTankName}</h1>
 						<h6>Points Used: 0/10</h6>
 					</div>
 					<div className="column armoryright">
@@ -323,7 +322,6 @@ class Armory extends React.Component<Props, State> {
 						<button type="button" className="btn mt-4" onClick={this.saveTank}>Save</button>
 					</div>
 				</div>
-			</div>
 		);
 	}
 }
