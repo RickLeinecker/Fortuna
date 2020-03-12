@@ -20,6 +20,7 @@ class AccessoriesView extends React.Component<Props, State> {
 	}
 
 	//This gets us the user's id 
+	getUserId = async ():Promise<void> => {
 		const cookies = new Cookies();
 		const token = cookies.get('token');
 		const response = await fetch('/api/user/getUser/', {
