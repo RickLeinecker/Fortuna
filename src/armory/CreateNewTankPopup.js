@@ -61,7 +61,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	};
     
 	handleCancelClick(): void {
-		this.setState({newTankDialogOpens: false});
+		this.setState({newTankDialogOpen: false});
 	};
 
 	render(): React.Node {
