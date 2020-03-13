@@ -6,6 +6,7 @@ import './Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
+import ResendEmailPopup from './ResendEmailPopup.js';
 import InfoPopup from './InfoPopup.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 
@@ -30,6 +31,8 @@ class Login extends React.Component<{||}> {
 					<SignupPopup 
 						onEmailRegisteredCallback={(email: string, password: string) => this.onEmailRegistered(email, password)}
 					/>
+					<br/>
+					<ResendEmailPopup/>
 				</div>
 				<div className="column loginright">
 					<InfoPopup />

@@ -97,7 +97,7 @@ exports.register = async (req: $Request, res: $Response) => {
 			subject: 'Fortuna Account Confirmation Token',
 			text: 'Greetings Commander ' + user.userName + '!\n\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
@@ -288,7 +288,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			text: 'Greetings Commander ' + user.userName + '!\n\n' +
 			'We recieved word that you needed to reconfirm your email again.\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
