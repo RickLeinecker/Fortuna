@@ -25,7 +25,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
     }
 	
 	//Creates a new tank
-    handleCreateClick(): void {
+	handleCreateClick(): void {
 		const cookies = new Cookies();
 		const token = cookies.get('token');
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
