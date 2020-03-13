@@ -69,6 +69,7 @@ class ListingsView extends React.Component<Props, State> {
 			const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
 			if(typeOfItem === this.props.sellerType)
 			{
+				//This is a temp obj used to create an object of what a sell item would need to have. It is pushed into an array of all of the items for sell that fall in the current seller type
 				let obj = {};
 				obj['name'] = jsonObjectOfSells[sale].itemId;
 				obj['price'] = jsonObjectOfSells[sale].salePrice;
