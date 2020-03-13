@@ -155,8 +155,7 @@ class Armory extends React.Component<Props, State> {
 				'x-auth-token': token
 			},
 		});
-		const body = await response.text();
-		const jsonObjectOfUser = JSON.parse(body);
+		const jsonObjectOfUser = await response.json();
 		//set the users id
 		this.setState({userId:jsonObjectOfUser._id});
 		for (const component in jsonObjectOfUser.inventory.tankComponents) {
