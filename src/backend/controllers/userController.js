@@ -97,7 +97,7 @@ exports.register = async (req: $Request, res: $Response) => {
 			subject: 'Fortuna Account Confirmation Token',
 			text: 'Greetings Commander ' + user.userName + '!\n\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
@@ -222,6 +222,11 @@ exports.confirmToken = async (req: $Request, res: $Response) => {
 		// Assuming you got past all that nonsense, the user is now made to be verified
 		user.isVerified = true;
 		await user.save();
+
+		// The verification token is also deleted
+		await Token.deleteOne({ token: token });
+
+		// Return success message
 		res.status(200).json({ msg: 'The account has been verified. Please log in.' });
 
 	} catch (err) {
@@ -288,7 +293,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			text: 'Greetings Commander ' + user.userName + '!\n\n' +
 			'We recieved word that you needed to reconfirm your email again.\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '.\n'
+			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token

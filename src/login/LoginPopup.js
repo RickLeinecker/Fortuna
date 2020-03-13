@@ -78,7 +78,7 @@ class LoginPopup extends React.Component<Props, State> {
 			userName: registeredUsername,
 			password: registeredPassword,
 			loginDialogOpen: true,
-			errorMessage: 'Please click the link we set to your email and the log in.'
+			errorMessage: 'Please click the link we set to your email and then log in.'
 		});
 	}
 
