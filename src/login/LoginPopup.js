@@ -49,7 +49,6 @@ class LoginPopup extends React.Component<Props, State> {
 		});
 		responsePromise.then(
 			response => response.json().then(data => {
-				console.log(data);
 				if (response.status !== 200) {
 					console.log(response.status);
 					console.log(data.msg);
