@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
+import Cookies from 'universal-cookie';
 
 type Props = {|
 	onChallengePlayer: (string) => void
@@ -30,9 +31,37 @@ class SearchPlayers extends React.Component<Props, State> {
 		this.handleKeyPress.bind(this);
 
 		this.state = {
-			playerList: ["Jim", "John", "Jimfrey", "Eich", "Eichers", "Baylor", "Jorge", "David", "Emil", "Adam"], // NEEDS API CALL HERE
+			playerList: [], // NEEDS API CALL HERE
 			searchList: []
 		}
+	}
+
+	componentDidMount(): void {
+
+		// Set the cookie and update state.
+		const cookies = new Cookies();
+		const token = cookies.get('token');
+		const responsePromise: Promise<Response> = fetch('/api/user/allUsers', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': token
+			},
+		});
+		responsePromise.then (
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+				}
+				else {
+					console.log(data.map(usernames => usernames.userName));
+					// this.setState({playerList: });
+				}
+			})
+		)
 	}
 
 	// When a key is pressed, update the search results with handleSearch.
