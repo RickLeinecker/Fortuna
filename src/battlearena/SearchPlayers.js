@@ -36,6 +36,8 @@ class SearchPlayers extends React.Component<Props, State> {
 		}
 	}
 
+	// Once the component mounts, fill the player list with all usernames.
+	// Might need to be updated to see if a wager is set.
 	componentDidMount(): void {
 
 		// Set the cookie and update state.
@@ -57,8 +59,7 @@ class SearchPlayers extends React.Component<Props, State> {
 					console.log(data.msg);
 				}
 				else {
-					console.log(data.map(usernames => usernames.userName));
-					// this.setState({playerList: });
+					this.setState({playerList: data.map(usernames => usernames.userName)});
 				}
 			})
 		)
