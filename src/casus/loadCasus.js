@@ -1,10 +1,10 @@
 //@flow strict
 
-
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
+import reviveCasusBlock from './reviveCasusBlock.js';
 
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
@@ -39,7 +39,14 @@ function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
 					console.log(targetTankId);
 					return;
 				}
-				onBlocksLoaded(tank.casusCode ?? new ContainerBlock());
+				if (tank.casusCode != null) {
+					const revived=reviveCasusBlock(tank.casusCode);
+					onBlocksLoaded(revived);
+				}
+				else {
+					console.log('Casus blocks returned as null. Might just not have been set up yet?');
+					onBlocksLoaded(new ContainerBlock());
+				}
 			});
 		}
 	})

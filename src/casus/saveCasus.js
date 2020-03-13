@@ -3,6 +3,7 @@
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
+import reviveCasusBlock from './reviveCasusBlock.js';
 
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
@@ -15,9 +16,9 @@ function saveCasus(casusCode: CasusBlock): void {
 	const token=getLoginToken();
 	const stringified=JSON.stringify(casusCode);
 	console.log('stringified: '+stringified);
-	const parsed=JSON.parse(stringified);
-	console.log('About to save something that will come out as: ');
-	console.log(parsed);
+	const data = reviveCasusBlock(JSON.parse(stringified));
+	//console.log('About to save something that will come out as: ');
+	//console.log(data);
 	
 	fetch('/api/tank/casusUpdate/'+tankToEditID, {
 		method: 'PUT',
@@ -27,12 +28,17 @@ function saveCasus(casusCode: CasusBlock): void {
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': token
 		},
-		body: stringified
+		body: JSON.stringify({
+			casusCode: casusCode
+		})
 	})
 	.then(res => {
 		if (res.status !== 200) {
 			console.log('Got unexpected status response when saving casus!');
 			console.log(res);
+		}
+		else {
+			console.log('saved casus successfully!');
 		}
 	})
 	.catch(e => {

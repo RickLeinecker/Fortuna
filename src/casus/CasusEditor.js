@@ -68,7 +68,8 @@ class CasusEditor extends React.Component<Props, State> {
 				console.log(casusBlock);
 				this.setState({
 					containerBlock: casusBlock
-				})
+				});
+				this._rerender();
 			}
 		);
 

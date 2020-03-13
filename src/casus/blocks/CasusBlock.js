@@ -52,6 +52,7 @@ class CasusBlock {
 	constructor(blockClass: BlockClass) {
 		this.boundingBox = new BoundingBox(0, 0, 0, 0);
 		this.highlighted = false;
+		this.blockClass = blockClass;
 	}
 
 	renderDFS(ctx: CanvasRenderingContext2D): void {

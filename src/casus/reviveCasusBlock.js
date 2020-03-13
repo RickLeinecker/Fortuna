@@ -132,6 +132,8 @@ function verifyContainerBlock(block: CasusBlock): ContainerBlock {
 // when it is executed, even though the structure of the blocks is basically identical.
 //
 function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
+	//console.log('Reviving: ');
+	//console.log(orig);
 	let toReturn: CasusBlock = new EmptyBlock('VOID');
 	let dataType: DataType = 'VOID';
 	let paramType: DataType = 'VOID';
