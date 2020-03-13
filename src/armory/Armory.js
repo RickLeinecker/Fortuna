@@ -6,7 +6,9 @@ import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
-// Login component.
+import CreateNewTankPopup from './CreateNewTankPopup.js';
+
+// Armory component.
 type Props = {||}; 
 type State = {|
 	selectedTankId: string,
@@ -112,9 +114,7 @@ class Armory extends React.Component<Props, State> {
 				'x-auth-token': token
 			},
 		});
-		const body = await response.text();
-		console.log(body);
-		const jsonObjectOfTanks = JSON.parse(body);
+		const jsonObjectOfTanks = await response.json();
 		//Clear the data so that we dont duplicate items
 		this.clearInventoryArrays();
 		//This will get the seleced tanks info and fill out the selected items
@@ -155,8 +155,7 @@ class Armory extends React.Component<Props, State> {
 				'x-auth-token': token
 			},
 		});
-		const body = await response.text();
-		const jsonObjectOfUser = JSON.parse(body);
+		const jsonObjectOfUser = await response.json();
 		//set the users id
 		this.setState({userId:jsonObjectOfUser._id});
 		for (const component in jsonObjectOfUser.inventory.tankComponents) {
@@ -281,48 +280,118 @@ class Armory extends React.Component<Props, State> {
 		});
 	};
 
-
 	render(): React.Node {
 		return (
 			<div id="Parent">
 				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
-				<div className="column armoryleft">
-					<h3>Select a Tank to Edit</h3>
-					<select className="dropdownMenu" value={this.state.selectedTankId} onChange={this.handleChangeInTankOptions}>{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
 					<div className="column armoryleft">
+						<h3>Select a Tank to Edit</h3>
+						<select 
+							className="dropdownMenu" 
+							value={this.state.selectedTankId} 
+							onChange={this.handleChangeInTankOptions}
+						>
+							{tankOptions.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}
+						</select>
 						<h6>Set this tank as default?</h6>
-						<button type="button" className="btn">Set Default</button>
+						<button type="button" className="btn mb-4">Set Default</button>
+						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<h3>Edit tank's Code</h3>
 						<Link to="Casus">
-						<button type="button" className="btn">Casus</button>
+							<button type="button" className="btn">Casus</button>
 						</Link>
 					</div>
 					<div className="column armorymiddle">
-						<h1>BIG TANK GUY</h1>
+						<h1>{this.state.selectedTankName}</h1>
 						<h6>Points Used: 0/10</h6>
 					</div>
 					<div className="column armoryright">
 						<h6>Chassis</h6>
-						<select className="tankComponentMenu" value={this.state.selectedChassis} onChange={this.handleChangeInChassisOptions}>{chassisOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu"
+							value={this.state.selectedChassis}
+							onChange={this.handleChangeInChassisOptions}
+						>
+							{chassisOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<h6>Weapons</h6>
-						<select className="tankComponentMenu" value={this.state.selectedWeaponOne} onChange={this.handleChangeInWeaponOneOptions}>{weaponOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
-						<select className="tankComponentMenu" value={this.state.selectedWeaponTwo} onChange={this.handleChangeInWeaponTwoOptions}>{weaponTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedWeaponOne} 
+							onChange={this.handleChangeInWeaponOneOptions}
+						>
+							{weaponOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedWeaponTwo} 
+							onChange={this.handleChangeInWeaponTwoOptions}
+						>
+							{weaponTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<h6>Scanner</h6>
-						<select className="tankComponentMenu" value={this.state.selectedScannerOne} onChange={this.handleChangeInScannerOneOptions}>{scannerOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
-						<select className="tankComponentMenu" value={this.state.selectedScannerTwo} onChange={this.handleChangeInScannerTwoOptions}>{scannerTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
-						<select className="tankComponentMenu" value={this.state.selectedScannerThree} onChange={this.handleChangeInScannerThreeOptions}>{scannerThreeOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedScannerOne} 
+							onChange={this.handleChangeInScannerOneOptions}
+						>
+							{scannerOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedScannerTwo} 
+							onChange={this.handleChangeInScannerTwoOptions}
+						>
+							{scannerTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedScannerThree} 
+							onChange={this.handleChangeInScannerThreeOptions}
+						>
+							{scannerThreeOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<h6>Jammer</h6>
-						<select className="tankComponentMenu" value={this.state.selectedJammer} onChange={this.handleChangeInJammerOptions}>{jammerOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedJammer} 
+							onChange={this.handleChangeInJammerOptions}
+						>
+							{jammerOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<h6>Treads</h6>
-						<select className="tankComponentMenu" value={this.state.selectedThreads} onChange={this.handleChangeInTreadsOptions}>{treadsOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedThreads} 
+							onChange={this.handleChangeInTreadsOptions}
+						>
+							{treadsOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<h6>Single-Use Items</h6>
-						<select className="tankComponentMenu" value={this.state.selectedSingleUseItemOne} onChange={this.handleChangeInSingleUseItemsOneOptions}>{singleUseItemsOne.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
-						<select className="tankComponentMenu" value={this.state.selectedSingleUseItemTwo} onChange={this.handleChangeInSingleUseItemsTwoOptions}>{singleUseItemsTwo.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
-						<select className="tankComponentMenu" value={this.state.selectedSingleUseItemThree} onChange={this.handleChangeInSingleUseItemsThreeOptions}>{singleUseItemsThree.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedSingleUseItemOne} 
+							onChange={this.handleChangeInSingleUseItemsOneOptions}
+						>
+							{singleUseItemsOne.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedSingleUseItemTwo} 
+							onChange={this.handleChangeInSingleUseItemsTwoOptions}
+						>
+							{singleUseItemsTwo.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
+						<select 
+							className="tankComponentMenu" 
+							value={this.state.selectedSingleUseItemThree} 
+							onChange={this.handleChangeInSingleUseItemsThreeOptions}
+						>
+							{singleUseItemsThree.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+						</select>
 						<button type="button" className="btn mt-4" onClick={this.saveTank}>Save</button>
 					</div>
 				</div>
-			</div>
 		);
 	}
 }
