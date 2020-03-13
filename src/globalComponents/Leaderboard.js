@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 
 type Props = {||};
 
@@ -22,9 +23,46 @@ class Leaderboard extends React.Component<Props, State> {
 		super();
 
 		this.state = {
-			leaderNames: ["BILL", "JOHN", "gosh", "dang", "bro", "Emil", "Baylor", "Adam", "David", "Jorge"] // NEED AN API CALL HERE
+			leaderNames: [] // NEED AN API CALL HERE
 		}
 	}
+
+	componentDidMount() {
+		this.getLeaders();
+	}
+
+	//This function gets the leaders for the leaderboard
+	getLeaders(): void {
+		const responsePromise: Promise<Response> = fetch('/api/user/leaderboard', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					let leaders = [];
+					for(let i = 0; i < data.length; i++) {
+						leaders.push(data[i].userName);
+					}
+					this.setState({leaderNames:leaders});
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
+	};
 
 	render(): React.Node {
 		return (
