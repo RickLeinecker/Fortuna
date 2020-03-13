@@ -7,6 +7,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
+import type { user } from '../globalComponents/user.js';
 
 type Props = {||};
 
@@ -16,12 +17,12 @@ type State = {|
 
 class BattleArena extends React.Component<Props, State> {
 
-	onChallengePlayer(player: string) {
+	onChallengePlayer(player: user) {
 
 		console.log(player);
 
 		// If statement encapsulates search challenge.
-		if(player !== "") {
+		if(player.userName !== "") {
 			// NEED TO CHALLENGE THE PLAYER NAMED
 		}
 

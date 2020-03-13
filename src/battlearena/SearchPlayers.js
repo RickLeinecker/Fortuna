@@ -3,14 +3,15 @@
 import * as React from 'react';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import Cookies from 'universal-cookie';
+import type {user} from '../globalComponents/user.js';
 
 type Props = {|
-	onChallengePlayer: (string) => void
+	onChallengePlayer: (user) => void
 |};
 
 type State = {|
-	playerList: Array<string>,
-	searchList: Array<string>
+	playerList: Array<user>,
+	searchList: Array<user>
 |};
 
 // Search Players Component. Takes an array of all players.
@@ -22,6 +23,7 @@ type State = {|
 // EXAMPLE PROP USAGE = <SearchPlayers />
 //
 // Needs to be updated to have a challenge player button and API call implemented.
+
 class SearchPlayers extends React.Component<Props, State> {
 
 	constructor() {
@@ -31,7 +33,7 @@ class SearchPlayers extends React.Component<Props, State> {
 		this.handleKeyPress.bind(this);
 
 		this.state = {
-			playerList: [], // NEEDS API CALL HERE
+			playerList: [],
 			searchList: []
 		}
 	}
@@ -59,7 +61,7 @@ class SearchPlayers extends React.Component<Props, State> {
 					console.log(data.msg);
 				}
 				else {
-					this.setState({playerList: data.map(usernames => usernames.userName)});
+					this.setState({playerList: data});
 				}
 			})
 		)
@@ -75,13 +77,13 @@ class SearchPlayers extends React.Component<Props, State> {
 	// When a user clicks search, handleSearch will activate.
 	handleSearch(searchName: string): void {
 
-		const playerList: Array<string> = this.state.playerList;
+		const playerList: Array<user> = this.state.playerList;
 
 		// Create a filtered list showing user's desired results.
-		let list: Array<string> = [];
+		let list: Array<user> = [];
 
 		for(const player of playerList) {
-			if(player.includes(searchName)) {
+			if(player.userName.includes(searchName)) {
 				list.push(player);
 			}
 		}
@@ -103,7 +105,7 @@ class SearchPlayers extends React.Component<Props, State> {
 				<h6>Press Enter to Search</h6>
 				<div className="searchPlayersList">
 					<ul>
-						{this.state.searchList.map((name, index) =>
+						{(this.state.searchList.map(usernames => usernames.userName)).map((name, index) =>
 							<div className="searchPlayerListItem" key={index}>
 								<ChallengePlayerPopup 
 									onChallengePlayer={this.props.onChallengePlayer}
