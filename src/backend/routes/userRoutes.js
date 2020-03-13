@@ -38,7 +38,7 @@ router.post('/login', userController.login);
 // Token should be in the body as an input from the URL
 // in the email.
 // Returns success prompt, then user can go login
-router.get('/confirmEmail', [
+router.post('/confirmEmail', [
     check('email', 'Please enter a valid email')
         .isEmail(),
     check('token', 'A verification token is required')
@@ -49,7 +49,7 @@ router.get('/confirmEmail', [
 // Route call: resendConfirm
 // Req must include email in body provided by user
 // Returns success prompt that email was sent.
-router.get('/resendConfirm', [
+router.post('/resendConfirm', [
     check('email', 'Please enter a valid email')
         .isEmail()
     ], userController.resendConfirm);
