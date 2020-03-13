@@ -43,7 +43,7 @@ class ResendEmailPopup extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.setState({message: "Sent!"});
+					this.setState({message: "Your reconfirmation email has been sent!"});
 				}
 			})
 		).catch(

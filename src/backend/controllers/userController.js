@@ -222,6 +222,11 @@ exports.confirmToken = async (req: $Request, res: $Response) => {
 		// Assuming you got past all that nonsense, the user is now made to be verified
 		user.isVerified = true;
 		await user.save();
+
+		// The verification token is also deleted
+		await Token.deleteOne({ token: token });
+
+		// Return success message
 		res.status(200).json({ msg: 'The account has been verified. Please log in.' });
 
 	} catch (err) {
