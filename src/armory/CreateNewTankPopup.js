@@ -5,25 +5,27 @@ import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import Cookies from 'universal-cookie';
 
-
 type Props = {||}; 
 
 type State = {|
-    newTankName: string,
+	newTankName: string,
+	errorMessage: string,
+	newTankDialogOpen: boolean
 |};
 
 class CreateNewTankPopup extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-
 		this.state={
-			newTankName: '',
+ 			newTankName: '',
+			errorMessage: '',
+			newTankDialogOpen: false,
 		}
     }
 	
 	//Creates a new tank
-    handleCreateClick(): void {
+	handleCreateClick(): void {
 		const cookies = new Cookies();
 		const token = cookies.get('token');
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
@@ -59,7 +61,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	};
     
 	handleCancelClick(): void {
-		this.setState({loginDialogOpen: false});
+		this.setState({newTankDialogOpen: false});
 	};
 
 	render(): React.Node {
@@ -74,11 +76,11 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		return (
 			<div>
-				<button type="button" className="primarybtn" onClick={() => this.setState({loginDialogOpen: true})}>
+				<button type="button" className="primarybtn" onClick={() => this.setState({newTankDialogOpen: true})}>
 					Create New Tank
 				</button>
 				<Popup 
-					open={this.state.loginDialogOpen}
+					open={this.state.newTankDialogOpen}
 					onClose={() => this.handleCancelClick()}
 				>
 					<div className="popup">
