@@ -56,7 +56,6 @@ class LoginPopup extends React.Component<Props, State> {
 					this.setState({errorMessage: getErrorFromObject(data)});
 				}
 				else {
-					console.log(data);
 					setLoginToken(data.token);
 					window.location='/MainMenu';
 				}
