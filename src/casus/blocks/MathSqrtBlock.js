@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class MathSqrtBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'sqrt');
+		super('MathSqrtBlock', 'DOUBLE', 'DOUBLE', 'sqrt');
 	}
 
 	evaluate(): DoubleValue {

@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntDivideBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', '/');
+		super('IntDivideBlock', 'INT', 'INT', '/');
 	}
 
 	evaluate(): IntValue {

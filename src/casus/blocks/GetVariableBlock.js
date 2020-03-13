@@ -24,7 +24,7 @@ class GetVariableBlock extends CasusBlock {
 	dataType: DataType;
 
 	constructor(variableName: string, dataType: DataType) {
-		super();
+		super('GetVariableBlock');
 
 		this.variableName = variableName;
 		this._variableNameBoundingBox = measureText(variableName);

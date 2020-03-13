@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class MathSinBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'sin');
+		super('MathSinBlock', 'DOUBLE', 'DOUBLE', 'sin');
 	}
 
 	evaluate(): DoubleValue {

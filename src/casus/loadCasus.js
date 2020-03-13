@@ -1,5 +1,6 @@
 //@flow strict
 
+
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import CasusBlock from './blocks/CasusBlock.js';
@@ -29,7 +30,8 @@ function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
 			console.log(res);
 		}
 		else {
-			res.json().then(data => {
+			res.text().then(asText => {
+				const data = JSON.parse(asText);
 				const tank=data.find(cand => cand._id === targetTankId);
 				if (tank == null) {
 					console.log('Couldnt find selected tank. Perhaps it was sold or deleted?');

@@ -6,7 +6,7 @@ import type {DataType} from './DataType.js';
 class PrintBlock extends UnaryOperationBlock {
 
 	constructor(paramType: DataType) {
-		super(paramType, 'VOID', 'print');
+		super('PrintBlock', paramType, 'VOID', 'print');
 	}
 
 	evaluate(): null {

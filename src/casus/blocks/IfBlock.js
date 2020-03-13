@@ -10,7 +10,7 @@ import {
 class IfBlock extends SingleConditionHeader {
 
 	constructor() {
-		super(IF_BLOCK_IF_WIDTH, 'if');
+		super('IfBlock', IF_BLOCK_IF_WIDTH, 'if');
 	}
 
 	evaluate(): null {

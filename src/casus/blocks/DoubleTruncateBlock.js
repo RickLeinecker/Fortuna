@@ -4,10 +4,10 @@ import UnaryOperationBlock from './UnaryOperationBlock.js';
 import IntValue from '../interpreter/IntValue.js';
 import {verifyDouble} from '../interpreter/Value.js';
 
-class DoubleRoundBlock extends UnaryOperationBlock {
+class DoubleTruncateBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'INT', 'truncate');
+		super('DoubleTruncateBlock', 'DOUBLE', 'INT', 'truncate');
 	}
 
 	evaluate(): IntValue {
@@ -17,4 +17,4 @@ class DoubleRoundBlock extends UnaryOperationBlock {
 
 }
 
-export default DoubleRoundBlock;
+export default DoubleTruncateBlock;

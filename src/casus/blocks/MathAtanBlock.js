@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class MathAtanBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'arctan');
+		super('MathAtanBlock', 'DOUBLE', 'DOUBLE', 'arctan');
 	}
 
 	evaluate(): DoubleValue {

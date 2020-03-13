@@ -13,7 +13,7 @@ class ContainerBlock extends CasusBlock {
 	children: Array<CasusBlock>;
 
 	constructor(children: Array<CasusBlock> = [new EmptyBlock('VOID')]) {
-		super();
+		super('ContainerBlock');
 		this.children=children;
 	}
 

@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleSubtractBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', '-');
+		super('DoubleSubtractBlock', 'DOUBLE', 'DOUBLE', '-');
 	}
 
 	evaluate(): DoubleValue {

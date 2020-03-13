@@ -13,6 +13,11 @@ function saveCasus(casusCode: CasusBlock): void {
 
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
+	const stringified=JSON.stringify(casusCode);
+	console.log('stringified: '+stringified);
+	const parsed=JSON.parse(stringified);
+	console.log('About to save something that will come out as: ');
+	console.log(parsed);
 	
 	fetch('/api/tank/casusUpdate/'+tankToEditID, {
 		method: 'PUT',
@@ -22,9 +27,7 @@ function saveCasus(casusCode: CasusBlock): void {
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': token
 		},
-		body: JSON.stringify({
-			casusCode: casusCode
-		})
+		body: stringified
 	})
 	.then(res => {
 		if (res.status !== 200) {

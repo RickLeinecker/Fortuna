@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleRoundBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'INT', 'round');
+		super('DoubleRoundBlock', 'DOUBLE', 'INT', 'round');
 	}
 
 	evaluate(): IntValue {

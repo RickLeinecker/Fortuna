@@ -3,9 +3,9 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
-import Vec from './Vec.js'
+import Vec from './Vec.js';
 import measureText from './measureText.js';
-import generateCornerPerim from './generateCornerPerim.js'
+import generateCornerPerim from './generateCornerPerim.js';
 
 import {
 	CENTER_WIDTH, 
@@ -13,7 +13,8 @@ import {
 	VPADDING, 
 } from './generateCornerPerim.js';
 
-import type {DataType} from './DataType.js'
+import type {DataType} from './DataType.js';
+import type {BlockClass} from './BlockClass.js';
 
 class UnaryOperationBlock extends CasusBlock {
 
@@ -23,8 +24,8 @@ class UnaryOperationBlock extends CasusBlock {
 	centerText: string;
 	textWidth: number;
 
-	constructor(paramType: DataType, returnType: DataType, centerText: string) {
-		super();
+	constructor(blockClass: BlockClass, paramType: DataType, returnType: DataType, centerText: string) {
+		super(blockClass);
 
 		this.rChild=new EmptyBlock(paramType);
 		this.paramType=paramType;
