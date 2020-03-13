@@ -105,8 +105,8 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This is the actual buy function
-	buyItem = async (sellerId:string, saleId:string):Promise<void> => {
-		const response = await fetch('/api/marketplace/marketTransaction/', {
+	buyItem (sellerId:string, saleId:string):void {
+		const responsePromise: Promise<Response> = fetch('/api/marketplace/marketTransaction/', {
 			method: 'put',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -115,9 +115,23 @@ class ListingsView extends React.Component<Props, State> {
 			},
 			body: JSON.stringify({ buyerId: this.state.userId, sellerId: sellerId, saleId:saleId}),
 		});
-		const body = await response.text();
-		alert(body);
-		this.forceUpdate(); 
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 201) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					console.log("success");
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		); 
 	};
 
 
