@@ -280,7 +280,6 @@ class Armory extends React.Component<Props, State> {
 		});
 	};
 
-	//The || in the values are for a warning read more here https://github.com/mui-org/material-ui/issues/4904
 	render(): React.Node {
 		return (
 			<div id="Parent">
