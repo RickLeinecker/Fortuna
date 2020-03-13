@@ -48,11 +48,7 @@ class Leaderboard extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
-					let leaders = [];
-					for(let i = 0; i < data.length; i++) {
-						leaders.push(data[i].userName);
-					}
-					this.setState({leaderNames:leaders});
+					this.setState({leaderNames: data.map(usernames => usernames.userName)});
 				}
 			})
 		).catch(
