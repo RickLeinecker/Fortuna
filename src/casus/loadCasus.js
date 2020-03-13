@@ -1,0 +1,50 @@
+//@flow strict
+
+import getLoginToken from '../globalComponents/getLoginToken.js';
+import getTankForCasus from '../globalComponents/getTankForCasus.js';
+import CasusBlock from './blocks/CasusBlock.js';
+import ContainerBlock from './blocks/ContainerBlock.js';
+
+//just temporary until armory has been reworked and we can set this in armory
+import setTankForCasus from '../globalComponents/setTankForCasus.js';
+
+function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
+	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
+	setTankForCasus('5e6ad69007161134094ad003');
+
+	const targetTankId=getTankForCasus();
+	const token=getLoginToken();
+	fetch('/api/tank/userTanks', {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': token
+		}
+	})
+	.then((res: Response) => {
+		if (res.status !== 200) {
+			console.log('Got unexpected status response when saving casus!');
+			console.log(res);
+		}
+		else {
+			res.json().then(data => {
+				const tank=data.find(cand => cand._id === targetTankId);
+				if (tank == null) {
+					console.log('Couldnt find selected tank. Perhaps it was sold or deleted?');
+					console.log(data);
+					console.log(targetTankId);
+					return;
+				}
+				onBlocksLoaded(tank.casusCode ?? new ContainerBlock());
+			});
+		}
+	})
+	.catch(e => {
+		console.log('error saving casus!');
+		console.log(e);
+	});
+}
+
+export default loadCasus;

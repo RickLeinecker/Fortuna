@@ -14,8 +14,8 @@ import type {
 } from 'express';
 
 exports.getFavorite = async (req: $Request, res: $Response) => {
-	await User.findById(req.user.id, 'favoriteTankId', function(err: Error, myUser: User){
-		if(err){
+	await User.findById(req.user.id, 'favoriteTankId', (err: Error, myUser: User) => {
+		if(err) {
 			res.send(err);
 			console.log('could not find user');
 		} 
@@ -27,8 +27,8 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 exports.favoriteTank = async (req: $Request, res: $Response) => {
 	// the 'new' option means return the document after it has been updated
 	// the 'useFindAndModify' is just so it doesnt throw a deprecation warning
-	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, function(err: Error, result: User){
-		if(err){
+	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, (err: Error, result: User) => {
+		if(err) {
 			res.status(500).send(err);
 			console.error(err);
 		}
@@ -39,14 +39,14 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 }
 
 exports.userTanks = async (req: $Request, res: $Response) => {
-	await Tank.find({ userId: req.user.id }, function(err: Error, tanks: Array<Tank>){
-		if(err){
+	console.log('Getting users tanks... ');
+	await Tank.find({ userId: req.user.id }, (err: Error, tanks: Array<Tank>) => {
+		if(err) {
 			res.send(err);
 			console.error(err.message);
 		}
 		else{
 			res.send(tanks);
-			console.log('Success!');
 		}
 	});
 }

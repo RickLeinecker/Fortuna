@@ -14,6 +14,7 @@ import SetVariableBlock from './blocks/SetVariableBlock.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
+import loadCasus from './loadCasus.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -60,6 +61,16 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
+		console.log(containerBlock);
+		loadCasus(
+			casusBlock => {
+				console.log('setting state to');
+				console.log(casusBlock);
+				this.setState({
+					containerBlock: casusBlock
+				})
+			}
+		);
 
 		this.state={
 			containerBlock: containerBlock,
