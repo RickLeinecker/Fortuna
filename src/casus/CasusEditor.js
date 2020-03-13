@@ -61,11 +61,8 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
-		console.log(containerBlock);
 		loadCasus(
 			casusBlock => {
-				console.log('setting state to');
-				console.log(casusBlock);
 				this.setState({
 					containerBlock: casusBlock
 				});
@@ -161,6 +158,7 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onVariableCreated(variableName: string) {

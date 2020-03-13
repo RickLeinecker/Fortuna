@@ -3,7 +3,6 @@
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
-import reviveCasusBlock from './reviveCasusBlock.js';
 
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
@@ -14,11 +13,6 @@ function saveCasus(casusCode: CasusBlock): void {
 
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
-	const stringified=JSON.stringify(casusCode);
-	console.log('stringified: '+stringified);
-	const data = reviveCasusBlock(JSON.parse(stringified));
-	//console.log('About to save something that will come out as: ');
-	//console.log(data);
 	
 	fetch('/api/tank/casusUpdate/'+tankToEditID, {
 		method: 'PUT',

@@ -56,7 +56,6 @@ import XorBlock from './blocks/XorBlock.js';
 
 import type {BlockClass} from './blocks/BlockClass.js';
 import type {DataType} from './blocks/DataType.js';
-import BinaryOperationBlock from './blocks/BinaryOperationBlock.js';
 
 type SomeBlockFromServer = {
 	blockClass: BlockClass,
@@ -344,7 +343,7 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'MathPowBlock':
-			toReturn=new MathCosBlock();
+			toReturn=new MathPowBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'MathSinBlock':
@@ -365,7 +364,8 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'PrintBlock':
-			toReturn=new MathTanBlock();
+			paramType=orig.paramType;
+			toReturn=new PrintBlock(paramType);
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'SetListAtBlock':
@@ -391,9 +391,11 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn.lChild=reviveCasusBlock(orig.lChild);
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
+		default:
+			console.log('Found unexpected type when reviving Casus blocks!');
+			console.log(orig.blockClass);
+			return new ContainerBlock();
 	}
-	console.log('UNEXPECTED TYPE!');
-	return new EmptyBlock('VOID');
 }
 
 export default reviveCasusBlock;

@@ -30,8 +30,7 @@ function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
 			console.log(res);
 		}
 		else {
-			res.text().then(asText => {
-				const data = JSON.parse(asText);
+			res.json().then(data => {
 				const tank=data.find(cand => cand._id === targetTankId);
 				if (tank == null) {
 					console.log('Couldnt find selected tank. Perhaps it was sold or deleted?');
@@ -39,14 +38,13 @@ function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
 					console.log(targetTankId);
 					return;
 				}
-				if (tank.casusCode != null) {
-					const revived=reviveCasusBlock(tank.casusCode);
-					onBlocksLoaded(revived);
-				}
-				else {
+				if (tank.casusCode == null) {
 					console.log('Casus blocks returned as null. Might just not have been set up yet?');
 					onBlocksLoaded(new ContainerBlock());
+					return;
 				}
+				const revived=reviveCasusBlock(tank.casusCode);
+				onBlocksLoaded(revived);
 			});
 		}
 	})
