@@ -16,7 +16,6 @@ class ResendEmailPopup extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-
 		this.state={
 			email: '',
 			popupOpen: false,

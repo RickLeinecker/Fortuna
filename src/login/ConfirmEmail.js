@@ -21,11 +21,9 @@ class ConfirmEmail extends React.Component<Props, State> {
 	
 	constructor() {
 		super();
-
 		this.state={
 			message: ''
 		}
-		
 	}
 
 	componentDidMount() {
@@ -33,7 +31,6 @@ class ConfirmEmail extends React.Component<Props, State> {
 	}
 
 	confirmEmail(): void {
-
 		const responsePromise: Promise<Response> = fetch('/api/user/confirmEmail', {
 			method: 'POST',
 			headers: {
@@ -62,8 +59,6 @@ class ConfirmEmail extends React.Component<Props, State> {
 			}
 		);
 	};
-
-	
 
 	render(): React.Node {
 		return (
