@@ -310,7 +310,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Chassis</h6>
 						<select 
 							className="tankComponentMenu"
-							value={this.state.selectedChassis || ''}
+							value={this.state.selectedChassis}
 							onChange={this.handleChangeInChassisOptions}
 						>
 							{chassisOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -318,14 +318,14 @@ class Armory extends React.Component<Props, State> {
 						<h6>Weapons</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedWeaponOne || ''} 
+							value={this.state.selectedWeaponOne} 
 							onChange={this.handleChangeInWeaponOneOptions}
 						>
 							{weaponOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedWeaponTwo || ''} 
+							value={this.state.selectedWeaponTwo} 
 							onChange={this.handleChangeInWeaponTwoOptions}
 						>
 							{weaponTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -333,21 +333,21 @@ class Armory extends React.Component<Props, State> {
 						<h6>Scanner</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerOne || ''} 
+							value={this.state.selectedScannerOne} 
 							onChange={this.handleChangeInScannerOneOptions}
 						>
 							{scannerOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerTwo || ''} 
+							value={this.state.selectedScannerTwo} 
 							onChange={this.handleChangeInScannerTwoOptions}
 						>
 							{scannerTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerThree || ''} 
+							value={this.state.selectedScannerThree} 
 							onChange={this.handleChangeInScannerThreeOptions}
 						>
 							{scannerThreeOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -355,7 +355,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Jammer</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedJammer || ''} 
+							value={this.state.selectedJammer} 
 							onChange={this.handleChangeInJammerOptions}
 						>
 							{jammerOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -363,7 +363,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Treads</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedThreads || ''} 
+							value={this.state.selectedThreads} 
 							onChange={this.handleChangeInTreadsOptions}
 						>
 							{treadsOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -371,21 +371,21 @@ class Armory extends React.Component<Props, State> {
 						<h6>Single-Use Items</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemOne || ''} 
+							value={this.state.selectedSingleUseItemOne} 
 							onChange={this.handleChangeInSingleUseItemsOneOptions}
 						>
 							{singleUseItemsOne.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemTwo || ''} 
+							value={this.state.selectedSingleUseItemTwo} 
 							onChange={this.handleChangeInSingleUseItemsTwoOptions}
 						>
 							{singleUseItemsTwo.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemThree || ''} 
+							value={this.state.selectedSingleUseItemThree} 
 							onChange={this.handleChangeInSingleUseItemsThreeOptions}
 						>
 							{singleUseItemsThree.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
