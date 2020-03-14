@@ -9,7 +9,7 @@ import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 function saveCasus(casusCode: CasusBlock): void {
 	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
-	setTankForCasus('5e6c3139bee46d01aa7a80c7');
+	setTankForCasus('5e6ad69007161134094ad003');
 
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
@@ -30,9 +30,6 @@ function saveCasus(casusCode: CasusBlock): void {
 		if (res.status !== 200) {
 			console.log('Got unexpected status response when saving casus!');
 			console.log(res);
-		}
-		else {
-			console.log('saved casus successfully!');
 		}
 	})
 	.catch(e => {

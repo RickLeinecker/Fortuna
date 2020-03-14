@@ -40,7 +40,7 @@ class Tank {
 	
 	executePhysics(): void {
 		const amountToMove = verifyDouble(this.interpriterState.getVariable('DOUBLE', 'forwardMovement')).val;
-		this.position=this.position.add(new Vec(0, amountToMove*0.1));
+		this.position=this.position.add(new Vec(0, amountToMove*0.6));
 	}
 
 	drawSelf(drawer: ImageDrawer): void {

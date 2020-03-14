@@ -40,6 +40,7 @@ type CanPreventDefaultEvent = {
 const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
+	
 
 	constructor(props: Props) {
 		super(props);
@@ -65,7 +66,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		window.addEventListener('resize', () => this._rerender());
+		window.addEventListener('resize', this.onResize);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
 		canvas.onmouseout = () => this.onMouseOut();
@@ -76,6 +77,12 @@ class CasusEditor extends React.Component<Props, State> {
 
 		this._rerender();
 	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.onResize);
+	}
+
+	onResize = () => this._rerender();
 
 	render(): React.Node {
 		return (

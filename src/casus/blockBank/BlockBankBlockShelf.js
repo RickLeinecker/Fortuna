@@ -113,7 +113,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		window.addEventListener('resize', () => this._rerender());	
+		window.addEventListener('resize', this.onResize);
+		window.removeEventListener('resize', this.onResize);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
 		canvas.onmouseout = () => this.onMouseOut();
@@ -123,6 +124,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 		this._rerender();
 	}
+
+	componentWillUnmount(): void {
+		window.removeEventListener('resize', this.onResize);
+	}
+
+	onResize = () => this._rerender();
 
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		//Good practice to prevent infinite loop: 
