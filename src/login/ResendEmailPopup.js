@@ -9,7 +9,7 @@ type Props = {||};
 type State = {|
 	email: string,
 	message: string,
-	popupOpen:boolean,
+	popupOpen: boolean,
 |};
 
 class ResendEmailPopup extends React.Component<Props, State> {
@@ -43,7 +43,7 @@ class ResendEmailPopup extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.setState({message: "Your reconfirmation email has been sent!"});
+					this.setState({message: "Your verification email has been sent!"});
 				}
 			})
 		).catch(

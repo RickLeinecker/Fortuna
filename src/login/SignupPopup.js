@@ -39,10 +39,22 @@ class SignupPopup extends React.Component<Props, State> {
 	}
 
 	handleSignUpClick(): void {
+		
+		// Error checks to see if user correctly entered their information.
 		if (this.state.password !== this.state.confirmPassword) {
 			this.setState({errorMessage: 'Passwords do not match!'});	
 			return;
 		}
+		
+		if (this.state.userName > 20) {
+			this.setState({errorMessage: 'Username too long!'});
+			return;
+		} else if (this.state.userName < 3) {
+			this.setState({errorMessage: 'Username too short!'});
+			return;
+		}
+
+
 		const responsePromise: Promise<Response> = fetch('/api/user/registerUser', {
 			method: 'POST',
 			headers: {

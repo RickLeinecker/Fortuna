@@ -4,7 +4,6 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
-// Login component.
 
 type Props = {||}; 
 
@@ -77,7 +76,7 @@ class LoginPopup extends React.Component<Props, State> {
 			userName: registeredUsername,
 			password: registeredPassword,
 			loginDialogOpen: true,
-			errorMessage: 'Please click the link we set to your email and then log in.'
+			errorMessage: 'A verification email has been sent.'
 		});
 	}
 

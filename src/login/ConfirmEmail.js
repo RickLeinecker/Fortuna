@@ -49,7 +49,7 @@ class ConfirmEmail extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.setState({message: "Confirmed! Please go to our login page and login"});
+					this.setState({message: "Confirmed! Please go to our login page to start playing."});
 				}
 			})
 		).catch(

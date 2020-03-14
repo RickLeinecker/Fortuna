@@ -189,8 +189,7 @@ body {
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 8px;
-	margin-left: auto;
-	margin-right: auto;
+	margin: auto;
 }
 
 .closebtn:hover {
@@ -209,8 +208,8 @@ body {
 }
 
 .cancelbtn:hover {
-  color: #04CCFF;
-	background: #04213F;
+	color: #04CCFF;
+  	background: #04213F;
 	border: 2px solid #04CCFF;
 }
 
@@ -219,7 +218,6 @@ body {
 	padding-left: 10px;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top: 50%;
 	background-color: #04213F;
 	border: 4px solid black;
 	border-radius: 8px;
@@ -230,7 +228,6 @@ body {
 }
 
 /* Button Styling */
-
 .btn {
   color: #000921;
 	background: #04CCFF;
