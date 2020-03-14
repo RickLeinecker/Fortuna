@@ -225,6 +225,10 @@ body {
 	border-radius: 8px;
 }
 
+.leaderboard table {
+	width: 100%;
+}
+
 /* Button Styling */
 
 .btn {

@@ -1,37 +1,33 @@
 //@flow strict
 
 import * as React from 'react';
+import User from './User.js';
 
 type Props = {||};
 
 type State = {|
-	leaderNames: Array<string>
+	leaderNames: Array<User>
 |};
 
 // Leaderboard component. Displays top 10 players.
 // 
 // State Names:
-// leaderNames (Pass the list of 10 top players to display on the leaderboard)
+// leaders (Pass the list of 10 top players to display on the leaderboard)
 // 
 // EXAMPLE PROP USAGE = <Leaderboard />
-//
-// Needs to be updated to pass actual Users to it.
+
 class Leaderboard extends React.Component<Props, State> {
 
 	constructor() {
 		super();
 
 		this.state = {
-			leaderNames: [] // NEED AN API CALL HERE
+			leaders: []
 		}
 	}
 
+	// Once mounted, populate the leaderNames array.
 	componentDidMount() {
-		this.getLeaders();
-	}
-
-	//This function gets the leaders for the leaderboard
-	getLeaders(): void {
 		const responsePromise: Promise<Response> = fetch('/api/user/leaderboard', {
 			method: 'GET',
 			headers: {
@@ -48,7 +44,7 @@ class Leaderboard extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
-					this.setState({leaderNames: data.map(usernames => usernames.userName)});
+					this.setState({leaders: data});
 				}
 			})
 		).catch(
@@ -57,17 +53,23 @@ class Leaderboard extends React.Component<Props, State> {
 				console.log(error);
 			}
 		);
-	};
+	}
 
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
 				<h5>FORTUNA's Top Commanders</h5>
-				{this.state.leaderNames.map((name, index) =>
-					<h6 key={index}>
-						{index + 1}.&#9;{name}
-					</h6>
-				)}
+				<table>
+					<tbody>
+						{this.state.leaders.map((user, index) =>
+							<tr key={index}>
+								<td>{index+1}.</td>
+								<td>{user.userName}</td>
+								<td>{user.stats.elo}</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
 			</div>
 		)
 	}
