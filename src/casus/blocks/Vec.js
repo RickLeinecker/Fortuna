@@ -29,6 +29,17 @@ class Vec {
 		return new Vec(this.x*s, this.y*s);
 	}
 
+	mag2(): number {
+		return this.dot(this);
+	}
+
+	mag(): number {
+		return Math.sqrt(this.mag2());
+	}
+
+	unit():Vec {
+		return this.scale(1/this.mag());
+	}
 }
 
 export default Vec;

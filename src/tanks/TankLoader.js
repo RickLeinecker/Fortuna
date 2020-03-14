@@ -19,7 +19,7 @@ function getTestTank(): Tank {
 		new Gun(),
 		getTestCasusCode()
 	);
-	loadCasus(blocks => toReturn.casusCode = blocks);
+	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
 

@@ -9,12 +9,13 @@ import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
 import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
+import Seg from '../geometry/Seg.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
 	alive: boolean;
-	testTank: Tank;
+	testTanks: Array<Tank>;
 	walls: Array<Wall>;
 
 	constructor() {
@@ -23,7 +24,7 @@ class Battleground extends React.Component<{||}> {
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
-		this.testTank = getTestTank();
+		this.testTanks = [getTestTank()];
 		this.walls=[
 			new Wall(new Vec(10, 0), Math.PI/2),
 			new Wall(new Vec(60, 0), 0),
@@ -60,12 +61,17 @@ class Battleground extends React.Component<{||}> {
 		}
 		this._update();
 		this._rerender();
-		setTimeout(() => this._gameLoop(), 1000/20);
+		setTimeout(() => this._gameLoop(), 1000/30);
 	}
 
 	_update(): void {
-		this.testTank.executeCasusFrame();
-		this.testTank.executePhysics();
+		const walls: Array<Seg> = [];
+		walls.push(new Seg(new Vec(-100, 60), new Vec(100, 60)));
+		walls.push(new Seg(new Vec(-100, -60), new Vec(100, -60)));
+		for (const tank:Tank of this.testTanks) {
+			tank.executeCasusFrame();
+			tank.executePhysics(walls, this.testTanks);
+		}
 	}
 
 	_rerender(): void {
@@ -76,7 +82,9 @@ class Battleground extends React.Component<{||}> {
 		const drawer=new ImageDrawer(ctx);
 
 
-		this.testTank.drawSelf(drawer);
+		for (const tank: Tank of this.testTanks) {
+			tank.drawSelf(drawer);
+		}
 		for (const wall: Wall of this.walls) {
 			wall.drawSelf(drawer);
 		}

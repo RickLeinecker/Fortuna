@@ -9,7 +9,7 @@ import reviveCasusBlock from './reviveCasusBlock.js';
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
-function loadCasus(onBlocksLoaded: (casusBlocks: CasusBlock) => void): void {
+function loadCasus(onBlocksLoaded: (casusBlock: CasusBlock) => void): void {
 	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
 	setTankForCasus('5e6ad69007161134094ad003');
 
