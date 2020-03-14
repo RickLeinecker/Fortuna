@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntSubtractBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', '-');
+		super('IntSubtractBlock', 'INT', 'INT', '-');
 	}
 
 	evaluate(): IntValue {

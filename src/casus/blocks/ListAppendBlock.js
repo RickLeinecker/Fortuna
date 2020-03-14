@@ -16,7 +16,7 @@ import type {DataType} from './DataType.js';
 class ListAppendBlock extends BinaryOperationBlock {
 
 	constructor(dataType: DataType) {
-		super(dataType, 'VOID', 'to', 'append', listVersionOf(dataType));
+		super('ListAppendBlock', dataType, 'VOID', 'to', 'append', listVersionOf(dataType));
 	}
 
 	evaluate(): null {

@@ -7,7 +7,7 @@ import {verifyBoolean} from '../interpreter/Value.js';
 class XorBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('BOOLEAN', 'BOOLEAN', 'xor');
+		super('XorBlock', 'BOOLEAN', 'BOOLEAN', 'xor');
 	}
 
 	evaluate(): BooleanValue {

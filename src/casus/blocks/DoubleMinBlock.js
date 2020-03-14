@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleMinBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', ',', 'min');
+		super('DoubleMinBlock', 'DOUBLE', 'DOUBLE', ',', 'min');
 	}
 
 	evaluate(): DoubleValue {

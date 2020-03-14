@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntModuloBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', '%');
+		super('IntModuloBlock', 'INT', 'INT', '%');
 	}
 
 	evaluate(): IntValue {

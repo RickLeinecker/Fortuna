@@ -33,7 +33,7 @@ class SetListAtBlock extends CasusBlock {
 	paramType: DataType;
 
 	constructor(paramType: DataType) {
-		super();
+		super('SetListAtBlock');
 
 		this.list = new EmptyBlock(listVersionOf(paramType));
 		this.indexBlock = new EmptyBlock('INT');

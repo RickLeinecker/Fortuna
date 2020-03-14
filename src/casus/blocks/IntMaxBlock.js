@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntMaxBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', ',', 'max');
+		super('IntMaxBlock', 'INT', 'INT', ',', 'max');
 	}
 
 	evaluate(): IntValue {

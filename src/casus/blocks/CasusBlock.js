@@ -6,6 +6,7 @@ import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPeri
 
 import type {DataType} from './DataType.js';
 import type {Value} from '../interpreter/Value.js';
+import type {BlockClass} from './BlockClass.js';
 
 //Casus Block is the parent class that defines
 //methods that will be called on blocks by the casus editor
@@ -46,10 +47,12 @@ import type {Value} from '../interpreter/Value.js';
 class CasusBlock {
 	boundingBox: BoundingBox;
 	highlighted: boolean;
+	blockClass: BlockClass;
 
-	constructor() {
+	constructor(blockClass: BlockClass) {
 		this.boundingBox = new BoundingBox(0, 0, 0, 0);
 		this.highlighted = false;
+		this.blockClass = blockClass;
 	}
 
 	renderDFS(ctx: CanvasRenderingContext2D): void {

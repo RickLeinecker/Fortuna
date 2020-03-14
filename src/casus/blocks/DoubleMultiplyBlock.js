@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleMultiplyBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', '*');
+		super('DoubleMultiplyBlock', 'DOUBLE', 'DOUBLE', '*');
 	}
 
 	evaluate(): DoubleValue {

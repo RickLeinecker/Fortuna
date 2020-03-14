@@ -14,6 +14,7 @@ import {
 } from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js'
+import type {BlockClass} from './BlockClass.js';
 
 class BinaryOperationBlock extends CasusBlock {
 
@@ -28,13 +29,14 @@ class BinaryOperationBlock extends CasusBlock {
 	leftTextWidth: number;
 
 	constructor(
+		blockClass: BlockClass,
 		paramType: DataType, 
 		returnType: DataType, 
 		centerText: string, 
 		leftText: string = "", 
 		rightParam: ?DataType = null
 	) {
-		super();
+		super(blockClass);
 
 		this.paramType=paramType;
 		this.returnType=returnType;

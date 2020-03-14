@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntToDoubleBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('INT', 'DOUBLE', 'to double');
+		super('IntToDoubleBlock', 'INT', 'DOUBLE', 'to double');
 	}
 
 	evaluate(): DoubleValue {

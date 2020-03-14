@@ -8,7 +8,7 @@ import {
 
 class WhileBlock extends SingleConditionHeader {
 	constructor() {
-		super(WHILE_BLOCK_WHILE_WIDTH, 'while');
+		super('WhileBlock', WHILE_BLOCK_WHILE_WIDTH, 'while');
 	}
 	
 	evaluate(): null {

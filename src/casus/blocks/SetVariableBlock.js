@@ -26,7 +26,7 @@ class SetVariableBlock extends CasusBlock {
 	paramType: DataType;
 
 	constructor(variableName: string, paramType: DataType) {
-		super();
+		super('SetVariableBlock');
 
 		this.variableName = variableName;
 		this.expressionBlock = new EmptyBlock(paramType);

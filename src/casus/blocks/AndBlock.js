@@ -7,7 +7,7 @@ import {verifyBoolean} from '../interpreter/Value.js';
 class AndBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('BOOLEAN', 'BOOLEAN', 'and');
+		super('AndBlock', 'BOOLEAN', 'BOOLEAN', 'and');
 	}
 
 	evaluate(): BooleanValue {

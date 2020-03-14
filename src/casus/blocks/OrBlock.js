@@ -7,7 +7,7 @@ import {verifyBoolean} from '../interpreter/Value.js';
 class OrBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('BOOLEAN', 'BOOLEAN', 'or');
+		super('OrBlock', 'BOOLEAN', 'BOOLEAN', 'or');
 	}
 
 	evaluate(): BooleanValue {

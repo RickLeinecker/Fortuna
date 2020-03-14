@@ -14,6 +14,7 @@ import SetVariableBlock from './blocks/SetVariableBlock.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
+import loadCasus from './loadCasus.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -60,6 +61,14 @@ class CasusEditor extends React.Component<Props, State> {
 		containerBlock.children.push(testEquals);
 		containerBlock.children.push(setIntVariable);
 		containerBlock.children.push(testForLoop);
+		loadCasus(
+			casusBlock => {
+				this.setState({
+					containerBlock: casusBlock
+				});
+				this._rerender();
+			}
+		);
 
 		this.state={
 			containerBlock: containerBlock,
@@ -149,6 +158,7 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onVariableCreated(variableName: string) {
@@ -294,7 +304,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	_saveCasus(): void {
-		saveCasus();
+		saveCasus(this.state.containerBlock);
 	}
 
 }
