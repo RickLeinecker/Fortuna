@@ -157,6 +157,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onCancelClicked() {
@@ -170,6 +171,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	_rerender(): void {
