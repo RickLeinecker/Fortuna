@@ -64,7 +64,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
             await sale.save();
 
             // Send back success confirmation
-            res.status(201).json({ msg: 'Successfully created Market Sale.' })           
+            res.status(201).json({ msg: 'Successfully created Tank Market Sale.' })           
 
         } catch (err) {
             console.error(err.message);
@@ -115,7 +115,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
                 await sale.save();
 
                 // Send back success confirmation
-                res.status(201).json({ msg: 'Successfully created Market Sale.' });            
+                res.status(201).json({ msg: 'Successfully created Component Market Sale.' });            
             } else { // Casus Blocks
                 // Check if the referenced field is valid
                 const userItem = user['inventory']['casusBlocks'][itemId];
@@ -151,7 +151,7 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
                 await sale.save();
 
                 // Send back success confirmation
-                res.status(201).json({ msg: 'Successfully created Market Sale.' });                    
+                res.status(201).json({ msg: 'Successfully created Casus Block Market Sale.' });                    
             }
 
         } catch (err) {
