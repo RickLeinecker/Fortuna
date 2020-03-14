@@ -194,8 +194,8 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
         }
 
         // Return list of sales
-        res.status(200).json(salesList);
-        console.log('Retrieved Market Sale List.')
+        console.log('Retrieved Market Sale List.');
+        return res.status(200).json(salesList);
 
     }
     catch (err) {
@@ -216,8 +216,8 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
         }
 
         // Return sale confirmation
-        res.status(200).json(sale);
-        console.log('Retrieved Marketplace Sale.')
+        console.log('Retrieved Marketplace Sale.');
+        return res.status(200).json(sale);
     }
     catch (err) {
         console.error(err.message);
