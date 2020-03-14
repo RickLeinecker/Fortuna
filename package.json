@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "nodemon ./lib/backend/server.js"
+    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
