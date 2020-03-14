@@ -35,7 +35,7 @@ router.post('/addMarketSale', [
 // Req needs userId
 // Returns list of all Market Sales or an error
 // Check messages can be edited
-router.get('/getMarketSales', [
+router.get('/getMarketSales/:userId', [
     check('userId', 'userId is required')
         .isString()
     ], marketController.getMarketSales);
