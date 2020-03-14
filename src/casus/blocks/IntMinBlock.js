@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntMinBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', ',', 'min');
+		super('IntMinBlock', 'INT', 'INT', ',', 'min');
 	}
 
 	evaluate(): IntValue {

@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleAbsBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'abs');
+		super('DoubleAbsBlock', 'DOUBLE', 'DOUBLE', 'abs');
 	}
 
 	evaluate(): DoubleValue {

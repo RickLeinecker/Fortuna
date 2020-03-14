@@ -27,7 +27,7 @@ class ListSizeBlock extends CasusBlock {
 	paramType: DataType;
 
 	constructor(paramType: DataType) {
-		super();
+		super('ListSizeBlock');
 
 		this.list = new EmptyBlock(listVersionOf(paramType));
 		this.paramType = paramType;

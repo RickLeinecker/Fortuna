@@ -7,6 +7,7 @@ import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
 
 import type {DataType} from './DataType.js';
+import type {BlockClass} from './BlockClass.js'
 
 import {
 	RAMP_WIDTH, 
@@ -21,8 +22,8 @@ class SingleConditionHeader extends CasusBlock {
 	textWidth: number;
 	text: string;
 
-	constructor(textWidth: number, text: string) {
-		super();
+	constructor(blockClass: BlockClass, textWidth: number, text: string) {
+		super(blockClass);
 		this.conditionBlock = new EmptyBlock('BOOLEAN');
 		this.contents = new ContainerBlock();
 

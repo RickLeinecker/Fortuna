@@ -26,7 +26,7 @@ class IfElseBlock extends CasusBlock {
 	elseHeaderBoundingBox: BoundingBox;
 
 	constructor() {
-		super();
+		super('IfElseBlock');
 		this.conditionBlock = new EmptyBlock('BOOLEAN');
 		this.ifContents = new ContainerBlock();
 		this.elseContents = new ContainerBlock();

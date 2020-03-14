@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import Cookies from 'universal-cookie';
+import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 // Login component.
 
@@ -56,8 +56,7 @@ class LoginPopup extends React.Component<Props, State> {
 					this.setState({errorMessage: getErrorFromObject(data)});
 				}
 				else {
-					console.log(data);
-					new Cookies().set('token', data.token, {path: '/'});
+					setLoginToken(data.token);
 					window.location='/MainMenu';
 				}
 			})

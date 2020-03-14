@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleMaxBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', ',', 'max');
+		super('DoubleMaxBlock', 'DOUBLE', 'DOUBLE', ',', 'max');
 	}
 
 	evaluate(): DoubleValue {

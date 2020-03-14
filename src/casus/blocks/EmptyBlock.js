@@ -19,7 +19,7 @@ class EmptyBlock extends CasusBlock {
 	dataType: DataType;
 
 	constructor(dataType: DataType) {
-		super();
+		super('EmptyBlock');
 		this.dataType=dataType;
 	}
 

@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class MathAcosBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'arccos');
+		super('MathAcosBlock', 'DOUBLE', 'DOUBLE', 'arccos');
 	}
 
 	evaluate(): DoubleValue {

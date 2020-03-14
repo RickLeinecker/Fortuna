@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class DoubleGreaterThanBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'BOOLEAN', '>');
+		super('DoubleGreaterThanBlock', 'DOUBLE', 'BOOLEAN', '>');
 	}
 
 	evaluate(): BooleanValue {

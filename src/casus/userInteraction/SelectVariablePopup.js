@@ -10,6 +10,11 @@ import {
 	isLegalConstant,
 } from '../userInteraction/defaultVariableNames.js';
 import type {DataType} from '../blocks/DataType.js';
+import {
+	builtInIntVariables, 
+	builtInBooleanVariables, 
+	builtInDoubleVariables
+} from '../userInteraction/CasusSpecialVariables.js';
 
 import './SelectVariablePopup.css';
 
@@ -152,15 +157,30 @@ class SelectVariablePopup extends React.Component<Props, State> {
 	}
 
 	getPrepoulatedInts(): Array<string> {
-		return this.canHaveConstants() ? ['0', '1', '2'] : [];
+		if (this.canHaveConstants()) {
+			return ['0', '1', '2'].concat(builtInIntVariables);
+		}
+		else {
+			return builtInIntVariables;
+		}
 	}
 
 	getPrepoulatedDoubles(): Array<string> {
-		return this.canHaveConstants() ? ['0.0', '1.0', '2.0'] : [];
+		if (this.canHaveConstants()) {
+			return ['0.0', '1.0', '2.0', '3.1415926535'].concat(builtInDoubleVariables);
+		}
+		else {
+			return builtInDoubleVariables;
+		}
 	}
 
 	getPrepopulatedBooleans(): Array<string> {
-		return this.canHaveConstants() ? [TRUE_KEYWORD, FALSE_KEYWORD] : [];
+		if (this.canHaveConstants()) {
+			return [TRUE_KEYWORD, FALSE_KEYWORD].concat(builtInBooleanVariables);
+		}
+		else {
+			return builtInIntVariables;
+		}
 	}
 
 }

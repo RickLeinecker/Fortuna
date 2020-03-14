@@ -25,7 +25,7 @@ class ForBlock extends CasusBlock {
 	headerBoundingBox: BoundingBox;
 
 	constructor() {
-		super();
+		super('ForBlock');
 		this.initializationBlock = new EmptyBlock('VOID');
 		this.expressionBlock = new EmptyBlock('BOOLEAN');
 		this.incrementBlock = new EmptyBlock('VOID');

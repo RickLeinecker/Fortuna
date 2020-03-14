@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntGreaterThanOrEqualBlock extends BinaryOperationBlock {
 
 	constructor() {
-		super('INT', 'BOOLEAN', '>=');
+		super('IntGreaterThanOrEqualBlock', 'INT', 'BOOLEAN', '>=');
 	}
 
 	evaluate(): BooleanValue {

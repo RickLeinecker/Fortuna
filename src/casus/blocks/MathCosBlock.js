@@ -7,7 +7,7 @@ import {verifyDouble} from '../interpreter/Value.js';
 class MathCosBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('DOUBLE', 'DOUBLE', 'cos');
+		super('MathCosBlock', 'DOUBLE', 'DOUBLE', 'cos');
 	}
 
 	evaluate(): DoubleValue {

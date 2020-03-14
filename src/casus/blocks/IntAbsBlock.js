@@ -7,7 +7,7 @@ import {verifyInt} from '../interpreter/Value.js';
 class IntAbsBlock extends UnaryOperationBlock {
 
 	constructor() {
-		super('INT', 'INT', 'abs');
+		super('IntAbsBlock', 'INT', 'INT', 'abs');
 	}
 
 	evaluate(): IntValue {
