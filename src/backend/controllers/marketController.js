@@ -173,7 +173,7 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
             .json({ errors: errors.array() });
     }
 
-    // Deconstruct userId from body
+    // Deconstruct userId from parameter
     const { userId } = req.params;
 
     try {
