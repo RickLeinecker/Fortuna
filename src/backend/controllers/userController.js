@@ -35,8 +35,6 @@ exports.register = async (req: $Request, res: $Response) => {
 			.json({ errors: errors.array() });
 	}
 
-	console.log(FRONTEND);
-
 	// Deconstructs request body to assign to user schema fields
 	const { userName, email, password } = req.body;
 
