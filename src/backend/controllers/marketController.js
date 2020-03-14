@@ -163,9 +163,30 @@ exports.addMarketSale = async (req: $Request, res: $Response) => {
 
 // Gets all Marketplace Sales
 exports.getMarketSales = async (req: $Request, res: $Response) => {
+    // Validation
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // Return 400 for a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    // Deconstruct userId from body
+    const { userId } = req.params;
+
     try {
-        // Get list of sales from DB
-        const salesList = await MarketSale.find();
+        // Check if valid user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res
+                .status(400)
+                .json({ msg: 'User does not exist' });
+        }
+
+        // Get list of sales from DB that do not belong to logged in user
+        const salesList = await MarketSale.find({ sellerId: { $ne: userId } });
         if (!salesList) {
             return res
                 .status(400)
@@ -195,6 +216,7 @@ exports.getMarketSale = async (req: $Request, res: $Response) => {
 
         // Return sale confirmation
         res.status(200).json(sale);
+        console.log('Retrieved Marketplace Sale.')
     }
     catch (err) {
         console.error(err.message);
@@ -268,10 +290,11 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
             await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } });
 
             // Remove the sale from database
-            await MarketSale.deleteOne({ id: saleId });
+            await MarketSale.deleteOne({ _id: saleId });
 
             // Return current buyer
             res.status(201).json(buyer);
+            console.log('Successfully Bought Tank.');
 
         } catch (err) {
             console.error(err.message);
@@ -289,10 +312,11 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
                 await buyer.save();
 
                 // Remove the sale from database
-                await MarketSale.deleteOne({ id: saleId });
+                await MarketSale.deleteOne({ _id: saleId });
 
                 // Return current buyer
-                res.status(201).json(buyer); 
+                res.status(201).json(buyer);
+                console.log('Successfully Bought Component(s)');
 
             } catch (err) {
                 console.error(err.message);
@@ -308,10 +332,11 @@ exports.marketTransaction = async (req: $Request, res: $Response) => {
                 await buyer.save();
 
                 // Remove the sale from database
-                await MarketSale.deleteOne({ id: saleId });
+                await MarketSale.deleteOne({ _id: saleId });
 
                 // Return current buyer
-                res.status(201).json(buyer); 
+                res.status(201).json(buyer);
+                console.log('Successfully Bought Casus Block(s)');
 
             } catch (err) {
                 console.error(err.message);
