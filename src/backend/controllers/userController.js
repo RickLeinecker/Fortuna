@@ -21,6 +21,8 @@ const Token = require('../../models/tokenModel');
 const regeneratorRuntime = require("regenerator-runtime");
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
+// Front-End Host Constant
+const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : process.env.FRONTEND_HOST;
 
 exports.register = async (req: $Request, res: $Response) => {
 	// Creates a place where errors that fail validation can accrue.
@@ -32,6 +34,8 @@ exports.register = async (req: $Request, res: $Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
+
+	console.log(FRONTEND);
 
 	// Deconstructs request body to assign to user schema fields
 	const { userName, email, password } = req.body;
@@ -111,7 +115,7 @@ exports.register = async (req: $Request, res: $Response) => {
 			subject: 'Fortuna Account Confirmation Token',
 			text: 'Greetings Commander ' + user.userName + '!\n\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
@@ -336,7 +340,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			text: 'Greetings Commander ' + user.userName + '!\n\n' +
 			'We recieved word that you needed to reconfirm your email again.\n' + 
 			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
