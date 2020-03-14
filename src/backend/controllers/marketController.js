@@ -195,6 +195,7 @@ exports.getMarketSales = async (req: $Request, res: $Response) => {
 
         // Return list of sales
         res.status(200).json(salesList);
+        console.log('Retrieved Market Sale List.')
 
     }
     catch (err) {
