@@ -9,9 +9,11 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Circle from '../geometry/Circle.js';
+import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import {
+	RAN_INTO_WALL_VAR_NAME,
 	FORWARD_MOVEMENT_VAR_NAME,
-	TARGET_DIRECTION_VAR_NAME
+	TARGET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 class Tank {
@@ -56,9 +58,6 @@ class Tank {
 		const unit=new Vec(1, 0);
 		const targetVec=unit.rotate(targetDirection);
 		const facingVec=unit.rotate(this.rotation);
-		console.log('Target and facing: ');
-		console.log(targetVec);
-		console.log(facingVec);
 
 		let dAngle=Math.asin(facingVec.cross(targetVec));
 		if (targetVec.dot(facingVec)<0) {
@@ -76,17 +75,21 @@ class Tank {
 		this.rotation+=dAngle;
 		const oldPosition=this.position;
 		this.position=this.position.add(unit.rotate(this.rotation).scale(0.7));
+		let ranIntoWall=false;
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
+			ranIntoWall=true;
 		}
 
+		this.interpriterState.setVariable('BOOLEAN', RAN_INTO_WALL_VAR_NAME, new BooleanValue(ranIntoWall));
 		//end of movement stuff
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {
 		const me=this.getBoundingCircle();
 		for (const wall: Seg of walls) {
-			if (me.intersectsSeg(wall)) {
+			const myCircle=new Circle(me.c, me.r+wall.paddingWidth);
+			if (myCircle.intersectsSeg(wall)) {
 				return true;
 			}
 		}

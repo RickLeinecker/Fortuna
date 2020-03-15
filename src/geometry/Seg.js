@@ -6,11 +6,15 @@ class Seg {
 	from: Vec;
 	to: Vec;
 	dir: Vec;
+	//used for things that are a segment but you can't get too close to it,
+	//for example walls with nonzero width
+	paddingWidth: number;
 
-	constructor(from: Vec, to: Vec) {
+	constructor(from: Vec, to: Vec, paddingWidth: number = 0) {
 		this.from=from;
 		this.to=to;
 		this.dir=to.sub(from);
+		this.paddingWidth=paddingWidth;
 	}
 
 	getClosestTo(o: Vec): Vec {

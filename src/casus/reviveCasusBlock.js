@@ -47,6 +47,7 @@ import MathSinBlock from './blocks/MathSinBlock.js';
 import MathSqrtBlock from './blocks/MathSqrtBlock.js';
 import MathTanBlock from './blocks/MathTanBlock.js';
 import MathPowBlock from './blocks/MathPowBlock.js';
+import NotBlock from './blocks/NotBlock.js';
 import OrBlock from './blocks/OrBlock.js';
 import PrintBlock from './blocks/PrintBlock.js';
 import SetListAtBlock from './blocks/SetListAtBlock.js';
@@ -356,6 +357,10 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			return toReturn;
 		case 'MathTanBlock':
 			toReturn=new MathTanBlock();
+			toReturn.rChild=reviveCasusBlock(orig.rChild);
+			return toReturn;
+		case 'NotBlock':
+			toReturn=new NotBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'OrBlock':

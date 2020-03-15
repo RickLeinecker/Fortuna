@@ -17,6 +17,7 @@ class Battleground extends React.Component<{||}> {
 	alive: boolean;
 	testTanks: Array<Tank>;
 	walls: Array<Wall>;
+	collisionSegs: Array<Seg>;
 
 	constructor() {
 		super();
@@ -26,11 +27,20 @@ class Battleground extends React.Component<{||}> {
 
 		this.testTanks = [getTestTank()];
 		this.walls=[
-			new Wall(new Vec(10, 0), Math.PI/2),
-			new Wall(new Vec(60, 0), 0),
+			new Wall(new Vec(10, 0), 0),
+			new Wall(new Vec(60, 0), Math.PI/2),
 			new Wall(new Vec(-50, 30), Math.PI/5),
 			new Wall(new Vec(-50, -30), -Math.PI/5)
 		];
+		this.collisionSegs= [
+			new Seg(new Vec(-100, 60), new Vec(100, 60)),
+			new Seg(new Vec(-100, -60), new Vec(100, -60)),
+			new Seg(new Vec(-100, 60), new Vec(-100, -60)),
+			new Seg(new Vec(100, 60), new Vec(100, -60))
+		];
+		for (const w: Wall of this.walls) {
+			this.collisionSegs.push(w.getCollisionWall());
+		}
 	}
 
 	componentDidMount(): void {
@@ -65,12 +75,9 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_update(): void {
-		const walls: Array<Seg> = [];
-		walls.push(new Seg(new Vec(-100, 60), new Vec(100, 60)));
-		walls.push(new Seg(new Vec(-100, -60), new Vec(100, -60)));
 		for (const tank:Tank of this.testTanks) {
 			tank.executeCasusFrame();
-			tank.executePhysics(walls, this.testTanks);
+			tank.executePhysics(this.collisionSegs, this.testTanks);
 		}
 	}
 

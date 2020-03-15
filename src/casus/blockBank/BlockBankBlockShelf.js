@@ -8,6 +8,7 @@ import IfElseBlock from '../blocks/IfElseBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
+import NotBlock from '../blocks/NotBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
@@ -354,6 +355,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
 		blocks.push(new XorBlock());
+		blocks.push(new NotBlock());
 		return blocks;
 	}
 

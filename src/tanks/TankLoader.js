@@ -13,7 +13,7 @@ import loadCasus from '../casus/loadCasus.js';
 
 function getTestTank(): Tank {
 	const toReturn: Tank = new Tank(
-		new Vec(50, 20), 
+		new Vec(20, -20), 
 		new Chassis(), 
 		new Treads(), 
 		new Gun(),

@@ -47,6 +47,7 @@ type BlockClass =
 	'MathSinBlock' |
 	'MathSqrtBlock' |
 	'MathTanBlock' |
+	'NotBlock' |
 	'OrBlock' |
 	'PrintBlock' |
 	'SetListAtBlock' |
