@@ -10,15 +10,19 @@ type Props = {|
 |};
 type State = {|
 	userId: string,
+	//This allows for all the items that are for sale to be with in one array
+	itemsForSale: Array<Object>
 |};
 
-//This allows for all the items that are for sale to be with in one array
-let itemsForSale = [{name: '', price: 0, amount: 0, sellerId: '', saleId: ''}];
+
 class ListingsView extends React.Component<Props, State> {
 	constructor(props:Props) {
 		super(props);
 		this.state={
 			userId: '',
+			//Each item sale object will have a name, a price, an amount, a seller id, and the sale id
+			//itemsForSale : [{name: '', price: 0, amount: 0, sellerId: '', saleId: ''}]
+			itemsForSale : [],
 		}
 	}
 
@@ -54,7 +58,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	//Gets all the sells and filters them based on what type we are currently looking at
 	getMarketSales = async ():Promise<void> => {
-		itemsForSale = [];
+		let itemsForSaleArray = [];
 		const response = await fetch('/api/marketplace/getMarketSales/', {
 			method: 'GET',
 			headers: {
@@ -76,27 +80,25 @@ class ListingsView extends React.Component<Props, State> {
 				obj['amount'] = jsonObjectOfSells[sale].amount;
 				obj['sellerId'] = jsonObjectOfSells[sale].sellerId;
 				obj['saleId'] = jsonObjectOfSells[sale]._id;
-				itemsForSale.push(obj);
+				itemsForSaleArray.push(obj);
 			}
 		}
-		//Need this to deal with the asynch nature of api calling......fun times
-		//Makes sure that we create the cards after we get the sells
-		this.forceUpdate();     
+		this.setState({itemsForSale:itemsForSaleArray});  
 	}
 	
 	//This creates a card for every sale
 	createCards = () => {
 		let cards = []
 		// Outer loop to create parent
-		for (let i = 0; i < itemsForSale.length; i++) {
+		for (let i = 0; i < this.state.itemsForSale.length; i++) {
 			//Create the parent and add the children
 			cards.push(
 				<div className="card mb-2" key={i}>
 					<div className="card-body">
-						<h5 className="card-title">Item to buy: {itemsForSale[i].name}</h5>
-						<h5 className="card-title">Price: ${itemsForSale[i].price}</h5>
-						<h5 className="card-title">Quantity: {itemsForSale[i].amount}</h5>
-						<button className="btn btn-success mt-2" onClick={this.buyItem.bind(this,itemsForSale[i].sellerId, itemsForSale[i].saleId)}>Buy</button>
+						<h5 className="card-title">Item to buy: {this.state.itemsForSale[i].name}</h5>
+						<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+						<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+						<button className="btn btn-success mt-2" onClick={this.buyItem.bind(this,this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 					</div>
 				</div>
 			)
