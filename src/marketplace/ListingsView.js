@@ -5,15 +5,6 @@ import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
 import saleObject from './saleObjectClass.js';
 
-
-interface itemForSaleObject {
-	name: string;
-	price: number;
-	amount: number;
-	sellerId: string;
-	saleId: string;
-}
-
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: ComponentType,
@@ -21,7 +12,7 @@ type Props = {|
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
-	itemsForSale: Array<itemForSaleObject>
+	itemsForSale: Array<saleObject>
 |};
 
 
