@@ -5,12 +5,14 @@
 //===============================================================================//
 
 // Required Imports
-const express = require('express');
-const router = express.Router();
-const { check } = require('express-validator');
+import express from 'express';
+import { check } from 'express-validator';
 
 // Market Sale Controller
-const marketController = require('../controllers/marketController');
+import marketController from '../controllers/marketController';
+
+// Router Constant
+const router = express.Router();
 
 // Create new Market Sale
 // Route call: addMarketSale
@@ -28,14 +30,17 @@ router.post('/addMarketSale', [
         .isString(),
     check('amount', 'Enter an item amount')
         .isNumeric()
-    ], marketController.addMarketSale);
+], marketController.addMarketSale);
 
 // Get the list of all Market Sales
 // Route call: getMarketSales
-// Req does not need anything
+// Req needs userId
 // Returns list of all Market Sales or an error
 // Check messages can be edited
-router.get('/getMarketSales', marketController.getMarketSales);
+router.get('/getMarketSales/:userId', [
+    check('userId', 'userId is required')
+        .isString()
+], marketController.getMarketSales);
 
 // Get a single market sale by ID
 // Route call: getMarketSale
@@ -54,6 +59,6 @@ router.put('/marketTransaction', [
         .isString(),
     check('saleId', 'Missing saleId')
         .isString()
-    ], marketController.marketTransaction);
+], marketController.marketTransaction);
 
 module.exports = router;

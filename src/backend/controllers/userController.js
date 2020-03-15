@@ -22,7 +22,7 @@ const regeneratorRuntime = require("regenerator-runtime");
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
-const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : process.env.FRONTEND_HOST;
+const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
 
 exports.register = async (req: $Request, res: $Response) => {
 	// Creates a place where errors that fail validation can accrue.
@@ -111,9 +111,9 @@ exports.register = async (req: $Request, res: $Response) => {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
-			text: 'Greetings Commander ' + user.userName + '!\n\n' + 
-			'Please verify your Fortuna account by copying and pasting the link into your browser: \n\nhttp:\/\/' + 
-			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			text: `Greetings Commander ${user.userName}!
+			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
 		// Send confirmation email with token
@@ -335,10 +335,10 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Reconfirmation Token',
-			text: 'Greetings Commander ' + user.userName + '!\n\n' +
-			'We recieved word that you needed to reconfirm your email again.\n' + 
-			'Please verify your Fortuna account by copying and pasting the link into your browser: \n\nhttp:\/\/' + 
-			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			text: `Greetings Commander ${user.userName}!
+			We recieved word that you needed to reconfirm your email once more.
+			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
 		// Send confirmation email with token
