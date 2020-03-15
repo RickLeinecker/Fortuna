@@ -13,6 +13,16 @@ interface itemForSaleObject {
 	saleId: string;
 }
 
+class saleObject {
+	constructor(name: string, price: number, amount: number, sellerId: string, saleId: string) {
+		this.name = name;
+		this.price = price;
+		this.amount = amount;
+		this.sellerId = sellerId;
+		this.saleId = saleId;
+	}
+}
+
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: ComponentType,
@@ -82,14 +92,8 @@ class ListingsView extends React.Component<Props, State> {
 			const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
 			if(typeOfItem === this.props.sellerType)
 			{
-				//This is a temp obj used to create an object of what a sell item would need to have. It is pushed into an array of all of the items for sell that fall in the current seller type
-				let obj = {};
-				obj['name'] = jsonObjectOfSells[sale].itemId;
-				obj['price'] = jsonObjectOfSells[sale].salePrice;
-				obj['amount'] = jsonObjectOfSells[sale].amount;
-				obj['sellerId'] = jsonObjectOfSells[sale].sellerId;
-				obj['saleId'] = jsonObjectOfSells[sale]._id;
-				itemsForSaleArray.push(obj);
+				const sellingObject = new saleObject(jsonObjectOfSells[sale].itemId,jsonObjectOfSells[sale].salePrice,jsonObjectOfSells[sale].amount,jsonObjectOfSells[sale].sellerId,jsonObjectOfSells[sale]._id);
+				itemsForSaleArray.push(sellingObject);
 			}
 		}
 		this.setState({itemsForSale:itemsForSaleArray});  
