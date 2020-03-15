@@ -4,6 +4,15 @@ import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
 
+
+interface itemForSaleObject {
+	name: string;
+	price: number;
+	amount: number;
+	sellerId: string;
+	saleId: string;
+}
+
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: ComponentType,
@@ -11,7 +20,7 @@ type Props = {|
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
-	itemsForSale: Array<Object>
+	itemsForSale: Array<itemForSaleObject>
 |};
 
 
@@ -58,7 +67,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	//Gets all the sells and filters them based on what type we are currently looking at
 	getMarketSales = async ():Promise<void> => {
-		let itemsForSaleArray = [];
+		const itemsForSaleArray = [];
 		const response = await fetch('/api/marketplace/getMarketSales/', {
 			method: 'GET',
 			headers: {
@@ -88,7 +97,7 @@ class ListingsView extends React.Component<Props, State> {
 	
 	//This creates a card for every sale
 	createCards = () => {
-		let cards = []
+		const cards = []
 		// Outer loop to create parent
 		for (let i = 0; i < this.state.itemsForSale.length; i++) {
 			//Create the parent and add the children
