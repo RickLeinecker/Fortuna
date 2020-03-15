@@ -74,7 +74,7 @@ class Tank {
 
 		this.rotation+=dAngle;
 		const oldPosition=this.position;
-		this.position=this.position.add(unit.rotate(this.rotation).scale(0.7));
+		this.position=this.position.add(unit.rotate(this.rotation).scale(0.7*forwardMovement));
 		let ranIntoWall=false;
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
