@@ -2,19 +2,19 @@
 
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
-import CasusBlock from './blocks/CasusBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import reviveCasusBlock from './reviveCasusBlock.js';
 
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
-function loadCasus(onBlocksLoaded: (casusBlock: CasusBlock) => void): void {
+function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void): void {
 	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
 	setTankForCasus('5e6ad69007161134094ad003');
 
 	const targetTankId=getTankForCasus();
 	const token=getLoginToken();
+	console.log('Loading casus...');
 	fetch('/api/tank/userTanks', {
 		method: 'GET',
 		headers: {
@@ -43,7 +43,9 @@ function loadCasus(onBlocksLoaded: (casusBlock: CasusBlock) => void): void {
 					onBlocksLoaded(new ContainerBlock());
 					return;
 				}
-				const revived=reviveCasusBlock(tank.casusCode);
+				let revived=reviveCasusBlock(tank.casusCode);
+				console.log('Recieved blocks.');
+				console.log(revived);
 				onBlocksLoaded(revived);
 			});
 		}

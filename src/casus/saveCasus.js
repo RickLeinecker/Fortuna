@@ -2,17 +2,21 @@
 
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
-import CasusBlock from '../casus/blocks/CasusBlock.js';
+import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 
 //just temporary until armory has been reworked and we can set this in armory
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
-function saveCasus(casusCode: CasusBlock): void {
+function saveCasus(casusCode: ContainerBlock): void {
 	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
 	setTankForCasus('5e6ad69007161134094ad003');
 
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
+	if (casusCode.children.length===0) {
+		console.log('Tried to save empty, so we will ignore that...');
+		return;
+	}
 	
 	fetch('/api/tank/casusUpdate/'+tankToEditID, {
 		method: 'PUT',

@@ -20,7 +20,7 @@ type Props = {|
 |};
 
 type State = {|
-	containerBlock: CasusBlock,
+	containerBlock: ContainerBlock,
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,

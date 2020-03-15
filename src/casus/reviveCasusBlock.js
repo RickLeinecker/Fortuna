@@ -121,6 +121,10 @@ function verifyContainerBlock(block: CasusBlock): ContainerBlock {
 	return block;
 }
 
+function reviveAsContainer(orig: SomeBlockFromServer): ContainerBlock {
+	return verifyContainerBlock(reviveCasusBlock(orig));
+}
+
 // Okay, so why do we need this monstrosity?
 // Well, JSON only stores fields (and not functions). There are hacks to get around that, but in short
 // they don't work. Either, it makes it so we would never be able to change how casus blocks execute,
@@ -403,4 +407,4 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 	}
 }
 
-export default reviveCasusBlock;
+export default reviveAsContainer;
