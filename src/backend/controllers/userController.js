@@ -336,6 +336,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			to: user.email,
 			subject: 'Fortuna Account Reconfirmation Token',
 			text: `Greetings Commander ${user.userName}!
+			We recieved word that you needed to reconfirm your email once more.
 			Please verify your Fortuna account by copying and pasting the link below into your browser:
 			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
