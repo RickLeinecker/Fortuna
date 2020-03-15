@@ -21,6 +21,8 @@ const Token = require('../../models/tokenModel');
 const regeneratorRuntime = require("regenerator-runtime");
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
+// Front-End Host Constant
+const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : process.env.FRONTEND_HOST;
 
 exports.register = async (req: $Request, res: $Response) => {
 	// Creates a place where errors that fail validation can accrue.
@@ -67,8 +69,15 @@ exports.register = async (req: $Request, res: $Response) => {
 		// bcrypt hash passwords
 		user.password = await bcrypt.hash(password, salt);
 
-		// Save to MongoDB
-		await user.save();
+		// Save User to MongoDB
+		await user.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not save the user to the DB.' });
+			}
+		});
 
 		// Create a verification token for this user
 		let token = new Token({
@@ -77,11 +86,18 @@ exports.register = async (req: $Request, res: $Response) => {
 		});
 
 		// Save verification token to MongoDB
-		await token.save();
+		await token.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not save the token to the DB' });
+			}
+		});
 
 		// Create nodemailer transport
 		const transporter = nodemailer.createTransport({
-			host: 'smtp.gmail.com',
+			host: process.env.MAIL_SERVER,
 			port: 465,
 			secure: true,
 			auth: {
@@ -96,12 +112,19 @@ exports.register = async (req: $Request, res: $Response) => {
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
 			text: 'Greetings Commander ' + user.userName + '!\n\n' + 
-			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			'Please verify your Fortuna account by copying and pasting the link into your browser: \n\nhttp:\/\/' + 
+			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
-		await transporter.sendMail(mailOptions);
+		await transporter.sendMail(mailOptions, (err: Error) => {
+			if (err) {
+				console.log(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not send out email.' });
+			}
+		});
 		res.status(201).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
 	} catch (err) {
@@ -166,7 +189,8 @@ exports.login = async (req: $Request, res: $Response) => {
 		jwt.sign(payload, jwtSecret, { expiresIn: 14400 }, (err: Error, token: jwt) => {
 			if (err) {
 				throw err;
-			} 
+			}
+			console.log('Login Successful.');
 			res.json({ token });
 		});
 
@@ -221,10 +245,24 @@ exports.confirmToken = async (req: $Request, res: $Response) => {
 
 		// Assuming you got past all that nonsense, the user is now made to be verified
 		user.isVerified = true;
-		await user.save();
+		await user.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Unable to update user in DB.' })
+			}
+		});
 
 		// The verification token is also deleted
-		await Token.deleteOne({ token: token });
+		await Token.deleteOne({ token: token }, (err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Unable to delete token from DB.' });
+			}
+		});
 
 		// Return success message
 		res.status(200).json({ msg: 'The account has been verified. Please log in.' });
@@ -272,11 +310,18 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 		});
 
 		// Save verification token to MongoDB
-		await token.save();
+		await token.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not save the token to DB' })
+			}
+		});
 
 		// Create nodemailer transport
 		const transporter = nodemailer.createTransport({
-			host: 'smtp.gmail.com',
+			host: process.env.MAIL_SERVER,
 			port: 465,
 			secure: true,
 			auth: {
@@ -292,12 +337,19 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			subject: 'Fortuna Account Reconfirmation Token',
 			text: 'Greetings Commander ' + user.userName + '!\n\n' +
 			'We recieved word that you needed to reconfirm your email again.\n' + 
-			'Please verify your Fortuna account by clicking the link: \nhttp:\/\/' + 
-			req.headers.host + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
+			'Please verify your Fortuna account by copying and pasting the link into your browser: \n\nhttp:\/\/' + 
+			FRONTEND + '\/ConfirmEmail\/' + token.token + '\/' + user.email + '\n'
 		};
 
 		// Send confirmation email with token
-		await transporter.sendMail(mailOptions);
+		await transporter.sendMail(mailOptions, (err: Error) => {
+			if (err) {
+				console.log(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not send out email.' });
+			}
+		});
 		res.status(200).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
 	} catch (err) {
