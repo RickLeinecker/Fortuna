@@ -3,6 +3,7 @@ import * as React from 'react';
 import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
+import saleObject from './saleObjectClass.js';
 
 
 interface itemForSaleObject {
@@ -11,16 +12,6 @@ interface itemForSaleObject {
 	amount: number;
 	sellerId: string;
 	saleId: string;
-}
-
-class saleObject {
-	constructor(name: string, price: number, amount: number, sellerId: string, saleId: string) {
-		this.name = name;
-		this.price = price;
-		this.amount = amount;
-		this.sellerId = sellerId;
-		this.saleId = saleId;
-	}
 }
 
 type Props = {|
