@@ -9,6 +9,10 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Circle from '../geometry/Circle.js';
+import {
+	FORWARD_MOVEMENT_VAR_NAME,
+	TARGET_DIRECTION_VAR_NAME
+} from '../casus/userInteraction/CasusSpecialVariables.js';
 
 class Tank {
 	position: Vec;
@@ -32,6 +36,7 @@ class Tank {
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
+		this.rotation = Math.PI*0.8;
 	}
 
 	executeCasusFrame(): void {
@@ -41,13 +46,41 @@ class Tank {
 	}
 	
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>): void {
+
+		//movement stuff
 		const otherTanks = tanks.filter(otherTank => otherTank !== this);
-		const amountToMove = verifyDouble(this.interpriterState.getVariable('DOUBLE', 'forwardMovement')).val;
+		const forwardMovementUnclamped = verifyDouble(this.interpriterState.getVariable('DOUBLE', FORWARD_MOVEMENT_VAR_NAME)).val;
+		let forwardMovement = Math.max(-1, Math.min(1, forwardMovementUnclamped));
+		const targetDirection = verifyDouble(this.interpriterState.getVariable('DOUBLE', TARGET_DIRECTION_VAR_NAME)).val;
+
+		const unit=new Vec(1, 0);
+		const targetVec=unit.rotate(targetDirection);
+		const facingVec=unit.rotate(this.rotation);
+		console.log('Target and facing: ');
+		console.log(targetVec);
+		console.log(facingVec);
+
+		let dAngle=Math.asin(facingVec.cross(targetVec));
+		if (targetVec.dot(facingVec)<0) {
+			if (dAngle<0) {
+				dAngle = -Math.PI - dAngle;
+			}
+			else {
+				dAngle = Math.PI + dAngle;
+			}
+		}
+		const totalMovement=Math.abs(forwardMovement)+2*Math.abs(dAngle);
+		forwardMovement/=Math.max(1, totalMovement)*1;
+		dAngle/=Math.max(1, totalMovement)*2;
+
+		this.rotation+=dAngle;
 		const oldPosition=this.position;
-		this.position=this.position.add(new Vec(0, amountToMove*0.5));
+		this.position=this.position.add(unit.rotate(this.rotation).scale(0.7));
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
 		}
+
+		//end of movement stuff
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {

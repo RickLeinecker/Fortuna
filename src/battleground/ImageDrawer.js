@@ -15,7 +15,8 @@ class ImageDrawer {
 	draw(i: Image, center: Vec, width: number, angle: number): void {
 		const convertedPos = this._uncompressPosition(center);
 		const convertedWidth = this._uncompressWidth(width);
-		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, angle);
+		//ys are flipped, so the angle needs to be flipped too
+		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, -angle);
 	}
 
 	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number): void {
