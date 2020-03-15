@@ -40,6 +40,13 @@ class Vec {
 	unit():Vec {
 		return this.scale(1/this.mag());
 	}
+
+	rotate(theta: number): Vec {
+		const PI=Math.PI;
+		const newX=this.x*Math.cos(theta)+this.y*Math.cos(PI/2+theta);
+		const newY=this.x*Math.sin(theta)+this.y*Math.sin(PI/2+theta);
+		return new Vec(newX, newY);
+	}
 }
 
 export default Vec;
