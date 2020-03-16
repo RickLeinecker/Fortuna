@@ -32,8 +32,7 @@ type State = {
 // userCurrency (takes API call for logged in user's currency)
 //
 // EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" />
-//
-// Need to implement API call for user's name and currency.
+
 class Navbar extends React.Component<Props, State> {
 
 	constructor(props: Props) {
@@ -47,10 +46,27 @@ class Navbar extends React.Component<Props, State> {
 		}
 	}
 
+	// Once mounted, set the cookie to store user's name and money.
 	componentDidMount(): void {
 		this.setCookie();
 	}
 
+	// Check if the back button will logout the user.
+	handleLogout(): void {
+
+		// If the user isn't logging out, leave this function.
+		if(this.props.returnName !== 'Logout') {
+			return;
+		}
+
+		// Delete All cookies. 
+		const cookie = new Cookies();
+		for(let cookieName of Object.keys(cookie.getAll())) {
+			cookie.remove(cookieName);
+		}
+	}
+
+	// Set user's name and money in the state and in a cookie.
 	setCookie(): void {
 		
 		// Set the cookie and update state.
@@ -84,7 +100,7 @@ class Navbar extends React.Component<Props, State> {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
 			<Link to={this.props.linkName}>
-				<button type="button" className="navbtn">&#60;&#45; {this.props.returnName}</button>
+				<button onClick={this.handleLogout.bind(this)} className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);
 
