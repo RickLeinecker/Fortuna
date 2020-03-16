@@ -8,7 +8,7 @@ import Vec from '../casus/blocks/Vec.js';
 class Chassis extends TankPart {
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
-		drawer.draw(getImage('BLUE_CHASSIS_1'), parentPos, 10, parentRotation);
+		drawer.draw(getImage('BLUE_CHASSIS_1'), parentPos, 10, parentRotation-Math.PI/2);
 	}
 
 }

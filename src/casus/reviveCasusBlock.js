@@ -47,6 +47,7 @@ import MathSinBlock from './blocks/MathSinBlock.js';
 import MathSqrtBlock from './blocks/MathSqrtBlock.js';
 import MathTanBlock from './blocks/MathTanBlock.js';
 import MathPowBlock from './blocks/MathPowBlock.js';
+import NotBlock from './blocks/NotBlock.js';
 import OrBlock from './blocks/OrBlock.js';
 import PrintBlock from './blocks/PrintBlock.js';
 import SetListAtBlock from './blocks/SetListAtBlock.js';
@@ -118,6 +119,10 @@ function verifyContainerBlock(block: CasusBlock): ContainerBlock {
 		throw new Error('Expected a casus container, but got something else!');
 	}
 	return block;
+}
+
+function reviveAsContainer(orig: SomeBlockFromServer): ContainerBlock {
+	return verifyContainerBlock(reviveCasusBlock(orig));
 }
 
 // Okay, so why do we need this monstrosity?
@@ -358,6 +363,10 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn=new MathTanBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
+		case 'NotBlock':
+			toReturn=new NotBlock();
+			toReturn.rChild=reviveCasusBlock(orig.rChild);
+			return toReturn;
 		case 'OrBlock':
 			toReturn=new OrBlock();
 			toReturn.lChild=reviveCasusBlock(orig.lChild);
@@ -398,4 +407,4 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 	}
 }
 
-export default reviveCasusBlock;
+export default reviveAsContainer;
