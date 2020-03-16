@@ -14,8 +14,8 @@ class Gun extends TankPart {
 	//the gun will actually turn instantly, but it will look like it turns more slowly.
 	//If you fire a bullet, the bullet will go in the gunAngle. However, the actual gun
 	//is rendered at the displayAngle
-	gunAngle: float;
-	displayAngle: float;
+	gunAngle: number;
+	displayAngle: number;
 
 	constructor() {
 		super();
@@ -23,7 +23,7 @@ class Gun extends TankPart {
 		this.displayAngle=0;
 	}
 
-	setTargetGunAngle(gunAngle: float): void {
+	setTargetGunAngle(gunAngle: number): void {
 		this.gunAngle=gunAngle;
 	}
 
