@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import type { LinkType } from './LinkType.js';
+import { verifyLogin } from './verifyLogin.js';
 
 type Props = {
 	linkName?: LinkType,
@@ -99,7 +100,7 @@ class Navbar extends React.Component<Props, State> {
 	render(): React.Node {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
-			<Link to={this.props.linkName}>
+			<Link to={verifyLogin(this.props.linkName)}>
 				<button onClick={this.handleLogout.bind(this)} className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);

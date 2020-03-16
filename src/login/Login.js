@@ -20,7 +20,6 @@ class Login extends React.Component<{||}> {
 	}
 
 	render(): React.Node {
-
 		// Check if the user already has logged in previously.
 		const cookie = new Cookies();
 		let loginButton = (<LoginPopup ref="loginPopup" />);

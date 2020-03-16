@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 // Armory component.
 type Props = {||}; 
 type State = {|
@@ -282,7 +283,7 @@ class Armory extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
+				<Navbar styleName="navbtn" linkName={verifyLogin("MainMenu")} returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
 					<div className="column armoryleft">
 						<h3>Select a Tank to Edit</h3>
 						<select 
@@ -296,7 +297,7 @@ class Armory extends React.Component<Props, State> {
 						<button type="button" className="btn mb-4">Set Default</button>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<h3>Edit tank's Code</h3>
-						<Link to="Casus">
+						<Link to={verifyLogin("Casus")}>
 							<button type="button" className="btn">Casus</button>
 						</Link>
 					</div>

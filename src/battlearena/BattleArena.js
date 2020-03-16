@@ -7,6 +7,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {||};
 
@@ -43,7 +44,7 @@ class BattleArena extends React.Component<Props, State> {
 						playerChallenged="" 
 					/>
 					<h6>Practice Against Bots</h6>
-					<Link to="TrainingArena">
+					<Link to={verifyLogin("TrainingArena")}>
 						<button type="button" className="btn">Training Arena</button>
 					</Link>
 					<SearchPlayers onChallengePlayer={this.onChallengePlayer} />

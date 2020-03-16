@@ -4,6 +4,7 @@ import './TrainingArena.css';
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 class TrainingArena extends React.Component<{||}> {
 
@@ -32,7 +33,7 @@ class TrainingArena extends React.Component<{||}> {
 						<option value="2">Small Arena</option>
 						<option value="3">Arena I am, yes</option>
 					</select>
-					<Link to="Battleground">
+					<Link to={verifyLogin("Battleground")}>
 						<button type="button" className="primarybtn">Start Battle</button>
 					</Link>
 				</div>
