@@ -28,6 +28,7 @@ class Login extends React.Component<{||}> {
 			loginButton = (
 				<Link to="MainMenu">
 					<button className='primarybtn'>Login</button>
+					<br/>
 				</Link>
 			);
 		}
