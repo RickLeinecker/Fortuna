@@ -38,8 +38,6 @@ class Navbar extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.handleLogout = this.handleLogout.bind(this);
-
 		// Get initial money from cookies.
 		const cookies = new Cookies();
 		this.state = {
@@ -102,7 +100,7 @@ class Navbar extends React.Component<Props, State> {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
 			<Link to={this.props.linkName}>
-				<button onClick={this.handleLogout} className="navbtn">&#60;&#45; {this.props.returnName}</button>
+				<button onClick={this.handleLogout.bind(this)} className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);
 
