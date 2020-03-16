@@ -2,6 +2,7 @@
 
 import Vec from '../casus/blocks/Vec.js';
 import TankPart from './TankPart.js'
+import Gun from './Gun.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
@@ -14,6 +15,7 @@ import {
 	RAN_INTO_WALL_VAR_NAME,
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
+	TURRET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 class Tank {
@@ -23,13 +25,13 @@ class Tank {
 	// parts: 
 	chassis: TankPart;
 	treads: TankPart;
-	mainGun: TankPart;
+	mainGun: Gun;
 
 	// Casus:
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
 
-	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: TankPart, casusCode: CasusBlock) {
+	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
 		this.position = position;
 
 		this.chassis = chassis;
@@ -83,6 +85,12 @@ class Tank {
 
 		this.interpriterState.setVariable('BOOLEAN', RAN_INTO_WALL_VAR_NAME, new BooleanValue(ranIntoWall));
 		//end of movement stuff
+		
+		//gun stuff
+		const turretDirection = verifyDouble(this.interpriterState.getVariable('DOUBLE', TURRET_DIRECTION_VAR_NAME));
+		this.mainGun.setTargetGunAngle(turretDirection.val);
+		this.mainGun.onUpdate();
+		//end of gun stuff
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {
