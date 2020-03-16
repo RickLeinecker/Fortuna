@@ -55,7 +55,7 @@ class ListingsView extends React.Component<Props, State> {
 	//Gets all the sells and filters them based on what type we are currently looking at
 	getMarketSales = async ():Promise<void> => {
 		itemsForSale = [];
-		const response = await fetch('/api/marketplace/getMarketSales/', {
+		const response = await fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
