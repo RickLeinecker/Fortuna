@@ -14,6 +14,7 @@ import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import GameObject from '../battleground/GameObject.js';
 import Battleground from '../battleground/Battleground.js';
 import C4 from '../battleground/gameobjects/C4.js';
+import Mine from '../battleground/gameobjects/Mine.js';
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	USE_MINE_VAR_NAME,
@@ -30,6 +31,8 @@ class Tank extends GameObject {
 	rotation: number;
 	haveC4: boolean;
 	c4ToBlowUp: ?C4;
+	minesLeft: number;
+	usedMineLastFrame: boolean;
 
 	// parts: 
 	chassis: TankPart;
@@ -52,6 +55,8 @@ class Tank extends GameObject {
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.8;
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
+		this.minesLeft = 2;
+		this.usedMineLastFrame = false;
 	}
 
 	update(battleground: Battleground): void {
@@ -123,6 +128,13 @@ class Tank extends GameObject {
 				this.c4ToBlowUp=null;
 			}
 		}
+
+		const placeMineThisFrame = this._getBoolean(USE_MINE_VAR_NAME);
+		if (placeMineThisFrame && !this.usedMineLastFrame && this.minesLeft > 0) {
+			this.minesLeft--;
+			battleground.createGameObject(new Mine(this.position));
+		}
+		this.usedMineLastFrame = placeMineThisFrame;
 		//end of placing items stuff
 	}
 
