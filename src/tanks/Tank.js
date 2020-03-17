@@ -22,21 +22,61 @@ class Tank {
 	position: Vec;
 	rotation: number;
 
+	// tank info
+	tankId: string;
+	tankName: string;
+	isBot: boolean;
+
 	// parts: 
 	chassis: TankPart;
 	treads: TankPart;
 	mainGun: Gun;
+	secondaryGun: Gun;
+	mainScanner: TankPart;
+	secondaryScanner: TankPart;
+	tertiaryScanner: TankPart;
+	jammer: TankPart;
+	firstSingleUseItem: TankPart;
+	secondSingleUseItem: TankPart;
+	thirdSingleUseItem: TankPart;
 
 	// Casus:
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
 
-	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
+	constructor(position: Vec, 
+		tankId: string, 
+		tankName: string, 
+		isBot: boolean, 
+		chassis: TankPart, 
+		mainGun: Gun, 
+		secondaryGun: Gun, 
+		mainScanner: TankPart, 
+		secondaryScanner: TankPart,
+		tertiaryScanner: TankPart, 
+		jammer: TankPart, 
+		treads: TankPart, 
+		firstSingleUseItem: TankPart, 
+		secondSingleUseItem: TankPart, 
+		thirdSingleUseItem: TankPart, 
+		casusCode: CasusBlock) {
 		this.position = position;
+
+		this.tankId = tankId;
+		this.tankName = tankName;
+		this.isBot = isBot;
 
 		this.chassis = chassis;
 		this.treads = treads;
 		this.mainGun = mainGun;
+		this.secondaryGun = secondaryGun;
+		this.mainScanner = mainScanner;
+		this.secondaryScanner = secondaryScanner;
+		this.tertiaryScanner = tertiaryScanner;
+		this.jammer = jammer;
+		this.firstSingleUseItem = firstSingleUseItem;
+		this.secondSingleUseItem = secondSingleUseItem;
+		this.thirdSingleUseItem = thirdSingleUseItem;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
