@@ -13,6 +13,10 @@ import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
 import Battleground from './battleground/Battleground.js';
 import ConfirmEmail from './login/ConfirmEmail.js';
+import Cookies from 'universal-cookie';
+
+const cookie = new Cookies();
+const loggedIn: boolean = (cookie.get('token')) ? true : false;
 
 // The routing const holds the paths to other react components.
 const routing = (
@@ -21,14 +25,14 @@ const routing = (
 			<Switch>
 				<Route exact path="/" component={App} />
 				<Route path="/Login" component={Login} />
-				<Route path="/MainMenu" component={MainMenu} />
-				<Route path="/Marketplace" component={Marketplace} />
-				<Route path="/Casus" component={CasusContainer} />
-				<Route path="/BattleArena" component={BattleArena} />
-				<Route path="/Armory" component={Armory} />
-				<Route path="/TrainingArena" component={TrainingArena} />
-				<Route path="/Battleground" component={Battleground} />
-				<Route path = "/ConfirmEmail/:token/:email" component= {ConfirmEmail}/>
+				<Route path="/MainMenu" component={(loggedIn) ? MainMenu : Login} />
+				<Route path="/Marketplace" component={(loggedIn) ? Marketplace : Login} />
+				<Route path="/Casus" component={(loggedIn) ? CasusContainer : Login} />
+				<Route path="/BattleArena" component={(loggedIn) ? BattleArena : Login} />
+				<Route path="/Armory" component={(loggedIn) ? Armory : Login} />
+				<Route path="/TrainingArena" component={(loggedIn) ? TrainingArena : Login} />
+				<Route path="/Battleground" component={(loggedIn) ? Battleground : Login} />
+				<Route path="/ConfirmEmail/:token/:email" component= {ConfirmEmail}/>
 			</Switch>
 		</div>
 	</Router>
