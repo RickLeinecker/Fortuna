@@ -41,7 +41,7 @@ class Mine extends GameObject {
 		}
 		if (this.triggered) {
 			this.triggeredCounter--;
-			if (this.triggeredCounter==0) {
+			if (this.triggeredCounter===0) {
 				this._explode(battleground);
 			}
 		}

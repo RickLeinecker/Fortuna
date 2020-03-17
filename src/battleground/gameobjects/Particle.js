@@ -44,7 +44,7 @@ class Particle extends GameObject {
 		this.position=this.position.add(this.velocity);
 		this.velocity=this.velocity.scale(this.velocityMultiplier);
 		this.lifeLeft--;
-		if (this.lifeLeft==0) {
+		if (this.lifeLeft===0) {
 			battleground.deleteGameObject(this);
 			return;
 		}
