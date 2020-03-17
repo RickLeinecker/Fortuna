@@ -11,6 +11,8 @@ import {verifyDouble} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
+import GameObject from '../battleground/GameObject.js';
+import Battleground from '../battleground/Battleground.js';
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	FORWARD_MOVEMENT_VAR_NAME,
@@ -18,7 +20,7 @@ import {
 	TURRET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
-class Tank {
+class Tank extends GameObject {
 	position: Vec;
 	rotation: number;
 
@@ -32,6 +34,7 @@ class Tank {
 	casusCode: CasusBlock;
 
 	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
+		super();
 		this.position = position;
 
 		this.chassis = chassis;
@@ -41,6 +44,11 @@ class Tank {
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.8;
+	}
+
+	update(battleground: Battleground): void {
+		this.executeCasusFrame();	
+		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks());	
 	}
 
 	executeCasusFrame(): void {
@@ -113,7 +121,7 @@ class Tank {
 		return new Circle(this.position, 4);
 	}
 
-	drawSelf(drawer: ImageDrawer): void {
+	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.position, this.rotation);
 		this.chassis.drawSelf(drawer, this.position, this.rotation);
 		this.mainGun.drawSelf(drawer, this.position, this.rotation);

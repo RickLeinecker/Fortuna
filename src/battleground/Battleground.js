@@ -10,13 +10,14 @@ import Tank from '../tanks/Tank.js';
 import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
+import GameObject from './GameObject.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
 	alive: boolean;
 	testTanks: Array<Tank>;
-	walls: Array<Wall>;
+	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
 
 	constructor() {
@@ -25,21 +26,26 @@ class Battleground extends React.Component<{||}> {
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
+		this.gameObjects = [];
 		this.testTanks = [getTestTank()];
-		this.walls=[
+		const walls = [
 			new Wall(new Vec(10, 0), 0),
 			new Wall(new Vec(60, 0), Math.PI/2),
 			new Wall(new Vec(-50, 30), Math.PI/5),
 			new Wall(new Vec(-50, -30), -Math.PI/5)
 		];
-		this.collisionSegs= [
+		this.collisionSegs = [
 			new Seg(new Vec(-100, 60), new Vec(100, 60)),
 			new Seg(new Vec(-100, -60), new Vec(100, -60)),
 			new Seg(new Vec(-100, 60), new Vec(-100, -60)),
 			new Seg(new Vec(100, 60), new Vec(100, -60))
 		];
-		for (const w: Wall of this.walls) {
+		for (const w: Wall of walls) {
 			this.collisionSegs.push(w.getCollisionWall());
+			this.gameObjects.push(w);
+		}
+		for (const t: Tank of this.testTanks) {
+			this.gameObjects.push(t);
 		}
 	}
 
@@ -69,15 +75,17 @@ class Battleground extends React.Component<{||}> {
 			//stop updating
 			return;
 		}
+		this.gameObjects.sort((a, b) => {
+			return a.getRenderOrder()-b.getRenderOrder();
+		});
 		this._update();
 		this._rerender();
 		setTimeout(() => this._gameLoop(), 1000/30);
 	}
 
 	_update(): void {
-		for (const tank:Tank of this.testTanks) {
-			tank.executeCasusFrame();
-			tank.executePhysics(this.collisionSegs, this.testTanks);
+		for (const gameObject: GameObject of this.gameObjects) {
+			gameObject.update(this);
 		}
 	}
 
@@ -89,15 +97,12 @@ class Battleground extends React.Component<{||}> {
 		const drawer=new ImageDrawer(ctx);
 
 
-		for (const tank: Tank of this.testTanks) {
-			tank.drawSelf(drawer);
-		}
-		for (const wall: Wall of this.walls) {
-			wall.drawSelf(drawer);
+		for (const gameObject: GameObject of this.gameObjects) {
+			gameObject.render(drawer);
 		}
 	}
 
-	_resizeCanvas() {
+	_resizeCanvas(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const targetWidth=canvas.clientWidth;
 		const targetHeight=targetWidth*8/16;
@@ -105,6 +110,14 @@ class Battleground extends React.Component<{||}> {
 			canvas.width = targetWidth;
 			canvas.height = targetHeight;
 		}
+	}
+
+	getCollisionSegs(): Array<Seg> {
+		return this.collisionSegs;
+	}
+
+	getTanks(): Array<Tank> {
+		return this.testTanks;
 	}
 
 }
