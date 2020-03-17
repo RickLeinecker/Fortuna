@@ -20,6 +20,10 @@ class Battleground extends React.Component<{||}> {
 	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
 
+	//objects that should be added in next frame
+	newObjects: Array<GameObject>;
+	objectsToDelete: Array<GameObject>;
+
 	constructor() {
 		super();
 		window.addEventListener('resize', () => this._rerender());
@@ -27,6 +31,8 @@ class Battleground extends React.Component<{||}> {
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
 		this.gameObjects = [];
+		this.newObjects = [];
+		this.objectsToDelete = [];
 		this.testTanks = [getTestTank()];
 		const walls = [
 			new Wall(new Vec(10, 0), 0),
@@ -75,11 +81,17 @@ class Battleground extends React.Component<{||}> {
 			//stop updating
 			return;
 		}
+		this.gameObjects = this.gameObjects.concat(this.newObjects);
 		this.gameObjects.sort((a, b) => {
 			return a.getRenderOrder()-b.getRenderOrder();
 		});
+		this.newObjects = [];
 		this._update();
 		this._rerender();
+		for (const toRemove: GameObject of this.objectsToDelete) {
+			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
+		}
+		this.objectsToDelete = [];
 		setTimeout(() => this._gameLoop(), 1000/30);
 	}
 
@@ -118,6 +130,14 @@ class Battleground extends React.Component<{||}> {
 
 	getTanks(): Array<Tank> {
 		return this.testTanks;
+	}
+
+	createGameObject(toCreate: GameObject): void {
+		this.newObjects.push(toCreate);
+	}
+
+	deleteGameObject(toDelete: GameObject): void {
+		this.objectsToDelete.push(toDelete);
 	}
 
 }
