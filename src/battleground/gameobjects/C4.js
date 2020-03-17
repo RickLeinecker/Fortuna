@@ -5,6 +5,7 @@ import Vec from '../../casus/blocks/Vec.js';
 import ImageDrawer from '../ImageDrawer.js';
 import Battleground from '../Battleground.js';
 import {getImage} from '../ImageLoader.js';
+import {createSmokeCloud} from './Particle.js';
 
 class C4 extends GameObject {
 
@@ -14,7 +15,6 @@ class C4 extends GameObject {
 
 	constructor(position: Vec)  {
 		super();
-		console.log('Created c4!');
 		this.position=position;
 		this.rotation=Math.random()*2*Math.PI;
 	}
@@ -28,8 +28,8 @@ class C4 extends GameObject {
 	}
 
 	explode(battleground: Battleground): void {
-		console.log('Exploding!');
 		battleground.deleteGameObject(this);
+		createSmokeCloud(this.position, battleground);
 	}
 
 }
