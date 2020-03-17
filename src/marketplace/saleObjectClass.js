@@ -1,5 +1,6 @@
 //@flow strict
-class saleObject {
+
+class SaleObject {
 	name:string;
 	price: number;
 	amount: number;
@@ -14,4 +15,4 @@ class saleObject {
 	}
 }
 
-export default saleObject;
+export default SaleObject;

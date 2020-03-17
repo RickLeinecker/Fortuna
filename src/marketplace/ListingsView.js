@@ -3,7 +3,7 @@ import * as React from 'react';
 import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
-import saleObject from './saleObjectClass.js';
+import SaleObject from './saleObjectClass.js';
 
 type Props = {|
 	//This is the type of item we are buying
@@ -12,7 +12,7 @@ type Props = {|
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
-	itemsForSale: Array<saleObject>
+	itemsForSale: Array<SaleObject>
 |};
 
 
@@ -21,8 +21,6 @@ class ListingsView extends React.Component<Props, State> {
 		super(props);
 		this.state={
 			userId: '',
-			//Each item sale object will have a name, a price, an amount, a seller id, and the sale id
-			//itemsForSale : [{name: '', price: 0, amount: 0, sellerId: '', saleId: ''}]
 			itemsForSale : [],
 		}
 	}
@@ -30,14 +28,11 @@ class ListingsView extends React.Component<Props, State> {
 	//This is the initial functions that we call
 	componentDidMount() {
 		this.getUserId();
-		this.getMarketSales();
 	}
 
 	//When sellerType is updated we need to get the new sells
 	componentDidUpdate(prevProps:Props) {
-		if (prevProps.sellerType !== this.props.sellerType) {
 			this.getMarketSales();
-		}
 	}
 
 	//This gets us the user's id 
@@ -69,12 +64,15 @@ class ListingsView extends React.Component<Props, State> {
 			},
 		});
 		const jsonObjectOfSells = await response.json();
-		for (const sale in jsonObjectOfSells)
-		{
+		for (const sale in jsonObjectOfSells) {
 			const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
-			if(typeOfItem === this.props.sellerType)
-			{
-				const sellingObject = new saleObject(jsonObjectOfSells[sale].itemId,jsonObjectOfSells[sale].salePrice,jsonObjectOfSells[sale].amount,jsonObjectOfSells[sale].sellerId,jsonObjectOfSells[sale]._id);
+			if(typeOfItem === this.props.sellerType) {
+				const sellingObject = new SaleObject(
+					jsonObjectOfSells[sale].itemId,
+					jsonObjectOfSells[sale].salePrice,
+					jsonObjectOfSells[sale].amount,
+					jsonObjectOfSells[sale].sellerId,
+					jsonObjectOfSells[sale]._id);
 				itemsForSaleArray.push(sellingObject);
 			}
 		}
@@ -93,7 +91,7 @@ class ListingsView extends React.Component<Props, State> {
 						<h5 className="card-title">Item to buy: {this.state.itemsForSale[i].name}</h5>
 						<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
 						<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
-						<button className="btn btn-success mt-2" onClick={this.buyItem.bind(this,this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+						<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 					</div>
 				</div>
 			)
