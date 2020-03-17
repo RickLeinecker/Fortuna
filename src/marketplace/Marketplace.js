@@ -70,7 +70,7 @@ class Marketplace extends React.Component<Props, State> {
 					<div className="col-md-4">
 						<div className="list-group col-md-6">
 							<button className="list-group-item list-group-item-action disabled">Category</button>
-							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CANNONS'})}>Cannons</button>
+							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CANNONS'})}>Weapons</button>
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'SCANNERS'})}>Scanners</button>
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'CHASSIS'})}>Chassis</button>
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'JAMMERS'})}>Jammers</button>
