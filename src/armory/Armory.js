@@ -4,12 +4,14 @@ import './Armory.css';
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
+import {getUser} from '../globalComponents/userAPIIntegration.js';
+import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import Tank from '../tanks/Tank.js';
 import Vec from '../casus/blocks/Vec.js';
+
 // Armory component.
 type Props = {||}; 
 type State = {|
@@ -73,136 +75,165 @@ class Armory extends React.Component<Props, State> {
 		this.setState({singleUseItemsThree : [{value: '', label: ''}]});
 	}
 	//This is used to get the current favorite tank of the user and continues to get all of the selected tank
-	getFavoriteTank = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/tank/getFavorite/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const body = await response.text();
-		this.setState({selectedTankId: body});
-		this.getSelectedTank();
+	getFavoriteTank () {
+		const responsePromise = getFavoriteTankID();
+		console.log(responsePromise);
+		responsePromise.then(
+			response => response.json().then(data => {
+				console.log(data);
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					let favoriteTankID = data.text();
+					this.setState({selectedTankId: favoriteTankID});
+					this.getSelectedTank();
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('No favorite Tank');
+				this.getSelectedTank();
+			}
+		);
 	};
 	//This can get a tank with the same id as the selected one and will fill out the info for all the items
 	getSelectedTank = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/tank/userTanks/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const jsonObjectOfTanks = await response.json();
+		
 		//Clear the data so that we dont duplicate items
 		this.clearInventoryArrays();
-		//This will get the seleced tanks info and fill out the selected items
-		for (const tank in jsonObjectOfTanks) {
-			let obj = {};
-			obj['value'] = jsonObjectOfTanks[tank]._id;
-			obj['label'] = jsonObjectOfTanks[tank].tankName;
-			if(jsonObjectOfTanks[tank]._id === this.state.selectedTankId) {
-				let currentTankObject = new Tank(
-					new Vec(20, -20),
-					this.state.selectedTankId,
-					jsonObjectOfTanks[tank].tankName,
-					jsonObjectOfTanks[tank].isBot,
-					jsonObjectOfTanks[tank].components[0],
-					jsonObjectOfTanks[tank].components[1],
-					jsonObjectOfTanks[tank].components[2],
-					jsonObjectOfTanks[tank].components[3],
-					jsonObjectOfTanks[tank].components[4],
-					jsonObjectOfTanks[tank].components[5],
-					jsonObjectOfTanks[tank].components[6],
-					jsonObjectOfTanks[tank].components[7],
-					jsonObjectOfTanks[tank].components[8],
-					jsonObjectOfTanks[tank].components[9],
-					jsonObjectOfTanks[tank].components[10],
-					jsonObjectOfTanks[tank].casusCode
-				);
-				this.setState({currentTank: currentTankObject});
+		const responsePromise = getAllUsersTanks();
+		responsePromise.then(
+			response => response.json().then(data => {
+				console.log(data);
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					let jsonObjectOfTanks = data;
+					//This will get the seleced tanks info and fill out the selected items
+					for (const tank in jsonObjectOfTanks) {
+						let obj = {};
+						obj['value'] = jsonObjectOfTanks[tank]._id;
+						obj['label'] = jsonObjectOfTanks[tank].tankName;
+						if(jsonObjectOfTanks[tank]._id === this.state.selectedTankId) {
+							let currentTankObject = new Tank(
+								new Vec(20, -20),
+								this.state.selectedTankId,
+								jsonObjectOfTanks[tank].tankName,
+								jsonObjectOfTanks[tank].isBot,
+								jsonObjectOfTanks[tank].components[0],
+								jsonObjectOfTanks[tank].components[1],
+								jsonObjectOfTanks[tank].components[2],
+								jsonObjectOfTanks[tank].components[3],
+								jsonObjectOfTanks[tank].components[4],
+								jsonObjectOfTanks[tank].components[5],
+								jsonObjectOfTanks[tank].components[6],
+								jsonObjectOfTanks[tank].components[7],
+								jsonObjectOfTanks[tank].components[8],
+								jsonObjectOfTanks[tank].components[9],
+								jsonObjectOfTanks[tank].components[10],
+								jsonObjectOfTanks[tank].casusCode
+							);
+							this.setState({currentTank: currentTankObject});
+						}
+						this.state.tankOptions.push(obj);
+					}
+					this.getUserInventory();
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+				return error;
 			}
-			this.state.tankOptions.push(obj);
-		}
-		this.getUserInventory();
-	};
-	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
-	getUserInventory = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/user/getUser/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const jsonObjectOfUser = await response.json();
-		for (const component in jsonObjectOfUser.inventory.tankComponents) {
-			const typeOfItem = getTankComponent(verifyComponent(component));
-			//This will add the chassis that the user has
-			if(typeOfItem === 'chassis' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.chassisOptions.push(obj);
-			}
-			//This will add the weapons that the user has
-			else if(typeOfItem === 'weapon' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.weaponOneOptions.push(obj);
-				this.state.weaponTwoOptions.push(obj);
-			}
-			//This will add the scanners that the user has
-			else if(typeOfItem === 'scanner' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.scannerOneOptions.push(obj);
-				this.state.scannerTwoOptions.push(obj);
-				this.state.scannerThreeOptions.push(obj);
-			}
-			//This will add the jammers that the user has
-			else if(typeOfItem === 'jammer' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.jammerOptions.push(obj);
-			}
-			//This will add the threads that the user has
-			else if(typeOfItem === 'treads' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.treadsOptions.push(obj);
-			}
-			//This will add the single use items that the user has
-			else if(typeOfItem === 'item' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-				let obj = {};
-				obj['value'] = component;
-				obj['label'] = component;
-				this.state.singleUseItemsOne.push(obj);
-				this.state.singleUseItemsTwo.push(obj);
-				this.state.singleUseItemsThree.push(obj);
-			}
-		}
-		//set the users id
-		this.setState({userId:jsonObjectOfUser._id});
+		);
 	};
 
+	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
+	getUserInventory () {
+		const responsePromise = getUser();
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					let jsonObjectOfUser = data;
+					for (const component in jsonObjectOfUser.inventory.tankComponents) {
+						const typeOfItem = getTankComponent(verifyComponent(component));
+						//This will add the chassis that the user has
+						if(typeOfItem === 'chassis' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.chassisOptions.push(obj);
+						}
+						//This will add the weapons that the user has
+						else if(typeOfItem === 'weapon' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.weaponOneOptions.push(obj);
+							this.state.weaponTwoOptions.push(obj);
+						}
+						//This will add the scanners that the user has
+						else if(typeOfItem === 'scanner' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.scannerOneOptions.push(obj);
+							this.state.scannerTwoOptions.push(obj);
+							this.state.scannerThreeOptions.push(obj);
+						}
+						//This will add the jammers that the user has
+						else if(typeOfItem === 'jammer' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.jammerOptions.push(obj);
+						}
+						//This will add the threads that the user has
+						else if(typeOfItem === 'treads' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.treadsOptions.push(obj);
+						}
+						//This will add the single use items that the user has
+						else if(typeOfItem === 'item' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
+							let obj = {};
+							obj['value'] = component;
+							obj['label'] = component;
+							this.state.singleUseItemsOne.push(obj);
+							this.state.singleUseItemsTwo.push(obj);
+							this.state.singleUseItemsThree.push(obj);
+						}
+					}
+					console.log(jsonObjectOfUser);
+					//set the users id
+					this.setState({userId:jsonObjectOfUser._id});
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+				return error;
+			}
+		);
+		
+	};
 
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
@@ -283,16 +314,20 @@ class Armory extends React.Component<Props, State> {
 
 	//This will save a tank
 	saveTank  = async ():Promise<void> => {
-		let componentsArray = [this.state.currentTank.selectedChassis,this.state.currentTank.selectedWeaponOne,this.state.currentTank.selectedWeaponTwo,this.state.currentTank.selectedScannerOne,this.state.currentTank.selectedScannerTwo,this.state.currentTank.selectedScannerThree,this.state.currentTank.selectedJammer,this.state.currentTank.selectedThreads,this.state.currentTank.selectedSingleUseItemOne,this.state.currentTank.selectedSingleUseItemTwo,this.state.currentTank.selectedSingleUseItemThree];
+		let componentsArray = [this.state.currentTank.chassis,this.state.currentTank.mainGun,this.state.currentTank.secondaryGun,this.state.currentTank.mainScanner,this.state.currentTank.secondaryScanner,this.state.currentTank.tertiaryScanner,this.state.currentTank.jammer,this.state.currentTank.threads,this.state.currentTank.firstSingleUseItem,this.state.currentTank.secondSingleUseItem,this.state.currentTank.thirdSingleUseItem];
+		for(let i = 0; i < componentsArray.length; i++) {
+			if(componentsArray[i] === undefined) {
+				componentsArray[i] = '';
+			}
+		}
 		fetch('/api/tank/tankUpdate/' + this.state.selectedTankId, {
-
 			method: 'PUT',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ tankName: this.state.selectedTankName, userId: this.state.userId, components: componentsArray, casusCode: this.state.currentTank.casusCode, isBot: this.state.currentTank.isBot }),
+			body: JSON.stringify({ tankName: this.state.currentTank.tankName, userId: this.state.userId, components: componentsArray, casusCode: this.state.currentTank.casusCode, isBot: this.state.currentTank.isBot }),
 		});
 	};
 
@@ -325,7 +360,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Chassis</h6>
 						<select 
 							className="tankComponentMenu"
-							value={this.state.selectedChassis}
+							value={this.state.currentTank.chassis}
 							onChange={this.handleChangeInChassisOptions}
 						>
 							{this.state.chassisOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -333,14 +368,14 @@ class Armory extends React.Component<Props, State> {
 						<h6>Weapons</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedWeaponOne} 
+							value={this.state.currentTank.mainGun} 
 							onChange={this.handleChangeInWeaponOneOptions}
 						>
 							{this.state.weaponOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedWeaponTwo} 
+							value={this.state.currentTank.secondaryGun} 
 							onChange={this.handleChangeInWeaponTwoOptions}
 						>
 							{this.state.weaponTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -348,21 +383,21 @@ class Armory extends React.Component<Props, State> {
 						<h6>Scanner</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerOne} 
+							value={this.state.currentTank.mainScanner} 
 							onChange={this.handleChangeInScannerOneOptions}
 						>
 							{this.state.scannerOneOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerTwo} 
+							value={this.state.currentTank.secondaryScanner} 
 							onChange={this.handleChangeInScannerTwoOptions}
 						>
 							{this.state.scannerTwoOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedScannerThree} 
+							value={this.state.currentTank.tertiaryScanner} 
 							onChange={this.handleChangeInScannerThreeOptions}
 						>
 							{this.state.scannerThreeOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -370,7 +405,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Jammer</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedJammer} 
+							value={this.state.currentTank.jammer} 
 							onChange={this.handleChangeInJammerOptions}
 						>
 							{this.state.jammerOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -378,7 +413,7 @@ class Armory extends React.Component<Props, State> {
 						<h6>Treads</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedThreads} 
+							value={this.state.currentTank.treads} 
 							onChange={this.handleChangeInTreadsOptions}
 						>
 							{this.state.treadsOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
@@ -386,21 +421,21 @@ class Armory extends React.Component<Props, State> {
 						<h6>Single-Use Items</h6>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemOne} 
+							value={this.state.currentTank.firstSingleUseItem} 
 							onChange={this.handleChangeInSingleUseItemsOneOptions}
 						>
 							{this.state.singleUseItemsOne.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemTwo} 
+							value={this.state.currentTank.secondSingleUseItem} 
 							onChange={this.handleChangeInSingleUseItemsTwoOptions}
 						>
 							{this.state.singleUseItemsTwo.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<select 
 							className="tankComponentMenu" 
-							value={this.state.selectedSingleUseItemThree} 
+							value={this.state.currentTank.thirdSingleUseItem} 
 							onChange={this.handleChangeInSingleUseItemsThreeOptions}
 						>
 							{this.state.singleUseItemsThree.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}

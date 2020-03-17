@@ -44,7 +44,8 @@ class Tank {
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
 
-	constructor(position: Vec, 
+	constructor(
+		position: Vec, 
 		tankId: string, 
 		tankName: string, 
 		isBot: boolean, 

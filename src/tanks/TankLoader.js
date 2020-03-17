@@ -10,13 +10,34 @@ import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import SetVariableBlock from '../casus/blocks/SetVariableBlock.js';
 import GetVariableBlock from '../casus/blocks/GetVariableBlock.js';
 import loadCasus from '../casus/loadCasus.js';
+import TankPart from './TankPart.js';
 
 function getTestTank(): Tank {
 	const toReturn: Tank = new Tank(
 		new Vec(20, -20), 
-		new Chassis(), 
-		new Treads(), 
+		'id',
+		'tankName',
+		false,
+		new Chassis(),
+		//Main Gun
 		new Gun(),
+		//secondary gun
+		new Gun(),
+		//Main Scanner
+		new TankPart(),
+		//Secondary Scanner
+		new TankPart(),
+		//Teritiary Scanner
+		new TankPart(),
+		//Jammer
+		new TankPart(),
+		new Treads(), 
+		//First use item
+		new TankPart(),
+		//Second use item
+		new TankPart(),
+		//Third use item
+		new TankPart(),		
 		getTestCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
