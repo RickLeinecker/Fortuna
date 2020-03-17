@@ -8,6 +8,7 @@ import IfElseBlock from '../blocks/IfElseBlock.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import AndBlock from '../blocks/AndBlock.js';
 import OrBlock from '../blocks/OrBlock.js';
+import NotBlock from '../blocks/NotBlock.js';
 import XorBlock from '../blocks/XorBlock.js';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
@@ -113,7 +114,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		window.addEventListener('resize', () => this._rerender());	
+		window.addEventListener('resize', this.onResize);
+		window.removeEventListener('resize', this.onResize);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
 		canvas.onmouseout = () => this.onMouseOut();
@@ -123,6 +125,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 		this._rerender();
 	}
+
+	componentWillUnmount(): void {
+		window.removeEventListener('resize', this.onResize);
+	}
+
+	onResize = () => this._rerender();
 
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		//Good practice to prevent infinite loop: 
@@ -347,6 +355,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new AndBlock());
 		blocks.push(new OrBlock());
 		blocks.push(new XorBlock());
+		blocks.push(new NotBlock());
 		return blocks;
 	}
 

@@ -2,9 +2,6 @@
 
 import * as React from 'react';
 import CasusBlock from './blocks/CasusBlock.js';
-import OrBlock from './blocks/OrBlock.js';
-import IntEqualsBlock from './blocks/IntEqualsBlock.js';
-import ForBlock from './blocks/ForBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import EmptyBlock from './blocks/EmptyBlock.js';
 import Vec from './blocks/Vec.js';
@@ -23,7 +20,7 @@ type Props = {|
 |};
 
 type State = {|
-	containerBlock: CasusBlock,
+	containerBlock: ContainerBlock,
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,
@@ -43,24 +40,13 @@ type CanPreventDefaultEvent = {
 const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
+	
 
 	constructor(props: Props) {
 		super(props);
 
-		const orBlock: OrBlock = new OrBlock();
-		const orBlock2: CasusBlock = new OrBlock();
-		const testEquals: IntEqualsBlock = new IntEqualsBlock();
-		const setIntVariable: CasusBlock = new SetVariableBlock('answer', 'INT');
-		const testForLoop: CasusBlock = new ForBlock();
-
 		const containerBlock: ContainerBlock = new ContainerBlock([]);
 
-		orBlock.lChild = orBlock2;
-
-		containerBlock.children.push(orBlock);
-		containerBlock.children.push(testEquals);
-		containerBlock.children.push(setIntVariable);
-		containerBlock.children.push(testForLoop);
 		loadCasus(
 			casusBlock => {
 				this.setState({
@@ -80,7 +66,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		window.addEventListener('resize', () => this._rerender());
+		window.addEventListener('resize', this.onResize);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
 		canvas.onmouseout = () => this.onMouseOut();
@@ -91,6 +77,12 @@ class CasusEditor extends React.Component<Props, State> {
 
 		this._rerender();
 	}
+
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.onResize);
+	}
+
+	onResize = () => this._rerender();
 
 	render(): React.Node {
 		return (
@@ -172,6 +164,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	onCancelClicked() {
@@ -185,6 +178,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this._saveCasus();
 	}
 
 	_rerender(): void {

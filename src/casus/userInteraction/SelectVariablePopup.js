@@ -179,7 +179,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 			return [TRUE_KEYWORD, FALSE_KEYWORD].concat(builtInBooleanVariables);
 		}
 		else {
-			return builtInIntVariables;
+			return builtInBooleanVariables;
 		}
 	}
 

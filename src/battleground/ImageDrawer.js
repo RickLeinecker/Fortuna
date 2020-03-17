@@ -4,6 +4,7 @@
 import Vec from '../casus/blocks/Vec.js';
 import getBattlegroundWidth from './getBattlegroundWidth.js';
 import getBattlegroundHeight from './getBattlegroundHeight.js';
+import Seg from '../geometry/Seg.js';
 
 class ImageDrawer {
 	ctx: CanvasRenderingContext2D;
@@ -15,7 +16,17 @@ class ImageDrawer {
 	draw(i: Image, center: Vec, width: number, angle: number): void {
 		const convertedPos = this._uncompressPosition(center);
 		const convertedWidth = this._uncompressWidth(width);
-		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, angle);
+		//ys are flipped, so the angle needs to be flipped too
+		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, -angle);
+	}
+
+	drawSeg(s: Seg): void {
+		const converted=new Seg(this._uncompressPosition(s.from), this._uncompressPosition(s.to));
+		this.ctx.strokeStyle = 'black';
+		this.ctx.beginPath();
+		this.ctx.moveTo(converted.from.x, converted.from.y);
+		this.ctx.lineTo(converted.to.x, converted.to.y);
+		this.ctx.stroke();
 	}
 
 	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number): void {

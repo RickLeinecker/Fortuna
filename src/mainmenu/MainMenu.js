@@ -13,7 +13,7 @@ class MainMenu extends React.Component<{||}> {
 			<div id="Parent">
 				<Navbar 
 					linkName="Login" 
-					returnName="Back to Login" 
+					returnName="Logout" 
 					pageName="Main Menu" 
 				/>
 				<h1 className="menuheader">Where to Commander?</h1>

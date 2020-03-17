@@ -29,6 +29,24 @@ class Vec {
 		return new Vec(this.x*s, this.y*s);
 	}
 
+	mag2(): number {
+		return this.dot(this);
+	}
+
+	mag(): number {
+		return Math.sqrt(this.mag2());
+	}
+
+	unit():Vec {
+		return this.scale(1/this.mag());
+	}
+
+	rotate(theta: number): Vec {
+		const PI=Math.PI;
+		const newX=this.x*Math.cos(theta)+this.y*Math.cos(PI/2+theta);
+		const newY=this.x*Math.sin(theta)+this.y*Math.sin(PI/2+theta);
+		return new Vec(newX, newY);
+	}
 }
 
 export default Vec;
