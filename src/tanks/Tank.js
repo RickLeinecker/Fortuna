@@ -1,8 +1,12 @@
 //@flow strict
 
 import Vec from '../casus/blocks/Vec.js';
-import TankPart from './TankPart.js'
 import Gun from './Gun.js';
+import Treads from './Treads.js';
+import SingleUseItem from './SingleUseItem.js';
+import Jammer from './Jammer.js';
+import Scanner from './Scanner.js';
+import Chassis from './Chassis.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
@@ -25,6 +29,7 @@ import {
 	TURRET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
+
 class Tank extends GameObject {
 	//game state
 	position: Vec;
@@ -40,17 +45,17 @@ class Tank extends GameObject {
 	isBot: boolean;
 
 	// parts: 
-	chassis: TankPart;
-	treads: TankPart;
+	chassis: Chassis;
+	treads: Treads;
 	mainGun: Gun;
 	secondaryGun: Gun;
-	mainScanner: TankPart;
-	secondaryScanner: TankPart;
-	tertiaryScanner: TankPart;
-	jammer: TankPart;
-	firstSingleUseItem: TankPart;
-	secondSingleUseItem: TankPart;
-	thirdSingleUseItem: TankPart;
+	mainScanner: Scanner;
+	secondaryScanner: Scanner;
+	tertiaryScanner: Scanner;
+	jammer: Jammer;
+	firstSingleUseItem: SingleUseItem;
+	secondSingleUseItem: SingleUseItem;
+	thirdSingleUseItem: SingleUseItem;
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -60,17 +65,17 @@ class Tank extends GameObject {
 		tankId: string, 
 		tankName: string, 
 		isBot: boolean, 
-		chassis: TankPart, 
+		chassis: Chassis, 
 		mainGun: Gun, 
 		secondaryGun: Gun, 
-		mainScanner: TankPart, 
-		secondaryScanner: TankPart,
-		tertiaryScanner: TankPart, 
-		jammer: TankPart, 
-		treads: TankPart, 
-		firstSingleUseItem: TankPart, 
-		secondSingleUseItem: TankPart, 
-		thirdSingleUseItem: TankPart, 
+		mainScanner: Scanner, 
+		secondaryScanner: Scanner,
+		tertiaryScanner: Scanner, 
+		jammer: Jammer, 
+		treads: Treads, 
+		firstSingleUseItem: SingleUseItem, 
+		secondSingleUseItem: SingleUseItem, 
+		thirdSingleUseItem: SingleUseItem, 
 		casusCode: CasusBlock) {
 		super();
 		this.position = position;

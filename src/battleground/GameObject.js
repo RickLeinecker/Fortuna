@@ -13,7 +13,6 @@ import Battleground from './Battleground.js';
 // getRenderOrder(): returns the order that things should be rendered in
 
 class GameObject {
-
 	update(battleground: Battleground): void {
 	}
 

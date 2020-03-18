@@ -2,15 +2,17 @@
 
 import Tank from './Tank.js';
 import Vec from '../casus/blocks/Vec.js';
-import Chassis from './Chassis.js';
 import Gun from './Gun.js';
 import Treads from './Treads.js';
+import SingleUseItem from './SingleUseItem.js';
+import Jammer from './Jammer.js';
+import Scanner from './Scanner.js';
+import Chassis from './Chassis.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import SetVariableBlock from '../casus/blocks/SetVariableBlock.js';
 import GetVariableBlock from '../casus/blocks/GetVariableBlock.js';
 import loadCasus from '../casus/loadCasus.js';
-import TankPart from './TankPart.js';
 
 function getTestTank(): Tank {
 	const toReturn: Tank = new Tank(
@@ -18,26 +20,28 @@ function getTestTank(): Tank {
 		'id',
 		'tankName',
 		false,
-		new Chassis(),
+		//Chassis
+		new Chassis("Test Chassis"),
 		//Main Gun
-		new Gun(),
+		new Gun("Test Gun"),
 		//secondary gun
-		new Gun(),
+		new Gun("Test Gun"),
 		//Main Scanner
-		new TankPart(),
+		new Scanner("Test Scanner"),
 		//Secondary Scanner
-		new TankPart(),
+		new Scanner("Test Scanner"),
 		//Teritiary Scanner
-		new TankPart(),
+		new Scanner("Test Scanner"),
 		//Jammer
-		new TankPart(),
-		new Treads(), 
+		new Jammer("Test Jammer"),
+		//Threads
+		new Treads("Test Threads"), 
 		//First use item
-		new TankPart(),
+		new SingleUseItem("Test First Item"),
 		//Second use item
-		new TankPart(),
+		new SingleUseItem("Test Second Item"),
 		//Third use item
-		new TankPart(),		
+		new SingleUseItem("Test Third Item"),		
 		getTestCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});

@@ -17,8 +17,8 @@ class Gun extends TankPart {
 	gunAngle: number;
 	displayAngle: number;
 
-	constructor() {
-		super();
+	constructor(name:string) {
+		super(name);
 		this.gunAngle=0;
 		this.displayAngle=0;
 	}
