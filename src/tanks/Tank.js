@@ -7,20 +7,32 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
-import {verifyDouble} from '../casus/interpreter/Value.js';
+import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
+import GameObject from '../battleground/GameObject.js';
+import Battleground from '../battleground/Battleground.js';
+import C4 from '../battleground/gameobjects/C4.js';
+import Mine from '../battleground/gameobjects/Mine.js';
 import {
 	RAN_INTO_WALL_VAR_NAME,
+	USE_MINE_VAR_NAME,
+	USE_C4_VAR_NAME,
+
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
-class Tank {
+class Tank extends GameObject {
+	//game state
 	position: Vec;
 	rotation: number;
+	haveC4: boolean;
+	c4ToBlowUp: ?C4;
+	minesLeft: number;
+	usedMineLastFrame: boolean;
 
 	// parts: 
 	chassis: TankPart;
@@ -32,6 +44,7 @@ class Tank {
 	casusCode: CasusBlock;
 
 	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
+		super();
 		this.position = position;
 
 		this.chassis = chassis;
@@ -41,6 +54,14 @@ class Tank {
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.8;
+		this.haveC4 = true; //TODO: remove this, it is just for testing...
+		this.minesLeft = 2;
+		this.usedMineLastFrame = false;
+	}
+
+	update(battleground: Battleground): void {
+		this.executeCasusFrame();	
+		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks(), battleground);
 	}
 
 	executeCasusFrame(): void {
@@ -49,13 +70,13 @@ class Tank {
 		this.interpriterState = getInterpriterState();
 	}
 	
-	executePhysics(walls: Array<Seg>, tanks: Array<Tank>): void {
+	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
 
 		//movement stuff
 		const otherTanks = tanks.filter(otherTank => otherTank !== this);
-		const forwardMovementUnclamped = verifyDouble(this.interpriterState.getVariable('DOUBLE', FORWARD_MOVEMENT_VAR_NAME)).val;
+		const forwardMovementUnclamped = this._getDouble(FORWARD_MOVEMENT_VAR_NAME);
 		let forwardMovement = Math.max(-1, Math.min(1, forwardMovementUnclamped));
-		const targetDirection = verifyDouble(this.interpriterState.getVariable('DOUBLE', TARGET_DIRECTION_VAR_NAME)).val;
+		const targetDirection = this._getDouble(TARGET_DIRECTION_VAR_NAME);
 
 		const unit=new Vec(1, 0);
 		const targetVec=unit.rotate(targetDirection);
@@ -87,10 +108,34 @@ class Tank {
 		//end of movement stuff
 		
 		//gun stuff
-		const turretDirection = verifyDouble(this.interpriterState.getVariable('DOUBLE', TURRET_DIRECTION_VAR_NAME));
-		this.mainGun.setTargetGunAngle(turretDirection.val);
+		const turretDirection = this._getDouble(TURRET_DIRECTION_VAR_NAME);
+		this.mainGun.setTargetGunAngle(turretDirection);
 		this.mainGun.onUpdate();
 		//end of gun stuff
+		
+		//placing items stuff
+		const shouldPlaceC4 = this._getBoolean(USE_C4_VAR_NAME);
+		if (shouldPlaceC4) {
+			if (this.haveC4) {
+				this.haveC4=false;	
+				this.c4ToBlowUp=new C4(this.position);
+				battleground.createGameObject(this.c4ToBlowUp);
+			}
+		}
+		else {
+			if (this.c4ToBlowUp != null) {
+				this.c4ToBlowUp.explode(battleground);
+				this.c4ToBlowUp=null;
+			}
+		}
+
+		const placeMineThisFrame = this._getBoolean(USE_MINE_VAR_NAME);
+		if (placeMineThisFrame && !this.usedMineLastFrame && this.minesLeft > 0) {
+			this.minesLeft--;
+			battleground.createGameObject(new Mine(this.position));
+		}
+		this.usedMineLastFrame = placeMineThisFrame;
+		//end of placing items stuff
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {
@@ -113,10 +158,18 @@ class Tank {
 		return new Circle(this.position, 4);
 	}
 
-	drawSelf(drawer: ImageDrawer): void {
+	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.position, this.rotation);
 		this.chassis.drawSelf(drawer, this.position, this.rotation);
 		this.mainGun.drawSelf(drawer, this.position, this.rotation);
+	}
+
+	_getDouble(name: string): number {
+		return verifyDouble(this.interpriterState.getVariable('DOUBLE', name)).val;
+	}
+
+	_getBoolean(name: string): boolean {
+		return verifyBoolean(this.interpriterState.getVariable('BOOLEAN', name)).val;
 	}
 
 }

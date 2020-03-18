@@ -13,11 +13,11 @@ class ImageDrawer {
 		this.ctx=ctx;
 	}
 
-	draw(i: Image, center: Vec, width: number, angle: number): void {
+	draw(i: Image, center: Vec, width: number, angle: number, alpha: number = 1.0): void {
 		const convertedPos = this._uncompressPosition(center);
 		const convertedWidth = this._uncompressWidth(width);
 		//ys are flipped, so the angle needs to be flipped too
-		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, -angle);
+		this._drawRaw(i, convertedPos.x, convertedPos.y, convertedWidth, -angle, alpha);
 	}
 
 	drawSeg(s: Seg): void {
@@ -29,12 +29,15 @@ class ImageDrawer {
 		this.ctx.stroke();
 	}
 
-	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number): void {
+	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number, alpha: number): void {
+		const oldAlpha = this.ctx.globalAlpha;
+		this.ctx.globalAlpha = alpha;
 		this.ctx.translate(xRaw, yRaw);
 		this.ctx.rotate(angle);
 		this.ctx.drawImage(i, -width/2, -width/2, width, width);
 		this.ctx.rotate(-angle);
 		this.ctx.translate(-xRaw, -yRaw);
+		this.ctx.globalAlpha = oldAlpha;
 	}
 
 	//In compressed coordinates (the ones players see):
