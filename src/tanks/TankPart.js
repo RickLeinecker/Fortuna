@@ -7,6 +7,9 @@ import Vec from '../casus/blocks/Vec.js';
 
 class TankPart {
 
+	update(): void {
+	}
+
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
 	}
 

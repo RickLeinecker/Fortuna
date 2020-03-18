@@ -38,24 +38,36 @@ class Tank extends GameObject {
 	chassis: TankPart;
 	treads: TankPart;
 	mainGun: Gun;
+	scanner: ?Scanner;
+	parts: Array<?TankPart>;
 
 	// Casus:
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
 
-	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
+	constructor(
+		position: Vec, 
+		chassis: TankPart, 
+		treads: TankPart, 
+		mainGun: Gun, 
+		scanner: ?Scanner, 
+
+		casusCode: CasusBlock
+	) {
 		super();
 		this.position = position;
 
 		this.chassis = chassis;
 		this.treads = treads;
 		this.mainGun = mainGun;
+		this.scanner = scanner
+		this.parts = [chassis, treads, mainGun, scanner];
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.8;
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
-		this.minesLeft = 2;
+		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
 	}
 
@@ -136,6 +148,13 @@ class Tank extends GameObject {
 		}
 		this.usedMineLastFrame = placeMineThisFrame;
 		//end of placing items stuff
+		
+		//update tank parts if I need to
+		for (const part: TankPart of this.parts) {
+			if (part != null) {
+				part.update();
+			}
+		}
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {
@@ -161,6 +180,9 @@ class Tank extends GameObject {
 	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.position, this.rotation);
 		this.chassis.drawSelf(drawer, this.position, this.rotation);
+		if (this.scanner!=null) {
+			this.scanner.drawSelf(drawer, this.position, this.rotation);
+		}
 		this.mainGun.drawSelf(drawer, this.position, this.rotation);
 	}
 

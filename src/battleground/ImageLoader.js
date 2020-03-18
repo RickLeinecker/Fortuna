@@ -41,6 +41,7 @@ const allImages: {[ImageName]: Image}= {
 	SCANNER_SMALL_ITEMS: new Image(),
 	SCANNER_MEDIUM_ITEMS: new Image(),
 	SCANNER_LARGE_ITEMS: new Image(),
+	SCANNER_BUBBLE: new Image(),
 };
 const callbacksWhenLoaded: Array<()=>void> = [];
 
@@ -79,6 +80,7 @@ function imageLoaderInit(): void {
 	allImages.SCANNER_SMALL_ITEMS.src='scannerItemsSmall.png';
 	allImages.SCANNER_MEDIUM_ITEMS.src='MediumItemsScanner.png';
 	allImages.SCANNER_LARGE_ITEMS.src='LargeItemsScanner.png';
+	allImages.SCANNER_BUBBLE.src='AntiJammerBubble.png';
 	//------------------END ADD MORE IMAGE HERE-----------------------
 	
 	for (const name: ImageName of Object.keys(allImages)) {

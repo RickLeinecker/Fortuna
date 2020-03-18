@@ -9,6 +9,7 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import SetVariableBlock from '../casus/blocks/SetVariableBlock.js';
 import GetVariableBlock from '../casus/blocks/GetVariableBlock.js';
+import Scanner from './Scanner.js';
 import loadCasus from '../casus/loadCasus.js';
 
 function getTestTank(): Tank {
@@ -17,6 +18,8 @@ function getTestTank(): Tank {
 		new Chassis(), 
 		new Treads(), 
 		new Gun(),
+		new Scanner(true, true, 'MEDIUM'),
+		//null,
 		getTestCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
