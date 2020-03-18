@@ -14,6 +14,16 @@ const USE_JAMMER_VAR_NAME: string = 'useJammer';
 const FORWARD_MOVEMENT_VAR_NAME: string = 'forwardMovement';
 const TARGET_DIRECTION_VAR_NAME: string = 'targetDirection';
 const TURRET_DIRECTION_VAR_NAME: string = 'turretDirection';
+const TANK_X_VAR_NAME: string = 'tankX';
+const TANK_Y_VAR_NAME: string = 'tankY';
+
+//double lists
+const ENEMY_TANK_XS_VAR_NAME: string = 'enemyTankXs';
+const ENEMY_TANK_YS_VAR_NAME: string = 'enemyTankYs';
+const EXPLOSIVE_XS_VAR_NAME: string = 'explosiveXs';
+const EXPLOSIVE_YS_VAR_NAME: string = 'explosiveYs';
+const WALL_XS_VAR_NAME: string = 'wallXs';
+const WALL_YS_VAR_NAME: string = 'wallYs';
 
 const builtInIntVariables: Array<string> = [
 ];
@@ -29,6 +39,17 @@ const builtInDoubleVariables: Array<string> = [
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
+	TANK_X_VAR_NAME,
+	TANK_Y_VAR_NAME,
+];
+
+const builtInDoubleListVariables: Array<string> = [
+	ENEMY_TANK_XS_VAR_NAME,
+	ENEMY_TANK_YS_VAR_NAME,
+	EXPLOSIVE_XS_VAR_NAME,
+	EXPLOSIVE_YS_VAR_NAME,
+	WALL_XS_VAR_NAME,
+	WALL_YS_VAR_NAME,
 ];
 
 export {
@@ -36,13 +57,23 @@ export {
 	USE_C4_VAR_NAME,
 	RAN_INTO_WALL_VAR_NAME,
 	USE_JAMMER_VAR_NAME,
+	TANK_X_VAR_NAME,
+	TANK_Y_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
 
+	ENEMY_TANK_XS_VAR_NAME,
+	ENEMY_TANK_YS_VAR_NAME,
+	EXPLOSIVE_XS_VAR_NAME,
+	EXPLOSIVE_YS_VAR_NAME,
+	WALL_XS_VAR_NAME,
+	WALL_YS_VAR_NAME,
+
 	builtInIntVariables,
 	builtInBooleanVariables,
 	builtInDoubleVariables,
+	builtInDoubleListVariables,
 };
 

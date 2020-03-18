@@ -4,6 +4,8 @@ import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
+import Tank from './Tank.js';
+import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import Battleground from '../battleground/Battleground.js';
 import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
 
@@ -59,7 +61,7 @@ class Scanner extends TankPart {
 		}
 	}
 
-	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
+	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 		let image='';
 		switch (this.range) {
 			case 'SMALL':
@@ -79,12 +81,42 @@ class Scanner extends TankPart {
 		if (this.immuneToJammers) {
 			drawer.draw(getImage('SCANNER_BUBBLE'), position, this.width+1, 0);
 		}
+		drawer.drawCircle(position, this._getScanRadius());
 	}
 
-	getJammed() {
+	_getScanRadius(): number {
+		switch (this.range) {
+			case 'SMALL':
+				return 390;
+			case 'MEDIUM':
+				return 400;
+			case 'LARGE':
+				return 500;
+			default:
+				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
+		}
+	}
+
+	getJammed(): void {
 		if (!this.immuneToJammers) {
 			this.jamTimer=JAM_TIME;
 		}
+	}
+
+	getEnemyTanks(
+		interpriterState: InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	): Array<Tank> {
+		if (this.jamTimer>0) {
+			return [];
+		}
+		const myPosition=parentPos.add(this.offsetFromParent.rotate(parentRotation));
+		const otherTanks=battleground.getTanks().filter(tank => tank!==parentTank);
+		const canSee = otherTanks.filter(tank => tank.getPosition().sub(myPosition).mag()<this._getScanRadius());
+		return canSee;
 	}
 
 }
