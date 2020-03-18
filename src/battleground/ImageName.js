@@ -19,6 +19,7 @@ type ImageName =
 	'ELECTRICITY' |
 	'ELECTRICITY_FLIPPED' |
 	'STATIC' |
+	'EMP' |
 
 	//tank stuff
 	'BLUE_CHASSIS_1' | 

@@ -28,6 +28,7 @@ const allImages: {[ImageName]: Image}= {
 	ELECTRICITY: new Image(),
 	ELECTRICITY_FLIPPED: new Image(),
 	STATIC: new Image(),
+	EMP: new Image(),
 
 	BLUE_CHASSIS_1: new Image(),
 	RED_GUN_1: new Image(),
@@ -67,6 +68,7 @@ function imageLoaderInit(): void {
 	allImages.ELECTRICITY.src='Electricity.png';
 	allImages.ELECTRICITY_FLIPPED.src='ElectricityFlipped.png';
 	allImages.STATIC.src='static.png';
+	allImages.EMP.src='EmpPulse.png';
 
 	allImages.BLUE_CHASSIS_1.src='Chassis1Blue.png';
 	allImages.RED_GUN_1.src='gun1GrayRed.png';

@@ -130,6 +130,11 @@ class Tank extends GameObject {
 		this.mainGun.onUpdate();
 		//end of gun stuff
 		
+		//jammer stuff
+		if (this.jammer != null) {
+		}
+		//end of jammer stuff
+
 		//placing items stuff
 		const shouldPlaceC4 = this._getBoolean(USE_C4_VAR_NAME);
 		if (shouldPlaceC4) {
@@ -157,7 +162,7 @@ class Tank extends GameObject {
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
 			if (part != null) {
-				part.update();
+				part.update(this.interpriterState, battleground, this.position, this.rotation);
 			}
 		}
 	}
