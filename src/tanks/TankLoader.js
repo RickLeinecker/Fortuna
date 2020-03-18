@@ -10,6 +10,7 @@ import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import SetVariableBlock from '../casus/blocks/SetVariableBlock.js';
 import GetVariableBlock from '../casus/blocks/GetVariableBlock.js';
 import Scanner from './Scanner.js';
+import Jammer from './Jammer.js';
 import loadCasus from '../casus/loadCasus.js';
 
 function getTestTank(): Tank {
@@ -19,7 +20,7 @@ function getTestTank(): Tank {
 		new Treads(), 
 		new Gun(),
 		new Scanner(true, true, 'MEDIUM'),
-		//null,
+		new Jammer('SMALL'),
 		getTestCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});

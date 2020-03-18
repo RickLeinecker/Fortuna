@@ -9,12 +9,15 @@ import {getInterpriterState, setInterpriterState} from '../casus/interpreter/Int
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
+import Scanner from './Scanner.js';
+import Jammer from './Jammer.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import GameObject from '../battleground/GameObject.js';
 import Battleground from '../battleground/Battleground.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
+
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	USE_MINE_VAR_NAME,
@@ -39,6 +42,7 @@ class Tank extends GameObject {
 	treads: TankPart;
 	mainGun: Gun;
 	scanner: ?Scanner;
+	jammer: ?Jammer;
 	parts: Array<?TankPart>;
 
 	// Casus:
@@ -51,7 +55,7 @@ class Tank extends GameObject {
 		treads: TankPart, 
 		mainGun: Gun, 
 		scanner: ?Scanner, 
-
+		jammer: ?Jammer,
 		casusCode: CasusBlock
 	) {
 		super();
@@ -60,8 +64,9 @@ class Tank extends GameObject {
 		this.chassis = chassis;
 		this.treads = treads;
 		this.mainGun = mainGun;
-		this.scanner = scanner
-		this.parts = [chassis, treads, mainGun, scanner];
+		this.scanner = scanner;
+		this.jammer = jammer;
+		this.parts = [chassis, treads, mainGun, scanner, jammer];
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -150,7 +155,7 @@ class Tank extends GameObject {
 		//end of placing items stuff
 		
 		//update tank parts if I need to
-		for (const part: TankPart of this.parts) {
+		for (const part: ?TankPart of this.parts) {
 			if (part != null) {
 				part.update();
 			}
@@ -182,6 +187,9 @@ class Tank extends GameObject {
 		this.chassis.drawSelf(drawer, this.position, this.rotation);
 		if (this.scanner!=null) {
 			this.scanner.drawSelf(drawer, this.position, this.rotation);
+		}
+		if (this.jammer!=null) {
+			this.jammer.drawSelf(drawer, this.position, this.rotation);
 		}
 		this.mainGun.drawSelf(drawer, this.position, this.rotation);
 	}
