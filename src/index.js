@@ -25,7 +25,7 @@ const routing = (
 		<div>
 			<Switch>
 				<Route exact path="/" component={(loggedIn) ? MainMenu : App} />
-				<Route path="/Login" component={Login} />
+				<Route path="/Login" component={(loggedIn) ? MainMenu : Login} />
 				<Route path="/MainMenu" component={(loggedIn) ? MainMenu : Login} />
 				<Route path="/Marketplace" component={(loggedIn) ? Marketplace : Login} />
 				<Route path="/Casus" component={(loggedIn) ? CasusContainer : Login} />

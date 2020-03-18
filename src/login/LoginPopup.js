@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
-// Login component.
 
 type Props = {||}; 
 
@@ -39,6 +38,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick(): void {
+
 		const responsePromise: Promise<Response> = fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
