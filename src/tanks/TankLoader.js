@@ -17,17 +17,14 @@ function getTestTank(): Tank {
 		new Chassis(), 
 		new Treads(), 
 		new Gun(),
-		getTestCasusCode()
+		getEmptyCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
 
-function getTestCasusCode(): CasusBlock {
-	const setVariableBlock = new SetVariableBlock('forwardMovement', 'DOUBLE');
-	setVariableBlock.expressionBlock = new GetVariableBlock('1', 'DOUBLE');
-	
-	const childrenBlocks: Array<CasusBlock> = [setVariableBlock];
+function getEmptyCasusCode(): CasusBlock {
+	const childrenBlocks: Array<CasusBlock> = [];
 	const container: ContainerBlock = new ContainerBlock(childrenBlocks);
 	return container;
 }
