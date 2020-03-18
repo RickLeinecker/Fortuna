@@ -8,7 +8,6 @@ import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
-import type { LinkType } from '../globalComponents/LinkType.js';
 
 type Props = {||};
 

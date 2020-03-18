@@ -4,6 +4,7 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
+import { verifyLink } from '../globalComponents/verifyLink.js';
 // Login component.
 
 type Props = {||}; 
@@ -57,7 +58,7 @@ class LoginPopup extends React.Component<Props, State> {
 				}
 				else {
 					setLoginToken(data.token);
-					window.location='/MainMenu';
+					window.location=verifyLink('MainMenu');
 				}
 			})
 		).catch(

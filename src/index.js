@@ -17,13 +17,14 @@ import Cookies from 'universal-cookie';
 
 const cookie = new Cookies();
 const loggedIn: boolean = (cookie.get('token')) ? true : false;
+console.log(loggedIn);
 
 // The routing const holds the paths to other react components.
 const routing = (
 	<Router>
 		<div>
 			<Switch>
-				<Route exact path="/" component={App} />
+				<Route exact path="/" component={(loggedIn) ? MainMenu : App} />
 				<Route path="/Login" component={Login} />
 				<Route path="/MainMenu" component={(loggedIn) ? MainMenu : Login} />
 				<Route path="/Marketplace" component={(loggedIn) ? Marketplace : Login} />
