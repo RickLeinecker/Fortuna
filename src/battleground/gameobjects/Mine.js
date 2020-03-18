@@ -4,6 +4,7 @@ import GameObject from '../GameObject.js';
 import Vec from '../../casus/blocks/Vec.js';
 import ImageDrawer from '../ImageDrawer.js';
 import Battleground from '../Battleground.js';
+import Tank from '../../tanks/Tank.js';
 import {getImage} from '../ImageLoader.js';
 import {createSmokeCloud} from './Particle.js';
 
@@ -17,7 +18,7 @@ class Mine extends GameObject {
 	position: Vec;
 	lifetimeCounter: number;
 	triggered: boolean;
-	triggeredCounter: int;
+	triggeredCounter: number;
 
 	constructor(position: Vec)  {
 		super();
