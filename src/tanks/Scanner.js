@@ -134,6 +134,9 @@ class Scanner extends TankPart {
 		if (this.jamTimer>0) {
 			return [];
 		}
+		if (!this.seesItems) {
+			return [];
+		}
 		const myPosition=parentPos.add(this.offsetFromParent.rotate(parentRotation));
 		const mines=battleground.getAllGameObjects().filter(o => (o instanceof Mine) || (o instanceof C4));
 		const canSee = mines.filter(mine => mine.getPosition().sub(myPosition).mag()<this._getScanRadius());

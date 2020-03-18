@@ -192,6 +192,11 @@ class Tank extends GameObject {
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
 
+		const mines=this._getMines(battleground);
+		const minesXs=mines.map(mine => mine.getPosition().x);
+		const minesYs=mines.map(mine => mine.getPosition().y);
+		this._setDoubleArray(EXPLOSIVE_XS_VAR_NAME, minesXs);
+		this._setDoubleArray(EXPLOSIVE_YS_VAR_NAME, minesYs);
 		//end of set generic casus lists
 	}
 

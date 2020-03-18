@@ -110,7 +110,7 @@ function createSmokeCloud(position: Vec, battleground: Battleground) {
 	}
 }
 
-function _createElectricityParticle(position: Vec, maxRange: number, battleground: Battleground) {
+function createElectricityParticle(position: Vec, maxRange: number, battleground: Battleground) {
 	const rotation=Math.random()*2*Math.PI;
 	let velocityMag = Math.random()*4-2;
 	velocityMag+=Math.sign(velocityMag)*3;
@@ -193,6 +193,6 @@ function createElectricityPulse(position: Vec, maxRange: number, battleground: B
 }
 
 
-export {createSmokeCloud, createElectricityPulse, createStaticParticle};
+export {createSmokeCloud, createElectricityPulse, createStaticParticle, createElectricityParticle};
 
 export default Particle;

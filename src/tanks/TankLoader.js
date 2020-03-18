@@ -7,8 +7,6 @@ import Gun from './Gun.js';
 import Treads from './Treads.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
-import SetVariableBlock from '../casus/blocks/SetVariableBlock.js';
-import GetVariableBlock from '../casus/blocks/GetVariableBlock.js';
 import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
 import loadCasus from '../casus/loadCasus.js';
