@@ -102,7 +102,7 @@ class Jammer extends TankPart {
 			case 'MEDIUM':
 				return 50;
 			case 'LARGE':
-				return 100;
+				return 90;
 			default:
 				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
 		}

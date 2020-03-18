@@ -9,7 +9,6 @@ import type {ImageName} from '../ImageName.js';
 
 class Particle extends GameObject {
 	image: ImageName;
-	position: Vec;
 	width: number;
 	velocity: Vec;
 	fullLifetime: number;
@@ -25,7 +24,7 @@ class Particle extends GameObject {
 
 	constructor(
 		image: ImageName, 
-		position: Vec, 
+		position: Vec,
 		width: number, 
 		velocity: Vec, 
 		fullLifetime: number, 
@@ -38,9 +37,8 @@ class Particle extends GameObject {
 		finalWidth: ?number = null,
 		widthPower: number = 1
 	) {
-		super();
+		super(position);
 		this.image=image;
-		this.position=position;
 		this.width=width;
 		this.velocity=velocity;
 		this.fullLifetime=fullLifetime;
@@ -71,7 +69,7 @@ class Particle extends GameObject {
 		const alpha=Math.pow(Math.max(0, this.lifeLeft/this.fullLifetime), this.fadeoutPower);
 		const curImage=this.lifeLeft%(this.imageSwapTime*2)<this.imageSwapTime?this.image:this.image2;
 		const width=this.lerp(this.width, this.finalWidth, Math.pow(percentThroughLife, this.widthPower));
-		drawer.draw(getImage(curImage), this.position, width, this.rotation, alpha);
+		drawer.draw(getImage(curImage), this.getPosition(), width, this.rotation, alpha);
 	}
 
 	lerp(from: number, to: number, percent:number): number {

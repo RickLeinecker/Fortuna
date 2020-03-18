@@ -20,19 +20,16 @@ function getTestTank(id: number=1): Tank {
 		new Chassis(), 
 		new Treads(), 
 		new Gun(),
-		new Scanner(false, false, 'MEDIUM'),
+		new Scanner(false, false, id===1?'MEDIUM':'SMALL'),
 		new Jammer(id===1?'MEDIUM':'LARGE'),
-		getTestCasusCode()
+		getEmptyCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
 
-function getTestCasusCode(): CasusBlock {
-	const setVariableBlock = new SetVariableBlock('forwardMovement', 'DOUBLE');
-	setVariableBlock.expressionBlock = new GetVariableBlock('1', 'DOUBLE');
-	
-	const childrenBlocks: Array<CasusBlock> = [setVariableBlock];
+function getEmptyCasusCode(): CasusBlock {
+	const childrenBlocks: Array<CasusBlock> = [];
 	const container: ContainerBlock = new ContainerBlock(childrenBlocks);
 	return container;
 }

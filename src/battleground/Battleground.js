@@ -105,6 +105,8 @@ class Battleground extends React.Component<{||}> {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, 1e9, 1e9);
 		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 		const drawer=new ImageDrawer(ctx);
 
@@ -130,6 +132,10 @@ class Battleground extends React.Component<{||}> {
 
 	getTanks(): Array<Tank> {
 		return this.testTanks;
+	}
+
+	getAllGameObjects(): Array<GameObject> {
+		return this.gameObjects;
 	}
 
 	createGameObject(toCreate: GameObject): void {

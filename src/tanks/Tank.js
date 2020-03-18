@@ -42,7 +42,6 @@ import {
 
 class Tank extends GameObject {
 	//game state
-	position: Vec;
 	rotation: number;
 	haveC4: boolean;
 	c4ToBlowUp: ?C4;
@@ -70,8 +69,7 @@ class Tank extends GameObject {
 		jammer: ?Jammer,
 		casusCode: CasusBlock
 	) {
-		super();
-		this.position = position;
+		super(position);
 
 		this.chassis = chassis;
 		this.treads = treads;
@@ -149,7 +147,7 @@ class Tank extends GameObject {
 		if (shouldPlaceC4) {
 			if (this.haveC4) {
 				this.haveC4=false;	
-				this.c4ToBlowUp=new C4(this.position);
+				this.c4ToBlowUp=new C4(this.getPosition());
 				battleground.createGameObject(this.c4ToBlowUp);
 			}
 		}
@@ -163,7 +161,7 @@ class Tank extends GameObject {
 		const placeMineThisFrame = this._getBoolean(USE_MINE_VAR_NAME);
 		if (placeMineThisFrame && !this.usedMineLastFrame && this.minesLeft > 0) {
 			this.minesLeft--;
-			battleground.createGameObject(new Mine(this.position));
+			battleground.createGameObject(new Mine(this.getPosition()));
 		}
 		this.usedMineLastFrame = placeMineThisFrame;
 		//end of placing items stuff
@@ -171,7 +169,7 @@ class Tank extends GameObject {
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
 			if (part != null) {
-				part.update(this.interpriterState, battleground, this.position, this.rotation, this);
+				part.update(this.interpriterState, battleground, this.getPosition(), this.rotation, this);
 			}
 		}
 		//end of updating tank parts
@@ -188,10 +186,12 @@ class Tank extends GameObject {
 		this._setDoubleArray(WALL_XS_VAR_NAME, wallXs);
 		this._setDoubleArray(WALL_YS_VAR_NAME, wallYs);
 
-		const otherTankXs=battleground.getTanks().filter(tank => tank !== this).map(tank => tank.getPosition().x);
-		const otherTankYs=battleground.getTanks().filter(tank => tank !== this).map(tank => tank.getPosition().y);
+		const enemyTanks=this._getEnemyTanks(battleground);
+		const otherTankXs=enemyTanks.map(tank => tank.getPosition().x);
+		const otherTankYs=enemyTanks.map(tank => tank.getPosition().y);
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
+
 		//end of set generic casus lists
 	}
 
@@ -212,19 +212,19 @@ class Tank extends GameObject {
 	}
 
 	getBoundingCircle(): Circle {
-		return new Circle(this.position, 4);
+		return new Circle(this.getPosition(), 4);
 	}
 
 	render(drawer: ImageDrawer): void {
-		this.treads.drawSelf(drawer, this.position, this.rotation);
-		this.chassis.drawSelf(drawer, this.position, this.rotation);
+		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
+		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.scanner!=null) {
-			this.scanner.drawSelf(drawer, this.position, this.rotation);
+			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);
 		}
 		if (this.jammer!=null) {
-			this.jammer.drawSelf(drawer, this.position, this.rotation);
+			this.jammer.drawSelf(drawer, this.getPosition(), this.rotation);
 		}
-		this.mainGun.drawSelf(drawer, this.position, this.rotation);
+		this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
 	}
 
 	_setDouble(name: string, to: number): void {
@@ -238,7 +238,7 @@ class Tank extends GameObject {
 	_setDoubleArray(name: string, to: Array<number>): void {
 		const list=new DoubleListValue();
 		for (let i=0; i<to.length; i++) {
-			list.setAt(newIntValue(i), new DoubleValue(to[i]));
+			list.setAt(new IntValue(i), new DoubleValue(to[i]));
 		}
 		this.interpriterState.setVariable('DOUBLE_LIST', name, list);
 	}
@@ -255,9 +255,26 @@ class Tank extends GameObject {
 		if (this.scanner == null) {
 			return [];
 		}
-		else {
-			return this.scanner.getEnemyTanks(this.interpriterState, battleground, this.position, this.rotation, this);
+		return this.scanner.getEnemyTanks(
+			this.interpriterState, 
+			battleground, 
+			this.getPosition(), 
+			this.rotation, 
+			this
+		);
+	}
+
+	_getMines(battleground: Battleground): Array<GameObject> {
+		if (this.scanner == null) {
+			return [];
 		}
+		return this.scanner.getMines(
+			this.interpriterState, 
+			battleground, 
+			this.getPosition(), 
+			this.rotation, 
+			this
+		);
 	}
 
 	getJammed(): void {
@@ -266,9 +283,6 @@ class Tank extends GameObject {
 		}
 	}
 
-	getPosition(): Vec {
-		return this.position;
-	}
 }
 
 export default Tank;

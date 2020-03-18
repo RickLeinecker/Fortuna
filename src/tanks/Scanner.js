@@ -5,7 +5,10 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import Tank from './Tank.js';
+import Mine from '../battleground/gameobjects/Mine.js';
+import C4 from '../battleground/gameobjects/C4.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
+import GameObject from '../battleground/GameObject.js';
 import Battleground from '../battleground/Battleground.js';
 import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
 
@@ -81,17 +84,19 @@ class Scanner extends TankPart {
 		if (this.immuneToJammers) {
 			drawer.draw(getImage('SCANNER_BUBBLE'), position, this.width+1, 0);
 		}
-		drawer.drawCircle(position, this._getScanRadius());
+		if (this.jamTimer<=0) {
+			drawer.drawCircle(position, this._getScanRadius());
+		}
 	}
 
 	_getScanRadius(): number {
 		switch (this.range) {
 			case 'SMALL':
-				return 390;
+				return 50;
 			case 'MEDIUM':
-				return 400;
+				return 90;
 			case 'LARGE':
-				return 500;
+				return 150;
 			default:
 				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
 		}
@@ -116,6 +121,22 @@ class Scanner extends TankPart {
 		const myPosition=parentPos.add(this.offsetFromParent.rotate(parentRotation));
 		const otherTanks=battleground.getTanks().filter(tank => tank!==parentTank);
 		const canSee = otherTanks.filter(tank => tank.getPosition().sub(myPosition).mag()<this._getScanRadius());
+		return canSee;
+	}
+
+	getMines(
+		interpriterState: InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	): Array<GameObject> {
+		if (this.jamTimer>0) {
+			return [];
+		}
+		const myPosition=parentPos.add(this.offsetFromParent.rotate(parentRotation));
+		const mines=battleground.getAllGameObjects().filter(o => (o instanceof Mine) || (o instanceof C4));
+		const canSee = mines.filter(mine => mine.getPosition().sub(myPosition).mag()<this._getScanRadius());
 		return canSee;
 	}
 
