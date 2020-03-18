@@ -4,10 +4,14 @@ import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
+import Battleground from '../battleground/Battleground.js';
+import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
 
 type ScannerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
 
 const ROTATION_SPEED=Math.PI*2/(30*6);
+
+const JAM_TIME=60;
 
 class Scanner extends TankPart {
 	seesItems: boolean;
@@ -16,6 +20,7 @@ class Scanner extends TankPart {
 	offsetFromParent: Vec;
 	rotation: number;
 	width: number;
+	jamTimer: number;
 
 	constructor(seesItems: boolean, immuneToJammers: boolean, range: ScannerRange) {
 		super();
@@ -23,6 +28,7 @@ class Scanner extends TankPart {
 		this.immuneToJammers = immuneToJammers;
 		this.range = range;
 		this.rotation = 0;
+		this.jamTimer = -1;
 		if (range === 'SMALL') {
 			this.width = 4;
 			this.offsetFromParent=new Vec(2, -2);
@@ -33,10 +39,23 @@ class Scanner extends TankPart {
 		}
 	}
 
-	update(): void {
+	update(
+		interpriterState: InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	): void {
 		//medium and large range scanners spin. The small ones don't, so they don't need to be updated
 		if (this.range === 'MEDIUM' || this.range === 'LARGE') {
-			this.rotation+=ROTATION_SPEED;
+			if (this.jamTimer<=0) {
+				this.rotation+=ROTATION_SPEED;
+			}
+		}
+		this.jamTimer--;
+		if (this.jamTimer>0 && this.jamTimer%1===0) {
+			const position=parentPos.add(this.offsetFromParent.rotate(parentRotation));
+			createStaticParticle(position, battleground);
 		}
 	}
 
@@ -59,6 +78,12 @@ class Scanner extends TankPart {
 		drawer.draw(getImage(image), position, this.width, parentRotation-Math.PI/2+this.rotation);
 		if (this.immuneToJammers) {
 			drawer.draw(getImage('SCANNER_BUBBLE'), position, this.width+1, 0);
+		}
+	}
+
+	getJammed() {
+		if (!this.immuneToJammers) {
+			this.jamTimer=JAM_TIME;
 		}
 	}
 

@@ -131,8 +131,6 @@ class Tank extends GameObject {
 		//end of gun stuff
 		
 		//jammer stuff
-		if (this.jammer != null) {
-		}
 		//end of jammer stuff
 
 		//placing items stuff
@@ -162,7 +160,7 @@ class Tank extends GameObject {
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
 			if (part != null) {
-				part.update(this.interpriterState, battleground, this.position, this.rotation);
+				part.update(this.interpriterState, battleground, this.position, this.rotation, this);
 			}
 		}
 	}
@@ -207,6 +205,15 @@ class Tank extends GameObject {
 		return verifyBoolean(this.interpriterState.getVariable('BOOLEAN', name)).val;
 	}
 
+	getJammed(): void {
+		if (this.scanner != null) {
+			this.scanner.getJammed();
+		}
+	}
+
+	getPosition(): Vec {
+		return this.position;
+	}
 }
 
 export default Tank;

@@ -9,7 +9,14 @@ import InterpriterState from '../casus/interpreter/InterpriterState.js';
 
 class TankPart {
 
-	update(interpriterState: InterpriterState, battleground: Battleground, parentPos: Vec, parentRotation: number) {
+	update(
+		interpriterState: 
+		InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	) {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {

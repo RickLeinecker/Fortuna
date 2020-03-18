@@ -13,14 +13,15 @@ import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
 import loadCasus from '../casus/loadCasus.js';
 
-function getTestTank(): Tank {
+function getTestTank(id: number=1): Tank {
+	const position=id===1?new Vec(20, -20):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
-		new Vec(20, -20), 
+		position,
 		new Chassis(), 
 		new Treads(), 
 		new Gun(),
-		new Scanner(true, true, 'MEDIUM'),
-		new Jammer('SMALL'),
+		new Scanner(false, false, 'MEDIUM'),
+		new Jammer(id===1?'MEDIUM':'LARGE'),
 		getTestCasusCode()
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});

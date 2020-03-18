@@ -33,7 +33,7 @@ class Battleground extends React.Component<{||}> {
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
-		this.testTanks = [getTestTank()];
+		this.testTanks = [getTestTank(1), getTestTank(2)];
 		const walls = [
 			new Wall(new Vec(10, 0), 0),
 			new Wall(new Vec(60, 0), Math.PI/2),

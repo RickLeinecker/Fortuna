@@ -32,7 +32,13 @@ class Jammer extends TankPart {
 		}
 	}
 
-	update(interpriterState: InterpriterState, battleground: Battleground, parentPos: Vec, parentRotation: number): void {
+	update(
+		interpriterState: InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	): void {
 		this.cooldown--;
 		if (this.cooldown < 0) {
 			const tryingToUseJammer = this._getBoolean(USE_JAMMER_VAR_NAME, interpriterState);
@@ -40,6 +46,14 @@ class Jammer extends TankPart {
 				this.cooldown = this._getMaxCooldown();
 				const position=parentPos.add(this.offsetFromParent.rotate(parentRotation));
 				createElectricityPulse(position, this._getMaxRange(), battleground);
+
+				//actually jam the tanks
+				for (const otherTank: Tank of battleground.getTanks().filter(t => t !== parentTank)) {
+					const distance=position.sub(otherTank.getPosition()).mag();
+					if (distance<this._getMaxRange()) {
+						otherTank.getJammed();
+					}
+				}
 			}
 		}
 	}
@@ -61,7 +75,6 @@ class Jammer extends TankPart {
 		}
 		const position=parentPos.add(this.offsetFromParent.rotate(parentRotation));
 		drawer.draw(getImage(image), position, this.width, parentRotation);
-		drawer.drawCircle(position, this._getMaxRange());
 	}
 
 	_getBoolean(name: string, interpriterState: InterpriterState): boolean {

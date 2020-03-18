@@ -137,6 +137,32 @@ function _createElectricityParticle(position: Vec, maxRange: number, battlegroun
 	battleground.createGameObject(particle);
 }
 
+function createStaticParticle(position: Vec, battleground: Battleground) {
+	const offsetAngle=Math.random()*2*Math.PI;
+	//const offsetR=Math.random()*7;
+	const offsetR=Math.random()*1;
+
+	const lifetime=10;
+	const rotation=Math.random()*2*Math.PI;
+	let velocityMag = Math.random()*4-2;
+	const velocity=new Vec(velocityMag, 0).rotate(rotation);
+	const velocityMultiplier = 0.8;
+	const renderOrder=1;
+	const fadeoutPower=0.5;
+	const width=7;
+	const particle=new Particle(
+		'STATIC',
+		position.add(new Vec(offsetR, 0).rotate(offsetAngle)),
+		width,
+		velocity,
+		lifetime,
+		rotation-Math.PI/2,
+		renderOrder,
+		velocityMultiplier,
+		fadeoutPower,
+	);
+	battleground.createGameObject(particle);
+}
 
 function createElectricityPulse(position: Vec, maxRange: number, battleground: Battleground) {
 	const lifetime=30;
@@ -168,6 +194,7 @@ function createElectricityPulse(position: Vec, maxRange: number, battleground: B
 	battleground.createGameObject(particle);
 }
 
-export {createSmokeCloud, createElectricityPulse};
+
+export {createSmokeCloud, createElectricityPulse, createStaticParticle};
 
 export default Particle;
