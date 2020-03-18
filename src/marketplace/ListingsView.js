@@ -3,6 +3,7 @@ import * as React from 'react';
 import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
+import SaleObject from './saleObjectClass.js';
 
 type Props = {|
 	//This is the type of item we are buying
@@ -10,29 +11,28 @@ type Props = {|
 |};
 type State = {|
 	userId: string,
+	//This allows for all the items that are for sale to be with in one array
+	itemsForSale: Array<SaleObject>
 |};
 
-//This allows for all the items that are for sale to be with in one array
-let itemsForSale = [{name: '', price: 0, amount: 0, sellerId: '', saleId: ''}];
+
 class ListingsView extends React.Component<Props, State> {
 	constructor(props:Props) {
 		super(props);
 		this.state={
 			userId: '',
+			itemsForSale : [],
 		}
 	}
 
 	//This is the initial functions that we call
 	componentDidMount() {
 		this.getUserId();
-		this.getMarketSales();
 	}
 
 	//When sellerType is updated we need to get the new sells
 	componentDidUpdate(prevProps:Props) {
-		if (prevProps.sellerType !== this.props.sellerType) {
-			this.getMarketSales();
-		}
+		this.getMarketSales();
 	}
 
 	//This gets us the user's id 
@@ -54,7 +54,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	//Gets all the sells and filters them based on what type we are currently looking at
 	getMarketSales = async ():Promise<void> => {
-		itemsForSale = [];
+		const itemsForSaleArray = [];
 		const response = await fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -64,39 +64,34 @@ class ListingsView extends React.Component<Props, State> {
 			},
 		});
 		const jsonObjectOfSells = await response.json();
-		for (const sale in jsonObjectOfSells)
-		{
+		for (const sale in jsonObjectOfSells) {
 			const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
-			if(typeOfItem === this.props.sellerType)
-			{
-				//This is a temp obj used to create an object of what a sell item would need to have. It is pushed into an array of all of the items for sell that fall in the current seller type
-				let obj = {};
-				obj['name'] = jsonObjectOfSells[sale].itemId;
-				obj['price'] = jsonObjectOfSells[sale].salePrice;
-				obj['amount'] = jsonObjectOfSells[sale].amount;
-				obj['sellerId'] = jsonObjectOfSells[sale].sellerId;
-				obj['saleId'] = jsonObjectOfSells[sale]._id;
-				itemsForSale.push(obj);
+			if(typeOfItem === this.props.sellerType) {
+				const sellingObject = new SaleObject(
+					jsonObjectOfSells[sale].itemId,
+					jsonObjectOfSells[sale].salePrice,
+					jsonObjectOfSells[sale].amount,
+					jsonObjectOfSells[sale].sellerId,
+					jsonObjectOfSells[sale]._id);
+				itemsForSaleArray.push(sellingObject);
 			}
 		}
-		//Need this to deal with the asynch nature of api calling......fun times
-		//Makes sure that we create the cards after we get the sells
-		this.forceUpdate();     
+		this.setState({itemsForSale:itemsForSaleArray});  
 	}
 	
 	//This creates a card for every sale
 	createCards = () => {
-		let cards = []
+		const cards = []
 		// Outer loop to create parent
-		for (let i = 0; i < itemsForSale.length; i++) {
+		for (let i = 0; i < this.state.itemsForSale.length; i++) {
 			//Create the parent and add the children
 			cards.push(
 				<div className="card mb-2" key={i}>
 					<div className="card-body">
-						<h5 className="card-title">Item to buy: {itemsForSale[i].name}</h5>
-						<h5 className="card-title">Price: ${itemsForSale[i].price}</h5>
-						<h5 className="card-title">Quantity: {itemsForSale[i].amount}</h5>
-						<button className="btn btn-success mt-2" onClick={this.buyItem.bind(this,itemsForSale[i].sellerId, itemsForSale[i].saleId)}>Buy</button>
+						<h5 className="card-title">Item to buy: {this.state.itemsForSale[i].name}</h5>
+						<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+						<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+						<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 					</div>
 				</div>
 			)
