@@ -25,10 +25,22 @@ const allImages: {[ImageName]: Image}= {
 	SMOKE1: new Image(),
 	SMOKE2: new Image(),
 	SMOKE3: new Image(),
+	ELECTRICITY: new Image(),
+	ELECTRICITY_FLIPPED: new Image(),
+	STATIC: new Image(),
 
 	BLUE_CHASSIS_1: new Image(),
 	RED_GUN_1: new Image(),
-	GRAY_TREAD_1: new Image()
+	GRAY_TREAD_1: new Image(),
+	JAMMER_SMALL: new Image(),
+	JAMMER_MEDIUM: new Image(),
+	JAMMER_LARGE: new Image(),
+	SCANNER_SMALL: new Image(),
+	SCANNER_MEDIUM: new Image(),
+	SCANNER_LARGE: new Image(),
+	SCANNER_SMALL_ITEMS: new Image(),
+	SCANNER_MEDIUM_ITEMS: new Image(),
+	SCANNER_LARGE_ITEMS: new Image(),
 };
 const callbacksWhenLoaded: Array<()=>void> = [];
 
@@ -51,10 +63,22 @@ function imageLoaderInit(): void {
 	allImages.SMOKE1.src='Smoke1.png';
 	allImages.SMOKE2.src='Smoke2.png';
 	allImages.SMOKE3.src='Smoke3.png';
+	allImages.ELECTRICITY.src='Electricity.png';
+	allImages.ELECTRICITY_FLIPPED.src='ElectricityFlipped.png';
+	allImages.STATIC.src='static.png';
 
 	allImages.BLUE_CHASSIS_1.src='Chassis1Blue.png';
 	allImages.RED_GUN_1.src='gun1GrayRed.png';
 	allImages.GRAY_TREAD_1.src='Tread1Gray.png';
+	allImages.JAMMER_SMALL.src='JammerSmall.png';
+	allImages.JAMMER_MEDIUM.src='JammerMedium.png';
+	allImages.JAMMER_LARGE.src='JammerLarge.png';
+	allImages.SCANNER_SMALL.src='scannerSmall.png';
+	allImages.SCANNER_MEDIUM.src='MediumScanner.png';
+	allImages.SCANNER_LARGE.src='LargeScanner.png';
+	allImages.SCANNER_SMALL_ITEMS.src='scannerItemsSmall.png';
+	allImages.SCANNER_MEDIUM_ITEMS.src='MediumItemsScanner.png';
+	allImages.SCANNER_LARGE_ITEMS.src='LargeItemsScanner.png';
 	//------------------END ADD MORE IMAGE HERE-----------------------
 	
 	for (const name: ImageName of Object.keys(allImages)) {
