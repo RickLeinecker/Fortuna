@@ -5,9 +5,10 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 
-const LERP_PERCENT=0.5;
+const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
+const TAU=Math.PI*2;
 class Gun extends TankPart {
 
 	//in order for the gun movement to look smooth but still be easy to write code for,
@@ -24,7 +25,7 @@ class Gun extends TankPart {
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
-		this.gunAngle=gunAngle;
+		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
 	}
 
 	onUpdate(): void {
@@ -39,6 +40,7 @@ class Gun extends TankPart {
 		else {
 			this.displayAngle-=negativeDistance*LERP_PERCENT;
 		}
+		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {

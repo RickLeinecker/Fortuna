@@ -9,7 +9,8 @@ import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 function saveCasus(casusCode: ContainerBlock): void {
 	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
-	setTankForCasus('5e6ad69007161134094ad003');
+	//setTankForCasus('5e6ad69007161134094ad003');
+	setTankForCasus('5e6ad7f507161134094ad004');
 
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
