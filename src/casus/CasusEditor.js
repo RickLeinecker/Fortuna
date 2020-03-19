@@ -229,7 +229,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 	_clearBackground(ctx: CanvasRenderingContext2D): void {
 		//fill background
-		ctx.fillStyle = 'white';
+		ctx.fillStyle = '#3E5A6F';
 		ctx.fillRect(0, 0, 100000, 100000);
 	}
 

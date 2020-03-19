@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BlockBankTypeSelector.css';
 
@@ -66,6 +67,9 @@ class BlockBankTypeSelector extends React.Component<Props> {
 					onClick={() => this.showSection('DEBUG')}>
 						Debug
 				</button>
+				<Link to="TrainingArena">
+					<button className="primarybtn testCodeBtn">Test Code</button>
+				</Link>
 			</div>
 		);
 	}

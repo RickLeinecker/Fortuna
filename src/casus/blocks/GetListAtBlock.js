@@ -104,7 +104,7 @@ class GetListAtBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#ee22aa';
+		ctx.fillStyle = '#ff00cb';
 
 		const perim: Array<Vec> = this.getPerim();
 		ctx.beginPath();
@@ -114,7 +114,7 @@ class GetListAtBlock extends CasusBlock {
 		}
 		ctx.fill();
 
-		ctx.fillStyle = '#000000';
+		ctx.fillStyle = '#000921';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

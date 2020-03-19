@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import './CasusContainer.css';
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
@@ -41,11 +40,6 @@ class CasusContainer extends React.Component<Props, State> {
 					onBlocksDragged={this.onBlocksDragged} 
 					onDraggedBlocksReleased={this.onDraggedBlocksReleased}
 				/>
-				<div className='casusNav'>
-					<Link to='TrainingArena'>
-						<button className='primarybtn'>Test Code</button>
-					</Link>
-				</div>
 			</div>
 		);
 	}

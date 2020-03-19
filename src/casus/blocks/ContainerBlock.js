@@ -138,7 +138,7 @@ class ContainerBlock extends CasusBlock {
 		else {
 			//otherwise just draw the highlight
 			ctx.beginPath();
-			ctx.strokeStyle = '#eeeeee';
+			ctx.strokeStyle = '#04CCFF';
 			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
 			ctx.moveTo(this.boundingBox.x, bestY);
 			ctx.lineTo(this.boundingBox.x + this.boundingBox.w, bestY);

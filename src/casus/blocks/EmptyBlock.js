@@ -49,7 +49,7 @@ class EmptyBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#222222';
+		ctx.fillStyle = '#000921';
 		ctx.beginPath();
 		const perim: Array<Vec> = this.getPerim();
 		ctx.moveTo(perim[0].x, perim[0].y);

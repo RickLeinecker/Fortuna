@@ -82,11 +82,11 @@ class SetVariableBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#ee22aa';
+		ctx.fillStyle = '#ff00cb';
 
 		ctx.fillRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.w, this.boundingBox.h);
 
-		ctx.fillStyle = '#000000';
+		ctx.fillStyle = '#000921';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

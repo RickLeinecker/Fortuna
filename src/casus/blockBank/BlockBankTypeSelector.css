@@ -4,7 +4,11 @@
 }
 
 .blockBankTypeSelectorDiv {
-	background-color: #111111;
+	background-color: #000921;
 	height: 100%;
 	width: 400px;
+}
+
+.testCodeBtn {
+	margin-left: 2%;
 }

@@ -217,7 +217,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	_clearBackground(ctx: CanvasRenderingContext2D): void {
 		//fill background
-		ctx.fillStyle = 'gray';
+		ctx.fillStyle = "#04CCFF";
 		ctx.fillRect(0, 0, 100000, 10000);
 	}
 
