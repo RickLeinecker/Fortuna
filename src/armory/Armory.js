@@ -4,7 +4,7 @@ import './Armory.css';
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
+import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
@@ -146,7 +146,21 @@ class Armory extends React.Component<Props, State> {
 						obj['value'] = jsonObjectOfTanks[tank]._id;
 						obj['label'] = jsonObjectOfTanks[tank].tankName;
 						if(jsonObjectOfTanks[tank]._id === this.state.selectedTankId) {
-							
+							this.setState({selectedTankName:jsonObjectOfTanks[tank].tankName});
+							this.setState({selectedCasusCode:jsonObjectOfTanks[tank].casusCode});
+							this.setState({selectedIsBot:jsonObjectOfTanks[tank].isBot});
+							this.setState({selectedChassis: jsonObjectOfTanks[tank].components[0]});
+							this.setState({selectedWeaponOne: jsonObjectOfTanks[tank].components[1]});
+							this.setState({selectedWeaponTwo: jsonObjectOfTanks[tank].components[2]});
+							this.setState({selectedScannerOne: jsonObjectOfTanks[tank].components[3]});
+							this.setState({selectedScannerTwo: jsonObjectOfTanks[tank].components[4]});
+							this.setState({selectedScannerThree: jsonObjectOfTanks[tank].components[5]});
+							this.setState({selectedJammer: jsonObjectOfTanks[tank].components[6]});
+							this.setState({selectedThreads: jsonObjectOfTanks[tank].components[7]});
+							this.setState({selectedSingleUseItemOne: jsonObjectOfTanks[tank].components[8]});
+							this.setState({selectedSingleUseItemTwo: jsonObjectOfTanks[tank].components[9]});
+							this.setState({selectedSingleUseItemThree: jsonObjectOfTanks[tank].components[10]});
+							setTankForCasus(this.state.selectedTankId);
 						}
 						this.state.tankOptions.push(obj);
 					}
@@ -242,10 +256,8 @@ class Armory extends React.Component<Props, State> {
 
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
-	handleChangeInTankOptions = ({ target }:{target:any}) => {
-		console.log(target.label);
+	handleChangeInTankOptions = ({ target }:{target:HTMLInputElement}) => {
 		this.setState({ selectedTankId: target.value});
-		this.setState({ selectedTankName: target.label});
 		this.getSelectedTank();
 	}
 
@@ -296,7 +308,6 @@ class Armory extends React.Component<Props, State> {
 	//This will save a tank
 	saveTank  = async ():Promise<void> => {
 		let componentsArray = [this.state.selectedChassis,this.state.selectedWeaponOne,this.state.selectedWeaponTwo,this.state.selectedScannerOne,this.state.selectedScannerTwo,this.state.selectedScannerThree,this.state.selectedJammer,this.state.selectedThreads,this.state.selectedSingleUseItemOne,this.state.selectedSingleUseItemTwo,this.state.selectedSingleUseItemThree];
-		console.log(this.state.selectedTankName);
 		fetch('/api/tank/tankUpdate/' + this.state.selectedTankId, {
 
 			method: 'PUT',
