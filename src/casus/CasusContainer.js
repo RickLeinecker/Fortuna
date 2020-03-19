@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import './CasusContainer.css';
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
@@ -24,7 +23,7 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="casusContainerDiv">
+			<div>
 				<Navbar
 					linkName='Armory'
 					returnName='Back to Armory'
