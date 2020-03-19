@@ -62,36 +62,34 @@ class SelectVariablePopup extends React.Component<Props, State> {
 				open={this.props.variableBlockToRename != null}
 				closeOnDocumentClick={false}
 				closeOnEscape={false}
-				className="selectVariablePopup"
+
 			>
-				<div>
-					<h1>Select Variable:</h1>
+				<div className="popup centered">
+					<h2>Select Variable:</h2>
 
 					{prepopulatedVariables.map(name => (
 						<button
-							className="btn normalPadding" 
+							className="popupbtn normalPadding" 
 							onClick= {() => this.onCreateVariableSelected(name)}
 							key={name}>
 							{name}
 						</button>
 					))}
+					<br/>
+					<input className="inputText" onChange={(e) => this.handleInputChange(e.target.value)}/>
+					<br/>
+					<button 
+						className="popupbtn" 
+						disabled={!enabled}
+						onClick= {() => this.onCreateVariableSelected(null)}> 
+							{this.getCreateVariableText()}
+					</button>
 
-					<div className="centered">
-						<input className="normalPadding" onChange={(e) => this.handleInputChange(e.target.value)}/>
-
-						<button 
-							className="btn normalPadding" 
-							disabled={!enabled}
-							onClick= {() => this.onCreateVariableSelected(null)}> 
-								{this.getCreateVariableText()}
-						</button>
-
-						<button
-							className="btn normalPadding"
-							onClick={() => this.onCancelClicked()}>
-								Cancel
-						</button>
-					</div>
+					<button
+						className="cancelbtn"
+						onClick={() => this.onCancelClicked()}>
+							Cancel
+					</button>
 				</div>
 			</Popup>
 		);

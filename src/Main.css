@@ -152,6 +152,10 @@ body {
 	text-align: center;
 }
 
+.popup h2 {
+	margin-bottom: 4%;
+}
+
 .popup label {
 	margin-top: 20px;
 }
@@ -168,14 +172,15 @@ body {
 	margin-top: 20px;
 }
 
-.disabled {
+.popupbtn:disabled {
 	color: #04CCFF;
-	background: #04213F;
+	background: #999999;
 	border: 2px solid #04CCFF;
 }
 
-.disabled:hover {
+.popupbtn:disabled:hover {
 	cursor: default;
+	background: #999999;
 }
 
 .popupbtn:hover {
