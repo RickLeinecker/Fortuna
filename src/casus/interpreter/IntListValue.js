@@ -11,10 +11,11 @@ class IntListValue {
 	}
 
 	setAt(index: IntValue, to:IntValue): void {
-		if (index.val>=0 || index.val<this.list.length) {
-			this.list[index.val]=to;
+		if (index.val<0 || index.val>this.list.length) {
+			//otherwise just ignore it
+			return;
 		}
-		//otherwise just ignore it
+		this.list[index.val]=to;
 	}
 	
 	getAt(index: IntValue): IntValue {

@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BlockBankTypeSelector.css';
 
@@ -27,45 +28,48 @@ class BlockBankTypeSelector extends React.Component<Props> {
 		return (
 			<div className="blockBankTypeSelectorDiv">
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('CONTROL_FLOW')}>
 						Control Flow
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('VARIABLES')}>
 						Variables
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('MATH')}>
 						Math
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('INTS')}>
 						Ints
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('DOUBLES')}>
 						Doubles
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('LOGIC')}>
 						Logic
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('LISTS')}>
 						Lists
 				</button>
 				<button 
-					className="btn btn-secondary paddedButton" 
+					className="btn paddedButton" 
 					onClick={() => this.showSection('DEBUG')}>
 						Debug
 				</button>
+				<Link to="TrainingArena">
+					<button className="primarybtn testCodeBtn">Test Code</button>
+				</Link>
 			</div>
 		);
 	}

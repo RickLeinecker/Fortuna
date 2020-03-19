@@ -15,14 +15,12 @@ const TRIGGERED_UNTIL_EXPLOSION=25;
 
 class Mine extends GameObject {
 
-	position: Vec;
 	lifetimeCounter: number;
 	triggered: boolean;
 	triggeredCounter: number;
 
 	constructor(position: Vec)  {
-		super();
-		this.position=position;
+		super(position);
 		this.lifetimeCounter=0;
 		this.triggered=false;
 		this.triggeredCounter=0;
@@ -33,7 +31,7 @@ class Mine extends GameObject {
 		if (!this.triggered && this.lifetimeCounter >= ARM_TIME) {
 			const tanks=battleground.getTanks();	
 			for (const t:Tank of tanks) {
-				const distance=this.position.sub(t.position).mag();
+				const distance=this.getPosition().sub(t.position).mag();
 				if (distance<ACTIVATE_DISTANCE) {
 					this.triggered=true;
 					this.triggeredCounter=TRIGGERED_UNTIL_EXPLOSION;
@@ -50,20 +48,20 @@ class Mine extends GameObject {
 	
 	render(drawer: ImageDrawer): void {
 		if (this.triggered) {
-			drawer.draw(getImage('MINE'), this.position, MINE_WIDTH, 0);
+			drawer.draw(getImage('MINE'), this.getPosition(), MINE_WIDTH, 0);
 		}
 		else {
 			if (this.lifetimeCounter < ARM_TIME) {
 				//wait to arm still...
-				drawer.draw(getImage('MINE_UNTRIGGERED'), this.position, MINE_WIDTH, 0);
+				drawer.draw(getImage('MINE_UNTRIGGERED'), this.getPosition(), MINE_WIDTH, 0);
 			}
 			else {
 				//flash on and off to indicate triggered
 				if (this.lifetimeCounter % 30 < 7) {
-					drawer.draw(getImage('MINE'), this.position, MINE_WIDTH, 0);
+					drawer.draw(getImage('MINE'), this.getPosition(), MINE_WIDTH, 0);
 				}
 				else {
-					drawer.draw(getImage('MINE_UNTRIGGERED'), this.position, MINE_WIDTH, 0);
+					drawer.draw(getImage('MINE_UNTRIGGERED'), this.getPosition(), MINE_WIDTH, 0);
 				}
 			}
 		}
@@ -75,7 +73,7 @@ class Mine extends GameObject {
 
 	_explode(battleground: Battleground): void {
 		battleground.deleteGameObject(this);
-		createSmokeCloud(this.position, battleground);
+		createSmokeCloud(this.getPosition(), battleground);
 	}
 
 }
