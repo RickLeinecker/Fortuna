@@ -9,12 +9,18 @@ import {getInterpriterState, setInterpriterState} from '../casus/interpreter/Int
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
+import Scanner from './Scanner.js';
+import Jammer from './Jammer.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
+import IntValue from '../casus/interpreter/IntValue.js';
+import DoubleValue from '../casus/interpreter/DoubleValue.js';
+import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import Battleground from '../battleground/Battleground.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
+
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	USE_MINE_VAR_NAME,
@@ -23,11 +29,19 @@ import {
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
+	TANK_X_VAR_NAME,
+	TANK_Y_VAR_NAME,
+
+	ENEMY_TANK_XS_VAR_NAME,
+	ENEMY_TANK_YS_VAR_NAME,
+	EXPLOSIVE_XS_VAR_NAME,
+	EXPLOSIVE_YS_VAR_NAME,
+	WALL_XS_VAR_NAME,
+	WALL_YS_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 class Tank extends GameObject {
 	//game state
-	position: Vec;
 	rotation: number;
 	haveC4: boolean;
 	c4ToBlowUp: ?C4;
@@ -38,24 +52,37 @@ class Tank extends GameObject {
 	chassis: TankPart;
 	treads: TankPart;
 	mainGun: Gun;
+	scanner: ?Scanner;
+	jammer: ?Jammer;
+	parts: Array<?TankPart>;
 
 	// Casus:
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
 
-	constructor(position: Vec, chassis: TankPart, treads: TankPart, mainGun: Gun, casusCode: CasusBlock) {
-		super();
-		this.position = position;
+	constructor(
+		position: Vec, 
+		chassis: TankPart, 
+		treads: TankPart, 
+		mainGun: Gun, 
+		scanner: ?Scanner, 
+		jammer: ?Jammer,
+		casusCode: CasusBlock
+	) {
+		super(position);
 
 		this.chassis = chassis;
 		this.treads = treads;
 		this.mainGun = mainGun;
+		this.scanner = scanner;
+		this.jammer = jammer;
+		this.parts = [chassis, treads, mainGun, scanner, jammer];
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.8;
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
-		this.minesLeft = 2;
+		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
 	}
 
@@ -104,7 +131,9 @@ class Tank extends GameObject {
 			ranIntoWall=true;
 		}
 
-		this.interpriterState.setVariable('BOOLEAN', RAN_INTO_WALL_VAR_NAME, new BooleanValue(ranIntoWall));
+		this._setBoolean(RAN_INTO_WALL_VAR_NAME, ranIntoWall);
+		this._setDouble(TANK_X_VAR_NAME, this.position.x);
+		this._setDouble(TANK_Y_VAR_NAME, this.position.y);
 		//end of movement stuff
 		
 		//gun stuff
@@ -118,7 +147,7 @@ class Tank extends GameObject {
 		if (shouldPlaceC4) {
 			if (this.haveC4) {
 				this.haveC4=false;	
-				this.c4ToBlowUp=new C4(this.position);
+				this.c4ToBlowUp=new C4(this.getPosition());
 				battleground.createGameObject(this.c4ToBlowUp);
 			}
 		}
@@ -132,10 +161,43 @@ class Tank extends GameObject {
 		const placeMineThisFrame = this._getBoolean(USE_MINE_VAR_NAME);
 		if (placeMineThisFrame && !this.usedMineLastFrame && this.minesLeft > 0) {
 			this.minesLeft--;
-			battleground.createGameObject(new Mine(this.position));
+			battleground.createGameObject(new Mine(this.getPosition()));
 		}
 		this.usedMineLastFrame = placeMineThisFrame;
 		//end of placing items stuff
+		
+		//update tank parts if I need to
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				part.update(this.interpriterState, battleground, this.getPosition(), this.rotation, this);
+			}
+		}
+		//end of updating tank parts
+		
+		//set generic casus lists
+		const wallXs=[];
+		const wallYs=[];
+		for (const wall: Seg of walls) {
+			wallXs.push(wall.from.x);
+			wallYs.push(wall.from.y);
+			wallXs.push(wall.to.x);
+			wallYs.push(wall.to.y);
+		}
+		this._setDoubleArray(WALL_XS_VAR_NAME, wallXs);
+		this._setDoubleArray(WALL_YS_VAR_NAME, wallYs);
+
+		const enemyTanks=this._getEnemyTanks(battleground);
+		const otherTankXs=enemyTanks.map(tank => tank.getPosition().x);
+		const otherTankYs=enemyTanks.map(tank => tank.getPosition().y);
+		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
+		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
+
+		const mines=this._getMines(battleground);
+		const minesXs=mines.map(mine => mine.getPosition().x);
+		const minesYs=mines.map(mine => mine.getPosition().y);
+		this._setDoubleArray(EXPLOSIVE_XS_VAR_NAME, minesXs);
+		this._setDoubleArray(EXPLOSIVE_YS_VAR_NAME, minesYs);
+		//end of set generic casus lists
 	}
 
 	intersectingTankOrWall(walls: Array<Seg>, tanks: Array<Tank>): boolean {
@@ -155,13 +217,36 @@ class Tank extends GameObject {
 	}
 
 	getBoundingCircle(): Circle {
-		return new Circle(this.position, 4);
+		return new Circle(this.getPosition(), 4);
 	}
 
 	render(drawer: ImageDrawer): void {
-		this.treads.drawSelf(drawer, this.position, this.rotation);
-		this.chassis.drawSelf(drawer, this.position, this.rotation);
-		this.mainGun.drawSelf(drawer, this.position, this.rotation);
+		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
+		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.scanner!=null) {
+			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
+		if (this.jammer!=null) {
+			this.jammer.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
+		this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+	}
+
+	_setDouble(name: string, to: number): void {
+		this.interpriterState.setVariable('DOUBLE', name, new DoubleValue(to));
+	}
+
+	_setBoolean(name: string, to: boolean): void {
+		this.interpriterState.setVariable('BOOLEAN', name, new BooleanValue(to));
+	}
+
+	_setDoubleArray(name: string, to: Array<number>): void {
+		const list=new DoubleListValue();
+		for (let i=0; i<to.length; i++) {
+			list.setAt(new IntValue(i), new DoubleValue(to[i]));
+		}
+
+		this.interpriterState.setVariable('DOUBLE_LIST', name, list);
 	}
 
 	_getDouble(name: string): number {
@@ -170,6 +255,38 @@ class Tank extends GameObject {
 
 	_getBoolean(name: string): boolean {
 		return verifyBoolean(this.interpriterState.getVariable('BOOLEAN', name)).val;
+	}
+
+	_getEnemyTanks(battleground: Battleground): Array<Tank> {
+		if (this.scanner == null) {
+			return [];
+		}
+		return this.scanner.getEnemyTanks(
+			this.interpriterState, 
+			battleground, 
+			this.getPosition(), 
+			this.rotation, 
+			this
+		);
+	}
+
+	_getMines(battleground: Battleground): Array<GameObject> {
+		if (this.scanner == null) {
+			return [];
+		}
+		return this.scanner.getMines(
+			this.interpriterState, 
+			battleground, 
+			this.getPosition(), 
+			this.rotation, 
+			this
+		);
+	}
+
+	getJammed(): void {
+		if (this.scanner != null) {
+			this.scanner.getJammed();
+		}
 	}
 
 }

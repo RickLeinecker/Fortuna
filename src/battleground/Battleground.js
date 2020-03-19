@@ -13,6 +13,8 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
+const FPS=10;
+
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
 	alive: boolean;
@@ -33,7 +35,7 @@ class Battleground extends React.Component<{||}> {
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
-		this.testTanks = [getTestTank()];
+		this.testTanks = [getTestTank(1), getTestTank(2)];
 		const walls = [
 			new Wall(new Vec(10, 0), 0),
 			new Wall(new Vec(60, 0), Math.PI/2),
@@ -92,7 +94,7 @@ class Battleground extends React.Component<{||}> {
 			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
 		}
 		this.objectsToDelete = [];
-		setTimeout(() => this._gameLoop(), 1000/30);
+		setTimeout(() => this._gameLoop(), 1000/FPS);
 	}
 
 	_update(): void {
@@ -105,6 +107,8 @@ class Battleground extends React.Component<{||}> {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+		ctx.fillStyle = 'black';
+		ctx.fillRect(0, 0, 1e9, 1e9);
 		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 		const drawer=new ImageDrawer(ctx);
 
@@ -130,6 +134,10 @@ class Battleground extends React.Component<{||}> {
 
 	getTanks(): Array<Tank> {
 		return this.testTanks;
+	}
+
+	getAllGameObjects(): Array<GameObject> {
+		return this.gameObjects;
 	}
 
 	createGameObject(toCreate: GameObject): void {

@@ -9,6 +9,7 @@ import reviveCasusBlock from './reviveCasusBlock.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void): void {
+	
 	const targetTankId=getTankForCasus();
 	const token=getLoginToken();
 	console.log('Loading casus...');

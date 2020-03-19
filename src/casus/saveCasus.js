@@ -8,8 +8,7 @@ import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 function saveCasus(casusCode: ContainerBlock): void {
-	//TODO: remove this as soon as armory has been refactored and we can set the selected tank there
-
+	
 	const tankToEditID: string = getTankForCasus();
 	const token=getLoginToken();
 	if (casusCode.children.length===0) {
