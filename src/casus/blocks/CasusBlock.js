@@ -83,7 +83,7 @@ class CasusBlock {
 		const perim=this.getPerim();
 		if (perim.length !== 0 && this.highlighted) {
 			ctx.beginPath();
-			ctx.strokeStyle = '#eeeeee';
+			ctx.strokeStyle = '#04CCFF';
 			ctx.lineWidth = HIGHLIGHT_STROKE_WIDTH;
 			ctx.moveTo(perim[0].x, perim[0].y);
 			for (const p: Vec of perim) {

@@ -102,7 +102,7 @@ class SingleConditionHeader extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#3322ee';
+		ctx.fillStyle = '#0062ff';
 
 		const perim: Array<Vec> = this.getPerim();
 		ctx.beginPath();
@@ -112,7 +112,7 @@ class SingleConditionHeader extends CasusBlock {
 		}
 		ctx.fill();
 
-		ctx.fillStyle = '#000000';
+		ctx.fillStyle = '#000921';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
