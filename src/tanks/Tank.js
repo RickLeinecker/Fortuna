@@ -189,6 +189,7 @@ class Tank extends GameObject {
 		const enemyTanks=this._getEnemyTanks(battleground);
 		const otherTankXs=enemyTanks.map(tank => tank.getPosition().x);
 		const otherTankYs=enemyTanks.map(tank => tank.getPosition().y);
+		console.log('length: '+otherTankXs.length);
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
 
