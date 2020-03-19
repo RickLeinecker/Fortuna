@@ -5,7 +5,7 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 
-const LERP_PERCENT=0.5;
+const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
