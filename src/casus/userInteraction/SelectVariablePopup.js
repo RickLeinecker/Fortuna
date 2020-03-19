@@ -62,6 +62,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 				open={this.props.variableBlockToRename != null}
 				closeOnDocumentClick={false}
 				closeOnEscape={false}
+				className="selectVariablePopup"
 			>
 				<div>
 					<h1>Select Variable:</h1>
