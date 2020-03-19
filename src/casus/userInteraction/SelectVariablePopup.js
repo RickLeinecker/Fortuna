@@ -13,7 +13,8 @@ import type {DataType} from '../blocks/DataType.js';
 import {
 	builtInIntVariables, 
 	builtInBooleanVariables, 
-	builtInDoubleVariables
+	builtInDoubleVariables,
+	builtInDoubleListVariables,
 } from '../userInteraction/CasusSpecialVariables.js';
 
 import './SelectVariablePopup.css';
@@ -151,6 +152,8 @@ class SelectVariablePopup extends React.Component<Props, State> {
 				return this.getPrepoulatedDoubles();
 			case 'BOOLEAN':
 				return this.getPrepopulatedBooleans();
+			case 'DOUBLE_LIST':
+				return this.getPrepopulatedDoubleLists();
 			default:
 				return [];
 		}
@@ -181,6 +184,10 @@ class SelectVariablePopup extends React.Component<Props, State> {
 		else {
 			return builtInBooleanVariables;
 		}
+	}
+
+	getPrepopulatedDoubleLists(): Array<string> {
+		return builtInDoubleListVariables;
 	}
 
 }
