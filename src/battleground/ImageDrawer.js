@@ -29,6 +29,15 @@ class ImageDrawer {
 		this.ctx.stroke();
 	}
 
+	drawCircle(c: Vec, r: number): void {
+		const convertedC=this._uncompressPosition(c);
+		const convertedR=this._uncompressWidth(r);
+		this.ctx.strokeStyle = 'grey';
+		this.ctx.beginPath();
+		this.ctx.ellipse(convertedC.x, convertedC.y, convertedR, convertedR, 0, 0, Math.PI*2, true);
+		this.ctx.stroke();
+	}
+
 	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number, alpha: number): void {
 		const oldAlpha = this.ctx.globalAlpha;
 		this.ctx.globalAlpha = alpha;
