@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie';
 	This function takes no input
 	This function gets the id of the users favorite tank
 */
-function getFavoriteTankID() {
+function getFavoriteTankID() : Promise<Response> {
 	const cookies = new Cookies();
 	const token = cookies.get('token');
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
@@ -24,7 +24,7 @@ function getFavoriteTankID() {
 	This function takes no input
 	This function gets all of the tanks the user is associated with
 */
-function getAllUsersTanks() {
+function getAllUsersTanks() : Promise<Response> {
 	const cookies = new Cookies();
 	const token = cookies.get('token');
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
