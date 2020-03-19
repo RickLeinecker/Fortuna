@@ -13,6 +13,8 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
+const FPS=10;
+
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
 	alive: boolean;
@@ -92,7 +94,7 @@ class Battleground extends React.Component<{||}> {
 			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
 		}
 		this.objectsToDelete = [];
-		setTimeout(() => this._gameLoop(), 1000/30);
+		setTimeout(() => this._gameLoop(), 1000/FPS);
 	}
 
 	_update(): void {

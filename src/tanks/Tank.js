@@ -189,7 +189,6 @@ class Tank extends GameObject {
 		const enemyTanks=this._getEnemyTanks(battleground);
 		const otherTankXs=enemyTanks.map(tank => tank.getPosition().x);
 		const otherTankYs=enemyTanks.map(tank => tank.getPosition().y);
-		console.log('length: '+otherTankXs.length);
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
 
@@ -246,6 +245,7 @@ class Tank extends GameObject {
 		for (let i=0; i<to.length; i++) {
 			list.setAt(new IntValue(i), new DoubleValue(to[i]));
 		}
+
 		this.interpriterState.setVariable('DOUBLE_LIST', name, list);
 	}
 

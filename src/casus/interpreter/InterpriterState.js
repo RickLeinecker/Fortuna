@@ -67,9 +67,7 @@ class InterpriterState {
 				if (!this.doubleListVariables.has(name)) {
 					this.doubleListVariables.set(name, new DoubleListValue());
 				}
-				const res=this.doubleListVariables.get(name);
-				console.log(res);
-				return res;
+				return this.doubleListVariables.get(name);
 			default:
 				console.log('Unexpected variable type '+type+' in InterpreterState.getVariable!');
 				return null;
