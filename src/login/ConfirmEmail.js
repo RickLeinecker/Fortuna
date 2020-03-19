@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 
 type Props = {
@@ -62,8 +63,11 @@ class ConfirmEmail extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div>
-				<h1>{this.state.message}</h1>
+			<div className="confirmPage">
+				<h3>{this.state.message}</h3>
+				<Link to="/Login">
+					<button className="clearbtn">Click here to go to Login</button>
+				</Link>
 			</div>
 		);
 	}
