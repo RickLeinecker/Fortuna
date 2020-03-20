@@ -115,7 +115,6 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		window.addEventListener('resize', this.onResize);
-		window.removeEventListener('resize', this.onResize);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		canvas.onmousemove = (e: MouseEvent) => this.onMouseMove(e);
 		canvas.onmouseout = () => this.onMouseOut();
