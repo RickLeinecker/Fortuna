@@ -5,9 +5,6 @@ import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import reviveCasusBlock from './reviveCasusBlock.js';
 
-//just temporary until armory has been reworked and we can set this in armory
-import setTankForCasus from '../globalComponents/setTankForCasus.js';
-
 function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void): void {
 	
 	const targetTankId=getTankForCasus();
