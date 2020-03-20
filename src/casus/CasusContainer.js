@@ -5,6 +5,7 @@ import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import Navbar from '../globalComponents/Navbar.js';
+import "../Main.css";
 
 type Props = {||};
 
@@ -23,7 +24,7 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div>
+			<div className="haveScorebarIfSmall">
 				<Navbar
 					linkName='Armory'
 					returnName='Back to Armory'
