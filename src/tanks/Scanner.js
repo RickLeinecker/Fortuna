@@ -4,18 +4,18 @@ import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
-import Tank from './Tank.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import GameObject from '../battleground/GameObject.js';
-import Battleground from '../battleground/Battleground.js';
 import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
+
+import type Battleground from '../battleground/Battleground.js';
+import type Tank from './Tank.js';
 
 type ScannerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
 
 const ROTATION_SPEED=Math.PI*2/(30*6);
-
 const JAM_TIME=60;
 
 class Scanner extends TankPart {

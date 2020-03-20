@@ -17,7 +17,6 @@ import IntValue from '../casus/interpreter/IntValue.js';
 import DoubleValue from '../casus/interpreter/DoubleValue.js';
 import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
-import Battleground from '../battleground/Battleground.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 
@@ -39,6 +38,8 @@ import {
 	WALL_XS_VAR_NAME,
 	WALL_YS_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
+
+import type Battleground from '../battleground/Battleground.js';
 
 class Tank extends GameObject {
 	//game state
