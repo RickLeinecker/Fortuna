@@ -1,7 +1,7 @@
 //@flow strict 
 
-import ImageDrawer from './ImageDrawer.js';
-import Battleground from './Battleground.js';
+import type ImageDrawer from './ImageDrawer.js';
+import type Battleground from './Battleground.js';
 
 //a simple class that can be implemented for objects that need to be rendered in the game
 //Override the following methods if you need them:

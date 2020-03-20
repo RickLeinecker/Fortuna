@@ -2,10 +2,11 @@
 
 import Vec from '../../casus/blocks/Vec.js';
 import GameObject from '../GameObject.js';
-import ImageDrawer from '../ImageDrawer.js';
-import Battleground from '../Battleground.js';
 import {getImage} from '../ImageLoader.js';
 import type {ImageName} from '../ImageName.js';
+
+import type ImageDrawer from '../ImageDrawer.js';
+import type Battleground from '../Battleground.js';
 
 class Particle extends GameObject {
 	image: ImageName;

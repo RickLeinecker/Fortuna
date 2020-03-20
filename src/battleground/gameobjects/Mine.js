@@ -2,11 +2,12 @@
 
 import GameObject from '../GameObject.js';
 import Vec from '../../casus/blocks/Vec.js';
-import ImageDrawer from '../ImageDrawer.js';
-import Battleground from '../Battleground.js';
-import Tank from '../../tanks/Tank.js';
 import {getImage} from '../ImageLoader.js';
 import {createSmokeCloud} from './Particle.js';
+
+import type ImageDrawer from '../ImageDrawer.js';
+import type Battleground from '../Battleground.js'; 
+import type Tank from '../../tanks/Tank.js';
 
 const MINE_WIDTH=6;
 const ARM_TIME=100;

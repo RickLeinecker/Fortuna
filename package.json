@@ -28,7 +28,7 @@
     "start": "react-scripts start",
     "build": "babel src/ -d lib/",
     "deploy": "react-scripts build",
-		"cycles": "madge --circular src/index.js",
+		"cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",

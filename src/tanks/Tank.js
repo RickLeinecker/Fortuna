@@ -12,7 +12,6 @@ import Seg from '../geometry/Seg.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import GameObject from '../battleground/GameObject.js';
-import Battleground from '../battleground/Battleground.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 import {
@@ -24,6 +23,8 @@ import {
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
+
+import type Battleground from '../battleground/Battleground.js';
 
 class Tank extends GameObject {
 	//game state
