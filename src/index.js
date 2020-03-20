@@ -13,12 +13,11 @@ import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
 import Battleground from './battleground/Battleground.js';
 import ConfirmEmail from './login/ConfirmEmail.js';
-import "./Main.css";
 
 // The routing const holds the paths to other react components.
 const routing = (
 	<Router>
-		<div className="haveScorebarIfSmall">
+		<div>
 			<Switch>
 				<Route exact path="/" component={App} />
 				<Route path="/Login" component={Login} />
