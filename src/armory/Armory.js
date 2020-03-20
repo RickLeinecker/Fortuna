@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
-//import Tank from '../tanks/Tank.js';
+
 // Armory component.
 type Props = {||}; 
 type State = {|
