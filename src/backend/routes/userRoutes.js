@@ -28,7 +28,7 @@ router.post('/registerUser', [
 
 // Login a User
 // Route call: /login
-// Req must include email and password in body
+// Req must include userName and password in body
 // Returns a jwt upon success
 router.post('/login', userController.login);
 
