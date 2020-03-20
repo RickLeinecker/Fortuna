@@ -78,7 +78,7 @@ class UnaryOperationBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#eeee22';
+		ctx.fillStyle = '#aa00ff';
 
 		const perim: Array<Vec> = this.getPerim();
 		ctx.beginPath();
@@ -88,7 +88,7 @@ class UnaryOperationBlock extends CasusBlock {
 		}
 		ctx.fill();
 
-		ctx.fillStyle = '#000000';
+		ctx.fillStyle = '#000921';
 		ctx.font = '16px Arial';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';

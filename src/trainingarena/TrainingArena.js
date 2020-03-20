@@ -35,6 +35,10 @@ class TrainingArena extends React.Component<{||}> {
 					<Link to="Battleground">
 						<button type="button" className="primarybtn">Start Battle</button>
 					</Link>
+					<br/>
+					<Link to="Casus">
+						<button className="clearbtn">Back to Casus</button>
+					</Link>
 				</div>
 				<div className="column taright">
 					<h5>Choose a Training Bot</h5>

@@ -10,7 +10,6 @@ import type Battleground from '../Battleground.js';
 
 class Particle extends GameObject {
 	image: ImageName;
-	position: Vec;
 	width: number;
 	velocity: Vec;
 	fullLifetime: number;
@@ -18,20 +17,29 @@ class Particle extends GameObject {
 	rotation: number;
 	renderOrder: number;
 	velocityMultiplier: number;
+	fadeoutPower: number;
+	image2: ImageName;
+	imageSwapTime: number;
+	finalWidth: number;
+	widthPower: number;
 
 	constructor(
 		image: ImageName, 
-		position: Vec, 
+		position: Vec,
 		width: number, 
 		velocity: Vec, 
 		fullLifetime: number, 
 		rotation: number, 
 		renderOrder: number, 
-		velocityMultiplier: number
+		velocityMultiplier: number,
+		fadeoutPower: number,
+		image2: ?ImageName = null,
+		imageSwapTime: number = 1000000000,
+		finalWidth: ?number = null,
+		widthPower: number = 1
 	) {
-		super();
+		super(position);
 		this.image=image;
-		this.position=position;
 		this.width=width;
 		this.velocity=velocity;
 		this.fullLifetime=fullLifetime;
@@ -39,13 +47,18 @@ class Particle extends GameObject {
 		this.rotation=rotation;
 		this.renderOrder=renderOrder;
 		this.velocityMultiplier=velocityMultiplier;
+		this.fadeoutPower=fadeoutPower;
+		this.image2=image2 ?? image;
+		this.imageSwapTime=imageSwapTime;
+		this.finalWidth=finalWidth ?? width;
+		this.widthPower=widthPower;
 	}
 
 	update(battleground: Battleground): void {
 		this.position=this.position.add(this.velocity);
 		this.velocity=this.velocity.scale(this.velocityMultiplier);
 		this.lifeLeft--;
-		if (this.lifeLeft===0) {
+		if (this.lifeLeft<=0) {
 			battleground.deleteGameObject(this);
 			return;
 		}
@@ -53,8 +66,15 @@ class Particle extends GameObject {
 	}
 
 	render(drawer: ImageDrawer): void {
-		const alpha=this.lifeLeft/this.fullLifetime;
-		drawer.draw(getImage(this.image), this.position, this.width, this.rotation, alpha);
+		const percentThroughLife=Math.min((this.fullLifetime-this.lifeLeft)/this.fullLifetime, 1);
+		const alpha=Math.pow(Math.max(0, this.lifeLeft/this.fullLifetime), this.fadeoutPower);
+		const curImage=this.lifeLeft%(this.imageSwapTime*2)<this.imageSwapTime?this.image:this.image2;
+		const width=this.lerp(this.width, this.finalWidth, Math.pow(percentThroughLife, this.widthPower));
+		drawer.draw(getImage(curImage), this.getPosition(), width, this.rotation, alpha);
+	}
+
+	lerp(from: number, to: number, percent:number): number {
+		return from+(to-from)*percent;
 	}
 
 	getRenderOrder(): number {
@@ -77,7 +97,8 @@ function _createSmokeParticle(position: Vec, battleground: Battleground) {
 		imageName='SMOKE3';
 	}
 	const velocityMultiplier=0.8;
-	const particle=new Particle(imageName, position, 6, velocity, 25, rotation, 2, velocityMultiplier);
+	const fadeoutPower=1;
+	const particle=new Particle(imageName, position, 6, velocity, 25, rotation, 2, velocityMultiplier, fadeoutPower);
 	battleground.createGameObject(particle);
 }
 
@@ -90,6 +111,89 @@ function createSmokeCloud(position: Vec, battleground: Battleground) {
 	}
 }
 
-export {createSmokeCloud};
+function createElectricityParticle(position: Vec, maxRange: number, battleground: Battleground) {
+	const rotation=Math.random()*2*Math.PI;
+	let velocityMag = Math.random()*4-2;
+	velocityMag+=Math.sign(velocityMag)*3;
+	const velocity=new Vec(velocityMag, 0).rotate(rotation);
+	const velocityMultiplier = 0.91;
+	const lifetime=10+Math.random()*20;
+	const fliptime=3;
+	const fadeoutPower=0.5;
+	const particle=new Particle(
+		'ELECTRICITY', 
+		position, 
+		9, 
+		velocity, 
+		lifetime, 
+		rotation - Math.PI/2, 
+		1, 
+		velocityMultiplier,
+		fadeoutPower,
+		'ELECTRICITY_FLIPPED',
+		fliptime
+	);
+	battleground.createGameObject(particle);
+}
+
+function createStaticParticle(position: Vec, battleground: Battleground) {
+	const offsetAngle=Math.random()*2*Math.PI;
+	//const offsetR=Math.random()*7;
+	const offsetR=Math.random()*1;
+
+	const lifetime=10;
+	const rotation=Math.random()*2*Math.PI;
+	let velocityMag = Math.random()*4-2;
+	const velocity=new Vec(velocityMag, 0).rotate(rotation);
+	const velocityMultiplier = 0.8;
+	const renderOrder=1;
+	const fadeoutPower=0.5;
+	const width=7;
+	const particle=new Particle(
+		'STATIC',
+		position.add(new Vec(offsetR, 0).rotate(offsetAngle)),
+		width,
+		velocity,
+		lifetime,
+		rotation-Math.PI/2,
+		renderOrder,
+		velocityMultiplier,
+		fadeoutPower,
+	);
+	battleground.createGameObject(particle);
+}
+
+function createElectricityPulse(position: Vec, maxRange: number, battleground: Battleground) {
+	const lifetime=30;
+	const velocity=new Vec(0, 0);
+	const rotation=0;
+	const renderOrder=1;
+	const velocityMultiplier=1;
+	const fadeoutPower=0.8;
+	const imageSwapTime=1e8;
+	const startWidth=0;
+	//extends to about 2.3
+	const endWidth=maxRange*2.5;
+	const widthPower=0.2;
+	const particle=new Particle(
+		'EMP',
+		position,
+		startWidth,
+		velocity,
+		lifetime,
+		rotation,
+		renderOrder,
+		velocityMultiplier,
+		fadeoutPower,
+		null,
+		imageSwapTime,
+		endWidth,
+		widthPower
+	);
+	battleground.createGameObject(particle);
+}
+
+
+export {createSmokeCloud, createElectricityPulse, createStaticParticle, createElectricityParticle};
 
 export default Particle;
