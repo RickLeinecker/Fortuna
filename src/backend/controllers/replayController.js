@@ -6,9 +6,7 @@ import type { $Request, $Response } from 'express';
 
 // Model imports
 import User from '../../models/userModel';
-import Tank from '../../models/tankModel';
 import BattleRecord from '../../models/battleRecordModel';
-import { async } from 'regenerator-runtime';
 
 exports.getReplayList = async (req: $Request, res: $Response) => {
     // Gather any errors from the route checking
