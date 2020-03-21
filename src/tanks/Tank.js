@@ -136,10 +136,12 @@ class Tank extends GameObject {
 		const turnSpeed=this.nitroRepairTimerLeft>0 ? NITRO_TURN_DIVIDER : ORIG_TURN_DIVIDER;
 		dAngle/=Math.max(1, totalMovement)*turnSpeed;
 
-		this.rotation+=dAngle;
+		const rotationMultiplier = this._getTurnSpeedMultiplier();
+		this.rotation+=dAngle*rotationMultiplier;
 		const oldPosition=this.position;
 		const moveSpeed=this.nitroRepairTimerLeft>0 ? NITRO_MOVE_SPEED : ORIG_MOVE_SPEED;
-		this.position=this.position.add(unit.rotate(this.rotation).scale(moveSpeed*forwardMovement));
+		const speedMultiplier = this._getMoveSpeedMultiplier();
+		this.position=this.position.add(unit.rotate(this.rotation).scale(moveSpeed*forwardMovement*speedMultiplier));
 		let ranIntoWall=false;
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
@@ -307,6 +309,46 @@ class Tank extends GameObject {
 			this.rotation, 
 			this
 		);
+	}
+
+	_getMoveSpeedMultiplier(): number {
+		let ans=1;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans*=part.getMoveSpeedMultiplier();
+			}
+		}
+		return ans;
+	}
+
+	_getTurnSpeedMultiplier(): number {
+		let ans=1;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans*=part.getTurnSpeedMultiplier();
+			}
+		}
+		return ans;
+	}
+
+	_getArmorOffset(): number {
+		let ans=0;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans+=part.getArmorOffset();
+			}
+		}
+		return ans;
+	}
+
+	_getPointTotal(): number {
+		let ans=0;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans+=part.getPointCost();
+			}
+		}
+		return ans;
 	}
 
 	getJammed(): void {

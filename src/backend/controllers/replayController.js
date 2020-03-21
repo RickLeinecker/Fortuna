@@ -2,15 +2,13 @@
 
 // Required imports
 import { validationResult } from 'express-validator';
-import type { $Request, $Response } from 'express';
+import type { Request, Response } from 'express';
 
 // Model imports
 import User from '../../models/userModel';
-import Tank from '../../models/tankModel';
 import BattleRecord from '../../models/battleRecordModel';
-import { async } from 'regenerator-runtime';
 
-exports.getReplayList = async (req: $Request, res: $Response) => {
+exports.getReplayList = async (req: Request, res: Response) => {
     // Gather any errors from the route checking
     const errors = validationResult(req);
 
@@ -44,10 +42,10 @@ exports.getReplayList = async (req: $Request, res: $Response) => {
         }
 
         // Return the list of records
-        res.status(200).json(records);
+        return res.status(200).json(records);
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Server Error' });        
+        return res.status(500).json({ msg: 'Server Error' });        
     }
 }
