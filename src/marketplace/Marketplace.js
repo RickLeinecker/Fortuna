@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main.css';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
+import MakeATankSaleView from './MakeATankSaleView.js';
 import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
 
 type Props = {||}; 
@@ -26,7 +27,7 @@ class Marketplace extends React.Component<Props, State> {
 		}
 	}
 
-  	render() {
+	render() {
 
 		let partView='';
 		switch(this.state.marketplaceViewClicked) {
@@ -54,6 +55,9 @@ class Marketplace extends React.Component<Props, State> {
 			case 'MAKE_A_SALE_COMPONENT':
 				partView=(<MakeAComponentSaleView></MakeAComponentSaleView>);
 				break;
+			case 'MAKE_A_TANK_SALE':
+				partView=(<MakeATankSaleView></MakeATankSaleView>);
+				break;
 			default:
 				partView=(<h2>Select a type on the left</h2>);
 				break;
@@ -77,6 +81,7 @@ class Marketplace extends React.Component<Props, State> {
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'TREADS'})}>Treads</button>
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'ACCESSORIES'})}>Accessories</button>
 							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'MAKE_A_SALE_COMPONENT'})}>Make A Component Sale</button>
+							<button className="list-group-item list-group-item-action" onClick={() => this.setState({marketplaceViewClicked:'MAKE_A_TANK_SALE'})}>Make A Tank Sale</button>
 					 	</div>
 					</div>
 					<div className="col-md-4">
