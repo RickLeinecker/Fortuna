@@ -5,41 +5,17 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import type { TankComponent } from '../armory/TankComponent.js';
-
-// 4 Tread types:
-// 
-// Tread 1: Heavily Armored Treads
-//   -2 linear speed, -1 rot speed, +2 armor, +2 point cost
-//
-// Tread 2: Advanced Treads
-//   +2 linear speed, +1 rot speed, +0 armor, +2 point cost
-//	
-// Tread 3: Fast Treads
-//   +1 linear speed, +1 rot speed, +0 armor, +1 point cost
-//
-// Tread 4: Armored Treads
-//   -1 linear speed, -1 rot speed, +1 armor, +1 point cost
-//
-
-type TreadType = 
-	'TREAD_1' |
-	'TREAD_2' |
-	'TREAD_3' |
-	'TREAD_4';
+import type { TreadType } from './TreadType.js';
 
 class Treads extends TankPart {
+	
 	treadType: TreadType;
-
-	constructor(treadType: TreadType) {
-		super();
-		this.treadType=treadType;
-	}
-
 	name: TankComponent;
 
-	constructor(name: TankComponent) {
+	constructor(name: TankComponent, treadType: TreadType) {
 		super();
-		this.name = name;
+		this.treadType=treadType;
+		this.name = name
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {

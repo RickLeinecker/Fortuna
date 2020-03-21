@@ -5,44 +5,16 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import type { TankComponent } from '../armory/TankComponent.js';
-
-// 5 Chassis types:
-//
-// Chassis 1: Light
-// 	-Fast, quick to turn
-//
-// Chassis 2: Heavy
-//  -strongest and slowest
-// 
-// Chassis 3: Modable
-//  -medium in pretty much all respects
-//
-// Chassis 4: Modable Heavy
-//  -slower, medium health, but more free slots
-//
-// Chassis 5: Modable Light
-//  -light and fast, weakest, more free slots
-//
-type ChassisType =
-	'CHASSIS_1' |
-	'CHASSIS_2' |
-	'CHASSIS_3' |
-	'CHASSIS_4' |
-	'CHASSIS_5';
+import type { ChassisType } from './ChassisType.js';
 
 class Chassis extends TankPart {
 	chassisType: ChassisType;
-
-	constructor(chassisType: ChassisType) {
-		super();
-		this.chassisType=chassisType;
-	}
-
 	name: TankComponent;
 
-	constructor(name: TankComponent) {
+	constructor(name: TankComponent, chassisType: ChassisType) {
 		super();
 		this.name = name;
+		this.chassisType = chassisType;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {

@@ -155,8 +155,6 @@ class Armory extends React.Component<Props, State> {
 						</select>
 						<h6>Setup a Wager</h6>
 						<button type="button" className="btn">Setup</button>
-						<br/>
-						<br/>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<br/>
 						<h6>Edit Selected Tank's Code</h6>
@@ -183,12 +181,8 @@ class Armory extends React.Component<Props, State> {
 								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {this.state.weapons[componentName]}</option>
 							))}
 						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>{console.log(this.state.selectedTank)}
-							<option defaultValue>
-								{(this.state.selectedTank) ? 
-									(this.state.selectedTank.secondaryWeapon) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''
-								: ''}
-							</option>
+						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>
+							<option defaultValue>{(this.state.selectedTank) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''}</option>
 							{Object.keys(this.state.weapons).map((componentName, index) => (
 								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {this.state.weapons[componentName]}</option>
 							))}

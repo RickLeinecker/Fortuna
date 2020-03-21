@@ -15,6 +15,8 @@ import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
 
 import type { TankComponent } from '../armory/TankComponent.js';
 import type { Range } from './Range.js';
+import type { TreadType } from './TreadType.js';
+import type { ChassisType } from './ChassisType.js';
 
 /*
 function getTestTank(id: number=1): Tank {
@@ -67,17 +69,53 @@ function getTank(tank: Object): Tank {
 			jammerRange = 'LARGE';
 		}
 	}
+	let treadsType: TreadType = 'TREAD_1';
+	switch(treads[0]) {
+		case 'heavilyArmoredTreads':
+			treadsType = 'TREAD_1';
+			break;
+		case 'advancedTreads':
+			treadsType = 'TREAD_2';
+			break;
+		case 'fastTreads':
+			treadsType = 'TREAD_3';
+			break;
+		case 'armoredTreads':
+			treadsType = 'TREAD_4';
+			break;
+		default:
+			console.log('TreadType not found');
+	}
+	let chassisType: ChassisType = 'CHASSIS_1';
+	switch(treads[0]) {
+		case 'light':
+			ChassisType = 'CHASSIS_1';
+			break;
+		case 'heavy':
+			ChassisType = 'CHASSIS_2';
+			break;
+		case 'moddable':
+			ChassisType = 'CHASSIS_3';
+			break;
+		case 'moddableHeavy':
+			ChassisType = 'CHASSIS_4';
+			break;
+		case 'moddableLight':
+			chassisType = 'CHASSIS_5';
+		default:
+			console.log('ChassisType not found');
+	}
 
 	const toReturn: Tank = new Tank(
 		position,
-		new Chassis(chassis[0]),
+		new Chassis(chassis[0], chassisType),
 		new Gun(weapons[0]),
 		new Gun(weapons[1]),
 		new Scanner(scanners[0], false, false, scannerRange),
 		new Scanner(scannerAddons[0], false, false, scannerRange),
 		new Scanner(scannerAddons[1], false, false, scannerRange),
 		new Jammer(jammers[0], jammerRange),
-		new Treads(treads[0]),
+		new Treads(treads[0], treadsType),
 		new Item(items[0]),
 		new Item(items[1]),
 		new Item(items[2]),
