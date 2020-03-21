@@ -1,5 +1,8 @@
 // @flow strict
 
+// NOTE: This functionality is not implemented in v1.0
+// Controller code is here to suppor that function if desired.
+
 // Flow type import
 import type { Request, Response } from 'express';
 
