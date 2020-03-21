@@ -13,7 +13,7 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
-const FPS=10;
+const FPS=30;
 
 class Battleground extends React.Component<{||}> {
 	intervalID: number;

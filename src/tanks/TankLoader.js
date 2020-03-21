@@ -15,8 +15,8 @@ function getTestTank(id: number=1): Tank {
 	const position=id===1?new Vec(20, -20):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
 		position,
-		new Chassis(), 
-		new Treads(), 
+		new Chassis('CHASSIS_5'), 
+		new Treads('TREAD_1'), 
 		new Gun(),
 		new Scanner(false, false, id===1?'MEDIUM':'SMALL'),
 		new Jammer(id===1?'MEDIUM':'LARGE'),
