@@ -2,12 +2,12 @@
 
 // Required imports
 import type { $Request,	$Response } from 'express';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
 // Throws an error if this isn't here because of async functions
 const regeneratorRuntime = require("regenerator-runtime");
 
