@@ -82,15 +82,18 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			else
 			{
-				const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
-				if(typeOfItem === this.props.sellerType) {
-					const sellingObject = new SaleObject(
-						jsonObjectOfSells[sale].itemId,
-						jsonObjectOfSells[sale].salePrice,
-						jsonObjectOfSells[sale].amount,
-						jsonObjectOfSells[sale].sellerId,
-						jsonObjectOfSells[sale]._id);
-					itemsForSaleArray.push(sellingObject);
+				if(!getTankComponent(jsonObjectOfSells[sale].itemId) === undefined)
+				{
+					const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
+					if(typeOfItem === this.props.sellerType) {
+						const sellingObject = new SaleObject(
+							jsonObjectOfSells[sale].itemId,
+							jsonObjectOfSells[sale].salePrice,
+							jsonObjectOfSells[sale].amount,
+							jsonObjectOfSells[sale].sellerId,
+							jsonObjectOfSells[sale]._id);
+						itemsForSaleArray.push(sellingObject);
+					}
 				}
 			}
 		}

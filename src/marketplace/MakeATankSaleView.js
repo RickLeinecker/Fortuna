@@ -55,7 +55,6 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	//This gets all of the users tanks and then adds them to the dropdown
 	getAllUsersTanksForSell() : void {
-		console.log("gete");
 		const responsePromise = getAllUsersTanks();
 		responsePromise.then(
 			response => response.json().then(data => {
