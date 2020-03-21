@@ -10,6 +10,7 @@ type State = {|
 	userId: string,
 	salePrice: number,
 	tankBeingSoldId: string,
+	itemAmount: number,
 	tanksToSell: Array<OptionClass>,
 |};
 class MakeAComponentSaleView extends React.Component<Props, State> {
