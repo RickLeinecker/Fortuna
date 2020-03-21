@@ -1,19 +1,14 @@
 // @flow strict
 
+// Flow type import
+import type { Request, Response } from 'express';
+
 const User = require('../../models/userModel');
 const Tank = require('../../models/tankModel');
 
 const { validationResult } = require('express-validator');
 
-// Flow type import
-import type {
-	$Request,
-	$Response,
-	NextFunction,
-	Middleware,
-} from 'express';
-
-exports.getFavorite = async (req: $Request, res: $Response) => {
+exports.getFavorite = async (req: Request, res: Response) => {
 	await User.findById(req.user.id, 'favoriteTankId', (err: Error, myUser: User) => {
 		if(err) {
 			res.send(err);
@@ -24,7 +19,7 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 	});
 }
 
-exports.favoriteTank = async (req: $Request, res: $Response) => {
+exports.favoriteTank = async (req: Request, res: Response) => {
 	// the 'new' option means return the document after it has been updated
 	// the 'useFindAndModify' is just so it doesnt throw a deprecation warning
 	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, (err: Error, result: User) => {
@@ -38,7 +33,7 @@ exports.favoriteTank = async (req: $Request, res: $Response) => {
 	});
 }
 
-exports.userTanks = async (req: $Request, res: $Response) => {
+exports.userTanks = async (req: Request, res: Response) => {
 	await Tank.find({ userId: req.user.id }, (err: Error, tanks: Array<Tank>) => {
 		if(err) {
 			res.send(err);
@@ -50,7 +45,7 @@ exports.userTanks = async (req: $Request, res: $Response) => {
 	});
 }
 
-exports.assignTank = async (req: $Request, res: $Response) => {
+exports.assignTank = async (req: Request, res: Response) => {
 	const tank = new Tank();
 	tank.userId = req.user.id;
 	tank.tankName = req.body.tankName;
@@ -58,7 +53,7 @@ exports.assignTank = async (req: $Request, res: $Response) => {
 	res.status(201).send(tank);
 }
 
-exports.tankUpdate = async (req: $Request, res: $Response) => {
+exports.tankUpdate = async (req: Request, res: Response) => {
 
 	// Check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
@@ -85,7 +80,7 @@ exports.tankUpdate = async (req: $Request, res: $Response) => {
 	});
 }
 
-exports.casusUpdate = async (req: $Request, res: $Response) => {
+exports.casusUpdate = async (req: Request, res: Response) => {
 
 	//check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
