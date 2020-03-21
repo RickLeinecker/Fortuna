@@ -102,6 +102,7 @@ function getTank(tank: Object): Tank {
 			break;
 		case 'moddableLight':
 			chassisType = 'CHASSIS_5';
+			break;
 		default:
 			break;
 	}

@@ -9,10 +9,9 @@ import './Armory.css';
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Functions
-import setTankForCasus from '../globalComponents/setTankForCasus.js';
-import { getTankComponent, verifyComponent, getOptionsOfType, getComponentsOfType } from './GetInventoryInfo.js';
+import { getOptionsOfType } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
-import { getFavoriteTankID, getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
+import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank } from '../tanks/TankLoader.js';
 // Types and Classes
 import Tank from '../tanks/Tank.js';
