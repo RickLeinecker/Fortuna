@@ -16,6 +16,7 @@ import { getFavoriteTankID, getAllUsersTanks } from '../globalComponents/tankAPI
 import { getTank } from '../tanks/TankLoader.js';
 // Types and Classes
 import Tank from '../tanks/Tank.js';
+import Cookies from 'universal-cookie';
 
 type Props = {||};
 
@@ -120,9 +121,12 @@ class Armory extends React.Component<Props, State> {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
-	// Find the tank via its name and set it to the selectedTank.
+	// Find the tank via its name and set it to the selectedTank and in a Cookie for Casus.
 	changeSelectedTank(newTankName: string): void {
-		this.setState({ selectedTank: getTank(this.state.allTanks.find(tank => tank.tankName === newTankName))});
+		const newTank: Tank = getTank(this.state.allTanks.find(tank => tank.tankName === newTankName));
+		this.setState({ selectedTank: newTank});
+		const cookies = new Cookies();
+		cookies.set('tank', newTank);
 	}
 
 	// ALL UPDATES NEED API CALL TO UPDATE INVENTORY.

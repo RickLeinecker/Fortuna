@@ -84,7 +84,7 @@ function getTank(tank: Object): Tank {
 			treadsType = 'TREAD_4';
 			break;
 		default:
-			console.log('TreadType not found');
+			break;
 	}
 	let chassisType: ChassisType = 'CHASSIS_1';
 	switch(treads[0]) {
@@ -103,7 +103,7 @@ function getTank(tank: Object): Tank {
 		case 'moddableLight':
 			chassisType = 'CHASSIS_5';
 		default:
-			console.log('ChassisType not found');
+			break;
 	}
 
 	const toReturn: Tank = new Tank(
