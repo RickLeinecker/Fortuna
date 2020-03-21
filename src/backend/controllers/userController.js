@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 // Throws an error if this isn't here because of async functions
-const regeneratorRuntime = require("regenerator-runtime");
+require("regenerator-runtime");
 
 // Model imports
 const User = require('../../models/userModel');
