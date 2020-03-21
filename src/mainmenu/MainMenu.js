@@ -4,9 +4,29 @@ import './MainMenu.css';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
+import { getUser } from '../globalComponents/userAPIIntegration';
+import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration';
+import { getOptionsOfType } from '../armory/GetInventoryInfo.js';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {
+
+	test(): void {
+		const responsePromise = getAllUsersTanks();
+		
+		responsePromise.then (
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					console.log(data[0]._id);
+				}
+			})
+		)
+	}
 
 	render(): React.Node {
 		return (
@@ -34,6 +54,7 @@ class MainMenu extends React.Component<{||}> {
 					<Link to="Armory">
 						<button type="button" className="btn">Armory</button>
 					</Link>
+					<button onClick={this.test}>Test</button>
 				</div>
 			</div>
 		);

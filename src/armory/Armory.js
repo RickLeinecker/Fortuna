@@ -5,44 +5,27 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
-import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
+import {getTankComponent, verifyComponent, getOptionsOfType, getComponentsOfType} from './GetInventoryInfo.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
-import OptionClass from './OptionClass.js';
+import Tank from '../tanks/Tank.js';
 
-type Props = {||}; 
+type Props = {||};
+
 type State = {|
-	selectedTankId: string,
-	selectedTankName: string,
-	selectedChassis: string,
-	selectedWeaponOne: string,
-	selectedWeaponTwo: string,
-	selectedScannerOne: string,
-	selectedScannerTwo: string,
-	selectedScannerThree: string,
-	selectedJammer: string,
-	selectedThreads: string,
-	selectedSingleUseItemOne: string,
-	selectedSingleUseItemTwo: string,
-	selectedSingleUseItemThree: string,
-	selectedCasusCode: string,
-	selectedIsBot: string,
-	userId: string,
-	//This is the array of options for each part of the tank
-	tankOptions : Array<OptionClass>,
-	chassisOptions : Array<OptionClass>,
-	weaponOneOptions : Array<OptionClass>,
-	weaponTwoOptions : Array<OptionClass>,
-	scannerOneOptions: Array<OptionClass>,
-	scannerTwoOptions: Array<OptionClass>,
-	scannerThreeOptions: Array<OptionClass>,
-	jammerOptions : Array<OptionClass>,
-	treadsOptions : Array<OptionClass>,
-	singleUseItemsOne : Array<OptionClass>,
-	singleUseItemsTwo : Array<OptionClass>,
-	singleUseItemsThree : Array<OptionClass>
+	selectedTank: Tank,
+	allTanks: Array<Tank>,
 
+	//This is the array of options for each part of the tank
+	tankOptions: Object,
+	chassis: Object,
+	weapons: Object,
+	scanners: Object,
+	scannerAddons: Object,
+	jammers: Object,
+	treads: Object,
+	items: Object,
 |};
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -50,59 +33,99 @@ class Armory extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-		this.state={
-			//This tank id is the one the user is currently working on
-			selectedTankId: 'None',
-			//The following is a break down of each part that the selected tank has, when you change a dropdown it changes the state
-			selectedTankName: '',
-			selectedChassis: '',
-			selectedWeaponOne: '',
-			selectedWeaponTwo: '',
-			selectedScannerOne: '',
-			selectedScannerTwo: '',
-			selectedScannerThree: '',
-			selectedJammer: '',
-			selectedThreads: '',
-			selectedSingleUseItemOne: '',
-			selectedSingleUseItemTwo: '',
-			selectedSingleUseItemThree: '',
-			selectedCasusCode: '',
-			selectedIsBot: '',
-			
-			userId: '',
-			tankOptions : [new OptionClass('','')],
-			chassisOptions : [new OptionClass('','')],
-			weaponOneOptions : [new OptionClass('','')],
-			weaponTwoOptions: [new OptionClass('','')],
-			scannerOneOptions: [new OptionClass('','')],
-			scannerTwoOptions: [new OptionClass('','')],
-			scannerThreeOptions: [new OptionClass('','')],
-			jammerOptions: [new OptionClass('','')],
-			treadsOptions: [new OptionClass('','')],
-			singleUseItemsOne: [new OptionClass('','')],
-			singleUseItemsTwo: [new OptionClass('','')],
-			singleUseItemsThree: [new OptionClass('','')],
+		
+		this.state = {
+			selectedTank: [],
+			allTanks: [],
+			tankOptions: [],
+			chassis: [],
+			weapons: [],
+			scanners: [],
+			scannerAddons: [],
+			jammers: [],
+			treads: [],
+			items: [],
 		}
-		this.getFavoriteTank();
+
+		this.getTanks();
+		this.getInventory();
 	}
+
+	getTanks(): void {
+		const responsePromise = getAllUsersTanks();
+		
+		responsePromise.then (
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					this.setState({allTanks: data});
+					this.setState({selectedTank: data[0]});
+				}
+			})
+		)
+	}
+
+	getInventory(): void {
+		const responsePromise = getUser();
+
+		responsePromise.then (
+			response => response.json().then(data => {
+				if(response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					this.setState({
+						chassis: getOptionsOfType(data.inventory.tankComponents, 'chassis'),
+						weapons: getOptionsOfType(data.inventory.tankComponents, 'weapon'),
+						scanners: getOptionsOfType(data.inventory.tankComponents, 'scanner'),
+						scannerAddons: getOptionsOfType(data.inventory.tankComponents, 'scannerAddon'),
+						jammers: getOptionsOfType(data.inventory.tankComponents, 'jammer'),
+						treads: getOptionsOfType(data.inventory.tankComponents, 'treads'),
+						items: getOptionsOfType(data.inventory.tankComponents, 'item'),
+					});
+				}
+			})
+		)
+	}
+
+	toTitleCase(str: string): string {
+		return str.replace(
+			/\w\S*/g,
+			function(txt) {
+				return txt.charAt(0).toUpperCase + txt.substr(1).toLowerCase();
+			}
+		)
+	}
+
+	changeSelectedTank(newTankName: string): void {
+		this.setState({ selectedTank: this.state.allTanks.find(tank => tank.tankName === newTankName)});
+		console.log(this.state.selectedTank);
+	}
+	
+	/*
 	//Clears the inventory on the frontend side
 	clearInventoryArrays() {
 		this.setState({
-			tankOptions : [new OptionClass('','')],
-			chassisOptions : [new OptionClass('','')],
-			weaponOneOptions : [new OptionClass('','')],
-			weaponTwoOptions: [new OptionClass('','')],
-			scannerOneOptions: [new OptionClass('','')],
-			scannerTwoOptions: [new OptionClass('','')],
-			scannerThreeOptions: [new OptionClass('','')],
-			jammerOptions: [new OptionClass('','')],
-			treadsOptions: [new OptionClass('','')],
-			singleUseItemsOne: [new OptionClass('','')],
-			singleUseItemsTwo: [new OptionClass('','')],
-			singleUseItemsThree: [new OptionClass('','')],
+			tankOptions : [],
+			chassisOptions : [],
+			weaponOneOptions : [],
+			weaponTwoOptions: [],
+			scannerOneOptions: [],
+			scannerTwoOptions: [],
+			scannerThreeOptions: [],
+			jammerOptions: [],
+			treadsOptions: [],
+			singleUseItemsOne: [],
+			singleUseItemsTwo: [],
+			singleUseItemsThree: [],
 		});
 	}
-
 	//This is used to get the current favorite tank of the user and continues to get all of the selected tank
 	getFavoriteTank () : void {
 		const responsePromise = getFavoriteTankID();
@@ -126,7 +149,9 @@ class Armory extends React.Component<Props, State> {
 			}
 		);
 	};
+	*/
 
+	/*
 	//This can get a tank with the same id as the selected one and will fill out the info for all the items
 	getSelectedTank = async ():Promise<void> => {
 	
@@ -179,7 +204,9 @@ class Armory extends React.Component<Props, State> {
 			}
 		);
 	};
+	*/
 
+	/*
 	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
 	getUserInventory () : void {
 		const responsePromise = getUser();
@@ -244,8 +271,9 @@ class Armory extends React.Component<Props, State> {
 		);
 		
 	};
+	*/
 
-
+	/*
 	//This handles the changes if a user changes tanks or its components
 	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
 	handleChangeInTankOptions = ({ target }:{target:HTMLInputElement}) => {
@@ -296,11 +324,11 @@ class Armory extends React.Component<Props, State> {
 	handleChangeInSingleUseItemsThreeOptions = ({ target }:{target:HTMLInputElement }) => {
 		this.setState({selectedSingleUseItemThree: target.value});
 	}
+	*/
 
 	//This will save a tank
 	saveTank  = async ():Promise<void> => {
-		const componentsArray = [this.state.selectedChassis,this.state.selectedWeaponOne,this.state.selectedWeaponTwo,this.state.selectedScannerOne,this.state.selectedScannerTwo,this.state.selectedScannerThree,this.state.selectedJammer,this.state.selectedThreads,this.state.selectedSingleUseItemOne,this.state.selectedSingleUseItemTwo,this.state.selectedSingleUseItemThree];
-		fetch('/api/tank/tankUpdate/' + this.state.selectedTankId, {
+		fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 
 			method: 'PUT',
 			headers: {
@@ -308,43 +336,137 @@ class Armory extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ tankName: this.state.selectedTankName, userId: this.state.userId, components: componentsArray, casusCode: this.state.selectedCasusCode, isBot: this.state.selectedIsBot }),
+			body: JSON.stringify({ tankName: this.state.selectedTank.tankName, userId: this.state.userId, components: this.state.selectedTank.components, casusCode: this.state.selectedTank.casusCode, isBot: false }),
 		});
 	};
 
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
+				<Navbar 
+					linkName="MainMenu" 
+					returnName="Back to Main Menu" 
+					pageName="Armory"
+				/>
 					<div className="column armoryleft">
 						<h3>Select a Tank to Edit</h3>
-						<select 
-							className="dropdownMenu" 
-							value={this.state.selectedTankId} 
-							onChange={this.handleChangeInTankOptions}
-						>
-							{this.state.tankOptions.map(({ value, label }, index) => <option key={index}  value={value} label={label}>{label}</option>)}
+						<select className="dropdownMenu"  onChange={(e) => this.changeSelectedTank(e.target.value)}>
+							<option defaultValue>{}</option>
+							{this.state.allTanks.map(name => name.tankName).map((tankName, index) =>
+								<option key={index} value={tankName}>{tankName}</option>
+							)}
 						</select>
-						<h6>Set this tank as default?</h6>
-						<button type="button" className="btn mb-4">Set Default</button>
+						<h6>Setup a Wager</h6>
+						<button type="button" className="btn">Setup</button>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
-						<h3>Edit tank's Code</h3>
+						<br />
+						<h3>Edit Selected tank's Code</h3>
 						<Link to="Casus">
 							<button type="button" className="btn">Casus</button>
 						</Link>
 					</div>
 					<div className="column armorymiddle">
-						<h1>{this.state.selectedTankName}</h1>
-						<h6>Points Used: 0/10</h6>
+						<h1>{this.state.selectedTank.tankName}</h1>
 					</div>
 					<div className="column armoryright">
+						<h5>0/10 Points Used</h5>
+						<h6>Chassis</h6>
+						<select className="tankComponentMenu" onChange={(e) => this.updateChassis(e.target.value)}>
+							{Object.keys(this.state.chassis).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.chassis[componentName]}</option>
+							))}
+						</select>
+						<h6>Weapons</h6>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.weapons).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.weapons[componentName]}</option>
+							))}
+						</select>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.weapons).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.weapons[componentName]}</option>
+							))}
+						</select>
+						<h6>Scanners and Scanner Addons</h6>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.scanners).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.scanners[componentName]}</option>
+							))}
+						</select>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.scannerAddons).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.scannerAddons[componentName]}</option>
+							))}
+						</select>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.scannerAddons).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.scannerAddons[componentName]}</option>
+							))}
+						</select>
+						<h6>Jammers</h6>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.jammers).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.jammers[componentName]}</option>
+							))}
+						</select>
+						<h6>Treads</h6>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.treads).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.treads[componentName]}</option>
+							))}
+						</select>
+						<h6>Single-Use Items</h6>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.items).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.items[componentName]}</option>
+							))}
+						</select>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.items).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.items[componentName]}</option>
+							))}
+						</select>
+						<select 
+							className="tankComponentMenu"
+						>
+							{Object.keys(this.state.items).map((componentName, index) => (
+								<option key={index} value={componentName}>{componentName} {this.state.items[componentName]}</option>
+							))}
+						</select>
+					</div>
+				</div>
+		);
+	}
+}
+
+export default Armory;
+
+/*
 						<h6>Chassis</h6>
 						<select 
 							className="tankComponentMenu"
-							value={this.state.selectedChassis}
-							onChange={this.handleChangeInChassisOptions}
 						>
-							{this.state.chassisOptions.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
+							{this.state.chassis.map(({numberOfComponent, componentName}, index) => 
+								<option key={index} value={componentName}>{componentName} {numberOfComponent}</option>
+							)}
 						</select>
 						<h6>Weapons</h6>
 						<select 
@@ -422,10 +544,4 @@ class Armory extends React.Component<Props, State> {
 							{this.state.singleUseItemsThree.map(({ value, label  }, index) => <option key={index} value={value}>{label}</option>)}
 						</select>
 						<button type="button" className="btn mt-4" onClick={this.saveTank}>Save</button>
-					</div>
-				</div>
-		);
-	}
-}
-
-export default Armory;
+						*/

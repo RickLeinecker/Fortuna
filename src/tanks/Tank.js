@@ -19,6 +19,7 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -51,11 +52,22 @@ class Tank extends GameObject {
 
 	// parts: 
 	chassis: TankPart;
-	treads: TankPart;
 	mainGun: Gun;
+	secondaryGun: Gun;
 	scanner: ?Scanner;
+	scannerAddonOne: ?Scanner;
+	scannerAddonTwo: ?Scanner;
 	jammer: ?Jammer;
+	treads: TankPart;
+	itemOne: ?TankPart;
+	itemTwo: ?TankPart;
+	itemThree: ?TankPart;
+	components: Array<TankComponent>;
 	parts: Array<?TankPart>;
+
+	// id and name:
+	tankName: string;
+	_id: string;
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -64,19 +76,31 @@ class Tank extends GameObject {
 	constructor(
 		position: Vec, 
 		chassis: TankPart, 
-		treads: TankPart, 
 		mainGun: Gun, 
-		scanner: ?Scanner, 
+		secondaryGun: Gun,
+		scanner: ?Scanner,
+		scannerAddonOne: ?Scanner,
+		scannerAddonTwo: ?Scanner, 
 		jammer: ?Jammer,
+		treads: TankPart,
+		itemOne: ?TankPart,
+		itemTwo: ?TankPart,
+		itemThree: ?TankPart,
 		casusCode: CasusBlock
 	) {
 		super(position);
 
 		this.chassis = chassis;
-		this.treads = treads;
 		this.mainGun = mainGun;
+		this.secondaryGun = secondaryGun;
 		this.scanner = scanner;
+		this.scannerAddonOne = scannerAddonOne;
+		this.scannerAddonTwo = scannerAddonTwo;
 		this.jammer = jammer;
+		this.treads = treads;
+		this.itemOne = itemOne;
+		this.itemTwo = itemTwo;
+		this.itemThree = itemThree;
 		this.parts = [chassis, treads, mainGun, scanner, jammer];
 
 		this.interpriterState = new InterpriterState();

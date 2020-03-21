@@ -9,19 +9,21 @@ import {verifyBoolean} from '../casus/interpreter/Value.js';
 import {USE_JAMMER_VAR_NAME} from '../casus/userInteraction/CasusSpecialVariables.js';
 import {createElectricityPulse} from '../battleground/gameobjects/Particle.js';
 
+import type { Range } from './Range.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 import type Tank from './Tank.js';
 import type Battleground from '../battleground/Battleground.js';
 
-type JammerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
-
 class Jammer extends TankPart {
-	range: JammerRange;
+	name: TankComponent;
+	range: Range;
 	offsetFromParent: Vec;
 	width: number;
 	cooldown: number;
 
-	constructor(range: JammerRange) {
+	constructor(name: TankComponent, range: Range) {
 		super();
+		this.name = name;
 		this.range = range;
 		this.cooldown = 5;
 		if (range === 'SMALL') {

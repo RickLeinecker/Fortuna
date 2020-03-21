@@ -10,15 +10,16 @@ import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import GameObject from '../battleground/GameObject.js';
 import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
 
+import type { Range } from './Range.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
-
-type ScannerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
 
 const ROTATION_SPEED=Math.PI*2/(30*6);
 const JAM_TIME=60;
 
 class Scanner extends TankPart {
+	name: TankComponent;
 	seesItems: boolean;
 	immuneToJammers: boolean;
 	range: ScannerRange;
@@ -27,8 +28,9 @@ class Scanner extends TankPart {
 	width: number;
 	jamTimer: number;
 
-	constructor(seesItems: boolean, immuneToJammers: boolean, range: ScannerRange) {
+	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean, range: ScannerRange) {
 		super();
+		this.name = name;
 		this.seesItems = seesItems;
 		this.immuneToJammers = immuneToJammers;
 		this.range = range;

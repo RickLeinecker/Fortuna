@@ -1,14 +1,14 @@
 //@flow strict
 
-//This is a class for our options in a select
+// This is a class for our options in the Component Menu.
 class OptionClass {
 
-	value: string;
-	label: string;
+	numberOfComponent: number;
+	componentName: string;
 
-	constructor(value: string, label: string) {
-		this.value = value;
-		this.label = label;
+	constructor(numberOfComponent: number, componentName: string) {
+		this.numberOfComponent = numberOfComponent;
+		this.componentName = componentName;
 	}
 
 }

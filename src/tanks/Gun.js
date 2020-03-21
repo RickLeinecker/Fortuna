@@ -4,12 +4,15 @@ import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
 class Gun extends TankPart {
+
+	name: TankComponent
 
 	//in order for the gun movement to look smooth but still be easy to write code for,
 	//the gun will actually turn instantly, but it will look like it turns more slowly.
@@ -18,8 +21,9 @@ class Gun extends TankPart {
 	gunAngle: number;
 	displayAngle: number;
 
-	constructor() {
+	constructor(name: TankComponent) {
 		super();
+		this.name = name;
 		this.gunAngle=0;
 		this.displayAngle=0;
 	}

@@ -1,8 +1,8 @@
 //@flow strict
 
-import type {TankComponent} from './TankComponent.js';
-import type {ComponentType} from './ComponentType.js';
-import {allComponents} from './TankComponent.js';
+import type { TankComponent } from './TankComponent.js';
+import type { ComponentType } from './ComponentType.js';
+import { allComponents } from './TankComponent.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
@@ -31,8 +31,10 @@ const allTankComponents: {[TankComponent]: ComponentType} = {
 	"shortRangeScanner": "scanner",
 	"mediumRangeScanner": "scanner",
 	"longRangeScanner": "scanner",
-	"itemScanner": "scanner",
-	"antiJammerScanner": "scanner",
+
+	// Scanner Addons
+	"itemScanner": "scannerAddon",
+	"antiJammerScanner": "scannerAddon",
 
 	// Jammers
 	"shortRangeJammer": "jammer",
@@ -116,6 +118,25 @@ function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentTyp
 	return inventory.filter(comp => allTankComponents[comp] === type);
 }
 
+// Takes the inventory object and returns a filtered by type inventory object.
+function getOptionsOfType(inventory: Object, type: ComponentType): Object {
+	// Delete entries with 0 value, the user does not own any.
+	for(const comp in inventory) {
+		if (inventory[comp] === 0) {
+			delete inventory[comp]
+		} 
+	}
+
+	// Filter the object by type and use reduce to get only the properties of that type.
+	return Object.keys(inventory)
+		.filter(comp => allTankComponents[verifyComponent(comp)] === type)
+		.reduce((obj, comp) => {
+			obj[comp] = inventory[comp];
+			return obj;
+		}, {});
+}
+
+// Verifies that a string is a component.
 function verifyComponent(comp: string): TankComponent {
 	const matched = allComponents.filter(x => x === comp);
 	if (matched.length === 1) {
@@ -128,5 +149,6 @@ export {
 	getTankComponent,
 	getComponentsOfType,
 	getComponentPoints,
-	verifyComponent
+	verifyComponent,
+	getOptionsOfType,
 };
