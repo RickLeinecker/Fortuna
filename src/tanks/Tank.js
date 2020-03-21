@@ -184,7 +184,7 @@ class Tank extends GameObject {
 		//end of placing items stuff
 		
 		//nitro repair stuff
-		if (this.haveNitroRepair && this._getBoolean(USE_MINE_VAR_NAME)) {
+		if (this.haveNitroRepair && this._getBoolean(USE_NITRO_REPAIR_VAR_NAME)) {
 			this.haveNitroRepair=false;
 			this.nitroRepairTimerLeft=NITRO_REPAIR_LENGTH;
 		}
