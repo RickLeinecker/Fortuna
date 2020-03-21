@@ -110,12 +110,11 @@ class Armory extends React.Component<Props, State> {
 
 	// Converts camel case to title case.
 	toTitleCase(str: string): string {
-		
 		// Check for undefined strings.
 		if(!str) {
 			return str;
 		}
-
+		
 		str = str.replace( /([A-Z])/g, " $1");
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}

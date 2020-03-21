@@ -18,7 +18,7 @@ import type { Range } from './Range.js';
 import type { TreadType } from './TreadType.js';
 import type { ChassisType } from './ChassisType.js';
 
-/*
+/* REMOVE ONCE GETTANK FUNCTION IS FULLY TESTED
 function getTestTank(id: number=1): Tank {
 	const position=id===1?new Vec(20, -20):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
@@ -110,16 +110,16 @@ function getTank(tank: Object): Tank {
 	const toReturn: Tank = new Tank(
 		position,
 		new Chassis(chassis[0], chassisType),
-		new Gun(weapons[0]),
-		new Gun(weapons[1]),
-		new Scanner(scanners[0], false, false, scannerRange),
-		new Scanner(scannerAddons[0], false, false, scannerRange),
-		new Scanner(scannerAddons[1], false, false, scannerRange),
-		new Jammer(jammers[0], jammerRange),
+		new Gun((weapons[0]) ? weapons[0] : ''),
+		new Gun((weapons[1]) ? weapons[1] : ''),
+		new Scanner((scanners[0]) ? scanners[0] : '', false, false, scannerRange),
+		new Scanner((scannerAddons[0]) ? scannerAddons[0] : '', false, false, scannerRange),
+		new Scanner((scannerAddons[1]) ? scannerAddons[1] : '', false, false, scannerRange),
+		new Jammer((jammers[0]) ? jammers[0] : '', jammerRange),
 		new Treads(treads[0], treadsType),
-		new Item(items[0]),
-		new Item(items[1]),
-		new Item(items[2]),
+		new Item((items[0]) ? items[0] : ''),
+		new Item((items[1]) ? items[1] : ''),
+		new Item((items[2]) ? items[2] : ''),
 		getEmptyCasusCode(),
 		tank.tankName,
 		tank._id,
