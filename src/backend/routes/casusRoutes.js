@@ -9,9 +9,9 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
 
-//==========================================================================//
+//=============================================================================//
 // TO USE ROUTES: all route calls in this file will be /api/casus/<Route call> //
-//==========================================================================//
+//=============================================================================//
 
 // Update the amount of casus blocks a player has
 // Route call: /update
