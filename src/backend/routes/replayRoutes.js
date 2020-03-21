@@ -1,8 +1,8 @@
 // @flow strict
 
-//========================================================================//
-// TO USE ROUTES: all route calls in this file will be /replay/<Route call> //
-//========================================================================//
+//=============================================================================//
+// TO USE ROUTES: all route calls in this file will be api/replay/<Route call> //
+//=============================================================================//
 
 // Required imports
 import express from 'express';
