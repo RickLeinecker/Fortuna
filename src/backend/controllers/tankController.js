@@ -14,9 +14,10 @@ exports.getFavorite = async (req: Request, res: Response) => {
 			res.send(err);
 			console.log('could not find user');
 		} 
-		else
+		else {
 			res.send(myUser.favoriteTankId);
 			console.log('Retrieved Favorite Tank.');
+		};
 	});
 }
 
@@ -27,7 +28,7 @@ exports.favoriteTank = async (req: Request, res: Response) => {
 			res.status(500).send(err);
 			console.error(err);
 		}
-		else{
+		else {
 			res.send(result.favoriteTankId);
 			console.log('Updated favorite tank.');
 		}
@@ -40,7 +41,7 @@ exports.userTanks = async (req: Request, res: Response) => {
 			res.send(err);
 			console.error(err.message);
 		}
-		else{
+		else {
 			res.send(tanks);
 			console.log('Retrieved user\'s tanks.');
 		}
