@@ -17,7 +17,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 		else {
 			res.send(myUser.favoriteTankId);
 			console.log('Retrieved Favorite Tank.');
-		};
+		}
 	});
 }
 
