@@ -64,7 +64,6 @@ class Tank extends GameObject {
 	itemOne: ?Item;
 	itemTwo: ?Item;
 	itemThree: ?Item;
-	components: Array<TankComponent>;
 	parts: Array<?TankPart>;
 
 	// id and name:

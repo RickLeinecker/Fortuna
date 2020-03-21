@@ -45,24 +45,28 @@ function getTank(tank: Object): Tank {
 	const items: Array<TankComponent> = getComponentsOfType(tank.components, 'item');
 	
 	let scannerRange: Range = 'SMALL';
-	if(scanners[0].includes('short')) {
-		scannerRange = 'SMALL';
-	}
-	else if(scanners[0].includes('medium')) {
-		scannerRange = 'MEDIUM';
-	}
-	else if(scanners[0].includes('long')) {
-		scannerRange = 'LARGE';
+	if(scanners[0]) {
+		if(scanners[0].includes('short')) {
+			scannerRange = 'SMALL';
+		}
+		else if(scanners[0].includes('medium')) {
+			scannerRange = 'MEDIUM';
+		}
+		else if(scanners[0].includes('long')) {
+			scannerRange = 'LARGE';
+		}
 	}
 	let jammerRange: Range = 'SMALL';
-	if(jammers[0].includes('short')) {
-		jammerRange = 'SMALL';
-	}
-	else if(jammers[0].includes('medium')) {
-		jammerRange = 'MEDIUM';
-	}
-	else if(jammers[0].includes('long')) {
-		jammerRange = 'LARGE';
+	if(jammers[0]) {
+		if(jammers[0].includes('short')) {
+			jammerRange = 'SMALL';
+		}
+		else if(jammers[0].includes('medium')) {
+			jammerRange = 'MEDIUM';
+		}
+		else if(jammers[0].includes('long')) {
+			jammerRange = 'LARGE';
+		}
 	}
 
 	const toReturn: Tank = new Tank(
