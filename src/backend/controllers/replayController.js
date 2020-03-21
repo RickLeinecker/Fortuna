@@ -42,10 +42,10 @@ exports.getReplayList = async (req: Request, res: Response) => {
         }
 
         // Return the list of records
-        res.status(200).json(records);
+        return res.status(200).json(records);
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Server Error' });        
+        return res.status(500).json({ msg: 'Server Error' });        
     }
 }
