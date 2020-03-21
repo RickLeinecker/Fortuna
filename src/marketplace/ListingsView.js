@@ -66,7 +66,7 @@ class ListingsView extends React.Component<Props, State> {
 		const jsonObjectOfSells = await response.json();
 		for (const sale in jsonObjectOfSells) {
 			//If we have tanks we need to process those sells different
-			if(this.props.sellerType == 'tanks')
+			if(this.props.sellerType === 'tanks')
 			{
 				//if this isn't a component it must be a tank
 				if(getTankComponent(jsonObjectOfSells[sale].itemId) === undefined)
