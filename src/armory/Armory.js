@@ -10,11 +10,12 @@ import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import Tank from '../tanks/Tank.js';
+import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {||};
 
 type State = {|
-	selectedTank: Tank,
+	selectedTank?: Tank,
 	allTanks: Array<Tank>,
 
 	//This is the array of options for each part of the tank
@@ -35,7 +36,7 @@ class Armory extends React.Component<Props, State> {
 		super();
 		
 		this.state = {
-			selectedTank: [],
+			selectedTank: null,
 			allTanks: [],
 			tankOptions: [],
 			chassis: [],
@@ -51,6 +52,10 @@ class Armory extends React.Component<Props, State> {
 		this.getInventory();
 	}
 
+	getSelectedTank(): Tank {
+		
+	}
+
 	getTanks(): void {
 		const responsePromise = getAllUsersTanks();
 		
@@ -63,7 +68,7 @@ class Armory extends React.Component<Props, State> {
 				}
 				else {
 					this.setState({allTanks: data});
-					this.setState({selectedTank: data[0]});
+					this.setState({selectedTank: getTank(data[0])});
 				}
 			})
 		)
@@ -104,8 +109,11 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	changeSelectedTank(newTankName: string): void {
-		this.setState({ selectedTank: this.state.allTanks.find(tank => tank.tankName === newTankName)});
-		console.log(this.state.selectedTank);
+		this.setState({ selectedTank: getTank(this.state.allTanks.find(tank => tank.tankName === newTankName))});
+	}
+
+	updateChassis(newChassis: string): void {
+
 	}
 	
 	/*
@@ -351,7 +359,6 @@ class Armory extends React.Component<Props, State> {
 					<div className="column armoryleft">
 						<h3>Select a Tank to Edit</h3>
 						<select className="dropdownMenu"  onChange={(e) => this.changeSelectedTank(e.target.value)}>
-							<option defaultValue>{}</option>
 							{this.state.allTanks.map(name => name.tankName).map((tankName, index) =>
 								<option key={index} value={tankName}>{tankName}</option>
 							)}
@@ -366,7 +373,7 @@ class Armory extends React.Component<Props, State> {
 						</Link>
 					</div>
 					<div className="column armorymiddle">
-						<h1>{this.state.selectedTank.tankName}</h1>
+						<h1>{console.log(this.state.selectedTank)}{(this.state.selectedTank) ? this.state.selectedTank.tankName : 'No Tank Selected'}</h1>
 					</div>
 					<div className="column armoryright">
 						<h5>0/10 Points Used</h5>

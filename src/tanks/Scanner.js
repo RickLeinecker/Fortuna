@@ -22,13 +22,13 @@ class Scanner extends TankPart {
 	name: TankComponent;
 	seesItems: boolean;
 	immuneToJammers: boolean;
-	range: ScannerRange;
+	range: Range;
 	offsetFromParent: Vec;
 	rotation: number;
 	width: number;
 	jamTimer: number;
 
-	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean, range: ScannerRange) {
+	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean, range: Range) {
 		super();
 		this.name = name;
 		this.seesItems = seesItems;

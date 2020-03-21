@@ -4,6 +4,7 @@ import Tank from './Tank.js';
 import Vec from '../casus/blocks/Vec.js';
 import Chassis from './Chassis.js';
 import Gun from './Gun.js';
+import Item from './Item.js';
 import Treads from './Treads.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
@@ -12,7 +13,9 @@ import Jammer from './Jammer.js';
 import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
+
 import type { TankComponent } from '../armory/TankComponent.js';
+import type { Range } from './Range.js';
 
 /*
 function getTestTank(id: number=1): Tank {
@@ -41,7 +44,7 @@ function getTank(tank: Object): Tank {
 	const treads: Array<TankComponent> = getComponentsOfType(tank.components, 'treads');
 	const items: Array<TankComponent> = getComponentsOfType(tank.components, 'item');
 	
-	let scannerRange: string = 'SMALL';
+	let scannerRange: Range = 'SMALL';
 	if(scanners[0].includes('short')) {
 		scannerRange = 'SMALL';
 	}
@@ -51,7 +54,7 @@ function getTank(tank: Object): Tank {
 	else if(scanners[0].includes('long')) {
 		scannerRange = 'LARGE';
 	}
-	let jammerRange: string = 'SMALL';
+	let jammerRange: Range = 'SMALL';
 	if(jammers[0].includes('short')) {
 		jammerRange = 'SMALL';
 	}
@@ -68,13 +71,13 @@ function getTank(tank: Object): Tank {
 		new Gun(weapons[0]),
 		new Gun(weapons[1]),
 		new Scanner(scanners[0], false, false, scannerRange),
-		new Scanner(scanners[1], false, false, scannerRange),
-		new Scanner(scanners[2], false, false, scannerRange),
+		new Scanner(scannerAddons[0], false, false, scannerRange),
+		new Scanner(scannerAddons[1], false, false, scannerRange),
 		new Jammer(jammers[0], jammerRange),
-		new TankPart(treads[0]),
-		new TankPart(items[0]),
-		new TankPart(items[1]),
-		new TankPart(items[2]),
+		new Treads(treads[0]),
+		new Item(items[0]),
+		new Item(items[1]),
+		new Item(items[2]),
 		getEmptyCasusCode()
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});

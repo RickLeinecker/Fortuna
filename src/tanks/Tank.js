@@ -11,6 +11,8 @@ import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
+import Treads from './Treads.js';
+import Item from './Item.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import IntValue from '../casus/interpreter/IntValue.js';
@@ -58,10 +60,10 @@ class Tank extends GameObject {
 	scannerAddonOne: ?Scanner;
 	scannerAddonTwo: ?Scanner;
 	jammer: ?Jammer;
-	treads: TankPart;
-	itemOne: ?TankPart;
-	itemTwo: ?TankPart;
-	itemThree: ?TankPart;
+	treads: Treads;
+	itemOne: ?Item;
+	itemTwo: ?Item;
+	itemThree: ?Item;
 	components: Array<TankComponent>;
 	parts: Array<?TankPart>;
 
@@ -82,10 +84,10 @@ class Tank extends GameObject {
 		scannerAddonOne: ?Scanner,
 		scannerAddonTwo: ?Scanner, 
 		jammer: ?Jammer,
-		treads: TankPart,
-		itemOne: ?TankPart,
-		itemTwo: ?TankPart,
-		itemThree: ?TankPart,
+		treads: Treads,
+		itemOne: ?Item,
+		itemTwo: ?Item,
+		itemThree: ?Item,
 		casusCode: CasusBlock
 	) {
 		super(position);
@@ -101,7 +103,7 @@ class Tank extends GameObject {
 		this.itemOne = itemOne;
 		this.itemTwo = itemTwo;
 		this.itemThree = itemThree;
-		this.parts = [chassis, treads, mainGun, scanner, jammer];
+		this.parts = [chassis, mainGun, secondaryGun, scanner, scannerAddonOne, scannerAddonTwo, jammer, treads, itemOne, itemTwo, itemThree];
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;

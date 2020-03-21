@@ -10,14 +10,6 @@ import type { TankComponent } from '../armory/TankComponent.js';
 //A parent class for all tank parts
 
 class TankPart {
-
-	name: TankComponent;
-
-	constructor(name: TankComponent) {
-		super();
-		this.name = name;
-	}
-
 	update(
 		interpriterState: 
 		InterpriterState, 
