@@ -2,13 +2,13 @@
 
 // Required imports
 import { validationResult } from 'express-validator';
-import type { $Request, $Response } from 'express';
+import type { Request, Response } from 'express';
 
 // Model imports
 import User from '../../models/userModel';
 import BattleRecord from '../../models/battleRecordModel';
 
-exports.getReplayList = async (req: $Request, res: $Response) => {
+exports.getReplayList = async (req: Request, res: Response) => {
     // Gather any errors from the route checking
     const errors = validationResult(req);
 
