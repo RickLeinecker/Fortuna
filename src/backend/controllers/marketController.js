@@ -73,11 +73,11 @@ exports.addMarketSale = async (req: Request, res: Response) => {
             });
 
             // Send back success confirmation
-            res.status(201).json({ msg: 'Successfully created Tank Market Sale.' });
+            return res.status(201).json({ msg: 'Successfully created Tank Market Sale.' });
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).json({ msg: 'Unable to add Market Sale.' });
+            return res.status(500).json({ msg: 'Unable to add Market Sale.' });
         }
     } else { // If the item is a component or casus block
         try {
@@ -138,7 +138,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
                 });
 
                 // Send back success confirmation
-                res.status(201).json({ msg: 'Successfully created Component Market Sale.' });
+                return res.status(201).json({ msg: 'Successfully created Component Market Sale.' });
             } else { // Casus Blocks
                 // Check if the referenced field is valid
                 const userItem = user['inventory']['casusBlocks'][itemId];
@@ -188,12 +188,12 @@ exports.addMarketSale = async (req: Request, res: Response) => {
                 });
 
                 // Send back success confirmation
-                res.status(201).json({ msg: 'Successfully created Casus Block Market Sale.' });
+                return res.status(201).json({ msg: 'Successfully created Casus Block Market Sale.' });
             }
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).json({ msg: 'Unable to add Market Sale.' });
+            return res.status(500).json({ msg: 'Unable to add Market Sale.' });
         }
     }
 }
@@ -237,7 +237,7 @@ exports.getMarketSales = async (req: Request, res: Response) => {
     }
     catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Unable to find list of Sales.' });
+        return res.status(500).json({ msg: 'Unable to find list of Sales.' });
     }
 }
 
@@ -258,7 +258,7 @@ exports.getMarketSale = async (req: Request, res: Response) => {
     }
     catch (err) {
         console.error(err.message);
-        res.status(500).json({ msg: 'Cannot retrieve Marketplace Sale.' });
+        return res.status(500).json({ msg: 'Cannot retrieve Marketplace Sale.' });
     }
 }
 
@@ -364,7 +364,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 
         } catch (err) {
             console.error(err.message);
-            res.status(500).json({ msg: 'Cannot make Market Transaction.' });
+            return res.status(500).json({ msg: 'Cannot make Market Transaction.' });
         }
     } else {
         // Component 
@@ -414,7 +414,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 
             } catch (err) {
                 console.error(err.message);
-                res.status(500).json({ msg: 'Cannot make Market Transaction.' });
+                return res.status(500).json({ msg: 'Cannot make Market Transaction.' });
             }
         } else { // Casus Block
             try {
@@ -462,7 +462,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 
             } catch (err) {
                 console.error(err.message);
-                res.status(500).json({ msg: 'Cannot make Market Transaction.' });
+                return res.status(500).json({ msg: 'Cannot make Market Transaction.' });
             }
         }
     }
