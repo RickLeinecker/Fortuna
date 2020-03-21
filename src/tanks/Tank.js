@@ -21,7 +21,6 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
-import type { TankComponent } from '../armory/TankComponent.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -87,7 +86,9 @@ class Tank extends GameObject {
 		itemOne: ?Item,
 		itemTwo: ?Item,
 		itemThree: ?Item,
-		casusCode: CasusBlock
+		casusCode: CasusBlock,
+		tankName: string,
+		_id: string,
 	) {
 		super(position);
 
@@ -103,6 +104,8 @@ class Tank extends GameObject {
 		this.itemTwo = itemTwo;
 		this.itemThree = itemThree;
 		this.parts = [chassis, mainGun, secondaryGun, scanner, scannerAddonOne, scannerAddonTwo, jammer, treads, itemOne, itemTwo, itemThree];
+		this.tankName = tankName;
+		this._id = _id;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;

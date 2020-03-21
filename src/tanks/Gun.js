@@ -12,7 +12,7 @@ const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
 class Gun extends TankPart {
 
-	name: TankComponent
+	name: TankComponent;
 
 	//in order for the gun movement to look smooth but still be easy to write code for,
 	//the gun will actually turn instantly, but it will look like it turns more slowly.

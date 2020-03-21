@@ -8,7 +8,6 @@ import './Armory.css';
 // Components
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
-import SetWagerPopup from './SetWagerPopup.js';
 // Functions
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import { getTankComponent, verifyComponent, getOptionsOfType, getComponentsOfType } from './GetInventoryInfo.js';
@@ -22,7 +21,7 @@ type Props = {||};
 
 type State = {|
 	selectedTank?: Tank,
-	allTanks: Array<Tank>,
+	allTanks: Array<Object>,
 	inventory: Object,
 	chassis: Object,
 	weapons: Object,
@@ -70,6 +69,10 @@ class Armory extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
+					let allTanks: Array<Tank> = [];
+					for(const tank of data) {
+						allTanks.push(getTank(tank));
+					}
 					this.setState({allTanks: data});
 					// Set the first tank found as the selectedTank.
 					this.setState({selectedTank: getTank(data[0])});
@@ -122,10 +125,6 @@ class Armory extends React.Component<Props, State> {
 		this.setState({ selectedTank: getTank(this.state.allTanks.find(tank => tank.tankName === newTankName))});
 	}
 
-	setWager(wager: number): void {
-		// NEED API CALL TO SET A WAGER WITH THE SELECTED TANK.
-	}
-
 	// ALL UPDATES NEED API CALL TO UPDATE INVENTORY.
 	updateChassis(newChassis: string): void {}
 	updateWeaponOne(newWeapon: string): void {}
@@ -154,22 +153,15 @@ class Armory extends React.Component<Props, State> {
 								<option key={index} value={tankName}>{tankName}</option>
 							)}
 						</select>
-						{(this.state.selectedTank) ? 
-							<SetWagerPopup 
-								setWager={this.setWager} 
-								selectedTankName={this.state.selectedTank.tankName}
-							/> : 
-							<div>
-								{console.log(this.state.selectedTank)}
-								<h6>Setup a Tank to be Challenged</h6>
-								<button className="btn disabled">Setup</button>
-							</div>
-						}
+						<h6>Setup a Wager</h6>
+						<button type="button" className="btn">Setup</button>
+						<br/>
+						<br/>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
-						<br />
-						<h3>Edit Selected tank's Code</h3>
+						<br/>
+						<h6>Edit Selected Tank's Code</h6>
 						<Link to="Casus">
-							<button type="button" className="btn">Casus</button>
+							<button type="button" className="primarybtn">Casus</button>
 						</Link>
 					</div>
 					<div className="column armorymiddle">
@@ -191,8 +183,12 @@ class Armory extends React.Component<Props, State> {
 								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {this.state.weapons[componentName]}</option>
 							))}
 						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''}</option>
+						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>{console.log(this.state.selectedTank)}
+							<option defaultValue>
+								{(this.state.selectedTank) ? 
+									(this.state.selectedTank.secondaryWeapon) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''
+								: ''}
+							</option>
 							{Object.keys(this.state.weapons).map((componentName, index) => (
 								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {this.state.weapons[componentName]}</option>
 							))}

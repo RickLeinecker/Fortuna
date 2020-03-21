@@ -10,7 +10,6 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
-import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
 
@@ -82,7 +81,9 @@ function getTank(tank: Object): Tank {
 		new Item(items[0]),
 		new Item(items[1]),
 		new Item(items[2]),
-		getEmptyCasusCode()
+		getEmptyCasusCode(),
+		tank.tankName,
+		tank._id,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
