@@ -1,8 +1,8 @@
 // @flow strict
 
-//===============================================================================//
-// TO USE ROUTES: all route calls in this file will be /marketplace/<Route call> //
-//===============================================================================//
+//==================================================================================//
+// TO USE ROUTES: all route calls in this file will be api/marketplace/<Route call> //
+//==================================================================================//
 
 // Required Imports
 import express from 'express';
