@@ -27,7 +27,7 @@ exports.getFavorite = async (req: $Request, res: $Response) => {
 exports.favoriteTank = async (req: $Request, res: $Response) => {
 	// the 'new' option means return the document after it has been updated
 	// the 'useFindAndModify' is just so it doesnt throw a deprecation warning
-	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTankId : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, (err: Error, result: User) => {
+	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTank : req.body.favoriteTankId}, {'new':true, 'useFindAndModify':false}, (err: Error, result: User) => {
 		if(err) {
 			res.status(500).send(err);
 			console.error(err);
