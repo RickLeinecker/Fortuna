@@ -22,6 +22,25 @@ class TankPart {
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
 	}
 
+	//returns the multiplier that this gives to your move speed
+	getMoveSpeedMultiplier(): number {
+		return 1;
+	}
+
+	//returns the multiplier that this gives to your turn speed
+	getTurnSpeedMultiplier(): number {
+		return 1;
+	}
+
+	//returns the additive offset that this gives to your armor
+	getArmorOffset(): number {
+		return 0;
+	}
+
+	//get the number of points that this item costs
+	getPointCost(): number {
+		return 1;
+	}
 }
 
 export default TankPart;

@@ -30,9 +30,16 @@ const allImages: {[ImageName]: Image}= {
 	STATIC: new Image(),
 	EMP: new Image(),
 
-	BLUE_CHASSIS_1: new Image(),
+	CHASSIS_1: new Image(),
+	CHASSIS_2: new Image(),
+	CHASSIS_3: new Image(),
+	CHASSIS_4: new Image(),
+	CHASSIS_5: new Image(),
+	TREAD_1: new Image(),
+	TREAD_2: new Image(),
+	TREAD_3: new Image(),
+	TREAD_4: new Image(),
 	RED_GUN_1: new Image(),
-	GRAY_TREAD_1: new Image(),
 	JAMMER_SMALL: new Image(),
 	JAMMER_MEDIUM: new Image(),
 	JAMMER_LARGE: new Image(),
@@ -70,9 +77,16 @@ function imageLoaderInit(): void {
 	allImages.STATIC.src='static.png';
 	allImages.EMP.src='EmpPulse.png';
 
-	allImages.BLUE_CHASSIS_1.src='Chassis1Blue.png';
+	allImages.CHASSIS_1.src='Chassis1Blue.png';
+	allImages.CHASSIS_2.src='Chassis2.png';
+	allImages.CHASSIS_3.src='Chassis3.png';
+	allImages.CHASSIS_4.src='Chassis4.png';
+	allImages.CHASSIS_5.src='Chassis5.png';
+	allImages.TREAD_1.src='Tread1Gray.png';
+	allImages.TREAD_2.src='Tread2.png';
+	allImages.TREAD_3.src='Tread3.png';
+	allImages.TREAD_4.src='Tread4.png';
 	allImages.RED_GUN_1.src='gun1GrayRed.png';
-	allImages.GRAY_TREAD_1.src='Tread1Gray.png';
 	allImages.JAMMER_SMALL.src='JammerSmall.png';
 	allImages.JAMMER_MEDIUM.src='JammerMedium.png';
 	allImages.JAMMER_LARGE.src='JammerLarge.png';
