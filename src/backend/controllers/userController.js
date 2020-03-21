@@ -1,7 +1,7 @@
 // @flow strict
 
 // Required imports
-import type { $Request,	$Response } from 'express';
+import type { $Request, $Response } from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 
