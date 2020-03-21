@@ -154,8 +154,17 @@ class Armory extends React.Component<Props, State> {
 								<option key={index} value={tankName}>{tankName}</option>
 							)}
 						</select>
-						<h6>Setup a Wager</h6>
-						{(this.state.selectedTank) ? <SetWagerPopup setWager={this.setWager} selectedTankName={this.state.selectedTank.tankName}/> : <button className="btn disabled">Setup</button>}
+						{(this.state.selectedTank) ? 
+							<SetWagerPopup 
+								setWager={this.setWager} 
+								selectedTankName={this.state.selectedTank.tankName}
+							/> : 
+							<div>
+								{console.log(this.state.selectedTank)}
+								<h6>Setup a Tank to be Challenged</h6>
+								<button className="btn disabled">Setup</button>
+							</div>
+						}
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<br />
 						<h3>Edit Selected tank's Code</h3>
