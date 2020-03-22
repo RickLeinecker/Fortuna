@@ -90,7 +90,7 @@ function getTank(tank: Object): Tank {
 			break;
 	}
 	let chassisType: ChassisType = 'CHASSIS_1';
-	switch(treads[0]) {
+	switch(chassis[0]) {
 		case 'light':
 			chassisType = 'CHASSIS_1';
 			break;
@@ -127,6 +127,7 @@ function getTank(tank: Object): Tank {
 		getEmptyCasusCode(),
 		tank.tankName,
 		tank._id,
+		tank.userId,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;

@@ -15,7 +15,7 @@ class Treads extends TankPart {
 	constructor(name: TankComponent, treadType: TreadType) {
 		super();
 		this.treadType=treadType;
-		this.name = name
+		this.name = name;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {

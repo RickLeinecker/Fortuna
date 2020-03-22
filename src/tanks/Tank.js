@@ -79,6 +79,7 @@ class Tank extends GameObject {
 	// id and name:
 	tankName: string;
 	_id: string;
+	userId: string;
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -100,6 +101,7 @@ class Tank extends GameObject {
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,
+		userId: string,
 	) {
 		super(position);
 
@@ -117,6 +119,7 @@ class Tank extends GameObject {
 		this.parts = [chassis, mainGun, secondaryGun, scanner, scannerAddonOne, scannerAddonTwo, jammer, treads, itemOne, itemTwo, itemThree];
 		this.tankName = tankName;
 		this._id = _id;
+		this.userId = userId;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
