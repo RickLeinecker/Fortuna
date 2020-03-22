@@ -1,11 +1,16 @@
 .styleForRow {
- 	margin-top:20px;
+	margin-top:20px;
 }
 
 body {
-   	background-color: #000921;
+	background-color: #000921;
 	color: #04CCFF;
 }
+
+.haveScorebarIfSmall {
+	min-width: 1530px;
+}
+
 
 /* Search Player List Styling */
 .searchPlayersList {
@@ -13,7 +18,7 @@ body {
 }
 
 .searchPlayerListItem {
-    	display: list-item;
+	display: list-item;
 }
 
 .searchPlayersList ul {
@@ -152,6 +157,10 @@ body {
 	text-align: center;
 }
 
+.popup h2 {
+	margin-bottom: 4%;
+}
+
 .popup label {
 	margin-top: 20px;
 }
@@ -168,14 +177,15 @@ body {
 	margin-top: 20px;
 }
 
-.disabled {
+.popupbtn:disabled {
 	color: #04CCFF;
-	background: #04213F;
+	background: #999999;
 	border: 2px solid #04CCFF;
 }
 
-.disabled:hover {
+.popupbtn:disabled:hover {
 	cursor: default;
+	background: #999999;
 }
 
 .popupbtn:hover {
@@ -209,7 +219,7 @@ body {
 }
 
 .cancelbtn:hover {
-  color: #04CCFF;
+	color: #04CCFF;
 	background: #04213F;
 	border: 2px solid #04CCFF;
 }
@@ -228,11 +238,23 @@ body {
 /* Button Styling */
 
 .btn {
-  color: #000921;
+	color: #000921;
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 8px;
 	width: 175px;
+}
+
+.btn:disabled {
+	background-color: #999999;
+	border: 2px solid #000921
+}
+
+.btn:disabled:hover {
+	cursor: default;
+	background-color: #999999;
+	color: #000921;
+	border: 2px solid #000921;
 }
 
 .btn:hover {

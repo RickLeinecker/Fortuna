@@ -97,7 +97,7 @@ exports.casusUpdate = async (req: $Request, res: $Response) => {
 			.json({ errors: errors.array() });
 	}
 
-	await Tank.findById(req.params.tankId, function (err, tank) {
+	await Tank.findById(req.params.tankId, function (err, tank) 
 		if (err){
 			console.error(err.message);
 			res.send(err);
