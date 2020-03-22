@@ -57,6 +57,6 @@ router.put('/tankUpdate/:tankId', [
 router.put('/casusUpdate/:tankId', [ 
     check('casusCode', 'casusCode is required')
         .exists(),
-    ], tankController.casusUpdate);
+    ], auth, tankController.casusUpdate);
 
 module.exports = router;
