@@ -21,7 +21,7 @@ type Props = {||};
 
 type State = {|
 	selectedTank?: Tank,
-	allTanks: Array<Object>,
+	allTanks: Array<Tank>,
 	inventory: Object,
 	chassis: Object,
 	weapons: Object,
@@ -114,7 +114,7 @@ class Armory extends React.Component<Props, State> {
 		if(!str) {
 			return str;
 		}
-		
+
 		str = str.replace( /([A-Z])/g, " $1");
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}

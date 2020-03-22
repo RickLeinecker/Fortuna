@@ -36,6 +36,7 @@ function getTestTank(id: number=1): Tank {
 */
 
 function getTank(tank: Object): Tank {
+	// Setup TankComponent arrays.
 	const position=tank._id===1?new Vec(20, -20):new Vec(50, 40);
 	const chassis: Array<TankComponent> = getComponentsOfType(tank.components, 'chassis');
 	const weapons: Array<TankComponent> = getComponentsOfType(tank.components, 'weapon');
@@ -45,6 +46,7 @@ function getTank(tank: Object): Tank {
 	const treads: Array<TankComponent> = getComponentsOfType(tank.components, 'treads');
 	const items: Array<TankComponent> = getComponentsOfType(tank.components, 'item');
 	
+	// Setup Range for scanners and jammers.
 	let scannerRange: Range = 'SMALL';
 	if(scanners[0]) {
 		if(scanners[0].includes('short')) {
@@ -69,6 +71,7 @@ function getTank(tank: Object): Tank {
 			jammerRange = 'LARGE';
 		}
 	}
+	// Setup tread and chassis types.
 	let treadsType: TreadType = 'TREAD_1';
 	switch(treads[0]) {
 		case 'heavilyArmoredTreads':
@@ -107,6 +110,7 @@ function getTank(tank: Object): Tank {
 			break;
 	}
 
+	// Setup return value.
 	const toReturn: Tank = new Tank(
 		position,
 		new Chassis(chassis[0], chassisType),

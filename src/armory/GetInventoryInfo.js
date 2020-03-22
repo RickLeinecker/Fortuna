@@ -6,7 +6,7 @@ import { allComponents } from './TankComponent.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
-const allTankComponents: {[TankComponent]: ComponentType} = {
+const allComponentTypes: {[TankComponent]: ComponentType} = {
 
 	// Chassis
 	"moddableLight": "chassis",
@@ -104,8 +104,8 @@ const allComponentPoints: {[TankComponent]: number} = {
 };
 
 // Find a component's type.
-function getTankComponent(component: TankComponent): string {
-	return allTankComponents[component];
+function getComponentType(component: TankComponent): string {
+	return allComponentTypes[component];
 }
 
 // Find a component's point value.
@@ -115,7 +115,7 @@ function getComponentPoints(component: TankComponent): number {
 
 // The next 6 functions parse through a players inventory and returns components of only a certain type.
 function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentType): Array<TankComponent> {
-	return inventory.filter(comp => allTankComponents[comp] === type);
+	return inventory.filter(comp => allComponentTypes[comp] === type);
 }
 
 // Takes the inventory object and returns a filtered by type inventory object.
@@ -129,7 +129,7 @@ function getOptionsOfType(inventory: Object, type: ComponentType): Object {
 
 	// Filter the object by type and use reduce to get only the properties of that type.
 	return Object.keys(inventory)
-		.filter(comp => allTankComponents[verifyComponent(comp)] === type)
+		.filter(comp => allComponentTypes[verifyComponent(comp)] === type)
 		.reduce((obj, comp) => {
 			obj[comp] = inventory[comp];
 			return obj;
@@ -146,7 +146,7 @@ function verifyComponent(comp: string): TankComponent {
 }
 
 export {
-	getTankComponent,
+	getComponentType,
 	getComponentsOfType,
 	getComponentPoints,
 	verifyComponent,
