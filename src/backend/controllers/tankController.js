@@ -69,33 +69,6 @@ exports.tankUpdate = async (req: $Request, res: $Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	try{
-		const userTank = await Tank.findById(req.params.tankId);
-
-		if(!userTank){
-			return res
-				.status()
-				.json({ msg: 'Unable to find tank in DB'});
-		}
-
-		const userDoc = await User.findById(userTank.userId);
-
-		if(!userDoc){
-			return res
-				.status()
-				.json({ msg: 'Unable to find user in DB'});
-		}
-
-		// check if user has the component
-		//if(userDoc.inventory.tankComponents.(userTank) > 1){
-
-		//}
-
-	}catch(err){
-		return res
-			.status()
-			.json({ msg: 'Unable to update tank'});
-	}
 
 	await Tank.findById(req.params.tankId, function (err, tank) {
 		if (err){
