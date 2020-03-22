@@ -18,8 +18,7 @@ Make a bulleted/numbered list of steps to verify this feature/bugfix. Include sc
 Go down the list and check them off.
 
 - [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have performed a self-review of my own code
+- [ ] My changes passes Flow, builds without errors and (if applicable) passes unit tests.
 - [ ] I have made corresponding changes to the design document (if applicable)
-- [ ] My changes generate no new warnings
-- [ ] Pulled updated master branch (if changed since branch creation) and corrected any conflicts, if any occur.
