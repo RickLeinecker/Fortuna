@@ -92,16 +92,16 @@ function getTank(tank: Object): Tank {
 	let chassisType: ChassisType = 'CHASSIS_1';
 	switch(treads[0]) {
 		case 'light':
-			ChassisType = 'CHASSIS_1';
+			chassisType = 'CHASSIS_1';
 			break;
 		case 'heavy':
-			ChassisType = 'CHASSIS_2';
+			chassisType = 'CHASSIS_2';
 			break;
 		case 'moddable':
-			ChassisType = 'CHASSIS_3';
+			chassisType = 'CHASSIS_3';
 			break;
 		case 'moddableHeavy':
-			ChassisType = 'CHASSIS_4';
+			chassisType = 'CHASSIS_4';
 			break;
 		case 'moddableLight':
 			chassisType = 'CHASSIS_5';
@@ -114,16 +114,16 @@ function getTank(tank: Object): Tank {
 	const toReturn: Tank = new Tank(
 		position,
 		new Chassis(chassis[0], chassisType),
-		new Gun((weapons[0]) ? weapons[0] : ''),
-		new Gun((weapons[1]) ? weapons[1] : ''),
-		new Scanner((scanners[0]) ? scanners[0] : '', false, false, scannerRange),
-		new Scanner((scannerAddons[0]) ? scannerAddons[0] : '', false, false, scannerRange),
-		new Scanner((scannerAddons[1]) ? scannerAddons[1] : '', false, false, scannerRange),
-		new Jammer((jammers[0]) ? jammers[0] : '', jammerRange),
+		new Gun(weapons[0]),
+		new Gun(weapons[1]),
+		new Scanner(scanners[0], false, false, scannerRange),
+		new Scanner(scannerAddons[0], false, false, scannerRange),
+		new Scanner(scannerAddons[1], false, false, scannerRange),
+		new Jammer(jammers[0], jammerRange),
 		new Treads(treads[0], treadsType),
-		new Item((items[0]) ? items[0] : ''),
-		new Item((items[1]) ? items[1] : ''),
-		new Item((items[2]) ? items[2] : ''),
+		new Item(items[0]),
+		new Item(items[1]),
+		new Item(items[2]),
 		getEmptyCasusCode(),
 		tank.tankName,
 		tank._id,

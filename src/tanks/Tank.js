@@ -10,6 +10,7 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
+import Chassis from './Chassis.js';
 import Jammer from './Jammer.js';
 import Treads from './Treads.js';
 import Item from './Item.js';
@@ -62,18 +63,18 @@ class Tank extends GameObject {
 	nitroRepairTimerLeft: number;
 
 	// parts: 
-	chassis: TankPart;
+	chassis: Chassis;
 	mainGun: Gun;
 	secondaryGun: Gun;
-	scanner: ?Scanner;
-	scannerAddonOne: ?Scanner;
-	scannerAddonTwo: ?Scanner;
-	jammer: ?Jammer;
+	scanner: Scanner;
+	scannerAddonOne: Scanner;
+	scannerAddonTwo: Scanner;
+	jammer: Jammer;
 	treads: Treads;
-	itemOne: ?Item;
-	itemTwo: ?Item;
-	itemThree: ?Item;
-	parts: Array<?TankPart>;
+	itemOne: Item;
+	itemTwo: Item;
+	itemThree: Item;
+	parts: Array<TankPart>;
 
 	// id and name:
 	tankName: string;
@@ -85,17 +86,17 @@ class Tank extends GameObject {
 
 	constructor(
 		position: Vec, 
-		chassis: TankPart, 
+		chassis: Chassis, 
 		mainGun: Gun, 
 		secondaryGun: Gun,
-		scanner: ?Scanner,
-		scannerAddonOne: ?Scanner,
-		scannerAddonTwo: ?Scanner, 
-		jammer: ?Jammer,
+		scanner: Scanner,
+		scannerAddonOne: Scanner,
+		scannerAddonTwo: Scanner, 
+		jammer: Jammer,
 		treads: Treads,
-		itemOne: ?Item,
-		itemTwo: ?Item,
-		itemThree: ?Item,
+		itemOne: Item,
+		itemTwo: Item,
+		itemThree: Item,
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,

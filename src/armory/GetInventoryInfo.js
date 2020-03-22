@@ -3,6 +3,7 @@
 import type { TankComponent } from './TankComponent.js';
 import type { ComponentType } from './ComponentType.js';
 import { allComponents } from './TankComponent.js';
+import Component from './Component.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
@@ -119,21 +120,24 @@ function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentTyp
 }
 
 // Takes the inventory object and returns a filtered by type inventory object.
-function getOptionsOfType(inventory: Object, type: ComponentType): Object {
-	// Delete entries with 0 value, the user does not own any.
-	for(const comp in inventory) {
-		if (inventory[comp] === 0) {
-			delete inventory[comp]
-		} 
+function getOptionsOfType(inventory: Object, type: ComponentType): Array<Component> {
+	let newInventory: Array<Component> = [];
+
+	for(const componentString in inventory) {
+		// Change the component string to a tank component.
+		const component: TankComponent = verifyComponent(componentString);
+		
+		// Delete entries with 0 value, the user does not own any.
+		if (inventory[component] === 0) {
+			delete inventory[component]
+		}
+		// Push new components onto the new inventory if they have the correct type.
+		else if (allComponentTypes[component] === type) {
+			newInventory.push(new Component(component, inventory[component]));
+		}
 	}
 
-	// Filter the object by type and use reduce to get only the properties of that type.
-	return Object.keys(inventory)
-		.filter(comp => allComponentTypes[verifyComponent(comp)] === type)
-		.reduce((obj, comp) => {
-			obj[comp] = inventory[comp];
-			return obj;
-		}, {});
+	return newInventory;
 }
 
 // Verifies that a string is a component.
@@ -145,10 +149,20 @@ function verifyComponent(comp: string): TankComponent {
 	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
 }
 
+function getInventory(inventory: Object): Array<Component> {
+	let newInventory: Array<Component> = [];
+	for(const component in inventory) {
+		newInventory.push(new Component(component, inventory[component]));
+	}
+
+	return newInventory;
+}
+
 export {
 	getComponentType,
 	getComponentsOfType,
 	getComponentPoints,
 	verifyComponent,
 	getOptionsOfType,
+	getInventory,
 };
