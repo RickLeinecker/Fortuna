@@ -35,7 +35,6 @@ router.get('/userTanks', auth, tankController.userTanks);
 // Returns the id of the new tank
 router.post('/assignTank', auth, tankController.assignTank);
 
-
 // Updates the entire document of the tank
 // Route Call: /tankUpdate/<tankId>
 // Req must contain the tankId within the uri of the api call in place of <tankId>
@@ -58,5 +57,10 @@ router.put('/casusUpdate/:tankId', [
     check('casusCode', 'casusCode is required')
         .exists(),
     ], tankController.casusUpdate);
+
+router.delete('/deleteTank/:tankId', [
+    check('tankId', 'tankId should be a MongoId string')
+        .isMongoId()
+    ], tankController.deleteTank);
 
 module.exports = router;
