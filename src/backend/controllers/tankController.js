@@ -123,5 +123,35 @@ exports.casusUpdate = async (req: Request, res: Response) => {
 		res.status(200).send(tank);
 		console.log('Successfully updated tank Casus code.')
 	});
+}
 
+exports.deleteTank = async (req: Request, res: Response) => {
+	//check if all the fields are input correctly from the frontend
+	const errors = validationResult(req);
+
+	if(!errors.isEmpty()){
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct request
+	const { tankId } = req.params;
+
+	const tank = await Tank.findById(tankId);
+	if (!tank) {
+		console.error('Tank not in DB');
+		return res.status(400).json({ msg: 'Could not find tank in DB' });
+	}
+
+	// Delete tank
+	await Tank.deleteOne({ _id: tank._id }, (err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res.status(500).json({ msg: 'Could not delete tank from DB' });
+		}
+	});
+	
+	return res.status(200).json({ msg: 'Successfully deleted Tank' });
 }
