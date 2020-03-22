@@ -9,6 +9,7 @@ const USE_MINE_VAR_NAME: string = 'useMine';
 const USE_C4_VAR_NAME: string = 'useC4';
 const RAN_INTO_WALL_VAR_NAME: string = 'ranIntoWall';
 const USE_JAMMER_VAR_NAME: string = 'useJammer';
+const USE_NITRO_REPAIR_VAR_NAME: string = 'useNitroRepair';
 
 // doubles:
 const FORWARD_MOVEMENT_VAR_NAME: string = 'forwardMovement';
@@ -33,6 +34,7 @@ const builtInBooleanVariables: Array<string> = [
 	USE_C4_VAR_NAME,
 	RAN_INTO_WALL_VAR_NAME,
 	USE_JAMMER_VAR_NAME,
+	USE_NITRO_REPAIR_VAR_NAME,
 ];
 
 const builtInDoubleVariables: Array<string> = [
@@ -57,12 +59,13 @@ export {
 	USE_C4_VAR_NAME,
 	RAN_INTO_WALL_VAR_NAME,
 	USE_JAMMER_VAR_NAME,
-	TANK_X_VAR_NAME,
-	TANK_Y_VAR_NAME,
+	USE_NITRO_REPAIR_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
 	TURRET_DIRECTION_VAR_NAME,
+	TANK_X_VAR_NAME,
+	TANK_Y_VAR_NAME,
 
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
