@@ -241,6 +241,50 @@ exports.getMarketSales = async (req: Request, res: Response) => {
     }
 }
 
+// Gets all Tank Marketplace Sales not belonging to the user
+exports.getTankMarketSales = async (req: Request, res: Response) => {
+    // Validation
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // Return 400 for a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    // Deconstruct userId from parameter
+    const { userId } = req.params;
+
+    try {
+        // Check if valid user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res
+                .status(400)
+                .json({ msg: 'User does not exist' });
+        }
+
+        // Get list of tank sales from DB that do not belong to logged in user
+        const salesList = await MarketSale.find({ sellerId: { $ne: userId }, itemType: { $eq: 'tank' } })
+            .populate('itemId', 'tankName');
+        if (!salesList) {
+            return res
+                .status(400)
+                .json({ msg: 'Unable to get list of Tank Market Sales.' });
+        }
+
+        // Return list of sales
+        console.log('Retrieved Tank Market Sale List.');
+        return res.status(200).json(salesList);
+
+    }
+    catch (err) {
+        console.error(err.message);
+        return res.status(500).json({ msg: 'Unable to find list of Tank Sales.' });
+    }
+}
+
 // Gets a single Marketplace Sale
 exports.getMarketSale = async (req: Request, res: Response) => {
     try {
