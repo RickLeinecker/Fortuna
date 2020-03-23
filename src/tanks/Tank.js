@@ -74,7 +74,15 @@ class Tank extends GameObject {
 	itemOne: Item;
 	itemTwo: Item;
 	itemThree: Item;
+	// Parts will be an array of 11 values:
+	// [0] = Chassis
+	// [1] = Main Gun, [2] = Secondary Gun
+	// [3] = Scanner, [4] = Scanner Addon 1, [5] = Scanner Addon 2
+	// [6] = Jammer
+	// [7] = Treads
+	// [8] = Item 1, [9] = Item 2, [10] = Item 3
 	parts: Array<TankPart>;
+	components: Array<string>;
 
 	// id and name:
 	tankName: string;
@@ -102,6 +110,7 @@ class Tank extends GameObject {
 		tankName: string,
 		_id: string,
 		userId: string,
+		components: Array<string>,
 	) {
 		super(position);
 
@@ -120,6 +129,7 @@ class Tank extends GameObject {
 		this.tankName = tankName;
 		this._id = _id;
 		this.userId = userId;
+		this.components = components;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;

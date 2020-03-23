@@ -14,18 +14,17 @@ import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank } from '../tanks/TankLoader.js';
 // Types and Classes
+import type { TankComponent } from './TankComponent.js';
 import Component from './Component.js';
 import Tank from '../tanks/Tank.js';
 import Cookies from 'universal-cookie';
 import Chassis from '../tanks/Chassis.js';
-import type { ChassisType } from '../tanks/ChassisType.js';
 import Gun from '../tanks/Gun.js';
 import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
 import type { Range } from '../tanks/Range.js';
 import Item from '../tanks/Item.js';
 import Treads from '../tanks/Treads.js';
-import type { TreadType } from '../tanks/TreadType.js';
 
 type Props = {||};
 
@@ -47,7 +46,7 @@ class Armory extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-		
+
 		this.state = {
 			selectedTank: null,
 			allTanks: null,
@@ -84,9 +83,7 @@ class Armory extends React.Component<Props, State> {
 					}
 					this.setState({allTanks: data});
 					// If no tank is set, set the first tank found as the selectedTank.
-					if(this.state.selectedTank == null) {
-						this.setState({selectedTank: getTank(data[0])});
-					}
+					this.setState({selectedTank: getTank(data[0])});
 				}
 			})
 		)
@@ -148,6 +145,13 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank.
 	saveTank(): void {
+		// Null check for selectedTank.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank!');
+			return;
+		}
+
+		// Save tank.
 		fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 			method: 'PUT',
 			headers: {
@@ -157,8 +161,8 @@ class Armory extends React.Component<Props, State> {
 			},
 			body: JSON.stringify({ 
 				tankName: this.state.selectedTank.tankName, 
-				userId: this.state.userId, 
-				components: this.state.selectedTank.parts, 
+				userId: this.state.selectedTank.userId, 
+				components: this.state.selectedTank.components, 
 				casusCode: this.state.selectedTank.casusCode, 
 				isBot: false 
 			}),
@@ -166,49 +170,231 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	// ALL UPDATES NEED API CALL TO UPDATE INVENTORY.
-	updateChassis(chassis: string): void {
-		// Create new chassis.
-		// Define what type of chassis it is.
-		let chassisType: ChassisType = 'CHASSIS_1';
-		switch(chassis) {
-			case 'light':
-				chassisType = 'CHASSIS_1';
-				break;
-			case 'heavy':
-				chassisType = 'CHASSIS_2';
-				break;
-			case 'moddable':
-				chassisType = 'CHASSIS_3';
-				break;
-			case 'moddableHeavy':
-				chassisType = 'CHASSIS_4';
-				break;
-			case 'moddableLight':
-				chassisType = 'CHASSIS_5';
-				break;
-			default:
-				break;
-		}
-		const newChassis: Chassis = new Chassis(chassis, chassisType);
+	updateChassis(chassis: TankComponent): void {
+		// Set the newChassis.
+		const newChassis: Chassis = new Chassis(chassis);
 
 		// Update the selected tank with the new chassis.
-		const updatedTank: Tank = this.state.selectedTank;
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the chassis, parts, and components array.
 		updatedTank.chassis = newChassis;
+		updatedTank.parts[0] = newChassis;
+		updatedTank.components[0] = newChassis.name;
 		this.setState({selectedTank: updatedTank});
 
 		// Save the tank.
-		//saveTank();
+		this.saveTank();
 	}
-	updateWeaponOne(newWeapon: string): void {}
-	updateWeaponTwo(newWeapon: string): void {}
-	updateScanner(newScanner: string): void {}
-	updateScannerAddonOne(newScannerAddon: string): void {}
-	updateScannerAddonTwo(newScannerAddon: string): void {}
-	updateJammer(newJammer: string): void {}
-	updateTreads(newTreads: string): void {}
-	updateItemOne(newItem: string): void {}
-	updateItemTwo(newItem: string): void {}
-	updateItemThree(newItem: string): void {}
+
+	updateWeaponOne(weapon: TankComponent): void {
+		// Set the newWeapon.
+		const newWeapon: Gun = new Gun(weapon);
+
+		// Update the selected tank with the new weapon.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the mainGun, parts, and components array.
+		updatedTank.mainGun = newWeapon;
+		updatedTank.parts[1] = newWeapon;
+		updatedTank.components[1] = newWeapon.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+
+	updateWeaponTwo(weapon: TankComponent): void {
+		// Set the newWeapon.
+		const newWeapon: Gun = new Gun(weapon);
+
+		// Update the selected tank with the new weapon.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the mainGun, parts, and components array.
+		updatedTank.secondaryGun = newWeapon;
+		updatedTank.parts[2] = newWeapon;
+		updatedTank.components[2] = newWeapon.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+
+	updateScanner(scanner: TankComponent): void {
+		// Set the newScanner.
+		const newScanner: Scanner = new Scanner(scanner, false, false);
+
+		// Update the selected tank with the new scanner.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the scanner, parts, and components array.
+		updatedTank.scanner = newScanner;
+		updatedTank.parts[3] = newScanner;
+		updatedTank.components[3] = newScanner.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+
+	updateScannerAddonOne(scannerAddon: TankComponent): void {
+		// Set the newScannerAddon.
+		const newScannerAddon: Scanner = new Scanner(scannerAddon, false, false);
+
+		// Update the selected tank with the new scanner addon.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the scannerAddonOne, parts, and components array.
+		updatedTank.scannerAddonOne = newScannerAddon;
+		updatedTank.parts[4] = newScannerAddon;
+		updatedTank.components[4] = newScannerAddon.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+
+	updateScannerAddonTwo(scannerAddon: TankComponent): void {
+		// Set the newScannerAddon.
+		const newScannerAddon: Scanner = new Scanner(scannerAddon, false, false);
+
+		// Update the selected tank with the new scanner addon.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the ScannerAddonTwo, parts, and components array.
+		updatedTank.scannerAddonTwo = newScannerAddon;
+		updatedTank.parts[5] = newScannerAddon;
+		updatedTank.components[5] = newScannerAddon.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+	updateJammer(jammer: TankComponent): void {
+		// Set the newJammer.
+		const newJammer: Jammer = new Jammer(jammer);
+
+		// Update the selected tank with the new jammer.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the jammer, parts, and components array.
+		updatedTank.jammer = newJammer;
+		updatedTank.parts[6] = newJammer;
+		updatedTank.components[6] = newJammer.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+	updateTreads(treads: TankComponent): void {
+		// Set the newTreads.
+		const newTreads: Treads = new Treads(treads);
+
+		// Update the selected tank with the new treads.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the treads, parts, and components array.
+		updatedTank.treads = newTreads;
+		updatedTank.parts[7] = newTreads;
+		updatedTank.components[7] = newTreads.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+	updateItemOne(item: TankComponent): void {
+		// Set the newItem.
+		const newItem: Item = new Item(item);
+
+		// Update the selected tank with the new item.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the itemOne, parts, and components array.
+		updatedTank.itemOne = newItem;
+		updatedTank.parts[8] = newItem;
+		updatedTank.components[8] = newItem.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+	updateItemTwo(item: TankComponent): void {
+		// Set the newItem.
+		const newItem: Item = new Item(item);
+
+		// Update the selected tank with the new item.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the itemTwo, parts, and components array.
+		updatedTank.itemTwo = newItem;
+		updatedTank.parts[9] = newItem;
+		updatedTank.components[9] = newItem.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
+	updateItemThree(item: TankComponent): void {
+		// Set the newItem.
+		const newItem: Item = new Item(item);
+
+		// Update the selected tank with the new item.
+		if(this.state.selectedTank == null) {
+			console.log('No selected tank found!');
+			return;
+		}
+		// Setup a new tank that will be updated and set to the selected tank.
+		let updatedTank: Tank = getTank(this.state.selectedTank);
+		// Update the itemOne, parts, and components array.
+		updatedTank.itemThree = newItem;
+		updatedTank.parts[10] = newItem;
+		updatedTank.components[10] = newItem.name;
+		this.setState({selectedTank: updatedTank});
+
+		// Save the tank.
+		this.saveTank();
+	}
 
 	render(): React.Node {
 		return (
@@ -320,235 +506,3 @@ class Armory extends React.Component<Props, State> {
 }
 
 export default Armory;
-
-/* OLD JORGE FUNCTIONS TO BE REMOVED IF NOT USED
-	//This will save a tank
-	saveTank  = async ():Promise<void> => {
-		fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
-
-			method: 'PUT',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true'
-			},
-			body: JSON.stringify({ tankName: this.state.selectedTank.tankName, userId: this.state.userId, components: this.state.selectedTank.components, casusCode: this.state.selectedTank.casusCode, isBot: false }),
-		});
-	};
-
-	//Clears the inventory on the frontend side
-	clearInventoryArrays() {
-		this.setState({
-			tankOptions : [],
-			chassisOptions : [],
-			weaponOneOptions : [],
-			weaponTwoOptions: [],
-			scannerOneOptions: [],
-			scannerTwoOptions: [],
-			scannerThreeOptions: [],
-			jammerOptions: [],
-			treadsOptions: [],
-			singleUseItemsOne: [],
-			singleUseItemsTwo: [],
-			singleUseItemsThree: [],
-		});
-	}
-	//This is used to get the current favorite tank of the user and continues to get all of the selected tank
-	getFavoriteTank () : void {
-		const responsePromise = getFavoriteTankID();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					const favoriteTankID = data.text();
-					this.setState({selectedTankId: favoriteTankID});
-					this.getSelectedTank();
-				}
-			})
-		).catch(
-			error => {
-				console.log('No favorite Tank');
-				this.getSelectedTank();
-			}
-		);
-	};
-	*/
-
-	/*
-	//This can get a tank with the same id as the selected one and will fill out the info for all the items
-	getSelectedTank = async ():Promise<void> => {
-	
-		//Clear the data so that we dont duplicate items
-		this.clearInventoryArrays();
-		const responsePromise = getAllUsersTanks();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfTanks = data;
-					//This will get the seleced tanks info and fill out the selected items
-					for (const tank in jsonObjectOfTanks) {
-						//Select fields is an object of the fields that we need to construct our selects in the render
-						const tankOption = new OptionClass(jsonObjectOfTanks[tank]._id, jsonObjectOfTanks[tank].tankName);
-						if(jsonObjectOfTanks[tank]._id === this.state.selectedTankId) {
-							this.setState({
-								selectedTankName:jsonObjectOfTanks[tank].tankName,
-								selectedCasusCode:jsonObjectOfTanks[tank].casusCode,
-								selectedIsBot:jsonObjectOfTanks[tank].isBot,
-								selectedChassis: jsonObjectOfTanks[tank].components[0],
-								selectedWeaponOne: jsonObjectOfTanks[tank].components[1],
-								selectedWeaponTwo: jsonObjectOfTanks[tank].components[2],
-								selectedScannerOne: jsonObjectOfTanks[tank].components[3],
-								selectedScannerTwo: jsonObjectOfTanks[tank].components[4],
-								selectedScannerThree: jsonObjectOfTanks[tank].components[5],
-								selectedJammer: jsonObjectOfTanks[tank].components[6],
-								selectedThreads: jsonObjectOfTanks[tank].components[7],
-								selectedSingleUseItemOne: jsonObjectOfTanks[tank].components[8],
-								selectedSingleUseItemTwo: jsonObjectOfTanks[tank].components[9],
-								selectedSingleUseItemThree: jsonObjectOfTanks[tank].components[10]
-							});
-							setTankForCasus(this.state.selectedTankId);
-						}
-						this.state.tankOptions.push(tankOption);
-					}
-					this.getUserInventory();
-				}
-			})
-		).catch(
-			error => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
-				return error;
-			}
-		);
-	};
-	*/
-
-	/*
-	//This will get all the inventory from a user and fill out the arrays used in the front end for the backend
-	getUserInventory () : void {
-		const responsePromise = getUser();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfUser = data;
-					for (const component in jsonObjectOfUser.inventory.tankComponents) {
-						const typeOfItem = getTankComponent(verifyComponent(component));
-						//Option fields is an object of the fields that we need to construct our selects in the render
-						//This will add the chassis that the user has
-						if(typeOfItem === 'chassis' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const chassisOptionObject = new OptionClass (component, component);
-							this.state.chassisOptions.push(chassisOptionObject);
-						}
-						//This will add the weapons that the user has
-						else if(typeOfItem === 'weapon' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const weaponOptionObject = new OptionClass (component, component);
-							this.state.weaponOneOptions.push(weaponOptionObject);
-							this.state.weaponTwoOptions.push(weaponOptionObject);
-						}
-						//This will add the scanners that the user has
-						else if(typeOfItem === 'scanner' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const scannerOptionObject = new OptionClass (component, component);
-							this.state.scannerOneOptions.push(scannerOptionObject);
-							this.state.scannerTwoOptions.push(scannerOptionObject);
-							this.state.scannerThreeOptions.push(scannerOptionObject);
-						}
-						//This will add the jammers that the user has
-						else if(typeOfItem === 'jammer' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const jammerOptionObject = new OptionClass (component, component);
-							this.state.jammerOptions.push(jammerOptionObject);
-						}
-						//This will add the threads that the user has
-						else if(typeOfItem === 'treads' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const treadsOptionObject = new OptionClass (component, component);
-							this.state.treadsOptions.push(treadsOptionObject);
-						}
-						//This will add the single use items that the user has
-						else if(typeOfItem === 'item' && jsonObjectOfUser.inventory.tankComponents[component] > 0) {
-							const itemOptionObject = new OptionClass (component, component);
-							this.state.singleUseItemsOne.push(itemOptionObject);
-							this.state.singleUseItemsTwo.push(itemOptionObject);
-							this.state.singleUseItemsThree.push(itemOptionObject);
-						}
-					}
-					//set the users id
-					this.setState({userId:jsonObjectOfUser._id});
-				}
-			})
-		).catch(
-			error => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
-			}
-		);
-		
-	};
-	*/
-
-	/*
-	//This handles the changes if a user changes tanks or its components
-	//Thsi has to be an any because this taget uses label which is not a part of HTMLElement. 
-	handleChangeInTankOptions = ({ target }:{target:HTMLInputElement}) => {
-		this.setState({ selectedTankId: target.value});
-		this.getSelectedTank();
-	}
-
-	handleChangeInChassisOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedChassis: target.value});
-	}
-
-	handleChangeInWeaponOneOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedWeaponOne: target.value});
-	}
-
-	handleChangeInWeaponTwoOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedWeaponTwo: target.value});
-	}
-
-	handleChangeInScannerOneOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedScannerOne: target.value});
-	}
-
-	handleChangeInScannerTwoOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedScannerTwo: target.value});
-	}
-
-	handleChangeInScannerThreeOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedScannerThree: target.value});
-	}
-
-	handleChangeInJammerOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedJammer: target.value});
-	}
-
-	handleChangeInTreadsOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedThreads: target.value });
-	}
-
-	handleChangeInSingleUseItemsOneOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedSingleUseItemOne: target.value});
-	}
-
-	handleChangeInSingleUseItemsTwoOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedSingleUseItemTwo: target.value });
-	}
-
-	handleChangeInSingleUseItemsThreeOptions = ({ target }:{target:HTMLInputElement }) => {
-		this.setState({selectedSingleUseItemThree: target.value});
-	}
-	*/

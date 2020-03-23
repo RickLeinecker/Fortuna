@@ -5,16 +5,53 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import type { TankComponent } from '../armory/TankComponent.js';
-import type { ChassisType } from './ChassisType.js';
+
+// 5 Chassis types:
+//
+// Chassis 1: Light
+// 	-Fast, quick to turn
+//
+// Chassis 2: Heavy
+//  -strongest and slowest
+// 
+// Chassis 3: Moddable
+//  -medium in pretty much all respects
+//
+// Chassis 4: Moddable Heavy
+//  -slower, medium health, but more free slots
+//
+// Chassis 5: Moddable Light
+//  -light and fast, weakest, more free slots
+//
+type ChassisType = 'CHASSIS_1' | 'CHASSIS_2' | 'CHASSIS_3' | 'CHASSIS_4' | 'CHASSIS_5';
 
 class Chassis extends TankPart {
 	chassisType: ChassisType;
 	name: TankComponent;
 
-	constructor(name: TankComponent, chassisType: ChassisType) {
+	constructor(name: TankComponent) {
 		super();
 		this.name = name;
-		this.chassisType = chassisType;
+
+		switch(name) {
+			case 'light':
+				this.chassisType = 'CHASSIS_1';
+				break;
+			case 'heavy':
+				this.chassisType = 'CHASSIS_2';
+				break;
+			case 'moddable':
+				this.chassisType = 'CHASSIS_3';
+				break;
+			case 'moddableHeavy':
+				this.chassisType = 'CHASSIS_4';
+				break;
+			case 'moddableLight':
+				this.chassisType = 'CHASSIS_5';
+				break;
+			default:
+				break;
+		}
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {

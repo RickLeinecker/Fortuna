@@ -14,9 +14,6 @@ import loadCasus from '../casus/loadCasus.js';
 import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
 
 import type { TankComponent } from '../armory/TankComponent.js';
-import type { Range } from './Range.js';
-import type { TreadType } from './TreadType.js';
-import type { ChassisType } from './ChassisType.js';
 
 /* REMOVE ONCE GETTANK FUNCTION IS FULLY TESTED
 function getTestTank(id: number=1): Tank {
@@ -46,81 +43,17 @@ function getTank(tank: Object): Tank {
 	const treads: Array<TankComponent> = getComponentsOfType(tank.components, 'treads');
 	const items: Array<TankComponent> = getComponentsOfType(tank.components, 'item');
 	
-	// Setup Range for scanners and jammers.
-	let scannerRange: Range = 'SMALL';
-	if(scanners[0]) {
-		if(scanners[0].includes('short')) {
-			scannerRange = 'SMALL';
-		}
-		else if(scanners[0].includes('medium')) {
-			scannerRange = 'MEDIUM';
-		}
-		else if(scanners[0].includes('long')) {
-			scannerRange = 'LARGE';
-		}
-	}
-	let jammerRange: Range = 'SMALL';
-	if(jammers[0]) {
-		if(jammers[0].includes('short')) {
-			jammerRange = 'SMALL';
-		}
-		else if(jammers[0].includes('medium')) {
-			jammerRange = 'MEDIUM';
-		}
-		else if(jammers[0].includes('long')) {
-			jammerRange = 'LARGE';
-		}
-	}
-	// Setup tread and chassis types.
-	let treadsType: TreadType = 'TREAD_1';
-	switch(treads[0]) {
-		case 'heavilyArmoredTreads':
-			treadsType = 'TREAD_1';
-			break;
-		case 'advancedTreads':
-			treadsType = 'TREAD_2';
-			break;
-		case 'fastTreads':
-			treadsType = 'TREAD_3';
-			break;
-		case 'armoredTreads':
-			treadsType = 'TREAD_4';
-			break;
-		default:
-			break;
-	}
-	let chassisType: ChassisType = 'CHASSIS_1';
-	switch(chassis[0]) {
-		case 'light':
-			chassisType = 'CHASSIS_1';
-			break;
-		case 'heavy':
-			chassisType = 'CHASSIS_2';
-			break;
-		case 'moddable':
-			chassisType = 'CHASSIS_3';
-			break;
-		case 'moddableHeavy':
-			chassisType = 'CHASSIS_4';
-			break;
-		case 'moddableLight':
-			chassisType = 'CHASSIS_5';
-			break;
-		default:
-			break;
-	}
-
 	// Setup return value.
-	const toReturn: Tank = new Tank(
+	const toReturn: Tank = new Tank (
 		position,
-		new Chassis(chassis[0], chassisType),
+		new Chassis(chassis[0]),
 		new Gun(weapons[0]),
 		new Gun(weapons[1]),
-		new Scanner(scanners[0], false, false, scannerRange),
-		new Scanner(scannerAddons[0], false, false, scannerRange),
-		new Scanner(scannerAddons[1], false, false, scannerRange),
-		new Jammer(jammers[0], jammerRange),
-		new Treads(treads[0], treadsType),
+		new Scanner(scanners[0], false, false),
+		new Scanner(scannerAddons[0], false, false),
+		new Scanner(scannerAddons[1], false, false),
+		new Jammer(jammers[0]),
+		new Treads(treads[0]),
 		new Item(items[0]),
 		new Item(items[1]),
 		new Item(items[2]),
@@ -128,6 +61,7 @@ function getTank(tank: Object): Tank {
 		tank.tankName,
 		tank._id,
 		tank.userId,
+		tank.components,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;

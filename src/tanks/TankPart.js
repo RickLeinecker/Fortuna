@@ -9,13 +9,14 @@ import type InterpriterState from '../casus/interpreter/InterpriterState.js';
 //A parent class for all tank parts
 
 class TankPart {
+
 	update(
 		interpriterState: 
 		InterpriterState, 
 		battleground: Battleground, 
 		parentPos: Vec, 
 		parentRotation: number,
-		parentTank: Tank
+		parentTank: Tank,
 	) {
 	}
 

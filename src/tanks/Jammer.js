@@ -21,12 +21,26 @@ class Jammer extends TankPart {
 	width: number;
 	cooldown: number;
 
-	constructor(name: TankComponent, range: Range) {
+	constructor(name: TankComponent) {
 		super();
 		this.name = name;
-		this.range = range;
 		this.cooldown = 5;
-		if (range === 'SMALL') {
+
+		switch(name) {
+			case 'shortRangeJammer': 
+				this.range = 'SMALL';
+				break;
+			case 'mediumRangeJammer':
+				this.range = 'MEDIUM';
+				break;
+			case 'longRangeJammer': 
+				this.range = 'LARGE';
+				break;
+			default:
+				break;
+		}
+
+		if (this.range === 'SMALL') {
 			this.width = 4;
 			this.offsetFromParent=new Vec(2, 2.2);
 		}

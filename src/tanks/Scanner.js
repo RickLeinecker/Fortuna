@@ -28,15 +28,29 @@ class Scanner extends TankPart {
 	width: number;
 	jamTimer: number;
 
-	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean, range: Range) {
+	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean) {
 		super();
 		this.name = name;
 		this.seesItems = seesItems;
 		this.immuneToJammers = immuneToJammers;
-		this.range = range;
 		this.rotation = 0;
 		this.jamTimer = -1;
-		if (range === 'SMALL') {
+
+		switch(name) {
+			case 'shortRangeScanner': 
+				this.range = 'SMALL';
+				break;
+			case 'mediumRangeScanner':
+				this.range = 'MEDIUM';
+				break;
+			case 'longRangeScanner': 
+				this.range = 'LARGE';
+				break;
+			default:
+				break;
+		}
+
+		if (this.range === 'SMALL') {
 			this.width = 4;
 			this.offsetFromParent=new Vec(2, -2);
 		}
