@@ -19,11 +19,13 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
+import {createGreenParticle} from '../battleground/gameobjects/Particle.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	USE_MINE_VAR_NAME,
 	USE_C4_VAR_NAME,
+	USE_NITRO_REPAIR_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
@@ -41,6 +43,12 @@ import {
 
 import type Battleground from '../battleground/Battleground.js';
 
+const NITRO_REPAIR_LENGTH=30*3;
+const ORIG_MOVE_SPEED=0.7;
+const NITRO_MOVE_SPEED=1.5;
+const ORIG_TURN_DIVIDER=2;
+const NITRO_TURN_DIVIDER=1.4;
+
 class Tank extends GameObject {
 	//game state
 	rotation: number;
@@ -48,6 +56,8 @@ class Tank extends GameObject {
 	c4ToBlowUp: ?C4;
 	minesLeft: number;
 	usedMineLastFrame: boolean;
+	haveNitroRepair: boolean;
+	nitroRepairTimerLeft: number;
 
 	// parts: 
 	chassis: TankPart;
@@ -85,6 +95,8 @@ class Tank extends GameObject {
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
 		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
+		this.haveNitroRepair = true; //TODO: remove this, for testing...
+		this.nitroRepairTimerLeft=0;
 	}
 
 	update(battleground: Battleground): void {
@@ -121,11 +133,15 @@ class Tank extends GameObject {
 		}
 		const totalMovement=Math.abs(forwardMovement)+2*Math.abs(dAngle);
 		forwardMovement/=Math.max(1, totalMovement)*1;
-		dAngle/=Math.max(1, totalMovement)*2;
+		const turnSpeed=this.nitroRepairTimerLeft>0 ? NITRO_TURN_DIVIDER : ORIG_TURN_DIVIDER;
+		dAngle/=Math.max(1, totalMovement)*turnSpeed;
 
-		this.rotation+=dAngle;
+		const rotationMultiplier = this._getTurnSpeedMultiplier();
+		this.rotation+=dAngle*rotationMultiplier;
 		const oldPosition=this.position;
-		this.position=this.position.add(unit.rotate(this.rotation).scale(0.7*forwardMovement));
+		const moveSpeed=this.nitroRepairTimerLeft>0 ? NITRO_MOVE_SPEED : ORIG_MOVE_SPEED;
+		const speedMultiplier = this._getMoveSpeedMultiplier();
+		this.position=this.position.add(unit.rotate(this.rotation).scale(moveSpeed*forwardMovement*speedMultiplier));
 		let ranIntoWall=false;
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
@@ -166,6 +182,17 @@ class Tank extends GameObject {
 		}
 		this.usedMineLastFrame = placeMineThisFrame;
 		//end of placing items stuff
+		
+		//nitro repair stuff
+		if (this.haveNitroRepair && this._getBoolean(USE_NITRO_REPAIR_VAR_NAME)) {
+			this.haveNitroRepair=false;
+			this.nitroRepairTimerLeft=NITRO_REPAIR_LENGTH;
+		}
+		this.nitroRepairTimerLeft--;
+		if (this.nitroRepairTimerLeft>0) {
+			createGreenParticle(this.getPosition(), battleground);
+		}
+		//end of nitro repair stuff
 		
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
@@ -282,6 +309,46 @@ class Tank extends GameObject {
 			this.rotation, 
 			this
 		);
+	}
+
+	_getMoveSpeedMultiplier(): number {
+		let ans=1;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans*=part.getMoveSpeedMultiplier();
+			}
+		}
+		return ans;
+	}
+
+	_getTurnSpeedMultiplier(): number {
+		let ans=1;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans*=part.getTurnSpeedMultiplier();
+			}
+		}
+		return ans;
+	}
+
+	_getArmorOffset(): number {
+		let ans=0;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans+=part.getArmorOffset();
+			}
+		}
+		return ans;
+	}
+
+	_getPointTotal(): number {
+		let ans=0;
+		for (const part: ?TankPart of this.parts) {
+			if (part != null) {
+				ans+=part.getPointCost();
+			}
+		}
+		return ans;
 	}
 
 	getJammed(): void {
