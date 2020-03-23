@@ -153,10 +153,10 @@ exports.deleteTank = async (req: Request, res: Response) => {
 	}
 
 	for (const component of tank.components) {
-		if (component === null) {
+		if (component == null) {
 			continue;
 		}
-		user['inventory']['tankComponents'][component] += 1;
+		user.inventory.tankComponents[component] += 1;
 	}
 
 	// Save the user
