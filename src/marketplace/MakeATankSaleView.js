@@ -13,6 +13,7 @@ type State = {|
 	itemAmount: number,
 	tanksToSell: Array<OptionClass>,
 |};
+
 class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	constructor() {
@@ -89,13 +90,16 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
 		responsePromise.then(
 			response => response.json().then(data => {
-				console.log(data);
 				//lets get the new tanks that we have since we lost the current one
 				this.getAllUsersTanksForSell();
 				//set the new selling price to zero 
 				this.setState({salePrice: 0});
-				}
-			)
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
 		);
 	};
 

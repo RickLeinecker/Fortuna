@@ -65,12 +65,10 @@ class ListingsView extends React.Component<Props, State> {
 		});
 		const jsonObjectOfSells = await response.json();
 		for (const sale in jsonObjectOfSells) {
-			//If we have tanks we need to process those sells different
-			if(this.props.sellerType === 'tanks')
-			{
+			//If we have tanks we need to process those sales differently
+			if(this.props.sellerType === 'tanks') {
 				//if this isn't a component it must be a tank so we can process it here
-				if(getTankComponent(jsonObjectOfSells[sale].itemId) === undefined)
-				{
+				if(getTankComponent(jsonObjectOfSells[sale].itemId) == null) {
 					const sellingObject = new SaleObject(
 						jsonObjectOfSells[sale].itemId,
 						jsonObjectOfSells[sale].salePrice,
@@ -80,10 +78,8 @@ class ListingsView extends React.Component<Props, State> {
 					itemsForSaleArray.push(sellingObject);
 				}
 			}
-			else
-			{
-				if(!getTankComponent(jsonObjectOfSells[sale].itemId) === undefined)
-				{
+			else {
+				if(!getTankComponent(jsonObjectOfSells[sale].itemId) == null) {
 					const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
 					if(typeOfItem === this.props.sellerType) {
 						const sellingObject = new SaleObject(
