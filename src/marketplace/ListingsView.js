@@ -133,7 +133,7 @@ class ListingsView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 201) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast(data.msg);
 					console.log(data);
 				}
 				else {

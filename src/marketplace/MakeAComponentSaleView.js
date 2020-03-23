@@ -70,23 +70,26 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
             },
             body: JSON.stringify({ sellerId: this.state.userId, salePrice: this.state.salePrice, itemId:this.state.itemID, itemType:"component", amount:this.state.itemAmount}),
 		});
-        const body = await response.text();
-        console.log(body);
-        toast(body);
+        const body = await response.json();
+        console.log(body.msg);
+        toast(body.msg);
+        this.setState({salePrice: 0});
+        this.setState({itemAmount: 0});
 	};
     
     handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
     handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
     handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
+
     render(): React.Node  { 
         return (
             <div id="Parent">
                 <label>Select an Item to Sell</label>
                 <select className="itemForSale" onChange={this.handleChangeInSaleItem}>{itemsToSell.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
                 <label>Selling Price</label>
-                <input type="number" className="form-control" onChange={this.handleChangeInSalePrice}></input>
+                <input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
                 <label>Amount to Sell</label>
-                <input type="number" className="form-control" onChange={this.handleChangeInAmountToSell}></input>
+                <input type="number" value={this.state.itemAmount} className="form-control" onChange={this.handleChangeInAmountToSell}></input>
                 <button className="btn btn-success mt-2" onClick={this.makeASale}>Sell</button>
                 <ToastContainer />
             </div>
