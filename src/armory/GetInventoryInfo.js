@@ -150,9 +150,10 @@ function verifyComponent(comp: string): TankComponent {
 }
 
 function getInventory(inventory: Object): Array<Component> {
+	
 	let newInventory: Array<Component> = [];
 	for(const component in inventory) {
-		newInventory.push(new Component(component, inventory[component]));
+		newInventory.push(new Component(verifyComponent(component), inventory[component]));
 	}
 
 	return newInventory;
