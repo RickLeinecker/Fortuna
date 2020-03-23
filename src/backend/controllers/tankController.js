@@ -29,7 +29,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 
 exports.favoriteTank = async (req: Request, res: Response) => {
 	// the 'new' option means return the document after it has been updated
-	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTank : req.body.favoriteTank }, {'new':true}, (err: Error, foundUser: User) => {
+	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTank : req.body.favoriteTank }, {new :true}, (err: Error, foundUser: User) => {
 		if (err) {
 			console.error(err.message);
 
@@ -103,7 +103,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	// Parse body
 	const { tankName, userId, components, isBot } = req.body;
 
-	await Tank.findByIdAndUpdate(req.params.tankId, { tankName: tankName, userId: userId, components: components, isBot: isBot }, {'new': true}, (err: Error, tank: Tank) => {
+	await Tank.findByIdAndUpdate(req.params.tankId, { tankName: tankName, userId: userId, components: components, isBot: isBot }, {new: true}, (err: Error, tank: Tank) => {
 		if (err) {
 			console.error(err.message);
 
@@ -135,7 +135,7 @@ exports.casusUpdate = async (req: Request, res: Response) => {
 			.json({ errors: errors.array() });
 	}
 
-	await Tank.findByIdAndUpdate(req.params.tankId, { casusCode: req.body.casusCode }, {'new': true}, (err: Error, tank: Tank) => {
+	await Tank.findByIdAndUpdate(req.params.tankId, { casusCode: req.body.casusCode }, {new: true}, (err: Error, tank: Tank) => {
 		if (err) {
 			console.error(err.message);
 
