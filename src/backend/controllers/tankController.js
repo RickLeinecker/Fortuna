@@ -145,6 +145,28 @@ exports.deleteTank = async (req: Request, res: Response) => {
 		return res.status(400).json({ msg: 'Could not find tank in DB' });
 	}
 
+	// Add components back to user inventory
+	let user = await User.findById({ _id: tank.userId });
+	if (!user) {
+		console.error('User for tank not found');
+		return res.status(500).json({ msg: 'Owner of tank not found' });
+	}
+
+	for (const component of tank.components) {
+		if (component === null) {
+			continue;
+		}
+		user['inventory']['tankComponents'][component] += 1;
+	}
+
+	// Save the user
+	await user.save((err: Error) => {
+		if (err) {
+			console.error('Could not update user inventory.');
+			return res.status(500).json('Could not update user inventory.');
+		}
+	});
+
 	// Delete tank
 	await Tank.deleteOne({ _id: tank._id }, (err: Error) => {
 		if (err) {
