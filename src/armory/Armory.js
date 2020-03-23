@@ -378,7 +378,7 @@ class Armory extends React.Component<Props, State> {
 		// Save the tank.
 		this.saveTank();
 	}
-	
+
 	updateItemThree(item: TankComponent): void {
 		// Set the newItem.
 		const newItem: Item = new Item(item);
@@ -408,108 +408,108 @@ class Armory extends React.Component<Props, State> {
 					returnName="Back to Main Menu" 
 					pageName="Armory"
 				/>
-					<div className="column armoryleft">
-						<h3>Select a Tank to Edit</h3>
-						<select className="dropdownMenu"  onChange={(e) => this.changeSelectedTank(e.target.value)}>
-							{(this.state.allTanks != null) ?
-								this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
-									<option key={index} value={_id}>{tankName}</option>) :
-								<option></option>
-							}
-						</select>
-						<h6>Setup a Wager</h6>
-						<button type="button" className="btn">Setup</button>
-						<CreateNewTankPopup 
-							ref="CreateNewTankPopup" 
-							chassis={this.state.chassis} 
-							scanners={this.state.scanners} 
-							treads={this.state.treads}
-						/>
-						<br/>
-						<h6>Edit Selected Tank's Code</h6>
-						<Link to="Casus">
-							<button type="button" className="primarybtn">Casus</button>
-						</Link>
-					</div>
-					<div className="column armorymiddle">
-						<h1>{(this.state.selectedTank != null) ? this.state.selectedTank.tankName : 'No Tank Selected'}</h1>
-					</div>
-					<div className="column armoryright">
-						<h5>0/10 Points Used</h5>
-						<h6>Chassis</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateChassis(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.chassis.name) : ''}</option>
-							{this.state.chassis.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<h6>Weapons: Main | Secondary</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponOne(e.target.value)}>
-						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.mainGun.name) : ''}</option>
-							{this.state.weapons.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''}</option>
-							{this.state.weapons.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<h6>Scanners: Scanner | Addon | Addon</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateScanner(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scanner.name) : ''}</option>
-							{this.state.scanners.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateScannerAddonOne(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scannerAddonOne.name) : ''}</option>
-							{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateScannerAddonTwo(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scannerAddonTwo.name) : ''}</option>
-							{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<h6>Jammers</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateJammer(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.jammer.name) : ''}</option>
-							{this.state.jammers.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<h6>Treads</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateTreads(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.treads.name) : ''}</option>
-							{this.state.treads.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<h6>Single-Use Items</h6>
-						<select className="tankComponentMenu" onChange={(e) => this.updateItemOne(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemOne.name) : ''}</option>
-							{this.state.items.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateItemTwo(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemTwo.name) : ''}</option>
-							{this.state.items.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-						<select className="tankComponentMenu" onChange={(e) => this.updateItemThree(e.target.value)}>
-							<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemThree.name) : ''}</option>
-							{this.state.items.map(({componentName, numberOwned}, index) => (
-								<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
-							))}
-						</select>
-					</div>
+				<div className="column armoryleft">
+					<h3>Select a Tank to Edit</h3>
+					<select className="dropdownMenu"  onChange={(e) => this.changeSelectedTank(e.target.value)}>
+						{(this.state.allTanks != null) ?
+							this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
+								<option key={index} value={_id}>{tankName}</option>) :
+							<option></option>
+						}
+					</select>
+					<h6>Setup a Wager</h6>
+					<button type="button" className="btn">Setup</button>
+					<CreateNewTankPopup 
+						ref="CreateNewTankPopup" 
+						chassis={this.state.chassis} 
+						scanners={this.state.scanners} 
+						treads={this.state.treads}
+					/>
+					<br/>
+					<h6>Edit Selected Tank's Code</h6>
+					<Link to="Casus">
+						<button type="button" className="primarybtn">Casus</button>
+					</Link>
 				</div>
+				<div className="column armorymiddle">
+					<h1>{(this.state.selectedTank != null) ? this.state.selectedTank.tankName : 'No Tank Selected'}</h1>
+				</div>
+				<div className="column armoryright">
+					<h5>0/10 Points Used</h5>
+					<h6>Chassis</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateChassis(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.chassis.name) : ''}</option>
+						{this.state.chassis.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<h6>Weapons: Main | Secondary</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateWeaponOne(e.target.value)}>
+					<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.mainGun.name) : ''}</option>
+						{this.state.weapons.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<select className="tankComponentMenu" onChange={(e) => this.updateWeaponTwo(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.secondaryGun.name) : ''}</option>
+						{this.state.weapons.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<h6>Scanners: Scanner | Addon | Addon</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateScanner(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scanner.name) : ''}</option>
+						{this.state.scanners.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<select className="tankComponentMenu" onChange={(e) => this.updateScannerAddonOne(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scannerAddonOne.name) : ''}</option>
+						{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<select className="tankComponentMenu" onChange={(e) => this.updateScannerAddonTwo(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.scannerAddonTwo.name) : ''}</option>
+						{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<h6>Jammers</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateJammer(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.jammer.name) : ''}</option>
+						{this.state.jammers.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<h6>Treads</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateTreads(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.treads.name) : ''}</option>
+						{this.state.treads.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<h6>Single-Use Items</h6>
+					<select className="tankComponentMenu" onChange={(e) => this.updateItemOne(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemOne.name) : ''}</option>
+						{this.state.items.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<select className="tankComponentMenu" onChange={(e) => this.updateItemTwo(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemTwo.name) : ''}</option>
+						{this.state.items.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+					<select className="tankComponentMenu" onChange={(e) => this.updateItemThree(e.target.value)}>
+						<option defaultValue>{(this.state.selectedTank != null) ? this.toTitleCase(this.state.selectedTank.itemThree.name) : ''}</option>
+						{this.state.items.map(({componentName, numberOwned}, index) => (
+							<option key={index} value={componentName}>{this.toTitleCase(componentName)} {numberOwned}</option>
+						))}
+					</select>
+				</div>
+			</div>
 		);
 	}
 }
