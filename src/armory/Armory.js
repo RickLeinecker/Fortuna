@@ -22,7 +22,6 @@ import Chassis from '../tanks/Chassis.js';
 import Gun from '../tanks/Gun.js';
 import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
-import type { Range } from '../tanks/Range.js';
 import Item from '../tanks/Item.js';
 import Treads from '../tanks/Treads.js';
 
@@ -83,7 +82,9 @@ class Armory extends React.Component<Props, State> {
 					}
 					this.setState({allTanks: data});
 					// If no tank is set, set the first tank found as the selectedTank.
-					this.setState({selectedTank: getTank(data[0])});
+					if(this.state.selectedTank == null) {
+						this.setState({selectedTank: getTank(data[0])});
+					}
 				}
 			})
 		)
@@ -136,7 +137,7 @@ class Armory extends React.Component<Props, State> {
 			return;
 		}
 
-		// Set the new tank equal to the
+		// Find the new tank via its id and set it to selectedTank and a cookie.
 		const newTank: Tank = getTank(this.state.allTanks.find(tank => tank._id === newTankId));
 		this.setState({ selectedTank: newTank});
 		const cookies = new Cookies();
@@ -295,6 +296,7 @@ class Armory extends React.Component<Props, State> {
 		// Save the tank.
 		this.saveTank();
 	}
+
 	updateJammer(jammer: TankComponent): void {
 		// Set the newJammer.
 		const newJammer: Jammer = new Jammer(jammer);
@@ -315,6 +317,7 @@ class Armory extends React.Component<Props, State> {
 		// Save the tank.
 		this.saveTank();
 	}
+
 	updateTreads(treads: TankComponent): void {
 		// Set the newTreads.
 		const newTreads: Treads = new Treads(treads);
@@ -375,6 +378,7 @@ class Armory extends React.Component<Props, State> {
 		// Save the tank.
 		this.saveTank();
 	}
+	
 	updateItemThree(item: TankComponent): void {
 		// Set the newItem.
 		const newItem: Item = new Item(item);
@@ -415,7 +419,12 @@ class Armory extends React.Component<Props, State> {
 						</select>
 						<h6>Setup a Wager</h6>
 						<button type="button" className="btn">Setup</button>
-						<CreateNewTankPopup ref="CreateNewTankPopup"/>
+						<CreateNewTankPopup 
+							ref="CreateNewTankPopup" 
+							chassis={this.state.chassis} 
+							scanners={this.state.scanners} 
+							treads={this.state.treads}
+						/>
 						<br/>
 						<h6>Edit Selected Tank's Code</h6>
 						<Link to="Casus">
