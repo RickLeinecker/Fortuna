@@ -35,12 +35,22 @@ router.post('/addMarketSale', [
 // Get the list of all Market Sales
 // Route call: getMarketSales
 // Req needs userId
-// Returns list of all Market Sales or an error
+// Returns list of all Market Sales not belonging to the user or an error
 // Check messages can be edited
 router.get('/getMarketSales/:userId', [
     check('userId', 'userId is required')
         .isString()
 ], marketController.getMarketSales);
+
+// Get the list of all Market Sales
+// Route call: getTankMarketSales
+// Req needs userId
+// Returns list of all Tank Market Sales not belonging to the user or an error
+// Check messages can be edited
+router.get('/getTankMarketSales/:userId', [
+    check('userId', 'userId is required')
+        .isString()
+], marketController.getTankMarketSales);
 
 // Get a single market sale by ID
 // Route call: getMarketSale

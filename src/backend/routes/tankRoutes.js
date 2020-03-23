@@ -39,7 +39,6 @@ router.post('/assignTank', [
         check('components', 'components is required').isArray()
     ], auth, tankController.assignTank);
 
-
 // Updates the entire document of the tank
 // Route Call: /tankUpdate/<tankId>
 // Req must contain the tankId within the uri of the api call in place of <tankId>
@@ -62,5 +61,14 @@ router.put('/casusUpdate/:tankId', [
     check('casusCode', 'casusCode is required')
         .exists(),
     ], tankController.casusUpdate);
+
+// Deletes tank from DB
+// Route Call: /deleteTank/<tankId>
+// Req must contain the tankId within the uri of the api call in place of <tankId>
+// Returns confirmation message that tank was deleted.
+router.delete('/deleteTank/:tankId', [
+    check('tankId', 'tankId should be a MongoId string')
+        .isMongoId()
+    ], tankController.deleteTank);
 
 module.exports = router;
