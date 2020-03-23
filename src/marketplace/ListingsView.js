@@ -79,7 +79,7 @@ class ListingsView extends React.Component<Props, State> {
 				}
 			}
 			else {
-				if(!getTankComponent(jsonObjectOfSells[sale].itemId) == null) {
+				if(getTankComponent(jsonObjectOfSells[sale].itemId) != null) {
 					const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
 					if(typeOfItem === this.props.sellerType) {
 						const sellingObject = new SaleObject(
