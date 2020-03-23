@@ -4,6 +4,8 @@ import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
 import SaleObject from './saleObjectClass.js';
+import { ToastContainer ,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type Props = {|
 	//This is the type of item we are buying
@@ -135,12 +137,12 @@ class ListingsView extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
-					console.log("success");
+					toast("Item Bought");
 				}
 			})
 		).catch(
-			(error) => {
-				console.log('Couldnt connect to server!');
+			error => {
+				toast('Couldnt connect to server!');
 				console.log(error);
 			}
 		); 
@@ -151,6 +153,7 @@ class ListingsView extends React.Component<Props, State> {
 		return (
 			<div>
 				{this.createCards()}
+				<ToastContainer />
 			</div>
 		);
 	}

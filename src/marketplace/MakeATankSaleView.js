@@ -4,6 +4,8 @@ import OptionClass from '../armory/OptionClass.js';
 import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
+import { ToastContainer ,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type Props = {||}; 
 type State = {|
@@ -49,7 +51,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -62,9 +64,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast(data.msg);
 					console.log(data);
-					return data;
 				}
 				else {
 					const jsonObjectOfTanks = data;
@@ -78,9 +79,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast('Couldnt connect to server!');
 				console.log(error);
-				return error;
 			}
 		);
 	};
@@ -90,6 +90,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
 		responsePromise.then(
 			response => response.json().then(data => {
+				toast("Tank Sold");
 				//lets get the new tanks that we have since we lost the current one
 				this.getAllUsersTanksForSell();
 				//set the new selling price to zero 
@@ -97,7 +98,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -114,6 +115,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				<label>Selling Price</label>
 				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
+				<ToastContainer />
 			</div>
 		);
 	}

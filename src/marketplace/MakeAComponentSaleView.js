@@ -1,6 +1,8 @@
 //@flow strict
 import * as React from 'react';
 import Cookies from 'universal-cookie';
+import { ToastContainer ,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 type Props = {||}; 
 type State = {|
@@ -70,6 +72,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		});
         const body = await response.text();
         console.log(body);
+        toast(body);
 	};
     
     handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
@@ -85,6 +88,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
                 <label>Amount to Sell</label>
                 <input type="number" className="form-control" onChange={this.handleChangeInAmountToSell}></input>
                 <button className="btn btn-success mt-2" onClick={this.makeASale}>Sell</button>
+                <ToastContainer />
             </div>
         );
     }
