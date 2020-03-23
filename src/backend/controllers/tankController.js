@@ -79,9 +79,9 @@ exports.assignTank = async (req: Request, res: Response) => {
 		} 
 		else {
 			console.log('Tank successfully saved to DB');
-            return res
+			return res
 				.status(200)
-                .send(tank);
+				.send(tank);
         }
     });
 }
