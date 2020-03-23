@@ -58,6 +58,10 @@ router.put('/casusUpdate/:tankId', [
         .exists(),
     ], tankController.casusUpdate);
 
+// Deletes tank from DB
+// Route Call: /deleteTank/<tankId>
+// Req must contain the tankId within the uri of the api call in place of <tankId>
+// Returns confirmation message that tank was deleted.
 router.delete('/deleteTank/:tankId', [
     check('tankId', 'tankId should be a MongoId string')
         .isMongoId()
