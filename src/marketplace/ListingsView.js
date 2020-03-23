@@ -32,7 +32,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	//When sellerType is updated we need to get the new sells
 	componentDidUpdate(prevProps:Props) {
-		this.getMarketSales();
+		this.directSaleToProperFunction();
 	}
 
 	//This gets us the user's id 
@@ -52,10 +52,27 @@ class ListingsView extends React.Component<Props, State> {
 		this.setState({userId:jsonObjectOfUser._id});
 	};
 
+
+	//This function directs the view to the proper function
+	//If we are in the tank view it directs it to getMarketSalesForTanks()
+	//Else it directs it to getMarketSalesForComponents()
+	directSaleToProperFunction() : void {
+		if(this.props.sellerType === 'tanks')
+		{
+			this.getMarketSalesForTanks();
+		}
+		else
+		{
+			this.getMarketSalesForComponents();
+		}
+	}
+
+
 	//Gets all the sells and filters them based on what type we are currently looking at
-	getMarketSales = async ():Promise<void> => {
+	//This only works for components as tanks is a different api call
+	getMarketSalesForComponents() : void  {
 		const itemsForSaleArray = [];
-		const response = await fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
+		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -63,39 +80,91 @@ class ListingsView extends React.Component<Props, State> {
 				'Access-Control-Allow-Credentials': 'true',
 			},
 		});
-		const jsonObjectOfSells = await response.json();
-		for (const sale in jsonObjectOfSells) {
-			//If we have tanks we need to process those sales differently
-			if(this.props.sellerType === 'tanks') {
-				//if this isn't a component it must be a tank so we can process it here
-				if(getTankComponent(jsonObjectOfSells[sale].itemId) == null) {
-					const sellingObject = new SaleObject(
-						jsonObjectOfSells[sale].itemId,
-						jsonObjectOfSells[sale].salePrice,
-						jsonObjectOfSells[sale].amount,
-						jsonObjectOfSells[sale].sellerId,
-						jsonObjectOfSells[sale]._id);
-					itemsForSaleArray.push(sellingObject);
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
 				}
-			}
-			else {
-				if(getTankComponent(jsonObjectOfSells[sale].itemId) != null) {
-					const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
-					if(typeOfItem === this.props.sellerType) {
-						const sellingObject = new SaleObject(
-							jsonObjectOfSells[sale].itemId,
-							jsonObjectOfSells[sale].salePrice,
-							jsonObjectOfSells[sale].amount,
-							jsonObjectOfSells[sale].sellerId,
-							jsonObjectOfSells[sale]._id);
-						itemsForSaleArray.push(sellingObject);
+				else {
+					const jsonObjectOfSells = data;
+					for (const sale in jsonObjectOfSells) {
+						//Need to make sure that this sale involves a component and not a tank
+						if(getTankComponent(jsonObjectOfSells[sale].itemId) != null) {
+						const typeOfItem = getTankComponent(verifyComponent(jsonObjectOfSells[sale].itemId));
+							if(typeOfItem === this.props.sellerType) {
+								const sellingObject = new SaleObject(
+									jsonObjectOfSells[sale].itemId,
+									jsonObjectOfSells[sale].salePrice,
+									jsonObjectOfSells[sale].amount,
+									jsonObjectOfSells[sale].sellerId,
+									jsonObjectOfSells[sale]._id
+								);
+								itemsForSaleArray.push(sellingObject);
+							}
+						}
 					}
+					this.setState({itemsForSale:itemsForSaleArray}); 
 				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+				return error;
 			}
-		}
-		this.setState({itemsForSale:itemsForSaleArray});  
+		); 
 	}
-	
+
+	//This function uses the users id and gets the tanks that are active in the marketplace
+	getMarketSalesForTanks() : void  {
+		const itemsForSaleArray = [];
+		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getTankMarketSales/' + this.state.userId, {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+			},
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					const jsonObjectOfSells = data;
+					console.log(data);
+					for (const sale in jsonObjectOfSells) {
+						//if this isn't a component it must be a tank so we can process it here
+						if(getTankComponent(jsonObjectOfSells[sale].itemId._id) == null) {
+							console.log(jsonObjectOfSells[sale]);
+							const sellingObject = new SaleObject(
+								jsonObjectOfSells[sale].itemId.tankName,
+								jsonObjectOfSells[sale].salePrice,
+								jsonObjectOfSells[sale].amount,
+								jsonObjectOfSells[sale].sellerId,
+								jsonObjectOfSells[sale]._id);
+							itemsForSaleArray.push(sellingObject);
+						}
+					} 
+					this.setState({itemsForSale:itemsForSaleArray}); 
+				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+				return error;
+			}
+		); 
+	}
+
 	//This creates a card for every sale
 	createCards = () => {
 		const cards = []

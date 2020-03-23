@@ -14,7 +14,7 @@ type State = {|
 	tanksToSell: Array<OptionClass>,
 |};
 
-class MakeAComponentSaleView extends React.Component<Props, State> {
+class MakeATankSaleView extends React.Component<Props, State> {
 
 	constructor() {
 		super();
@@ -119,4 +119,4 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	}
 }
 
-export default MakeAComponentSaleView;
+export default MakeATankSaleView;
