@@ -8,7 +8,7 @@ import Login from './login/Login.js';
 import MainMenu from './mainmenu/MainMenu.js';
 import Marketplace from './marketplace/Marketplace.js';
 import CasusContainer from './casus/CasusContainer.js';
-import BattleArena from './BattleArena/BattleArena.js';
+import BattleArena from './battlearena/BattleArena.js';
 import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
 import Battleground from './battleground/Battleground.js';

@@ -4,12 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
-import type {
-	$Request,
-	$Response,
-	NextFunction,
-	Middleware,
-} from 'express';
+import type { Request,Response } from 'express';
 
 // req: parsed as JSON
 // res: JSON or error message
@@ -19,7 +14,7 @@ function auth (req: $Request, res: $Response, next: NextFunction){
 	const token = req.header('x-auth-token');
 
 	// Check if no token
-	if(!token) {
+	if (!token) {
 		return res.status(401).json({ msg: 'No token, authorization denied' });
 	}
 
