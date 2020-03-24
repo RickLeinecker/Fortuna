@@ -32,7 +32,6 @@ type ImageName =
 	'TREAD_2' | 
 	'TREAD_3' | 
 	'TREAD_4' | 
-	'RED_GUN_1' | 
 	'JAMMER_SMALL' |
 	'JAMMER_MEDIUM' |
 	'JAMMER_LARGE' |
@@ -42,6 +41,17 @@ type ImageName =
 	'SCANNER_SMALL_ITEMS' |
 	'SCANNER_MEDIUM_ITEMS' |
 	'SCANNER_LARGE_ITEMS' |
-	'SCANNER_BUBBLE';
+	'SCANNER_BUBBLE' |
+	'GUN_1' |
+	'GUN_2' |
+	'GUN_3' |
+	'GUN_4' |
+	'GUN_5' |
+	'GUN_6' |
+	'GUN_7' |
+	'GUN_8' |
+	'GUN_9' |
+	'GUN_10';
+
 
 export type {ImageName};

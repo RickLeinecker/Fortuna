@@ -9,6 +9,19 @@ const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
+
+type GunType = 
+	'GUN_1' |
+	'GUN_2' |
+	'GUN_3' |
+	'GUN_4' |
+	'GUN_5' |
+	'GUN_6' |
+	'GUN_7' |
+	'GUN_8' |
+	'GUN_9' |
+	'GUN_10';
+
 class Gun extends TankPart {
 
 	//in order for the gun movement to look smooth but still be easy to write code for,
@@ -17,11 +30,13 @@ class Gun extends TankPart {
 	//is rendered at the displayAngle
 	gunAngle: number;
 	displayAngle: number;
+	gunType: GunType;
 
-	constructor() {
+	constructor(gunType: GunType) {
 		super();
 		this.gunAngle=0;
 		this.displayAngle=0;
+		this.gunType=gunType;
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
@@ -46,7 +61,7 @@ class Gun extends TankPart {
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
 		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
-		drawer.draw(getImage('RED_GUN_1'), imageCenter, 15, this.displayAngle-Math.PI/2);
+		drawer.draw(getImage(this.gunType), imageCenter, 15, this.displayAngle-Math.PI/2);
 	}
 
 }
