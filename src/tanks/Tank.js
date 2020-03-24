@@ -249,7 +249,9 @@ class Tank extends GameObject {
 
 	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
-		this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.secondaryGun!=null) {
+			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.scanner!=null) {
 			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);
