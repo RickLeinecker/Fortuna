@@ -135,22 +135,23 @@ class Bullet extends GameObject {
 	}
 
 	render(drawer: ImageDrawer): void {
-		if (this.bulletType === 'LANCER_PARTICLE') {
+		const type=this.bulletType;
+		if (type === 'LANCER_PARTICLE') {
 			//don't render the lancer particles here, create a particle effect for it
 			return;
 		}
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		const position=this.getPosition();
 		//special case pulse laser because it changes scale and alpha over lifetime
-		if (this.bulletType === 'PULSE_LASER_PARTICLE') {
+		if (type === 'PULSE_LASER_PARTICLE') {
 			const stats=STATS_FOR_BULLET[this.bulletType];
 			const lifetimeLeft=Math.pow(this.lifetime/stats.lifetime, 3);
 			const width=stats.width*(1-lifetimeLeft);
 			const alpha=lifetimeLeft;
-			drawer.draw(getImage(this.bulletType), position, width, this.rotation, alpha);
+			drawer.draw(getImage(type), position, width, this.rotation, alpha);
 		}
 		else {
-			drawer.draw(getImage(this.bulletType), position, stats.width, this.rotation);
+			drawer.draw(getImage(type), position, stats.width, this.rotation);
 		}
 	}
 
