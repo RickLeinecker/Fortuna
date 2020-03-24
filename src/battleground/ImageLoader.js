@@ -31,6 +31,16 @@ const allImages: {[ImageName]: Image}= {
 	EMP: new Image(),
 	GREEN_PARTICLE: new Image(),
 
+	DEATH_RAY_BULLET: new Image(),
+	GREEN_LASER: new Image(),
+	GRENADE_BULLET: new Image(),
+	GUN_BULLET: new Image(),
+	RED_LASER: new Image(),
+	MISSILE: new Image(),
+	PLASMA_BLOB: new Image(),
+	PULSE_LASER_PARTICLE: new Image(),
+	SHOTGUN_BULLET: new Image(),
+
 	CHASSIS_1: new Image(),
 	CHASSIS_2: new Image(),
 	CHASSIS_3: new Image(),
@@ -87,6 +97,16 @@ function imageLoaderInit(): void {
 	allImages.STATIC.src='static.png';
 	allImages.EMP.src='EmpPulse.png';
 	allImages.GREEN_PARTICLE.src='GreenParticle.png';
+
+	allImages.DEATH_RAY_BULLET.src='DeathRay.png';
+	allImages.GREEN_LASER.src='GreenLaser1.png';
+	allImages.GRENADE_BULLET.src='Grenade.png';
+	allImages.GUN_BULLET.src='GunBullet.png';
+	allImages.RED_LASER.src='LaserRed.png';
+	allImages.MISSILE.src='Missile.png';
+	allImages.PLASMA_BLOB.src='PlasmaBlob.png';
+	allImages.PULSE_LASER_PARTICLE.src='PulseLaserParticle.png';
+	allImages.SHOTGUN_BULLET.src='shotgunBullet.png';
 
 	allImages.CHASSIS_1.src='Chassis1Blue.png';
 	allImages.CHASSIS_2.src='Chassis2.png';

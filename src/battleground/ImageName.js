@@ -22,6 +22,17 @@ type ImageName =
 	'EMP' |
 	'GREEN_PARTICLE' |
 
+	//bullets
+	'DEATH_RAY_BULLET' |
+	'GREEN_LASER' |
+	'GRENADE_BULLET' |
+	'GUN_BULLET' |
+	'RED_LASER' |
+	'MISSLE' |
+	'PLASMA_BLOB' |
+	'PULSE_LASER_PARTICLE' |
+	'SHOTGUN_BULLET' |
+
 	//tank stuff
 	'CHASSIS_1' | 
 	'CHASSIS_2' | 
