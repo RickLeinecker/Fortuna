@@ -10,6 +10,7 @@ import Bullet from '../battleground/gameobjects/Bullet.js';
 import {
 	TURRET_DIRECTION_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
+	SHOOT_SECONDARY_WEAPON_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 import type Battleground from '../battleground/Battleground.js';
@@ -128,16 +129,18 @@ class Gun extends TankPart {
 	gunAngle: number;
 	displayAngle: number;
 	gunType: GunType;
+	isSecondary: boolean;
 
 	fireCooldown: number;
 	firing: boolean;
 	fireOnLeft: boolean;
 
-	constructor(gunType: GunType) {
+	constructor(gunType: GunType, isSecondary: boolean) {
 		super();
+		this.gunType=gunType;
+		this.isSecondary=isSecondary;
 		this.gunAngle=0;
 		this.displayAngle=0;
-		this.gunType=gunType;
 		this.fireCooldown=0;
 		this.firing=false;
 	}
@@ -149,21 +152,27 @@ class Gun extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
-		this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
+		if (!this.isSecondary) {
+			this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
-		//lerp the displayAngle towards the gun angle
-		//lerp is short for linear interpolation
-		const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
-		const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
-		if (positiveDistance<negativeDistance) {
-			this.displayAngle+=positiveDistance*LERP_PERCENT;
+			//lerp the displayAngle towards the gun angle
+			//lerp is short for linear interpolation
+			const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
+			const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
+			if (positiveDistance<negativeDistance) {
+				this.displayAngle+=positiveDistance*LERP_PERCENT;
+			}
+			else {
+				this.displayAngle-=negativeDistance*LERP_PERCENT;
+			}
+			this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 		}
 		else {
-			this.displayAngle-=negativeDistance*LERP_PERCENT;
+			this.displayAngle=this.gunAngle=parentRotation;
 		}
-		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 
-		const tryToFire=this._getBoolean(SHOOT_PRIMARY_WEAPON_VAR_NAME, interpriterState);
+		const shootVarName=this.isSecondary?SHOOT_SECONDARY_WEAPON_VAR_NAME:SHOOT_PRIMARY_WEAPON_VAR_NAME;
+		const tryToFire=this._getBoolean(shootVarName, interpriterState);
 		this.fireCooldown--;
 		if (tryToFire && this.fireCooldown<=0) {
 			const gunStats=STATS_FOR_GUN[this.gunType];
@@ -181,7 +190,8 @@ class Gun extends TankPart {
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 		const myPosition=this._getPosition(parentPos, parentRotation);
-		drawer.draw(getImage(this.gunType), myPosition, 15, this.displayAngle-Math.PI/2);
+		const width=this.isSecondary?18:15;
+		drawer.draw(getImage(this.gunType), myPosition, width, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
