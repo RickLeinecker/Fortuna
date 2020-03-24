@@ -100,8 +100,7 @@ const STATS_FOR_GUN: {[GunType]: GunStats} = {
 		numBulletsPerShot: 9,
 	},
 	GUN_8: {
-		//TODO: handle this so it is shock particles
-		bullet: 'GUN_BULLET',
+		bullet: 'LANCER_PARTICLE',
 		betweenShotsCooldown: 60,
 		orthogonalOffset: 0,
 		numBulletsPerShot: 1,

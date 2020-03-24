@@ -8,7 +8,7 @@ import {getImage} from '../ImageLoader.js';
 import type ImageDrawer from '../ImageDrawer.js';
 import type Battleground from '../Battleground.js';
 import type Tank from '../../tanks/Tank.js';
-import {createSmokeCloud} from './Particle.js';
+import {createSmokeCloud, createElectricityParticle} from './Particle.js';
 
 type BulletType = 
 	'DEATH_RAY_BULLET' |
@@ -19,7 +19,8 @@ type BulletType =
 	'MISSILE' |
 	'PLASMA_BLOB' |
 	'PULSE_LASER_PARTICLE' |
-	'SHOTGUN_BULLET';
+	'SHOTGUN_BULLET'|
+	'LANCER_PARTICLE';
 
 type BulletStats = {
 	speed: number,
@@ -72,6 +73,11 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 4,
 		width: 13,
 		lifetime: 10,
+	},
+	LANCER_PARTICLE: {
+		speed: 3,
+		width: 1,
+		lifetime: 0,
 	}
 };
 
@@ -129,6 +135,10 @@ class Bullet extends GameObject {
 	}
 
 	render(drawer: ImageDrawer): void {
+		if (this.bulletType === 'LANCER_PARTICLE') {
+			//don't render the lancer particles here, create a particle effect for it
+			return;
+		}
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		const position=this.getPosition();
 		//special case pulse laser because it changes scale and alpha over lifetime
@@ -179,6 +189,12 @@ class Bullet extends GameObject {
 	_onDestroy(battleground: Battleground): void {
 		if (this.bulletType === 'GRENADE_BULLET' ||
 				this.bulletType === 'MISSILE') {
+			createSmokeCloud(this.getPosition(), battleground);
+		}
+		if (this.bulletType === 'LANCER_PARTICLE') {
+			for (let i=0; i<20; i++) {
+				createElectricityParticle(this.getPosition(), 2, battleground);
+			}
 			createSmokeCloud(this.getPosition(), battleground);
 		}
 	}
