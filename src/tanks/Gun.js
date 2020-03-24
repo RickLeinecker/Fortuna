@@ -53,6 +53,7 @@ type GunStats = {
 	betweenShotsCooldown: number,
 	bullet: BulletType,
 	orthogonalOffset: number,
+	numBulletsPerShot: number,
 };
 
 const STATS_FOR_GUN: {[GunType]: GunStats} = {
@@ -60,52 +61,62 @@ const STATS_FOR_GUN: {[GunType]: GunStats} = {
 		bullet: 'GRENADE_BULLET',
 		betweenShotsCooldown: 30,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
 	},
 	GUN_2: {
 		bullet: 'GUN_BULLET',
-		betweenShotsCooldown: 8,
-		orthogonalOffset: 0,
+		betweenShotsCooldown: 9,
+		orthogonalOffset: 0.7,
+		numBulletsPerShot: 1,
 	},
 	GUN_3: {
-		bullet: 'GREEN_LASER',
-		betweenShotsCooldown: 16,
-		orthogonalOffset: 2
+		bullet: 'RED_LASER',
+		betweenShotsCooldown: 10,
+		orthogonalOffset: 2,
+		numBulletsPerShot: 2,
 	},
 	GUN_4: {
 		bullet: 'PLASMA_BLOB',
 		betweenShotsCooldown: 60,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
 	},
 	GUN_5: {
 		bullet: 'GUN_BULLET',
 		betweenShotsCooldown: 4,
 		orthogonalOffset: 1,
+		numBulletsPerShot: 1,
 	},
 	GUN_6: {
 		bullet: 'DEATH_RAY_BULLET',
 		betweenShotsCooldown: 25,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
 	},
 	GUN_7: {
 		bullet: 'SHOTGUN_BULLET',
 		betweenShotsCooldown: 22,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 9,
 	},
 	GUN_8: {
 		//TODO: handle this so it is shock particles
 		bullet: 'GUN_BULLET',
 		betweenShotsCooldown: 60,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
 	},
 	GUN_9: {
 		bullet: 'MISSILE',
 		betweenShotsCooldown: 19,
 		orthogonalOffset: 3,
+		numBulletsPerShot: 1,
 	},
 	GUN_10: {
 		bullet: 'PULSE_LASER_PARTICLE',
 		betweenShotsCooldown: 35,
 		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
 	},
 }
 
@@ -157,12 +168,14 @@ class Gun extends TankPart {
 		this.fireCooldown--;
 		if (tryToFire && this.fireCooldown<=0) {
 			const gunStats=STATS_FOR_GUN[this.gunType];
-			const myPosition=this._getPosition(parentPos, parentRotation);
-			const offset=new Vec(0, gunStats.orthogonalOffset).rotate(this.gunAngle);
-			const bulletPosition=this.fireOnLeft?myPosition.add(offset):myPosition.sub(offset);
-			battleground.createGameObject(new Bullet(bulletPosition, this.gunAngle, parentTank, gunStats.bullet));
-			this.fireCooldown = gunStats.betweenShotsCooldown;
-			this.fireOnLeft = !this.fireOnLeft;
+			for (let i=0; i<gunStats.numBulletsPerShot; i++) {
+				const myPosition=this._getPosition(parentPos, parentRotation);
+				const offset=new Vec(0, gunStats.orthogonalOffset).rotate(this.gunAngle);
+				const bulletPosition=this.fireOnLeft?myPosition.add(offset):myPosition.sub(offset);
+				battleground.createGameObject(new Bullet(bulletPosition, this.gunAngle, parentTank, gunStats.bullet, i));
+				this.fireCooldown = gunStats.betweenShotsCooldown;
+				this.fireOnLeft = !this.fireOnLeft;
+			}
 		}
 		this.firing=tryToFire;
 	}

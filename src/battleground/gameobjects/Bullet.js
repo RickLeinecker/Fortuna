@@ -8,6 +8,7 @@ import {getImage} from '../ImageLoader.js';
 import type ImageDrawer from '../ImageDrawer.js';
 import type Battleground from '../Battleground.js';
 import type Tank from '../../tanks/Tank.js';
+import {createSmokeCloud} from './Particle.js';
 
 type BulletType = 
 	'DEATH_RAY_BULLET' |
@@ -29,27 +30,27 @@ type BulletStats = {
 const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	DEATH_RAY_BULLET: {
 		speed: 1.4,
-		width: 13,
+		width: 25,
 		lifetime: 100,
 	},
 	GREEN_LASER: {
-		speed: 5,
-		width: 13,
+		speed: 7,
+		width: 40,
 		lifetime: 100,
 	},
 	GRENADE_BULLET: {
 		speed: 2,
-		width: 13,
-		lifetime: 100,
+		width: 12,
+		lifetime: 15,
 	},
 	GUN_BULLET: {
 		speed: 2,
 		width: 13,
-		lifetime: 100,
+		lifetime: 39,
 	},
 	RED_LASER: {
-		speed: 5,
-		width: 13,
+		speed: 6,
+		width: 20,
 		lifetime: 100,
 	},
 	MISSILE: {
@@ -59,7 +60,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	},
 	PLASMA_BLOB: {
 		speed: 1.2,
-		width: 13,
+		width: 20,
 		lifetime: 100,
 	},
 	PULSE_LASER_PARTICLE: {
@@ -80,30 +81,50 @@ class Bullet extends GameObject {
 	tankToIgnore: Tank;
 	bulletType: BulletType;
 	lifetime: number;
+	velocity: Vec;
 
-	constructor(position: Vec, rotation: number, tankToIgnore: Tank, bulletType: BulletType) {
+	constructor(position: Vec, rotation: number, tankToIgnore: Tank, bulletType: BulletType, rseed:number=0) {
 		const realVelocity=new Vec(STATS_FOR_BULLET[bulletType].speed, 0).rotate(rotation);
 		super(position.add(realVelocity));
 		this.rotation=rotation;
 		this.tankToIgnore=tankToIgnore;
 		this.bulletType=bulletType;
 		this.lifetime=STATS_FOR_BULLET[bulletType].lifetime;
+		this.velocity=new Vec(STATS_FOR_BULLET[bulletType].speed, 0);
+		if (bulletType === 'SHOTGUN_BULLET') {
+			//CAREFUL: this has to be 100% determistic and be the same on all clients!
+			//no Math.random() allowed!
+			const randomNumber=(rseed*1235.58717 + 
+				this.rotation*862.6206 + 
+				this.position.x*511.1626+
+				this.position.y*86.3634636);
+			const angleOffset=randomNumber%.6-0.3;
+			const speedOffset=randomNumber%2-1;
+			this.rotation+=angleOffset;
+			this.velocity=this.velocity.add(new Vec(speedOffset, 0));
+		}
 	}
 
 	update(battleground: Battleground): void {
 		const stats=STATS_FOR_BULLET[this.bulletType];
-		const vel=new Vec(stats.speed, 0).rotate(this.rotation);
+		let vel=this.velocity.rotate(this.rotation);
+		if (this.bulletType === 'GRENADE_BULLET') {
+			vel = vel.scale((this.lifetime+stats.lifetime)/(stats.lifetime*2));
+		}
 		const prevPosition=this.position;
 		this.position=this.position.add(vel);
 		this.lifetime--;
 		if (this.lifetime<=0) {
+			this._onDestroy(battleground);
 			battleground.deleteGameObject(this);
 			return;
 		}
 
 		const hitSomething: boolean = this._checkIfHitTankOrWall(prevPosition, this.position, battleground);
 		if (hitSomething) {
+			this._onDestroy(battleground);
 			battleground.deleteGameObject(this);
+			return;
 		}
 	}
 
@@ -138,22 +159,29 @@ class Bullet extends GameObject {
 
 		const mySeg=new Seg(prevPosition, newPosition);
 		const firstTankHit=null;
+		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
 		for (const t:Tank of allTanks) {
 			//TODO: inflict damage on other tanks
 			const distance=mySeg.distanceTo(t.getPosition());
-			if (distance<t.getBoundingCircle().r+2) {
+			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {
 				return true;
 			}
 		}
 		for (const seg:Seg of allSegs) {
 			const distance=mySeg.distanceTo(seg);
-			if (distance<seg.paddingWidth+1) {
+			if (distance<seg.paddingWidth+EXTRA_WIDTH/2) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+	_onDestroy(battleground: Battleground): void {
+		if (this.bulletType === 'GRENADE_BULLET' ||
+				this.bulletType === 'MISSILE') {
+			createSmokeCloud(this.getPosition(), battleground);
+		}
+	}
 }
 
 export type {BulletType};

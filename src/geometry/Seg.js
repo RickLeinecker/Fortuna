@@ -28,6 +28,9 @@ class Seg {
 		}
 		else {
 			//otherwise seg/seg distance
+			if (this.intersects(o)) {
+				return 0;
+			}
 			return Math.min(
 				this.distanceTo(o.from),
 				this.distanceTo(o.to),
