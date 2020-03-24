@@ -31,6 +31,16 @@ const allImages: {[ImageName]: Image}= {
 	EMP: new Image(),
 	GREEN_PARTICLE: new Image(),
 
+	DEATH_RAY_BULLET: new Image(),
+	GREEN_LASER: new Image(),
+	GRENADE_BULLET: new Image(),
+	GUN_BULLET: new Image(),
+	RED_LASER: new Image(),
+	MISSILE: new Image(),
+	PLASMA_BLOB: new Image(),
+	PULSE_LASER_PARTICLE: new Image(),
+	SHOTGUN_BULLET: new Image(),
+
 	CHASSIS_1: new Image(),
 	CHASSIS_2: new Image(),
 	CHASSIS_3: new Image(),
@@ -40,7 +50,6 @@ const allImages: {[ImageName]: Image}= {
 	TREAD_2: new Image(),
 	TREAD_3: new Image(),
 	TREAD_4: new Image(),
-	RED_GUN_1: new Image(),
 	JAMMER_SMALL: new Image(),
 	JAMMER_MEDIUM: new Image(),
 	JAMMER_LARGE: new Image(),
@@ -51,6 +60,16 @@ const allImages: {[ImageName]: Image}= {
 	SCANNER_MEDIUM_ITEMS: new Image(),
 	SCANNER_LARGE_ITEMS: new Image(),
 	SCANNER_BUBBLE: new Image(),
+	GUN_1: new Image(),
+	GUN_2: new Image(),
+	GUN_3: new Image(),
+	GUN_4: new Image(),
+	GUN_5: new Image(),
+	GUN_6: new Image(),
+	GUN_7: new Image(),
+	GUN_8: new Image(),
+	GUN_9: new Image(),
+	GUN_10: new Image(),
 };
 const callbacksWhenLoaded: Array<()=>void> = [];
 
@@ -79,6 +98,16 @@ function imageLoaderInit(): void {
 	allImages.EMP.src='EmpPulse.png';
 	allImages.GREEN_PARTICLE.src='GreenParticle.png';
 
+	allImages.DEATH_RAY_BULLET.src='DeathRay.png';
+	allImages.GREEN_LASER.src='GreenLaser1.png';
+	allImages.GRENADE_BULLET.src='Grenade.png';
+	allImages.GUN_BULLET.src='GunBullet.png';
+	allImages.RED_LASER.src='LaserRed.png';
+	allImages.MISSILE.src='Missile.png';
+	allImages.PLASMA_BLOB.src='PlasmaBlob.png';
+	allImages.PULSE_LASER_PARTICLE.src='PulseLaserParticle.png';
+	allImages.SHOTGUN_BULLET.src='shotgunBullet.png';
+
 	allImages.CHASSIS_1.src='Chassis1Blue.png';
 	allImages.CHASSIS_2.src='Chassis2.png';
 	allImages.CHASSIS_3.src='Chassis3.png';
@@ -88,7 +117,6 @@ function imageLoaderInit(): void {
 	allImages.TREAD_2.src='Tread2.png';
 	allImages.TREAD_3.src='Tread3.png';
 	allImages.TREAD_4.src='Tread4.png';
-	allImages.RED_GUN_1.src='gun1GrayRed.png';
 	allImages.JAMMER_SMALL.src='JammerSmall.png';
 	allImages.JAMMER_MEDIUM.src='JammerMedium.png';
 	allImages.JAMMER_LARGE.src='JammerLarge.png';
@@ -99,6 +127,16 @@ function imageLoaderInit(): void {
 	allImages.SCANNER_MEDIUM_ITEMS.src='MediumItemsScanner.png';
 	allImages.SCANNER_LARGE_ITEMS.src='LargeItemsScanner.png';
 	allImages.SCANNER_BUBBLE.src='AntiJammerBubble.png';
+	allImages.GUN_1.src='gun1.png';
+	allImages.GUN_2.src='Gun2.png';
+	allImages.GUN_3.src='gun3.png';
+	allImages.GUN_4.src='gun4.png';
+	allImages.GUN_5.src='gun5.png';
+	allImages.GUN_6.src='gun6.png';
+	allImages.GUN_7.src='gun7.png';
+	allImages.GUN_8.src='gun8.png';
+	allImages.GUN_9.src='gun9.png';
+	allImages.GUN_10.src='Gun10.png';
 	//------------------END ADD MORE IMAGE HERE-----------------------
 	
 	for (const name: ImageName of Object.keys(allImages)) {

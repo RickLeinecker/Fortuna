@@ -17,7 +17,7 @@ function getTestTank(id: number=1): Tank {
 		position,
 		new Chassis(id===1?'CHASSIS_5':'CHASSIS_2'), 
 		new Treads(id===1?'TREAD_2':'TREAD_1'), 
-		new Gun(),
+		new Gun(id===1?'GUN_10':'GUN_9'),
 		new Scanner(false, false, id===1?'MEDIUM':'SMALL'),
 		new Jammer(id===1?'MEDIUM':'LARGE'),
 		getEmptyCasusCode()
