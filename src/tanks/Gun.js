@@ -2,13 +2,23 @@
 
 import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
+import {verifyBoolean, verifyDouble} from '../casus/interpreter/Value.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
+import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import Vec from '../casus/blocks/Vec.js';
+import {
+	TURRET_DIRECTION_VAR_NAME,
+	SHOOT_PRIMARY_WEAPON_VAR_NAME,
+} from '../casus/userInteraction/CasusSpecialVariables.js';
+
+import type Battleground from '../battleground/Battleground.js';
+import type Tank from './Tank.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
+const FIRING_SLOWDOWN=0.6;
 
 type GunType = 
 	'GUN_1' |
@@ -32,21 +42,29 @@ class Gun extends TankPart {
 	displayAngle: number;
 	gunType: GunType;
 
+	fireCooldown: number;
+	firing: boolean;
+
 	constructor(gunType: GunType) {
 		super();
 		this.gunAngle=0;
 		this.displayAngle=0;
 		this.gunType=gunType;
+		this.fireCooldown=0;
+		this.firing=false;
 	}
 
-	setTargetGunAngle(gunAngle: number): void {
-		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
-	}
+	update(
+		interpriterState: InterpriterState, 
+		battleground: Battleground, 
+		parentPos: Vec, 
+		parentRotation: number,
+		parentTank: Tank
+	): void {
+		this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
-	onUpdate(): void {
 		//lerp the displayAngle towards the gun angle
 		//lerp is short for linear interpolation
-		const TAU=2*Math.PI;
 		const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
 		const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
 		if (positiveDistance<negativeDistance) {
@@ -56,12 +74,36 @@ class Gun extends TankPart {
 			this.displayAngle-=negativeDistance*LERP_PERCENT;
 		}
 		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
+
+		const tryToFire=this._getBoolean(SHOOT_PRIMARY_WEAPON_VAR_NAME, interpriterState);
+		if (tryToFire) {
+			console.log('firing');
+		}
+		this.firing=tryToFire;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
 		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
 		drawer.draw(getImage(this.gunType), imageCenter, 15, this.displayAngle-Math.PI/2);
+	}
+
+	setTargetGunAngle(gunAngle: number): void {
+		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
+	}
+
+	_getDouble(name: string, interpriterState: InterpriterState): number {
+		return verifyDouble(interpriterState.getVariable('DOUBLE', name)).val;
+	}
+
+	_getBoolean(name: string, interpriterState: InterpriterState): boolean {
+		return verifyBoolean(interpriterState.getVariable('BOOLEAN', name)).val;
+	}
+
+	//currently don't change rotation speed. Maybe we should change it?
+	getMoveSpeedMultiplier(): number {
+		const applyPenalty: boolean = this.fireCooldown>0 || this.firing;
+		return applyPenalty?FIRING_SLOWDOWN:1;
 	}
 
 }
