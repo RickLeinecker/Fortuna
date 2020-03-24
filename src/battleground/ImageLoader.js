@@ -158,6 +158,9 @@ function _anotherImageLoaded(): void {
 }
 
 function getImage(name: ImageName): Image {
+	if (name==null) {
+		throw new Error('asdfasdf');
+	}
 	return allImages[name];
 }
 

@@ -6,6 +6,7 @@ import {verifyBoolean, verifyDouble} from '../casus/interpreter/Value.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import Vec from '../casus/blocks/Vec.js';
+import Bullet from '../battleground/gameobjects/Bullet.js';
 import {
 	TURRET_DIRECTION_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
@@ -13,12 +14,28 @@ import {
 
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
+import type {BulletType} from '../battleground/gameobjects/Bullet.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
 const FIRING_SLOWDOWN=0.6;
+
+//
+// Which guns are which types:
+//
+// Gun 1: Grenade launcher (grenades)
+// Gun 2: Machine gun (regular bullets)
+// Gun 3: Laser (green laser beams)
+// Gun 4: Plasma blob (plasma blobs)
+// Gun 5: Vulcan cannon (regular bullets, really fast)
+// Gun 6: Death Ray (death rays)
+// Gun 7: Shotgun (shotgun bullets)
+// Gun 8: Lancer (shock particles)
+// Gun 9: Missile launcher (missiles)
+// Gun 10: Pulse Laser (pulse particle)
+//
 
 type GunType = 
 	'GUN_1' |
@@ -31,6 +48,54 @@ type GunType =
 	'GUN_8' |
 	'GUN_9' |
 	'GUN_10';
+
+type GunStats = {
+	betweenShotsCooldown: number,
+	bullet: BulletType,
+};
+
+const STATS_FOR_GUN: {[GunType]: GunStats} = {
+	GUN_1: {
+		bullet: 'GRENADE_BULLET',
+		betweenShotsCooldown: 30
+	},
+	GUN_2: {
+		bullet: 'GUN_BULLET',
+		betweenShotsCooldown: 10
+	},
+	GUN_3: {
+		bullet: 'GREEN_LASER',
+		betweenShotsCooldown: 16
+	},
+	GUN_4: {
+		bullet: 'PLASMA_BLOB',
+		betweenShotsCooldown: 60
+	},
+	GUN_5: {
+		bullet: 'GUN_BULLET',
+		betweenShotsCooldown: 6
+	},
+	GUN_6: {
+		bullet: 'DEATH_RAY_BULLET',
+		betweenShotsCooldown: 25
+	},
+	GUN_7: {
+		bullet: 'SHOTGUN_BULLET',
+		betweenShotsCooldown: 22
+	},
+	GUN_8: {
+		bullet: 'GUN_BULLET',
+		betweenShotsCooldown: 60
+	},
+	GUN_9: {
+		bullet: 'MISSILE',
+		betweenShotsCooldown: 19
+	},
+	GUN_10: {
+		bullet: 'PULSE_LASER_PARTICLE',
+		betweenShotsCooldown: 35
+	},
+}
 
 class Gun extends TankPart {
 
@@ -76,16 +141,19 @@ class Gun extends TankPart {
 		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 
 		const tryToFire=this._getBoolean(SHOOT_PRIMARY_WEAPON_VAR_NAME, interpriterState);
-		if (tryToFire) {
-			console.log('firing');
+		this.fireCooldown--;
+		if (tryToFire && this.fireCooldown<=0) {
+			const myPosition=this._getPosition(parentPos, parentRotation);
+			const gunStats=STATS_FOR_GUN[this.gunType];
+			battleground.createGameObject(new Bullet(myPosition, this.gunAngle, parentTank, gunStats.bullet));
+			this.fireCooldown = gunStats.betweenShotsCooldown;
 		}
 		this.firing=tryToFire;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
-		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
-		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
-		drawer.draw(getImage(this.gunType), imageCenter, 15, this.displayAngle-Math.PI/2);
+		const myPosition=this._getPosition(parentPos, parentRotation);
+		drawer.draw(getImage(this.gunType), myPosition, 15, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
@@ -98,6 +166,12 @@ class Gun extends TankPart {
 
 	_getBoolean(name: string, interpriterState: InterpriterState): boolean {
 		return verifyBoolean(interpriterState.getVariable('BOOLEAN', name)).val;
+	}
+
+	_getPosition(parentPos: Vec, parentRotation: number) {
+		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
+		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
+		return imageCenter;
 	}
 
 	//currently don't change rotation speed. Maybe we should change it?
