@@ -32,7 +32,6 @@ import {
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
-	TURRET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
 
@@ -196,9 +195,6 @@ class Tank extends GameObject {
 		//end of movement stuff
 		
 		//gun stuff
-		const turretDirection = this._getDouble(TURRET_DIRECTION_VAR_NAME);
-		this.mainGun.setTargetGunAngle(turretDirection);
-		this.mainGun.onUpdate();
 		//end of gun stuff
 		
 		//placing items stuff
