@@ -56,7 +56,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	},
 	MISSILE: {
 		speed: 1.4,
-		width: 13,
+		width: 10,
 		lifetime: 100,
 	},
 	PLASMA_BLOB: {
@@ -168,7 +168,6 @@ class Bullet extends GameObject {
 		const allTanks=battleground.getTanks().filter(t => t!==this.tankToIgnore);
 
 		const mySeg=new Seg(prevPosition, newPosition);
-		const firstTankHit=null;
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
 		for (const t:Tank of allTanks) {
 			//TODO: inflict damage on other tanks
