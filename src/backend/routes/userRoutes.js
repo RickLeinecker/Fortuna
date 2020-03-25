@@ -1,8 +1,8 @@
 // @flow strict
 
-//========================================================================//
+//============================================================================//
 // TO USE ROUTES: all route calls in this file will be /api/user/<Route call> //
-//========================================================================//
+//============================================================================//
 
 const express = require('express');
 const router = express.Router();
@@ -28,7 +28,7 @@ router.post('/registerUser', [
 
 // Login a User
 // Route call: /login
-// Req must include email and password in body
+// Req must include userName and password in body
 // Returns a jwt upon success
 router.post('/login', userController.login);
 
@@ -78,7 +78,5 @@ router.get('/retrieveUser/:userId', userController.retrieveUser);
 // Req requires no info
 // Returns an array of json users including the elo, _id, and userName
 router.get('/leaderboard', userController.getLeaders);
-
-
 
 module.exports = router;

@@ -1,18 +1,13 @@
 // @flow strict
 
-//========================================================================//
-// TO USE ROUTES: all route calls in this file will be /replay/<Route call> //
-//========================================================================//
+//==============================================================================//
+// TO USE ROUTES: all route calls in this file will be /api/replay/<Route call> //
+//==============================================================================//
 
 // Required imports
 import express from 'express';
 import { check } from 'express-validator';
 import replayController from '../controllers/replayController';
-
-// Imported Models
-import User from '../../models/userModel';
-import Tank from '../../models/tankModel';
-import BattleRecord from '../../models/battleRecordModel';
 
 // Import Constants
 const router = express.Router();

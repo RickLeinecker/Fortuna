@@ -3,9 +3,10 @@
 import GameObject from '../GameObject.js';
 import Vec from '../../casus/blocks/Vec.js';
 import ImageDrawer from '../ImageDrawer.js';
-import Battleground from '../Battleground.js';
 import {getImage} from '../ImageLoader.js';
 import {createSmokeCloud} from './Particle.js';
+
+import type Battleground from '../Battleground.js';
 
 class C4 extends GameObject {
 

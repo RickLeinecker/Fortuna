@@ -20,11 +20,29 @@ type ImageName =
 	'ELECTRICITY_FLIPPED' |
 	'STATIC' |
 	'EMP' |
+	'GREEN_PARTICLE' |
+
+	//bullets
+	'DEATH_RAY_BULLET' |
+	'GREEN_LASER' |
+	'GRENADE_BULLET' |
+	'GUN_BULLET' |
+	'RED_LASER' |
+	'MISSILE' |
+	'PLASMA_BLOB' |
+	'PULSE_LASER_PARTICLE' |
+	'SHOTGUN_BULLET' |
 
 	//tank stuff
-	'BLUE_CHASSIS_1' | 
-	'RED_GUN_1' | 
-	'GRAY_TREAD_1' | 
+	'CHASSIS_1' | 
+	'CHASSIS_2' | 
+	'CHASSIS_3' | 
+	'CHASSIS_4' | 
+	'CHASSIS_5' | 
+	'TREAD_1' | 
+	'TREAD_2' | 
+	'TREAD_3' | 
+	'TREAD_4' | 
 	'JAMMER_SMALL' |
 	'JAMMER_MEDIUM' |
 	'JAMMER_LARGE' |
@@ -34,6 +52,17 @@ type ImageName =
 	'SCANNER_SMALL_ITEMS' |
 	'SCANNER_MEDIUM_ITEMS' |
 	'SCANNER_LARGE_ITEMS' |
-	'SCANNER_BUBBLE';
+	'SCANNER_BUBBLE' |
+	'GUN_1' |
+	'GUN_2' |
+	'GUN_3' |
+	'GUN_4' |
+	'GUN_5' |
+	'GUN_6' |
+	'GUN_7' |
+	'GUN_8' |
+	'GUN_9' |
+	'GUN_10';
+
 
 export type {ImageName};
