@@ -136,8 +136,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 
         if (!userTwo) {
             return res
-            .status(404)
-            .json({ msg: 'Could not find userTwo in DB'})
+                .status(404)
+                .json({ msg: 'Could not find userTwo in DB'})
         }
 
         if (req.body.winner == 0) { // tie
@@ -198,7 +198,23 @@ exports.reportResults = async (req: Request, res: Response) => {
             }
         });
 
-        await BattleRecord.findByIdAndUpdate(req.body.battleId, { winner: req.body.winner }, (err: Error, updatedRecord: BattleRecord) => {
+        battle.winner = req.body.winner;
+        await battle.save( (err: Error) => {
+            if (err) {
+                console.error(err.message);
+                return res
+                    .status(500)
+                    .json({ msg: 'Unable to update userTwo' });
+            }
+            else{
+                console.log('Battle record updated');
+                return res
+                    .status(200)
+                    .send(battle, userOne,userTwo);
+            }
+        });
+
+        /*await BattleRecord.findByIdAndUpdate(req.body.battleId, { winner: req.body.winner }, (err: Error, updatedRecord: BattleRecord) => {
             if (err) {
                 console.error(err.message);
                 return res
@@ -212,7 +228,7 @@ exports.reportResults = async (req: Request, res: Response) => {
                     .send(updatedRecord, userOne, userTwo);
             }
 
-        });
+        });*/
 
     } catch (err) {
         return res
