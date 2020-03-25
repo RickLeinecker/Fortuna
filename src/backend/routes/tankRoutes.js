@@ -37,7 +37,11 @@ router.get('/userTanks', auth, tankController.userTanks);
 // Header: x-auth-token
 // Body: tankName
 // Returns the id of the new tank
-router.post('/assignTank', auth, tankController.assignTank);
+router.post('/assignTank', [
+        check('tankName', 'tankName is required').isString(),
+        check('userId', 'userId is required').isString(),
+        check('components', 'components is required').isArray()
+    ], auth, tankController.assignTank);
 
 // Updates the entire document of the tank
 // Route Call: /tankUpdate/<tankId>
