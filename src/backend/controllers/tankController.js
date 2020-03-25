@@ -74,25 +74,73 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 			.json({ errors: errors.array() });
 	}
 
-	await Tank.findById(req.params.tankId, function (err, tank) {
+	// Get tank from DB to get past components state
+	const tank = await Tank.findById(req.params.tankId, function (err: Error) {
 		if (err){
 			console.error(err.message);
 			res.send(err);
 		}
-		// Update all fields of the tank except casus code
-		tank.tankName = req.body.tankName;
-		tank.userId = req.body.userId;
-		tank.components = req.body.components;
-		tank.isBot = req.body.isBot;
-		tank.save((err: Error) => {
-			if (err) {
-				console.error(err.message);
-				res.send(err);
-			}
-		});
-		res.status(200).send(tank);
-		console.log('Successfully updated tank.')
 	});
+	if (!tank) {
+		console.error('Unable to find tank in DB');
+		res.status(400).json({ msg: 'Unable to find tank in DB' });
+	}
+
+	// Get user to update inventory
+	let user = User.findById(tank.body.userId);
+	if (!user) {
+		console.error('Tank User not in DB');
+		return res
+			.status(400)
+			.json({ msg: 'Tank user not found in DB' })
+	}
+
+	// Replenish components
+	for (const compsIn in tank.tankComponents) {
+		if (compsIn === 'empty') {
+			continue;
+		}
+		user.inventory.tankComponents[compsIn] += 1;
+	}
+
+	// Use up components
+	for (const compsOut in req.body.tankComponents) {
+		if (compsOut === 'empty') {
+			continue;
+		}
+
+		if (user.inventory.tankComponents[compsOut] === 0) {
+			console.error(`Not enough ${compsOut} components to use.`);
+			return res
+				.status(400)
+				.json({ msg: `Not enough ${compsOut} components to use.` });
+		}
+		user.inventory.tankComponents[compsOut] -= 1;
+	}
+
+	// Update user
+	user.save((err: Error) => {
+		if (err) {
+			console.error('Failed to save user inventory.');
+			return res
+				.status(500)
+				.json({ msg: 'Failed to save user inventory.' });
+		}
+	});
+
+	// Update all fields of the tank except casus code
+	tank.tankName = req.body.tankName;
+	tank.userId = req.body.userId;
+	tank.components = req.body.components;
+	tank.isBot = req.body.isBot;
+	tank.save((err: Error) => {
+		if (err) {
+			console.error(err.message);
+			res.send(err);
+		}
+	});
+	res.status(200).send(tank);
+	console.log('Successfully updated tank.');
 }
 
 exports.casusUpdate = async (req: Request, res: Response) => {
@@ -153,7 +201,7 @@ exports.deleteTank = async (req: Request, res: Response) => {
 	}
 
 	for (const component of tank.components) {
-		if (component == null) {
+		if (component === 'empty') {
 			continue;
 		}
 		user.inventory.tankComponents[component] += 1;
