@@ -67,34 +67,31 @@ exports.register = async (req: $Request, res: $Response) => {
 		user.password = await bcrypt.hash(password, salt);
 
 		// Save User to MongoDB
-		await user.save((err: Error) => {
-			if (err) {
-				console.error(err.message);
-				return res
-					.status(500)
-					.json({ msg: 'Could not save the user to the DB.' });
-			}
-		});
+		const done = await user.save();
+		if (!done) {
+			console.error('Could not save user.');
+			return res
+				.status(500)
+				.json({ msg: 'Could not save the user to the DB.' });
+		}		
 
-		// Creates an initial tank for the user
-		user = User.findOne({userName: userName, email: email}, (err: Error) => {
-			if (err) {
-				console.error(err.message);
-				return res
-					.status(500)
-					.json({ msg: 'Could not load created user' });
-			}
-		});
+		// Create initial tank for user
+		let tank = new Tank();
+		tank.userId = user.id;
+		tank.tankName = 'Starter Tank';
+		tank.components = ['moddable', null, null, null, null, null, 'fastTreads', null, null, null];
+		tank.casusCode = { 
+			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+			highlighted: false, 
+			blockClass: "ContainerBlock", 
+			children: [{ 
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+				highlighted: true, 
+				blockClass: "EmptyBlock", 
+				dataType: "VOID" }] 
+			};
 
-		const initTank = new Tank({
-			tankName: 'Starter Tank',
-			userId: user.id,
-			components: ['moddable', null, null, 
-			null, null, null, 'fastTreads', 
-			null, null, null]
-		});
-
-		initTank.save((err: Error) => {
+		await tank.save((err: Error) => {
 			if (err) {
 				console.error(err.message);
 				return res
@@ -136,7 +133,7 @@ exports.register = async (req: $Request, res: $Response) => {
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
 			text: `Greetings Commander ${user.userName}!
-			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
 			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
@@ -362,7 +359,7 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 			subject: 'Fortuna Account Reconfirmation Token',
 			text: `Greetings Commander ${user.userName}!
 			We recieved word that you needed to reconfirm your email once more.
-			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
 			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
