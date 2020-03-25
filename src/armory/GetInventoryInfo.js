@@ -104,6 +104,8 @@ const allComponentPoints: {[TankComponent]: number} = {
 	"missileTrackingBeacon": 2,
 };
 
+type InventoryType = {[TankComponent]: number};
+
 // Find a component's type.
 function getComponentType(component: TankComponent): string {
 	return allComponentTypes[component];
@@ -114,30 +116,9 @@ function getComponentPoints(component: TankComponent): number {
 	return allComponentPoints[component];
 }
 
-// The next 6 functions parse through a players inventory and returns components of only a certain type.
+// The parses through an inventory and returns components of a type.
 function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentType): Array<TankComponent> {
 	return inventory.filter(comp => allComponentTypes[comp] === type);
-}
-
-// Takes the inventory object and returns a filtered by type inventory object.
-function getOptionsOfType(inventory: Object, type: ComponentType): Array<Component> {
-	let newInventory: Array<Component> = [];
-
-	for(const componentString in inventory) {
-		// Change the component string to a tank component.
-		const component: TankComponent = verifyComponent(componentString);
-		
-		// Delete entries with 0 value, the user does not own any.
-		if (inventory[component] === 0) {
-			delete inventory[component]
-		}
-		// Push new components onto the new inventory if they have the correct type.
-		else if (allComponentTypes[component] === type) {
-			newInventory.push(new Component(component, inventory[component]));
-		}
-	}
-
-	return newInventory;
 }
 
 // Verifies that a string is a component.
@@ -149,11 +130,27 @@ function verifyComponent(comp: string): TankComponent {
 	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
 }
 
-function getInventory(inventory: Object): Array<Component> {
-	
-	let newInventory: Array<Component> = [];
-	for(const component in inventory) {
-		newInventory.push(new Component(verifyComponent(component), inventory[component]));
+// Converts back end inventory into a frontend array of components.
+// The optional second parameter is used for returning a specific type of component.
+function getInventory(inventory: InventoryType, type?: ComponentType): Array<Component> {
+	const newInventory: Array<Component> = [];
+	if(type !== null) {
+		for(const componentString in inventory) {
+			// Change the component string to a tank component.
+			const component: TankComponent = verifyComponent(componentString);
+
+			// Push new components onto the new inventory if they have the correct type and do not equal 0.
+			if (allComponentTypes[component] === type && inventory[component] !== 0) {
+				newInventory.push(new Component(component, inventory[component]));
+			}
+		}
+	}
+	else {
+		for(const componentString in inventory) {
+			// Change the string to a tank component and push onto the newInventory.
+			const component: TankComponent = verifyComponent(componentString);
+			newInventory.push(new Component(component, inventory[component]));
+		}
 	}
 
 	return newInventory;
@@ -164,6 +161,5 @@ export {
 	getComponentsOfType,
 	getComponentPoints,
 	verifyComponent,
-	getOptionsOfType,
 	getInventory,
 };

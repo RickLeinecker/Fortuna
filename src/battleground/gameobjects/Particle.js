@@ -113,21 +113,20 @@ function createSmokeCloud(position: Vec, battleground: Battleground) {
 
 function createElectricityParticle(position: Vec, maxRange: number, battleground: Battleground) {
 	const rotation=Math.random()*2*Math.PI;
-	let velocityMag = Math.random()*4-2;
-	velocityMag+=Math.sign(velocityMag)*3;
+	let velocityMag = Math.random()*2+0.4;
 	const velocity=new Vec(velocityMag, 0).rotate(rotation);
-	const velocityMultiplier = 0.91;
-	const lifetime=10+Math.random()*20;
+	const velocityMultiplier = 0.94;
+	const lifetime=10+Math.random()*10;
 	const fliptime=3;
 	const fadeoutPower=0.5;
 	const particle=new Particle(
 		'ELECTRICITY', 
 		position, 
-		9, 
+		5, 
 		velocity, 
 		lifetime, 
 		rotation - Math.PI/2, 
-		1, 
+		3, 
 		velocityMultiplier,
 		fadeoutPower,
 		'ELECTRICITY_FLIPPED',

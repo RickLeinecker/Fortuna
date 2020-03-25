@@ -13,25 +13,29 @@ const tankController = require('../controllers/tankController');
 
 // Retrieve favoriteTankId of the user
 // Route call: /getFavorite
-// Req must include the user jwt as a header: x-auth-token
+// Header: x-auth-token
+// Body: N/A
 // Returns the id of the favorited tank upon success and an error message upon failure
 router.get('/getFavorite', auth, tankController.getFavorite);
 
 // Set a favorite tank
 // Route call: /favoriteTank
-// Req must include the favoriteTankId in the body and the user jwt as a header: x-auth-token
+// Header: x-auth-token
+// Body: favoriteTank (the id)
 // Returns the id of the favorited tank upon success and an error message upon failure
 router.patch('/favoriteTank', auth, tankController.favoriteTank);
 
 // Retrieve array of all a users tanks
 // Route call: /userTanks
-// Req must include the user jwt in the header: x-auth-token
+// Header: x-auth-token
+// Body: N/A
 // Returns array of tanks
 router.get('/userTanks', auth, tankController.userTanks);
 
 // Creates a new tank and assigns it to a user
 // Route Call: /assignTank
-// Req must contain the x-auth-token header and the name of the created tank in the body
+// Header: x-auth-token
+// Body: tankName
 // Returns the id of the new tank
 router.post('/assignTank', [
         check('tankName', 'tankName is required').isString(),
@@ -41,8 +45,8 @@ router.post('/assignTank', [
 
 // Updates the entire document of the tank
 // Route Call: /tankUpdate/<tankId>
-// Req must contain the tankId within the uri of the api call in place of <tankId>
-// Req must also include each component of the tank even the ones that arent to be updated to work
+// Headers: x-auth-token
+// Body: tankName, userId, components, isBot
 // Returns the updated tank
 router.put('/tankUpdate/:tankId', [ 
     check('tankName', 'tankName is required')
@@ -51,16 +55,19 @@ router.put('/tankUpdate/:tankId', [
         .isString(),
     check('components', 'components is required')
         .isArray(),
-    check('casusCode', 'casusCode is required')
-        .exists(),
     check('isBot', 'isBot is required')
         .isBoolean()
-    ], tankController.tankUpdate);
+    ], auth, tankController.tankUpdate);
 
+// Updates only the casusCode of the tank
+// Route Call: /casusUpdate/<tankId>
+// Headers: x-auth-token
+// Body: casusCode
+// Returns tank with updated casusCode
 router.put('/casusUpdate/:tankId', [ 
     check('casusCode', 'casusCode is required')
         .exists(),
-    ], tankController.casusUpdate);
+    ], auth, tankController.casusUpdate);
 
 // Deletes tank from DB
 // Route Call: /deleteTank/<tankId>

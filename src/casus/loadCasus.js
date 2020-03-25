@@ -6,7 +6,6 @@ import ContainerBlock from './blocks/ContainerBlock.js';
 import reviveCasusBlock from './reviveCasusBlock.js';
 
 function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void): void {
-	
 	const targetTankId=getTankForCasus();
 	const token=getLoginToken();
 	console.log('Loading casus...');

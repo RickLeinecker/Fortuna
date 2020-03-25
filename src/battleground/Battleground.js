@@ -11,7 +11,7 @@ import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
-import {getTank} from '../tanks/TankLoader.js';
+import { getTestTank } from '../tanks/TankLoader.js';
 
 const FPS=30;
 
@@ -35,7 +35,7 @@ class Battleground extends React.Component<{||}> {
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
-		this.testTanks = [getTank(1), getTank(2)];
+		this.testTanks = [getTestTank(1), getTestTank(2)];
 		const walls = [
 			new Wall(new Vec(10, 0), 0),
 			new Wall(new Vec(60, 0), Math.PI/2),

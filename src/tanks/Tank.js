@@ -13,7 +13,6 @@ import Scanner from './Scanner.js';
 import Chassis from './Chassis.js';
 import Jammer from './Jammer.js';
 import Treads from './Treads.js';
-import Item from './Item.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import IntValue from '../casus/interpreter/IntValue.js';
@@ -32,7 +31,6 @@ import {
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
-	TURRET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
 
@@ -67,13 +65,13 @@ class Tank extends GameObject {
 	mainGun: Gun;
 	secondaryGun: Gun;
 	scanner: Scanner;
-	scannerAddonOne: Scanner;
-	scannerAddonTwo: Scanner;
+	scannerAddonOne: TankPart;
+	scannerAddonTwo: TankPart;
 	jammer: Jammer;
 	treads: Treads;
-	itemOne: Item;
-	itemTwo: Item;
-	itemThree: Item;
+	itemOne: TankPart;
+	itemTwo: TankPart;
+	itemThree: TankPart;
 	// Parts will be an array of 11 values:
 	// [0] = Chassis
 	// [1] = Main Gun, [2] = Secondary Gun
@@ -82,7 +80,6 @@ class Tank extends GameObject {
 	// [7] = Treads
 	// [8] = Item 1, [9] = Item 2, [10] = Item 3
 	parts: Array<TankPart>;
-	components: Array<string>;
 
 	// id and name:
 	tankName: string;
@@ -99,18 +96,17 @@ class Tank extends GameObject {
 		mainGun: Gun, 
 		secondaryGun: Gun,
 		scanner: Scanner,
-		scannerAddonOne: Scanner,
-		scannerAddonTwo: Scanner, 
+		scannerAddonOne: TankPart,
+		scannerAddonTwo: TankPart, 
 		jammer: Jammer,
 		treads: Treads,
-		itemOne: Item,
-		itemTwo: Item,
-		itemThree: Item,
+		itemOne: TankPart,
+		itemTwo: TankPart,
+		itemThree: TankPart,
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,
 		userId: string,
-		components: Array<string>,
 	) {
 		super(position);
 
@@ -129,7 +125,6 @@ class Tank extends GameObject {
 		this.tankName = tankName;
 		this._id = _id;
 		this.userId = userId;
-		this.components = components;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -196,9 +191,6 @@ class Tank extends GameObject {
 		//end of movement stuff
 		
 		//gun stuff
-		const turretDirection = this._getDouble(TURRET_DIRECTION_VAR_NAME);
-		this.mainGun.setTargetGunAngle(turretDirection);
-		this.mainGun.onUpdate();
 		//end of gun stuff
 		
 		//placing items stuff
@@ -292,6 +284,9 @@ class Tank extends GameObject {
 
 	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.secondaryGun!=null) {
+			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.scanner!=null) {
 			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);
@@ -299,7 +294,9 @@ class Tank extends GameObject {
 		if (this.jammer!=null) {
 			this.jammer.drawSelf(drawer, this.getPosition(), this.rotation);
 		}
-		this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.mainGun!=null) {
+			this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 	}
 
 	_setDouble(name: string, to: number): void {

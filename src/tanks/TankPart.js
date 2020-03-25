@@ -5,10 +5,25 @@ import type Vec from '../casus/blocks/Vec.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
 import type InterpriterState from '../casus/interpreter/InterpriterState.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 
 //A parent class for all tank parts
 
 class TankPart {
+
+	name: TankComponent;
+
+	constructor(name: TankComponent) {
+		this.name = name;
+	}
+
+	// Check if the no component is equipped.
+	checkEmpty(name: TankComponent): boolean {
+		if (name === 'empty') {
+			return true;
+		}
+		return false;
+	}
 
 	update(
 		interpriterState: 

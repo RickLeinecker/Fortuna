@@ -1,7 +1,7 @@
 // @flow strict
 
 // Required imports
-import type { $Request, $Response } from 'express';
+import type { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 
@@ -20,7 +20,7 @@ const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
 const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
 
-exports.register = async (req: $Request, res: $Response) => {
+exports.register = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
 	const errors = validationResult(req);
 
@@ -129,7 +129,7 @@ exports.register = async (req: $Request, res: $Response) => {
 	}
 }
 
-exports.login = async (req: $Request, res: $Response) => {
+exports.login = async (req: Request, res: Response) => {
 
 	// Creates a place where errors that fail validation can accrue.
 	const errors = validationResult(req);
@@ -197,7 +197,7 @@ exports.login = async (req: $Request, res: $Response) => {
 	}
 }
 
-exports.confirmToken = async (req: $Request, res: $Response) => {
+exports.confirmToken = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
 	const errors = validationResult(req);
 
@@ -270,7 +270,7 @@ exports.confirmToken = async (req: $Request, res: $Response) => {
 	}
 }
 
-exports.resendConfirm = async (req: $Request, res: $Response) => {
+exports.resendConfirm = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
 	const errors = validationResult(req);
 
@@ -349,45 +349,49 @@ exports.resendConfirm = async (req: $Request, res: $Response) => {
 		});
 		return res.status(200).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
-	} catch (err) {
-		console.error(err.message);
-		return res.status(500).json({msg: 'Server Error'});
+	} catch(err){
+		return res
+			.status(500)
+			.json({msg: 'Server Error'});
 	} 
 }
 
-exports.getUser = async (req: $Request, res: $Response) => {
+exports.getUser = async (req: Request, res: Response) => {
 	try{
 		// Find the user using the id and dont return the password field
 		const user = await User.findById(req.user.id).select('-password');
 		if (!user) {
 			console.error('Could not find user in DB');
 			return res
-				.status(400)
+				.status(404)
 				.json({ msg: 'Cannot find user in DB.' });
 		}
-		console.log('Retrieved user.');
-		return res.status(200).json(user);
+		return res
+			.status(200)
+			.json(user);
 	} catch (err) {
-		console.error(err.message);
-		// res.status just gives the status of the call
-		return res.status(500).json({msg: 'Unable to find user'});
+		return res
+			.status(500)
+			.json({msg: 'Unable to retrieve user'});
 	}
 }
 
-exports.retrieveUser  = async (req: $Request, res: $Response) => {
+exports.retrieveUser  = async (req: Request, res: Response) => {
 	await User.findById(req.params.userId, '-password', function(err: Error, user: User){
 		if(err)
 		{
-			res.send(err);
-			console.error(err.message);
+			return res
+				.status(404)
+				.send(err);
 		}
 		else
-			res.send(user)
-			console.log('User retrieved.')
+			return res
+				.status(200)
+				.send(user);
 	});
 }
 
-exports.getLeaders = async (req: $Request, res: $Response) => {
+exports.getLeaders = async (req: Request, res: Response) => {
 	// skip and limit determine how many to return
 	// the -1 in the sort is for descending order based on elo
 	await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
@@ -401,7 +405,7 @@ exports.getLeaders = async (req: $Request, res: $Response) => {
 	});
 }
 
-exports.allUsers = async (req: $Request, res: $Response) => {
+exports.allUsers = async (req: Request, res: Response) => {
 	await User.find({}, '-password', function(err: Error, users: Array<User>){
 		if(err){
 			res.send(err);
