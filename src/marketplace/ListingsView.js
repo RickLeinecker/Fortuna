@@ -57,12 +57,10 @@ class ListingsView extends React.Component<Props, State> {
 	//If we are in the tank view it directs it to getMarketSalesForTanks()
 	//Else it directs it to getMarketSalesForComponents()
 	directSaleToProperFunction() : void {
-		if(this.props.sellerType === 'tanks')
-		{
+		if(this.props.sellerType === 'tanks') {
 			this.getMarketSalesForTanks();
 		}
-		else
-		{
+		else {
 			this.getMarketSalesForComponents();
 		}
 	}
@@ -71,7 +69,6 @@ class ListingsView extends React.Component<Props, State> {
 	//Gets all the sells and filters them based on what type we are currently looking at
 	//This only works for components as tanks is a different api call
 	getMarketSalesForComponents() : void  {
-		const itemsForSaleArray = [];
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -90,6 +87,7 @@ class ListingsView extends React.Component<Props, State> {
 				}
 				else {
 					const jsonObjectOfSells = data;
+					const itemsForSaleArray = [];
 					for (const sale in jsonObjectOfSells) {
 						//Need to make sure that this sale involves a component and not a tank
 						if(getTankComponent(jsonObjectOfSells[sale].itemId) != null) {
@@ -139,7 +137,6 @@ class ListingsView extends React.Component<Props, State> {
 				}
 				else {
 					const jsonObjectOfSells = data;
-					console.log(data);
 					for (const sale in jsonObjectOfSells) {
 						//if this isn't a component it must be a tank so we can process it here
 						if(getTankComponent(jsonObjectOfSells[sale].itemId._id) == null) {
