@@ -1,12 +1,13 @@
 //@flow strict
 
-import type {TankComponent} from './TankComponent.js';
-import type {ComponentType} from './ComponentType.js';
-import {allComponents} from './TankComponent.js';
+import type { TankComponent } from './TankComponent.js';
+import type { ComponentType } from './ComponentType.js';
+import { allComponents } from './TankComponent.js';
+import Component from './Component.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.
-const allTankComponents: {[TankComponent]: ComponentType} = {
+const allComponentTypes: {[TankComponent]: ComponentType} = {
 
 	// Chassis
 	"moddableLight": "chassis",
@@ -31,8 +32,10 @@ const allTankComponents: {[TankComponent]: ComponentType} = {
 	"shortRangeScanner": "scanner",
 	"mediumRangeScanner": "scanner",
 	"longRangeScanner": "scanner",
-	"itemScanner": "scanner",
-	"antiJammerScanner": "scanner",
+
+	// Scanner Addons
+	"itemScanner": "scannerAddon",
+	"antiJammerScanner": "scannerAddon",
 
 	// Jammers
 	"shortRangeJammer": "jammer",
@@ -101,9 +104,11 @@ const allComponentPoints: {[TankComponent]: number} = {
 	"missileTrackingBeacon": 2,
 };
 
+type InventoryType = {[TankComponent]: number};
+
 // Find a component's type.
-function getTankComponent(component: TankComponent): string {
-	return allTankComponents[component];
+function getComponentType(component: TankComponent): string {
+	return allComponentTypes[component];
 }
 
 // Find a component's point value.
@@ -111,11 +116,12 @@ function getComponentPoints(component: TankComponent): number {
 	return allComponentPoints[component];
 }
 
-// The next 6 functions parse through a players inventory and returns components of only a certain type.
+// The parses through an inventory and returns components of a type.
 function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentType): Array<TankComponent> {
-	return inventory.filter(comp => allTankComponents[comp] === type);
+	return inventory.filter(comp => allComponentTypes[comp] === type);
 }
 
+// Verifies that a string is a component.
 function verifyComponent(comp: string): TankComponent {
 	const matched = allComponents.filter(x => x === comp);
 	if (matched.length === 1) {
@@ -124,9 +130,36 @@ function verifyComponent(comp: string): TankComponent {
 	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
 }
 
+// Converts back end inventory into a frontend array of components.
+// The optional second parameter is used for returning a specific type of component.
+function getInventory(inventory: InventoryType, type?: ComponentType): Array<Component> {
+	const newInventory: Array<Component> = [];
+	if(type !== null) {
+		for(const componentString in inventory) {
+			// Change the component string to a tank component.
+			const component: TankComponent = verifyComponent(componentString);
+
+			// Push new components onto the new inventory if they have the correct type and do not equal 0.
+			if (allComponentTypes[component] === type && inventory[component] !== 0) {
+				newInventory.push(new Component(component, inventory[component]));
+			}
+		}
+	}
+	else {
+		for(const componentString in inventory) {
+			// Change the string to a tank component and push onto the newInventory.
+			const component: TankComponent = verifyComponent(componentString);
+			newInventory.push(new Component(component, inventory[component]));
+		}
+	}
+
+	return newInventory;
+}
+
 export {
-	getTankComponent,
+	getComponentType,
 	getComponentsOfType,
 	getComponentPoints,
-	verifyComponent
+	verifyComponent,
+	getInventory,
 };

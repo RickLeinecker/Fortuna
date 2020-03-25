@@ -10,7 +10,9 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
+import Chassis from './Chassis.js';
 import Jammer from './Jammer.js';
+import Treads from './Treads.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import IntValue from '../casus/interpreter/IntValue.js';
@@ -59,13 +61,30 @@ class Tank extends GameObject {
 	nitroRepairTimerLeft: number;
 
 	// parts: 
-	chassis: TankPart;
-	treads: TankPart;
+	chassis: Chassis;
 	mainGun: Gun;
-	secondaryGun: ?Gun;
-	scanner: ?Scanner;
-	jammer: ?Jammer;
-	parts: Array<?TankPart>;
+	secondaryGun: Gun;
+	scanner: Scanner;
+	scannerAddonOne: TankPart;
+	scannerAddonTwo: TankPart;
+	jammer: Jammer;
+	treads: Treads;
+	itemOne: TankPart;
+	itemTwo: TankPart;
+	itemThree: TankPart;
+	// Parts will be an array of 11 values:
+	// [0] = Chassis
+	// [1] = Main Gun, [2] = Secondary Gun
+	// [3] = Scanner, [4] = Scanner Addon 1, [5] = Scanner Addon 2
+	// [6] = Jammer
+	// [7] = Treads
+	// [8] = Item 1, [9] = Item 2, [10] = Item 3
+	parts: Array<TankPart>;
+
+	// id and name:
+	tankName: string;
+	_id: string;
+	userId: string;
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -73,23 +92,39 @@ class Tank extends GameObject {
 
 	constructor(
 		position: Vec, 
-		chassis: TankPart, 
-		treads: TankPart, 
+		chassis: Chassis, 
 		mainGun: Gun, 
-		secondaryGun: ?Gun, 
-		scanner: ?Scanner, 
-		jammer: ?Jammer,
-		casusCode: CasusBlock
+		secondaryGun: Gun,
+		scanner: Scanner,
+		scannerAddonOne: TankPart,
+		scannerAddonTwo: TankPart, 
+		jammer: Jammer,
+		treads: Treads,
+		itemOne: TankPart,
+		itemTwo: TankPart,
+		itemThree: TankPart,
+		casusCode: CasusBlock,
+		tankName: string,
+		_id: string,
+		userId: string,
 	) {
 		super(position);
 
 		this.chassis = chassis;
-		this.treads = treads;
 		this.mainGun = mainGun;
 		this.secondaryGun = secondaryGun;
 		this.scanner = scanner;
+		this.scannerAddonOne = scannerAddonOne;
+		this.scannerAddonTwo = scannerAddonTwo;
 		this.jammer = jammer;
-		this.parts = [chassis, treads, mainGun, secondaryGun, scanner, jammer];
+		this.treads = treads;
+		this.itemOne = itemOne;
+		this.itemTwo = itemTwo;
+		this.itemThree = itemThree;
+		this.parts = [chassis, mainGun, secondaryGun, scanner, scannerAddonOne, scannerAddonTwo, jammer, treads, itemOne, itemTwo, itemThree];
+		this.tankName = tankName;
+		this._id = _id;
+		this.userId = userId;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -259,7 +294,9 @@ class Tank extends GameObject {
 		if (this.jammer!=null) {
 			this.jammer.drawSelf(drawer, this.getPosition(), this.rotation);
 		}
-		this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.mainGun!=null) {
+			this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 	}
 
 	_setDouble(name: string, to: number): void {
