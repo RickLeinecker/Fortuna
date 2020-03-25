@@ -17,15 +17,13 @@ function verifyLogin(): void {
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status !== 200 && window.location.pathname !== '/Login') {
 				console.log(response.status);
 				console.log(data.msg);
 				console.log(data);
 				window.location = verifyLink('/Login');
-				console.log('Login is not verified!');
-			} else if(window.location.pathname === '/Login') {
+			} else if(response.status === 200 && (window.location.pathname === '/Login' || window.location.pathname === '/')) {
 				window.location = verifyLink('/MainMenu');
-				console.log('At login and login is verified.');
 			}
 		})
 	);
