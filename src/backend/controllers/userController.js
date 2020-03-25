@@ -79,7 +79,7 @@ exports.register = async (req: $Request, res: $Response) => {
 		let tank = new Tank();
 		tank.userId = user.id;
 		tank.tankName = 'Starter Tank';
-		tank.components = ['moddable', null, null, null, null, null, 'fastTreads', null, null, null];
+		tank.components = ['moddable', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
 		tank.casusCode = { 
 			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
 			highlighted: false, 
