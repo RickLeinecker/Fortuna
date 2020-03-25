@@ -14,6 +14,7 @@ require("regenerator-runtime");
 // Model imports
 const User = require('../../models/userModel');
 const Token = require('../../models/tokenModel');
+const Tank = require('../../models/tankModel');
 
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
@@ -72,6 +73,33 @@ exports.register = async (req: $Request, res: $Response) => {
 				return res
 					.status(500)
 					.json({ msg: 'Could not save the user to the DB.' });
+			}
+		});
+
+		// Creates an initial tank for the user
+		user = User.findOne({userName: userName, email: email}, (err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not load created user' });
+			}
+		});
+
+		const initTank = new Tank({
+			tankName: 'Starter Tank',
+			userId: user.id,
+			components: ['moddable', null, null, 
+						null, null, null, 'fastTreads',
+						null, null, null]
+		});
+
+		initTank.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not save user\'s initial tank.' });
 			}
 		});
 
