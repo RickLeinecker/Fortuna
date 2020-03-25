@@ -75,7 +75,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Get tank from DB to get past components state
-	const tank = await Tank.findById(req.params.tankId, function (err: Error) {
+	let tank = await Tank.findById(req.params.tankId, function (err: Error) {
 		if (err){
 			console.error(err.message);
 			res.send(err);
