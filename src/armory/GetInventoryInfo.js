@@ -148,6 +148,9 @@ type InventoryType = {
 	nitroRepair: number,
 	overdrive: number,
 	missileTrackingBeacon: number,
+	
+	// Here only for a flow error. Need to find a way to remove.
+	empty: number,
 }
 
 // Find a component's type.
@@ -178,19 +181,13 @@ function verifyComponent(comp: string): TankComponent {
 // The optional second parameter is used for returning a specific type of component.
 function getInventory(inventory: InventoryType, type?: ComponentType): Array<Component> {
 	let newInventory: Array<Component> = [];
-
 	if(type == null) {
 		for(const componentString in inventory) {
-
 			// Change the component string to a tank component.
 			const component: TankComponent = verifyComponent(componentString);
 
-			// Delete entries with 0 value, the user does not own any.
-			if (inventory[component] === 0) {
-				delete inventory[component]
-			}
-			// Push new components onto the new inventory if they have the correct type.
-			else if (allComponentTypes[component] === type) {
+			// Push new components onto the new inventory if they have the correct type and do not equal 0.
+			if (allComponentTypes[component] === type && inventory[component] !== 0) {
 				newInventory.push(new Component(component, inventory[component]));
 			}
 		}

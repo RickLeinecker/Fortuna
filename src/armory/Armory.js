@@ -77,7 +77,7 @@ class Armory extends React.Component<Props, State> {
 
 		// Functions to get all user tanks and user inventory.
 		this.getTanks();
-		this.getInventory();
+		this.getUserInventory();
 	}
 
 	// Gets all user tanks and sets them to the state.
@@ -107,7 +107,7 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	// Gets all of the user's inventory.
-	getInventory(): void {
+	getUserInventory(): void {
 		const responsePromise = getUser();
 
 		responsePromise.then (
@@ -141,10 +141,9 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	changeSelectedTank(newTankId: string): void {
-		const newTank: Tank = cloneTank(this.state.allTanks.find(tank => tank._id === newTankId));
-		this.setState({ selectedTank: newTank});
+		this.setState({ selectedTank: this.state.allTanks.find(tank => tank._id === newTankId)});
 		const cookies = new Cookies();
-		cookies.set('selectedTankId', newTank._id);
+		cookies.set('selectedTankId', newTankId);
 	}
 
 	// Function that will save the selectedTank.
