@@ -2,18 +2,13 @@
 
 const { validationResult } = require('express-validator');
 
+import type { Request, Response } from 'express';
+
 const User = require('../../models/userModel');
 const BattleRecord = require('../../models/battleRecordModel');
 const Tank = require('../../models/tankModel');
 
-import type {
-    $Request,
-    $Response,
-    NextFunction,
-    Middleware,
-  } from 'express';
-
-exports.prepareMatch = async (req: $Request, res: $Response) => {
+exports.prepareMatch = async (req: Request, res: Response) => {
 
     // Contains errors for failed validation.
    const errors = validationResult(req);
@@ -93,10 +88,10 @@ exports.prepareMatch = async (req: $Request, res: $Response) => {
                 .json({ msg: 'Unable to save battle record to DB.' });
         }
         else{
+            console.log('Match successfully created!');
             return res
                 .status(200)
                 .send(newRecord._id) // Can I do this?
-                .json({ msg: 'Match successfully prepared!'});
         }
     });
    }catch(err){
@@ -108,12 +103,22 @@ exports.prepareMatch = async (req: $Request, res: $Response) => {
 
 
 
-exports.reportResults = async(req, res) => {
+exports.reportResults = async (req: Request, res: Response) => {
+
+    // Make sure we got necessary info from frontend
+    const errors = validationResult(req);
+
+   if (!errors.isEmpty()) {
+       // Return 400 for a bad request
+       return res
+           .status(400)
+           .json({ errors: errors.array() });
+   }
 
     try{
         const battle = await findById(req.body.recordId);
 
-        if(!battle){
+        if (!battle) {
             return res
                 .status(404)
                 .json({ msg: 'Could not find record in DB'});
@@ -121,7 +126,7 @@ exports.reportResults = async(req, res) => {
 
         const userOne = await findById(battle.userOne);
 
-        if(!userOne){
+        if (!userOne) {
             return res
                 .status(404)
                 .json({ msg: 'Could not find userOne in DB'});
@@ -129,17 +134,17 @@ exports.reportResults = async(req, res) => {
 
         const userTwo = await findById(battle.userTwo);
 
-        if(!userTwo){
+        if (!userTwo) {
             return res
             .status(404)
             .json({ msg: 'Could not find userTwo in DB'})
         }
 
-        if(req.body.winner == 0){ // tie
+        if (req.body.winner == 0) { // tie
             userOne.stats.ties++;
             userTwo.stats.ties++;
         }
-        else if(req.body.winner == 1){ // User 1 victory
+        else if (req.body.winner == 1) { // User 1 victory
             // Increase wins, money, and elo of userOne for victory
             userOne.money += battle.prizeMoney;
             userOne.stats.elo += battle.eloExchanged;
@@ -150,7 +155,7 @@ exports.reportResults = async(req, res) => {
             userTwo.stats.elo -= battle.eloExchanged;
             userTwo.stats.wins--;
         }
-        else if(req.body.winner == 2){ // User 2 victory
+        else if (req.body.winner == 2) { // User 2 victory
             // Increase wins, money, and elo of userTwo for loss
             userTwo.money += battle.prizeMoney;
             userTwo.stats.elo += battle.eloExchanged;
@@ -161,10 +166,10 @@ exports.reportResults = async(req, res) => {
             userOne.stats.elo -= battle.eloExchanged;
             userOne.stats.wins--;
         }
-        else{
+        else {
             return res
                 .status(400)
-                .json({ msg: 'Number not expected: please enter either 0 in the event of a tie, 1 in the event user 1 is the victor, or 2 in the event user 2 is the victor'});
+                .json({ msg: 'Number not expected: please enter either 0 in the event of a tie, 1 in the event the challengee is the victor, or 2 in the event the challenger is the victor'});
         }
 
         // save updated userOne, userTwo, and complete battleRecord
@@ -174,32 +179,42 @@ exports.reportResults = async(req, res) => {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update userOne.' });
+                    .json({ msg: 'Unable to update userOne' });
             }
             else{
-                return res
-                    .status(200)
-                    .send(userOne) // Can I do this?
-                    .json({ msg: 'userOne successfully updated'});
+                console.log('userOne updated');
             }
         });
 
-        await userTwo.save((err: Error) => {
+        await userTwo.save( (err: Error) => {
             if (err) {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update userTwo.' });
+                    .json({ msg: 'Unable to update userTwo' });
             }
             else{
-                return res
-                    .status(200)
-                    .send(userTwo) // Can I do this?
-                    .json({ msg: 'Match successfully prepared!'});
+                console.log('userTwo updated');
             }
         });
 
-    }catch(err){
+        await BattleRecord.findByIdAndUpdate(req.body.battleId, { winner: req.body.winner }, (err: Error, updatedRecord: BattleRecord) => {
+            if (err) {
+                console.error(err.message);
+                return res
+                    .status(500)
+                    .json({ msg: 'Unable to update BattleRecord'});
+            }
+            else {
+                console.log('BattleRecord successfully updated');
+                return res
+                    .status(200)
+                    .send(updatedRecord, userOne, userTwo);
+            }
+
+        });
+
+    } catch (err) {
         return res
             .status(500)
             .json({ msg: 'Server Error'});

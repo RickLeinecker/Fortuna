@@ -9,6 +9,8 @@ const battleController = require('../controllers/battleController');
 // TO USE ROUTES: all route calls in this file will be /api/battle/<Route call> //
 //==============================================================================//
 
+// Note userOne is challengee & userTwo is the challenger
+
 // Gets each users favorite tank
 router.post('/prepareMatch', [
     check('challengerTankId', 'challengerTankId is required')
@@ -18,6 +20,15 @@ router.post('/prepareMatch', [
 ], battleController.prepareMatch);
 
 // Updates elo and currency of both players after a match is complete
-router.patch('/reportResults', battleController.reportResults);
+// Header: 
+// Body:
+// Returns
+// Body requires battlerecordId and the result of the match
+router.patch('/reportResults', [
+    check('winner', 'Please enter 0 for a tie, 1 for userOne, 2 for userTwo')
+        .isInt(),
+    check('battleId', 'Please provide the associated battleId')
+        .isMongoId()
+], battleController.reportResults);
 
 module.exports = router;

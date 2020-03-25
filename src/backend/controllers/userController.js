@@ -406,6 +406,23 @@ exports.allUsers = async (req: $Request, res: $Response) => {
 	});
 }
 
+exports.setWager = async (req: $Request, res: $Response) => {
+	await User.findByIdAndUpdate(req.user.id, { wager: req.body.wager }, {new: true}, (err, updatedUser) => {
+		if (err) {
+			console.error(err.message)
+			return res
+				.status(500)
+				.json({ msg: 'Failed to update user wager value'});
+		}
+		else {
+			console.log('Wager successfully updated');
+			return res
+				.status(200)
+				.send(updatedUser);
+		}
+	});
+}
+
 
 // FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
 // They in essence serve the same purpose.
