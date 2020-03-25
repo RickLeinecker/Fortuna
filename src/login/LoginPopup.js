@@ -58,7 +58,7 @@ class LoginPopup extends React.Component<Props, State> {
 				}
 				else {
 					setLoginToken(data.token);
-					window.location=verifyLink('MainMenu');
+					window.location=verifyLink('/MainMenu');
 				}
 			})
 		).catch(

@@ -8,6 +8,7 @@ import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {||};
 
@@ -16,6 +17,11 @@ type State = {|
 |};
 
 class BattleArena extends React.Component<Props, State> {
+
+	constructor() {
+		super();
+		verifyLogin();
+	}
 
 	onChallengePlayer(player: string) {
 
@@ -35,7 +41,7 @@ class BattleArena extends React.Component<Props, State> {
 				<Navbar
 					returnName="Back to Main Menu" 
 					pageName="Battle Arena" 
-					linkName="MainMenu"
+					linkName="/MainMenu"
 				/>
 				<div className="column baleft">
 					<h3>Find First Challenger Available</h3>
@@ -44,7 +50,7 @@ class BattleArena extends React.Component<Props, State> {
 						playerChallenged="" 
 					/>
 					<h6>Practice Against Bots</h6>
-					<Link to={verifyLink("TrainingArena")}>
+					<Link to={verifyLink("/TrainingArena")}>
 						<button type="button" className="btn">Training Arena</button>
 					</Link>
 					<SearchPlayers onChallengePlayer={this.onChallengePlayer} />

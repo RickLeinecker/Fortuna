@@ -5,14 +5,20 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 class TrainingArena extends React.Component<{||}> {
+
+	constructor() {
+		super();
+		verifyLogin();
+	}
 
 	render(): React.Node {
 		return (
 			<div id="Parent">
 				<Navbar 
-					linkName="BattleArena" 
+					linkName="/BattleArena" 
 					returnName="Back to Battle Arena" 
 					pageName="Training Arena" 
 				/>
@@ -33,11 +39,11 @@ class TrainingArena extends React.Component<{||}> {
 						<option value="2">Small Arena</option>
 						<option value="3">Arena I am, yes</option>
 					</select>
-					<Link to={verifyLink("Battleground")}>
+					<Link to={verifyLink("/Battleground")}>
 						<button type="button" className="primarybtn">Start Battle</button>
 					</Link>
 					<br/>
-					<Link to="Casus">
+					<Link to={verifyLink("/Casus")}>
 						<button className="clearbtn">Back to Casus</button>
 					</Link>
 				</div>

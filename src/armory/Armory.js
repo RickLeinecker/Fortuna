@@ -10,6 +10,7 @@ import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 // Armory component.
 import OptionClass from './OptionClass.js';
 type Props = {||}; 
@@ -51,6 +52,7 @@ class Armory extends React.Component<Props, State> {
 
 	constructor() {
 		super();
+		verifyLogin();
 		this.state={
 			//This tank id is the one the user is currently working on
 			selectedTankId: 'None',
@@ -316,7 +318,7 @@ class Armory extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar styleName="navbtn" linkName="MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
+				<Navbar styleName="navbtn" linkName="/MainMenu" returnName="Back to Main Menu" pageName="Armory" userName="FRIcker | $465128" />
 					<div className="column armoryleft">
 						<h3>Select a Tank to Edit</h3>
 						<select 
@@ -330,7 +332,7 @@ class Armory extends React.Component<Props, State> {
 						<button type="button" className="btn mb-4">Set Default</button>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<h3>Edit tank's Code</h3>
-						<Link to="Casus">
+						<Link to={verifyLink("/Casus")}>
 							<button type="button" className="btn">Casus</button>
 						</Link>
 					</div>

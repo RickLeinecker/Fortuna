@@ -5,7 +5,7 @@ import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import Navbar from '../globalComponents/Navbar.js';
-import "../Main.css";
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {||};
 
@@ -17,6 +17,7 @@ class CasusContainer extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
+		verifyLogin();
 		this.state = {
 			draggedBlocks: null
 		};
@@ -26,7 +27,7 @@ class CasusContainer extends React.Component<Props, State> {
 		return (
 			<div className="haveScorebarIfSmall">
 				<Navbar
-					linkName='Armory'
+					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName='Casus'
 				/>

@@ -66,7 +66,7 @@ class Navbar extends React.Component<Props, State> {
 			cookie.remove(cookieName);
 		}
 
-		window.location = verifyLink('Login');
+		window.location = verifyLink('/Login');
 	}
 
 	// Set user's name and money in the state and in a cookie.
