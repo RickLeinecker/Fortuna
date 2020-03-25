@@ -11,7 +11,7 @@ import CasusContainer from './casus/CasusContainer.js';
 import BattleArena from './battlearena/BattleArena.js';
 import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
-import Battleground from './battleground/Battleground.js';
+import BattleGroundContainer from './battleground/BattlegroundContainer.js';
 import ConfirmEmail from './login/ConfirmEmail.js';
 
 // The routing const holds the paths to other react components.
@@ -27,7 +27,7 @@ const routing = (
 				<Route path="/BattleArena" component={BattleArena} />
 				<Route path="/Armory" component={Armory} />
 				<Route path="/TrainingArena" component={TrainingArena} />
-				<Route path="/Battleground" component={Battleground} />
+				<Route path="/Battleground" component={BattleGroundContainer} />
 				<Route path = '/ConfirmEmail/:token/:email' component= {ConfirmEmail}/>
 			</Switch>
 		</div>
