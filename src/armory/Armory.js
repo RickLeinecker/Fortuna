@@ -9,13 +9,9 @@ import {getTankComponent, verifyComponent} from './GetInventoryInfo.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {getFavoriteTankID, getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
-<<<<<<< HEAD
 import { verifyLink } from '../globalComponents/verifyLink.js';
 // Armory component.
-=======
 import OptionClass from './OptionClass.js';
-
->>>>>>> 9789e12a3d2a0826e57733870b322492e7427724
 type Props = {||}; 
 type State = {|
 	selectedTankId: string,
@@ -334,7 +330,7 @@ class Armory extends React.Component<Props, State> {
 						<button type="button" className="btn mb-4">Set Default</button>
 						<CreateNewTankPopup ref="CreateNewTankPopup"/>
 						<h3>Edit tank's Code</h3>
-						<Link to={verifyLink("Casus")}>
+						<Link to="Casus">
 							<button type="button" className="btn">Casus</button>
 						</Link>
 					</div>
