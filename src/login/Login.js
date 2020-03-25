@@ -9,9 +9,15 @@ import SignupPopup from './SignupPopup.js';
 import ResendEmailPopup from './ResendEmailPopup.js';
 import InfoPopup from './InfoPopup.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 // Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {
+
+	constructor() {
+		super();
+		verifyLogin();
+	}
 
 	onEmailRegistered(registeredUsername: string, registeredPassword: string): void {
 		this.refs.loginPopup.onEmailRegistered(registeredUsername, registeredPassword);
