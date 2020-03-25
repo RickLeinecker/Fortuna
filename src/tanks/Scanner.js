@@ -67,7 +67,7 @@ class Scanner extends TankPart {
 	): void {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return;
 		}
 
@@ -87,7 +87,7 @@ class Scanner extends TankPart {
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return;
 		}
 
@@ -143,7 +143,7 @@ class Scanner extends TankPart {
 	): Array<Tank> {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return [];
 		}
 
@@ -165,7 +165,7 @@ class Scanner extends TankPart {
 	): Array<GameObject> {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return [];
 		}
 

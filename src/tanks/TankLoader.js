@@ -47,7 +47,7 @@ function getTank(tank: BackendTank): Tank {
 	const chassis: TankComponent = tank.components[0];
 	const weapons: Array<TankComponent> = [tank.components[1], tank.components[2]];
 	const scanners: TankComponent = tank.components[3];
-	const scannerAddons: Array<TankComponent> = [tank.components[4], tank.copmonents[5]];
+	const scannerAddons: Array<TankComponent> = [tank.components[4], tank.components[5]];
 	const jammers: TankComponent = tank.components[6];
 	const treads: TankComponent = tank.components[7];
 	const items: Array<TankComponent> = [tank.components[8], tank.components[9], tank.components[10]];

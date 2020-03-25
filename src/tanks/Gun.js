@@ -186,7 +186,7 @@ class Gun extends TankPart {
 	): void {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return;
 		}
 
@@ -229,7 +229,7 @@ class Gun extends TankPart {
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return;
 		}
 
@@ -241,7 +241,7 @@ class Gun extends TankPart {
 	setTargetGunAngle(gunAngle: number): void {
 
 		// Check if the no component is equipped.
-		checkEmpty(this.name) {
+		if (this.checkEmpty(this.name)) {
 			return;
 		}
 

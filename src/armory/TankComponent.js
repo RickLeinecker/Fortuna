@@ -23,7 +23,7 @@ type TankComponent =
 	'advancedTreads' | 'fastTreads' | 'armoredTreads' | 'heavilyArmoredTreads' |
 
 	// Items
-	'mine' | 'c4' | 'overdrive' | 'nitroRepair' | 'missileTrackingBeacon' 
+	'mine' | 'c4' | 'overdrive' | 'nitroRepair' | 'missileTrackingBeacon' |
 
 	// For empty slots.
 	'empty'
