@@ -13,6 +13,10 @@ class TankPart {
 
 	name: TankComponent;
 
+	constructor(name: TankComponent) {
+		this.name = name;
+	}
+
 	update(
 		interpriterState: 
 		InterpriterState, 

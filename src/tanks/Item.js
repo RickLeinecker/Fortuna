@@ -6,8 +6,7 @@ import type { TankComponent } from '../armory/TankComponent.js';
 class Item extends TankPart {
 	
 	constructor(name: TankComponent) {
-		super();
-		this.name = name;
+		super(name);
 	}
 }
 

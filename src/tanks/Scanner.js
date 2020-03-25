@@ -28,8 +28,7 @@ class Scanner extends TankPart {
 	jamTimer: number;
 
 	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean) {
-		super();
-		this.name = name;
+		super(name);
 		this.seesItems = seesItems;
 		this.immuneToJammers = immuneToJammers;
 		this.rotation = 0;

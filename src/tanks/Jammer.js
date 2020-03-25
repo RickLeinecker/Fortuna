@@ -21,8 +21,7 @@ class Jammer extends TankPart {
 	cooldown: number;
 
 	constructor(name: TankComponent) {
-		super();
-		this.name = name;
+		super(name);
 		this.cooldown = 5;
 
 		switch(name) {

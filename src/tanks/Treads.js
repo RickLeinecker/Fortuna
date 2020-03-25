@@ -27,8 +27,7 @@ class Treads extends TankPart {
 	treadType: TreadType;
 
 	constructor(name: TankComponent) {
-		super();
-		this.name = name;
+		super(name);
 		switch(name) {
 			case 'heavilyArmoredTreads':
 				this.treadType = 'TREAD_1';

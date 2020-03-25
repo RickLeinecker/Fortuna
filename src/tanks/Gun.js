@@ -137,7 +137,7 @@ class Gun extends TankPart {
 	fireOnLeft: boolean;
 
 	constructor(name: TankComponent, isSecondary: boolean) {
-		super();
+		super(name);
 		switch(name) {
 			case 'grenadeLauncher':
 				this.gunType = 'GUN_1';

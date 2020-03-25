@@ -15,6 +15,7 @@ import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank } from '../tanks/TankLoader.js';
 // Types and Classes
 import type { TankComponent } from './TankComponent.js';
+import BackendTank from '../tanks/BackendTank.js';
 import Component from './Component.js';
 import Tank from '../tanks/Tank.js';
 import Cookies from 'universal-cookie';
@@ -28,8 +29,8 @@ import Treads from '../tanks/Treads.js';
 type Props = {||};
 
 type State = {|
-	selectedTank: ?Tank,
-	allTanks: ?Array<Tank>,
+	selectedTank: Tank,
+	allTanks: Array<Tank>,
 	inventory: Array<Component>,
 	chassis: Array<Component>,
 	weapons: Array<Component>,
@@ -46,9 +47,22 @@ class Armory extends React.Component<Props, State> {
 	constructor() {
 		super();
 
+		// Create a blank tank as a placeholder until tanks are pulled.
+		const blankTank: BackendTank = new BackendTank();
+		blankTank._id = '';
+		blankTank.components = [
+			'light', null, null,
+			null, null, null,
+			null, null, null,
+			null, null,
+		];
+		blankTank.casusCode = null;
+		blankTank.isBot = false;
+		blankTank.tankName = '';
+
 		this.state = {
-			selectedTank: null,
-			allTanks: null,
+			selectedTank: getTank(blankTank),
+			allTanks: [],
 			inventory: [],
 			chassis: [],
 			weapons: [],

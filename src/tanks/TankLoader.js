@@ -16,27 +16,33 @@ import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
 import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../armory/TankComponent.js';
 
-/* REMOVE ONCE GETTANK FUNCTION IS FULLY TESTED
 function getTestTank(id: number=1): Tank {
 	const position=id===1?new Vec(20, -20):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
 		position,
-		new Chassis(id===1?'CHASSIS_5':'CHASSIS_2'), 
-		new Treads(id===1?'TREAD_2':'TREAD_1'), 
-		new Gun(id===1?'GUN_3':'GUN_4', false),
-		new Gun(id===1?'GUN_9':'GUN_10', true),
-		new Scanner(false, false, id===1?'MEDIUM':'SMALL'),
-		new Jammer(id===1?'MEDIUM':'LARGE'),
-		getEmptyCasusCode()
+		new Chassis(id===1?'moddableLight':'heavy'),  
+		new Gun(id===1?'laser':'plasma', false),
+		new Gun(id===1?'missile':'pulseLaser', true),
+		new Scanner(id===1?'mediumRangeScanner':'shortRangeScanner', false, false),
+		null,
+		null,
+		new Jammer(id===1?'mediumRangeJammer':'longRangeJammer'),
+		new Treads(id===1?'advancedTreads':'heavilyArmoredTreads'),
+		null,
+		null,
+		null,
+		getEmptyCasusCode(),
+		id===1?'TestTank1':'TestTank2',
+		'',
+		'',
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
-*/
 
 function getTank(tank: BackendTank): Tank {
 	// Setup TankComponent arrays.
-	const position=tank._id===1?new Vec(20, -20):new Vec(50, 40);
+	const position = new Vec(50, 40);
 	const chassis: Array<TankComponent> = getComponentsOfType(tank.components, 'chassis');
 	const weapons: Array<TankComponent> = getComponentsOfType(tank.components, 'weapon');
 	const scanners: Array<TankComponent> = getComponentsOfType(tank.components, 'scanner');
@@ -67,7 +73,6 @@ function getTank(tank: BackendTank): Tank {
 		tank.tankName,
 		tank._id,
 		tank.userId,
-		tank.components,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
@@ -79,4 +84,4 @@ function getEmptyCasusCode(): CasusBlock {
 	return container;
 }
 
-export {getTank};
+export { getTank, getTestTank };
