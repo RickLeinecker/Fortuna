@@ -14,6 +14,7 @@ require("regenerator-runtime");
 // Model imports
 const User = require('../../models/userModel');
 const Token = require('../../models/tokenModel');
+const Tank = require('../../models/tankModel');
 
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
@@ -66,12 +67,36 @@ exports.register = async (req: Request, res: Response) => {
 		user.password = await bcrypt.hash(password, salt);
 
 		// Save User to MongoDB
-		await user.save((err: Error) => {
+		const done = await user.save();
+		if (!done) {
+			console.error('Could not save user.');
+			return res
+				.status(500)
+				.json({ msg: 'Could not save the user to the DB.' });
+		}		
+
+		// Create initial tank for user
+		let tank = new Tank();
+		tank.userId = user.id;
+		tank.tankName = 'Starter Tank';
+		tank.components = ['moddable', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+		tank.casusCode = { 
+			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+			highlighted: false, 
+			blockClass: "ContainerBlock", 
+			children: [{ 
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+				highlighted: true, 
+				blockClass: "EmptyBlock", 
+				dataType: "VOID" }] 
+			};
+
+		await tank.save((err: Error) => {
 			if (err) {
 				console.error(err.message);
 				return res
 					.status(500)
-					.json({ msg: 'Could not save the user to the DB.' });
+					.json({ msg: 'Could not save user\'s initial tank.' });
 			}
 		});
 
@@ -108,7 +133,7 @@ exports.register = async (req: Request, res: Response) => {
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
 			text: `Greetings Commander ${user.userName}!
-			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
 			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
@@ -334,7 +359,7 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 			subject: 'Fortuna Account Reconfirmation Token',
 			text: `Greetings Commander ${user.userName}!
 			We recieved word that you needed to reconfirm your email once more.
-			Please verify your Fortuna account by copying and pasting the link below into your browser:
+			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
 			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
 		};
 
