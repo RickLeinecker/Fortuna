@@ -29,7 +29,6 @@ import {
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
-	TURRET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
 
@@ -63,6 +62,7 @@ class Tank extends GameObject {
 	chassis: TankPart;
 	treads: TankPart;
 	mainGun: Gun;
+	secondaryGun: ?Gun;
 	scanner: ?Scanner;
 	jammer: ?Jammer;
 	parts: Array<?TankPart>;
@@ -76,6 +76,7 @@ class Tank extends GameObject {
 		chassis: TankPart, 
 		treads: TankPart, 
 		mainGun: Gun, 
+		secondaryGun: ?Gun, 
 		scanner: ?Scanner, 
 		jammer: ?Jammer,
 		casusCode: CasusBlock
@@ -85,9 +86,10 @@ class Tank extends GameObject {
 		this.chassis = chassis;
 		this.treads = treads;
 		this.mainGun = mainGun;
+		this.secondaryGun = secondaryGun;
 		this.scanner = scanner;
 		this.jammer = jammer;
-		this.parts = [chassis, treads, mainGun, scanner, jammer];
+		this.parts = [chassis, treads, mainGun, secondaryGun, scanner, jammer];
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -154,9 +156,6 @@ class Tank extends GameObject {
 		//end of movement stuff
 		
 		//gun stuff
-		const turretDirection = this._getDouble(TURRET_DIRECTION_VAR_NAME);
-		this.mainGun.setTargetGunAngle(turretDirection);
-		this.mainGun.onUpdate();
 		//end of gun stuff
 		
 		//placing items stuff
@@ -250,6 +249,9 @@ class Tank extends GameObject {
 
 	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.secondaryGun!=null) {
+			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.scanner!=null) {
 			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);

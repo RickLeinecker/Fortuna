@@ -152,3 +152,56 @@ exports.casusUpdate = async (req: Request, res: Response) => {
 		}
 	});
 }
+
+exports.deleteTank = async (req: Request, res: Response) => {
+	//check if all the fields are input correctly from the frontend
+	const errors = validationResult(req);
+
+	if(!errors.isEmpty()){
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct request
+	const { tankId } = req.params;
+
+	const tank = await Tank.findById(tankId);
+	if (!tank) {
+		console.error('Tank not in DB');
+		return res.status(400).json({ msg: 'Could not find tank in DB' });
+	}
+
+	// Add components back to user inventory
+	let user = await User.findById({ _id: tank.userId });
+	if (!user) {
+		console.error('User for tank not found');
+		return res.status(500).json({ msg: 'Owner of tank not found' });
+	}
+
+	for (const component of tank.components) {
+		if (component == null) {
+			continue;
+		}
+		user.inventory.tankComponents[component] += 1;
+	}
+
+	// Save the user
+	await user.save((err: Error) => {
+		if (err) {
+			console.error('Could not update user inventory.');
+			return res.status(500).json('Could not update user inventory.');
+		}
+	});
+
+	// Delete tank
+	await Tank.deleteOne({ _id: tank._id }, (err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res.status(500).json({ msg: 'Could not delete tank from DB' });
+		}
+	});
+	
+	return res.status(200).json({ msg: 'Successfully deleted Tank' });
+}
