@@ -64,6 +64,7 @@ class Tank extends GameObject {
 	// parts: 
 	chassis: Chassis;
 	mainGun: Gun;
+<<<<<<< HEAD
 	secondaryGun: Gun;
 	scanner: Scanner;
 	scannerAddonOne: Scanner;
@@ -87,6 +88,12 @@ class Tank extends GameObject {
 	tankName: string;
 	_id: string;
 	userId: string;
+=======
+	secondaryGun: ?Gun;
+	scanner: ?Scanner;
+	jammer: ?Jammer;
+	parts: Array<?TankPart>;
+>>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -96,6 +103,7 @@ class Tank extends GameObject {
 		position: Vec, 
 		chassis: Chassis, 
 		mainGun: Gun, 
+<<<<<<< HEAD
 		secondaryGun: Gun,
 		scanner: Scanner,
 		scannerAddonOne: Scanner,
@@ -110,6 +118,12 @@ class Tank extends GameObject {
 		_id: string,
 		userId: string,
 		components: Array<string>,
+=======
+		secondaryGun: ?Gun, 
+		scanner: ?Scanner, 
+		jammer: ?Jammer,
+		casusCode: CasusBlock
+>>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 	) {
 		super(position);
 
@@ -120,6 +134,7 @@ class Tank extends GameObject {
 		this.scannerAddonOne = scannerAddonOne;
 		this.scannerAddonTwo = scannerAddonTwo;
 		this.jammer = jammer;
+<<<<<<< HEAD
 		this.treads = treads;
 		this.itemOne = itemOne;
 		this.itemTwo = itemTwo;
@@ -129,6 +144,9 @@ class Tank extends GameObject {
 		this._id = _id;
 		this.userId = userId;
 		this.components = components;
+=======
+		this.parts = [chassis, treads, mainGun, secondaryGun, scanner, jammer];
+>>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -288,6 +306,9 @@ class Tank extends GameObject {
 
 	render(drawer: ImageDrawer): void {
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.secondaryGun!=null) {
+			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 		this.chassis.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.scanner!=null) {
 			this.scanner.drawSelf(drawer, this.getPosition(), this.rotation);

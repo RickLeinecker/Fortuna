@@ -7,19 +7,37 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import Vec from '../casus/blocks/Vec.js';
 import type { TankComponent } from '../armory/TankComponent.js';
+import Bullet from '../battleground/gameobjects/Bullet.js';
 import {
 	TURRET_DIRECTION_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
+	SHOOT_SECONDARY_WEAPON_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
+import type {BulletType} from '../battleground/gameobjects/Bullet.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
 const GUN_CENTER_TO_GUN_ROT=2;
 const TAU=Math.PI*2;
 const FIRING_SLOWDOWN=0.6;
+
+//
+// Which guns are which types:
+//
+// Gun 1: Grenade launcher (grenades)
+// Gun 2: Machine gun (regular bullets)
+// Gun 3: Laser (green laser beams)
+// Gun 4: Plasma blob (plasma blobs)
+// Gun 5: Vulcan cannon (regular bullets, really fast)
+// Gun 6: Death Ray (death rays)
+// Gun 7: Shotgun (shotgun bullets)
+// Gun 8: Lancer (shock particles)
+// Gun 9: Missile launcher (missiles)
+// Gun 10: Pulse Laser (pulse particle)
+//
 
 type GunType = 
 	'GUN_1' |
@@ -33,6 +51,76 @@ type GunType =
 	'GUN_9' |
 	'GUN_10';
 
+type GunStats = {
+	betweenShotsCooldown: number,
+	bullet: BulletType,
+	orthogonalOffset: number,
+	numBulletsPerShot: number,
+};
+
+const STATS_FOR_GUN: {[GunType]: GunStats} = {
+	GUN_1: {
+		bullet: 'GRENADE_BULLET',
+		betweenShotsCooldown: 30,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
+	},
+	GUN_2: {
+		bullet: 'GUN_BULLET',
+		betweenShotsCooldown: 9,
+		orthogonalOffset: 0.7,
+		numBulletsPerShot: 1,
+	},
+	GUN_3: {
+		bullet: 'RED_LASER',
+		betweenShotsCooldown: 10,
+		orthogonalOffset: 2,
+		numBulletsPerShot: 2,
+	},
+	GUN_4: {
+		bullet: 'PLASMA_BLOB',
+		betweenShotsCooldown: 60,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
+	},
+	GUN_5: {
+		bullet: 'GUN_BULLET',
+		betweenShotsCooldown: 4,
+		orthogonalOffset: 1,
+		numBulletsPerShot: 1,
+	},
+	GUN_6: {
+		bullet: 'DEATH_RAY_BULLET',
+		betweenShotsCooldown: 25,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
+	},
+	GUN_7: {
+		bullet: 'SHOTGUN_BULLET',
+		betweenShotsCooldown: 22,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 9,
+	},
+	GUN_8: {
+		bullet: 'LANCER_PARTICLE',
+		betweenShotsCooldown: 60,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
+	},
+	GUN_9: {
+		bullet: 'MISSILE',
+		betweenShotsCooldown: 19,
+		orthogonalOffset: 3,
+		numBulletsPerShot: 1,
+	},
+	GUN_10: {
+		bullet: 'PULSE_LASER_PARTICLE',
+		betweenShotsCooldown: 35,
+		orthogonalOffset: 0,
+		numBulletsPerShot: 1,
+	},
+}
+
 class Gun extends TankPart {
 
 	name: TankComponent;
@@ -44,16 +132,18 @@ class Gun extends TankPart {
 	gunAngle: number;
 	displayAngle: number;
 	gunType: GunType;
+	isSecondary: boolean;
 
 	fireCooldown: number;
 	firing: boolean;
+	fireOnLeft: boolean;
 
-	constructor(name: string, gunType: GunType) {
+	constructor(gunType: GunType, isSecondary: boolean) {
 		super();
-		this.name = name;
+		this.gunType=gunType;
+		this.isSecondary=isSecondary;
 		this.gunAngle=0;
 		this.displayAngle=0;
-		this.gunType=gunType;
 		this.fireCooldown=0;
 		this.firing=false;
 	}
@@ -65,31 +155,46 @@ class Gun extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
-		this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
+		if (!this.isSecondary) {
+			this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
-		//lerp the displayAngle towards the gun angle
-		//lerp is short for linear interpolation
-		const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
-		const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
-		if (positiveDistance<negativeDistance) {
-			this.displayAngle+=positiveDistance*LERP_PERCENT;
+			//lerp the displayAngle towards the gun angle
+			//lerp is short for linear interpolation
+			const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
+			const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
+			if (positiveDistance<negativeDistance) {
+				this.displayAngle+=positiveDistance*LERP_PERCENT;
+			}
+			else {
+				this.displayAngle-=negativeDistance*LERP_PERCENT;
+			}
+			this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 		}
 		else {
-			this.displayAngle-=negativeDistance*LERP_PERCENT;
+			this.displayAngle=this.gunAngle=parentRotation;
 		}
-		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 
-		const tryToFire=this._getBoolean(SHOOT_PRIMARY_WEAPON_VAR_NAME, interpriterState);
-		if (tryToFire) {
-			console.log('firing');
+		const shootVarName=this.isSecondary?SHOOT_SECONDARY_WEAPON_VAR_NAME:SHOOT_PRIMARY_WEAPON_VAR_NAME;
+		const tryToFire=this._getBoolean(shootVarName, interpriterState);
+		this.fireCooldown--;
+		if (tryToFire && this.fireCooldown<=0) {
+			const gunStats=STATS_FOR_GUN[this.gunType];
+			for (let i=0; i<gunStats.numBulletsPerShot; i++) {
+				const myPosition=this._getPosition(parentPos, parentRotation);
+				const offset=new Vec(0, gunStats.orthogonalOffset).rotate(this.gunAngle);
+				const bulletPosition=this.fireOnLeft?myPosition.add(offset):myPosition.sub(offset);
+				battleground.createGameObject(new Bullet(bulletPosition, this.gunAngle, parentTank, gunStats.bullet, i));
+				this.fireCooldown = gunStats.betweenShotsCooldown;
+				this.fireOnLeft = !this.fireOnLeft;
+			}
 		}
 		this.firing=tryToFire;
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
-		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
-		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
-		drawer.draw(getImage(this.gunType), imageCenter, 15, this.displayAngle-Math.PI/2);
+		const myPosition=this._getPosition(parentPos, parentRotation);
+		const width=this.isSecondary?18:15;
+		drawer.draw(getImage(this.gunType), myPosition, width, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
@@ -102,6 +207,12 @@ class Gun extends TankPart {
 
 	_getBoolean(name: string, interpriterState: InterpriterState): boolean {
 		return verifyBoolean(interpriterState.getVariable('BOOLEAN', name)).val;
+	}
+
+	_getPosition(parentPos: Vec, parentRotation: number) {
+		const gunRotAround=parentPos.add(new Vec(-GUN_CENTER_TO_TANK_CENTER, 0).rotate(parentRotation));
+		const imageCenter=gunRotAround.add(new Vec(GUN_CENTER_TO_GUN_ROT, 0).rotate(this.displayAngle));
+		return imageCenter;
 	}
 
 	//currently don't change rotation speed. Maybe we should change it?
