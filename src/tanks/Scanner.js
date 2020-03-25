@@ -19,7 +19,6 @@ const ROTATION_SPEED=Math.PI*2/(30*6);
 const JAM_TIME=60;
 
 class Scanner extends TankPart {
-	name: TankComponent;
 	seesItems: boolean;
 	immuneToJammers: boolean;
 	range: Range;

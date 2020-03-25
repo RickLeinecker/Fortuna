@@ -63,17 +63,16 @@ class Tank extends GameObject {
 
 	// parts: 
 	chassis: Chassis;
-	mainGun: Gun;
-<<<<<<< HEAD
-	secondaryGun: Gun;
-	scanner: Scanner;
-	scannerAddonOne: Scanner;
-	scannerAddonTwo: Scanner;
-	jammer: Jammer;
+	mainGun: ?Gun;
+	secondaryGun: ?Gun;
+	scanner: ?Scanner;
+	scannerAddonOne: ?TankPart;
+	scannerAddonTwo: ?TankPart;
+	jammer: ?Jammer;
 	treads: Treads;
-	itemOne: Item;
-	itemTwo: Item;
-	itemThree: Item;
+	itemOne: ?Item;
+	itemTwo: ?Item;
+	itemThree: ?Item;
 	// Parts will be an array of 11 values:
 	// [0] = Chassis
 	// [1] = Main Gun, [2] = Secondary Gun
@@ -81,19 +80,12 @@ class Tank extends GameObject {
 	// [6] = Jammer
 	// [7] = Treads
 	// [8] = Item 1, [9] = Item 2, [10] = Item 3
-	parts: Array<TankPart>;
-	components: Array<string>;
+	parts: Array<?TankPart>;
 
 	// id and name:
 	tankName: string;
 	_id: string;
 	userId: string;
-=======
-	secondaryGun: ?Gun;
-	scanner: ?Scanner;
-	jammer: ?Jammer;
-	parts: Array<?TankPart>;
->>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 
 	// Casus:
 	interpriterState: InterpriterState;
@@ -102,28 +94,20 @@ class Tank extends GameObject {
 	constructor(
 		position: Vec, 
 		chassis: Chassis, 
-		mainGun: Gun, 
-<<<<<<< HEAD
-		secondaryGun: Gun,
-		scanner: Scanner,
-		scannerAddonOne: Scanner,
-		scannerAddonTwo: Scanner, 
-		jammer: Jammer,
+		mainGun: ?Gun, 
+		secondaryGun: ?Gun,
+		scanner: ?Scanner,
+		scannerAddonOne: ?Scanner,
+		scannerAddonTwo: ?Scanner, 
+		jammer: ?Jammer,
 		treads: Treads,
-		itemOne: Item,
-		itemTwo: Item,
-		itemThree: Item,
+		itemOne: ?Item,
+		itemTwo: ?Item,
+		itemThree: ?Item,
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,
 		userId: string,
-		components: Array<string>,
-=======
-		secondaryGun: ?Gun, 
-		scanner: ?Scanner, 
-		jammer: ?Jammer,
-		casusCode: CasusBlock
->>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 	) {
 		super(position);
 
@@ -134,7 +118,6 @@ class Tank extends GameObject {
 		this.scannerAddonOne = scannerAddonOne;
 		this.scannerAddonTwo = scannerAddonTwo;
 		this.jammer = jammer;
-<<<<<<< HEAD
 		this.treads = treads;
 		this.itemOne = itemOne;
 		this.itemTwo = itemTwo;
@@ -143,10 +126,6 @@ class Tank extends GameObject {
 		this.tankName = tankName;
 		this._id = _id;
 		this.userId = userId;
-		this.components = components;
-=======
-		this.parts = [chassis, treads, mainGun, secondaryGun, scanner, jammer];
->>>>>>> 13e4745012cbe29d1158ea00c139429968864538
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
@@ -316,7 +295,9 @@ class Tank extends GameObject {
 		if (this.jammer!=null) {
 			this.jammer.drawSelf(drawer, this.getPosition(), this.rotation);
 		}
-		this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		if (this.mainGun!=null) {
+			this.mainGun.drawSelf(drawer, this.getPosition(), this.rotation);
+		}
 	}
 
 	_setDouble(name: string, to: number): void {

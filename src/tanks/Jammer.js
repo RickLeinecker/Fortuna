@@ -15,7 +15,6 @@ import type Tank from './Tank.js';
 import type Battleground from '../battleground/Battleground.js';
 
 class Jammer extends TankPart {
-	name: TankComponent;
 	range: Range;
 	offsetFromParent: Vec;
 	width: number;

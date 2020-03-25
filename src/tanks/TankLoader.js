@@ -10,9 +10,10 @@ import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
+import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
-
+import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../armory/TankComponent.js';
 
 /* REMOVE ONCE GETTANK FUNCTION IS FULLY TESTED
@@ -33,7 +34,7 @@ function getTestTank(id: number=1): Tank {
 }
 */
 
-function getTank(tank: Object): Tank {
+function getTank(tank: BackendTank): Tank {
 	// Setup TankComponent arrays.
 	const position=tank._id===1?new Vec(20, -20):new Vec(50, 40);
 	const chassis: Array<TankComponent> = getComponentsOfType(tank.components, 'chassis');
@@ -48,11 +49,15 @@ function getTank(tank: Object): Tank {
 	const toReturn: Tank = new Tank (
 		position,
 		new Chassis(chassis[0]),
-		new Gun(weapons[0]),
-		new Gun(weapons[1]),
-		new Scanner(scanners[0], false, false),
-		new Scanner(scannerAddons[0], false, false),
-		new Scanner(scannerAddons[1], false, false),
+		new Gun(weapons[0], false),
+		new Gun(weapons[1], true),
+		new Scanner(
+			scanners[0], 
+			(scannerAddons.includes('itemScanner')) ? true : false,
+			(scannerAddons.includes('antiJammerScanner')) ? true : false,
+		),
+		new TankPart(scannerAddons[0]),
+		new TankPart(scannerAddons[1]),
 		new Jammer(jammers[0]),
 		new Treads(treads[0]),
 		new Item(items[0]),

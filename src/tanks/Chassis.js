@@ -26,8 +26,8 @@ import type { TankComponent } from '../armory/TankComponent.js';
 type ChassisType = 'CHASSIS_1' | 'CHASSIS_2' | 'CHASSIS_3' | 'CHASSIS_4' | 'CHASSIS_5';
 
 class Chassis extends TankPart {
+	
 	chassisType: ChassisType;
-	name: TankComponent;
 
 	constructor(name: TankComponent) {
 		super();

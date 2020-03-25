@@ -25,27 +25,26 @@ type TreadType = 'TREAD_1' | 'TREAD_2' | 'TREAD_3' | 'TREAD_4';
 class Treads extends TankPart {
 	
 	treadType: TreadType;
-	name: TankComponent;
 
 	constructor(name: TankComponent) {
 		super();
 		this.name = name;
 		switch(name) {
-		case 'heavilyArmoredTreads':
-			this.treadType = 'TREAD_1';
-			break;
-		case 'advancedTreads':
-			this.treadType = 'TREAD_2';
-			break;
-		case 'fastTreads':
-			this.treadType = 'TREAD_3';
-			break;
-		case 'armoredTreads':
-			this.treadType = 'TREAD_4';
-			break;
-		default:
-			break;
-	}
+			case 'heavilyArmoredTreads':
+				this.treadType = 'TREAD_1';
+				break;
+			case 'advancedTreads':
+				this.treadType = 'TREAD_2';
+				break;
+			case 'fastTreads':
+				this.treadType = 'TREAD_3';
+				break;
+			case 'armoredTreads':
+				this.treadType = 'TREAD_4';
+				break;
+			default:
+				break;
+		}
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
