@@ -13,7 +13,6 @@ import Scanner from './Scanner.js';
 import Chassis from './Chassis.js';
 import Jammer from './Jammer.js';
 import Treads from './Treads.js';
-import Item from './Item.js';
 import Circle from '../geometry/Circle.js';
 import BooleanValue from '../casus/interpreter/BooleanValue.js';
 import IntValue from '../casus/interpreter/IntValue.js';
@@ -70,9 +69,9 @@ class Tank extends GameObject {
 	scannerAddonTwo: TankPart;
 	jammer: Jammer;
 	treads: Treads;
-	itemOne: Item;
-	itemTwo: Item;
-	itemThree: Item;
+	itemOne: TankPart;
+	itemTwo: TankPart;
+	itemThree: TankPart;
 	// Parts will be an array of 11 values:
 	// [0] = Chassis
 	// [1] = Main Gun, [2] = Secondary Gun
@@ -101,9 +100,9 @@ class Tank extends GameObject {
 		scannerAddonTwo: TankPart, 
 		jammer: Jammer,
 		treads: Treads,
-		itemOne: Item,
-		itemTwo: Item,
-		itemThree: Item,
+		itemOne: TankPart,
+		itemTwo: TankPart,
+		itemThree: TankPart,
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,

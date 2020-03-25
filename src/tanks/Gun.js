@@ -169,6 +169,8 @@ class Gun extends TankPart {
 			case 'pulseLaser':
 				this.gunType = 'GUN_10';
 				break;
+			default:
+				break;
 		}
 		this.isSecondary=isSecondary;
 		this.gunAngle=0;

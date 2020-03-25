@@ -4,7 +4,6 @@ import Tank from './Tank.js';
 import Vec from '../casus/blocks/Vec.js';
 import Chassis from './Chassis.js';
 import Gun from './Gun.js';
-import Item from './Item.js';
 import Treads from './Treads.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
@@ -12,7 +11,6 @@ import Scanner from './Scanner.js';
 import Jammer from './Jammer.js';
 import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
-import { getComponentsOfType } from '../armory/GetInventoryInfo.js';
 import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../armory/TankComponent.js';
 
@@ -28,9 +26,9 @@ function getTestTank(id: number=1): Tank {
 		new TankPart('empty'),
 		new Jammer(id===1?'mediumRangeJammer':'longRangeJammer'),
 		new Treads(id===1?'advancedTreads':'heavilyArmoredTreads'),
-		new Item('empty'),
-		new Item('empty'),
-		new Item('empty'),
+		new TankPart('empty'),
+		new TankPart('empty'),
+		new TankPart('empty'),
 		getEmptyCasusCode(),
 		id===1?'TestTank1':'TestTank2',
 		'',
@@ -67,9 +65,9 @@ function getTank(tank: BackendTank): Tank {
 		new TankPart(scannerAddons[1]),
 		new Jammer(jammers),
 		new Treads(treads),
-		new Item(items[0]),
-		new Item(items[1]),
-		new Item(items[2]),
+		new TankPart(items[0]),
+		new TankPart(items[1]),
+		new TankPart(items[2]),
 		getEmptyCasusCode(),
 		tank.tankName,
 		tank._id,

@@ -11,7 +11,7 @@ import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
-import { getTank, getTestTank } from '../tanks/TankLoader.js';
+import { getTestTank } from '../tanks/TankLoader.js';
 
 const FPS=30;
 

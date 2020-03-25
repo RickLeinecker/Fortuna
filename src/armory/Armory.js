@@ -9,12 +9,11 @@ import './Armory.css';
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Functions
-import { getInventory, getComponentType } from './GetInventoryInfo.js';
+import { getInventory } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
-import { getTank, cloneTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
+import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 // Types and Classes
-import type { ComponentType } from './ComponentType.js';
 import type { TankComponent } from './TankComponent.js';
 import TankPart from '../tanks/TankPart.js';
 import BackendTank from '../tanks/BackendTank.js';
@@ -25,7 +24,6 @@ import Chassis from '../tanks/Chassis.js';
 import Gun from '../tanks/Gun.js';
 import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
-import Item from '../tanks/Item.js';
 import Treads from '../tanks/Treads.js';
 
 type Props = {||};
@@ -92,15 +90,12 @@ class Armory extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
-					let allTanks: Array<Tank> = [];
+					const allTanks: Array<Tank> = [];
 					for(const tank of data) {
 						allTanks.push(getTank(tank));
 					}
 					this.setState({allTanks: allTanks});
-					// If no tank is set, set the first tank found as the selectedTank.
-					if(this.state.selectedTank == null) {
-						this.setState({selectedTank: getTank(data[0])});
-					}
+					this.setState({selectedTank: getTank(data[0])});
 				}
 			})
 		)
@@ -148,6 +143,7 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank.
 	saveTank(): void {
+		console.log(this.state.selectedTank);
 		// Save tank.
 		fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 			method: 'PUT',
@@ -170,12 +166,13 @@ class Armory extends React.Component<Props, State> {
 	// Updates the selected tank's components.
 	updateComponent(component: TankComponent, partIndex: number): void {
 		// Setup a new tank that will be updated and set to the selected tank.
-		let updatedTank: Tank = cloneTank(this.state.selectedTank);
+		const updatedTank: Tank = this.state.selectedTank;
 		// Find the component's type and setup new component accordingly.
 		let newComponent: TankPart = new TankPart(component);
 		switch(partIndex) {
 			case 0:
 				newComponent = new Chassis(component);
+				updatedTank.chassis = newComponent;
 				break;
 			case 1:
 				newComponent = new Gun(component, false);
@@ -204,20 +201,21 @@ class Armory extends React.Component<Props, State> {
 			case 6:
 				newComponent = new Jammer(component);
 				updatedTank.jammer = newComponent;
+				break;
 			case 7:
 				newComponent = new Treads(component);
 				updatedTank.treads = newComponent;
 				break;
 			case 8:
-				newComponent = new Item(component);
+				newComponent = new TankPart(component);
 				updatedTank.itemOne = newComponent;
 				break;
 			case 9:
-				newComponent = new Item(component);
+				newComponent = new TankPart(component);
 				updatedTank.itemTwo = newComponent;
 				break;
 			case 10:
-				newComponent = new Item(component);
+				newComponent = new TankPart(component);
 				updatedTank.itemThree = newComponent;
 				break;
 			default:
@@ -242,7 +240,7 @@ class Armory extends React.Component<Props, State> {
 				/>
 				<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
-					<select className="dropdownMenu"  onChange={e => this.changeSelectedTank(e.target.value)}>
+					<select className="dropdownMenu" onChange={e => this.changeSelectedTank(e.target.value)}>
 						{(this.state.allTanks != null) ?
 							this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
 								<option key={index} value={_id}>{tankName}</option>) :
@@ -264,7 +262,7 @@ class Armory extends React.Component<Props, State> {
 					</Link>
 				</div>
 				<div className="column armorymiddle">
-					<h1>{(this.state.selectedTank != null) ? this.state.selectedTank.tankName : 'No Tank Selected'}</h1>
+					<h1>{this.state.selectedTank.tankName}</h1>
 				</div>
 				<div className="column armoryright">
 					<h5>0/10 Points Used</h5>

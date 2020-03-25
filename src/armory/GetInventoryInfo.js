@@ -104,54 +104,7 @@ const allComponentPoints: {[TankComponent]: number} = {
 	"missileTrackingBeacon": 2,
 };
 
-type InventoryType = {
-	// Chassis
-	moddableLight: number,
-	light: number,
-	moddable: number,
-	heavy: number,
-	moddableHeavy: number,
-
-	// Weapons
-	machineGun: number,
-	grenadeLauncher: number,
-	missile: number,
-	shotgun: number,
-	vulcanCannon: number,
-	laser: number,
-	plasma: number,
-	pulseLaser: number,
-	lancer: number,
-	deathRay: number,
-
-	// Scanners
-	shortRangeScanner: number,
-	mediumRangeScanner: number,
-	longRangeScanner: number,
-	itemScanner: number,
-	antiJammerScanner: number,
-
-	// Jammers
-	shortRangeJammer: number,
-	mediumRangeJammer: number,
-	longRangeJammer: number,
-
-	// Treads
-	advancedTreads: number,
-	fastTreads: number,
-	armoredTreads: number,
-	heavilyArmoredTreads: number,
-
-	// Single-Use Items
-	mine: number,
-	c4: number,
-	nitroRepair: number,
-	overdrive: number,
-	missileTrackingBeacon: number,
-	
-	// Here only for a flow error. Need to find a way to remove.
-	empty: number,
-}
+type InventoryType = {[TankComponent]: number};
 
 // Find a component's type.
 function getComponentType(component: TankComponent): string {
@@ -180,8 +133,8 @@ function verifyComponent(comp: string): TankComponent {
 // Converts back end inventory into a frontend array of components.
 // The optional second parameter is used for returning a specific type of component.
 function getInventory(inventory: InventoryType, type?: ComponentType): Array<Component> {
-	let newInventory: Array<Component> = [];
-	if(type == null) {
+	const newInventory: Array<Component> = [];
+	if(type !== null) {
 		for(const componentString in inventory) {
 			// Change the component string to a tank component.
 			const component: TankComponent = verifyComponent(componentString);
@@ -193,7 +146,9 @@ function getInventory(inventory: InventoryType, type?: ComponentType): Array<Com
 		}
 	}
 	else {
-		for(const component in inventory) {
+		for(const componentString in inventory) {
+			// Change the string to a tank component and push onto the newInventory.
+			const component: TankComponent = verifyComponent(componentString);
 			newInventory.push(new Component(component, inventory[component]));
 		}
 	}
