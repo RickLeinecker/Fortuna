@@ -90,8 +90,8 @@ exports.register = async (req: $Request, res: $Response) => {
 			tankName: 'Starter Tank',
 			userId: user.id,
 			components: ['moddable', null, null, 
-						null, null, null, 'fastTreads',
-						null, null, null]
+			null, null, null, 'fastTreads', 
+			null, null, null]
 		});
 
 		initTank.save((err: Error) => {
