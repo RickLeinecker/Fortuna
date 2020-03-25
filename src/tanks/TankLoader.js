@@ -41,6 +41,7 @@ function getTestTank(id: number=1): Tank {
 }
 
 function getTank(tank: BackendTank): Tank {
+
 	// Setup TankComponent arrays.
 	const position = new Vec(50, 40);
 	const chassis: Array<TankComponent> = getComponentsOfType(tank.components, 'chassis');
@@ -78,10 +79,34 @@ function getTank(tank: BackendTank): Tank {
 	return toReturn;
 }
 
+function cloneTank(tank: Tank): Tank {
+
+	const toReturn: Tank = new Tank (
+		tank.position,
+		tank.chassis,
+		tank.mainGun,
+		tank.secondaryGun,
+		tank.scanner,
+		tank.scannerAddonOne,
+		tank.scannerAddonTwo,
+		tank.jammer,
+		tank.treads,
+		tank.itemOne,
+		tank.itemTwo,
+		tank.itemThree,
+		tank.casusCode,
+		tank.tankName,
+		tank._id,
+		tank.userId,
+	)
+	loadCasus(blocks => {toReturn.casusCode = blocks});
+	return toReturn;
+}
+
 function getEmptyCasusCode(): CasusBlock {
 	const childrenBlocks: Array<CasusBlock> = [];
 	const container: ContainerBlock = new ContainerBlock(childrenBlocks);
 	return container;
 }
 
-export { getTank, getTestTank };
+export { getTank, getTestTank, cloneTank };

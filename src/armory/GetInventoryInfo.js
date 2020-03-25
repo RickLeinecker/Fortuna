@@ -104,6 +104,10 @@ const allComponentPoints: {[TankComponent]: number} = {
 	"missileTrackingBeacon": 2,
 };
 
+const Inventory: {[TankComponent]: number} = {
+	
+}
+
 // Find a component's type.
 function getComponentType(component: TankComponent): string {
 	return allComponentTypes[component];
@@ -115,12 +119,12 @@ function getComponentPoints(component: TankComponent): number {
 }
 
 // The next 6 functions parse through a players inventory and returns components of only a certain type.
-function getComponentsOfType(inventory: Array<TankComponent>, type: ComponentType): Array<TankComponent> {
+function getComponentsOfType(inventory: Array<?TankComponent>, type: ComponentType): Array<TankComponent> {
 	return inventory.filter(comp => allComponentTypes[comp] === type);
 }
 
 // Takes the inventory object and returns a filtered by type inventory object.
-function getOptionsOfType(inventory: Object, type: ComponentType): Array<Component> {
+function getOptionsOfType(inventory: Array<Component>, type: ComponentType): Array<Component> {
 	let newInventory: Array<Component> = [];
 
 	for(const componentString in inventory) {
@@ -149,7 +153,7 @@ function verifyComponent(comp: string): TankComponent {
 	throw new Error('Attempted to cast '+comp+' to a component when it isnt one!');
 }
 
-function getInventory(inventory: Object): Array<Component> {
+function getInventory(inventory: Array<Component>): Array<Component> {
 	let newInventory: Array<Component> = [];
 	for(const component in inventory) {
 		newInventory.push(new Component(component, inventory[component]));
