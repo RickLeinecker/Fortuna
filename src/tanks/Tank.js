@@ -63,16 +63,16 @@ class Tank extends GameObject {
 
 	// parts: 
 	chassis: Chassis;
-	mainGun: ?Gun;
-	secondaryGun: ?Gun;
-	scanner: ?Scanner;
-	scannerAddonOne: ?TankPart;
-	scannerAddonTwo: ?TankPart;
-	jammer: ?Jammer;
+	mainGun: Gun;
+	secondaryGun: Gun;
+	scanner: Scanner;
+	scannerAddonOne: TankPart;
+	scannerAddonTwo: TankPart;
+	jammer: Jammer;
 	treads: Treads;
-	itemOne: ?Item;
-	itemTwo: ?Item;
-	itemThree: ?Item;
+	itemOne: Item;
+	itemTwo: Item;
+	itemThree: Item;
 	// Parts will be an array of 11 values:
 	// [0] = Chassis
 	// [1] = Main Gun, [2] = Secondary Gun
@@ -80,7 +80,7 @@ class Tank extends GameObject {
 	// [6] = Jammer
 	// [7] = Treads
 	// [8] = Item 1, [9] = Item 2, [10] = Item 3
-	parts: Array<?TankPart>;
+	parts: Array<TankPart>;
 
 	// id and name:
 	tankName: string;
@@ -94,16 +94,16 @@ class Tank extends GameObject {
 	constructor(
 		position: Vec, 
 		chassis: Chassis, 
-		mainGun: ?Gun, 
-		secondaryGun: ?Gun,
-		scanner: ?Scanner,
-		scannerAddonOne: ?TankPart,
-		scannerAddonTwo: ?TankPart, 
-		jammer: ?Jammer,
+		mainGun: Gun, 
+		secondaryGun: Gun,
+		scanner: Scanner,
+		scannerAddonOne: TankPart,
+		scannerAddonTwo: TankPart, 
+		jammer: Jammer,
 		treads: Treads,
-		itemOne: ?Item,
-		itemTwo: ?Item,
-		itemThree: ?Item,
+		itemOne: Item,
+		itemTwo: Item,
+		itemThree: Item,
 		casusCode: CasusBlock,
 		tankName: string,
 		_id: string,

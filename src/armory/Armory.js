@@ -9,7 +9,7 @@ import './Armory.css';
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Functions
-import { getOptionsOfType, getInventory } from './GetInventoryInfo.js';
+import { getInventory } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank, cloneTank } from '../tanks/TankLoader.js';
@@ -118,13 +118,13 @@ class Armory extends React.Component<Props, State> {
 				else {
 					this.setState({
 						inventory: getInventory(data.inventory.tankComponents),
-						chassis: getOptionsOfType(data.inventory.tankComponents, 'chassis'),
-						weapons: getOptionsOfType(data.inventory.tankComponents, 'weapon'),
-						scanners: getOptionsOfType(data.inventory.tankComponents, 'scanner'),
-						scannerAddons: getOptionsOfType(data.inventory.tankComponents, 'scannerAddon'),
-						jammers: getOptionsOfType(data.inventory.tankComponents, 'jammer'),
-						treads: getOptionsOfType(data.inventory.tankComponents, 'treads'),
-						items: getOptionsOfType(data.inventory.tankComponents, 'item'),
+						chassis: getInventory(data.inventory.tankComponents, 'chassis'),
+						weapons: getInventory(data.inventory.tankComponents, 'weapon'),
+						scanners: getInventory(data.inventory.tankComponents, 'scanner'),
+						scannerAddons: getInventory(data.inventory.tankComponents, 'scannerAddon'),
+						jammers: getInventory(data.inventory.tankComponents, 'jammer'),
+						treads: getInventory(data.inventory.tankComponents, 'treads'),
+						items: getInventory(data.inventory.tankComponents, 'item'),
 					});
 				}
 			})

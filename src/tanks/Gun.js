@@ -184,6 +184,12 @@ class Gun extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
+
+		// Check if the no component is equipped.
+		checkEmpty(this.name) {
+			return;
+		}
+
 		if (!this.isSecondary) {
 			this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
@@ -221,12 +227,24 @@ class Gun extends TankPart {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		checkEmpty(this.name) {
+			return;
+		}
+
 		const myPosition=this._getPosition(parentPos, parentRotation);
 		const width=this.isSecondary?18:15;
 		drawer.draw(getImage(this.gunType), myPosition, width, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
+
+		// Check if the no component is equipped.
+		checkEmpty(this.name) {
+			return;
+		}
+
 		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
 	}
 

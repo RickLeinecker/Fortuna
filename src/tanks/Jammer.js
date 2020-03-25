@@ -55,6 +55,12 @@ class Jammer extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
+
+		// Check if the no component is equipped.
+		checkEmpty(this.name) {
+			return;
+		}
+
 		this.cooldown--;
 		if (this.cooldown < 0) {
 			const tryingToUseJammer = this._getBoolean(USE_JAMMER_VAR_NAME, interpriterState);
@@ -75,6 +81,12 @@ class Jammer extends TankPart {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		checkEmpty(this.name) {
+			return;
+		}
+
 		let image='';
 		switch (this.range) {
 			case 'SMALL':

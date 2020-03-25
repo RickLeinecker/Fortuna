@@ -17,6 +17,14 @@ class TankPart {
 		this.name = name;
 	}
 
+	// Check if the no component is equipped.
+	checkEmpty(name: TankComponent): boolean {
+		if (name === 'empty') {
+			return true;
+		}
+		return false;
+	}
+
 	update(
 		interpriterState: 
 		InterpriterState, 

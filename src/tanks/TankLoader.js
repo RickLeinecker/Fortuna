@@ -24,13 +24,13 @@ function getTestTank(id: number=1): Tank {
 		new Gun(id===1?'laser':'plasma', false),
 		new Gun(id===1?'missile':'pulseLaser', true),
 		new Scanner(id===1?'mediumRangeScanner':'shortRangeScanner', false, false),
-		null,
-		null,
+		new TankPart('empty'),
+		new TankPart('empty'),
 		new Jammer(id===1?'mediumRangeJammer':'longRangeJammer'),
 		new Treads(id===1?'advancedTreads':'heavilyArmoredTreads'),
-		null,
-		null,
-		null,
+		new Item('empty'),
+		new Item('empty'),
+		new Item('empty'),
 		getEmptyCasusCode(),
 		id===1?'TestTank1':'TestTank2',
 		'',
@@ -44,29 +44,29 @@ function getTank(tank: BackendTank): Tank {
 
 	// Setup TankComponent arrays.
 	const position = new Vec(50, 40);
-	const chassis: Array<TankComponent> = getComponentsOfType(tank.components, 'chassis');
-	const weapons: Array<TankComponent> = getComponentsOfType(tank.components, 'weapon');
-	const scanners: Array<TankComponent> = getComponentsOfType(tank.components, 'scanner');
-	const scannerAddons: Array<TankComponent> = getComponentsOfType(tank.components, 'scannerAddon');
-	const jammers: Array<TankComponent> = getComponentsOfType(tank.components, 'jammer');
-	const treads: Array<TankComponent> = getComponentsOfType(tank.components, 'treads');
-	const items: Array<TankComponent> = getComponentsOfType(tank.components, 'item');
+	const chassis: TankComponent = tank.components[0];
+	const weapons: Array<TankComponent> = [tank.components[1], tank.components[2]];
+	const scanners: TankComponent = tank.components[3];
+	const scannerAddons: Array<TankComponent> = [tank.components[4], tank.copmonents[5]];
+	const jammers: TankComponent = tank.components[6];
+	const treads: TankComponent = tank.components[7];
+	const items: Array<TankComponent> = [tank.components[8], tank.components[9], tank.components[10]];
 	
 	// Setup return value.
 	const toReturn: Tank = new Tank (
 		position,
-		new Chassis(chassis[0]),
+		new Chassis(chassis),
 		new Gun(weapons[0], false),
 		new Gun(weapons[1], true),
 		new Scanner(
-			scanners[0], 
+			scanners, 
 			(scannerAddons.includes('itemScanner')) ? true : false,
 			(scannerAddons.includes('antiJammerScanner')) ? true : false,
 		),
 		new TankPart(scannerAddons[0]),
 		new TankPart(scannerAddons[1]),
-		new Jammer(jammers[0]),
-		new Treads(treads[0]),
+		new Jammer(jammers),
+		new Treads(treads),
 		new Item(items[0]),
 		new Item(items[1]),
 		new Item(items[2]),

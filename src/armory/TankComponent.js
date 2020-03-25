@@ -24,6 +24,9 @@ type TankComponent =
 
 	// Items
 	'mine' | 'c4' | 'overdrive' | 'nitroRepair' | 'missileTrackingBeacon' 
+
+	// For empty slots.
+	'empty'
 ;
 
 const allComponents: Array<TankComponent> = [
