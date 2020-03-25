@@ -109,4 +109,4 @@ function getEmptyCasusCode(): CasusBlock {
 	return container;
 }
 
-export { getTank, getTestTank, cloneTank };
+export { getTank, getTestTank, cloneTank, getEmptyCasusCode };
