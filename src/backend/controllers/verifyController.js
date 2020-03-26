@@ -5,7 +5,6 @@ import type { Request, Response } from 'express';
 
 const jwtSecret = process.env.JWT_SECRET;
 
-
 exports.verify = async (req: Request, res: Response) => {
     const token = req.header('x-auth-token');
     if (!token){
