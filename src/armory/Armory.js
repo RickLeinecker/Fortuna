@@ -16,7 +16,7 @@ import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 // Types and Classes
 import type { TankComponent } from './TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
-import { verifyLogin } from '../globalComponent/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 import TankPart from '../tanks/TankPart.js';
 import BackendTank from '../tanks/BackendTank.js';
 import Component from './Component.js';
