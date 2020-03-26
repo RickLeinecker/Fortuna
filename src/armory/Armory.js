@@ -27,6 +27,7 @@ import Gun from '../tanks/Gun.js';
 import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
+import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 type Props = {||};
 
@@ -75,6 +76,9 @@ class Armory extends React.Component<Props, State> {
 			items: [],
 		}
 
+		if (this.state.selectedTank == null) {
+			throw new Error('Failed in loading blank tank!');
+		}
 		// Functions to get all user tanks and user inventory.
 		this.getTanks();
 		this.getUserInventory();
@@ -97,7 +101,9 @@ class Armory extends React.Component<Props, State> {
 						allTanks.push(getTank(tank));
 					}
 					this.setState({allTanks: allTanks});
-					this.setState({selectedTank: getTank(data[0])});
+					const newSelectedTank=getTank(data[0]);
+					this.setState({selectedTank: newSelectedTank});
+					setTankForCasus(newSelectedTank._id);
 				}
 			})
 		)
@@ -139,8 +145,7 @@ class Armory extends React.Component<Props, State> {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	changeSelectedTank(newTankId: string): void {
 		this.setState({ selectedTank: this.state.allTanks.find(tank => tank._id === newTankId)});
-		const cookies = new Cookies();
-		cookies.set('selectedTankId', newTankId);
+		setTankForCasus(newTankId);
 	}
 
 	// Function that will save the selectedTank.
