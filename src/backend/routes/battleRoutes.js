@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const auth = require('../middleware/auth');
+
 const { check } = require('express-validator');
 
 const battleController = require('../controllers/battleController');
@@ -17,7 +19,7 @@ router.post('/prepareMatch', [
         .isMongoId(),
     check('challengeeId', 'challengeeId is required')
         .isMongoId()
-], battleController.prepareMatch);
+], auth, battleController.prepareMatch);
 
 // Updates elo and currency of both players after a match is complete
 // Header: 
@@ -29,6 +31,6 @@ router.patch('/reportResults', [
         .isInt(),
     check('battleId', 'Please provide the associated battleId')
         .isMongoId()
-], battleController.reportResults);
+], auth, battleController.reportResults);
 
 module.exports = router;
