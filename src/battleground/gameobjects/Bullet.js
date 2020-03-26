@@ -140,7 +140,7 @@ class Bullet extends GameObject {
 				if (target == null || 
 					target.getPosition().sub(this.getPosition()).mag() > 
 					beacon.getPosition().sub(this.getPosition()).mag()) {
-					target=MissileTrackingBeacon;
+					target=beacon;
 				}
 			}
 
