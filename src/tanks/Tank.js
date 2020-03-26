@@ -22,6 +22,7 @@ import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 import {createGreenParticle, createEmberParticle} from '../battleground/gameobjects/Particle.js';
+import Bullet from '../battleground/gameobjects/Bullet.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -29,6 +30,8 @@ import {
 	USE_C4_VAR_NAME,
 	USE_NITRO_REPAIR_VAR_NAME,
 	USE_OVERDRIVE_VAR_NAME,
+	USE_MISSILE_TRACKER_VAR_NAME,
+	TURRET_DIRECTION_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
@@ -64,6 +67,7 @@ class Tank extends GameObject {
 	nitroRepairTimerLeft: number;
 	haveOverdrive: boolean;
 	overdriveTimerLeft: number;
+	haveMissileTracker: boolean;
 
 	// parts: 
 	chassis: Chassis;
@@ -139,9 +143,9 @@ class Tank extends GameObject {
 		this.usedMineLastFrame = false;
 		this.haveNitroRepair = true; //TODO: remove this, for testing...
 		this.nitroRepairTimerLeft = 0;
-
 		this.haveOverdrive = true; //TODO: remove this, just for testing...
 		this.overdriveTimerLeft = 0;
+		this.haveMissileTracker = true; //TODO: remove this, just for testing...
 	}
 
 	update(battleground: Battleground): void {
@@ -246,6 +250,15 @@ class Tank extends GameObject {
 			createEmberParticle(this.getPosition(), battleground);
 		}
 		//end of overdrive stuff
+		
+		//missile tracking stuff
+		if (this.haveMissileTracker && this._getBoolean(USE_MISSILE_TRACKER_VAR_NAME)) {
+			this.haveMissileTracker=false;
+			const targetAngle=this._getDouble(TURRET_DIRECTION_VAR_NAME);
+			const bullet=new Bullet(this.getPosition(), targetAngle, this, 'MISSILE_TRACKER_DART');
+			battleground.createGameObject(bullet);
+		}
+		//end of missile tracking stuff
 		
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {

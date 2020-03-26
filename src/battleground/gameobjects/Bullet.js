@@ -19,8 +19,9 @@ type BulletType =
 	'MISSILE' |
 	'PLASMA_BLOB' |
 	'PULSE_LASER_PARTICLE' |
-	'SHOTGUN_BULLET'|
-	'LANCER_PARTICLE';
+	'SHOTGUN_BULLET' |
+	'LANCER_PARTICLE' |
+	'MISSILE_TRACKER_DART';
 
 type BulletStats = {
 	speed: number,
@@ -78,6 +79,11 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 3,
 		width: 1,
 		lifetime: 0,
+	},
+	MISSILE_TRACKER_DART: {
+		speed: 5,
+		width: 6,
+		lifetime: 100,
 	}
 };
 
