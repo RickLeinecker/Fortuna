@@ -56,7 +56,7 @@ exports.userTanks = async (req: Request, res: Response) => {
 				.json({ msg: 'tank not found in DB'});
 		} 
 		else {
-			console.log("Here are that user's tanks");
+			console.log("Successfully found tanks for user");
 
 			return res
 				.status(200)

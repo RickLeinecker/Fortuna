@@ -12,6 +12,7 @@ const USE_JAMMER_VAR_NAME: string = 'useJammer';
 const USE_NITRO_REPAIR_VAR_NAME: string = 'useNitroRepair';
 const SHOOT_PRIMARY_WEAPON_VAR_NAME: string = 'shootPrimaryWeapon';
 const SHOOT_SECONDARY_WEAPON_VAR_NAME: string = 'shootSecondaryWeapon';
+const USE_OVERDRIVE_VAR_NAME: string = 'useOverdrive';
 
 // doubles:
 const FORWARD_MOVEMENT_VAR_NAME: string = 'forwardMovement';
@@ -39,6 +40,7 @@ const builtInBooleanVariables: Array<string> = [
 	USE_NITRO_REPAIR_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
 	SHOOT_SECONDARY_WEAPON_VAR_NAME,
+	USE_OVERDRIVE_VAR_NAME,
 ];
 
 const builtInDoubleVariables: Array<string> = [
@@ -66,6 +68,7 @@ export {
 	USE_NITRO_REPAIR_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
 	SHOOT_SECONDARY_WEAPON_VAR_NAME,
+	USE_OVERDRIVE_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
