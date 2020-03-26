@@ -40,3 +40,34 @@
 	color: #000921;
 	display: inline;
 }
+
+.componentMenu {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.componentMenu th, td {
+    padding: 10px;
+}
+
+.componentMenu ul {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100px;
+    text-align: center;
+    overflow: hidden;
+    overflow-y: scroll;
+    list-style-type: none;
+}
+
+.componentMenuBtn {
+    border: none;
+    background: none;
+    color: #aa00ff;
+}
+
+.componentMenuBtn:hover {
+    color: #7200ac;
+}

@@ -42,6 +42,7 @@ type State = {|
 	jammers: Array<Component>,
 	treads: Array<Component>,
 	items: Array<Component>,
+	componentList: Array<Component>,
 	points: number,
 |};
 
@@ -75,6 +76,7 @@ class Armory extends React.Component<Props, State> {
 			jammers: [],
 			treads: [],
 			items: [],
+			componentList: [],
 			points: 0,
 		}
 
@@ -331,146 +333,109 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
+					<table className="componentMenu">
+						<tr>
+							<th>Component Name</th>
+							<th>Number Owned</th>
+							<th>Point Value</th>
+						</tr>
+						{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
+							<tr key={index}>
+								<td>
+									<button className="componentMenuBtn" onClick={() => this.updateComponent(componentName)}>
+										{this.toTitleCase(componentName)}
+									</button>
+								</td>
+								<td>{numberOwned}</td>
+								<td>{getComponentPoints(componentName)}</td>
+							</tr>
+						))}
+					</table>
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>
 					<h6>Chassis</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 0)}>
-						<option selected value={this.state.selectedTank.chassis.name}>{this.toTitleCase(this.state.selectedTank.chassis.name)}</option>
-						{this.state.chassis.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.chassis.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
+					>
+						{this.toTitleCase(this.state.selectedTank.chassis.name)}
+					</button>
+
 					<h6>Weapons: Main | Secondary</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 1)}>
-					<option value={this.state.selectedTank.mainGun.name}>{this.toTitleCase(this.state.selectedTank.mainGun.name)}</option>
-						{this.state.weapons.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.mainGun.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 2)}>
-						<option value={this.state.selectedTank.secondaryGun.name}>{this.toTitleCase(this.state.selectedTank.secondaryGun.name)}</option>
-						{this.state.weapons.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.secondaryGun.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
+					>
+						{this.toTitleCase(this.state.selectedTank.mainGun.name)}
+					</button>
+					<br/>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
+					>
+						{this.toTitleCase(this.state.selectedTank.secondaryGun.name)}
+					</button>
+
 					<h6>Scanners: Scanner | Addon | Addon</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 3)}>
-						<option value={this.state.selectedTank.scanner.name}>{this.toTitleCase(this.state.selectedTank.scanner.name)}</option>
-						{this.state.scanners.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.scanner.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 4)}>
-						<option value={this.state.selectedTank.scannerAddonOne.name}>{this.toTitleCase(this.state.selectedTank.scannerAddonOne.name)}</option>
-						{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.scannerAddonOne.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 5)}>
-						<option value={this.state.selectedTank.scannerAddonTwo.name}>{this.toTitleCase(this.state.selectedTank.scannerAddonTwo.name)}</option>
-						{this.state.scannerAddons.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.scannerAddonTwo.name)} 
-								key={index} value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
+					>
+						{this.toTitleCase(this.state.selectedTank.scanner.name)}
+					</button>
+					<br/>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
+					>
+						{this.toTitleCase(this.state.selectedTank.scannerAddonOne.name)}
+					</button>
+					<br/>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
+					>
+						{this.toTitleCase(this.state.selectedTank.scannerAddonTwo.name)}
+					</button>
+
 					<h6>Jammers</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 6)}>
-						<option value={this.state.selectedTank.jammer.name}>{this.toTitleCase(this.state.selectedTank.jammer.name)}</option>
-						{this.state.jammers.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.jammer.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
+					>
+						{this.toTitleCase(this.state.selectedTank.jammer.name)}
+					</button>
+
 					<h6>Treads</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 7)}>
-						<option value={this.state.selectedTank.treads.name}>{this.toTitleCase(this.state.selectedTank.treads.name)}</option>
-						{this.state.treads.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.treads.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
+					>
+						{this.toTitleCase(this.state.selectedTank.treads.name)}
+					</button>
+
 					<h6>Single-Use Items</h6>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 8)}>
-						<option value={this.state.selectedTank.itemOne.name}>{this.toTitleCase(this.state.selectedTank.itemOne.name)}</option>
-						{this.state.items.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.itemOne.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 9)}>
-						<option value={this.state.selectedTank.itemTwo.name}>{this.toTitleCase(this.state.selectedTank.itemTwo.name)}</option>
-						{this.state.items.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.itemTwo.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
-					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 10)}>
-						<option value={this.state.selectedTank.itemThree.name}>{this.toTitleCase(this.state.selectedTank.itemThree.name)}</option>
-						{this.state.items.map(({componentName, numberOwned}, index) => (
-							<option 
-								disabled={this.checkPoints(componentName, this.state.selectedTank.itemThree.name)} 
-								key={index} 
-								value={componentName}
-							>
-								{this.toTitleCase(componentName)} {numberOwned}
-							</option>
-						))}
-					</select>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
+					>
+						{this.toTitleCase(this.state.selectedTank.itemOne.name)}
+					</button>
+					<br/>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
+					>
+						{this.toTitleCase(this.state.selectedTank.itemTwo.name)}
+					</button>
+					<br/>
+					<button 
+						className="componentMenuBtn" 
+						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
+					>
+						{this.toTitleCase(this.state.selectedTank.itemThree.name)}
+					</button>
 				</div>
 			</div>
 		);
