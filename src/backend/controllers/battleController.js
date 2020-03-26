@@ -25,7 +25,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
     // Need to do query explicityly so that the returned doc isn't local to the try catch
     const challengeeUserDoc = await User.findById(challengeeId, 'favoriteTank wager money');
 
-    if(!challengeeUserDoc){
+    if(challengeeUserDoc == null){
         return res
             .status(404)
             .json({ msg: 'Could not find the challengee in DB'})
@@ -39,7 +39,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 
     const challengeeTank = await Tank.findById(challengeeUserDoc.favoriteTank);
 
-    if(!challengeeTank){
+    if(challengeeTank == null){
         return res
             .status(404)
             .json({ msg: "Could not find the challengee's tank in DB"});
@@ -47,7 +47,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 
     const challengerTank = await Tank.findById(challengerTankId);
 
-    if(!challengerTank){
+    if(challengerTank == null){
         return res
             .status(404)
             .json({ msg: "Could not find the challenger's Tank in DB"});
@@ -55,7 +55,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 
     const challengerUserDoc = await User.findById(challengerTank.userId);
 
-    if(!challengerUserDoc){
+    if(challengerUserDoc == null){
         return res
             .status(404)
             .json({ msg: 'Could not find the challenger in DB'});
@@ -101,11 +101,9 @@ exports.prepareMatch = async (req: Request, res: Response) => {
    }
 }
 
-
-
-exports.reportResults = async (req: Request, res: Response) => {
-
-    // Make sure we got necessary info from frontend
+exports.reportResults = async (req, res) => 
+{
+    // Checks that we have received the correct body from the frontend 
     const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
@@ -115,125 +113,112 @@ exports.reportResults = async (req: Request, res: Response) => {
            .json({ errors: errors.array() });
    }
 
-    try{
-        const battle = await findById(req.body.recordId);
+   const { winner, battleId } = req.body;
 
-        if (!battle) {
+   try{
+    const battle = await BattleRecord.findByIdAndUpdate(battleId, { winner : winner }, {new: true}, (err) => {
+        if (err) {
+            console.error(err.message);
             return res
-                .status(404)
-                .json({ msg: 'Could not find record in DB'});
+             .status(500)
+             .json({ msg: 'Failed up update battleRecord'});
         }
-
-        const userOne = await findById(battle.userOne);
-
-        if (!userOne) {
-            return res
-                .status(404)
-                .json({ msg: 'Could not find userOne in DB'});
-        }
-
-        const userTwo = await findById(battle.userTwo);
-
-        if (!userTwo) {
-            return res
-                .status(404)
-                .json({ msg: 'Could not find userTwo in DB'})
-        }
-
-        if (req.body.winner == 0) { // tie
-            userOne.stats.ties++;
-            userTwo.stats.ties++;
-        }
-        else if (req.body.winner == 1) { // User 1 victory
-            // Increase wins, money, and elo of userOne for victory
-            userOne.money += battle.prizeMoney;
-            userOne.stats.elo += battle.eloExchanged;
-            userOne.stats.wins++;
-
-            // Decrease wins, money, and elo of userTwo for loss
-            userTwo.money -= battle.prizeMoney;
-            userTwo.stats.elo -= battle.eloExchanged;
-            userTwo.stats.wins--;
-        }
-        else if (req.body.winner == 2) { // User 2 victory
-            // Increase wins, money, and elo of userTwo for loss
-            userTwo.money += battle.prizeMoney;
-            userTwo.stats.elo += battle.eloExchanged;
-            userTwo.stats.wins++;
-
-            // Decrease wins, money, and elo of userOne for victory
-            userOne.money -= battle.prizeMoney;
-            userOne.stats.elo -= battle.eloExchanged;
-            userOne.stats.wins--;
-        }
-        else {
-            return res
-                .status(400)
-                .json({ msg: 'Number not expected: please enter either 0 in the event of a tie, 1 in the event the challengee is the victor, or 2 in the event the challenger is the victor'});
-        }
-
-        // save updated userOne, userTwo, and complete battleRecord
-
-        await userOne.save((err: Error) => {
+    });
+ 
+    if (battle == null) {
+        console.log('battle not found');
+        return res
+             .status(404)
+             .json({ msg: 'Could not find battle'});
+    }
+ 
+    if (winner === 0) { // tie
+        return res
+            .json({ msg: 'This is a tie'});
+    }
+    else if (winner === 1) { // userOne victory
+        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money : battle.prizeMoney, 'stats.wins' : 1, 'stats.elo' : battle.eloExchanged } }, {new: true}, (err) => {
             if (err) {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update userOne' });
-            }
-            else{
-                console.log('userOne updated');
+                    .json({ msg: 'Failed to update userOne'});
             }
         });
 
-        await userTwo.save( (err: Error) => {
+        if (userOne == null) {
+            console.log('userOne not found')
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userOne'});
+        }
+
+        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money : (battle.prizeMoney * -1), 'stats.losses' : 1, 'stats.elo' : (battle.eloExchanged * -1) } }, {new: true}, (err) => {
             if (err) {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update userTwo' });
-            }
-            else{
-                console.log('userTwo updated');
+                    .json({ msg: 'Failed to update userTwo'});
             }
         });
 
-        battle.winner = req.body.winner;
-        await battle.save( (err: Error) => {
+        if (userTwo == null) {
+            console.log('userOne not found')
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userTwo'});
+        }
+
+    }
+    else if (winner === 2){ // userTwo victory
+        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money : (battle.prizeMoney * -1), 'stats.losses' : 1, 'stats.elo' : (battle.eloExchanged * -1) } }, {new: true}, (err) => {
             if (err) {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update userTwo' });
-            }
-            else{
-                console.log('Battle record updated');
-                return res
-                    .status(200)
-                    .send(battle, userOne,userTwo);
+                    .json({ msg: 'Failed to update userOne'});
             }
         });
 
-        /*await BattleRecord.findByIdAndUpdate(req.body.battleId, { winner: req.body.winner }, (err: Error, updatedRecord: BattleRecord) => {
+        if (userOne == null) {
+            console.log('userOne not found')
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userOne'});
+        }
+
+        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money : battle.prizeMoney, 'stats.wins' : 1, 'stats.elo' : battle.eloExchanged } }, {new: true}, (err) => {
             if (err) {
                 console.error(err.message);
                 return res
                     .status(500)
-                    .json({ msg: 'Unable to update BattleRecord'});
+                    .json({ msg: 'Failed to update userTwo'});
             }
-            else {
-                console.log('BattleRecord successfully updated');
-                return res
-                    .status(200)
-                    .send(updatedRecord, userOne, userTwo);
-            }
+        });
 
-        });*/
+        if (userTwo == null) {
+            console.log('userOne not found')
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userTwo'});
+        }
+    }
+    else{ // Invalid victor
+        console.error('Bad Request');
+        return res
+            .status(400)
+            .json({ msg: 'Number not expected: please enter either 0 in the event of a tie, 1 in the event the challengee is the victor, or 2 in the event the challenger is the victor'});
 
-    } catch (err) {
+    }
+    console.log('All documents updated successfully! BattleRecord complete');
+    return res
+        .status(200)
+        .send(battle);
+   } catch (err) {
+        console.error('Update failed')
         return res
             .status(500)
             .json({ msg: 'Server Error'});
-    }
-
+   }
+   
 }
