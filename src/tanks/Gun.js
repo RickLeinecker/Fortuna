@@ -10,11 +10,13 @@ import Bullet from '../battleground/gameobjects/Bullet.js';
 import {
 	TURRET_DIRECTION_VAR_NAME,
 	SHOOT_PRIMARY_WEAPON_VAR_NAME,
+	SHOOT_SECONDARY_WEAPON_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
+import type { TankComponent } from '../armory/TankComponent.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
-import type {BulletType} from '../battleground/gameobjects/Bullet.js';
+import type { BulletType } from '../battleground/gameobjects/Bullet.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
@@ -128,16 +130,51 @@ class Gun extends TankPart {
 	gunAngle: number;
 	displayAngle: number;
 	gunType: GunType;
+	isSecondary: boolean;
 
 	fireCooldown: number;
 	firing: boolean;
 	fireOnLeft: boolean;
 
-	constructor(gunType: GunType) {
-		super();
+	constructor(name: TankComponent, isSecondary: boolean) {
+		super(name);
+		switch(name) {
+			case 'grenadeLauncher':
+				this.gunType = 'GUN_1';
+				break;
+			case 'machineGun':
+				this.gunType = 'GUN_2';
+				break;
+			case 'laser':
+				this.gunType = 'GUN_3';
+				break;
+			case 'plasma':
+				this.gunType = 'GUN_4';
+				break;
+			case 'vulcanCannon':
+				this.gunType = 'GUN_5';
+				break;
+			case 'deathRay':
+				this.gunType = 'GUN_6';
+				break;
+			case 'shotgun':
+				this.gunType = 'GUN_7';
+				break;
+			case 'lancer':
+				this.gunType = 'GUN_8';
+				break;
+			case 'missile':
+				this.gunType = 'GUN_9';
+				break;
+			case 'pulseLaser':
+				this.gunType = 'GUN_10';
+				break;
+			default:
+				break;
+		}
+		this.isSecondary=isSecondary;
 		this.gunAngle=0;
 		this.displayAngle=0;
-		this.gunType=gunType;
 		this.fireCooldown=0;
 		this.firing=false;
 	}
@@ -149,21 +186,33 @@ class Gun extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
-		this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
-		//lerp the displayAngle towards the gun angle
-		//lerp is short for linear interpolation
-		const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
-		const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
-		if (positiveDistance<negativeDistance) {
-			this.displayAngle+=positiveDistance*LERP_PERCENT;
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
+		if (!this.isSecondary) {
+			this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
+
+			//lerp the displayAngle towards the gun angle
+			//lerp is short for linear interpolation
+			const positiveDistance=((this.gunAngle-this.displayAngle)%TAU+TAU)%TAU;
+			const negativeDistance=((this.displayAngle-this.gunAngle)%TAU+TAU)%TAU;
+			if (positiveDistance<negativeDistance) {
+				this.displayAngle+=positiveDistance*LERP_PERCENT;
+			}
+			else {
+				this.displayAngle-=negativeDistance*LERP_PERCENT;
+			}
+			this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 		}
 		else {
-			this.displayAngle-=negativeDistance*LERP_PERCENT;
+			this.displayAngle=this.gunAngle=parentRotation;
 		}
-		this.displayAngle=(this.displayAngle%TAU+TAU)%TAU;
 
-		const tryToFire=this._getBoolean(SHOOT_PRIMARY_WEAPON_VAR_NAME, interpriterState);
+		const shootVarName=this.isSecondary?SHOOT_SECONDARY_WEAPON_VAR_NAME:SHOOT_PRIMARY_WEAPON_VAR_NAME;
+		const tryToFire=this._getBoolean(shootVarName, interpriterState);
 		this.fireCooldown--;
 		if (tryToFire && this.fireCooldown<=0) {
 			const gunStats=STATS_FOR_GUN[this.gunType];
@@ -180,11 +229,24 @@ class Gun extends TankPart {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		const myPosition=this._getPosition(parentPos, parentRotation);
-		drawer.draw(getImage(this.gunType), myPosition, 15, this.displayAngle-Math.PI/2);
+		const width=this.isSecondary?18:15;
+		drawer.draw(getImage(this.gunType), myPosition, width, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
 	}
 

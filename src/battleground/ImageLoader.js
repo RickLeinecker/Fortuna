@@ -159,7 +159,7 @@ function _anotherImageLoaded(): void {
 
 function getImage(name: ImageName): Image {
 	if (name==null) {
-		throw new Error('asdfasdf');
+		throw new Error('Tried to load an imageName: null!');
 	}
 	return allImages[name];
 }
