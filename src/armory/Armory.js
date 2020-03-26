@@ -16,6 +16,7 @@ import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 // Types and Classes
 import type { TankComponent } from './TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
+import { verifyLogin } from '../globalComponent/verifyLogin.js';
 import TankPart from '../tanks/TankPart.js';
 import BackendTank from '../tanks/BackendTank.js';
 import Component from './Component.js';
@@ -47,7 +48,7 @@ class Armory extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-
+		verifyLogin();
 		// Create a blank tank as a placeholder until tanks are pulled.
 		const blankTank: BackendTank = new BackendTank();
 		blankTank._id = '';
