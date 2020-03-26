@@ -107,22 +107,14 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	let tank = await Tank.findById(req.params.tankId, function (err: Error) {
 		if (err){
 			console.error(err.message);
-
 			return res
-				.status(404)
-				.json({ msg: 'Could not update tank'})
-		}
-		else {
-			console.log('Tank successfully updated!');
-
-			return res
-				.status(200)
-				.send(tank);
+				.status(500)
+				.json({ msg: 'Failed to attempt to find a tank'})
 		}
 	});
 	if (!tank) {
-		console.error('Unable to find tank in DB');
-		res.status(400).json({ msg: 'Unable to find tank in DB' });
+		console.error('Tank does not exist in DB');
+		res.status(400).json({ msg: 'Tank does not exist in DB' });
 	}
 
 	// Get user to update inventory
