@@ -88,6 +88,8 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	}
 };
 
+const MAX_MISSILE_TURN=0.1;
+
 class Bullet extends GameObject {
 
 	rotation: number;
@@ -121,9 +123,44 @@ class Bullet extends GameObject {
 	update(battleground: Battleground): void {
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		let vel=this.velocity.rotate(this.rotation);
+		//stuff for grenades slowing down over time 
 		if (this.bulletType === 'GRENADE_BULLET') {
 			vel = vel.scale((this.lifetime+stats.lifetime)/(stats.lifetime*2));
 		}
+		//end grenade stuff
+		
+		//stuff for missiles going towards tracking beacons
+		if (this.bulletType === 'MISSILE') {
+			const beacons = battleground.getAllGameObjects().filter(o => o instanceof MissileTrackingBeacon);
+			let target=null;
+			for (const beacon: MissileTrackingBeacon of beacons) {
+				if (target == null || 
+					target.getPosition().sub(this.getPosition()).mag() > 
+					beacon.getPosition().sub(this.getPosition()).mag()) {
+					target=beacon;
+				}
+			}
+
+			if (target!=null) {
+				//then turn towards the target
+				const targetAngle=target.getPosition().sub(this.getPosition()).angle();
+				const TAU=Math.PI*2;
+				const dRotation=((targetAngle-this.rotation)%TAU+TAU)%TAU;
+				if (Math.abs(dRotation)<MAX_MISSILE_TURN || Math.abs(dRotation-TAU)<MAX_MISSILE_TURN) {
+					this.rotation=targetAngle;
+				}
+				else {
+					if (dRotation<TAU/2) {
+						this.rotation+=MAX_MISSILE_TURN;
+					}
+					else {
+						this.rotation-=MAX_MISSILE_TURN;
+					}
+				}
+			}
+		}
+		//end of missiles to tracking beacon stuff
+
 		const prevPosition=this.position;
 		this.position=this.position.add(vel);
 		this.lifetime--;
