@@ -39,7 +39,6 @@ function getTestTank(id: number=1): Tank {
 }
 
 function getTank(tank: BackendTank): Tank {
-
 	// Setup TankComponent arrays.
 	const position = new Vec(50, 40);
 	const chassis: TankComponent = tank.components[0];
@@ -73,7 +72,7 @@ function getTank(tank: BackendTank): Tank {
 		tank._id,
 		tank.userId,
 	)
-	loadCasus(blocks => {toReturn.casusCode = blocks});
+	loadCasus(blocks => {toReturn.casusCode = blocks}, tank._id);
 	return toReturn;
 }
 
