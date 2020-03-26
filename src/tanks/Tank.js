@@ -21,13 +21,14 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
-import {createGreenParticle} from '../battleground/gameobjects/Particle.js';
+import {createGreenParticle, createEmberParticle} from '../battleground/gameobjects/Particle.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
 	USE_MINE_VAR_NAME,
 	USE_C4_VAR_NAME,
 	USE_NITRO_REPAIR_VAR_NAME,
+	USE_OVERDRIVE_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
@@ -50,6 +51,8 @@ const NITRO_MOVE_SPEED=1.5;
 const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
+const OVERDRIVE_LENGTH=30*4;
+
 class Tank extends GameObject {
 	//game state
 	rotation: number;
@@ -59,6 +62,8 @@ class Tank extends GameObject {
 	usedMineLastFrame: boolean;
 	haveNitroRepair: boolean;
 	nitroRepairTimerLeft: number;
+	haveOverdrive: boolean;
+	overdriveTimerLeft: number;
 
 	// parts: 
 	chassis: Chassis;
@@ -133,7 +138,10 @@ class Tank extends GameObject {
 		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
 		this.haveNitroRepair = true; //TODO: remove this, for testing...
-		this.nitroRepairTimerLeft=0;
+		this.nitroRepairTimerLeft = 0;
+
+		this.haveOverdrive = true; //TODO: remove this, just for testing...
+		this.overdriveTimerLeft = 0;
 	}
 
 	update(battleground: Battleground): void {
@@ -227,6 +235,17 @@ class Tank extends GameObject {
 			createGreenParticle(this.getPosition(), battleground);
 		}
 		//end of nitro repair stuff
+		
+		//overdrive stuff
+		if (this.haveOverdrive && this._getBoolean(USE_OVERDRIVE_VAR_NAME)) {
+			this.haveOverdrive = false;
+			this.overdriveTimerLeft=OVERDRIVE_LENGTH;
+		}
+		this.overdriveTimerLeft--;
+		if (this.overdriveTimerLeft>0) {
+			createEmberParticle(this.getPosition(), battleground);
+		}
+		//end of overdrive stuff
 		
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
@@ -388,6 +407,10 @@ class Tank extends GameObject {
 			}
 		}
 		return ans;
+	}
+
+	getUsingOverdrive(): boolean {
+		return this.overdriveTimerLeft>0;
 	}
 
 	getJammed(): void {
