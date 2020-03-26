@@ -3,6 +3,7 @@
 import Vec from '../../casus/blocks/Vec.js';
 import Seg from '../../geometry/Seg.js';
 import GameObject from '../GameObject.js';
+import MissileTrackingBeacon from './MissileTrackingBeacon.js';
 import {getImage} from '../ImageLoader.js';
 
 import type ImageDrawer from '../ImageDrawer.js';
@@ -177,15 +178,23 @@ class Bullet extends GameObject {
 		const mySeg=new Seg(prevPosition, newPosition);
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
 		for (const t:Tank of allTanks) {
-			//TODO: inflict damage on other tanks
 			const distance=mySeg.distanceTo(t.getPosition());
 			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {
+				//TODO: inflict damage on other tanks
+				if (this.bulletType === 'MISSILE_TRACKER_DART') {
+					const beacon = new MissileTrackingBeacon(t);
+					battleground.createGameObject(beacon);
+				}
 				return true;
 			}
 		}
 		for (const seg:Seg of allSegs) {
 			const distance=mySeg.distanceTo(seg);
 			if (distance<seg.paddingWidth+EXTRA_WIDTH/2) {
+				if (this.bulletType === 'MISSILE_TRACKER_DART') {
+					const beacon = new MissileTrackingBeacon(this.getPosition());
+					battleground.createGameObject(beacon);
+				}
 				return true;
 			}
 		}
