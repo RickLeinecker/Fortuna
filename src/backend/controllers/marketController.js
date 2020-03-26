@@ -367,22 +367,15 @@ exports.marketTransaction = async (req: Request, res: Response) => {
             }
 
             // Start transaction
-            buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                if (err) {
-                    console.error(err.message);
-                    return res
-                        .status(500)
-                        .json({ msg: 'Could not update buyer money.' });
-                }
-            });
-            await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                if (err) {
-                    console.error(err.message);
-                    return res
-                        .status(500)
-                        .json({ msg: 'Could not update seller money.' });
-                }
-            });
+            buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+            if (!buyer) {
+                console.error('Could not update buyer');
+                return res
+                    .status(500)
+                    .json({ msg: 'Could not update buyer' });
+            }
+            await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+            // Update tank ownership
             await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } }, (err: Error) => {
                 if (err) {
                     console.error(err.message);
@@ -415,22 +408,14 @@ exports.marketTransaction = async (req: Request, res: Response) => {
         if (sale.itemType === 'component') {
             try {
                 // Start transaction
-                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update buyer money.' });
-                    }
-                });
-                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update seller money.' });
-                    }
-                });
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                if (!buyer) {
+                    console.error('Could not update buyer');
+                    return res
+                        .status(500)
+                        .json({ msg: 'Could not update buyer' });
+                }
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
                 // Add items to buyer
                 buyer['inventory']['tankComponents'][sale.itemId] += sale.amount;
                 await buyer.save((err: Error) => {
@@ -463,22 +448,14 @@ exports.marketTransaction = async (req: Request, res: Response) => {
         } else { // Casus Block
             try {
                 // Start transaction
-                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update buyer money.' });
-                    }
-                });
-                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update seller money.' });
-                    }
-                });
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                if (!buyer) {
+                    console.error('Could not update buyer');
+                    return res
+                        .status(500)
+                        .json({ msg: 'Could not update buyer' });
+                }
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
                 // Add items to buyer
                 buyer['inventory']['casusBlocks'][sale.itemId] += sale.amount;
                 await buyer.save((err: Error) => {
