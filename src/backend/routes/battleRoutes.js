@@ -14,6 +14,9 @@ const battleController = require('../controllers/battleController');
 // Note userOne is challengee & userTwo is the challenger
 
 // Gets each users favorite tank
+// Header: x-auth-token
+// Body: challengerTankId and challengeeId
+// Returns battle record id -- can easily be changed to the whole record if needed
 router.post('/prepareMatch', [
     check('challengerTankId', 'challengerTankId is required')
         .isMongoId(),
@@ -22,10 +25,9 @@ router.post('/prepareMatch', [
 ], auth, battleController.prepareMatch);
 
 // Updates elo and currency of both players after a match is complete
-// Header: 
-// Body:
-// Returns
-// Body requires battlerecordId and the result of the match
+// Header: x-auth-token
+// Body: winner (0 for a tie, 1 for userOne, 2 for user two) and the battleId
+// Returns: updated match record
 router.patch('/reportResults', [
     check('winner', 'Please enter 0 for a tie, 1 for userOne, 2 for userTwo')
         .isInt(),
