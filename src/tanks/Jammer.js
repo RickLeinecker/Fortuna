@@ -5,25 +5,40 @@ import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
-import Battleground from '../battleground/Battleground.js';
-import Tank from './Tank.js';
 import {verifyBoolean} from '../casus/interpreter/Value.js';
 import {USE_JAMMER_VAR_NAME} from '../casus/userInteraction/CasusSpecialVariables.js';
 import {createElectricityPulse} from '../battleground/gameobjects/Particle.js';
 
-type JammerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
+import type { Range } from './Range.js';
+import type { TankComponent } from '../armory/TankComponent.js';
+import type Tank from './Tank.js';
+import type Battleground from '../battleground/Battleground.js';
 
 class Jammer extends TankPart {
-	range: JammerRange;
+	range: Range;
 	offsetFromParent: Vec;
 	width: number;
 	cooldown: number;
 
-	constructor(range: JammerRange) {
-		super();
-		this.range = range;
+	constructor(name: TankComponent) {
+		super(name);
 		this.cooldown = 5;
-		if (range === 'SMALL') {
+
+		switch(name) {
+			case 'shortRangeJammer': 
+				this.range = 'SMALL';
+				break;
+			case 'mediumRangeJammer':
+				this.range = 'MEDIUM';
+				break;
+			case 'longRangeJammer': 
+				this.range = 'LARGE';
+				break;
+			default:
+				break;
+		}
+
+		if (this.range === 'SMALL') {
 			this.width = 4;
 			this.offsetFromParent=new Vec(2, 2.2);
 		}
@@ -40,6 +55,12 @@ class Jammer extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		this.cooldown--;
 		if (this.cooldown < 0) {
 			const tryingToUseJammer = this._getBoolean(USE_JAMMER_VAR_NAME, interpriterState);
@@ -60,6 +81,12 @@ class Jammer extends TankPart {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		let image='';
 		switch (this.range) {
 			case 'SMALL':

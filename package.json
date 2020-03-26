@@ -29,6 +29,7 @@
     "start": "react-scripts start",
     "build": "babel src/ -d lib/",
     "deploy": "react-scripts build",
+    "cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
@@ -59,6 +60,7 @@
     "@types/mongoose": "^5.7.3",
     "file-loader": "^5.0.2",
     "flow-bin": "^0.109.0",
+    "madge": "^3.8.0",
     "nodemon": "^1.19.4"
   }
 }

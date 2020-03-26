@@ -1,14 +1,29 @@
 //@flow strict
 
-import ImageDrawer from '../battleground/ImageDrawer.js';
-import Vec from '../casus/blocks/Vec.js';
-import Battleground from '../battleground/Battleground.js';
-import Tank from './Tank.js';
-import InterpriterState from '../casus/interpreter/InterpriterState.js';
+import type ImageDrawer from '../battleground/ImageDrawer.js';
+import type Vec from '../casus/blocks/Vec.js';
+import type Battleground from '../battleground/Battleground.js';
+import type Tank from './Tank.js';
+import type InterpriterState from '../casus/interpreter/InterpriterState.js';
+import type { TankComponent } from '../armory/TankComponent.js';
 
 //A parent class for all tank parts
 
 class TankPart {
+
+	name: TankComponent;
+
+	constructor(name: TankComponent) {
+		this.name = name;
+	}
+
+	// Check if the no component is equipped.
+	checkEmpty(name: TankComponent): boolean {
+		if (name === 'empty') {
+			return true;
+		}
+		return false;
+	}
 
 	update(
 		interpriterState: 
@@ -16,13 +31,32 @@ class TankPart {
 		battleground: Battleground, 
 		parentPos: Vec, 
 		parentRotation: number,
-		parentTank: Tank
+		parentTank: Tank,
 	) {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number) {
 	}
 
+	//returns the multiplier that this gives to your move speed
+	getMoveSpeedMultiplier(): number {
+		return 1;
+	}
+
+	//returns the multiplier that this gives to your turn speed
+	getTurnSpeedMultiplier(): number {
+		return 1;
+	}
+
+	//returns the additive offset that this gives to your armor
+	getArmorOffset(): number {
+		return 0;
+	}
+
+	//get the number of points that this item costs
+	getPointCost(): number {
+		return 1;
+	}
 }
 
 export default TankPart;

@@ -4,37 +4,51 @@ import TankPart from './TankPart.js';
 import {getImage} from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
-import Tank from './Tank.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import GameObject from '../battleground/GameObject.js';
-import Battleground from '../battleground/Battleground.js';
 import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
 
-type ScannerRange = 'SMALL' | 'MEDIUM' | 'LARGE';
+import type { Range } from './Range.js';
+import type { TankComponent } from '../armory/TankComponent.js';
+import type Battleground from '../battleground/Battleground.js';
+import type Tank from './Tank.js';
 
 const ROTATION_SPEED=Math.PI*2/(30*6);
-
 const JAM_TIME=60;
 
 class Scanner extends TankPart {
 	seesItems: boolean;
 	immuneToJammers: boolean;
-	range: ScannerRange;
+	range: Range;
 	offsetFromParent: Vec;
 	rotation: number;
 	width: number;
 	jamTimer: number;
 
-	constructor(seesItems: boolean, immuneToJammers: boolean, range: ScannerRange) {
-		super();
+	constructor(name: TankComponent, seesItems: boolean, immuneToJammers: boolean) {
+		super(name);
 		this.seesItems = seesItems;
 		this.immuneToJammers = immuneToJammers;
-		this.range = range;
 		this.rotation = 0;
 		this.jamTimer = -1;
-		if (range === 'SMALL') {
+
+		switch(name) {
+			case 'shortRangeScanner': 
+				this.range = 'SMALL';
+				break;
+			case 'mediumRangeScanner':
+				this.range = 'MEDIUM';
+				break;
+			case 'longRangeScanner': 
+				this.range = 'LARGE';
+				break;
+			default:
+				break;
+		}
+
+		if (this.range === 'SMALL') {
 			this.width = 4;
 			this.offsetFromParent=new Vec(2, -2);
 		}
@@ -51,6 +65,12 @@ class Scanner extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		//medium and large range scanners spin. The small ones don't, so they don't need to be updated
 		if (this.range === 'MEDIUM' || this.range === 'LARGE') {
 			if (this.jamTimer<=0) {
@@ -65,6 +85,12 @@ class Scanner extends TankPart {
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		let image='';
 		switch (this.range) {
 			case 'SMALL':
@@ -115,6 +141,12 @@ class Scanner extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): Array<Tank> {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return [];
+		}
+
 		if (this.jamTimer>0) {
 			return [];
 		}
@@ -131,6 +163,12 @@ class Scanner extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): Array<GameObject> {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return [];
+		}
+
 		if (this.jamTimer>0) {
 			return [];
 		}

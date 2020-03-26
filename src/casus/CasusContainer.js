@@ -4,7 +4,8 @@ import * as React from 'react';
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
-import './CasusContainer.css';
+import Navbar from '../globalComponents/Navbar.js';
+import "../Main.css";
 
 type Props = {||};
 
@@ -23,7 +24,12 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="casusContainerDiv">
+			<div className="haveScorebarIfSmall">
+				<Navbar
+					linkName='Armory'
+					returnName='Back to Armory'
+					pageName='Casus'
+				/>
 				<BlockBank 
 					draggedBlocks={this.state.draggedBlocks}
 					onBlocksDragged={this.onBlocksDragged} 
