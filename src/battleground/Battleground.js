@@ -12,6 +12,7 @@ import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 const FPS=30;
 
@@ -28,6 +29,7 @@ class Battleground extends React.Component<{||}> {
 
 	constructor() {
 		super();
+		verifyLogin();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());

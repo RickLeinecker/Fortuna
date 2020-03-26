@@ -136,6 +136,8 @@ class Gun extends TankPart {
 	firing: boolean;
 	fireOnLeft: boolean;
 
+	moveSpeedMultiplier: number;
+
 	constructor(name: TankComponent, isSecondary: boolean) {
 		super(name);
 		switch(name) {
@@ -177,6 +179,7 @@ class Gun extends TankPart {
 		this.displayAngle=0;
 		this.fireCooldown=0;
 		this.firing=false;
+		this.moveSpeedMultiplier=1;
 	}
 
 	update(
@@ -214,6 +217,9 @@ class Gun extends TankPart {
 		const shootVarName=this.isSecondary?SHOOT_SECONDARY_WEAPON_VAR_NAME:SHOOT_PRIMARY_WEAPON_VAR_NAME;
 		const tryToFire=this._getBoolean(shootVarName, interpriterState);
 		this.fireCooldown--;
+		if (parentTank.getUsingOverdrive()) {
+			this.fireCooldown--;
+		}
 		if (tryToFire && this.fireCooldown<=0) {
 			const gunStats=STATS_FOR_GUN[this.gunType];
 			for (let i=0; i<gunStats.numBulletsPerShot; i++) {
@@ -226,6 +232,11 @@ class Gun extends TankPart {
 			}
 		}
 		this.firing=tryToFire;
+
+		//handle move speed penalties
+		const applyPenalty: boolean = (this.fireCooldown>0 || this.firing) && !parentTank.getUsingOverdrive();
+		this.moveSpeedMultiplier = applyPenalty?FIRING_SLOWDOWN:1;
+		//end of move speed penalties
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
@@ -266,8 +277,7 @@ class Gun extends TankPart {
 
 	//currently don't change rotation speed. Maybe we should change it?
 	getMoveSpeedMultiplier(): number {
-		const applyPenalty: boolean = this.fireCooldown>0 || this.firing;
-		return applyPenalty?FIRING_SLOWDOWN:1;
+		return this.moveSpeedMultiplier;
 	}
 
 }

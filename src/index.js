@@ -28,7 +28,7 @@ const routing = (
 				<Route path="/Armory" component={Armory} />
 				<Route path="/TrainingArena" component={TrainingArena} />
 				<Route path="/Battleground" component={Battleground} />
-				<Route path = '/ConfirmEmail/:token/:email' component= {ConfirmEmail}/>
+				<Route path="/ConfirmEmail/:token/:email" component={ConfirmEmail}/>
 			</Switch>
 		</div>
 	</Router>
