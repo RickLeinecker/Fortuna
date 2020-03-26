@@ -154,9 +154,8 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank.
 	saveTank(): void {
-		// Save tank.
 		const cookie = new Cookies();
-		fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
+		const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 			method: 'PUT',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -171,6 +170,18 @@ class Armory extends React.Component<Props, State> {
 				isBot: false,
 			}),
 		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if(response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+				}
+				else {
+					console.log(data);
+				}
+			})
+		);
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
