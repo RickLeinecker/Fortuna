@@ -21,7 +21,6 @@ import TankPart from '../tanks/TankPart.js';
 import BackendTank from '../tanks/BackendTank.js';
 import Component from './Component.js';
 import Tank from '../tanks/Tank.js';
-import Cookies from 'universal-cookie';
 import Chassis from '../tanks/Chassis.js';
 import Gun from '../tanks/Gun.js';
 import Scanner from '../tanks/Scanner.js';
