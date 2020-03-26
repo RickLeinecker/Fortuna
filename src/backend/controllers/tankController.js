@@ -125,7 +125,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Replenish components
-	for (const compsIn in tank.tankComponents) {
+	for (const compsIn of tank.components) {
 		if (compsIn === 'empty') {
 			continue;
 		}
@@ -133,7 +133,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Use up components
-	for (const compsOut in req.body.tankComponents) {
+	for (const compsOut of req.body.components) {
 		if (compsOut === 'empty') {
 			continue;
 		}
@@ -154,6 +154,9 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 			return res
 				.status(500)
 				.json({ msg: 'Failed to save user inventory.' });
+		} 
+		else {
+			console.log('User inventory saved successfully!');
 		}
 	});
 

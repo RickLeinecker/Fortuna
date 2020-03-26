@@ -106,6 +106,7 @@ class Armory extends React.Component<Props, State> {
 					const newSelectedTank=getTank(data[0]);
 					this.setState({selectedTank: newSelectedTank});
 					setTankForCasus(newSelectedTank._id);
+					this.initPoints();
 				}
 			})
 		)
@@ -177,11 +178,11 @@ class Armory extends React.Component<Props, State> {
 					console.log(data.msg);
 					console.log(data);
 				}
-				else {
-					console.log(data);
-				}
 			})
 		);
+
+		// With user's inventory updated, update the inventory on the frontend.
+		this.getUserInventory();
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
@@ -192,6 +193,7 @@ class Armory extends React.Component<Props, State> {
 		for(let i = 0; i < 11; i++) {
 			newPoints = newPoints + getComponentPoints(tank.parts[i].name);
 		}
+		this.setState({ points: newPoints });
 	}
 
 	// Ensure that the new point value doesn't go over the limit.
@@ -334,7 +336,7 @@ class Armory extends React.Component<Props, State> {
 					<h5>{this.state.points}/10 Points Used</h5>
 					<h6>Chassis</h6>
 					<select className="tankComponentMenu" onChange={e => this.updateComponent(e.target.value, 0)}>
-						<option value={this.state.selectedTank.chassis.name}>{this.toTitleCase(this.state.selectedTank.chassis.name)}</option>
+						<option selected value={this.state.selectedTank.chassis.name}>{this.toTitleCase(this.state.selectedTank.chassis.name)}</option>
 						{this.state.chassis.map(({componentName, numberOwned}, index) => (
 							<option 
 								disabled={this.checkPoints(componentName, this.state.selectedTank.chassis.name)} 
