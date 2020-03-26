@@ -14,6 +14,9 @@ class ImageDrawer {
 	}
 
 	draw(i: Image, center: Vec, width: number, angle: number, alpha: number = 1.0): void {
+		if (isNaN(center.x) || isNaN(center.y)) {
+			throw new Error('Cant draw image at NaN! ');
+		}
 		const convertedPos = this._uncompressPosition(center);
 		const convertedWidth = this._uncompressWidth(width);
 		//ys are flipped, so the angle needs to be flipped too

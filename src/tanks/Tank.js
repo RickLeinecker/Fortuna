@@ -51,7 +51,7 @@ const NITRO_MOVE_SPEED=1.5;
 const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
-const OVERDRIVE_LENGTH=30*3;
+const OVERDRIVE_LENGTH=30*4;
 
 class Tank extends GameObject {
 	//game state
@@ -407,6 +407,10 @@ class Tank extends GameObject {
 			}
 		}
 		return ans;
+	}
+
+	getUsingOverdrive(): boolean {
+		return this.overdriveTimerLeft>0;
 	}
 
 	getJammed(): void {

@@ -228,13 +228,11 @@ function createGreenParticle(position: Vec, battleground: Battleground) {
 
 function createEmberParticle(position: Vec, battleground: Battleground) {
 	const offsetAngle=Math.random()*2*Math.PI;
-	const offsetR=Math.pow(Math.random(), 0.25)*6;
+	const offsetR=Math.pow(Math.random(), 0.25)*40;
 
-	const lifetime=25;
-	const rotation=Math.random()*2*Math.PI;
-	let velocityMag = Math.random()*6-3;
-	const velocity=new Vec(velocityMag, 0).rotate(-rotation);
-	const velocityMultiplier = 0.94;
+	const lifetime=16;
+	const velocity=new Vec(-2, 0).rotate(offsetAngle);
+	const velocityMultiplier = 1;
 	const renderOrder=1;
 	const fadeoutPower=-2;
 	const width=8;
@@ -245,7 +243,7 @@ function createEmberParticle(position: Vec, battleground: Battleground) {
 		width,
 		velocity,
 		lifetime,
-		rotation-Math.PI/2,
+		0,
 		renderOrder,
 		velocityMultiplier,
 		fadeoutPower,
