@@ -87,7 +87,6 @@ exports.assignTank = async (req: Request, res: Response) => {
 }
 
 exports.tankUpdate = async (req: Request, res: Response) => {
-
 	// Check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
 
@@ -99,7 +98,6 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	
 	// Parse body
 	const { tankName, userId, components, isBot } = req.body;
 
