@@ -132,12 +132,15 @@ class Bullet extends GameObject {
 		//stuff for missiles going towards tracking beacons
 		if (this.bulletType === 'MISSILE') {
 			const beacons = battleground.getAllGameObjects().filter(o => o instanceof MissileTrackingBeacon);
-			let target=null;
-			for (const beacon: MissileTrackingBeacon of beacons) {
+			let target: ?MissileTrackingBeacon=null;
+			for (const beacon: GameObject of beacons) {
+				if (!(beacon instanceof MissileTrackingBeacon)) {
+					continue;
+				}
 				if (target == null || 
 					target.getPosition().sub(this.getPosition()).mag() > 
 					beacon.getPosition().sub(this.getPosition()).mag()) {
-					target=beacon;
+					target=MissileTrackingBeacon;
 				}
 			}
 
