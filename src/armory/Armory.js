@@ -9,7 +9,7 @@ import './Armory.css';
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Functions
-import { getInventory, getComponentPoints, getComponentType } from './GetInventoryInfo.js';
+import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
@@ -57,9 +57,9 @@ class Armory extends React.Component<Props, State> {
 		const blankTank: BackendTank = new BackendTank();
 		blankTank._id = '';
 		blankTank.components = [
-			'moddable', 'empty', 'empty',
 			'empty', 'empty', 'empty',
-			'empty', 'fastTreads', 'empty',
+			'empty', 'empty', 'empty',
+			'empty', 'empty', 'empty',
 			'empty', 'empty',
 		];
 		blankTank.casusCode = getEmptyCasusCode();
@@ -322,10 +322,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<h4>{(this.state.currentPartIndex === -1) ? 
-						'Component Menu' : 
-						'Your ' + this.toTitleCase(getComponentType(this.state.selectedTank.parts[this.state.currentPartIndex].name)) + ' List'
-					}</h4>
+					<h4>Component Menu</h4>
 					<div className="componentMenu">
 						<table>
 							<tr>
