@@ -157,7 +157,8 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	changeSelectedTank(newTankId: string): void {
+	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
+	changeSelectedTank: (string) => void = (newTankId: string) => {
 		this.setState(
 			{selectedTank: this.state.allTanks.find(tank => tank._id === newTankId), showTanks: false},
 			this.initPoints
@@ -314,18 +315,11 @@ class Armory extends React.Component<Props, State> {
 					<h4>Selected Tank</h4>
 					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
 					<br/>
-					{(this.state.showTanks) ?
-						<div className="tankList">
-							<h6>Select a New Tank to Edit</h6>
-							{this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
-								<div key={index}>
-									<button className="tankListBtn" onClick={() => this.changeSelectedTank(_id)}>{tankName}</button>
-									<br/>
-								</div>
-							)}
-						</div> :
-						<div></div>
-					}
+					<SelectTank
+						allTanks={this.state.allTanks}
+						showTanks={this.state.showTanks}
+						changeSelectedTank={this.changeSelectedTank}
+					/>
 					<h6>Setup a Wager</h6>
 					<button type="button" className="btn">Setup</button>
 					<CreateNewTankPopup 
