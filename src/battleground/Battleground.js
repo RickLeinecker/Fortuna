@@ -138,7 +138,6 @@ class Battleground extends React.Component<{||}> {
 		if (this.matchResult !== 'IN_PROGRESS') {
 			this.postMatchCountdown--;
 			if (this.postMatchCountdown === 0) {
-				//TODO: redirect here!
 				console.log('redirecting to something else');
 				window.location.href='/BattleArena';
 			}
@@ -218,6 +217,7 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_checkForWinner(): void {
+		//TODO: report winner to API
 		if (this.matchResult !== 'IN_PROGRESS') {
 			return;
 		}
