@@ -8,6 +8,7 @@ import './Armory.css';
 // Components
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
+import DeleteTankPopup from './DeleteTankPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -314,7 +315,9 @@ class Armory extends React.Component<Props, State> {
 						scanners={this.state.scanners} 
 						treads={this.state.treads}
 					/>
-					<br/>
+					<DeleteTankPopup
+						tank={this.state.selectedTank}
+					/>
 					<h6>Edit Selected Tank's Code</h6>
 					<Link to={verifyLink("/Casus")}>
 						<button type="button" className="primarybtn">Casus</button>
