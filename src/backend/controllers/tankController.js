@@ -66,10 +66,62 @@ exports.userTanks = async (req: Request, res: Response) => {
 }
 
 exports.assignTank = async (req: Request, res: Response) => {
+	// Check if all the fields are input correctly from the frontend
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.log('bad request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Setup the new tank.
 	const tank = new Tank();
 	tank.userId = req.body.userId;
 	tank.tankName = req.body.tankName;
 	tank.components = req.body.components;
+
+	// Get user to update inventory
+	let user = await User.findById(tank.userId);
+	if (!user) {
+		console.error('Tank User not in DB');
+		return res
+			.status(400)
+			.json({ msg: 'Tank user not found in DB' })
+	}
+
+	// Use up components
+	for (const compsOut of tank.components) {
+		if (compsOut === 'empty') {
+			continue;
+		}
+
+		if (user.inventory.tankComponents[compsOut] === 0) {
+			console.error(`Not enough ${compsOut} components to use.`);
+			return res
+				.status(400)
+				.json({ msg: `Not enough ${compsOut} components to use.` });
+		}
+		user.inventory.tankComponents[compsOut] -= 1;
+	}
+
+	// Update user
+	await user.save((err: Error) => {
+		if (err) {
+			console.error('Failed to save user inventory.');
+			return res
+				.status(500)
+				.json({ msg: 'Failed to save user inventory.' });
+		} 
+		else {
+			console.log('User inventory saved successfully!');
+		}
+	});
+
+	// Save new tank
 	await tank.save((err: Error) => {
         if (err) {
 			console.error(err.message);

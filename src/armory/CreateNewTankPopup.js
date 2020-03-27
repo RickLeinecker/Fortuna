@@ -11,7 +11,6 @@ import type { TankComponent } from './TankComponent.js';
 type Props = {|
 	chassis: Array<Component>,
 	treads: Array<Component>,
-	handleCreateTank: () => void,
 |}; 
 
 type State = {|
@@ -36,7 +35,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			errorMessage: '',
 			newTankDialogOpen: false,
 		}
-		
+
+		// Get the user ID for when a new tank is created.
 		this.getUserId();
     }
 
@@ -59,39 +59,33 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 
 	// Converts camel case to title case.
 	toTitleCase(str: string): string {
-		// Check for undefined strings.
-		if(str == null) {
-			return '';
-		}
-
 		let newStr = str.replace( /([A-Z])/g, " $1");
 		return newStr.charAt(0).toUpperCase() + newStr.slice(1);
 	}
 	
 	//Creates a new tank
 	handleCreateClick(): void {
-
 		// Error handling.
 		if(this.state.newTankName === '') {
-			this.setState({errorMessage: 'Need to have a tank name!'});
+			this.setState({errorMessage: 'Need to have a tank name.'});
 			return;
 		}
 		else if(this.state.selectedChassis === 'empty' || this.state.selectedTreads === 'empty') {
-			this.setState({errorMessage: 'Need to have a chassis and treads!'});
+			this.setState({errorMessage: 'Need to have a chassis and tread.'});
 			return;
 		}
 		else if(this.state.newTankName.length > 20) {
-			this.setState({errorMessage: 'Tank name too long!'});
+			this.setState({errorMessage: 'Tank name needs to be 20 or less characters.'});
 			return;
 		}
 		else if(this.state.newTankName.length < 3) {
-			this.setState({errorMessage: 'Tank name too short!'});
+			this.setState({errorMessage: 'Tank name needs to be 3 or more characters.'});
 			return;
 		}
 
 		// Create components array.
 		let components: Array<TankComponent> = [];
-		// Index 0 and 7 are used for the chassis and treads the user chooses.
+		// Index 0 and 7 are used for the chassis and treads that the user chooses.
 		// The rest are set to 'empty'.
 		for(let i: number = 0; i < 11; i++) {
 			switch(i) {
@@ -108,7 +102,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		}
 
 		const cookies = new Cookies();
-		let newTankId: String = '';
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 			method: 'POST',
 			headers: {
@@ -129,7 +122,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 					return;
 				}
 				else {
-					this.setState({newTankDialogOpen: false});
+					// If no errors, reload the page and the new tank will be set.
+					window.location.reload();
 				}
 			})
 		).catch(
@@ -139,9 +133,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 				return;
 			}
 		);
-
-		// If no errors, handle the creation of the tank.
-		this.props.handleCreateTank();
 	}
 
 	render(): React.Node {

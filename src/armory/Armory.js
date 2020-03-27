@@ -55,7 +55,6 @@ class Armory extends React.Component<Props, State> {
 	constructor() {
 		super();
 		verifyLogin();
-		this.handleCreateTank = this.handleCreateTank.bind(this);
 		// Create a blank tank as a placeholder until tanks are pulled.
 		const blankTank: BackendTank = new BackendTank();
 		blankTank._id = '';
@@ -110,15 +109,17 @@ class Armory extends React.Component<Props, State> {
 					for(const tank of data) {
 						allTanks.push(getTank(tank));
 					}
-					this.setState({allTanks: allTanks});
 					// Always set the default selected tank to the newest tank.
-					const newSelectedTank=getTank(data[allTanks.length - 1]);
-					this.setState({selectedTank: newSelectedTank});
+					const newSelectedTank = getTank(data[allTanks.length - 1]);
 					setTankForCasus(newSelectedTank._id);
-					this.initPoints();
+					// Update the state, and then run initPoints after the state has been set.
+					this.setState(
+						{allTanks: allTanks, selectedTank: newSelectedTank, showTanks: false},
+						this.initPoints
+					);
 				}
 			})
-		)
+		);
 	}
 
 	// Gets all of the user's inventory.
@@ -154,16 +155,13 @@ class Armory extends React.Component<Props, State> {
 		return newStr.charAt(0).toUpperCase() + newStr.slice(1);
 	}
 
-	// When a new tank is created, set it as the selectedTank and update the allTanks in state.
-	handleCreateTank(): void {
-		this.getTanks();
-	}
-
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	changeSelectedTank(newTankId: string): void {
-		this.setState({ selectedTank: this.state.allTanks.find(tank => tank._id === newTankId)});
-		this.initPoints();
+		this.setState(
+			{selectedTank: this.state.allTanks.find(tank => tank._id === newTankId), showTanks: false},
+			this.initPoints
+		);
 		setTankForCasus(newTankId);
 	}
 
@@ -308,33 +306,32 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
-					<label>Selected Tank: </label>
-					<button className="componentMenuBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
+					<label>Edit Code:&emsp;</label>
 					<Link to={verifyLink("/Casus")}>
-						<button type="button" className="primarybtn">Casus</button>
+						<button className="smallbtn">Casus</button>
 					</Link>
-					<div className="selectTank">
-						<SelectTank
-							allTanks={this.state.allTanks}
-							changeSelectedTank={this.changeSelectedTank}
-						/>
-					</div>
-					<h3>Select a Tank to Edit</h3>
-					<select className="dropdownMenu" onChange={e => this.changeSelectedTank(e.target.value)}>
-						<option>Selected: {this.state.selectedTank.tankName}</option>
-						{(this.state.allTanks != null) ?
-							this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
-								<option key={index} value={_id}>{tankName}</option>) :
-							<option></option>
-						}
-					</select>
+					<br/><br/>
+					<h4>Selected Tank</h4>
+					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
+					<br/>
+					{(this.state.showTanks) ?
+						<div className="tankList">
+							<h6>Select a New Tank to Edit</h6>
+							{this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
+								<div key={index}>
+									<button className="tankListBtn" onClick={() => this.changeSelectedTank(_id)}>{tankName}</button>
+									<br/>
+								</div>
+							)}
+						</div> :
+						<div></div>
+					}
 					<h6>Setup a Wager</h6>
 					<button type="button" className="btn">Setup</button>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
 						chassis={this.state.chassis}
 						treads={this.state.treads}
-						handleCreateTank={this.handleCreateTank}
 					/>
 					<br/>
 				</div>
