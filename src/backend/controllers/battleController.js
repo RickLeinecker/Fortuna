@@ -137,8 +137,8 @@ exports.reportResults = async (req: Request, res: Response) =>
  
     if (winner === 0) { // tie
         // Update the ties for user stats
-        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { 'stats.ties' : 1 } }, {new: true});
-        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.ties' : 1 } }, {new: true});
+        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money: Math.ceil(battle.prizeMoney * .7), 'stats.ties' : 1 } }, {new: true});
+        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .7), 'stats.ties' : 1 } }, {new: true});
 
         if (userOne == null) {
             console.log('userOne not found');
