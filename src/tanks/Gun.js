@@ -175,8 +175,8 @@ class Gun extends TankPart {
 				break;
 		}
 		this.isSecondary=isSecondary;
-		this.gunAngle=0;
-		this.displayAngle=0;
+		this.gunAngle=Math.PI/2;
+		this.displayAngle=this.gunAngle;
 		this.fireCooldown=0;
 		this.firing=false;
 		this.moveSpeedMultiplier=1;
@@ -244,6 +244,9 @@ class Gun extends TankPart {
 		// Check if the no component is equipped.
 		if (this.checkEmpty(this.name)) {
 			return;
+		}
+		if (this.isSecondary) {
+			this.displayAngle=this.gunAngle=parentRotation;
 		}
 
 		const myPosition=this._getPosition(parentPos, parentRotation);
