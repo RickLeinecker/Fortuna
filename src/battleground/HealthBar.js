@@ -4,7 +4,7 @@ import * as React from 'react';
 import "../Main.css";
 
 type Props = {
-	userName: string,
+	playersTankName: string,
 }
 
 type State = {
@@ -28,7 +28,7 @@ class HealthBar extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div style={{display:"inline-block"}}>
-				{this.props.userName}:
+				{this.props.playersTankName}:
 				<canvas
 				className="healthBarCanvas"
 				style={{display:"inline-block"}}

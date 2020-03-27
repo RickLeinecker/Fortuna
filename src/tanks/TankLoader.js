@@ -13,8 +13,10 @@ import loadCasus from '../casus/loadCasus.js';
 
 function getTestTank(id: number=1): Tank {
 	const position=id===1?new Vec(20, -20):new Vec(50, 40);
+	const name=id===1?"Test Tank 1":"Test Tank 2";
 	const toReturn: Tank = new Tank(
 		position,
+		name,
 		new Chassis(id===1?'CHASSIS_5':'CHASSIS_2'), 
 		new Treads(id===1?'TREAD_2':'TREAD_1'), 
 		new Gun(id===1?'GUN_3':'GUN_4', false),

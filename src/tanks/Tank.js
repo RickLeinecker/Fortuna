@@ -73,6 +73,7 @@ class Tank extends GameObject {
 
 	constructor(
 		position: Vec, 
+		name: string,
 		chassis: TankPart, 
 		treads: TankPart, 
 		mainGun: Gun, 
@@ -84,6 +85,7 @@ class Tank extends GameObject {
 		super(position);
 
 		this.chassis = chassis;
+		this.name = name;
 		this.treads = treads;
 		this.mainGun = mainGun;
 		this.secondaryGun = secondaryGun;

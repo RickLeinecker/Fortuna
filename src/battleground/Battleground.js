@@ -13,9 +13,19 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import {getTestTank} from '../tanks/TankLoader.js';
 
+type Props = {|
+	setPlayerOneTankName: (string) => void,
+	setPlayerOneHealth: (number) => void,
+	setPlayerTwoTankName: (string) => void,
+	setPlayerTwoHealth: (number) => void
+|};
+
+type State = {|
+|};
+
 const FPS=30;
 
-class Battleground extends React.Component<{||}> {
+class Battleground extends React.Component<Props, State> {
 	intervalID: number;
 	alive: boolean;
 	testTanks: Array<Tank>;
@@ -26,8 +36,8 @@ class Battleground extends React.Component<{||}> {
 	newObjects: Array<GameObject>;
 	objectsToDelete: Array<GameObject>;
 
-	constructor() {
-		super();
+	constructor(props: Props) {
+		super(props);
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
@@ -55,6 +65,8 @@ class Battleground extends React.Component<{||}> {
 		for (const t: Tank of this.testTanks) {
 			this.gameObjects.push(t);
 		}
+		this.props.setPlayerOneTankName(this.testTanks[0].name);
+		this.props.setPlayerTwoTankName(this.testTanks[1].name);
 	}
 
 	componentDidMount(): void {
@@ -99,6 +111,7 @@ class Battleground extends React.Component<{||}> {
 
 	_update(): void {
 		for (const gameObject: GameObject of this.gameObjects) {
+			console.log(gameObject);
 			gameObject.update(this);
 		}
 	}
