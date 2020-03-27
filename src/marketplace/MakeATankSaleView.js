@@ -1,9 +1,10 @@
 //@flow strict
 import * as React from 'react';
-import OptionClass from '../armory/OptionClass.js';
+import Tank from '../tanks/Tank.js';
 import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
+import BackendTank from '../tanks/BackendTank.js';
 
 type Props = {||}; 
 type State = {|
@@ -11,7 +12,7 @@ type State = {|
 	salePrice: number,
 	tankBeingSoldId: string,
 	itemAmount: number,
-	tanksToSell: Array<OptionClass>,
+	tanksToSell: Array<Tank>,
 |};
 
 class MakeATankSaleView extends React.Component<Props, State> {
@@ -68,10 +69,13 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				}
 				else {
 					const jsonObjectOfTanks = data;
-					const tankOptions = [new OptionClass('', '')];
+					const tankOptions = [];
 					//for every tank we will make a select option
 					for (const tank in jsonObjectOfTanks) {
-						tankOptions.push(new OptionClass(jsonObjectOfTanks[tank]._id, jsonObjectOfTanks[tank].tankName));
+						const blankTank: BackendTank = new BackendTank();
+						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
+						blankTank.tankId = jsonObjectOfTanks[tank]._id;
+						tankOptions.push(blankTank);
 					}
 					this.setState({tanksToSell : tankOptions});
 				}
@@ -110,7 +114,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
+				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, tankId }, index) => <option key={index}  value={tankId}>{tankName}</option>)}</select>
 				<label>Selling Price</label>
 				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
