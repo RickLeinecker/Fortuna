@@ -33,6 +33,7 @@ function getTestTank(id: number=1): Tank {
 		id===1?'TestTank1':'TestTank2',
 		'',
 		'',
+		100
 	);
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;

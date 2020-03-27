@@ -75,8 +75,10 @@ class Battleground extends React.Component<Props, State> {
 		for (const t: Tank of this.testTanks) {
 			this.gameObjects.push(t);
 		}
-		this.props.setPlayerOneTankName(this.testTanks[0].name);
-		this.props.setPlayerTwoTankName(this.testTanks[1].name);
+		this.props.setPlayerOneTankName(this.testTanks[0].tankName);
+		this.props.setPlayerTwoTankName(this.testTanks[1].tankName);
+		this.props.setPlayerOneHealth(this.testTanks[0].tankHealth);
+		this.props.setPlayerTwoHealth(this.testTanks[1].tankHealth);
 	}
 
 	componentDidMount(): void {
@@ -127,7 +129,6 @@ class Battleground extends React.Component<Props, State> {
 
 	_update(): void {
 		for (const gameObject: GameObject of this.gameObjects) {
-			console.log(gameObject);
 			gameObject.update(this);
 		}
 	}

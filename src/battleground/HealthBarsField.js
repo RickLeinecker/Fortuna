@@ -21,9 +21,11 @@ class HealthBarsField extends React.Component<Props, State> {
 			<div>
 				<HealthBar 
 					playersTankName = {this.props.playerOneTankName}
+					playersHealth = {this.props.playerOneHealth}
 				/>
 				<HealthBar 
 					playersTankName = {this.props.playerTwoTankName}
+					playersHealth = {this.props.playerTwoHealth}
 				/>
 			</div>
 		);
