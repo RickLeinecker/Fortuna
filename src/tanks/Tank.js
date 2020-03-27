@@ -21,7 +21,11 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
-import {createGreenParticle, createEmberParticle} from '../battleground/gameobjects/Particle.js';
+import {
+	createGreenParticle, 
+	createEmberParticle, 
+	createSmokeCloud
+} from '../battleground/gameobjects/Particle.js';
 import Bullet from '../battleground/gameobjects/Bullet.js';
 
 import {
@@ -55,6 +59,7 @@ const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
 const OVERDRIVE_LENGTH=30*4;
+const MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD=20;
 
 class Tank extends GameObject {
 	//game state
@@ -69,6 +74,7 @@ class Tank extends GameObject {
 	overdriveTimerLeft: number;
 	haveMissileTracker: boolean;
 	health: number;
+	createSmokeCounter=0;
 
 	// parts: 
 	chassis: Chassis;
@@ -151,6 +157,14 @@ class Tank extends GameObject {
 	}
 
 	update(battleground: Battleground): void {
+		if (this.getHealth()<=0) {
+			this.createSmokeCounter--;
+			if (this.createSmokeCounter<=0) {
+				this.createSmokeCounter=MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD;
+				createSmokeCloud(this.getPosition(), battleground);
+			}
+			return;
+		}
 		this.executeCasusFrame();	
 		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks(), battleground);
 	}
@@ -437,6 +451,10 @@ class Tank extends GameObject {
 		this.health-=damageAmount;
 		const maxHealth=this._getArmorOffset();
 		console.log('Took damage, now have '+this.health+' / '+maxHealth);
+	}
+
+	getHealth(): number {
+		return this.health;
 	}
 
 }
