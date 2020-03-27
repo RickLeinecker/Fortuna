@@ -4,7 +4,7 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
-// Login component.
+import { verifyLink } from '../globalComponents/verifyLink.js';
 
 type Props = {||}; 
 
@@ -38,6 +38,7 @@ class LoginPopup extends React.Component<Props, State> {
 	}
 
 	handleLoginClick(): void {
+
 		const responsePromise: Promise<Response> = fetch('/api/user/login', {
 			method: 'POST',
 			headers: {
@@ -57,7 +58,7 @@ class LoginPopup extends React.Component<Props, State> {
 				}
 				else {
 					setLoginToken(data.token);
-					window.location='/MainMenu';
+					window.location=verifyLink('/MainMenu');
 				}
 			})
 		).catch(

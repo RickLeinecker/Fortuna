@@ -27,7 +27,7 @@ body {
 	margin-right: auto;
 	height: 200px;
 	text-align: center;
-	overflow:hidden;
+	overflow: hidden;
 	overflow-y: scroll;
 	list-style-type: none;
 }
@@ -83,17 +83,6 @@ body {
 	border-color: #04CCFF;
 	background-color: #04CCFF;
 	color: #000921;
-}
-
-.tankComponentMenu {
-	cursor: pointer;
-	padding: 10px 10px 10px 10px;
-	margin-left: 10px;
-	border-radius: 4px;
-	border-color: #04CCFF;
-	background-color: #04CCFF;
-	color: #000921;
-	display: inline;
 }
 
 /* Column Styling */

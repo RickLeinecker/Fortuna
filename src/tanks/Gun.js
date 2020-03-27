@@ -13,9 +13,10 @@ import {
 	SHOOT_SECONDARY_WEAPON_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
+import type { TankComponent } from '../armory/TankComponent.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
-import type {BulletType} from '../battleground/gameobjects/Bullet.js';
+import type { BulletType } from '../battleground/gameobjects/Bullet.js';
 
 const LERP_PERCENT=0.2;
 const GUN_CENTER_TO_TANK_CENTER=2;
@@ -135,14 +136,50 @@ class Gun extends TankPart {
 	firing: boolean;
 	fireOnLeft: boolean;
 
-	constructor(gunType: GunType, isSecondary: boolean) {
-		super();
-		this.gunType=gunType;
+	moveSpeedMultiplier: number;
+
+	constructor(name: TankComponent, isSecondary: boolean) {
+		super(name);
+		switch(name) {
+			case 'grenadeLauncher':
+				this.gunType = 'GUN_1';
+				break;
+			case 'machineGun':
+				this.gunType = 'GUN_2';
+				break;
+			case 'laser':
+				this.gunType = 'GUN_3';
+				break;
+			case 'plasma':
+				this.gunType = 'GUN_4';
+				break;
+			case 'vulcanCannon':
+				this.gunType = 'GUN_5';
+				break;
+			case 'deathRay':
+				this.gunType = 'GUN_6';
+				break;
+			case 'shotgun':
+				this.gunType = 'GUN_7';
+				break;
+			case 'lancer':
+				this.gunType = 'GUN_8';
+				break;
+			case 'missile':
+				this.gunType = 'GUN_9';
+				break;
+			case 'pulseLaser':
+				this.gunType = 'GUN_10';
+				break;
+			default:
+				break;
+		}
 		this.isSecondary=isSecondary;
-		this.gunAngle=0;
-		this.displayAngle=0;
+		this.gunAngle=Math.PI/2;
+		this.displayAngle=this.gunAngle;
 		this.fireCooldown=0;
 		this.firing=false;
+		this.moveSpeedMultiplier=1;
 	}
 
 	update(
@@ -152,6 +189,12 @@ class Gun extends TankPart {
 		parentRotation: number,
 		parentTank: Tank
 	): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		if (!this.isSecondary) {
 			this.setTargetGunAngle(this._getDouble(TURRET_DIRECTION_VAR_NAME, interpriterState));
 
@@ -174,6 +217,9 @@ class Gun extends TankPart {
 		const shootVarName=this.isSecondary?SHOOT_SECONDARY_WEAPON_VAR_NAME:SHOOT_PRIMARY_WEAPON_VAR_NAME;
 		const tryToFire=this._getBoolean(shootVarName, interpriterState);
 		this.fireCooldown--;
+		if (parentTank.getUsingOverdrive()) {
+			this.fireCooldown--;
+		}
 		if (tryToFire && this.fireCooldown<=0) {
 			const gunStats=STATS_FOR_GUN[this.gunType];
 			for (let i=0; i<gunStats.numBulletsPerShot; i++) {
@@ -186,15 +232,35 @@ class Gun extends TankPart {
 			}
 		}
 		this.firing=tryToFire;
+
+		//handle move speed penalties
+		const applyPenalty: boolean = (this.fireCooldown>0 || this.firing) && !parentTank.getUsingOverdrive();
+		this.moveSpeedMultiplier = applyPenalty?FIRING_SLOWDOWN:1;
+		//end of move speed penalties
 	}
 
 	drawSelf(drawer: ImageDrawer, parentPos: Vec, parentRotation: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+		if (this.isSecondary) {
+			this.displayAngle=this.gunAngle=parentRotation;
+		}
+
 		const myPosition=this._getPosition(parentPos, parentRotation);
 		const width=this.isSecondary?18:15;
 		drawer.draw(getImage(this.gunType), myPosition, width, this.displayAngle-Math.PI/2);
 	}
 
 	setTargetGunAngle(gunAngle: number): void {
+
+		// Check if the no component is equipped.
+		if (this.checkEmpty(this.name)) {
+			return;
+		}
+
 		this.gunAngle=(gunAngle%TAU+TAU)%TAU;
 	}
 
@@ -214,8 +280,7 @@ class Gun extends TankPart {
 
 	//currently don't change rotation speed. Maybe we should change it?
 	getMoveSpeedMultiplier(): number {
-		const applyPenalty: boolean = this.fireCooldown>0 || this.firing;
-		return applyPenalty?FIRING_SLOWDOWN:1;
+		return this.moveSpeedMultiplier;
 	}
 
 }

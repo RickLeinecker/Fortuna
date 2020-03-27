@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import './Battleground.css';
-import getBattlegroundWidth from './getBattlegroundWidth.js';
-import getBattlegroundHeight from './getBattlegroundHeight.js';
 import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
 import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
@@ -11,7 +9,8 @@ import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
-import {getTestTank} from '../tanks/TankLoader.js';
+import { getTestTank } from '../tanks/TankLoader.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {|
 	setPlayerOneTankName: (string) => void,
@@ -23,7 +22,10 @@ type Props = {|
 type State = {|
 |};
 
+const FADE_IN_START=10;
+const FADE_IN_LENGTH=60;
 const FPS=30;
+const INTRO_LENGTH=120;
 
 class Battleground extends React.Component<Props, State> {
 	intervalID: number;
@@ -35,9 +37,17 @@ class Battleground extends React.Component<Props, State> {
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
 	objectsToDelete: Array<GameObject>;
+	
+	//intro and closing scene variables
+	lifetimeCounter=0;
+	currentZoomScale=1;
+	currentCameraPos=new Vec(0, 0);
+	targetZoomScale=1;
+	targetCameraPos=new Vec(0, 0);
 
 	constructor(props: Props) {
 		super(props);
+		verifyLogin();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
@@ -95,13 +105,19 @@ class Battleground extends React.Component<Props, State> {
 			//stop updating
 			return;
 		}
+		this.lifetimeCounter++;
+
 		this.gameObjects = this.gameObjects.concat(this.newObjects);
 		this.gameObjects.sort((a, b) => {
 			return a.getRenderOrder()-b.getRenderOrder();
 		});
 		this.newObjects = [];
-		this._update();
+
+		if (this.lifetimeCounter > INTRO_LENGTH) {
+			this._update();
+		}
 		this._rerender();
+
 		for (const toRemove: GameObject of this.objectsToDelete) {
 			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
 		}
@@ -122,12 +138,46 @@ class Battleground extends React.Component<Props, State> {
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 		ctx.fillStyle = 'black';
 		ctx.fillRect(0, 0, 1e9, 1e9);
-		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 		const drawer=new ImageDrawer(ctx);
 
+		//camera movement and setup
+		const secondsLeft=Math.ceil((INTRO_LENGTH-this.lifetimeCounter)/30.0);
+		if (this.lifetimeCounter===30) {
+			this.targetZoomScale=2.5;
+			this.targetCameraPos=this.getTanks()[0].getPosition();
+		}
+		if (this.lifetimeCounter===60) {
+			this.targetZoomScale=2.5;
+			this.targetCameraPos=this.getTanks()[1].getPosition();
+		}
+		if (this.lifetimeCounter===90) {
+			this.targetZoomScale=1;
+			this.targetCameraPos=new Vec(0, 0);
+		}
+		this.currentZoomScale=this._lerp(this.currentZoomScale, this.targetZoomScale, 0.2);
+		this.currentCameraPos=this._lerpV(this.currentCameraPos, this.targetCameraPos, 0.2);
+		drawer.setCameraPosition(this.currentCameraPos);
+		drawer.setZoomScale(this.currentZoomScale);
+
+		drawer.draw(getImage('DIRT_BACKGROUND'), new Vec(0, 0), 200, 0, 1, 120);
 
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.render(drawer);
+		}
+
+		//title text and intro curtain
+		if (secondsLeft<=3 && secondsLeft>=1) {
+			drawer.drawTitleText(''+secondsLeft);
+		}
+		else if (secondsLeft===0) {
+			drawer.drawTitleText('GO!');
+		}
+		if (this.lifetimeCounter<FADE_IN_START) {
+			drawer.fillBlackRect(1);
+		}
+		else if (this.lifetimeCounter-FADE_IN_START<FADE_IN_LENGTH) {
+			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
+			drawer.fillBlackRect(alpha);
 		}
 	}
 
@@ -139,6 +189,14 @@ class Battleground extends React.Component<Props, State> {
 			canvas.width = targetWidth;
 			canvas.height = targetHeight;
 		}
+	}
+
+	_lerp(a: number, b: number, time: number) {
+		return b*time+a*(1-time);
+	}
+
+	_lerpV(a: Vec, b: Vec, time: number) {
+		return b.scale(time).add(a.scale(1-time));
 	}
 
 	getCollisionSegs(): Array<Seg> {
