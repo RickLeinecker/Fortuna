@@ -137,7 +137,7 @@ class Tank extends GameObject {
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
-		this.rotation = Math.PI*0.8;
+		this.rotation = Math.PI*0.5;
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
 		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
