@@ -87,7 +87,6 @@ exports.assignTank = async (req: Request, res: Response) => {
 }
 
 exports.tankUpdate = async (req: Request, res: Response) => {
-
 	// Check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
 
@@ -99,7 +98,6 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	
 	// Parse body
 	const { tankName, userId, components, isBot } = req.body;
 
@@ -118,7 +116,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Get user to update inventory
-	let user = User.findById(tank.body.userId);
+	let user = await User.findById(userId);
 	if (!user) {
 		console.error('Tank User not in DB');
 		return res
@@ -127,7 +125,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Replenish components
-	for (const compsIn in tank.tankComponents) {
+	for (const compsIn of tank.components) {
 		if (compsIn === 'empty') {
 			continue;
 		}
@@ -135,7 +133,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Use up components
-	for (const compsOut in req.body.tankComponents) {
+	for (const compsOut of req.body.components) {
 		if (compsOut === 'empty') {
 			continue;
 		}
@@ -150,12 +148,15 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Update user
-	user.save((err: Error) => {
+	await user.save((err: Error) => {
 		if (err) {
 			console.error('Failed to save user inventory.');
 			return res
 				.status(500)
 				.json({ msg: 'Failed to save user inventory.' });
+		} 
+		else {
+			console.log('User inventory saved successfully!');
 		}
 	});
 
@@ -164,7 +165,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	tank.userId = userId;
 	tank.components = components;
 	tank.isBot = isBot;
-	tank.save((err: Error) => {
+	await tank.save((err: Error) => {
 		if (err) {
 			console.error(err.message);
 			res.send(err);

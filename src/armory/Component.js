@@ -1,11 +1,13 @@
 //@flow strict
 
+import type { TankComponent } from './TankComponent.js';
+
 // Class that will handle the import of the backend's inventory object.
 class Component {
-	componentName: string;
+	componentName: TankComponent;
 	numberOwned: number;
 
-	constructor(componentName: string, numberOwned: number) {
+	constructor(componentName: TankComponent, numberOwned: number) {
 		this.componentName = componentName;
 		this.numberOwned = numberOwned;
 	}
