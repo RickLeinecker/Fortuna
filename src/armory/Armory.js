@@ -153,7 +153,6 @@ class Armory extends React.Component<Props, State> {
 	// When a new tank is created, set it as the selectedTank and update the allTanks in state.
 	handleCreateTank(tankId: string): void {
 		this.getTanks();
-		console.log(this.state.allTanks);
 	}
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.

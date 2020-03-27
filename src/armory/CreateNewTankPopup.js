@@ -100,20 +100,18 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		}
 
 		const cookies = new Cookies();
-		const token = cookies.get('token');
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
+				'x-auth-token': cookies.get('token'),
 			},
 			body: JSON.stringify({ tankName: this.state.newTankName, userId: this.state.userId, components: components }),
 		});
 		responsePromise.then(
 			response => response.json().then(data => {
-				console.log(data);
 				if (response.status !== 200) {
 					console.log(response.status);
 					console.log(data.msg);
@@ -121,8 +119,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 					this.setState({errorMessage: getErrorFromObject(data)});
 				}
 				else {
-					console.log(data);
-					this.handleCancelClick();
+					this.setState({newTankDialogOpen: false});
 					this.props.handleCreateTank(data._id);
 				}
 			})
@@ -133,10 +130,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			}
 		);
 	};
-    
-	handleCancelClick(): void {
-		this.setState({newTankDialogOpen: false});
-	};
 
 	render(): React.Node {
 		const createButton = (
@@ -145,7 +138,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			</button>
 		);
 		const cancelButton = (
-			<button className="cancelbtn" onClick={() => this.handleCancelClick()}>Cancel</button>
+			<button className="cancelbtn" onClick={() => this.setState({newTankDialogOpen: false})}>Cancel</button>
 		);
 		
 		return (
@@ -156,7 +149,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 				</button>
 				<Popup 
 					open={this.state.newTankDialogOpen}
-					onClose={() => this.handleCancelClick}
+					onClose={() => this.setState({newTankDialogOpen: false})}
 				>
 					<div className="popup">
 						<div className="row col-md-12">
