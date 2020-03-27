@@ -50,6 +50,7 @@ class Chassis extends TankPart {
 				break;
 			case 'empty':
 				this.chassisType = 'CHASSIS_1';
+				break;
 			default:
 				break;
 		}
