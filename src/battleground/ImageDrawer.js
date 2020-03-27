@@ -50,7 +50,7 @@ class ImageDrawer {
 		this.ctx.stroke();
 	}
 
-	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number, alpha: number, height): void {
+	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number, alpha: number, height: number): void {
 		const oldAlpha = this.ctx.globalAlpha;
 		this.ctx.globalAlpha = alpha;
 		this.ctx.translate(xRaw, yRaw);
