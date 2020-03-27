@@ -47,19 +47,17 @@
     margin-top: 20px;
 }
 
-.componentMenu th, td {
-    padding: 10px;
-}
-
-.componentMenu ul {
-    width: 40%;
-    margin-left: auto;
-    margin-right: auto;
+.componentMenu table {
     height: 100px;
-    text-align: center;
     overflow: hidden;
     overflow-y: scroll;
-    list-style-type: none;
+    table-layout: fixed;
+}
+
+.componentMenu th, td {
+    padding: 8px;
+    border-right: 1px solid #04CCFF;
+    border-left: 1px solid #04CCFF;
 }
 
 .componentMenuBtn {
@@ -70,4 +68,13 @@
 
 .componentMenuBtn:hover {
     color: #7200ac;
+}
+
+.componentMenuBtn:disabled {
+    color: gray;
+}
+
+.componentMenuBtn:disabled:hover {
+    color: gray;
+    cursor: default;
 }

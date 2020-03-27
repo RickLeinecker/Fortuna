@@ -43,6 +43,7 @@ type State = {|
 	treads: Array<Component>,
 	items: Array<Component>,
 	componentList: Array<Component>,
+	currentPartIndex: number,
 	points: number,
 |};
 
@@ -77,6 +78,7 @@ class Armory extends React.Component<Props, State> {
 			treads: [],
 			items: [],
 			componentList: [],
+			currentPartIndex: 0,
 			points: 0,
 		}
 
@@ -199,22 +201,8 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	// Ensure that the new point value doesn't go over the limit.
-	checkPoints(newComponent: TankComponent, oldComponent: TankComponent): boolean {
-		// Check if there is an old component being removed.
-		let newPoints: number = 0;
-		if(oldComponent == null) {
-			newPoints = this.state.points + getComponentPoints(newComponent);
-		}
-		else {
-			newPoints = this.state.points + getComponentPoints(newComponent) - getComponentPoints(oldComponent);
-		}
-
-		// Check if the points are greater than 10.
-		if(newPoints > 10) {
-			return true;
-		} else {
-			return false;
-		}
+	checkPoints(newComponent: TankComponent, oldPartIndex: number): boolean {
+		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(this.state.selectedTank.parts[oldPartIndex].name) > 10) ? true : false;
 	}
 
 	// Update the points in the state.
@@ -232,8 +220,7 @@ class Armory extends React.Component<Props, State> {
 		this.setState({points: newPoints});
 	}
 
-	// UPDATES NEED API CALL TO UPDATE INVENTORY.
-	// Updates the selected tank's components.
+	// Updates the selected tank's components and their inventory.
 	updateComponent(component: TankComponent, partIndex: number): void {
 		// Setup a new tank that will be updated and set to the selected tank.
 		const updatedTank: Tank = this.state.selectedTank;
@@ -295,7 +282,8 @@ class Armory extends React.Component<Props, State> {
 		// Update the component, points, and parts array.
 		this.updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
 		updatedTank.parts[partIndex] = newComponent;
-		this.setState({selectedTank: updatedTank});
+		// Reset component list to provide user feedback.
+		this.setState({selectedTank: updatedTank, componentList: []});
 		// Save the tank.
 		this.saveTank();
 	}
@@ -341,8 +329,12 @@ class Armory extends React.Component<Props, State> {
 						</tr>
 						{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 							<tr key={index}>
-								<td>
-									<button className="componentMenuBtn" onClick={() => this.updateComponent(componentName)}>
+								<td align="left">
+									<button 
+										className="componentMenuBtn"
+										onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
+										disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
+									>
 										{this.toTitleCase(componentName)}
 									</button>
 								</td>
