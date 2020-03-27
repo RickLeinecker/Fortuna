@@ -443,20 +443,26 @@ exports.allUsers = async (req: Request, res: Response) => {
 }
 
 exports.setWager = async (req: Request, res: Response) => {
-	await User.findByIdAndUpdate(req.user.id, { wager: req.body.wager }, {new: true}, (err, updatedUser) => {
-		if (err) {
-			console.error(err.message)
+	try {
+		const user = await User.findByIdAndUpdate(req.user.id, { wager: req.body.wager, $inc: { money: (req.body.wager * -1)} }, {new: true});
+
+		if (user == null){
 			return res
-				.status(500)
-				.json({ msg: 'Failed to update user wager value'});
+				.status(404)
+				.json({ msg: 'Could not find user in db'});
 		}
 		else {
 			console.log('Wager successfully updated');
 			return res
 				.status(200)
-				.send(updatedUser);
+				.send(user);
 		}
-	});
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Failed to update user wager value'});
+	}
 }
 
 

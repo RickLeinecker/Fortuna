@@ -34,12 +34,6 @@ exports.prepareMatch = async (req: Request, res: Response) => {
             .json({ msg: 'Could not find the personBeingChallenged in DB'})
     }
 
-    if(personBeingChallengedUserDoc.money < personBeingChallengedUserDoc.wager){
-        return res
-            .status(401)
-            .json({ msg: 'personBeingChallenged does not have enough money to wager'});
-    }
-
     const personBeingChallengedTank = await Tank.findById(personBeingChallengedUserDoc.favoriteTank);
 
     if(personBeingChallengedTank == null){
@@ -82,15 +76,11 @@ exports.prepareMatch = async (req: Request, res: Response) => {
         eloExchanged: 0
     });
     
-    // Take the wager amount from each player's money
+    // Take the wager amount from the challenger's money
     const challengerBalance = challengerUserDoc.money - personBeingChallengedUserDoc.wager;
     challengerUserDoc.money = challengerBalance;
 
-    const personBeingChallengedBalance = personBeingChallengedUserDoc.money - personBeingChallengedUserDoc.wager;
-    personBeingChallengedUserDoc.money = personBeingChallengedBalance;
-
     // Save the updated balance to the db
-    await personBeingChallengedUserDoc.save();
     await challengerUserDoc.save();
     
     await newRecord.save ((err: Error) => {
