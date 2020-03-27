@@ -80,6 +80,14 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			this.setState({errorMessage: 'Need to have a chassis and treads!'});
 			return;
 		}
+		else if(this.state.newTankName.length > 20) {
+			this.setState({errorMessage: 'Tank name too long!'});
+			return;
+		}
+		else if(this.state.newTankName.length < 3) {
+			this.setState({errorMessage: 'Tank name too short!'});
+			return;
+		}
 
 		// Create components array.
 		let components: Array<TankComponent> = [];

@@ -8,6 +8,7 @@ import './Armory.css';
 // Components
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
+import SelectTank from './SelectTank.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -45,6 +46,7 @@ type State = {|
 	componentList: Array<Component>,
 	currentPartIndex: number,
 	points: number,
+	showTanks: boolean,
 |};
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -81,6 +83,7 @@ class Armory extends React.Component<Props, State> {
 			componentList: [],
 			currentPartIndex: -1,
 			points: 0,
+			showTanks: false,
 		}
 
 		if (this.state.selectedTank == null) {
@@ -305,6 +308,17 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
+					<label>Selected Tank: </label>
+					<button className="componentMenuBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
+					<Link to={verifyLink("/Casus")}>
+						<button type="button" className="primarybtn">Casus</button>
+					</Link>
+					<div className="selectTank">
+						<SelectTank
+							allTanks={this.state.allTanks}
+							changeSelectedTank={this.changeSelectedTank}
+						/>
+					</div>
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu" onChange={e => this.changeSelectedTank(e.target.value)}>
 						<option>Selected: {this.state.selectedTank.tankName}</option>
@@ -323,10 +337,6 @@ class Armory extends React.Component<Props, State> {
 						handleCreateTank={this.handleCreateTank}
 					/>
 					<br/>
-					<h6>Edit Selected Tank's Code</h6>
-					<Link to={verifyLink("/Casus")}>
-						<button type="button" className="primarybtn">Casus</button>
-					</Link>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
