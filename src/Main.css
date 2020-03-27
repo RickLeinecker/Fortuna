@@ -252,6 +252,32 @@ body {
 	border: 2px solid #04CCFF;
 }
 
+.smallbtn {
+	color: #000921;
+	background: #04CCFF;
+	border: 2px solid #04CCFF;
+	border-radius: 3px;
+	width: 100px; 
+}
+
+.smallbtn:disabled {
+	background-color: #999999;
+	border: 2px solid #000921
+}
+
+.smallbtn:disabled:hover {
+	cursor: default;
+	background-color: #999999;
+	color: #000921;
+	border: 2px solid #000921;
+}
+
+.smallbtn:hover {
+	color: #04CCFF;
+	background: #000921;
+	border: 2px solid #04CCFF;
+}
+
 .clearbtn {
 	color: #04CCFF;
 	border: none;
