@@ -72,6 +72,7 @@ function getTank(tank: BackendTank): Tank {
 		tank.tankName,
 		tank._id,
 		tank.userId,
+		tank.tankHealth,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks}, tank._id);
 	return toReturn;
@@ -96,6 +97,7 @@ function cloneTank(tank: Tank): Tank {
 		tank.tankName,
 		tank._id,
 		tank.userId,
+		tank.tankHealth,
 	)
 	loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;

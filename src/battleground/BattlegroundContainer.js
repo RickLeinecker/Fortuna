@@ -19,7 +19,7 @@ class BattleGroundContainer extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-		this.state={
+		this.state= {
 			playerOneTankName: '',
 			playerOneHealth: 0,
 			playerTwoTankName: '',
@@ -31,7 +31,7 @@ class BattleGroundContainer extends React.Component<Props, State> {
 		return (
 			<div className="haveScorebarIfSmall">
 				<Navbar
-					linkName='BattleArena'
+					linkName='/BattleArena'
 					returnName='Back to Battle Arena'
 					pageName='Battleground'
 				/>

@@ -17,7 +17,7 @@ class HealthBar extends React.Component<Props, State> {
 		super(props);
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Props) {
 		if(prevProps.playersHealth !== this.props.playersHealth) {
 			const canvas = this.refs.canvas;
 			const ctx = canvas.getContext("2d");

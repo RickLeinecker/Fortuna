@@ -77,6 +77,7 @@ class Battleground extends React.Component<Props, State> {
 		}
 		this.props.setPlayerOneTankName(this.testTanks[0].tankName);
 		this.props.setPlayerTwoTankName(this.testTanks[1].tankName);
+		//TODO: This needs to be put whereever health is updated
 		this.props.setPlayerOneHealth(this.testTanks[0].tankHealth);
 		this.props.setPlayerTwoHealth(this.testTanks[1].tankHealth);
 	}
