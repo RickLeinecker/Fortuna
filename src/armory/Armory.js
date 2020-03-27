@@ -108,7 +108,8 @@ class Armory extends React.Component<Props, State> {
 						allTanks.push(getTank(tank));
 					}
 					this.setState({allTanks: allTanks});
-					const newSelectedTank=getTank(data[0]);
+					// Always set the default selected tank to the newest tank.
+					const newSelectedTank=getTank(data[allTanks.length - 1]);
 					this.setState({selectedTank: newSelectedTank});
 					setTankForCasus(newSelectedTank._id);
 					this.initPoints();
@@ -151,7 +152,7 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	// When a new tank is created, set it as the selectedTank and update the allTanks in state.
-	handleCreateTank(tankId: string): void {
+	handleCreateTank(): void {
 		this.getTanks();
 	}
 
@@ -306,6 +307,7 @@ class Armory extends React.Component<Props, State> {
 				<div className="column armoryleft">
 					<h3>Select a Tank to Edit</h3>
 					<select className="dropdownMenu" onChange={e => this.changeSelectedTank(e.target.value)}>
+						<option>Selected: {this.state.selectedTank.tankName}</option>
 						{(this.state.allTanks != null) ?
 							this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
 								<option key={index} value={_id}>{tankName}</option>) :

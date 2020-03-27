@@ -11,7 +11,7 @@ import type { TankComponent } from './TankComponent.js';
 type Props = {|
 	chassis: Array<Component>,
 	treads: Array<Component>,
-	handleCreateTank: (string) => void,
+	handleCreateTank: () => void,
 |}; 
 
 type State = {|
@@ -100,6 +100,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		}
 
 		const cookies = new Cookies();
+		let newTankId: String = '';
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 			method: 'POST',
 			headers: {
@@ -117,19 +118,23 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 					console.log(data.msg);
 					console.log(data);
 					this.setState({errorMessage: getErrorFromObject(data)});
+					return;
 				}
 				else {
 					this.setState({newTankDialogOpen: false});
-					this.props.handleCreateTank(data._id);
 				}
 			})
 		).catch(
 			(error) => {
 				console.log('Couldnt connect to server!');
 				console.log(error);
+				return;
 			}
 		);
-	};
+
+		// If no errors, handle the creation of the tank.
+		this.props.handleCreateTank();
+	}
 
 	render(): React.Node {
 		const createButton = (
