@@ -26,8 +26,6 @@ class ImageDrawer {
 	}
 
 	draw(i: Image, center: Vec, width: number, angle: number, alpha: number = 1.0, height: ?number=null): void {
-		console.log('drawing image at center');
-		console.log(center);
 		if (isNaN(center.x) || isNaN(center.y)) {
 			throw new Error('Cant draw image at NaN! ');
 		}
@@ -69,7 +67,6 @@ class ImageDrawer {
 		alpha: number, 
 		height: number
 	): void {
-		console.log('drawing raw at position '+xRaw+" "+yRaw);
 		const oldAlpha = this.ctx.globalAlpha;
 		this.ctx.globalAlpha = alpha;
 		this.ctx.translate(xRaw, yRaw);
