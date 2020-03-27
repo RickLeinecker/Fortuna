@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import './Battleground.css';
-import getBattlegroundWidth from './getBattlegroundWidth.js';
-import getBattlegroundHeight from './getBattlegroundHeight.js';
 import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
 import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
