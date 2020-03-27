@@ -10,14 +10,24 @@ class ImageDrawer {
 	ctx: CanvasRenderingContext2D;
 	position: Vec;
 	zoomScale: number;
+	getCanvasWidth: () => number;
+	getCanvasHeight: () => number;
 
-	constructor(ctx: CanvasRenderingContext2D) {
+	constructor(
+		ctx: CanvasRenderingContext2D,
+		getCanvasWidth: () => number = getBattlegroundWidth,
+		getCanvasHeight: () => number = getBattlegroundHeight
+	) {
 		this.ctx=ctx;
 		this.position=new Vec(0, 0);
 		this.zoomScale=1;
+		this.getCanvasWidth=getCanvasWidth;
+		this.getCanvasHeight=getCanvasHeight;
 	}
 
 	draw(i: Image, center: Vec, width: number, angle: number, alpha: number = 1.0, height: ?number=null): void {
+		console.log('drawing image at center');
+		console.log(center);
 		if (isNaN(center.x) || isNaN(center.y)) {
 			throw new Error('Cant draw image at NaN! ');
 		}
@@ -50,7 +60,16 @@ class ImageDrawer {
 		this.ctx.stroke();
 	}
 
-	_drawRaw(i: Image, xRaw:number, yRaw:number, width: number, angle: number, alpha: number, height: number): void {
+	_drawRaw(
+		i: Image, 
+		xRaw:number, 
+		yRaw:number, 
+		width: number, 
+		angle: number, 
+		alpha: number, 
+		height: number
+	): void {
+		console.log('drawing raw at position '+xRaw+" "+yRaw);
 		const oldAlpha = this.ctx.globalAlpha;
 		this.ctx.globalAlpha = alpha;
 		this.ctx.translate(xRaw, yRaw);
@@ -75,10 +94,10 @@ class ImageDrawer {
 		this.ctx.fillStyle='black';
 		this.ctx.font='normal small-caps bold 120px arial';
 		const width=this.ctx.measureText(text).width;
-		this.ctx.fillText(text, getBattlegroundWidth()/2-width/2+5, getBattlegroundHeight()/4+5);
+		this.ctx.fillText(text, this.getCanvasWidth()/2-width/2+5, this.getCanvasHeight()/4+5);
 
 		this.ctx.fillStyle='white';
-		this.ctx.fillText(text, getBattlegroundWidth()/2-width/2, getBattlegroundHeight()/4);
+		this.ctx.fillText(text, this.getCanvasWidth()/2-width/2, this.getCanvasHeight()/4);
 
 		this.ctx.font=oldFont;
 	}
@@ -99,16 +118,16 @@ class ImageDrawer {
 	//
 	_uncompressPosition(oldPosition: Vec): Vec {
 		const positive=oldPosition;
-		const scalar=getBattlegroundWidth()/200.0*this.zoomScale;
+		const scalar=this.getCanvasWidth()/200.0*this.zoomScale;
 		const newX=positive.x*scalar;
 		const newY=positive.y*scalar;
-		return new Vec(newX, getBattlegroundHeight()-newY).add(
-			new Vec(getBattlegroundWidth()/2, -getBattlegroundHeight()/2));
+		return new Vec(newX, this.getCanvasHeight()-newY).add(
+			new Vec(this.getCanvasWidth()/2, -this.getCanvasHeight()/2));
 			//new Vec(0, 0));
 	}
 
 	_uncompressWidth(oldWidth: number): number {
-		const scalar=getBattlegroundWidth()/200.0*this.zoomScale;
+		const scalar=this.getCanvasWidth()/200.0*this.zoomScale;
 		return oldWidth*scalar;
 	}
 

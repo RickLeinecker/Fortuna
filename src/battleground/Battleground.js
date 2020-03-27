@@ -12,7 +12,6 @@ import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
-
 const FADE_IN_START=10;
 const FADE_IN_LENGTH=60;
 const FPS=30;
