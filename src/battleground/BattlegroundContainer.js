@@ -4,26 +4,34 @@ import * as React from 'react';
 import Battleground from './Battleground.js';
 import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
+import Tank from '../tanks/Tank.js';
+import BackendTank from '../tanks/BackendTank.js';
+import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import "../Main.css";
 
 type Props = {||};
 
 type State = {
-	playerOneTankName: string,
-	playerOneHealth: number,
-	playerTwoTankName: string,
-	playerTwoHealth: number
+	playerOneTank: Tank,
+	playerTwoTank: Tank,
 };
 
-class BattleGroundContainer extends React.Component<Props, State> {
+class BattlegroundContainer extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
+
+		const blankTank: BackendTank = new BackendTank();
+		blankTank._id = '';
+		blankTank.components = [];
+		blankTank.casusCode = getEmptyCasusCode();
+		blankTank.isBot = false;
+		blankTank.tankName = '';
+
 		this.state= {
-			playerOneTankName: '',
-			playerOneHealth: 0,
-			playerTwoTankName: '',
-			playerTwoHealth: 0,
+			
+			playerOneTank : getTank(blankTank),
+			playerTwoTank : getTank(blankTank)
 		}
 	}
 
@@ -36,44 +44,28 @@ class BattleGroundContainer extends React.Component<Props, State> {
 					pageName='Battleground'
 				/>
 				<HealthBarsField
-					playerOneTankName = {this.state.playerOneTankName}
-					playerOneHealth = {this.state.playerOneHealth}
-					playerTwoTankName = {this.state.playerTwoTankName}
-					playerTwoHealth = {this.state.playerTwoHealth}
+					playerOneTank = {this.state.playerOneTank}
+					playerTwoTank = {this.state.playerTwoTank}
 				/>
 				<Battleground 
-					setPlayerOneTankName = {this.setPlayerOneTankName}
-					setPlayerOneHealth = {this.setPlayerOneHealth}
-					setPlayerTwoTankName = {this.setPlayerTwoTankName}
-					setPlayerTwoHealth = {this.setPlayerTwoHealth}
+					setPlayerOneTank = {this.setPlayerOneTank}
+					setPlayerTwoTank = {this.setPlayerTwoTank}
 				/>
 			</div>
 		);
 	}
 
-	setPlayerOneTankName = (playerOneTankName: string): void  => {
+	setPlayerOneTank = (playerOneTank: Tank): void  => {
 		this.setState({
-			playerOneTankName: playerOneTankName
+			playerOneTank: playerOneTank
 		});
 	}
 
-	setPlayerOneHealth = (playerOneHealth: number): void  => {
+	setPlayerTwoTank = (playerTwoTank: Tank): void  => {
 		this.setState({
-			playerOneHealth: playerOneHealth
-		});
-	}
-
-	setPlayerTwoTankName = (playerTwoTankName: string): void  => {
-		this.setState({
-			playerTwoTankName: playerTwoTankName
-		});
-	}
-
-	setPlayerTwoHealth = (playerTwoHealth: number): void  => {
-		this.setState({
-			playerTwoHealth: playerTwoHealth
+			playerTwoTank: playerTwoTank
 		});
 	}
 }
 
-export default BattleGroundContainer;
+export default BattlegroundContainer;

@@ -3,12 +3,11 @@
 import * as React from 'react';
 import "../Main.css";
 import HealthBar from './HealthBar.js';
+import Tank from '../tanks/Tank.js';
 
 type Props = {|
-	playerOneTankName: string,
-	playerOneHealth: number,
-	playerTwoTankName: string,
-	playerTwoHealth: number
+	playerOneTank: Tank,
+	playerTwoTank: Tank,
 |};
 
 type State = {
@@ -20,12 +19,10 @@ class HealthBarsField extends React.Component<Props, State> {
 		return (
 			<div>
 				<HealthBar 
-					playersTankName = {this.props.playerOneTankName}
-					playersHealth = {this.props.playerOneHealth}
+					playersTank = {this.props.playerOneTank}
 				/>
 				<HealthBar 
-					playersTankName = {this.props.playerTwoTankName}
-					playersHealth = {this.props.playerTwoHealth}
+					playersTank = {this.props.playerTwoTank}
 				/>
 			</div>
 		);
