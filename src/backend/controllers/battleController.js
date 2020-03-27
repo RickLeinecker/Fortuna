@@ -22,30 +22,30 @@ exports.prepareMatch = async (req: Request, res: Response) => {
            .status(400)
            .json({ errors: errors.array() });
    }
-   const { challengeeId, challengerTankId } = req.body;
+   const { personBeingChallengedId, challengerTankId } = req.body;
 
    try{
     // Need to do query explicityly so that the returned doc isn't local to the try catch
-    const challengeeUserDoc = await User.findById(challengeeId, 'favoriteTank wager money stats.elo');
+    const personBeingChallengedUserDoc = await User.findById(personBeingChallengedId, 'favoriteTank wager money stats.elo');
 
-    if(challengeeUserDoc == null){
+    if(personBeingChallengedUserDoc == null){
         return res
             .status(404)
-            .json({ msg: 'Could not find the challengee in DB'})
+            .json({ msg: 'Could not find the personBeingChallenged in DB'})
     }
 
-    if(challengeeUserDoc.money < challengeeUserDoc.wager){
+    if(personBeingChallengedUserDoc.money < personBeingChallengedUserDoc.wager){
         return res
             .status(401)
-            .json({ msg: 'Challengee does not have enough money to wager'});
+            .json({ msg: 'personBeingChallenged does not have enough money to wager'});
     }
 
-    const challengeeTank = await Tank.findById(challengeeUserDoc.favoriteTank);
+    const personBeingChallengedTank = await Tank.findById(personBeingChallengedUserDoc.favoriteTank);
 
-    if(challengeeTank == null){
+    if(personBeingChallengedTank == null){
         return res
             .status(404)
-            .json({ msg: "Could not find the challengee's tank in DB"});
+            .json({ msg: "Could not find the personBeingChallenged's tank in DB"});
     }
 
     const challengerTank = await Tank.findById(challengerTankId);
@@ -65,19 +65,19 @@ exports.prepareMatch = async (req: Request, res: Response) => {
             .json({ msg: 'Could not find the challenger in DB'});
     }
 
-    if(challengerUserDoc.money < challengeeUserDoc.wager){
+    if(challengerUserDoc.money < personBeingChallengedUserDoc.wager){
         return res
             .status(401)
             .json({ msg: 'Challenger does not have enough money to wager'});
     }
 
     const newRecord = new BattleRecord({
-        userOne: challengeeId,
+        userOne: personBeingChallengedId,
         userTwo: challengerTank.userId,
-        tankOne: challengeeTank,
+        tankOne: personBeingChallengedTank,
         tankTwo: challengerTank,
         winner: -1,
-        prizeMoney: challengeeUserDoc.wager
+        prizeMoney: personBeingChallengedUserDoc.wager
     });
 
     await newRecord.save((err: Error) => {
@@ -101,7 +101,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
    }
 }
 
-exports.reportResults = async (req, res) => 
+exports.reportResults = async (req: Request, res: Response) => 
 {
     // Checks that we have received the correct body from the frontend 
     const errors = validationResult(req);
@@ -116,7 +116,7 @@ exports.reportResults = async (req, res) =>
    const { winner, battleId } = req.body;
 
    try{
-    const battle = await BattleRecord.findByIdAndUpdate(battleId, { winner : winner }, {new: true}, (err) => {
+    const battle = await BattleRecord.findByIdAndUpdate(battleId, { winner : winner }, {new: true}, (err: Error) => {
         if (err) {
             console.error(err.message);
             return res
@@ -133,8 +133,22 @@ exports.reportResults = async (req, res) =>
     }
  
     if (winner === 0) { // tie
-        return res
-            .json({ msg: 'This is a tie'});
+        // Update the ties for user stats
+        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { 'stats.ties' : 1 } }, {new: true});
+        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.ties' : 1 } }, {new: true});
+
+        if (userOne == null) {
+            console.log('userOne not found');
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userOne'});
+        }
+        else if (userTwo == null){
+            console.log('userTwo not found');
+            return res
+                .status(404)
+                .json({ msg: 'Could not find userTwo'});
+        }
     }
     else if (winner === 1) { // userOne victory
         
@@ -210,7 +224,7 @@ exports.reportResults = async (req, res) =>
         await userTwo.save();
     }
     else { // Invalid victor
-        console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the challengee is the victor, or 2 in the event the challenger is the victor');
+        console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the personBeingChallenged is the victor, or 2 in the event the challenger is the victor');
         return res
             .status(400)
             .json({ msg: 'Bad Request'});

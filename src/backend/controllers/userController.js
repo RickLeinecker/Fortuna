@@ -442,7 +442,7 @@ exports.allUsers = async (req: Request, res: Response) => {
 	});
 }
 
-exports.setWager = async (req: $Request, res: $Response) => {
+exports.setWager = async (req: Request, res: Response) => {
 	await User.findByIdAndUpdate(req.user.id, { wager: req.body.wager }, {new: true}, (err, updatedUser) => {
 		if (err) {
 			console.error(err.message)
