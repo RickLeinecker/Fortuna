@@ -21,6 +21,10 @@ class DeleteTankPopup extends React.Component<Props, State> {
 		}
 	}
 
+	handleDeleteClick(): void {
+		
+	}
+
 	render(): React.Node {
 		const deleteButton = (
 			<button className="popupbtn" onClick={() => this.handleDeleteClick()}>
@@ -38,13 +42,16 @@ class DeleteTankPopup extends React.Component<Props, State> {
 				</button>
 				<Popup
 					open={this.state.deleteTankOpen}
-					onClose={() this.setState({deleteTankOpen: false})}
+					onClose={() => this.setState({deleteTankOpen: false})}
 				>
-					<div className="popup">
-						<h4>Delete </h4>
+					<div className="popup deletePopup">
+						<h4>Delete {this.props.tank.tankName}?</h4>
+						{deleteButton}{cancelButton}
 					</div>
 				</Popup>
 			</div>
 		);
 	}
 }
+
+export default DeleteTankPopup;

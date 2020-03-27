@@ -331,10 +331,6 @@ class Armory extends React.Component<Props, State> {
 					<DeleteTankPopup
 						tank={this.state.selectedTank}
 					/>
-					<h6>Edit Selected Tank's Code</h6>
-					<Link to={verifyLink("/Casus")}>
-						<button type="button" className="primarybtn">Casus</button>
-					</Link>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
