@@ -15,13 +15,13 @@ import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../armory/TankComponent.js';
 
 function getTestTank(id: number=1): Tank {
-	const position=id===1?new Vec(20, -20):new Vec(50, 40);
+	const position=id===1?new Vec(-80, -40):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
 		position,
 		new Chassis(id===1?'moddableLight':'heavy'),  
 		new Gun(id===1?'laser':'plasma', false),
 		new Gun(id===1?'missile':'pulseLaser', true),
-		new Scanner(id===1?'mediumRangeScanner':'shortRangeScanner', false, false),
+		new Scanner(id===1?'longRangeScanner':'shortRangeScanner', false, false),
 		new TankPart('empty'),
 		new TankPart('empty'),
 		new Jammer(id===1?'mediumRangeJammer':'longRangeJammer'),

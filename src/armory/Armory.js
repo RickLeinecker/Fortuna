@@ -8,6 +8,7 @@ import './Armory.css';
 // Components
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
+import SelectTank from './SelectTank.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -46,6 +47,7 @@ type State = {|
 	componentList: Array<Component>,
 	currentPartIndex: number,
 	points: number,
+	showTanks: boolean,
 |};
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -81,6 +83,7 @@ class Armory extends React.Component<Props, State> {
 			componentList: [],
 			currentPartIndex: -1,
 			points: 0,
+			showTanks: false,
 		}
 
 		if (this.state.selectedTank == null) {
@@ -107,14 +110,17 @@ class Armory extends React.Component<Props, State> {
 					for(const tank of data) {
 						allTanks.push(getTank(tank));
 					}
-					this.setState({allTanks: allTanks});
-					const newSelectedTank=getTank(data[0]);
-					this.setState({selectedTank: newSelectedTank});
+					// Always set the default selected tank to the newest tank.
+					const newSelectedTank = getTank(data[allTanks.length - 1]);
 					setTankForCasus(newSelectedTank._id);
-					this.initPoints();
+					// Update the state, and then run initPoints after the state has been set.
+					this.setState(
+						{allTanks: allTanks, selectedTank: newSelectedTank, showTanks: false},
+						this.initPoints
+					);
 				}
 			})
-		)
+		);
 	}
 
 	// Gets all of the user's inventory.
@@ -152,9 +158,12 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	changeSelectedTank(newTankId: string): void {
-		this.setState({ selectedTank: this.state.allTanks.find(tank => tank._id === newTankId)});
-		this.initPoints();
+	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
+	changeSelectedTank: (string) => void = (newTankId: string) => {
+		this.setState(
+			{selectedTank: this.state.allTanks.find(tank => tank._id === newTankId), showTanks: false},
+			this.initPoints
+		);
 		setTankForCasus(newTankId);
 	}
 
@@ -299,27 +308,27 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
-					<h3>Select a Tank to Edit</h3>
-					<select className="dropdownMenu" onChange={e => this.changeSelectedTank(e.target.value)}>
-						{(this.state.allTanks != null) ?
-							this.state.allTanks.map(({tankName, _id}) => ({tankName, _id})).map(({tankName, _id}, index) =>
-								<option key={index} value={_id}>{tankName}</option>) :
-							<option></option>
-						}
-					</select>
+					<label>Edit Code:&emsp;</label>
+					<Link to={verifyLink("/Casus")}>
+						<button className="smallbtn">Casus</button>
+					</Link>
+					<br/><br/>
+					<h4>Selected Tank</h4>
+					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
+					<br/>
+					<SelectTank
+						allTanks={this.state.allTanks}
+						showTanks={this.state.showTanks}
+						changeSelectedTank={this.changeSelectedTank}
+					/>
 					<h6>Setup a Wager</h6>
 					<button type="button" className="btn">Setup</button>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
-						chassis={this.state.chassis} 
-						scanners={this.state.scanners} 
+						chassis={this.state.chassis}
 						treads={this.state.treads}
 					/>
 					<br/>
-					<h6>Edit Selected Tank's Code</h6>
-					<Link to={verifyLink("/Casus")}>
-						<button type="button" className="primarybtn">Casus</button>
-					</Link>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
@@ -327,11 +336,13 @@ class Armory extends React.Component<Props, State> {
 					<h4>Component Menu</h4>
 					<div className="componentMenu">
 						<table>
-							<tr>
-								<th>Component Name</th>
-								<th>Number Owned</th>
-								<th>Point Value</th>
-							</tr>
+							<thead>
+								<tr>
+									<th>Component Name</th>
+									<th>Number Owned</th>
+									<th>Point Value</th>
+								</tr>
+							</thead>
 							<tbody>
 								{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 									<tr key={index}>

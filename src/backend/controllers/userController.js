@@ -459,6 +459,52 @@ exports.allUsers = async (req: Request, res: Response) => {
 	});
 }
 
+// Still need to add daily stipend
+exports.setWager = async (req: Request, res: Response) => {
+	try {
+		const user = await User.findById(req.user.id, 'wager money');
+
+		// Check if found
+		if (user == null){
+			console.log('Could not find user in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find user in db'});
+		}
+
+		// Add back the balance of the original wager
+		// Theres gotta be a cleaner way to do this but idk
+		const addBack = user.money + user.wager;
+		user.money = addBack;
+
+		if (user.money < req.body.wager) {
+			console.log('User does not have enough money to set that wager');
+			return res
+				.status(400)
+				.json({ msg: 'User does not have enough money'});
+		}
+		else {
+			// change wager amount and take that money from their balance
+			const take = user.money - req.body.wager;
+			user.money = take;
+
+			user.wager = req.body.wager;
+
+			await user.save();
+
+			console.log('Wager successfully updated');
+			return res
+				.status(200)
+				.send(user);
+		}
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Failed to update user wager value'});
+	}
+}
+
 
 // FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
 // They in essence serve the same purpose.
