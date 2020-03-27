@@ -14,7 +14,7 @@ type Props = {|
 type State = {|
 |};
 
-const FPS=30;
+const FPS=20;
 const MIN_NEW_GUN_ANGLE_TIME=30*1, MAX_NEW_GUN_ANGLE_TIME=30*7;
 const LERP_SPEED_MIN=0.02, LERP_SPEED_MAX=0.1;
 

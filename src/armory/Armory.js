@@ -332,6 +332,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
+					<TankDisplay tankToDisplay={this.state.selectedTank} />
 					<h4>Component Menu</h4>
 					<div className="componentMenu">
 						<table>
@@ -361,7 +362,6 @@ class Armory extends React.Component<Props, State> {
 							</tbody>
 						</table>
 					</div>
-					<TankDisplay tankToDisplay={this.state.selectedTank} />
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>
