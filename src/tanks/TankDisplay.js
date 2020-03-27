@@ -14,14 +14,26 @@ type Props = {|
 type State = {|
 |};
 
+const FPS=30;
+const MIN_NEW_GUN_ANGLE_TIME=30*1, MAX_NEW_GUN_ANGLE_TIME=30*7;
+const LERP_SPEED_MIN=0.02, LERP_SPEED_MAX=0.1;
+
 class TankDisplay extends React.Component<Props, State> {
 	alive: boolean;
+	mainGunAngle: number;
+	targetGunAngle: number;
+	moveGunCounter: number;
+	lerpSpeed: number;
 
 	constructor(props: Props) {
 		super();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
+		this.mainGunAngle=0;
+		this.targetGunAngle=0;
+		this.moveGunCounter=0;
+		this.lerpSpeed=LERP_SPEED_MIN;
 	}
 
 	componentDidUpdate(): void {
@@ -30,6 +42,12 @@ class TankDisplay extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		this._rerender();
+		this.alive=true;
+		setTimeout(() => this._gameLoop(), 1000/20);
+	}
+
+	componentWillUnmount() {
+		this.alive=false;
 	}
 
 	render(): React.Node {
@@ -45,6 +63,33 @@ class TankDisplay extends React.Component<Props, State> {
 		);
 	}
 
+	_gameLoop(): void {
+		if (!this.alive) {
+			//stop updating
+			return;
+		}
+		this._update();
+		this._rerender();
+		setTimeout(() => this._gameLoop(), 1000/FPS);
+	}
+
+	_update(): void {
+		this.moveGunCounter--;
+		if (this.moveGunCounter<=0) {
+			this.moveGunCounter=MIN_NEW_GUN_ANGLE_TIME+Math.random()*(MAX_NEW_GUN_ANGLE_TIME-MIN_NEW_GUN_ANGLE_TIME);
+			this.targetGunAngle=Math.random()*6.28;
+			this.lerpSpeed=LERP_SPEED_MIN+Math.random()*(LERP_SPEED_MAX-LERP_SPEED_MIN);
+		}
+		const TAU=Math.PI*2;
+		let dAngle=((this.targetGunAngle-this.mainGunAngle)%TAU+TAU)%TAU;
+		if (dAngle>TAU/2) {
+			dAngle=dAngle-TAU;
+		}
+		dAngle=Math.max(-1, Math.min(1, dAngle));
+		this.mainGunAngle+=this._lerp(0, dAngle, this.lerpSpeed);
+		this.props.tankToDisplay.setTurretAngleForDisplayOnly(this.mainGunAngle);
+	}
+
 	_rerender(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -52,7 +97,6 @@ class TankDisplay extends React.Component<Props, State> {
 		ctx.fillRect(0, 0, 1e9, 1e9);
 		const drawer=new ImageDrawer(ctx, () => 400, () => 400);
 		drawer.setZoomScale(8);
-		drawer.draw(getImage('SHADOW'), new Vec(0, 0), 17, 0);
 		this.props.tankToDisplay.position=new Vec(0, 0);
 		this.props.tankToDisplay.render(drawer);
 	}
@@ -67,6 +111,9 @@ class TankDisplay extends React.Component<Props, State> {
 		}
 	}
 
+	_lerp(a: number, b: number, time: number) {
+		return b*time+a*(1-time);
+	}
 
 }
 
