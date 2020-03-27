@@ -4,7 +4,7 @@
 const mongoose = require("mongoose");
 
 // User Model
-const User = require('../../models/userModel');
+const User = require('./userModel');
 
 // Create test database
 const testDB = "mongodb://localhost/test";
@@ -37,5 +37,22 @@ describe("User model test", () => {
     // Tests if the Users have a module
     it("has a module", () => {
         expect(User).toBeDefined();
+    });
+
+    // Getting User
+    describe("Get User", () => {
+        it("gets a user", async () => {
+            const user = new User({
+                userName: "Test",
+                email: "test@testing.com",
+                password: "TestP@ssw0rd"
+            });
+            await user.save();
+
+            const foundUser = await User.findOne({ userName: "Test" });
+            const expected = "Test";
+            const actual = foundUser.userName;
+            expect(actual).toEqual(expected);
+        });
     });
 });
