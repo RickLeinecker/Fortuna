@@ -8,6 +8,9 @@ import {createSmokeCloud} from './Particle.js';
 
 import type Battleground from '../Battleground.js';
 
+const C4_RADIUS=30;
+const C4_DAMAGE=40;
+
 class C4 extends GameObject {
 
 	//note: rotation is random and should not affect gameplay in any way
@@ -29,6 +32,12 @@ class C4 extends GameObject {
 	explode(battleground: Battleground): void {
 		battleground.deleteGameObject(this);
 		createSmokeCloud(this.getPosition(), battleground);
+		const tanks=battleground.getTanks();
+		for (const t:Tank of tanks) {
+			if (t.getPosition().sub(this.getPosition())<C4_RADIUS) {
+				t.takeDamage(C4_DAMAGE);
+			}
+		}
 	}
 
 }

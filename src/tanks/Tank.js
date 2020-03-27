@@ -68,6 +68,7 @@ class Tank extends GameObject {
 	haveOverdrive: boolean;
 	overdriveTimerLeft: number;
 	haveMissileTracker: boolean;
+	health: number;
 
 	// parts: 
 	chassis: Chassis;
@@ -146,6 +147,7 @@ class Tank extends GameObject {
 		this.haveOverdrive = true; //TODO: remove this, just for testing...
 		this.overdriveTimerLeft = 0;
 		this.haveMissileTracker = true; //TODO: remove this, just for testing...
+		this.health = this._getArmorOffset();
 	}
 
 	update(battleground: Battleground): void {
@@ -160,7 +162,6 @@ class Tank extends GameObject {
 	}
 	
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
-
 		//movement stuff
 		const otherTanks = tanks.filter(otherTank => otherTank !== this);
 		const forwardMovementUnclamped = this._getDouble(FORWARD_MOVEMENT_VAR_NAME);
@@ -421,7 +422,7 @@ class Tank extends GameObject {
 		}
 		return ans;
 	}
-
+	
 	getUsingOverdrive(): boolean {
 		return this.overdriveTimerLeft>0;
 	}
@@ -430,6 +431,12 @@ class Tank extends GameObject {
 		if (this.scanner != null) {
 			this.scanner.getJammed();
 		}
+	}
+
+	takeDamage(damageAmount: number): void {
+		this.health-=damageAmount;
+		const maxHealth=this._getArmorOffset();
+		console.log('Took damage, now have '+this.health+' / '+maxHealth);
 	}
 
 }
