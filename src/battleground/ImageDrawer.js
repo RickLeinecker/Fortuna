@@ -82,6 +82,20 @@ class ImageDrawer {
 
 		this.ctx.font=oldFont;
 	}
+	
+	drawTimeText(text: string) {
+		const oldFont=this.ctx.font;
+
+		this.ctx.fillStyle='black';
+		this.ctx.font='normal small-caps 40px arial';
+		const width=this.ctx.measureText(text).width;
+		this.ctx.fillText(text, getBattlegroundWidth()*.95-width/2+2, getBattlegroundHeight()*.1+2);
+
+		this.ctx.fillStyle='white';
+		this.ctx.fillText(text, getBattlegroundWidth()*.95-width/2, getBattlegroundHeight()*.1);
+
+		this.ctx.font=oldFont;
+	}
 
 	setCameraPosition(position: Vec) {
 		this.position=position;

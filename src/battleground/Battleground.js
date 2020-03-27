@@ -17,6 +17,7 @@ const FADE_IN_START=10;
 const FADE_IN_LENGTH=60;
 const FPS=30;
 const INTRO_LENGTH=120;
+const MAX_MATCH_LENGTH=INTRO_LENGTH + 30*60;
 
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
@@ -96,12 +97,14 @@ class Battleground extends React.Component<{||}> {
 		}
 		this.lifetimeCounter++;
 
+		//sort objects in render order
 		this.gameObjects = this.gameObjects.concat(this.newObjects);
 		this.gameObjects.sort((a, b) => {
 			return a.getRenderOrder()-b.getRenderOrder();
 		});
 		this.newObjects = [];
 
+		//update and render
 		if (this.lifetimeCounter > INTRO_LENGTH) {
 			this._update();
 		}
@@ -129,7 +132,6 @@ class Battleground extends React.Component<{||}> {
 		const drawer=new ImageDrawer(ctx);
 
 		//camera movement and setup
-		const secondsLeft=Math.ceil((INTRO_LENGTH-this.lifetimeCounter)/30.0);
 		if (this.lifetimeCounter===30) {
 			this.targetZoomScale=2.5;
 			this.targetCameraPos=this.getTanks()[0].getPosition();
@@ -147,18 +149,24 @@ class Battleground extends React.Component<{||}> {
 		drawer.setCameraPosition(this.currentCameraPos);
 		drawer.setZoomScale(this.currentZoomScale);
 
+		//actually render all of the objects
 		drawer.draw(getImage('DIRT_BACKGROUND'), new Vec(0, 0), 200, 0, 1, 120);
-
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.render(drawer);
 		}
 
 		//title text and intro curtain
+		const secondsLeft=Math.ceil((INTRO_LENGTH-this.lifetimeCounter)/30.0);
 		if (secondsLeft<=3 && secondsLeft>=1) {
 			drawer.drawTitleText(''+secondsLeft);
 		}
 		else if (secondsLeft===0) {
 			drawer.drawTitleText('GO!');
+		}
+		if (this.lifetimeCounter>INTRO_LENGTH) {
+			const timeLeft=MAX_MATCH_LENGTH-this.lifetimeCounter;
+			const secondsLeft=Math.ceil(timeLeft/30);
+			drawer.drawTimeText(''+secondsLeft);
 		}
 		if (this.lifetimeCounter<FADE_IN_START) {
 			drawer.fillBlackRect(1);
