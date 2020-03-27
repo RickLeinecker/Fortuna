@@ -28,12 +28,22 @@ class DeleteTankPopup extends React.Component<Props, State> {
 			</button>
 		);
 		const cancelButton = (
-			<button className="cancelbtn" onClick={() => this.setState({deleteTankOpen: true})}>Cancel</button>
+			<button className="cancelbtn" onClick={() => this.setState({deleteTankOpen: false})}>Cancel</button>
 		);
 		return(
 			<div>
 				<h6>Delete Selected Tank</h6>
-				
+				<button className="btn" onClick={() => this.setState({deleteTankOpen: true})}>
+					Delete
+				</button>
+				<Popup
+					open={this.state.deleteTankOpen}
+					onClose={() this.setState({deleteTankOpen: false})}
+				>
+					<div className="popup">
+						<h4>Delete </h4>
+					</div>
+				</Popup>
 			</div>
 		);
 	}
