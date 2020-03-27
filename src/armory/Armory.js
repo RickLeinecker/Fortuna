@@ -284,7 +284,7 @@ class Armory extends React.Component<Props, State> {
 		this.updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
 		updatedTank.parts[partIndex] = newComponent;
 		// Reset component list to provide user feedback.
-		this.setState({selectedTank: updatedTank, componentList: []});
+		this.setState({selectedTank: updatedTank, componentList: [], currentPartIndex: -1});
 		// Save the tank.
 		this.saveTank();
 	}
