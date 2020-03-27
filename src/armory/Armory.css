@@ -41,17 +41,9 @@
 	display: inline;
 }
 
-.componentMenu {
+.componentMenu table {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 20px;
-}
-
-.componentMenu table {
-    height: 100px;
-    overflow: hidden;
-    overflow-y: scroll;
-    table-layout: fixed;
 }
 
 .componentMenu th, td {

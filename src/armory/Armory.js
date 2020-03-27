@@ -9,7 +9,7 @@ import './Armory.css';
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 // Functions
-import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
+import { getInventory, getComponentPoints, getComponentType } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
@@ -78,7 +78,7 @@ class Armory extends React.Component<Props, State> {
 			treads: [],
 			items: [],
 			componentList: [],
-			currentPartIndex: 0,
+			currentPartIndex: -1,
 			points: 0,
 		}
 
@@ -322,40 +322,50 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<table className="componentMenu">
-						<tr>
-							<th>Component Name</th>
-							<th>Number Owned</th>
-							<th>Point Value</th>
-						</tr>
-						{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
-							<tr key={index}>
-								<td align="left">
-									<button 
-										className="componentMenuBtn"
-										onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
-										disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
-									>
-										{this.toTitleCase(componentName)}
-									</button>
-								</td>
-								<td>{numberOwned}</td>
-								<td>{getComponentPoints(componentName)}</td>
+					<h4>{(this.state.currentPartIndex === -1) ? 
+						'Component Menu' : 
+						'Your ' + this.toTitleCase(getComponentType(this.state.selectedTank.parts[this.state.currentPartIndex].name)) + ' List'
+					}</h4>
+					<div className="componentMenu">
+						<table>
+							<tr>
+								<th>Component Name</th>
+								<th>Number Owned</th>
+								<th>Point Value</th>
 							</tr>
-						))}
-					</table>
+							<tbody>
+								{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
+									<tr key={index}>
+										<td align="left">
+											<button 
+												className="componentMenuBtn"
+												onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
+												disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
+											>
+												{this.toTitleCase(componentName)}
+											</button>
+										</td>
+										<td>{numberOwned}</td>
+										<td>{getComponentPoints(componentName)}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>
-					<h6>Chassis</h6>
+					<label>Chassis: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
 					>
 						{this.toTitleCase(this.state.selectedTank.chassis.name)}
 					</button>
+					<br/>
+					<br/>
 
-					<h6>Weapons: Main | Secondary</h6>
+					<label>Main Gun: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
@@ -363,14 +373,17 @@ class Armory extends React.Component<Props, State> {
 						{this.toTitleCase(this.state.selectedTank.mainGun.name)}
 					</button>
 					<br/>
+					<label>Secondary Gun: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
 					>
 						{this.toTitleCase(this.state.selectedTank.secondaryGun.name)}
 					</button>
+					<br/>
+					<br/>
 
-					<h6>Scanners: Scanner | Addon | Addon</h6>
+					<label>Scanners: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
@@ -378,37 +391,47 @@ class Armory extends React.Component<Props, State> {
 						{this.toTitleCase(this.state.selectedTank.scanner.name)}
 					</button>
 					<br/>
+					<label>Scanner Addon: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
+						disabled={(this.state.selectedTank.scanner.name === 'empty') ? true : false}
 					>
 						{this.toTitleCase(this.state.selectedTank.scannerAddonOne.name)}
 					</button>
 					<br/>
+					<label>Scanner Addon: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
+						disabled={(this.state.selectedTank.scanner.name === 'empty') ? true : false}
 					>
 						{this.toTitleCase(this.state.selectedTank.scannerAddonTwo.name)}
 					</button>
+					<br/>
+					<br/>
 
-					<h6>Jammers</h6>
+					<label>Jammers: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
 					>
 						{this.toTitleCase(this.state.selectedTank.jammer.name)}
 					</button>
+					<br/>
+					<br/>
 
-					<h6>Treads</h6>
+					<label>Treads: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
 					>
 						{this.toTitleCase(this.state.selectedTank.treads.name)}
 					</button>
+					<br/>
+					<br/>
 
-					<h6>Single-Use Items</h6>
+					<label>Item: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
@@ -416,6 +439,7 @@ class Armory extends React.Component<Props, State> {
 						{this.toTitleCase(this.state.selectedTank.itemOne.name)}
 					</button>
 					<br/>
+					<label>Item: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
@@ -423,6 +447,7 @@ class Armory extends React.Component<Props, State> {
 						{this.toTitleCase(this.state.selectedTank.itemTwo.name)}
 					</button>
 					<br/>
+					<label>Item: </label>
 					<button 
 						className="componentMenuBtn" 
 						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
