@@ -3,6 +3,7 @@
 import Vec from '../../casus/blocks/Vec.js';
 import Seg from '../../geometry/Seg.js';
 import GameObject from '../GameObject.js';
+import MissileTrackingBeacon from './MissileTrackingBeacon.js';
 import {getImage} from '../ImageLoader.js';
 
 import type ImageDrawer from '../ImageDrawer.js';
@@ -19,8 +20,9 @@ type BulletType =
 	'MISSILE' |
 	'PLASMA_BLOB' |
 	'PULSE_LASER_PARTICLE' |
-	'SHOTGUN_BULLET'|
-	'LANCER_PARTICLE';
+	'SHOTGUN_BULLET' |
+	'LANCER_PARTICLE' |
+	'MISSILE_TRACKER_DART';
 
 type BulletStats = {
 	speed: number,
@@ -78,8 +80,15 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 3,
 		width: 1,
 		lifetime: 0,
+	},
+	MISSILE_TRACKER_DART: {
+		speed: 5,
+		width: 6,
+		lifetime: 100,
 	}
 };
+
+const MAX_MISSILE_TURN=0.1;
 
 class Bullet extends GameObject {
 
@@ -114,9 +123,47 @@ class Bullet extends GameObject {
 	update(battleground: Battleground): void {
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		let vel=this.velocity.rotate(this.rotation);
+		//stuff for grenades slowing down over time 
 		if (this.bulletType === 'GRENADE_BULLET') {
 			vel = vel.scale((this.lifetime+stats.lifetime)/(stats.lifetime*2));
 		}
+		//end grenade stuff
+		
+		//stuff for missiles going towards tracking beacons
+		if (this.bulletType === 'MISSILE') {
+			const beacons = battleground.getAllGameObjects().filter(o => o instanceof MissileTrackingBeacon);
+			let target: ?MissileTrackingBeacon=null;
+			for (const beacon: GameObject of beacons) {
+				if (!(beacon instanceof MissileTrackingBeacon)) {
+					continue;
+				}
+				if (target == null || 
+					target.getPosition().sub(this.getPosition()).mag() > 
+					beacon.getPosition().sub(this.getPosition()).mag()) {
+					target=beacon;
+				}
+			}
+
+			if (target!=null) {
+				//then turn towards the target
+				const targetAngle=target.getPosition().sub(this.getPosition()).angle();
+				const TAU=Math.PI*2;
+				const dRotation=((targetAngle-this.rotation)%TAU+TAU)%TAU;
+				if (Math.abs(dRotation)<MAX_MISSILE_TURN || Math.abs(dRotation-TAU)<MAX_MISSILE_TURN) {
+					this.rotation=targetAngle;
+				}
+				else {
+					if (dRotation<TAU/2) {
+						this.rotation+=MAX_MISSILE_TURN;
+					}
+					else {
+						this.rotation-=MAX_MISSILE_TURN;
+					}
+				}
+			}
+		}
+		//end of missiles to tracking beacon stuff
+
 		const prevPosition=this.position;
 		this.position=this.position.add(vel);
 		this.lifetime--;
@@ -171,15 +218,23 @@ class Bullet extends GameObject {
 		const mySeg=new Seg(prevPosition, newPosition);
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
 		for (const t:Tank of allTanks) {
-			//TODO: inflict damage on other tanks
 			const distance=mySeg.distanceTo(t.getPosition());
 			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {
+				//TODO: inflict damage on other tanks
+				if (this.bulletType === 'MISSILE_TRACKER_DART') {
+					const beacon = new MissileTrackingBeacon(t);
+					battleground.createGameObject(beacon);
+				}
 				return true;
 			}
 		}
 		for (const seg:Seg of allSegs) {
 			const distance=mySeg.distanceTo(seg);
 			if (distance<seg.paddingWidth+EXTRA_WIDTH/2) {
+				if (this.bulletType === 'MISSILE_TRACKER_DART') {
+					const beacon = new MissileTrackingBeacon(this.getPosition());
+					battleground.createGameObject(beacon);
+				}
 				return true;
 			}
 		}
