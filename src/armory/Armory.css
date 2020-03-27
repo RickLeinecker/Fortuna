@@ -2,36 +2,77 @@
 .armoryleft {
     width: 30%;
     padding-left: 20px;
+    margin-top: 5%;
 }
 
 .armoryleft h6 {
     margin-top: 50px;
 }
 
-.armoryleft h3 {
-    margin-top: 150px;
-}
-
 .armorymiddle {
     width: 40%;
     text-align: center;
+    margin-top: 5%;
 }
 
 .armorymiddle h6 {
     padding-top: 450px;
 }
 
-.armorymiddle h1 {
-    margin-top: 150px;
-}
-
 .armoryright {
     width: 30%;
-    margin-top: 150px;
+    margin-top: 5%;
     padding-right: 10px;
 }
 
 .armoryright h6 {
     margin-bottom: 10px;
     margin-top: 20px;
+}
+
+.tankComponentMenu {
+	width: 30%;
+	cursor: pointer;
+	margin-right: 10px;
+	border-radius: 4px;
+	border-color: #04CCFF;
+	background-color: #04CCFF;
+	color: #000921;
+	display: inline;
+}
+
+.componentMenu table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.componentMenu th, td {
+    padding: 8px;
+    border-right: 1px solid #04CCFF;
+    border-left: 1px solid #04CCFF;
+}
+
+.componentMenuBtn {
+    border: none;
+    background: none;
+    color: #aa00ff;
+}
+
+.componentMenuBtn:active,
+.componentMenuBtn:focus {
+    border: 0.2em solid #aa00ff;
+    color: #aa00ff;
+}
+
+.componentMenuBtn:hover {
+    color: #7200ac;
+}
+
+.componentMenuBtn:disabled {
+    color: gray;
+}
+
+.componentMenuBtn:disabled:hover {
+    color: gray;
+    cursor: default;
 }

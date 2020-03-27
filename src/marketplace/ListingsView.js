@@ -1,6 +1,6 @@
 //@flow strict
 import * as React from 'react';
-import {getTankComponent, verifyComponent} from '../armory/GetInventoryInfo.js';
+import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
 import type {ComponentType} from '../armory/ComponentType.js';
 import SaleObject from './saleObjectClass.js';

@@ -9,6 +9,8 @@ type ImageName =
 	'C4' |
 	'MINE' |
 	'MINE_UNTRIGGERED' |
+	'MISSILE_TRACKER_DART' |
+	'MISSILE_TRACKER_TARGET' |
 
 	//particles
 	'EMBER1' |

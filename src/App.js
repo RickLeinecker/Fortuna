@@ -9,7 +9,7 @@ class App extends React.Component<{||}> {
 	
 	render(): React.Node {
 		return (
-			<Login/>
+			<Login />
 		);
 	}
 }

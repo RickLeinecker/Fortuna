@@ -2,8 +2,8 @@
 
 import Cookies from 'universal-cookie';
 
-function setTankForCasus(token: string): void {
-	return new Cookies().set('tankIDForCasus', token, {path: '/'});
+function setTankForCasus(tankId: string): string {
+	return new Cookies().set('selectedTankId', tankId);
 }
 
 export default setTankForCasus;
