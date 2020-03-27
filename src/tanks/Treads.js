@@ -41,6 +41,8 @@ class Treads extends TankPart {
 			case 'armoredTreads':
 				this.treadType = 'TREAD_4';
 				break;
+			case 'empty':
+				this.treadType = 'TREAD_1';
 			default:
 				break;
 		}

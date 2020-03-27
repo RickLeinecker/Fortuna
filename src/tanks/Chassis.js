@@ -48,6 +48,8 @@ class Chassis extends TankPart {
 			case 'moddableLight':
 				this.chassisType = 'CHASSIS_5';
 				break;
+			case 'empty':
+				this.chassisType = 'CHASSIS_1';
 			default:
 				break;
 		}

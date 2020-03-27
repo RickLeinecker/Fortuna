@@ -79,7 +79,7 @@ class Mine extends GameObject {
 		createSmokeCloud(this.getPosition(), battleground);
 		const tanks=battleground.getTanks();
 		for (const t:Tank of tanks) {
-			if (t.getPosition().sub(this.getPosition())<MINE_DAMAGE_RADIUS) {
+			if (t.getPosition().sub(this.getPosition()).mag()<MINE_DAMAGE_RADIUS) {
 				t.takeDamage(MINE_DAMAGE);
 			}
 		}

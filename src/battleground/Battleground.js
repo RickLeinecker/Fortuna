@@ -23,7 +23,7 @@ const FADE_IN_LENGTH=60;
 const FPS=30;
 const INTRO_LENGTH=120;
 const MAX_MATCH_LENGTH=INTRO_LENGTH + 30*60;
-const POST_MATCH_TIME=60;
+const POST_MATCH_TIME=90;
 
 const TitleMessageForMatchResult: {[MatchResult]: string} = {
 	IN_PROGRESS: '',
