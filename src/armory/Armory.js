@@ -322,33 +322,50 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<h4>Component Menu</h4>
-					<div className="componentMenu">
-						<table>
-							<tr>
-								<th>Component Name</th>
-								<th>Number Owned</th>
-								<th>Point Value</th>
-							</tr>
-							<tbody>
-								{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
-									<tr key={index}>
-										<td align="left">
-											<button 
-												className="componentMenuBtn"
-												onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
-												disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
-											>
-												{this.toTitleCase(componentName)}
-											</button>
-										</td>
-										<td>{numberOwned}</td>
-										<td>{getComponentPoints(componentName)}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+					{(this.state.currentPartIndex === -1) ?
+						<div></div> :
+						<div className="componentMenu">
+							<h4>Component Menu</h4>
+							<table>
+								<tr>
+									<th>Component Name</th>
+									<th>Number Owned</th>
+									<th>Point Value</th>
+								</tr>
+								<tbody>
+									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
+										<tr key={index}>
+											<td align="left">
+												<button 
+													className="componentMenuBtn"
+													onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
+													disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
+												>
+													{this.toTitleCase(componentName)}
+												</button>
+											</td>
+											<td>{numberOwned}</td>
+											<td>{getComponentPoints(componentName)}</td>
+										</tr>
+									))}
+									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
+										<div></div> :
+										<tr>
+											<td align="left">
+												<button 
+													className="componentMenuBtn"
+													onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
+												>
+													Empty
+												</button>
+											</td>
+											<td></td><td></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					}
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>
