@@ -182,11 +182,12 @@ class Armory extends React.Component<Props, State> {
 					console.log(data.msg);
 					console.log(data);
 				}
+				else {
+					// Update the user inventory once the tank is saved and backend is refreshed.
+					this.getUserInventory();
+				}
 			})
 		);
-
-		// With user's inventory updated, update the inventory on the frontend.
-		this.getUserInventory();
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.

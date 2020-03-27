@@ -66,6 +66,12 @@
     color: #aa00ff;
 }
 
+.componentMenuBtn:active,
+.componentMenuBtn:focus {
+    border: 0.2em solid #aa00ff;
+    color: #aa00ff;
+}
+
 .componentMenuBtn:hover {
     color: #7200ac;
 }
