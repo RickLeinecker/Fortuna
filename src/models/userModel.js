@@ -27,14 +27,18 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Boolean,
         default: false
     },
-    // User starts with 0 money by default. This can be changed as needed
+    // User starts with 50000 money by default. This can be changed as needed
     money: {
         type: Number,
-        default: 0
+        default: 50000
     },
     wager: {
         type: Number,
         default: 0
+    },
+    // Update this field when user makes a new wager
+    wagerUpdate: {
+        type: Date
     },
     // String is the ObjectId of tank that is marked as favorite
     favoriteTank: {
