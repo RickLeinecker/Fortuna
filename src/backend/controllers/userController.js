@@ -36,7 +36,7 @@ exports.register = async (req: Request, res: Response) => {
 	const { userName, email, password } = req.body;
 
 	// Attempts to add User to the database
-	try{
+	try {
 		// See if a user already exists with that username.
 		let user = await User.findOne({ userName });
 		if(user != null) {
@@ -127,14 +127,22 @@ exports.register = async (req: Request, res: Response) => {
 			}
 		});
 
+		const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+
+		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
+
 		// Set email options
 		const mailOptions = {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
-			text: `Greetings Commander ${user.userName}!
-			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
-			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
+			text: textBody,
+			html: htmlBody
 		};
 
 		// Send confirmation email with token
@@ -352,15 +360,24 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 			}
 		});
 
+		const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'We recieved word that you needed to reconfirm your email.\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+
+		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>We recieved word that you needed to reconfirm your email.<br />
+		Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;		
+
 		// Set email options
 		const mailOptions = {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Reconfirmation Token',
-			text: `Greetings Commander ${user.userName}!
-			We recieved word that you needed to reconfirm your email once more.
-			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
-			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
+			text: textBody,
+			html: htmlBody
 		};
 
 		// Send confirmation email with token
