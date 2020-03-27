@@ -36,8 +36,8 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Number,
         default: 0
     },
-    // Update this field when user makes a new wager
-    wagerUpdate: {
+    // Date the last time user made a wager that gave them a stipend
+    wagerDate: {
         type: Date
     },
     // String is the ObjectId of tank that is marked as favorite
