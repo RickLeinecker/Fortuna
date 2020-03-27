@@ -67,8 +67,9 @@ exports.userTanks = async (req: Request, res: Response) => {
 
 exports.assignTank = async (req: Request, res: Response) => {
 	const tank = new Tank();
-	tank.userId = req.user.id;
+	tank.userId = req.body.userId;
 	tank.tankName = req.body.tankName;
+	tank.components = req.body.components;
 	await tank.save((err: Error) => {
         if (err) {
 			console.error(err.message);
@@ -165,7 +166,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	tank.userId = userId;
 	tank.components = components;
 	tank.isBot = isBot;
-	await tank.save((err: Error) => {
+	tank.save((err: Error) => {
 		if (err) {
 			console.error(err.message);
 			res.send(err);

@@ -53,6 +53,7 @@ class Armory extends React.Component<Props, State> {
 	constructor() {
 		super();
 		verifyLogin();
+		this.handleCreateTank = this.handleCreateTank.bind(this);
 		// Create a blank tank as a placeholder until tanks are pulled.
 		const blankTank: BackendTank = new BackendTank();
 		blankTank._id = '';
@@ -147,6 +148,12 @@ class Armory extends React.Component<Props, State> {
 	toTitleCase(str: string): string {
 		let newStr = str.replace( /([A-Z])/g, " $1");
 		return newStr.charAt(0).toUpperCase() + newStr.slice(1);
+	}
+
+	// When a new tank is created, set it as the selectedTank and update the allTanks in state.
+	handleCreateTank(tankId: string): void {
+		this.getTanks();
+		console.log(this.state.allTanks);
 	}
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
@@ -310,9 +317,9 @@ class Armory extends React.Component<Props, State> {
 					<button type="button" className="btn">Setup</button>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
-						chassis={this.state.chassis} 
-						scanners={this.state.scanners} 
+						chassis={this.state.chassis}
 						treads={this.state.treads}
+						handleCreateTank={this.handleCreateTank}
 					/>
 					<br/>
 					<h6>Edit Selected Tank's Code</h6>
@@ -325,11 +332,13 @@ class Armory extends React.Component<Props, State> {
 					<h4>Component Menu</h4>
 					<div className="componentMenu">
 						<table>
-							<tr>
-								<th>Component Name</th>
-								<th>Number Owned</th>
-								<th>Point Value</th>
-							</tr>
+							<thead>
+								<tr>
+									<th>Component Name</th>
+									<th>Number Owned</th>
+									<th>Point Value</th>
+								</tr>
+							</thead>
 							<tbody>
 								{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 									<tr key={index}>
