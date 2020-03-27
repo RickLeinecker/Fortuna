@@ -79,4 +79,15 @@ router.get('/retrieveUser/:userId', userController.retrieveUser);
 // Returns an array of json users including the elo, _id, and userName
 router.get('/leaderboard', userController.getLeaders);
 
+// Set the wager amount for a user account
+// Route call: /setWager
+// Header: x-auth-token
+// Body: wager: int
+// returns the updated user doc
+router.patch('/setWager', [
+    check('wager', 'Please enter the wager amount you would like to set')
+        .isInt()
+], auth,  userController.setWager);
+
+
 module.exports = router;
