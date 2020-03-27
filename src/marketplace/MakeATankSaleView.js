@@ -5,6 +5,7 @@ import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
 import BackendTank from '../tanks/BackendTank.js';
+import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {||}; 
 type State = {|
@@ -74,8 +75,9 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					for (const tank in jsonObjectOfTanks) {
 						const blankTank: BackendTank = new BackendTank();
 						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
-						blankTank.tankId = jsonObjectOfTanks[tank]._id;
-						tankOptions.push(blankTank);
+						blankTank._id = jsonObjectOfTanks[tank]._id;
+						blankTank.components = [];
+						tankOptions.push(getTank(blankTank));
 					}
 					this.setState({tanksToSell : tankOptions});
 				}
@@ -114,7 +116,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, tankId }, index) => <option key={index}  value={tankId}>{tankName}</option>)}</select>
+				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
 				<label>Selling Price</label>
 				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
