@@ -24,9 +24,9 @@ exports.prepareMatch = async (req: Request, res: Response) => {
    }
    const { personBeingChallengedId, challengerTankId } = req.body;
 
-   try{
+   try {
     // Need to do query explicityly so that the returned doc isn't local to the try catch
-    const personBeingChallengedUserDoc = await User.findById(personBeingChallengedId, 'favoriteTank wager money stats.elo');
+    const personBeingChallengedUserDoc = await User.findById(personBeingChallengedId, 'money wager favoriteTank');
 
     if(personBeingChallengedUserDoc == null){
         return res
@@ -56,9 +56,10 @@ exports.prepareMatch = async (req: Request, res: Response) => {
             .json({ msg: "Could not find the challenger's Tank in DB"});
     }
 
+    
     // Query the amount of money the challenger has
     const challengerUserDoc = await User.findById(challengerTank.userId, 'money');
-
+    
     if(challengerUserDoc == null){
         return res
             .status(404)
@@ -77,10 +78,22 @@ exports.prepareMatch = async (req: Request, res: Response) => {
         tankOne: personBeingChallengedTank,
         tankTwo: challengerTank,
         winner: -1,
-        prizeMoney: personBeingChallengedUserDoc.wager
+        prizeMoney: (personBeingChallengedUserDoc.wager * 2), // Each person puts in for the wager
+        eloExchanged: 0
     });
+    
+    // Take the wager amount from each player's money
+    const challengerBalance = challengerUserDoc.money - personBeingChallengedUserDoc.wager;
+    challengerUserDoc.money = challengerBalance;
 
-    await newRecord.save((err: Error) => {
+    const personBeingChallengedBalance = personBeingChallengedUserDoc.money - personBeingChallengedUserDoc.wager;
+    personBeingChallengedUserDoc.money = personBeingChallengedBalance;
+
+    // Save the updated balance to the db
+    await personBeingChallengedUserDoc.save();
+    await challengerUserDoc.save();
+    
+    await newRecord.save ((err: Error) => {
         if (err) {
             console.error(err.message);
             return res
@@ -91,10 +104,10 @@ exports.prepareMatch = async (req: Request, res: Response) => {
             console.log('Match successfully created!');
             return res
                 .status(200)
-                .send(newRecord._id) // Can I do this?
+                .send(newRecord._id)
         }
     });
-   }catch(err){
+   } catch (err) {
        return res
                .status(500)
                .json({ msg: 'Server Error'});
@@ -115,7 +128,7 @@ exports.reportResults = async (req: Request, res: Response) =>
 
    const { winner, battleId } = req.body;
 
-   try{
+   try {
     const battle = await BattleRecord.findByIdAndUpdate(battleId, { winner : winner }, {new: true}, (err: Error) => {
         if (err) {
             console.error(err.message);
@@ -163,10 +176,10 @@ exports.reportResults = async (req: Request, res: Response) =>
         }
 
         // Update money and losses for user two
-        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money : (battle.prizeMoney * -1), 'stats.losses' : 1 } }, {new: true});
+        const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.losses' : 1 } }, {new: true});
 
         if (userTwo == null) {
-            console.log('userOne not found')
+            console.log('userTwo not found')
             return res
                 .status(404)
                 .json({ msg: 'Could not find userTwo'});
@@ -189,7 +202,7 @@ exports.reportResults = async (req: Request, res: Response) =>
     }
     else if (winner === 2){ // userTwo victory
         // Update money and losses for user one
-        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money : (battle.prizeMoney * -1), 'stats.losses' : 1 } }, {new: true});
+        const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { 'stats.losses' : 1 } }, {new: true});
 
         if (userOne == null) {
             console.log('userOne not found')
@@ -202,7 +215,7 @@ exports.reportResults = async (req: Request, res: Response) =>
         const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money : battle.prizeMoney, 'stats.wins' : 1 } }, {new: true});
 
         if (userTwo == null) {
-            console.log('userOne not found')
+            console.log('userTwo not found')
             return res
                 .status(404)
                 .json({ msg: 'Could not find userTwo'});

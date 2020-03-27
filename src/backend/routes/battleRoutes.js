@@ -20,7 +20,7 @@ const battleController = require('../controllers/battleController');
 router.post('/prepareMatch', [
     check('challengerTankId', 'challengerTankId is required')
         .isMongoId(),
-    check('challengeeId', 'challengeeId is required')
+    check('personBeingChallengedId', 'challengeeId is required')
         .isMongoId()
 ], auth, battleController.prepareMatch);
 
