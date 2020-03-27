@@ -29,6 +29,7 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import Cookies from 'universal-cookie';
+import TankDisplay from '../tanks/TankDisplay.js';
 
 type Props = {||};
 
@@ -360,6 +361,7 @@ class Armory extends React.Component<Props, State> {
 							</tbody>
 						</table>
 					</div>
+					<TankDisplay tankToDisplay={this.state.selectedTank} />
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>
