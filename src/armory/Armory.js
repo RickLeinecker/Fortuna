@@ -321,8 +321,12 @@ class Armory extends React.Component<Props, State> {
 						showTanks={this.state.showTanks}
 						changeSelectedTank={this.changeSelectedTank}
 					/>
-					<h6>Setup a Wager</h6>
-					<button type="button" className="btn">Setup</button>
+					<br/>
+					<br/>
+					<label>Setup a Wager&emsp;</label>
+					<button type="button" className="smallbtn">Setup</button>
+					<br/>
+					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
 						chassis={this.state.chassis}

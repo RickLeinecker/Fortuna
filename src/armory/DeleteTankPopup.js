@@ -23,9 +23,10 @@ class DeleteTankPopup extends React.Component<Props, State> {
 		}
 	}
 
+	// Deletes the currently selected take after confirmation.
 	handleDeleteClick(): void {
 		const cookies = new Cookies();
-		const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank' + this.props.tank._id, {
+		const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + this.props.tank._id, {
 			method: 'DELETE',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
@@ -67,19 +68,21 @@ class DeleteTankPopup extends React.Component<Props, State> {
 		);
 		return(
 			<div>
-				<h6>Delete Selected Tank</h6>
-				<button className="btn" onClick={() => this.setState({deleteTankOpen: true})}>
+				<label>Delete Selected Tank&emsp;</label>
+				<button className="smallbtn" onClick={() => this.setState({deleteTankOpen: true})}>
 					Delete
 				</button>
-				<Popup
-					open={this.state.deleteTankOpen}
-					onClose={() => this.setState({deleteTankOpen: false})}
-				>
-					<div className="popup deletePopup">
-						<h4>Delete {this.props.tank.tankName}?</h4>
-						{deleteButton}{cancelButton}
-					</div>
-				</Popup>
+				<div className="deletePopup">
+					<Popup
+						open={this.state.deleteTankOpen}
+						onClose={() => this.setState({deleteTankOpen: false})}
+					>
+						<div className="popup">
+							<h4>Delete {this.props.tank.tankName}?</h4>
+							{deleteButton}{cancelButton}
+						</div>
+					</Popup>
+				</div>
 			</div>
 		);
 	}
