@@ -10,7 +10,7 @@ import User from '../../models/userModel';
 import Tank from '../../models/tankModel';
 
 // Master Seller Account
-const MASTER_ID = process.env.MASTER_SELLER.valueOf();
+const MASTER_ID = process.env.MASTER_SELLER;
 
 // Adds a Marketplace Sale
 // Different branches depending the itemType
@@ -446,7 +446,8 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                 });
 
                 // Remove the sale from database if it does not belong to master account
-                if (sellerId !== MASTER_ID) {
+                if (sellerId !== String(MASTER_ID)) {
+                    console.log('Sale belongs to a user. Deleting.');
                     await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
                         if (err) {
                             console.error(err.message);
@@ -455,6 +456,8 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                                 .json({ msg: 'Could not delete market sale.' });
                         }
                     });
+                } else {
+                    console.log('Sale belongs to master account. Not deleting.')
                 }
 
                 // Return current buyer
@@ -496,7 +499,8 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                 });
 
                 // Remove the sale from database if it does not belong to master account
-                if (sellerId !== MASTER_ID) {
+                if (sellerId !== String(MASTER_ID)) {
+                    console.log('Sale belongs to a user. Deleting.');
                     await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
                         if (err) {
                             console.error(err.message);
@@ -505,6 +509,8 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                                 .json({ msg: 'Could not delete market sale.' });
                         }
                     });
+                } else {
+                    console.log('Sale belongs to master account. Not deleting.')
                 }
 
                 // Return current buyer
