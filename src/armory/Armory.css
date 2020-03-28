@@ -76,3 +76,30 @@
     color: gray;
     cursor: default;
 }
+
+.tankList {
+    height: 100px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.tankList h6 {
+    margin-top: 10px;
+}
+
+.tankListBtn {
+    color: #0062ff;
+    border: none;
+    background: none;
+}
+
+.tankListBtn:hover {
+    color: #003fa5;
+}
+
+.tankListBtn:active,
+.tankListBtn:focus {
+    border: 0.2em solid #0062ff;
+    color: #0062ff;
+}
+

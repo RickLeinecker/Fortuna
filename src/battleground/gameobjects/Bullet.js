@@ -28,6 +28,7 @@ type BulletStats = {
 	speed: number,
 	width: number,
 	lifetime: number,
+	damage: number,
 };
 
 const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
@@ -35,56 +36,67 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 1.4,
 		width: 25,
 		lifetime: 100,
+		damage: 20,
 	},
 	GREEN_LASER: {
 		speed: 7,
 		width: 40,
 		lifetime: 100,
+		damage: 3,
 	},
 	GRENADE_BULLET: {
 		speed: 2,
 		width: 12,
 		lifetime: 15,
+		damage: 10,
 	},
 	GUN_BULLET: {
 		speed: 2,
 		width: 13,
 		lifetime: 39,
+		damage: 3,
 	},
 	RED_LASER: {
 		speed: 6,
 		width: 20,
 		lifetime: 100,
+		damage: 3,
 	},
 	MISSILE: {
 		speed: 1.4,
 		width: 10,
 		lifetime: 100,
+		damage: 7,
 	},
 	PLASMA_BLOB: {
 		speed: 1.2,
 		width: 20,
 		lifetime: 100,
+		damage: 30,
 	},
 	PULSE_LASER_PARTICLE: {
 		speed: 0,
 		width: 150,
 		lifetime: 18,
+		damage: 6,
 	},
 	SHOTGUN_BULLET: {
 		speed: 4,
 		width: 13,
 		lifetime: 10,
+		damage: 2,
 	},
 	LANCER_PARTICLE: {
 		speed: 3,
 		width: 1,
 		lifetime: 0,
+		damage: 40,
 	},
 	MISSILE_TRACKER_DART: {
 		speed: 5,
 		width: 6,
 		lifetime: 100,
+		damage: 0,
 	}
 };
 
@@ -216,11 +228,13 @@ class Bullet extends GameObject {
 		const allTanks=battleground.getTanks().filter(t => t!==this.tankToIgnore);
 
 		const mySeg=new Seg(prevPosition, newPosition);
+		const stats=STATS_FOR_BULLET[this.bulletType];
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
 		for (const t:Tank of allTanks) {
 			const distance=mySeg.distanceTo(t.getPosition());
 			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {
 				//TODO: inflict damage on other tanks
+				t.takeDamage(stats.damage);
 				if (this.bulletType === 'MISSILE_TRACKER_DART') {
 					const beacon = new MissileTrackingBeacon(t);
 					battleground.createGameObject(beacon);
