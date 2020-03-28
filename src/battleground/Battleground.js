@@ -11,11 +11,11 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
+
 type Props = {|
 	setPlayerOneTank: (Tank) => void,
 	setPlayerTwoTank: (Tank) => void,
 |};
-
 
 type MatchResult = 
 	'IN_PROGRESS' |
