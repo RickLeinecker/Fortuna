@@ -27,7 +27,7 @@ class TankDisplay extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super();
-		window.addEventListener('resize', () => this._rerender());
+		window.addEventListener('resize', this.onResize);
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 		this.mainGunAngle=0;
@@ -40,6 +40,8 @@ class TankDisplay extends React.Component<Props, State> {
 		this._rerender();
 	}
 
+	onResize = () => this._rerender();
+
 	componentDidMount(): void {
 		this._rerender();
 		this.alive=true;
@@ -48,6 +50,7 @@ class TankDisplay extends React.Component<Props, State> {
 
 	componentWillUnmount() {
 		this.alive=false;
+		window.removeEventListener('resize', this.onResize);
 	}
 
 	render(): React.Node {
