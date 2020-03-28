@@ -16,6 +16,15 @@ type State = {
 
 class BattlegroundContainer extends React.Component<Props, State> {
 
+	constructor(props: Props) {
+		super(props);
+
+		this.state= {
+			playerOneTank : null,
+			playerTwoTank : null
+		}
+	}
+
 	render(): React.Node {
 		return (
 			<div className="haveScorebarIfSmall">
