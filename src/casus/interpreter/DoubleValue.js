@@ -14,7 +14,7 @@ class DoubleValue {
 	}
 	
 	sub(o: DoubleValue): DoubleValue {
-		return new DoubleValue(this.val+o.val);
+		return new DoubleValue(this.val-o.val);
 	}
 
 	mul(o: DoubleValue): DoubleValue {
