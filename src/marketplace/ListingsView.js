@@ -2,12 +2,12 @@
 import * as React from 'react';
 import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
-import type {ComponentType} from '../armory/ComponentType.js';
-import SaleObject from './saleObjectClass.js';
+import type {SellingType} from './SellingType.js';
+import SaleObject from './SaleObject.js';
 
 type Props = {|
 	//This is the type of item we are buying
-	sellerType: ComponentType,
+	sellerType: SellingType,
 |};
 type State = {|
 	userId: string,
@@ -31,7 +31,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps:Props) {
+	componentDidUpdate(prevProps:Props) : void {
 		this.directSaleToProperFunction();
 	}
 
@@ -118,7 +118,6 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This function uses the users id and gets the tanks that are active in the marketplace
 	getMarketSalesForTanks() : void  {
-		const itemsForSaleArray = [];
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getTankMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -137,10 +136,10 @@ class ListingsView extends React.Component<Props, State> {
 				}
 				else {
 					const jsonObjectOfSells = data;
+					const itemsForSaleArray = [];
 					for (const sale in jsonObjectOfSells) {
 						//if this isn't a component it must be a tank so we can process it here
 						if(getComponentType(jsonObjectOfSells[sale].itemId._id) == null) {
-							console.log(jsonObjectOfSells[sale]);
 							const sellingObject = new SaleObject(
 								jsonObjectOfSells[sale].itemId.tankName,
 								jsonObjectOfSells[sale].salePrice,
