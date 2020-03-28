@@ -355,7 +355,7 @@ class Armory extends React.Component<Props, State> {
 													onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
 													disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
 												>
-													{this.toTitleCase(componentName)}
+													{toTitleCase(componentName)}
 												</button>
 											</td>
 											<td>{numberOwned}</td>
