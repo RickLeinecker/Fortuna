@@ -5,7 +5,6 @@ import Battleground from './Battleground.js';
 import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
-import "../Main.css";
 
 type Props = {||};
 
@@ -19,10 +18,6 @@ class BattlegroundContainer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.state= {
-			playerOneTank : null,
-			playerTwoTank : null
-		}
 	}
 
 	render(): React.Node {
@@ -34,8 +29,8 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					pageName='Battleground'
 				/>
 				<HealthBarsField
-					playerOneTank = {this.state.playerOneTank}
-					playerTwoTank = {this.state.playerTwoTank}
+					playerOneTank = {this.state?.playerOneTank ?? null}
+					playerTwoTank = {this.state?.playerTwoTank ?? null}
 				/>
 				<Battleground 
 					setPlayerOneTank = {this.setPlayerOneTank}

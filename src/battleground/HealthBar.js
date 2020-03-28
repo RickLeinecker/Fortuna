@@ -1,7 +1,6 @@
 //@flow strict
 
 import * as React from 'react';
-import "../Main.css";
 import Tank from '../tanks/Tank.js';
 
 type Props = {
@@ -14,9 +13,6 @@ class HealthBar extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 		
-		this.props= {
-			playersTank : null,
-		}
 	}
 
 	componentDidUpdate(prevProps: Props) {

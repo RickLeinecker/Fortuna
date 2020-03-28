@@ -1,13 +1,12 @@
 //@flow strict
 
 import * as React from 'react';
-import "../Main.css";
 import HealthBar from './HealthBar.js';
 import Tank from '../tanks/Tank.js';
 
 type Props = {|
-	playerOneTank: Tank,
-	playerTwoTank: Tank,
+	playerOneTank?: Tank,
+	playerTwoTank?: Tank,
 |};
 
 type State = {
