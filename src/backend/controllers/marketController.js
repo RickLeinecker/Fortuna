@@ -9,6 +9,9 @@ import MarketSale from '../../models/marketSaleModel';
 import User from '../../models/userModel';
 import Tank from '../../models/tankModel';
 
+// Master Seller Account
+const MASTER_ID = process.env.MASTER_SELLER.valueOf();
+
 // Adds a Marketplace Sale
 // Different branches depending the itemType
 exports.addMarketSale = async (req: Request, res: Response) => {
@@ -442,15 +445,17 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                     }
                 });
 
-                // Remove the sale from database
-                await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not delete market sale.' });
-                    }
-                });
+                // Remove the sale from database if it does not belong to master account
+                if (sellerId !== MASTER_ID) {
+                    await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+                        if (err) {
+                            console.error(err.message);
+                            return res
+                                .status(500)
+                                .json({ msg: 'Could not delete market sale.' });
+                        }
+                    });
+                }
 
                 // Return current buyer
                 console.log('Successfully Bought Component(s)');
@@ -490,15 +495,17 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                     }
                 });
 
-                // Remove the sale from database
-                await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not delete market sale.' });
-                    }
-                });
+                // Remove the sale from database if it does not belong to master account
+                if (sellerId !== MASTER_ID) {
+                    await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+                        if (err) {
+                            console.error(err.message);
+                            return res
+                                .status(500)
+                                .json({ msg: 'Could not delete market sale.' });
+                        }
+                    });
+                }
 
                 // Return current buyer
                 console.log('Successfully Bought Casus Block(s)');
