@@ -5,7 +5,7 @@ import "../Main.css";
 import Tank from '../tanks/Tank.js';
 
 type Props = {
-	playersTank: Tank,
+	playersTank?: Tank,
 }
 
 type State = {

@@ -5,40 +5,16 @@ import Battleground from './Battleground.js';
 import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
-import BackendTank from '../tanks/BackendTank.js';
-import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import "../Main.css";
 
 type Props = {||};
 
 type State = {
-	playerOneTank: Tank,
-	playerTwoTank: Tank,
+	playerOneTank?: Tank,
+	playerTwoTank?: Tank,
 };
 
 class BattlegroundContainer extends React.Component<Props, State> {
-
-	constructor(props: Props) {
-		super(props);
-
-		const blankTank: BackendTank = new BackendTank();
-		blankTank._id = '';
-		blankTank.components = [
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty',
-		];
-		blankTank.casusCode = getEmptyCasusCode();
-		blankTank.isBot = false;
-		blankTank.tankName = '';
-
-		this.state= {
-			
-			playerOneTank : getTank(blankTank),
-			playerTwoTank : getTank(blankTank)
-		}
-	}
 
 	render(): React.Node {
 		return (
