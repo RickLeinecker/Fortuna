@@ -8,6 +8,7 @@ import './Armory.css';
 // Components
 import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
+import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from './SelectTank.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
@@ -318,46 +319,67 @@ class Armory extends React.Component<Props, State> {
 						showTanks={this.state.showTanks}
 						changeSelectedTank={this.changeSelectedTank}
 					/>
-					<h6>Setup a Wager</h6>
-					<button type="button" className="btn">Setup</button>
+					<br/>
+					<br/>
+					<label>Setup a Wager&emsp;</label>
+					<button type="button" className="smallbtn">Setup</button>
+					<br/>
+					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
 						chassis={this.state.chassis}
 						treads={this.state.treads}
 					/>
-					<br/>
+					<DeleteTankPopup
+						tank={this.state.selectedTank}
+					/>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<h4>Component Menu</h4>
-					<div className="componentMenu">
-						<table>
-							<thead>
+					{(this.state.currentPartIndex === -1) ?
+						<div></div> :
+						<div className="componentMenu">
+							<h4>Component Menu</h4>
+							<table>
 								<tr>
 									<th>Component Name</th>
 									<th>Number Owned</th>
 									<th>Point Value</th>
 								</tr>
-							</thead>
-							<tbody>
-								{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
-									<tr key={index}>
-										<td align="left">
-											<button 
-												className="componentMenuBtn"
-												onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
-												disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
-											>
-												{toTitleCase(componentName)}
-											</button>
-										</td>
-										<td>{numberOwned}</td>
-										<td>{getComponentPoints(componentName)}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
+								<tbody>
+									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
+										<tr key={index}>
+											<td align="left">
+												<button 
+													className="componentMenuBtn"
+													onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
+													disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
+												>
+													{toTitleCase(componentName)}
+												</button>
+											</td>
+											<td>{numberOwned}</td>
+											<td>{getComponentPoints(componentName)}</td>
+										</tr>
+									))}
+									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
+										<div></div> :
+										<tr>
+											<td align="left">
+												<button 
+													className="componentMenuBtn"
+													onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
+												>
+													Empty
+												</button>
+											</td>
+											<td></td><td></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					}
 				</div>
 				<div className="column armoryright">
 					<h5>{this.state.points}/10 Points Used</h5>

@@ -6,7 +6,7 @@
 }
 
 .armoryleft h6 {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .armorymiddle {
@@ -101,5 +101,9 @@
 .tankListBtn:focus {
     border: 0.2em solid #0062ff;
     color: #0062ff;
+}
+
+.deletePopup {
+    text-align: center;
 }
 
