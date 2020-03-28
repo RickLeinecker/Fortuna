@@ -120,9 +120,10 @@ class Tank extends GameObject {
 		itemTwo: TankPart,
 		itemThree: TankPart,
 		casusCode: CasusBlock,
+		tankName: string,
 		_id: string,
 		userId: string,
-		tankName: string,
+		
 	) {
 		super(position);
 

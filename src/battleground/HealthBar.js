@@ -13,10 +13,6 @@ type State = {
 
 class HealthBar extends React.Component<Props, State> {
 
-	constructor(props: Props) {
-		super(props);
-	}
-
 	componentDidUpdate(prevProps: Props) {
 		if(prevProps.playersTank.health !== this.props.playersTank.health) {
 			const canvas = this.refs.canvas;
