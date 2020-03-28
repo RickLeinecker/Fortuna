@@ -8,7 +8,7 @@ import Tank from '../tanks/Tank.js';
 	This function takes no input
 	This function gets the id of the users favorite tank
 */
-function getFavoriteTankID() : Promise<Response> {
+function getFavoriteTank(): Promise<Response> {
 	const cookies = new Cookies();
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
@@ -24,7 +24,7 @@ function getFavoriteTankID() : Promise<Response> {
 
 function setFavoriteTank(tank: Tank): boolean {
 	const cookies = new Cookies();
-	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
+	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -78,7 +78,7 @@ function getAllUsersTanks() : Promise<Response> {
 }
 
 export {
-	getFavoriteTankID,
+	getFavoriteTank,
 	setFavoriteTank,
 	getAllUsersTanks,
 }

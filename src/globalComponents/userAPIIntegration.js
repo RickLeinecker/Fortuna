@@ -24,7 +24,7 @@ function getUser(): Promise<Response> {
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.
 function setWager(wager: number): boolean {
 	const cookies = new Cookies();
-	const responsePromise: Promise<Response> = fetch('/api/user/getUser/', {
+	const responsePromise: Promise<Response> = fetch('/api/user/setWager/', {
 		method: 'PATCH',
 		headers: {
 			'Access-Control-Allow-Origin': '*',

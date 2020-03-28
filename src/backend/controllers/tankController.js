@@ -17,7 +17,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 			return res
 				.status(500)
 				.json({ msg: 'Could not find user in DB'});
-		} 
+		}
 		else {
 			console.log('Favorite retrieved');
 			return res
