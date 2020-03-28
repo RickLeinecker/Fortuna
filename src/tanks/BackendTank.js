@@ -10,7 +10,6 @@ class BackendTank {
 	isBot: boolean;
 	userId: string;
 	tankName: string;
-	tankHealth: number;
 }
 
 export default BackendTank;
