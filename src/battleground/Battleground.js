@@ -16,8 +16,6 @@ type Props = {|
 	setPlayerTwoTank: (Tank) => void,
 |};
 
-type State = {|
-|};
 
 type MatchResult = 
 	'IN_PROGRESS' |
@@ -39,7 +37,7 @@ const TitleMessageForMatchResult: {[MatchResult]: string} = {
 	PLAYER_2_WINS: 'Player 2 wins!',
 }
 
-class Battleground extends React.Component<Props, State> {
+class Battleground extends React.Component<Props> {
 	intervalID: number;
 	alive: boolean;
 	testTanks: Array<Tank>;
@@ -89,8 +87,6 @@ class Battleground extends React.Component<Props, State> {
 		for (const t: Tank of this.testTanks) {
 			this.gameObjects.push(t);
 		}
-		this.props.setPlayerOneTank(this.testTanks[0]);
-		this.props.setPlayerTwoTank(this.testTanks[1]);
 		this.matchResult='IN_PROGRESS';
 	}
 
@@ -213,6 +209,10 @@ class Battleground extends React.Component<Props, State> {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
 		}
+
+		this.props.setPlayerOneTank(this.testTanks[0]);
+		this.props.setPlayerTwoTank(this.testTanks[1]);
+
 	}
 
 	_resizeCanvas(): void {
