@@ -35,14 +35,11 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			errorMessage: '',
 			newTankDialogOpen: false,
 		}
-
-		// Get the user ID for when a new tank is created.
-		this.getUserId();
     }
 
-	getUserId(): void {
+	// Once mounted, set the userId.
+	componentDidMount(): void {
 		const responsePromise = getUser();
-
 		responsePromise.then (
 			response => response.json().then(data => {
 				if(response.status !== 200) {

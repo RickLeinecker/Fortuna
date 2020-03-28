@@ -88,6 +88,9 @@ class Armory extends React.Component<Props, State> {
 		if (this.state.selectedTank == null) {
 			throw new Error('Failed in loading blank tank!');
 		}
+	}
+
+	componentDidMount(): void {
 		// Functions to get all user tanks and user inventory.
 		this.getTanks();
 		this.getUserInventory();
@@ -95,7 +98,7 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all user tanks and sets them to the state.
 	getTanks(): void {
-		const responsePromise = getAllUsersTanks();
+		const responsePromise: Promise<Response> = getAllUsersTanks();
 		
 		responsePromise.then (
 			response => response.json().then(data => {
