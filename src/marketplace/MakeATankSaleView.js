@@ -76,7 +76,12 @@ class MakeATankSaleView extends React.Component<Props, State> {
 						const blankTank: BackendTank = new BackendTank();
 						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
 						blankTank._id = jsonObjectOfTanks[tank]._id;
-						blankTank.components = [];
+						blankTank.components = [
+							'empty', 'empty', 'empty',
+							'empty', 'empty', 'empty',
+							'empty', 'empty', 'empty',
+							'empty', 'empty',
+						];
 						tankOptions.push(getTank(blankTank));
 					}
 					this.setState({tanksToSell : tankOptions});
