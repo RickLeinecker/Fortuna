@@ -38,11 +38,13 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     },
     // Date the last time user made a wager that gave them a stipend
     wagerDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     // String is the ObjectId of tank that is marked as favorite
     favoriteTank: {
-        type: String
+        type: String,
+        default: null
     },
     // User's inventory. Separate sections for tank components and Casus blocks
     inventory: {
