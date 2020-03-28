@@ -20,11 +20,14 @@ class HealthBar extends React.Component<Props> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		if(prevProps.playersTank?.health ?? 100 !== this.props.playersTank?.health ?? 100) {
+		const previousHealth = prevProps.playersTank?.health ?? 100;
+		const currentHealth = this.props.playersTank?.health ?? 100;
+		if(previousHealth !== currentHealth) {
 			const canvas = this.refs.canvas;
 			const ctx = canvas.getContext("2d");
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			ctx.fillStyle="#FF0000";
-			ctx.fillRect(10,140,((this.props.playersTank?.health ?? 100)/100)*140,25);
+			ctx.fillRect(10,140,(currentHealth/100)*140,25);
 		}
 	}
 
