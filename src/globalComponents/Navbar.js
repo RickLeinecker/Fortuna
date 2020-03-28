@@ -49,29 +49,6 @@ class Navbar extends React.Component<Props, State> {
 
 	// Once mounted, set the cookie to store user's name and money.
 	componentDidMount(): void {
-		this.setCookie();
-	}
-
-	// Check if the back button will logout the user.
-	handleLogout(): void {
-
-		// If the user isn't logging out, leave this function.
-		if(this.props.returnName !== 'Logout') {
-			return;
-		}
-
-		// Delete All cookies. 
-		const cookie = new Cookies();
-		for(let cookieName of Object.keys(cookie.getAll())) {
-			cookie.remove(cookieName);
-		}
-
-		window.location = verifyLink('/Login');
-	}
-
-	// Set user's name and money in the state and in a cookie.
-	setCookie(): void {
-		
 		// Set the cookie and update state.
 		const cookies = new Cookies();
 		const token = cookies.get('token');
@@ -97,6 +74,23 @@ class Navbar extends React.Component<Props, State> {
 				}
 			})
 		)
+	}
+
+	// Check if the back button will logout the user.
+	handleLogout(): void {
+
+		// If the user isn't logging out, leave this function.
+		if(this.props.returnName !== 'Logout') {
+			return;
+		}
+
+		// Delete All cookies. 
+		const cookie = new Cookies();
+		for(let cookieName of Object.keys(cookie.getAll())) {
+			cookie.remove(cookieName);
+		}
+
+		window.location = verifyLink('/Login');
 	}
 
 	render(): React.Node {
