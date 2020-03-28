@@ -23,7 +23,12 @@ class BattlegroundContainer extends React.Component<Props, State> {
 
 		const blankTank: BackendTank = new BackendTank();
 		blankTank._id = '';
-		blankTank.components = [];
+		blankTank.components = [
+			'empty', 'empty', 'empty',
+			'empty', 'empty', 'empty',
+			'empty', 'empty', 'empty',
+			'empty', 'empty',
+		];
 		blankTank.casusCode = getEmptyCasusCode();
 		blankTank.isBot = false;
 		blankTank.tankName = '';

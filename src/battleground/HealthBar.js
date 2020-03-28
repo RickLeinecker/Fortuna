@@ -18,11 +18,11 @@ class HealthBar extends React.Component<Props, State> {
 	}
 
 	componentDidUpdate(prevProps: Props) {
-		if(prevProps.playersTank.tankHealth !== this.props.playersTank.tankHealth) {
+		if(prevProps.playersTank.health !== this.props.playersTank.health) {
 			const canvas = this.refs.canvas;
 			const ctx = canvas.getContext("2d");
 			ctx.fillStyle="#FF0000";
-			ctx.fillRect(10,140,(this.props.playersTank.tankHealth/100)*140,25);
+			ctx.fillRect(10,140,(this.props.playersTank.health/100)*140,25);
 		}
 	}
 

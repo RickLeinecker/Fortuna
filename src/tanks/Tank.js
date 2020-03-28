@@ -102,9 +102,6 @@ class Tank extends GameObject {
 	_id: string;
 	userId: string;
 
-	//tank health
-	tankHealth: number
-
 	// Casus:
 	interpriterState: InterpriterState;
 	casusCode: CasusBlock;
@@ -123,10 +120,9 @@ class Tank extends GameObject {
 		itemTwo: TankPart,
 		itemThree: TankPart,
 		casusCode: CasusBlock,
-		tankName: string,
 		_id: string,
 		userId: string,
-		tankHealth: number
+		tankName: string,
 	) {
 		super(position);
 
@@ -145,7 +141,6 @@ class Tank extends GameObject {
 		this.tankName = tankName;
 		this._id = _id;
 		this.userId = userId;
-		this.tankHealth = tankHealth;
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
