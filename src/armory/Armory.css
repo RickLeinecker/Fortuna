@@ -6,7 +6,7 @@
 }
 
 .armoryleft h6 {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .armorymiddle {
@@ -106,3 +106,8 @@
 .wagerPopup {
     text-align: center;
 }
+
+.deletePopup {
+    text-align: center;
+}
+

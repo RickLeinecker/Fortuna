@@ -18,6 +18,12 @@ exports.getFavorite = async (req: Request, res: Response) => {
 				.status(500)
 				.json({ msg: 'Could not find user in DB'});
 		}
+		else if (foundUser.favoriteTank == null) {
+			console.log('No favorite set');
+			return res
+				.status(200)
+				.send(null);
+		}
 		else {
 			console.log('Favorite retrieved');
 			return res
