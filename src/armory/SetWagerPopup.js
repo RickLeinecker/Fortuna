@@ -58,7 +58,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		// Check if the wager was set. Close the popup if it is.
 		setWager(this.state.userWager, setSuccessful => {
-			if (setSuccessful != null) {
+			if (setSuccessful) {
 				this.setState({currentWager: this.state.userWager});
 			}
 			else {
@@ -66,7 +66,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			}
 		});
 		setFavoriteTankId(this.props.wagerTank._id, setSuccessful => {
-			if (setSuccessful != null) {
+			if (setSuccessful) {
 				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank, errorMessage: ''});
 			}
 			else {
