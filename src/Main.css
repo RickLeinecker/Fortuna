@@ -375,8 +375,8 @@ select {
 	display: inline-block;
 }
 
-/*This is the battle arena styling*/
-.battlearena {
-	margin-left: 27%;
+/*This is the battle ground styling*/
+.battleground {
+	margin-left: 25%;
 	margin-top: 2%;
 }

@@ -31,7 +31,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					returnName='Back to Battle Arena'
 					pageName='Battleground'
 				/>
-				<div className = "battlearena">
+				<div className = "battleground">
 					<HealthBarsField
 						playerOneTank = {this.state.playerOneTank}
 						playerTwoTank = {this.state.playerTwoTank}
