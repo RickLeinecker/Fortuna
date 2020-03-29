@@ -462,7 +462,7 @@ exports.allUsers = async (req: Request, res: Response) => {
 // Still need to add daily stipend
 exports.setWager = async (req: Request, res: Response) => {
 	try {
-		const user = await User.findById(req.user.id, 'wager money');
+		const user = await User.findById(req.user.id, 'wager money wagerDate');
 
 		// Check if found
 		if (user == null){
@@ -472,6 +472,17 @@ exports.setWager = async (req: Request, res: Response) => {
 				.json({ msg: 'Could not find user in db'});
 		}
 
+		// One day's time. * 1000 because it's in milliseconds
+		const aDay = 60 * 60 * 24 * 1000;
+
+		// If a user has never made a wager or its been 24hrs since last stipend give them their stipend and update wagerDate
+		if (user.wagerDate == null || (new Date - user.wagerDate) > aDay) {
+			const newBalance = user.money + 5000;
+			user.money = newBalance;
+			user.wagerDate = new Date();
+			console.log('Applied stipend');
+		}
+		
 		// Add back the balance of the original wager
 		// Theres gotta be a cleaner way to do this but idk
 		const addBack = user.money + user.wager;
