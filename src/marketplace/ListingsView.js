@@ -1,14 +1,19 @@
 //@flow strict
 import * as React from 'react';
 import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
-import Cookies from 'universal-cookie';
 import type { SellingType } from './SellingType.js';
+import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
+import { ToastContainer , toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import { toTitleCase } from '../globalComponents/Utility.js';
+
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: SellingType,
+	onItemBought: () => void,
 |};
+
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
@@ -17,11 +22,11 @@ type State = {|
 
 
 class ListingsView extends React.Component<Props, State> {
-	constructor(props:Props) {
+	constructor(props: Props) {
 		super(props);
 		this.state={
 			userId: '',
-			itemsForSale : [],
+			itemsForSale: [],
 		}
 	}
 
@@ -31,32 +36,16 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps:Props) : void {
-		this.directSaleToProperFunction();
+	componentDidUpdate(prevProps: Props, prevState: State): void {
+		if(prevProps !== this.props) {
+			this.directSaleToProperFunction();
+		}
 	}
-
-	//This gets us the user's id 
-	getUserId = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/user/getUser/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const jsonObjectOfUser = await response.json();
-		this.setState({userId:jsonObjectOfUser._id});
-	};
-
 
 	//This function directs the view to the proper function
 	//If we are in the tank view it directs it to getMarketSalesForTanks()
 	//Else it directs it to getMarketSalesForComponents()
-	directSaleToProperFunction() : void {
+	directSaleToProperFunction(): void {
 		if(this.props.sellerType === 'tanks') {
 			this.getMarketSalesForTanks();
 		}
@@ -65,10 +54,34 @@ class ListingsView extends React.Component<Props, State> {
 		}
 	}
 
+	//This gets us the user's id 
+	getUserId(): void {
+		const responsePromise = getUser();
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					const jsonObjectOfUser = data;
+					//set the users id
+					this.setState({userId:jsonObjectOfUser._id});
+				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
+	};
 
 	//Gets all the sells and filters them based on what type we are currently looking at
 	//This only works for components as tanks is a different api call
-	getMarketSalesForComponents() : void  {
+	getMarketSalesForComponents(): void  {
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -117,7 +130,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This function uses the users id and gets the tanks that are active in the marketplace
-	getMarketSalesForTanks() : void  {
+	getMarketSalesForTanks(): void  {
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getTankMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -182,7 +195,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This is the actual buy function
-	buyItem (sellerId:string, saleId:string):void {
+	buyItem (sellerId: string, saleId: string): void {
 		const responsePromise: Promise<Response> = fetch('/api/marketplace/marketTransaction/', {
 			method: 'put',
 			headers: {
@@ -196,28 +209,46 @@ class ListingsView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 201) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 				}
 				else {
-					console.log("success");
+					toast.success("Item Bought");
+					//refresh the list 
+					this.directSaleToProperFunction();
+					this.props.onItemBought();
 				}
 			})
 		).catch(
-			(error) => {
-				console.log('Couldnt connect to server!');
+			error => {
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		); 
 	};
 
+	//This formats the title of the listing views
+	formatTitle(title:string) {
+		//did this because title is a const and I need to reassign the title
+		let formattedTitle = title;
+		//Capitalizes the first letter
+		formattedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.substring(1);
+		//adds s to the end of the word if it doesn't contain an s
+		if(formattedTitle.charAt(formattedTitle.length-1) !== 's') {
+			formattedTitle = formattedTitle + 's';
+		}
+		return formattedTitle;
+	}
 
 	render() { 
 		return (
 			<div>
+				<h1>{this.formatTitle(this.props.sellerType)}</h1>
 				{this.createCards()}
+				<ToastContainer />
 			</div>
 		);
 	}
 }
+
 export default ListingsView;

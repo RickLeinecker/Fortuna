@@ -3,10 +3,10 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
-import Cookies from 'universal-cookie';
 import Component from './Component.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import type { TankComponent } from './TankComponent.js';
+import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {|
 	chassis: Array<Component>,
@@ -98,14 +98,13 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			}
 		}
 
-		const cookies = new Cookies();
 		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 			method: 'POST',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': cookies.get('token'),
+				'x-auth-token': getLoginToken()
 			},
 			body: JSON.stringify({ tankName: this.state.newTankName, userId: this.state.userId, components: components }),
 		});
@@ -144,10 +143,10 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		return (
 			<div>
-				<label>Create a New Tank&emsp;</label>
-				<button type="button" className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
+				<button className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
 					Create
 				</button>
+				<label>&emsp;Create a New Tank</label>
 				<Popup 
 					open={this.state.newTankDialogOpen}
 					onClose={() => this.setState({newTankDialogOpen: false})}

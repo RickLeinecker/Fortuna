@@ -10,6 +10,8 @@ import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from './SelectTank.js';
+import SetWagerPopup from './SetWagerPopup.js';
+import RenameTankPopup from './RenameTankPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -30,8 +32,8 @@ import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
-import Cookies from 'universal-cookie';
 import TankDisplay from '../tanks/TankDisplay.js';
+import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {||};
 
@@ -59,17 +61,14 @@ class Armory extends React.Component<Props, State> {
 		super();
 		verifyLogin();
 		// Create a blank tank as a placeholder until tanks are pulled.
-		const blankTank: BackendTank = new BackendTank();
-		blankTank._id = '';
-		blankTank.components = [
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty',
-		];
-		blankTank.casusCode = getEmptyCasusCode();
-		blankTank.isBot = false;
-		blankTank.tankName = '';
+		const blankTank: BackendTank = new BackendTank(
+			'',
+			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
+			getEmptyCasusCode(),
+			false,
+			'',
+			''
+		);
 
 		this.state = {
 			selectedTank: getTank(blankTank),
@@ -168,14 +167,13 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank.
 	saveTank(): void {
-		const cookie = new Cookies();
 		const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 			method: 'PUT',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': cookie.get('token'),
+				'x-auth-token': getLoginToken(),
 			},
 			body: JSON.stringify({ 
 				tankName: this.state.selectedTank.tankName, 
@@ -197,6 +195,11 @@ class Armory extends React.Component<Props, State> {
 				}
 			})
 		);
+	}
+
+	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
+	renameTank = (tank: Tank): void => {
+		this.setState({selectedTank: tank});
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
@@ -322,9 +325,10 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<br/>
 					<br/>
-					<label>Setup a Wager&emsp;</label>
-					<button type="button" className="smallbtn">Setup</button>
-					<br/>
+					<RenameTankPopup
+						tank={this.state.selectedTank}
+						renameTank={this.renameTank}
+					/>
 					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
@@ -333,6 +337,10 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<DeleteTankPopup
 						tank={this.state.selectedTank}
+					/>
+					<br/>
+					<SetWagerPopup
+						wagerTank={this.state.selectedTank}
 					/>
 				</div>
 				<div className="column armorymiddle">

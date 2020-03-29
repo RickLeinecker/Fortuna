@@ -20,7 +20,7 @@ type State = {|
 // Marketplace component.
 class Marketplace extends React.Component<Props, State> {
 
-	constructor(){
+	constructor() {
 		super();
 		verifyLogin();
 		this.state={
@@ -28,39 +28,43 @@ class Marketplace extends React.Component<Props, State> {
 		}
 	}
 
-	render() {
+	onMoneyChanged = (): void => {
+		const navbar = this.refs.navbar;
+		navbar.reloadNavbar();
+	}
 
+	render(): React.Node {
 		let partView='';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
-				partView=(<ListingsView sellerType='chassis'></ListingsView>);
+				partView=(<ListingsView sellerType='chassis' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'CANNONS':
-				partView=(<ListingsView sellerType='weapon'></ListingsView>);
+				partView=(<ListingsView sellerType='weapon' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'SCANNERS':
-				partView=(<ListingsView sellerType='scanner'></ListingsView>);
+				partView=(<ListingsView sellerType='scanner' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'JAMMERS':
-				partView=(<ListingsView sellerType='jammer'></ListingsView>);
+				partView=(<ListingsView sellerType='jammer' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'TREADS':
-				partView=(<ListingsView sellerType='treads'></ListingsView>);
+				partView=(<ListingsView sellerType='treads' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'ACCESSORIES':
-				partView=(<ListingsView sellerType='item'></ListingsView>);
+				partView=(<ListingsView sellerType='item' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'TANKS':
-				partView=(<ListingsView sellerType='tanks'></ListingsView>);
+				partView=(<ListingsView sellerType='tanks' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'CASUS_BLOCKS':
-				partView=(<ListingsView sellerType='casus'></ListingsView>);
+				partView=(<ListingsView sellerType='casus' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'MAKE_A_SALE_COMPONENT':
-				partView=(<MakeAComponentSaleView></MakeAComponentSaleView>);
+				partView=(<MakeAComponentSaleView onItemSold={this.onMoneyChanged}></MakeAComponentSaleView>);
 				break;
 			case 'MAKE_A_TANK_SALE':
-				partView=(<MakeATankSaleView></MakeATankSaleView>);
+				partView=(<MakeATankSaleView onItemSold={this.onMoneyChanged}></MakeATankSaleView>);
 				break;
 			default:
 				partView=(<h2>Select a type on the left</h2>);
@@ -73,6 +77,7 @@ class Marketplace extends React.Component<Props, State> {
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"
+					ref="navbar"
 				/>
 				<div className="row mt-5">
 					<div className="col-md-4">

@@ -10,21 +10,37 @@ const { validationResult } = require('express-validator');
 
 
 exports.getFavorite = async (req: Request, res: Response) => {
-	await User.findById(req.user.id, 'favoriteTank', (err: Error, foundUser: User) => {
-		if (err) {
-			console.error(err.message);
-
+	try {
+		// Find user using auth token and select their favorite tank field
+		const myUser = await User.findById(req.user.id, 'favoriteTank');
+		
+		if (myUser == null) {
+			console.log('User not found in DB');
 			return res
-				.status(500)
-				.json({ msg: 'Could not find user in DB'});
-		} 
-		else {
-			console.log('Favorite retrieved');
-			return res
-				.status(200)
-				.send(foundUser.favoriteTank);
+				.status(404)
+				.json({ msg: 'User not found in DB'});
 		}
-	});
+
+		const favoritedTank = await Tank.findById(myUser.favoriteTank);
+		
+		if (favoritedTank == null) {
+			console.log('Tank not found in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Tank not found in DB'});
+		}
+
+		console.log('favoriteTank successfully retrieved');
+		return res
+			.status(200)
+			.send(favoritedTank);
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not get favorite'});
+	}
+	
 }
 
 exports.favoriteTank = async (req: Request, res: Response) => {
@@ -278,6 +294,19 @@ exports.deleteTank = async (req: Request, res: Response) => {
 	if (!tank) {
 		console.error('Tank not in DB');
 		return res.status(400).json({ msg: 'Could not find tank in DB' });
+	}
+
+	// Check if this the only tank left for the user
+	const tankList = await Tank.find({ userId: tank.userId });
+	if (!tankList) {
+		console.error('Could not get list of user tanks.');
+		return res.status(500).json({ msg: 'Could not find list of user tanks.' });
+	}
+
+	// tankList is an array of the objects, so you can access the length property
+	if (tankList.length === 1) {
+		console.error('This is the last tank of the user.');
+		return res.status(500).json({ msg: 'You cannot delete your last tank.' });
 	}
 
 	// Add components back to user inventory

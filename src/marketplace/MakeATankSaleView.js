@@ -4,10 +4,14 @@ import Tank from '../tanks/Tank.js';
 import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
+import { ToastContainer , toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import BackendTank from '../tanks/BackendTank.js';
 import { getTank } from '../tanks/TankLoader.js';
 
-type Props = {||}; 
+type Props = {|
+	onItemSold: () => void,
+|}; 
 type State = {|
 	userId: string,
 	salePrice: number,
@@ -51,7 +55,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -64,24 +68,22 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
-					return data;
 				}
 				else {
 					const jsonObjectOfTanks = data;
 					const tankOptions = [];
 					//for every tank we will make a select option
 					for (const tank in jsonObjectOfTanks) {
-						const blankTank: BackendTank = new BackendTank();
-						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
-						blankTank._id = jsonObjectOfTanks[tank]._id;
-						blankTank.components = [
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty',
-						];
+						const blankTank: BackendTank = new BackendTank(
+							jsonObjectOfTanks[tank]._id,
+							jsonObjectOfTanks[tank].components,
+							jsonObjectOfTanks[tank].casusCode,
+							jsonObjectOfTanks[tank].isBot,
+							jsonObjectOfTanks[tank].userId,
+							jsonObjectOfTanks[tank].tankname
+						);
 						tankOptions.push(getTank(blankTank));
 					}
 					this.setState({tanksToSell : tankOptions});
@@ -89,31 +91,39 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
-				return error;
 			}
 		);
 	};
 
 	//This will make a sale for a tank
-	makeASaleOfATank = ():void => {
+	makeASaleOfATank = (): void => {
 		//Check for if last tank can't allow them to sell tank
 		if(this.state.tanksToSell.length === 1) {
-			console.log("Can't sell last tank");
+			toast.error("Can't sell last tank");
 			return;
 		}
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
 		responsePromise.then(
 			response => response.json().then(data => {
-				//lets get the new tanks that we have since we lost the current one
-				this.getAllUsersTanksForSell();
-				//set the new selling price to zero 
-				this.setState({salePrice: 0});
+				if (response.status !== 201) {
+					console.log(response.status);
+					toast.error(data.msg);
+					console.log(data);
+				}
+				else {
+					toast.success("Tank Listed!");
+					//lets get the new tanks that we have since we lost the current one
+					this.getAllUsersTanksForSell();
+					//set the new selling price to zero 
+					this.setState({salePrice: 0});
+					this.props.onItemSold();
+				}
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -130,6 +140,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				<label>Selling Price</label>
 				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
+				<ToastContainer />
 			</div>
 		);
 	}
