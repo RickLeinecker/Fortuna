@@ -376,6 +376,6 @@ select {
 }
 
 /*This is the battle ground styling*/
-.battleground {
-	text-align: center;
+.battlegroundContainer {
+	margin-left: 28%;
 }
