@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import { Link } from 'react-router-dom';
 
 type Props = {|
 	playerChallenged: string,
@@ -49,15 +48,15 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				{close => (
 					<div className="popup">
 						<h3>Challenge {this.props.playerChallenged} with ${this.state.playerChallengedWager}?</h3>
-						<Link to="battleground">
-							<button 
-								className={(this.state.playerChallengedWager > this.state.userCurrency) ? "popupbtn disabled" : "popupbtn"} 
-								type="button" 
-								onClick={this.props.onChallengePlayer(this.props.playerChallenged)}
-							>
-								Challenge
-							</button>
-						</Link>
+						<button 
+							className={
+								(this.state.playerChallengedWager > this.state.userCurrency) ? "popupbtn disabled" : "popupbtn"
+							} 
+							type="button" 
+							onClick={() => this.props.onChallengePlayer(this.props.playerChallenged)}
+						>
+							Challenge
+						</button>
 						<button className="cancelbtn" type="button" onClick={() => {close();}}>
 							Cancel
 						</button>
