@@ -66,7 +66,6 @@ class SetWagerPopup extends React.Component<Props, State> {
 			}
 		});
 		setFavoriteTankId(this.props.wagerTank._id, response => {
-			console.log(response);
 			if (response) {
 				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
 			}
@@ -90,14 +89,20 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<label>Setup a Wager&emsp;</label>
 				<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
 					Setup
 				</button>
-				<h6>Current Wager</h6>
+				<label>&emsp;Setup a Wager</label>
+				<br/><br/>
+				<h4>Current Wager</h4>
 				<label>{this.state.currentWagerTank == null ?
 					'No set wager tank' : 
-					this.state.currentWagerTank.tankName + ' for ' + this.state.userWager
+					<div className="wagerTank">
+						{this.state.currentWagerTank.tankName + ' '} 
+						<label>
+							for {this.state.userWager}
+						</label>
+					</div>
 				}</label>
 				<div className="wagerPopup">
 					<Popup 

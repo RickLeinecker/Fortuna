@@ -111,3 +111,10 @@
     text-align: center;
 }
 
+.wagerTank {
+    color: #0062ff;
+}
+
+.wagerTank label {
+    color: #04CCFF;
+}

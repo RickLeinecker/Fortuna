@@ -52,10 +52,10 @@ function setFavoriteTankId(tankId: string, onLoad:(response: boolean) => void) {
 		body: JSON.stringify({ favoriteTank: tankId }),
 	});
 	responsePromise.then (
-		response => response.json().then(data => {
+		response => response.text().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 				onLoad(false);
 			}
 			else {
