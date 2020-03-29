@@ -80,7 +80,7 @@ class ImageDrawer {
 	fillBlackRect(alpha: number) {
 		const oldAlpha = this.ctx.globalAlpha;
 		this.ctx.globalAlpha = alpha;
-		this.ctx.fillStyle='black';
+		this.ctx.fillStyle='#000921';
 		this.ctx.fillRect(0, 0, 1000000, 1000000);
 		this.ctx.globalAlpha = oldAlpha;
 	}
