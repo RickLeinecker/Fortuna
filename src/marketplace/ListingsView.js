@@ -1,8 +1,8 @@
 //@flow strict
 import * as React from 'react';
 import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
-import Cookies from 'universal-cookie';
 import type { SellingType } from './SellingType.js';
+import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 type Props = {|
@@ -51,20 +51,28 @@ class ListingsView extends React.Component<Props, State> {
 
 
 	//This gets us the user's id 
-	getUserId = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/user/getUser/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const jsonObjectOfUser = await response.json();
-		this.setState({userId:jsonObjectOfUser._id});
+	getUserId ():void {
+		const responsePromise = getUser();
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					const jsonObjectOfUser = data;
+					//set the users id
+					this.setState({userId:jsonObjectOfUser._id});
+				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
 
 
