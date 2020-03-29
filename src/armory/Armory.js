@@ -319,11 +319,6 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<br/>
 					<br/>
-					<SetWagerPopup
-						wagerTank={this.state.selectedTank}
-					/>
-					<br/>
-					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
 						chassis={this.state.chassis}
@@ -331,6 +326,9 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<DeleteTankPopup
 						tank={this.state.selectedTank}
+					/>
+					<SetWagerPopup
+						wagerTank={this.state.selectedTank}
 					/>
 				</div>
 				<div className="column armorymiddle">
