@@ -78,4 +78,10 @@ router.delete('/deleteTank/:tankId', [
         .isMongoId()
     ], tankController.deleteTank);
 
+// Retrieve array of bot tanks
+// Route call: /getBotTanks
+// Body: N/A
+// Returns the array of bot tanks
+router.get('/getBotTanks', tankController.getBotTanks);
+
 module.exports = router;
