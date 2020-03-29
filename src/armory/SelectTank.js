@@ -6,11 +6,11 @@ import Tank from '../tanks/Tank.js';
 type Props = {|
 	allTanks: Array<Tank>,
 	changeSelectedTank: (Tank) => void,
+	selectedTank: ?Tank,
 |};
 
 type State = {|
 	showTanks: boolean,
-	selectedTank: ?Tank
 |};
 
 class SelectTank extends React.Component<Props, State> {
@@ -19,22 +19,14 @@ class SelectTank extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			showTanks: false,
-			selectedTank: props.allTanks[props.allTanks.length-1],
 		};
 	}
 
 	onChangeSelectedTank(selectedTank: Tank): void {
 		this.props.changeSelectedTank(selectedTank);
 		this.setState({
-			selectedTank: selectedTank,
 			showTanks: false
 		});
-	}
-
-	componentDidUpdate(prevProps: Props) {
-		if (this.props !== prevProps) {
-			this.setState({selectedTank: this.props.allTanks[this.props.allTanks.length-1]});
-		}
 	}
 
 	render(): React.Node {
@@ -44,7 +36,7 @@ class SelectTank extends React.Component<Props, State> {
 					className="tankListBtn" 
 					onClick={() => this.setState({showTanks: true})}
 				>
-						{(this.state.selectedTank?.tankName??'loading tanks...')} 
+						{(this.props.selectedTank?.tankName??'loading tanks...')} 
 				</button>
 				<div>
 					{(this.state.showTanks) ?

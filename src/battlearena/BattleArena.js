@@ -87,6 +87,7 @@ class BattleArena extends React.Component<Props, State> {
 					<TankDisplay tankToDisplay={this.state.selectedTank} />
 				}
 				<SelectTank
+					selectedTank={this.state.selectedTank}
 					allTanks={this.state.allTanks}
 					changeSelectedTank={(tank) => this.setState({selectedTank: tank})}
 				/>

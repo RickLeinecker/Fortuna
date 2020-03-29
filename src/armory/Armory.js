@@ -300,6 +300,7 @@ class Armory extends React.Component<Props, State> {
 					<h4>Selected Tank</h4>
 					<br/>
 					<SelectTank
+						selectedTank={this.state.selectedTank}
 						allTanks={this.state.allTanks}
 						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
 					/>
