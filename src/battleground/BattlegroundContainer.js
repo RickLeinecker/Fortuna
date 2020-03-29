@@ -15,6 +15,14 @@ type State = {
 
 class BattlegroundContainer extends React.Component<Props, State> {
 
+	constructor() {
+		super();
+		this.state={
+			playerOneTank: null,
+			playerTwoTank : null,
+		}
+	}
+
 	render(): React.Node {
 		return (
 			<div className="haveScorebarIfSmall">
@@ -24,25 +32,19 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					pageName='Battleground'
 				/>
 				<HealthBarsField
-					playerOneTank = {this.state?.playerOneTank ?? null}
-					playerTwoTank = {this.state?.playerTwoTank ?? null}
+					playerOneTank = {this.state.playerOneTank}
+					playerTwoTank = {this.state.playerTwoTank}
 				/>
 				<Battleground 
-					setPlayerOneTank = {this.setPlayerOneTank}
-					setPlayerTwoTank = {this.setPlayerTwoTank}
+					setPlayersTank = {this.setPlayersTank}
 				/>
 			</div>
 		);
 	}
 
-	setPlayerOneTank = (playerOneTank: Tank): void  => {
+	setPlayersTank = (playerOneTank: Tank, playerTwoTank: Tank): void  => {
 		this.setState({
-			playerOneTank: playerOneTank
-		});
-	}
-
-	setPlayerTwoTank = (playerTwoTank: Tank): void  => {
-		this.setState({
+			playerOneTank: playerOneTank,
 			playerTwoTank: playerTwoTank
 		});
 	}

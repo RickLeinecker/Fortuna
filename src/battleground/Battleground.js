@@ -13,8 +13,7 @@ import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {|
-	setPlayerOneTank: (Tank) => void,
-	setPlayerTwoTank: (Tank) => void,
+	setPlayersTank: (Tank, Tank) => void,
 |};
 
 type MatchResult = 
@@ -209,8 +208,7 @@ class Battleground extends React.Component<Props> {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
 		}
-		this.props.setPlayerOneTank(this.testTanks[0]);
-		this.props.setPlayerTwoTank(this.testTanks[1]);
+		this.props.setPlayersTank(this.testTanks[0], this.testTanks[1]);
 
 	}
 
