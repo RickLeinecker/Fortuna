@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import type { LinkType } from './LinkType.js';
 import { verifyLink } from './verifyLink.js';
+import getUserAPICall from './getUserAPICall.js';
 
 type Props = {
 	linkName: LinkType,
@@ -13,7 +14,7 @@ type Props = {
 }
 
 type State = {
-	userName: string,
+	username: string,
 	userCurrency: number
 }
 
@@ -29,7 +30,7 @@ type State = {
 // pageName (takes a title for top of the page)
 //
 // State names:
-// userName (takes API call for logged in user's name)
+// username (takes API call for logged in user's name)
 // userCurrency (takes API call for logged in user's currency)
 //
 // EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" />
@@ -42,38 +43,14 @@ class Navbar extends React.Component<Props, State> {
 		// Get initial money from cookies.
 		const cookies = new Cookies();
 		this.state = {
-			userName: cookies.get('userName'),
+			username: cookies.get('username'),
 			userCurrency: cookies.get('money')
 		}
 	}
 
 	// Once mounted, set the cookie to store user's name and money.
 	componentDidMount(): void {
-		// Set the cookie and update state.
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		responsePromise.then (
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-				}
-				else {
-					cookies.set('userName', data.userName);
-					cookies.set('money', data.money);
-					this.setState({userName: data.userName, userCurrency: data.money});
-				}
-			})
-		)
+		this.reloadNavbar();
 	}
 
 	// Check if the back button will logout the user.
@@ -86,11 +63,20 @@ class Navbar extends React.Component<Props, State> {
 
 		// Delete All cookies. 
 		const cookie = new Cookies();
-		for(let cookieName of Object.keys(cookie.getAll())) {
+		for(const cookieName of Object.keys(cookie.getAll())) {
 			cookie.remove(cookieName);
 		}
 
 		window.location = verifyLink('/Login');
+	}
+
+	reloadNavbar(): void {
+		getUserAPICall(user => {
+			const cookies = new Cookies();
+			cookies.set('username', user.username);
+			cookies.set('money', user.money);
+			this.setState({username: user.username, userCurrency: user.money});
+		});
 	}
 
 	render(): React.Node {
@@ -110,7 +96,7 @@ class Navbar extends React.Component<Props, State> {
 					<h4>{this.props.pageName}</h4>
 				</div>
 				<div className="navright">
-					<h5>{this.state.userName} | ${this.state.userCurrency}</h5>
+					<h5>{this.state.username} | ${this.state.userCurrency}</h5>
 				</div>
 			</div>
 		)
