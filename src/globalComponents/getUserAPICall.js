@@ -22,7 +22,7 @@ function getUserAPICall(onLoad:(user: User) => void) {
 				console.log(data.msg);
 			}
 			else {
-				const user=new User(data.userName, data.money);
+				const user=new User(data.userName, data.money, data.wager);
 				onLoad(user);
 			}
 		})

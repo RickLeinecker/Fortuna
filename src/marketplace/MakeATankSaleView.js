@@ -75,15 +75,14 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					const tankOptions = [];
 					//for every tank we will make a select option
 					for (const tank in jsonObjectOfTanks) {
-						const blankTank: BackendTank = new BackendTank();
-						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
-						blankTank._id = jsonObjectOfTanks[tank]._id;
-						blankTank.components = [
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty',
-						];
+						const blankTank: BackendTank = new BackendTank(
+							jsonObjectOfTanks[tank]._id,
+							jsonObjectOfTanks[tank].components,
+							jsonObjectOfTanks[tank].casusCode,
+							jsonObjectOfTanks[tank].isBot,
+							jsonObjectOfTanks[tank].userId,
+							jsonObjectOfTanks[tank].tankname
+						);
 						tankOptions.push(getTank(blankTank));
 					}
 					this.setState({tanksToSell : tankOptions});
