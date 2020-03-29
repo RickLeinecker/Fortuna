@@ -12,6 +12,7 @@ import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
+import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
@@ -93,6 +94,18 @@ class Battleground extends React.Component<Props> {
 	componentDidMount(): void {
 		this._rerender();
 		this.alive=true;
+		getTanksToFightOnBattleground((tankLoaded, index) => {
+			const oldTank=this.testTanks[index];
+			this.testTanks[index]=tankLoaded;
+			const oldIndex=this.gameObjects.indexOf(oldTank);
+			this.gameObjects[oldIndex]=tankLoaded;
+			if (index==0) {
+				tankLoaded.position=new Vec(-80, -40);
+			}
+			else {
+				tankLoaded.position=new Vec(50, 40);
+			}
+		});
 		setTimeout(() => this._gameLoop(), 1000/20);
 	}
 

@@ -12,6 +12,7 @@ import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/getBotTanksAPICall.js';
+import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 
 type TrainingTankInfo = {
 	tankDisplayName: string,
@@ -52,10 +53,13 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	onClickStartBattle(): void {
+		const myTank=this.state.selectedTank;
+		const botTank=this.state.enemySelectedTank;
+		if (myTank == null || botTank == null) {
+			throw new Error('neither tank should be null!');
+		}
 		setReturnToFromBattlegroundLink('/TrainingArena');
-		const trainingBotSelect: HTMLSelectElement=this.refs.trainingBotSelect;
-		//const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
-		//TODO: start battle between chosen bot.tankID and the bot that I select
+		setTanksToFightInBattleground(myTank._id, botTank._id);
 		window.location.href=verifyLink('/Battleground');
 	}
 
