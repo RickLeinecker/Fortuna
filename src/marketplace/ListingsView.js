@@ -1,7 +1,8 @@
 //@flow strict
 import * as React from 'react';
 import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
-import Cookies from 'universal-cookie';
+import type { SellingType } from './SellingType.js';
+import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
 import { ToastContainer ,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -34,27 +35,11 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps:Props) : void {
-		this.directSaleToProperFunction();
+	componentDidUpdate(prevProps: Props, prevState: State) : void {
+		if(prevProps !== this.props) {
+			this.directSaleToProperFunction();
+		}
 	}
-
-	//This gets us the user's id 
-	getUserId = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
-		const response = await fetch('/api/user/getUser/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
-			},
-		});
-		const jsonObjectOfUser = await response.json();
-		this.setState({userId:jsonObjectOfUser._id});
-	};
-
 
 	//This function directs the view to the proper function
 	//If we are in the tank view it directs it to getMarketSalesForTanks()
@@ -67,6 +52,32 @@ class ListingsView extends React.Component<Props, State> {
 			this.getMarketSalesForComponents();
 		}
 	}
+
+
+	//This gets us the user's id 
+	getUserId(): void {
+		const responsePromise = getUser();
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					const jsonObjectOfUser = data;
+					//set the users id
+					this.setState({userId:jsonObjectOfUser._id});
+				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
+	};
 
 
 	//Gets all the sells and filters them based on what type we are currently looking at
@@ -204,6 +215,8 @@ class ListingsView extends React.Component<Props, State> {
 				}
 				else {
 					toast.success("Item Bought");
+					//refresh the list 
+					this.directSaleToProperFunction();
 				}
 			})
 		).catch(
