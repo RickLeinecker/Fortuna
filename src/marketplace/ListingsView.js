@@ -216,13 +216,15 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This formats the title of the listing views
 	formatTitle(title:string) {
+		//did this because title is a const and I need to reassign the title
+		let formattedTitle = title;
 		//Capitalizes the first letter
-		title = title.charAt(0).toUpperCase() + title.substring(1);
+		formattedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.substring(1);
 		//adds s to the end of the word if it doesn't contain an s
-		if(title.charAt(title.length-1) !== 's') {
-			title = title + 's';
+		if(formattedTitle.charAt(formattedTitle.length-1) !== 's') {
+			formattedTitle = formattedTitle + 's';
 		}
-		return title;
+		return formattedTitle;
 	}
 
 	render() { 
