@@ -106,11 +106,19 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
 		responsePromise.then(
 			response => response.json().then(data => {
-				toast.success("Tank Listed!");
-				//lets get the new tanks that we have since we lost the current one
-				this.getAllUsersTanksForSell();
-				//set the new selling price to zero 
-				this.setState({salePrice: 0});
+				if (response.status !== 201) {
+					console.log(response.status);
+					toast.error(data.msg);
+					console.log(data);
+				}
+				else {
+					toast.success("Tank Listed!");
+					//lets get the new tanks that we have since we lost the current one
+					this.getAllUsersTanksForSell();
+					//set the new selling price to zero 
+					this.setState({salePrice: 0});
+				}
+				
 			})
 		).catch(
 			error => {
