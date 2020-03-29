@@ -341,3 +341,19 @@ exports.deleteTank = async (req: Request, res: Response) => {
 	
 	return res.status(200).json({ msg: 'Successfully deleted Tank' });
 }
+
+exports.getBotTanks = async (req: Request, res: Response) => {
+	try {
+		const botTanks = await Tank.find({ isBot: true });
+		if (!botTanks) {
+			console.error('Could not retrieve bot tanks.');
+			return res.status(500).json({ msg: 'Could not retrieve bot tanks.' });
+		}
+
+		console.log('Retrieved bot tanks!');
+		return res.status(200).send(botTanks);
+	} catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Could not get bot tanks.' });
+	}
+}
