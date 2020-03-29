@@ -199,16 +199,16 @@ class ListingsView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 201) {
 					console.log(response.status);
-					toast(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 				}
 				else {
-					toast("Item Bought");
+					toast.success("Item Bought");
 				}
 			})
 		).catch(
 			error => {
-				toast('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		); 

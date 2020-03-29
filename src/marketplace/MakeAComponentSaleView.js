@@ -47,9 +47,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		this.setState({userId:jsonObjectOfUser._id});
 		for (let key in jsonObjectOfUser.inventory.tankComponents) {
 		//This is how many of the current item the user has
-			let amountOfItemsUserHas = jsonObjectOfUser.inventory.tankComponents[key];
-			if(amountOfItemsUserHas > 0)
-			{
+			const amountOfItemsUserHas = jsonObjectOfUser.inventory.tankComponents[key];
+			if(amountOfItemsUserHas > 0) {
 				let obj = {};
 				obj['value'] = key;
 				obj['label'] = key;
@@ -71,8 +70,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			body: JSON.stringify({ sellerId: this.state.userId, salePrice: this.state.salePrice, itemId:this.state.itemID, itemType:"component", amount:this.state.itemAmount}),
 		});
 		const body = await response.json();
-		console.log(body.msg);
-		toast(body.msg);
+		toast.success(body.msg);
 		this.setState({
 			salePrice: 0,
 			itemAmount: 0
