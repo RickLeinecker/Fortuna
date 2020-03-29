@@ -1,6 +1,7 @@
 //@flow strict
 
 import getLoginToken from '../globalComponents/getLoginToken.js';
+import User from './User.js';
 
 /*
 	This function has no input
@@ -44,6 +45,33 @@ function setWager(wager: number, onLoad:(setSuccessful: boolean) => void): void 
 			}
 		})
 	);
+}
+
+function getLeaders(onLoad:(leaders: Array<User>) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/user/leaderboard', {
+			method: 'GET',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+				}
+				else {
+					onLoad()
+				}
+			})
+		).catch(
+			(error) => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 }
 
 export {getUser, setWager};
