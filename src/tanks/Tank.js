@@ -4,6 +4,7 @@ import Vec from '../casus/blocks/Vec.js';
 import TankPart from './TankPart.js'
 import Gun from './Gun.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
+import {getImage} from '../battleground/ImageLoader.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
@@ -123,6 +124,7 @@ class Tank extends GameObject {
 		tankName: string,
 		_id: string,
 		userId: string,
+		
 	) {
 		super(position);
 
@@ -330,6 +332,7 @@ class Tank extends GameObject {
 	}
 
 	render(drawer: ImageDrawer): void {
+		drawer.draw(getImage('SHADOW'), this.getPosition(), 16, this.rotation);
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.secondaryGun!=null) {
 			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
@@ -455,6 +458,12 @@ class Tank extends GameObject {
 
 	getHealth(): number {
 		return this.health;
+	}
+
+	setTurretAngleForDisplayOnly(turretAngle: number): void {
+		if (this.mainGun != null) {
+			this.mainGun.displayAngle=turretAngle;
+		}
 	}
 
 }

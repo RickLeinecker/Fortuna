@@ -32,6 +32,7 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import Cookies from 'universal-cookie';
+import TankDisplay from '../tanks/TankDisplay.js';
 
 type Props = {||};
 
@@ -333,6 +334,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
+					<TankDisplay tankToDisplay={this.state.selectedTank} />
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div className="componentMenu">

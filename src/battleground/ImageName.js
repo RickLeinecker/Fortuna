@@ -3,6 +3,7 @@
 type ImageName = 
 	//general
 	'DIRT_BACKGROUND' | 
+	'SHADOW' | 
 	'WALL' | 
 
 	//deployables
