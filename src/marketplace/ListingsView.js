@@ -4,7 +4,7 @@ import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
 import type { SellingType } from './SellingType.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
-import { ToastContainer ,toast } from 'react-toastify';
+import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { toTitleCase } from '../globalComponents/Utility.js';
 

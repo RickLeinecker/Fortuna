@@ -1,6 +1,6 @@
 //@flow strict
 import * as React from 'react';
-import { ToastContainer ,toast } from 'react-toastify';
+import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import ListingObject from './ListingObject.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
