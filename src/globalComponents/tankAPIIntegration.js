@@ -79,7 +79,7 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 				console.log(response.status);
 				console.log(data.msg);
 				console.log(data);
-				onLoad(false);
+				onLoad(false, []);
 			}
 			else {
 				const allTanks: Array<Tank> = [];
@@ -90,7 +90,6 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 			}
 		})
 	);
-	return responsePromise;
 }
 
 export {

@@ -63,7 +63,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 	getAllUsersTanksForSell() : void {
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
-				this.setState({tanksToSell, allTanks});
+				this.setState({tanksToSell: allTanks});
 			}
 		});
 	};

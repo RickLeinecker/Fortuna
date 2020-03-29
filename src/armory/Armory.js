@@ -102,7 +102,7 @@ class Armory extends React.Component<Props, State> {
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
 				// Always set the default selected tank to the newest tank.
-				const newSelectedTank = allTanks(allTanks.length-1);
+				const newSelectedTank = allTanks[allTanks.length-1];
 				setTankForCasus(newSelectedTank._id);
 				// Update the state, and then run initPoints after the state has been set.
 				this.setState({
