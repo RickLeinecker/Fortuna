@@ -15,6 +15,7 @@ type Props = {||};
 
 type State = {|
 	selectedTank: string;
+
 |};
 
 class BattleArena extends React.Component<Props, State> {

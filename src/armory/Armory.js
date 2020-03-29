@@ -148,12 +148,12 @@ class Armory extends React.Component<Props, State> {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
-	changeSelectedTank: (string) => void = (newTankId: string) => {
+	changeSelectedTank(newTank: Tank): void {
 		this.setState(
-			{selectedTank: this.state.allTanks.find(tank => tank._id === newTankId), showTanks: false},
+			{selectedTank: newTank},
 			this.initPoints
 		);
-		setTankForCasus(newTankId);
+		setTankForCasus(newTank._id);
 	}
 
 	// Function that will save the selectedTank.
@@ -302,12 +302,10 @@ class Armory extends React.Component<Props, State> {
 					</Link>
 					<br/><br/>
 					<h4>Selected Tank</h4>
-					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
 					<br/>
 					<SelectTank
 						allTanks={this.state.allTanks}
-						showTanks={this.state.showTanks}
-						changeSelectedTank={this.changeSelectedTank}
+						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
 					/>
 					<br/>
 					<br/>
