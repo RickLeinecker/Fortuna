@@ -68,8 +68,9 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	};
 
 	makeASaleOfAComponent =  ():void => {
-		//Catch if we are not selling any amount
-		if(this.state.itemAmount <= 0) {
+		//Catch if we are not selling any amount or if selling more than what we have
+		const indexOfItem = this.getIndexOfListingArray(this.state.itemID);
+		if(this.state.itemAmount <= 0 || this.state.itemAmount > this.state.itemsToSell[indexOfItem].amount) {
 			toast.error("Invalid Amount to Sell!");
 			return;
 		}
@@ -97,6 +98,17 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			}
 		);
 	};
+
+	//This will return the index of the listing array where the name is equal to the string sent in
+	getIndexOfListingArray (nameOfItem: string): number {
+		let index = 0;
+		for(index = 0; index < this.state.itemsToSell.length; index++) {
+			if(this.state.itemsToSell[index].name === nameOfItem) {
+				return index;
+			}
+		}
+		return -1;
+	}
 
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
