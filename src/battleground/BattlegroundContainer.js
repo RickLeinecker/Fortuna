@@ -6,6 +6,8 @@ import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
 
+import './BattlegroundContainer.css';
+
 type Props = {||};
 
 type State = {
@@ -25,19 +27,21 @@ class BattlegroundContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="haveScorebarIfSmall">
+			<div>
 				<Navbar
 					linkName='/BattleArena'
 					returnName='Back to Battle Arena'
 					pageName='Battleground'
 				/>
-				<HealthBarsField
-					playerOneTank = {this.state.playerOneTank}
-					playerTwoTank = {this.state.playerTwoTank}
-				/>
-				<Battleground 
-					setPlayersTank = {this.setPlayersTank}
-				/>
+				<div className="battlegroundContainer">
+					<HealthBarsField
+						playerOneTank = {this.state.playerOneTank}
+						playerTwoTank = {this.state.playerTwoTank}
+					/>
+					<Battleground 
+						setPlayersTank = {this.setPlayersTank}
+					/>
+				</div>
 			</div>
 		);
 	}
