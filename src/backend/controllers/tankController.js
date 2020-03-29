@@ -287,6 +287,7 @@ exports.deleteTank = async (req: Request, res: Response) => {
 		return res.status(500).json({ msg: 'Could not find list of user tanks.' });
 	}
 
+	// tankList is an array of the objects, so you can access the length property
 	if (tankList.length === 1) {
 		console.error('This is the last tank of the user.');
 		return res.status(500).json({ msg: 'You cannot delete your last tank.' });
