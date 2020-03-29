@@ -4,6 +4,8 @@ import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
 import type { SellingType } from './SellingType.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
+import { ToastContainer , toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import { toTitleCase } from '../globalComponents/Utility.js';
 
 type Props = {|
@@ -207,29 +209,43 @@ class ListingsView extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 201) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 				}
 				else {
-					console.log("success");
+					toast.success("Item Bought");
 					//refresh the list 
 					this.directSaleToProperFunction();
 					this.props.onItemBought();
 				}
 			})
 		).catch(
-			(error) => {
-				console.log('Couldnt connect to server!');
+			error => {
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		); 
 	};
 
+	//This formats the title of the listing views
+	formatTitle(title:string) {
+		//did this because title is a const and I need to reassign the title
+		let formattedTitle = title;
+		//Capitalizes the first letter
+		formattedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.substring(1);
+		//adds s to the end of the word if it doesn't contain an s
+		if(formattedTitle.charAt(formattedTitle.length-1) !== 's') {
+			formattedTitle = formattedTitle + 's';
+		}
+		return formattedTitle;
+	}
 
 	render() { 
 		return (
 			<div>
+				<h1>{this.formatTitle(this.props.sellerType)}</h1>
 				{this.createCards()}
+				<ToastContainer />
 			</div>
 		);
 	}
