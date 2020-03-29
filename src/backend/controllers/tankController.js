@@ -280,6 +280,18 @@ exports.deleteTank = async (req: Request, res: Response) => {
 		return res.status(400).json({ msg: 'Could not find tank in DB' });
 	}
 
+	// Check if this the only tank left for the user
+	const tankList = await Tank.find({ userId: tank.userId });
+	if (!tankList) {
+		console.error('Could not get list of user tanks.');
+		return res.status(500).json({ msg: 'Could not find list of user tanks.' });
+	}
+
+	if (tankList.length === 1) {
+		console.error('This is the last tank of the user.');
+		return res.status(500).json({ msg: 'You cannot delete your last tank.' });
+	}
+
 	// Add components back to user inventory
 	let user = await User.findById({ _id: tank.userId });
 	if (!user) {
