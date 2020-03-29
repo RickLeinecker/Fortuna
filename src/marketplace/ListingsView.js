@@ -2,7 +2,6 @@
 import * as React from 'react';
 import {getComponentType, verifyComponent} from '../armory/GetInventoryInfo.js';
 import Cookies from 'universal-cookie';
-import type {ComponentType} from '../armory/ComponentType.js';
 import SaleObject from './SaleObject.js';
 import { ToastContainer ,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
