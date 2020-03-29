@@ -29,6 +29,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
         this.getUserInventory();
     }
 
+	
 
     getUserInventory (): void  {
 		const responsePromise = getUser();
@@ -69,6 +70,12 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		responsePromise.then(
 			response => response.json().then(data => {
 				console.log(data);
+				this.setState({
+					salePrice:0,
+					itemAmount: 0,
+				});
+				//Lets refresh the list of the inventory
+				this.getUserInventory();
 			})
 		).catch(
 			error => {
@@ -97,9 +104,9 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
                 <label>Select an Item to Sell</label>
                 <select className="itemForSale" onChange={this.handleChangeInSaleItem}>{this.state.itemsToSell.map(({ name, amount }, index) => <option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>)}</select>
                 <label>Selling Price</label>
-                <input type="number" className="form-control" onChange={this.handleChangeInSalePrice}></input>
+                <input type="number" className="form-control" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
                 <label>Amount to Sell</label>
-                <input type="number" className="form-control" onChange={this.handleChangeInAmountToSell}></input>
+                <input type="number" className="form-control" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
                 <button className="btn btn-success mt-2" onClick={this.makeASaleOfAComponent}>Sell</button>
             </div>
         );

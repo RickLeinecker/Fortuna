@@ -31,11 +31,24 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps:Props) : void {
+	componentDidUpdate(prevProps:Props, prevState:State) : void {
 		if(prevProps !== this.props) {
 			this.directSaleToProperFunction();
 		}
 	}
+
+	//This function directs the view to the proper function
+	//If we are in the tank view it directs it to getMarketSalesForTanks()
+	//Else it directs it to getMarketSalesForComponents()
+	directSaleToProperFunction() : void {
+		if(this.props.sellerType === 'tanks') {
+			this.getMarketSalesForTanks();
+		}
+		else {
+			this.getMarketSalesForComponents();
+		}
+	}
+
 
 	//This gets us the user's id 
 	getUserId = async ():Promise<void> => {
@@ -53,19 +66,6 @@ class ListingsView extends React.Component<Props, State> {
 		const jsonObjectOfUser = await response.json();
 		this.setState({userId:jsonObjectOfUser._id});
 	};
-
-
-	//This function directs the view to the proper function
-	//If we are in the tank view it directs it to getMarketSalesForTanks()
-	//Else it directs it to getMarketSalesForComponents()
-	directSaleToProperFunction() : void {
-		if(this.props.sellerType === 'tanks') {
-			this.getMarketSalesForTanks();
-		}
-		else {
-			this.getMarketSalesForComponents();
-		}
-	}
 
 
 	//Gets all the sells and filters them based on what type we are currently looking at
@@ -203,6 +203,8 @@ class ListingsView extends React.Component<Props, State> {
 				}
 				else {
 					console.log("success");
+					//refresh the list 
+					this.directSaleToProperFunction();
 				}
 			})
 		).catch(
