@@ -5,7 +5,10 @@ import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 
-type Props = {||}; 
+type Props = {|
+	onItemSold: () => void,
+|}; 
+
 type State = {|
 	userId: string,
 	salePrice: number,
@@ -15,7 +18,6 @@ type State = {|
 |};
 
 class MakeAComponentSaleView extends React.Component<Props, State> {
-
 
 	constructor() {
 		super();
@@ -28,8 +30,6 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		}
 		this.getUserInventory();
 	}
-
-	
 
 	getUserInventory (): void  {
 		const responsePromise = getUser();
@@ -66,16 +66,23 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	};
 
 	makeASaleOfAComponent =  ():void => {
-		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.itemID, "component", this.state.itemAmount);
+		const responsePromise = makeASale(
+			this.state.userId, 
+			this.state.salePrice, 
+			this.state.itemID, 
+			"component", 
+			this.state.itemAmount
+		);
 		responsePromise.then(
 			response => response.json().then(data => {
 				console.log(data);
 				this.setState({
-					salePrice:0,
+					salePrice: 0,
 					itemAmount: 0,
 				});
 				//Lets refresh the list of the inventory
 				this.getUserInventory();
+				this.props.onItemSold();
 			})
 		).catch(
 			error => {
@@ -89,10 +96,9 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
 	handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
 	
-	formatAmountUserHas(amountOfThisItemUserHas:number):string {
+	formatAmountUserHas(amountOfThisItemUserHas: number): string {
 		let responseString = '';
-		if(amountOfThisItemUserHas > 0)
-		{
+		if(amountOfThisItemUserHas > 0) {
 			responseString = '(' + amountOfThisItemUserHas + ')';
 		}
 		return responseString;
@@ -102,7 +108,11 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
-				<select className="itemForSale" onChange={this.handleChangeInSaleItem}>{this.state.itemsToSell.map(({ name, amount }, index) => <option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>)}</select>
+				<select className="itemForSale" onChange={this.handleChangeInSaleItem}>
+					{this.state.itemsToSell.map(({ name, amount }, index) => 
+						<option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>
+					)}
+				</select>
 				<label>Selling Price</label>
 				<input type="number" className="form-control" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
 				<label>Amount to Sell</label>

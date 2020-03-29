@@ -31,8 +31,8 @@ import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
-import Cookies from 'universal-cookie';
 import TankDisplay from '../tanks/TankDisplay.js';
+import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {||};
 
@@ -166,14 +166,13 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank.
 	saveTank(): void {
-		const cookie = new Cookies();
 		const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
 			method: 'PUT',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': cookie.get('token'),
+				'x-auth-token': getLoginToken(),
 			},
 			body: JSON.stringify({ 
 				tankName: this.state.selectedTank.tankName, 

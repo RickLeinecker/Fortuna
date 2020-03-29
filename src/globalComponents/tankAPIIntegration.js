@@ -3,26 +3,26 @@
 import Cookies from 'universal-cookie';
 import BackendTank from '../tanks/BackendTank.js';
 import Tank from '../tanks/Tank.js';
+import getLoginToken from './getLoginToken.js';
 
 /*
 	This function takes no input
 	This function gets the id of the users favorite tank
 */
-function getFavoriteTank(): Promise<Response> {
-	const cookies = new Cookies();
+function getFavoriteTank() : Promise<Response> {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': cookies.get('token')
+			'x-auth-token': getLoginToken()
 		},
 	});
 	return responsePromise;
 }
 
-function setFavoriteTank(tank: Tank): boolean {
+function setFavoriteTankId(tankId: string): boolean {
 	const cookies = new Cookies();
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
@@ -63,15 +63,13 @@ function setFavoriteTank(tank: Tank): boolean {
 	This function gets all of the tanks the user is associated with
 */
 function getAllUsersTanks() : Promise<Response> {
-	const cookies = new Cookies();
-	const token = cookies.get('token');
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': token
+			'x-auth-token': getLoginToken()
 		},
 	});
 	return responsePromise;
@@ -79,7 +77,7 @@ function getAllUsersTanks() : Promise<Response> {
 
 export {
 	getFavoriteTank,
-	setFavoriteTank,
+	setFavoriteTankId,
 	getAllUsersTanks,
 }
 

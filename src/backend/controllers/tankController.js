@@ -10,27 +10,37 @@ const { validationResult } = require('express-validator');
 
 
 exports.getFavorite = async (req: Request, res: Response) => {
-	await User.findById(req.user.id, 'favoriteTank', (err: Error, foundUser: User) => {
-		if (err) {
-			console.error(err.message);
+	try {
+		// Find user using auth token and select their favorite tank field
+		const myUser = await User.findById(req.user.id, 'favoriteTank');
+		
+		if (myUser == null) {
+			console.log('User not found in DB');
+			return res
+				.status(404)
+				.json({ msg: 'User not found in DB'});
+		}
 
+		const favoritedTank = await Tank.findById(myUser.favoriteTank);
+		
+		if (favoritedTank == null) {
+			console.log('Tank not found in DB');
 			return res
-				.status(500)
-				.json({ msg: 'Could not find user in DB'});
+				.status(404)
+				.json({ msg: 'Tank not found in DB'});
 		}
-		else if (foundUser.favoriteTank == null) {
-			console.log('No favorite set');
-			return res
-				.status(200)
-				.send(null);
-		}
-		else {
-			console.log('Favorite retrieved');
-			return res
-				.status(200)
-				.send(foundUser.favoriteTank);
-		}
-	});
+
+		console.log('favoriteTank successfully retrieved');
+		return res
+			.status(200)
+			.send(favoritedTank);
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not get favorite'});
+	}
+	
 }
 
 exports.favoriteTank = async (req: Request, res: Response) => {
