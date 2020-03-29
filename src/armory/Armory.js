@@ -306,11 +306,6 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
-					<label>Edit Code:&emsp;</label>
-					<Link to={verifyLink("/Casus")}>
-						<button className="smallbtn">Casus</button>
-					</Link>
-					<br/><br/>
 					<h4>Selected Tank</h4>
 					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
 					<br/>
@@ -319,6 +314,11 @@ class Armory extends React.Component<Props, State> {
 						showTanks={this.state.showTanks}
 						changeSelectedTank={this.changeSelectedTank}
 					/>
+					<br/><br/>
+					<label>Edit Code:&emsp;</label>
+					<Link to={verifyLink("/Casus")}>
+						<button className="primarybtn">Casus</button>
+					</Link>
 					<br/>
 					<br/>
 					<label>Setup a Wager&emsp;</label>
