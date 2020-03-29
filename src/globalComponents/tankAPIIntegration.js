@@ -9,7 +9,7 @@ import { getTank } from '../tanks/TankLoader.js';
 	This function takes no input
 	This function gets the id of the users favorite tank
 */
-function getFavoriteTank(onLoad:(tank: Tank) => void) {
+function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
 		headers: {
@@ -40,7 +40,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void) {
 	)
 }
 
-function setFavoriteTankId(tankId: string, onLoad:(response: boolean) => void) {
+function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
