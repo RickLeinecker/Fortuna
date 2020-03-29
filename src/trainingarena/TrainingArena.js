@@ -7,6 +7,10 @@ import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
+import SelectTank from '../armory/SelectTank.js';
+import Tank from '../tanks/Tank.js';
+import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
+import TankDisplay from '../tanks/TankDisplay.js';
 
 type TrainingTankInfo = {
 	tankDisplayName: string,
@@ -28,17 +32,38 @@ const HARDCODED_TRAINING_TANKS: Array<TrainingTankInfo> = [
 	},
 ];
 
-class TrainingArena extends React.Component<{||}> {
+type Props = {||};
+
+type State = {|
+	selectedTank: ?Tank,
+	allTanks: Array<Tank>,
+|};
+
+class TrainingArena extends React.Component<Props, State> {
 
 	constructor() {
 		super();
 		verifyLogin();
+		this.state = {
+			selectedTank: null,
+			allTanks: [],
+		};
+	}
+	componentDidMount(): void {
+		getAllUsersTanks((successful, allTanks) => {
+			if (successful) {
+				this.setState({
+					allTanks: allTanks,
+					selectedTank: allTanks[0]
+				});
+			}
+		});
 	}
 
 	onClickStartBattle(): void {
 		setReturnToFromBattlegroundLink('/TrainingArena');
 		const trainingBotSelect: HTMLSelectElement=this.refs.trainingBotSelect;
-		const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
+		//const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
 		//TODO: start battle between chosen bot.tankID and the bot that I select
 		window.location.href=verifyLink('/Battleground');
 	}
@@ -53,21 +78,18 @@ class TrainingArena extends React.Component<{||}> {
 				/>
 				<div className="column taleft">
 					<h5>Choose your Tank, Commander</h5>
-					<select className="dropdownMenu">
-						<option defaultValue>Select a Tank</option>
-						<option value="1">Child Consumer</option>
-						<option value="2">Fast Bang</option>
-						<option value="3">Biggest Gun</option>
-					</select>
-					</div>
+					{
+						this.state.selectedTank==null?<div></div>:
+						<TankDisplay tankToDisplay={this.state.selectedTank} />
+					}
+					<SelectTank
+						allTanks={this.state.allTanks}
+						changeSelectedTank={(tank) => {
+							this.setState({selectedTank: tank});
+						}}
+					/>
+				</div>
 				<div className="column tamiddle">
-					<h4>Choose an Arena to Battle</h4>
-					<select className="dropdownMenu">
-						<option defaultValue>Select Arena</option>
-						<option value="1">Big Arena</option>
-						<option value="2">Small Arena</option>
-						<option value="3">Arena I am, yes</option>
-					</select>
 					<button 
 						type="button" 
 						className="primarybtn" 

@@ -5,10 +5,7 @@ import Tank from '../tanks/Tank.js';
 import getLoginToken from './getLoginToken.js';
 import { getTank } from '../tanks/TankLoader.js';
 
-/*
-	This function takes no input
-	This function gets the id of the users favorite tank
-*/
+// This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
@@ -95,11 +92,8 @@ function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): voi
 		);
 }
 
-/*
-	This function takes no input
-	This function gets all of the tanks the user is associated with
-*/
-function getAllUsersTanks() : Promise<Response> {
+// This function gets all of the tanks the user is associated with
+function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
 		method: 'GET',
 		headers: {
@@ -109,7 +103,23 @@ function getAllUsersTanks() : Promise<Response> {
 			'x-auth-token': getLoginToken()
 		},
 	});
-	return responsePromise;
+	responsePromise.then (
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data.msg);
+				console.log(data);
+				onLoad(false, []);
+			}
+			else {
+				const allTanks: Array<Tank> = [];
+				for(const tank of data) {
+					allTanks.push(getTank(tank));
+				}
+				onLoad(true, allTanks);
+			}
+		})
+	);
 }
 
 export {
