@@ -59,7 +59,7 @@ class Battleground extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 		verifyLogin();
-		window.addEventListener('resize', () => this._rerender());
+		window.addEventListener('resize', this.onResize);
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
@@ -95,6 +95,8 @@ class Battleground extends React.Component<Props> {
 		setTimeout(() => this._gameLoop(), 1000/20);
 	}
 
+	onResize = () => this._rerender();
+
 	render(): React.Node {
 		return (
 			<div>
@@ -108,6 +110,7 @@ class Battleground extends React.Component<Props> {
 
 	componentWillUnmount() {
 		this.alive=false;
+		window.removeEventListener('resize', this.onResize);
 	}
 
 	_gameLoop(): void {

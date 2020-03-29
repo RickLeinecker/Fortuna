@@ -14,6 +14,7 @@ import type {ImageName} from './ImageName.js';
 let initialized=false;
 const allImages: {[ImageName]: Image}= {
 	DIRT_BACKGROUND: new Image(),
+	SHADOW: new Image(),
 	WALL: new Image(),
 
 	C4: new Image(),
@@ -83,6 +84,7 @@ function imageLoaderInit(): void {
 
 	//------------------ADD MORE IMAGE HERE---------------------------
 	allImages.DIRT_BACKGROUND.src='DirtBackground.png';
+	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
 
 	allImages.C4.src='c4.png';
