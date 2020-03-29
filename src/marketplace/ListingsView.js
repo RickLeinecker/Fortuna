@@ -5,10 +5,13 @@ import type { SellingType } from './SellingType.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
+
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: SellingType,
+	onItemBought: () => void,
 |};
+
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
@@ -17,11 +20,11 @@ type State = {|
 
 
 class ListingsView extends React.Component<Props, State> {
-	constructor(props:Props) {
+	constructor(props: Props) {
 		super(props);
 		this.state={
 			userId: '',
-			itemsForSale : [],
+			itemsForSale: [],
 		}
 	}
 
@@ -31,7 +34,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps: Props, prevState: State) : void {
+	componentDidUpdate(prevProps: Props, prevState: State): void {
 		if(prevProps !== this.props) {
 			this.directSaleToProperFunction();
 		}
@@ -40,7 +43,7 @@ class ListingsView extends React.Component<Props, State> {
 	//This function directs the view to the proper function
 	//If we are in the tank view it directs it to getMarketSalesForTanks()
 	//Else it directs it to getMarketSalesForComponents()
-	directSaleToProperFunction() : void {
+	directSaleToProperFunction(): void {
 		if(this.props.sellerType === 'tanks') {
 			this.getMarketSalesForTanks();
 		}
@@ -48,7 +51,6 @@ class ListingsView extends React.Component<Props, State> {
 			this.getMarketSalesForComponents();
 		}
 	}
-
 
 	//This gets us the user's id 
 	getUserId(): void {
@@ -75,10 +77,9 @@ class ListingsView extends React.Component<Props, State> {
 		);
 	};
 
-
 	//Gets all the sells and filters them based on what type we are currently looking at
 	//This only works for components as tanks is a different api call
-	getMarketSalesForComponents() : void  {
+	getMarketSalesForComponents(): void  {
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -127,7 +128,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This function uses the users id and gets the tanks that are active in the marketplace
-	getMarketSalesForTanks() : void  {
+	getMarketSalesForTanks(): void  {
 		const  responsePromise: Promise<Response> = fetch('/api/marketplace/getTankMarketSales/' + this.state.userId, {
 			method: 'GET',
 			headers: {
@@ -192,7 +193,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This is the actual buy function
-	buyItem (sellerId:string, saleId:string):void {
+	buyItem (sellerId: string, saleId: string): void {
 		const responsePromise: Promise<Response> = fetch('/api/marketplace/marketTransaction/', {
 			method: 'put',
 			headers: {
@@ -213,6 +214,7 @@ class ListingsView extends React.Component<Props, State> {
 					console.log("success");
 					//refresh the list 
 					this.directSaleToProperFunction();
+					this.props.onItemBought();
 				}
 			})
 		).catch(
@@ -232,4 +234,5 @@ class ListingsView extends React.Component<Props, State> {
 		);
 	}
 }
+
 export default ListingsView;
