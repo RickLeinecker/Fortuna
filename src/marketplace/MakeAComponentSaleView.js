@@ -76,12 +76,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 					salePrice:0,
 					itemAmount: 0,
 				});
+				toast.success("Item Listed!");
 				//Lets refresh the list of the inventory
 				this.getUserInventory();
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);

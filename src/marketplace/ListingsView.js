@@ -7,7 +7,6 @@ import SaleObject from './SaleObject.js';
 import { ToastContainer ,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { toTitleCase } from '../globalComponents/Utility.js';
-import type { SellingType } from './SellingType.js';
 
 type Props = {|
 	//This is the type of item we are buying
