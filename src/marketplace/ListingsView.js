@@ -32,7 +32,9 @@ class ListingsView extends React.Component<Props, State> {
 
 	//When sellerType is updated we need to get the new sells
 	componentDidUpdate(prevProps:Props) : void {
-		this.directSaleToProperFunction();
+		if(prevProps !== this.props) {
+			this.directSaleToProperFunction();
+		}
 	}
 
 	//This gets us the user's id 
