@@ -5,10 +5,13 @@ import Cookies from 'universal-cookie';
 import type { SellingType } from './SellingType.js';
 import SaleObject from './SaleObject.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
+import getLoginToken from '../globalComponents/getLoginToken.js';
+
 type Props = {|
 	//This is the type of item we are buying
 	sellerType: SellingType,
 |};
+
 type State = {|
 	userId: string,
 	//This allows for all the items that are for sale to be with in one array
@@ -37,15 +40,13 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This gets us the user's id 
 	getUserId = async ():Promise<void> => {
-		const cookies = new Cookies();
-		const token = cookies.get('token');
 		const response = await fetch('/api/user/getUser/', {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
+				'x-auth-token': getLoginToken(),
 			},
 		});
 		const jsonObjectOfUser = await response.json();

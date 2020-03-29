@@ -4,6 +4,7 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
 import Tank from '../tanks/Tank.js';
+import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {|
 	tank: Tank;
@@ -32,7 +33,7 @@ class DeleteTankPopup extends React.Component<Props, State> {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': cookies.get('token'),
+				'x-auth-token': getLoginToken()
 			},
 		});
 		responsePromise.then(

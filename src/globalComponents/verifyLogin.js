@@ -2,17 +2,16 @@
 
 import { verifyLink } from './verifyLink.js';
 import Cookies from 'universal-cookie';
+import getLoginToken from './getLoginToken.js';
 
 function verifyLogin(): void {
-	const cookies = new Cookies();
-	const token = cookies.get('token');
 	const responsePromise: Promise<Response> = fetch('/api/verify', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': token,
+			'x-auth-token': getLoginToken(),
 		},
 	});
 	responsePromise.then(
