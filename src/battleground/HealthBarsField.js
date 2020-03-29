@@ -9,10 +9,8 @@ type Props = {|
 	playerTwoTank: ?Tank,
 |};
 
-type State = {
-};
 
-class HealthBarsField extends React.Component<Props, State> {
+class HealthBarsField extends React.Component<Props> {
 	
 	render(): React.Node {
 		return (
