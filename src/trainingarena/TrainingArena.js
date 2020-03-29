@@ -6,12 +6,18 @@ import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
 
 class TrainingArena extends React.Component<{||}> {
 
 	constructor() {
 		super();
 		verifyLogin();
+	}
+
+	onClickStartBattle(): void {
+		setReturnToFromBattlegroundLink('/TrainingArena');
+		window.location.href=verifyLink('/Battleground');
 	}
 
 	render(): React.Node {
@@ -39,9 +45,13 @@ class TrainingArena extends React.Component<{||}> {
 						<option value="2">Small Arena</option>
 						<option value="3">Arena I am, yes</option>
 					</select>
-					<Link to={verifyLink("/Battleground")}>
-						<button type="button" className="primarybtn">Start Battle</button>
-					</Link>
+					<button 
+						type="button" 
+						className="primarybtn" 
+						onClick={() => this.onClickStartBattle()}
+					>
+						Start Battle
+					</button>
 					<br/>
 					<Link to={verifyLink("/Casus")}>
 						<button className="clearbtn">Back to Casus</button>
