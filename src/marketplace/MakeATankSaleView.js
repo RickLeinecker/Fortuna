@@ -61,41 +61,11 @@ class MakeATankSaleView extends React.Component<Props, State> {
 
 	//This gets all of the users tanks and then adds them to the dropdown
 	getAllUsersTanksForSell() : void {
-		const responsePromise = getAllUsersTanks();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfTanks = data;
-					const tankOptions = [];
-					//for every tank we will make a select option
-					for (const tank in jsonObjectOfTanks) {
-						const blankTank: BackendTank = new BackendTank();
-						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
-						blankTank._id = jsonObjectOfTanks[tank]._id;
-						blankTank.components = [
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty', 'empty',
-							'empty', 'empty',
-						];
-						tankOptions.push(getTank(blankTank));
-					}
-					this.setState({tanksToSell : tankOptions});
-				}
-			})
-		).catch(
-			error => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
-				return error;
+		getAllUsersTanks((successful, allTanks) => {
+			if (successful) {
+				this.setState({tanksToSell, allTanks});
 			}
-		);
+		});
 	};
 
 	//This will make a sale for a tank

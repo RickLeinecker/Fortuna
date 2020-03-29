@@ -103,7 +103,18 @@
     color: #0062ff;
 }
 
+.wagerPopup {
+    text-align: center;
+}
+
 .deletePopup {
     text-align: center;
 }
 
+.wagerTank {
+    color: #0062ff;
+}
+
+.wagerTank label {
+    color: #04CCFF;
+}
