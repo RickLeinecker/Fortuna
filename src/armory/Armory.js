@@ -313,10 +313,10 @@ class Armory extends React.Component<Props, State> {
 						changeSelectedTank={this.changeSelectedTank}
 					/>
 					<br/><br/>
-					<label>Edit Code:&emsp;</label>
 					<Link to={verifyLink("/Casus")}>
 						<button className="primarybtn">Casus</button>
 					</Link>
+					<label>&emsp;Edit Code</label>
 					<br/>
 					<br/>
 					<CreateNewTankPopup 
