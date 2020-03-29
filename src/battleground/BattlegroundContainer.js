@@ -36,7 +36,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 						playerOneTank = {this.state.playerOneTank}
 						playerTwoTank = {this.state.playerTwoTank}
 					/>
-					<Battleground 
+					<Battleground
 						setPlayersTank = {this.setPlayersTank}
 					/>
 				</div>
