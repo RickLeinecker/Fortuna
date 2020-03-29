@@ -89,5 +89,20 @@ router.patch('/setWager', [
         .isInt()
 ], auth,  userController.setWager);
 
+// Edit user account information
+// Route call: /editUser
+// Header: x-auth-token
+// Body: userName, password, email
+// Returns the updated user document
+router.patch('/editUser', [
+    check('email', 'Enter a valid email')
+        .isEmail(),
+    check('userName', 'Enter a valid username of 3 or more characters')
+        .isString()
+        .isLength({ min: 3 }),
+    check('password', 'Enter a valid password of 5 or more characters')
+        .isString()
+        .isLength({ min: 5 })
+], auth,  userController.editUser);
 
 module.exports = router;
