@@ -50,7 +50,6 @@ type State = {|
 	componentList: Array<Component>,
 	currentPartIndex: number,
 	points: number,
-	showTanks: boolean,
 |};
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -83,7 +82,6 @@ class Armory extends React.Component<Props, State> {
 			componentList: [],
 			currentPartIndex: -1,
 			points: 0,
-			showTanks: false,
 		}
 
 		if (this.state.selectedTank == null) {
@@ -106,11 +104,8 @@ class Armory extends React.Component<Props, State> {
 				setTankForCasus(newSelectedTank._id);
 				// Update the state, and then run initPoints after the state has been set.
 				this.setState({
-						allTanks: 
-						allTanks, 
-						selectedTank: 
-						newSelectedTank, 
-						showTanks: false
+						allTanks: allTanks, 
+						selectedTank: newSelectedTank, 
 					},
 					this.initPoints
 				);
