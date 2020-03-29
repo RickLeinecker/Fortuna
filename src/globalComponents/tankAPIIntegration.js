@@ -65,6 +65,36 @@ function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => vo
 	);
 }
 
+function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + tank._id, {
+			method: 'PUT',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': getLoginToken(),
+			},
+			body: JSON.stringify({ 
+				tankName: tank.tankName, 
+				userId: tank.userId, 
+				components: tank.parts.map(part => part.name),
+				isBot: false,
+			}),
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if(response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					onLoad(false);
+				}
+				else {
+					onLoad(true);
+				}
+			})
+		);
+}
+
 /*
 	This function takes no input
 	This function gets all of the tanks the user is associated with
@@ -85,6 +115,7 @@ function getAllUsersTanks() : Promise<Response> {
 export {
 	getFavoriteTank,
 	setFavoriteTankId,
+	updateTank,
 	getAllUsersTanks,
 }
 

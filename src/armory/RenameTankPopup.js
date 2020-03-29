@@ -3,14 +3,18 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
+import { updateTank } from '../globalComponents/tankAPIIntegration.js';
 
 type Props = {|
-	tank: Tank
+	tank: Tank,
+	// ONCE API IS REWORKED, THIS NEEDS TO BE REMOVED
+	renameTank: (Tank) => void
 |}; 
 
 type State = {|
 	newTankName: string,
-	errorMessage: string
+	errorMessage: string,
+	renameTankOpen: boolean
 |};
 
 class CreateNewTankPopup extends React.Component<Props, State> {
@@ -20,42 +24,16 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		this.state = {
 			newTankName: '',
-			errorMessage: ''
+			errorMessage: '',
+			renameTankOpen: false
 		}
     }
-
-	// Once mounted, set the userId.
-	componentDidMount(): void {
-		const responsePromise = getUser();
-		responsePromise.then (
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					this.setState({userId: data._id});
-				}
-			})
-		)
-	}
-
-	// Converts camel case to title case.
-	toTitleCase(str: string): string {
-		let newStr = str.replace( /([A-Z])/g, " $1");
-		return newStr.charAt(0).toUpperCase() + newStr.slice(1);
-	}
 	
-	//Creates a new tank
-	handleCreateClick(): void {
+	// Renames the tank.
+	handleRenameClick(): void {
 		// Error handling.
 		if(this.state.newTankName === '') {
 			this.setState({errorMessage: 'Need to have a tank name.'});
-			return;
-		}
-		else if(this.state.selectedChassis === 'empty' || this.state.selectedTreads === 'empty') {
-			this.setState({errorMessage: 'Need to have a chassis and tread.'});
 			return;
 		}
 		else if(this.state.newTankName.length > 20) {
@@ -67,119 +45,51 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			return;
 		}
 
-		// Create components array.
-		let components: Array<TankComponent> = [];
-		// Index 0 and 7 are used for the chassis and treads that the user chooses.
-		// The rest are set to 'empty'.
-		for(let i: number = 0; i < 11; i++) {
-			switch(i) {
-				case 0:
-					components.push(this.state.selectedChassis);
-					break;
-				case 7:
-					components.push(this.state.selectedTreads);
-					break;
-				default:
-					components.push('empty');
-					break;
+		this.props.tank.tankName = this.state.newTankName;
+		updateTank(this.props.tank, updateSuccessful => {
+			if(updateSuccessful != null) {
+				this.setState({newTankName: '', errorMessage: '', renameTankOpen: false});
+				this.props.renameTank(this.props.tank);
 			}
-		}
-
-		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
-			method: 'POST',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken()
-			},
-			body: JSON.stringify({ tankName: this.state.newTankName, userId: this.state.userId, components: components }),
+			else {
+				this.setState({errorMessage: 'Could not rename tank.'});
+			}
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
-					return;
-				}
-				else {
-					// If no errors, reload the page and the new tank will be set.
-					window.location.reload();
-				}
-			})
-		).catch(
-			(error) => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
-				return;
-			}
-		);
 	}
 
 	render(): React.Node {
-		const createButton = (
-			<button className="popupbtn" onClick={() => this.handleCreateClick()}>
-				Create
+		const renameButton = (
+			<button className="popupbtn" onClick={() => this.handleRenameClick()}>
+				Rename
 			</button>
 		);
 		const cancelButton = (
-			<button className="cancelbtn" onClick={() => this.setState({newTankDialogOpen: false})}>Cancel</button>
+			<button className="cancelbtn" onClick={() => this.setState({renameTankOpen: false})}>Cancel</button>
 		);
 		
 		return (
 			<div>
-				<label>Create a New Tank&emsp;</label>
-				<button type="button" className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
-					Create
+				<button className="smallbtn" onClick={() => this.setState({renameTankOpen: true})}>
+					Rename
 				</button>
-				<Popup 
-					open={this.state.newTankDialogOpen}
-					onClose={() => this.setState({newTankDialogOpen: false})}
+				<label>&emsp;Rename Selected Tank</label>
+				<Popup
+					open={this.state.renameTankOpen}
+					onClose={() => this.setState({renameTankOpen: false})}
 				>
 					<div className="popup">
-						<div className="row col-md-12">
-							<label>New Tank Name</label>
-							<div className="input-group">
-								<input 
-									type="text" 
-									className="inputText" 
-									name="newTankName" 
-									value={this.state.newTankName} 
-									onChange={e => this.setState({ newTankName: e.target.value})} 
-								/>
-							</div>
-							<label>New Tank Chassis</label>
-							<div className="input-group">
-								<select className="dropdownMenu" onChange={(e) => this.setState({selectedChassis: e.target.value})}>
-									<option value={this.state.selectedChassis}>{this.toTitleCase(this.state.selectedChassis)}</option>
-									{this.props.chassis.map(({componentName, numberOwned}, index) => (
-										<option key={index} value={componentName}>{this.toTitleCase(componentName)}</option>
-									))}
-								</select>
-							</div>
-							<label>New Tank Treads</label>
-							<div className="input-group">
-								<select className="dropdownMenu" onChange={(e) => this.setState({selectedTreads: e.target.value})}>
-									<option value={this.state.selectedTreads}>{this.toTitleCase(this.state.selectedTreads)}</option>
-									{this.props.treads.map(({componentName, numberOwned}, index) => (
-										<option key={index} value={componentName}>{this.toTitleCase(componentName)}</option>
-									))}
-								</select>
-							</div>
-						</div>
+						<label>Enter a New Name for {this.props.tank.tankName}</label>
+						<input 
+							type="text" 
+							className="inputText" 
+							onChange={e => this.setState({newTankName: e.target.value})} 
+						/>
 						<div className="fixedHeight">
 							{this.state.errorMessage}
 						</div>
-						<div className="row col-md-12">
-							{createButton}
-							{cancelButton}
-						</div>
+						{renameButton}{cancelButton}
 					</div>
 				</Popup>
-				<br/>
-				<br/>
 			</div>
 		);
 	}

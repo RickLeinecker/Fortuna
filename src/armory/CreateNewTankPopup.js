@@ -143,7 +143,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		return (
 			<div>
-				<button type="button" className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
+				<button className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
 					Create
 				</button>
 				<label>&emsp;Create a New Tank</label>
