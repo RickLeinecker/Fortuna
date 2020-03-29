@@ -11,14 +11,11 @@ type Props = {|
 	tankToDisplay: Tank
 |};
 
-type State = {|
-|};
-
 const FPS=20;
 const MIN_NEW_GUN_ANGLE_TIME=30*1, MAX_NEW_GUN_ANGLE_TIME=30*7;
 const LERP_SPEED_MIN=0.02, LERP_SPEED_MAX=0.1;
 
-class TankDisplay extends React.Component<Props, State> {
+class TankDisplay extends React.Component<Props> {
 	alive: boolean;
 	mainGunAngle: number;
 	targetGunAngle: number;
@@ -114,7 +111,7 @@ class TankDisplay extends React.Component<Props, State> {
 		}
 	}
 
-	_lerp(a: number, b: number, time: number) {
+	_lerp(a: number, b: number, time: number): number {
 		return b*time+a*(1-time);
 	}
 
