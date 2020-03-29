@@ -6,8 +6,6 @@ import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import BackendTank from '../tanks/BackendTank.js';
-import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {|
 	onItemSold: () => void,

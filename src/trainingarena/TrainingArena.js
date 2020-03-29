@@ -63,7 +63,7 @@ class TrainingArena extends React.Component<Props, State> {
 	onClickStartBattle(): void {
 		setReturnToFromBattlegroundLink('/TrainingArena');
 		const trainingBotSelect: HTMLSelectElement=this.refs.trainingBotSelect;
-		const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
+		//const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
 		//TODO: start battle between chosen bot.tankID and the bot that I select
 		window.location.href=verifyLink('/Battleground');
 	}
