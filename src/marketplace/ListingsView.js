@@ -31,7 +31,7 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//When sellerType is updated we need to get the new sells
-	componentDidUpdate(prevProps:Props, prevState:State) : void {
+	componentDidUpdate(prevProps: Props, prevState: State) : void {
 		if(prevProps !== this.props) {
 			this.directSaleToProperFunction();
 		}
@@ -51,7 +51,7 @@ class ListingsView extends React.Component<Props, State> {
 
 
 	//This gets us the user's id 
-	getUserId ():void {
+	getUserId(): void {
 		const responsePromise = getUser();
 		responsePromise.then(
 			response => response.json().then(data => {
