@@ -6,7 +6,9 @@ import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 
-type Props = {||}; 
+type Props = {|
+	onItemSold: () => void,
+|}; 
 
 type State = {|
 	userId: string,
@@ -65,16 +67,23 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	};
 
 	makeASaleOfAComponent =  ():void => {
-		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.itemID, "component", this.state.itemAmount);
+		const responsePromise = makeASale(
+			this.state.userId, 
+			this.state.salePrice, 
+			this.state.itemID, 
+			"component", 
+			this.state.itemAmount
+		);
 		responsePromise.then(
 			response => response.json().then(data => {
 				console.log(data);
 				this.setState({
-					salePrice:0,
+					salePrice: 0,
 					itemAmount: 0,
 				});
 				//Lets refresh the list of the inventory
 				this.getUserInventory();
+				this.props.onItemSold();
 			})
 		).catch(
 			error => {
