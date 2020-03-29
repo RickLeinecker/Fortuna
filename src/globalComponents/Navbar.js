@@ -4,9 +4,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import type { LinkType } from './LinkType.js';
+import { verifyLink } from './verifyLink.js';
 
 type Props = {
-	linkName?: LinkType,
+	linkName: LinkType,
 	returnName?: string,
 	pageName: string
 }
@@ -48,27 +49,6 @@ class Navbar extends React.Component<Props, State> {
 
 	// Once mounted, set the cookie to store user's name and money.
 	componentDidMount(): void {
-		this.setCookie();
-	}
-
-	// Check if the back button will logout the user.
-	handleLogout(): void {
-
-		// If the user isn't logging out, leave this function.
-		if(this.props.returnName !== 'Logout') {
-			return;
-		}
-
-		// Delete All cookies. 
-		const cookie = new Cookies();
-		for(let cookieName of Object.keys(cookie.getAll())) {
-			cookie.remove(cookieName);
-		}
-	}
-
-	// Set user's name and money in the state and in a cookie.
-	setCookie(): void {
-		
 		// Set the cookie and update state.
 		const cookies = new Cookies();
 		const token = cookies.get('token');
@@ -96,10 +76,27 @@ class Navbar extends React.Component<Props, State> {
 		)
 	}
 
+	// Check if the back button will logout the user.
+	handleLogout(): void {
+
+		// If the user isn't logging out, leave this function.
+		if(this.props.returnName !== 'Logout') {
+			return;
+		}
+
+		// Delete All cookies. 
+		const cookie = new Cookies();
+		for(let cookieName of Object.keys(cookie.getAll())) {
+			cookie.remove(cookieName);
+		}
+
+		window.location = verifyLink('/Login');
+	}
+
 	render(): React.Node {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
-			<Link to={this.props.linkName}>
+			<Link to={verifyLink(this.props.linkName)}>
 				<button onClick={this.handleLogout.bind(this)} className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);

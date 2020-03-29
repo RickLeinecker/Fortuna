@@ -27,7 +27,8 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     // or a String description of the type of component or casus block.
     itemId: {
         type: String,
-        required: true
+        required: true,
+        ref: 'Tank'
     },
     // Enum item category required on creation.
     itemType: {

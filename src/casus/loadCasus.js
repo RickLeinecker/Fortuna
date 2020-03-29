@@ -5,11 +5,12 @@ import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import reviveCasusBlock from './reviveCasusBlock.js';
 
-function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void): void {
-	
-	const targetTankId=getTankForCasus();
+function loadCasus(onBlocksLoaded: (casusBlock: ContainerBlock) => void, tankId: ?string = null): void {
+	const targetTankId = tankId ?? getTankForCasus();
+	if (targetTankId == null) {
+		throw new Error('No target tankId has been set!');
+	}
 	const token=getLoginToken();
-	console.log('Loading casus...');
 	fetch('/api/tank/userTanks', {
 		method: 'GET',
 		headers: {

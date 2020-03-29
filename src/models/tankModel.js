@@ -19,10 +19,10 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
         required: true,
         ref: 'User'
     },
-    // Array of string identifiers of tank components. Default empty on creation.
+    // Array of string identifiers of tank components. Default no component array on creation.
     components: {
         type: [String],
-        default: []
+        default: ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']
     },
     // Casus code in the form of a JSON object. Default null on creation.
     casusCode: {

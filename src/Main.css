@@ -27,7 +27,7 @@ body {
 	margin-right: auto;
 	height: 200px;
 	text-align: center;
-	overflow:hidden;
+	overflow: hidden;
 	overflow-y: scroll;
 	list-style-type: none;
 }
@@ -83,17 +83,6 @@ body {
 	border-color: #04CCFF;
 	background-color: #04CCFF;
 	color: #000921;
-}
-
-.tankComponentMenu {
-	cursor: pointer;
-	padding: 10px 10px 10px 10px;
-	margin-left: 10px;
-	border-radius: 4px;
-	border-color: #04CCFF;
-	background-color: #04CCFF;
-	color: #000921;
-	display: inline;
 }
 
 /* Column Styling */
@@ -258,6 +247,32 @@ body {
 }
 
 .btn:hover {
+	color: #04CCFF;
+	background: #000921;
+	border: 2px solid #04CCFF;
+}
+
+.smallbtn {
+	color: #000921;
+	background: #04CCFF;
+	border: 2px solid #04CCFF;
+	border-radius: 3px;
+	width: 100px; 
+}
+
+.smallbtn:disabled {
+	background-color: #999999;
+	border: 2px solid #000921
+}
+
+.smallbtn:disabled:hover {
+	cursor: default;
+	background-color: #999999;
+	color: #000921;
+	border: 2px solid #000921;
+}
+
+.smallbtn:hover {
 	color: #04CCFF;
 	background: #000921;
 	border: 2px solid #04CCFF;

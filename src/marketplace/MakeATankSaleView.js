@@ -1,11 +1,13 @@
 //@flow strict
 import * as React from 'react';
-import OptionClass from '../armory/OptionClass.js';
+import Tank from '../tanks/Tank.js';
 import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
 import { ToastContainer ,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import BackendTank from '../tanks/BackendTank.js';
+import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {||}; 
 type State = {|
@@ -13,10 +15,10 @@ type State = {|
 	salePrice: number,
 	tankBeingSoldId: string,
 	itemAmount: number,
-	tanksToSell: Array<OptionClass>,
+	tanksToSell: Array<Tank>,
 |};
 
-class MakeAComponentSaleView extends React.Component<Props, State> {
+class MakeATankSaleView extends React.Component<Props, State> {
 
 	constructor() {
 		super();
@@ -69,10 +71,19 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				}
 				else {
 					const jsonObjectOfTanks = data;
-					const tankOptions = [new OptionClass('', '')];
+					const tankOptions = [];
 					//for every tank we will make a select option
 					for (const tank in jsonObjectOfTanks) {
-						tankOptions.push(new OptionClass(jsonObjectOfTanks[tank]._id, jsonObjectOfTanks[tank].tankName));
+						const blankTank: BackendTank = new BackendTank();
+						blankTank.tankName = jsonObjectOfTanks[tank].tankName;
+						blankTank._id = jsonObjectOfTanks[tank]._id;
+						blankTank.components = [
+							'empty', 'empty', 'empty',
+							'empty', 'empty', 'empty',
+							'empty', 'empty', 'empty',
+							'empty', 'empty',
+						];
+						tankOptions.push(getTank(blankTank));
 					}
 					this.setState({tanksToSell : tankOptions});
 				}
@@ -87,6 +98,11 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	//This will make a sale for a tank
 	makeASaleOfATank = ():void => {
+		//Check for if last tank can't allow them to sell tank
+		if(this.state.tanksToSell.length === 1) {
+			console.log("Can't sell last tank");
+			return;
+		}
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
 		responsePromise.then(
 			response => response.json().then(data => {
@@ -111,7 +127,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ value, label }, index) => <option key={index}  value={value}>{label}</option>)}</select>
+				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
 				<label>Selling Price</label>
 				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
@@ -121,4 +137,4 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	}
 }
 
-export default MakeAComponentSaleView;
+export default MakeATankSaleView;

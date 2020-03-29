@@ -1,23 +1,22 @@
 // @flow strict
 
-const User = require('../../models/userModel');
+// NOTE: This functionality is not implemented in v1.0
+// Controller code is here to support that function if desired.
 
 // Flow type import
-import type {
-    $Request,
-    $Response,
-    NextFunction,
-    Middleware,
-  } from 'express';
+import type { Request, Response } from 'express';
 
-exports.update = async (req: $Request, res: $Response) => {
+// User Model import
+import User from '../../models/userModel';
+
+exports.update = async (req: Request, res: Response) => {
 
     switch(req.body.block){
         case 'andBlocks':
             await User.findByIdAndUpdate(req.params.userId, { 'casusInventory.andBlocks': req.body.value }, {'useFindAndModify':false, 'new':true}, function(err: Error, updatedUser: User){
                 if(err)
                     res.send(err);
-                //res.send(req.body.value);
+
                 res.send(updatedUser);
             });
             break;
@@ -101,5 +100,8 @@ exports.update = async (req: $Request, res: $Response) => {
                 res.send(updatedUser);
             });
             break;
+        default:
+            console.error('This type of Casus Block does not exist');
+            return res.status(400).json('Invaild type of Casus Block.');
     }
 }

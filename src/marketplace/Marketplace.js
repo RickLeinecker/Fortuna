@@ -7,7 +7,8 @@ import '../Main.css';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
-import type {MarketplaceViewDataTypes} from './MarketplaceViewDataTypes.js';
+import type { MarketplaceViewDataTypes } from './MarketplaceViewDataTypes.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
 type Props = {||}; 
 
@@ -21,7 +22,7 @@ class Marketplace extends React.Component<Props, State> {
 
 	constructor(){
 		super();
-
+		verifyLogin();
 		this.state={
 			marketplaceViewClicked: 'NONE'
 		}
@@ -69,7 +70,7 @@ class Marketplace extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<Navbar 
-					linkName="MainMenu" 
+					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"
 				/>

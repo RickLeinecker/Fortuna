@@ -2,8 +2,6 @@
 
 import * as React from 'react';
 import './Battleground.css';
-import getBattlegroundWidth from './getBattlegroundWidth.js';
-import getBattlegroundHeight from './getBattlegroundHeight.js';
 import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
 import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
@@ -11,9 +9,28 @@ import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
-import {getTestTank} from '../tanks/TankLoader.js';
+import { getTestTank } from '../tanks/TankLoader.js';
+import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
-const FPS=10;
+type MatchResult = 
+	'IN_PROGRESS' |
+	'TIME_UP' |
+	'PLAYER_1_WINS' |
+	'PLAYER_2_WINS';
+
+const FADE_IN_START=10;
+const FADE_IN_LENGTH=60;
+const FPS=30;
+const INTRO_LENGTH=120;
+const MAX_MATCH_LENGTH=INTRO_LENGTH + 30*60;
+const POST_MATCH_TIME=90;
+
+const TitleMessageForMatchResult: {[MatchResult]: string} = {
+	IN_PROGRESS: '',
+	TIME_UP: "Time's Up!",
+	PLAYER_1_WINS: 'Player 1 wins!',
+	PLAYER_2_WINS: 'Player 2 wins!',
+}
 
 class Battleground extends React.Component<{||}> {
 	intervalID: number;
@@ -26,8 +43,18 @@ class Battleground extends React.Component<{||}> {
 	newObjects: Array<GameObject>;
 	objectsToDelete: Array<GameObject>;
 
+	//intro and closing scene variables
+	lifetimeCounter: number = 0;
+	currentZoomScale: number = 1;
+	currentCameraPos: Vec = new Vec(0, 0);
+	targetZoomScale: number = 1;
+	targetCameraPos: Vec = new Vec(0, 0);
+	matchResult: MatchResult;
+	postMatchCountdown: number = 0;
+
 	constructor() {
 		super();
+		verifyLogin();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
@@ -55,6 +82,7 @@ class Battleground extends React.Component<{||}> {
 		for (const t: Tank of this.testTanks) {
 			this.gameObjects.push(t);
 		}
+		this.matchResult='IN_PROGRESS';
 	}
 
 	componentDidMount(): void {
@@ -83,13 +111,21 @@ class Battleground extends React.Component<{||}> {
 			//stop updating
 			return;
 		}
+		this.lifetimeCounter++;
+
+		//sort objects in render order
 		this.gameObjects = this.gameObjects.concat(this.newObjects);
 		this.gameObjects.sort((a, b) => {
 			return a.getRenderOrder()-b.getRenderOrder();
 		});
 		this.newObjects = [];
-		this._update();
+
+		//update and render
+		if (this.lifetimeCounter > INTRO_LENGTH) {
+			this._update();
+		}
 		this._rerender();
+
 		for (const toRemove: GameObject of this.objectsToDelete) {
 			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
 		}
@@ -98,6 +134,14 @@ class Battleground extends React.Component<{||}> {
 	}
 
 	_update(): void {
+		this._checkForWinner();
+		if (this.matchResult !== 'IN_PROGRESS') {
+			this.postMatchCountdown--;
+			if (this.postMatchCountdown === 0) {
+				console.log('redirecting to something else');
+				window.location.href='/BattleArena';
+			}
+		}
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.update(this);
 		}
@@ -107,14 +151,58 @@ class Battleground extends React.Component<{||}> {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		ctx.fillStyle = 'black';
-		ctx.fillRect(0, 0, 1e9, 1e9);
-		ctx.drawImage(getImage('DIRT_BACKGROUND'), 0, 0, getBattlegroundWidth(), getBattlegroundHeight());
 		const drawer=new ImageDrawer(ctx);
+		drawer.fillBlackRect(1);
 
+		//camera movement and setup
+		if (this.lifetimeCounter===30) {
+			this.targetZoomScale=2.5;
+			this.targetCameraPos=this.getTanks()[0].getPosition();
+		}
+		if (this.lifetimeCounter===60) {
+			this.targetZoomScale=2.5;
+			this.targetCameraPos=this.getTanks()[1].getPosition();
+		}
+		if (this.lifetimeCounter===90) {
+			this.targetZoomScale=1;
+			this.targetCameraPos=new Vec(0, 0);
+		}
+		this.currentZoomScale=this._lerp(this.currentZoomScale, this.targetZoomScale, 0.2);
+		this.currentCameraPos=this._lerpV(this.currentCameraPos, this.targetCameraPos, 0.2);
+		drawer.setCameraPosition(this.currentCameraPos);
+		drawer.setZoomScale(this.currentZoomScale);
 
+		//actually render all of the objects
+		drawer.draw(getImage('DIRT_BACKGROUND'), new Vec(0, 0), 200, 0, 1, 120);
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.render(drawer);
+		}
+
+		//title text
+		const secondsLeft=Math.ceil((INTRO_LENGTH-this.lifetimeCounter)/30.0);
+		if (secondsLeft<=3 && secondsLeft>=1) {
+			drawer.drawTitleText(''+secondsLeft);
+		}
+		else if (secondsLeft===0) {
+			drawer.drawTitleText('GO!');
+		}
+		const resultText=TitleMessageForMatchResult[this.matchResult];
+		drawer.drawTitleText(resultText);
+
+		//countdown timer
+		if (this.lifetimeCounter>INTRO_LENGTH) {
+			const timeLeft=MAX_MATCH_LENGTH-this.lifetimeCounter;
+			const secondsLeft=Math.max(0, Math.ceil(timeLeft/30));
+			drawer.drawTimeText(''+secondsLeft);
+		}
+
+		//fade in curtain
+		if (this.lifetimeCounter<FADE_IN_START) {
+			drawer.fillBlackRect(1);
+		}
+		else if (this.lifetimeCounter-FADE_IN_START<FADE_IN_LENGTH) {
+			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
+			drawer.fillBlackRect(alpha);
 		}
 	}
 
@@ -126,6 +214,36 @@ class Battleground extends React.Component<{||}> {
 			canvas.width = targetWidth;
 			canvas.height = targetHeight;
 		}
+	}
+
+	_checkForWinner(): void {
+		//TODO: report winner to API
+		if (this.matchResult !== 'IN_PROGRESS') {
+			return;
+		}
+		if (this.lifetimeCounter > MAX_MATCH_LENGTH) {
+			this.matchResult = 'TIME_UP';
+			this.postMatchCountdown=POST_MATCH_TIME;
+			return;
+		}
+		if (this.getTanks()[0].getHealth()<=0) {
+			this.matchResult = 'PLAYER_2_WINS';
+			this.postMatchCountdown=POST_MATCH_TIME;
+			return;
+		}
+		if (this.getTanks()[1].getHealth()<=0) {
+			this.matchResult = 'PLAYER_1_WINS';
+			this.postMatchCountdown=POST_MATCH_TIME;
+			return;
+		}
+	}
+
+	_lerp(a: number, b: number, time: number) {
+		return b*time+a*(1-time);
+	}
+
+	_lerpV(a: Vec, b: Vec, time: number) {
+		return b.scale(time).add(a.scale(1-time));
 	}
 
 	getCollisionSegs(): Array<Seg> {
