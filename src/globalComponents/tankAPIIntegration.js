@@ -2,10 +2,7 @@
 
 import getLoginToken from './getLoginToken.js';
 
-/*
-	This function takes no input
-	This function gets the id of the users favorite tank
-*/
+// This function gets the id of the users favorite tank
 function getFavoriteTankID() : Promise<Response> {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
@@ -18,10 +15,8 @@ function getFavoriteTankID() : Promise<Response> {
 	});
 	return responsePromise;
 }
-/*
-	This function takes no input
-	This function gets all of the tanks the user is associated with
-*/
+
+// This function gets all of the tanks the user is associated with
 function getAllUsersTanks() : Promise<Response> {
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
 		method: 'GET',
