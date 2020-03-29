@@ -1,6 +1,6 @@
 //@flow strict
 import * as React from 'react';
-import TankPart from '../tanks/TankPart.js';
+import ListingObject from './ListingObject.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
@@ -11,8 +11,7 @@ type State = {|
     salePrice: number,
     itemID: string,
 	itemAmount: number,
-	itemsToSell: Array<TankPart>,
-	amountOfACertainItemUserHas: Array<number>,
+	itemsToSell: Array<ListingObject>,
 |};
 
 class MakeAComponentSaleView extends React.Component<Props, State> {
@@ -26,13 +25,12 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
             itemID: '',
 			itemAmount: 0,
 			itemsToSell:[],
-			amountOfACertainItemUserHas: [],
         }
         this.getUserInventory();
     }
 
 
-    getUserInventory ():Promise<void> {
+    getUserInventory (): void  {
 		const responsePromise = getUser();
 		responsePromise.then(
 			response => response.json().then(data => {
@@ -46,22 +44,16 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 					const jsonObjectOfUser = data;
 					this.setState({userId:jsonObjectOfUser._id});
 					const componentsWeCanSell = [];
-					const amountOfComponentWeHave = [];
 					//Add an empty so that the user actually sets the states
-					componentsWeCanSell.push(new TankPart(""));
-					amountOfComponentWeHave.push(0);
+					componentsWeCanSell.push(new ListingObject("", 0));
 					for (const key in jsonObjectOfUser.inventory.tankComponents) {
 						// we need to atleast have one of these
 						if(jsonObjectOfUser.inventory.tankComponents[key] > 0) {
-							componentsWeCanSell.push(new TankPart(key));
-							amountOfComponentWeHave.push(jsonObjectOfUser.inventory.tankComponents[key]);
+							componentsWeCanSell.push(new ListingObject(key, jsonObjectOfUser.inventory.tankComponents[key]));
 						}
 						
 					}
-					this.setState({
-						itemsToSell: componentsWeCanSell,
-						amountOfACertainItemUserHas: amountOfComponentWeHave
-					});
+					this.setState({itemsToSell: componentsWeCanSell});
 				}
 			})
 		).catch(
@@ -90,8 +82,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
 	handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
 	
-	getAmountOfThisItemUserHas(index:number):string {
-		const amountOfThisItemUserHas = this.state.amountOfACertainItemUserHas[index];
+	formatAmountUserHas(amountOfThisItemUserHas:number):string {
 		let responseString = '';
 		if(amountOfThisItemUserHas > 0)
 		{
@@ -104,7 +95,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
         return (
             <div id="Parent">
                 <label>Select an Item to Sell</label>
-                <select className="itemForSale" onChange={this.handleChangeInSaleItem}>{this.state.itemsToSell.map(({ name }, index) => <option key={index}  value={name}>{toTitleCase(name)} {this.getAmountOfThisItemUserHas(index)}</option>)}</select>
+                <select className="itemForSale" onChange={this.handleChangeInSaleItem}>{this.state.itemsToSell.map(({ name, amount }, index) => <option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>)}</select>
                 <label>Selling Price</label>
                 <input type="number" className="form-control" onChange={this.handleChangeInSalePrice}></input>
                 <label>Amount to Sell</label>
