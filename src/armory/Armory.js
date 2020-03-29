@@ -342,11 +342,13 @@ class Armory extends React.Component<Props, State> {
 						<div className="componentMenu">
 							<h4>Component Menu</h4>
 							<table>
-								<tr>
-									<th>Component Name</th>
-									<th>Number Owned</th>
-									<th>Point Value</th>
-								</tr>
+								<thead>
+									<tr>
+										<th>Component Name</th>
+										<th>Number Owned</th>
+										<th>Point Value</th>
+									</tr>
+								</thead>
 								<tbody>
 									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 										<tr key={index}>
