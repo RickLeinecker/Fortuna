@@ -516,6 +516,43 @@ exports.setWager = async (req: Request, res: Response) => {
 	}
 }
 
+exports.editUser = async (req: Request, res: Response) => {
+	// Creates a place where errors that fail validation can accrue.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Check if user is in DB
+	const user = await User.findById(req.user.id, 'userName, password, email');
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user to edit' });
+	}
+
+	// Deconstruct body
+	const { userName, password, email } = req.body;
+
+	// Creates salt with 10 rounds(recommended)
+	const salt = await bcrypt.genSalt(10);
+	// bcrypt hash passwords
+	const newPassword = await bcrypt.hash(password, salt);
+	
+	// Update User
+	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { userName: userName, password: newPassword, email: email }, { new: true });
+	if (!updatedUser) {
+		console.error('Failed to save user updates');
+		return res.status(500).json({ msg: 'Failed to save user changes' });
+	}
+
+	// Return updated user
+	console.log('Successfully updated user.');
+	return res.status(200).send(updatedUser);
+}
 
 // FOOT NOTE: this controller uses a try-catch approach to querying as opposed to tankController.js which uses callbacks.
 // They in essence serve the same purpose.
