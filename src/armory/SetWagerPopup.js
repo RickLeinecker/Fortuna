@@ -67,7 +67,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 		});
 		setFavoriteTankId(this.props.wagerTank._id, setSuccessful => {
 			if (setSuccessful) {
-				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
+				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank, errorMessage: ''});
 			}
 			else {
 				this.setState({errorMessage: 'Could not set wager tank.'});
