@@ -215,10 +215,21 @@ class ListingsView extends React.Component<Props, State> {
 		); 
 	};
 
+	//This formats the title of the listing views
+	formatTitle(title:string) {
+		//Capitalizes the first letter
+		title = title.charAt(0).toUpperCase() + title.substring(1);
+		//adds s to the end of the word if it doesn't contain an s
+		if(title.charAt(title.length-1) !== 's') {
+			title = title + 's';
+		}
+		return title;
+	}
 
 	render() { 
 		return (
 			<div>
+				<h1>{this.formatTitle(this.props.sellerType)}</h1>
 				{this.createCards()}
 				<ToastContainer />
 			</div>

@@ -100,7 +100,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 	makeASaleOfATank = ():void => {
 		//Check for if last tank can't allow them to sell tank
 		if(this.state.tanksToSell.length === 1) {
-			console.log("Can't sell last tank");
+			toast("Can't sell last tank");
 			return;
 		}
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
