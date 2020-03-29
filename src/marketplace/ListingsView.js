@@ -5,7 +5,6 @@ import type { SellingType } from './SellingType.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import SaleObject from './SaleObject.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {|
 	//This is the type of item we are buying

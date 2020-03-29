@@ -1,6 +1,5 @@
 //@flow strict
 import * as React from 'react';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 import ListingObject from './ListingObject.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
