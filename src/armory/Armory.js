@@ -10,6 +10,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from './SelectTank.js';
+import SetWagerPopup from './SetWagerPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -59,17 +60,14 @@ class Armory extends React.Component<Props, State> {
 		super();
 		verifyLogin();
 		// Create a blank tank as a placeholder until tanks are pulled.
-		const blankTank: BackendTank = new BackendTank();
-		blankTank._id = '';
-		blankTank.components = [
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty', 'empty',
-			'empty', 'empty',
-		];
-		blankTank.casusCode = getEmptyCasusCode();
-		blankTank.isBot = false;
-		blankTank.tankName = '';
+		const blankTank: BackendTank = new BackendTank(
+			'',
+			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
+			getEmptyCasusCode(),
+			false,
+			'',
+			''
+		);
 
 		this.state = {
 			selectedTank: getTank(blankTank),
@@ -321,10 +319,6 @@ class Armory extends React.Component<Props, State> {
 					</Link>
 					<br/>
 					<br/>
-					<label>Setup a Wager&emsp;</label>
-					<button type="button" className="smallbtn">Setup</button>
-					<br/>
-					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
 						chassis={this.state.chassis}
@@ -332,6 +326,10 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<DeleteTankPopup
 						tank={this.state.selectedTank}
+					/>
+					<br/>
+					<SetWagerPopup
+						wagerTank={this.state.selectedTank}
 					/>
 				</div>
 				<div className="column armorymiddle">
