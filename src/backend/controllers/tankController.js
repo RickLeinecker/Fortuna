@@ -30,6 +30,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 				.json({ msg: 'Tank not found in DB'});
 		}
 
+		console.log('favoriteTank successfully retrieved');
 		return res
 			.status(200)
 			.send(favoritedTank);
