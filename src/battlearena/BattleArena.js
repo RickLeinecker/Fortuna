@@ -13,6 +13,7 @@ import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBatt
 import SelectTank from '../armory/SelectTank.js';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
+import TankDisplay from '../tanks/TankDisplay.js';
 
 type Props = {||};
 
@@ -29,7 +30,7 @@ class BattleArena extends React.Component<Props, State> {
 		this.state = {
 			selectedTank: null,
 			allTanks: [],
-		}
+		};
 	}
 
 	componentDidMount(): void {
@@ -81,6 +82,10 @@ class BattleArena extends React.Component<Props, State> {
 			</div>
 			<div className="column bamiddle">
 				<h5>Choose your Tank, Commander</h5>
+				{
+					this.state.selectedTank==null?<div></div>:
+					<TankDisplay tankToDisplay={this.state.selectedTank} />
+				}
 				<SelectTank
 					allTanks={this.state.allTanks}
 					changeSelectedTank={(tank) => {}}

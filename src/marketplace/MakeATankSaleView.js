@@ -4,12 +4,11 @@ import Tank from '../tanks/Tank.js';
 import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
 import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
-import BackendTank from '../tanks/BackendTank.js';
-import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {|
 	onItemSold: () => void,
 |}; 
+
 type State = {|
 	userId: string,
 	salePrice: number,
