@@ -19,7 +19,7 @@ class SelectTank extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			showTanks: false,
-			selectedTank: props.allTanks[0],
+			selectedTank: props.allTanks[props.allTanks.length-1],
 		};
 	}
 
@@ -33,7 +33,7 @@ class SelectTank extends React.Component<Props, State> {
 
 	componentDidUpdate(prevProps: Props) {
 		if (this.props !== prevProps) {
-			this.setState({selectedTank: this.props.allTanks[0]});
+			this.setState({selectedTank: this.props.allTanks[this.props.allTanks.length-1]});
 		}
 	}
 

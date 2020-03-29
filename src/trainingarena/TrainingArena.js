@@ -84,7 +84,9 @@ class TrainingArena extends React.Component<Props, State> {
 					}
 					<SelectTank
 						allTanks={this.state.allTanks}
-						changeSelectedTank={(tank) => {}}
+						changeSelectedTank={(tank) => {
+							this.setState({selectedTank: tank});
+						}}
 					/>
 				</div>
 				<div className="column tamiddle">
