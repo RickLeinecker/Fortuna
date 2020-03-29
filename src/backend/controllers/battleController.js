@@ -61,12 +61,14 @@ exports.prepareMatch = async (req: Request, res: Response) => {
     const challengerUserDoc = await User.findById(challengerTank.userId, 'money');
     
     if (challengerUserDoc == null) {
+        console.log('Could not find the challenger in DB');
         return res
             .status(404)
             .json({ msg: 'Could not find the challenger in DB'});
     }
 
     if(challengerUserDoc.money < personBeingChallengedUserDoc.wager){
+        console.log('Challenger does not have enough money to wager');
         return res
             .status(401)
             .json({ msg: 'Challenger does not have enough money to wager'});
