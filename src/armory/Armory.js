@@ -366,7 +366,7 @@ class Armory extends React.Component<Props, State> {
 										</tr>
 									))}
 									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
-										<div></div> :
+										<tr></tr> :
 										<tr>
 											<td align="left">
 												<button 
