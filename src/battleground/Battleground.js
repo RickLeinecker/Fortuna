@@ -11,6 +11,7 @@ import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
@@ -145,8 +146,8 @@ class Battleground extends React.Component<Props> {
 		if (this.matchResult !== 'IN_PROGRESS') {
 			this.postMatchCountdown--;
 			if (this.postMatchCountdown === 0) {
-				console.log('redirecting to something else');
-				window.location.href='/BattleArena';
+				const returnTo=getReturnToFromBattlegroundLink();
+				window.location.href=returnTo;
 			}
 		}
 		for (const gameObject: GameObject of this.gameObjects) {

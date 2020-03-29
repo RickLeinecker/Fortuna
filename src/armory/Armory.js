@@ -11,6 +11,7 @@ import CreateNewTankPopup from './CreateNewTankPopup.js';
 import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from './SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
+import RenameTankPopup from './RenameTankPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -50,7 +51,6 @@ type State = {|
 	componentList: Array<Component>,
 	currentPartIndex: number,
 	points: number,
-	showTanks: boolean,
 |};
 
 // Armory page. Showcases player's tanks and components. Links to Casus.
@@ -83,7 +83,6 @@ class Armory extends React.Component<Props, State> {
 			componentList: [],
 			currentPartIndex: -1,
 			points: 0,
-			showTanks: false,
 		}
 
 		if (this.state.selectedTank == null) {
@@ -99,31 +98,20 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all user tanks and sets them to the state.
 	getTanks(): void {
-		const responsePromise: Promise<Response> = getAllUsersTanks();
-		
-		responsePromise.then (
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					const allTanks: Array<Tank> = [];
-					for(const tank of data) {
-						allTanks.push(getTank(tank));
-					}
-					// Always set the default selected tank to the newest tank.
-					const newSelectedTank = getTank(data[allTanks.length - 1]);
-					setTankForCasus(newSelectedTank._id);
-					// Update the state, and then run initPoints after the state has been set.
-					this.setState(
-						{allTanks: allTanks, selectedTank: newSelectedTank, showTanks: false},
-						this.initPoints
-					);
-				}
-			})
-		);
+		getAllUsersTanks((successful, allTanks) => {
+			if (successful) {
+				// Always set the default selected tank to the newest tank.
+				const newSelectedTank = allTanks[allTanks.length-1];
+				setTankForCasus(newSelectedTank._id);
+				// Update the state, and then run initPoints after the state has been set.
+				this.setState({
+						allTanks: allTanks, 
+						selectedTank: newSelectedTank, 
+					},
+					this.initPoints
+				);
+			}
+		});
 	}
 
 	// Gets all of the user's inventory.
@@ -156,12 +144,12 @@ class Armory extends React.Component<Props, State> {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
-	changeSelectedTank: (string) => void = (newTankId: string) => {
+	changeSelectedTank(newTank: Tank): void {
 		this.setState(
-			{selectedTank: this.state.allTanks.find(tank => tank._id === newTankId), showTanks: false},
+			{selectedTank: newTank},
 			this.initPoints
 		);
-		setTankForCasus(newTankId);
+		setTankForCasus(newTank._id);
 	}
 
 	// Function that will save the selectedTank.
@@ -194,6 +182,11 @@ class Armory extends React.Component<Props, State> {
 				}
 			})
 		);
+	}
+
+	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
+	renameTank = (tank: Tank): void => {
+		this.setState({selectedTank: tank});
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
@@ -304,20 +297,23 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
-					<label>Edit Code:&emsp;</label>
-					<Link to={verifyLink("/Casus")}>
-						<button className="smallbtn">Casus</button>
-					</Link>
-					<br/><br/>
 					<h4>Selected Tank</h4>
-					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
 					<br/>
 					<SelectTank
 						allTanks={this.state.allTanks}
-						showTanks={this.state.showTanks}
-						changeSelectedTank={this.changeSelectedTank}
+						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
 					/>
+					<br/><br/>
+					<Link to={verifyLink("/Casus")}>
+						<button className="primarybtn">Casus</button>
+					</Link>
+					<label>&emsp;Edit Code</label>
 					<br/>
+					<br/>
+					<RenameTankPopup
+						tank={this.state.selectedTank}
+						renameTank={this.renameTank}
+					/>
 					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
@@ -340,11 +336,13 @@ class Armory extends React.Component<Props, State> {
 						<div className="componentMenu">
 							<h4>Component Menu</h4>
 							<table>
-								<tr>
-									<th>Component Name</th>
-									<th>Number Owned</th>
-									<th>Point Value</th>
-								</tr>
+								<thead>
+									<tr>
+										<th>Component Name</th>
+										<th>Number Owned</th>
+										<th>Point Value</th>
+									</tr>
+								</thead>
 								<tbody>
 									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 										<tr key={index}>
@@ -362,7 +360,7 @@ class Armory extends React.Component<Props, State> {
 										</tr>
 									))}
 									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
-										<div></div> :
+										<tr></tr> :
 										<tr>
 											<td align="left">
 												<button 

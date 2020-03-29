@@ -6,12 +6,11 @@ import {getUser} from '../globalComponents/userAPIIntegration.js';
 import {makeASale} from './marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import BackendTank from '../tanks/BackendTank.js';
-import { getTank } from '../tanks/TankLoader.js';
 
 type Props = {|
 	onItemSold: () => void,
 |}; 
+
 type State = {|
 	userId: string,
 	salePrice: number,
@@ -63,38 +62,11 @@ class MakeATankSaleView extends React.Component<Props, State> {
 
 	//This gets all of the users tanks and then adds them to the dropdown
 	getAllUsersTanksForSell() : void {
-		const responsePromise = getAllUsersTanks();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					const jsonObjectOfTanks = data;
-					const tankOptions = [];
-					//for every tank we will make a select option
-					for (const tank in jsonObjectOfTanks) {
-						const blankTank: BackendTank = new BackendTank(
-							jsonObjectOfTanks[tank]._id,
-							jsonObjectOfTanks[tank].components,
-							jsonObjectOfTanks[tank].casusCode,
-							jsonObjectOfTanks[tank].isBot,
-							jsonObjectOfTanks[tank].userId,
-							jsonObjectOfTanks[tank].tankname
-						);
-						tankOptions.push(getTank(blankTank));
-					}
-					this.setState({tanksToSell : tankOptions});
-				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+		getAllUsersTanks((successful, allTanks) => {
+			if (successful) {
+				this.setState({tanksToSell: allTanks});
 			}
-		);
+		});
 	};
 
 	//This will make a sale for a tank
