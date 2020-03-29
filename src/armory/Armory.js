@@ -279,6 +279,17 @@ class Armory extends React.Component<Props, State> {
 				break;
 		}
 
+		//if the part index was a scanner add-on, we have to rebuild the scanner
+		if (partIndex===4 || partIndex===5) {
+			const scannerType=this.state.selectedTank.scanner.name;
+			const newScanner=new Scanner(
+					scannerType, 
+					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
+					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
+				);
+			updatedTank.scanner = newScanner;
+		}
+
 		// Update the component, points, and parts array.
 		this.updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
 		updatedTank.parts[partIndex] = newComponent;
