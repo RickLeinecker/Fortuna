@@ -105,4 +105,10 @@ router.patch('/editUser', [
         .isLength({ min: 5 })
 ], auth,  userController.editUser);
 
+// Delete user account
+// Route call: /deleteUser
+// Header: x-auth-token
+// Returns a success message that the user has been deleted.
+router.delete('/deleteUser', auth,  userController.deleteUser);
+
 module.exports = router;
