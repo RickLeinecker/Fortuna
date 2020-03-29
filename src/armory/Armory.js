@@ -11,6 +11,7 @@ import CreateNewTankPopup from './CreateNewTankPopup.js';
 import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from './SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
+import RenameTankPopup from './RenameTankPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
@@ -196,6 +197,11 @@ class Armory extends React.Component<Props, State> {
 		);
 	}
 
+	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
+	renameTank = (tank: Tank): void => {
+		this.setState({selectedTank: tank});
+	}
+
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
 	initPoints(): void {
 		const tank: Tank = this.state.selectedTank;
@@ -318,6 +324,11 @@ class Armory extends React.Component<Props, State> {
 						changeSelectedTank={this.changeSelectedTank}
 					/>
 					<br/>
+					<br/>
+					<RenameTankPopup
+						tank={this.state.selectedTank}
+						renameTank={this.renameTank}
+					/>
 					<br/>
 					<CreateNewTankPopup 
 						ref="CreateNewTankPopup" 
