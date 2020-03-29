@@ -68,15 +68,25 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	};
 
 	makeASaleOfAComponent =  ():void => {
+		//Catch if we are not selling any amount
+		if(this.state.itemAmount <= 0) {
+			toast.error("Invalid Amount to Sell!");
+			return;
+		}
 		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.itemID, "component", this.state.itemAmount);
 		responsePromise.then(
 			response => response.json().then(data => {
 				console.log(data);
+				if(this.state.itemAmount == 1) {
+					toast.success("Item Listed!");
+				}
+				else {
+					toast.success("Items Listed!");
+				}
 				this.setState({
 					salePrice:0,
 					itemAmount: 0,
 				});
-				toast.success("Item Listed!");
 				//Lets refresh the list of the inventory
 				this.getUserInventory();
 			})
