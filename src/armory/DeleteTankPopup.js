@@ -67,10 +67,10 @@ class DeleteTankPopup extends React.Component<Props, State> {
 		);
 		return(
 			<div>
-				<label>Delete Selected Tank&emsp;</label>
 				<button className="smallbtn" onClick={() => this.setState({deleteTankOpen: true})}>
 					Delete
 				</button>
+				<label>&emsp;Delete Selected Tank</label>
 				<div className="deletePopup">
 					<Popup
 						open={this.state.deleteTankOpen}
