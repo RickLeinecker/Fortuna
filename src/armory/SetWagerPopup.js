@@ -3,11 +3,9 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import BackendTank from '../tanks/BackendTank.js';
-import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
-import { getUser, setWager } from '../globalComponents/userAPIIntegration.js';
-import { setFavoriteTank, getFavoriteTank } from '../globalComponents/tankAPIIntegration.js';
-import { getTank } from '../tanks/TankLoader.js';
+import { setWager } from '../globalComponents/userAPIIntegration.js';
+import getUserAPICall from '../globalComponents/getUserAPICall';
+import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/tankAPIIntegration.js';
 
 type Props = {|
 	wagerTank: Tank,
@@ -17,7 +15,7 @@ type State = {|
 	userCurrency: number,
 	userWager: number,
 	currentWager: number,
-	currentWagerTank?: Tank,
+	currentWagerTank: ?Tank,
 	setWagerOpen: boolean,
 	errorMessage: string,
 |};
@@ -38,46 +36,13 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Once mounted, get the user's currency, wager, and favorite tank.
 	componentDidMount(): void {
-		const responsePromiseUser: Promise<Response> = getUser();
-		responsePromiseUser.then(
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
-				}
-				else {
-					this.setState({userCurrency: data.money, currentWager: data.wager});
-				}
-			})
-		);
+		getUserAPICall(user => {
+			this.setState({userCurrency: user.money, userWager: user.wager});
+		});
 
-		const responsePromiseTank: Promise<Response> = getFavoriteTank();
-		responsePromiseTank.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
-				}
-				else if (data == null) {
-					// If the favorite tank is null, then leave.
-					return;
-				}
-				else {
-					this.setState({currentWagerTank: getTank(new BackendTank(
-						data._id,
-						data.components,
-						data.casusCode,
-						data.isBot,
-						data.userId,
-						data.tankName
-					))});
-				}
-			})
-		);
+		getFavoriteTank(tank => {
+			this.setState({currentWagerTank: tank});
+		});
 	}
 
 	handleWagerClick(): void {
@@ -92,16 +57,23 @@ class SetWagerPopup extends React.Component<Props, State> {
 		}
 
 		// Check if the wager was set. Close the popup if it is.
-		if (setWager(this.state.userWager) && setFavoriteTank(this.props.wagerTank)) {
-			this.setState({
-				setWagerOpen: false, 
-				currentWagerTank: this.props.wagerTank, 
-				currentWager: this.state.userWager
-			});
-		}
-		else {
-			this.setState({errorMessage: 'Could not set wager.'});
-		}
+		setWager(this.state.userWager, response => {
+			if (response) {
+				this.setState({currentWager: this.state.userWager});
+			}
+			else {
+				this.setState({errorMessage: 'Could not set wager.'});
+			}
+		});
+		setFavoriteTankId(this.props.wagerTank._id, response => {
+			console.log(response);
+			if (response) {
+				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
+			}
+			else {
+				this.setState({errorMessage: 'Could not set wager tank.'});
+			}
+		});
 	}
 
 	render(): React.Node {
@@ -125,7 +97,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				<h6>Current Wager</h6>
 				<label>{this.state.currentWagerTank == null ?
 					'No set wager tank' : 
-					this.state.currentWagerTank.tankName + 'for' + this.state.currentWager
+					this.state.currentWagerTank.tankName + ' for ' + this.state.userWager
 				}</label>
 				<div className="wagerPopup">
 					<Popup 

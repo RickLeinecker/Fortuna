@@ -1,15 +1,15 @@
 //@flow strict
 
-import Cookies from 'universal-cookie';
 import BackendTank from '../tanks/BackendTank.js';
 import Tank from '../tanks/Tank.js';
 import getLoginToken from './getLoginToken.js';
+import { getTank } from '../tanks/TankLoader.js';
 
 /*
 	This function takes no input
 	This function gets the id of the users favorite tank
 */
-function getFavoriteTank() : Promise<Response> {
+function getFavoriteTank(onLoad:(tank: Tank) => void) {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
 		headers: {
@@ -19,43 +19,50 @@ function getFavoriteTank() : Promise<Response> {
 			'x-auth-token': getLoginToken()
 		},
 	});
-	return responsePromise;
+	responsePromise.then (
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data.msg);
+			}
+			else {
+				const tank = new BackendTank(
+					data._id,
+					data.components,
+					data.casusCode,
+					data.isBot,
+					data.userid,
+					data.tankName
+				);
+				onLoad(getTank(tank));
+			}
+		})
+	)
 }
 
-function setFavoriteTankId(tankId: string): boolean {
-	const cookies = new Cookies();
+function setFavoriteTankId(tankId: string, onLoad:(response: boolean) => void) {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': cookies.get('token')
+			'x-auth-token': getLoginToken()
 		},
-		body: JSON.stringify({ favoriteTank: new BackendTank(
-			tank._id, 
-			tank.parts.map(part => part.name),
-			tank.casusCode,
-			false, 
-			tank.userId, 
-			tank.tankName
-		)}),
+		body: JSON.stringify({ favoriteTank: tankId }),
 	});
-	responsePromise.then(
+	responsePromise.then (
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data.msg);
-				console.log(data);
-				return false;
+				onLoad(false);
 			}
 			else {
-				return true;
+				onLoad(true);
 			}
 		})
-	)
-	// If the response failed, return false.
-	return false;
+	);
 }
 
 /*

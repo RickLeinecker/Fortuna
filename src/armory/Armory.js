@@ -327,6 +327,7 @@ class Armory extends React.Component<Props, State> {
 					<DeleteTankPopup
 						tank={this.state.selectedTank}
 					/>
+					<br/>
 					<SetWagerPopup
 						wagerTank={this.state.selectedTank}
 					/>
