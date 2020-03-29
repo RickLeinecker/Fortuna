@@ -7,7 +7,9 @@ import {makeASale} from './marketPlaceAPIConnections.js';
 import BackendTank from '../tanks/BackendTank.js';
 import { getTank } from '../tanks/TankLoader.js';
 
-type Props = {||}; 
+type Props = {|
+	onItemSold: () => void,
+|}; 
 type State = {|
 	userId: string,
 	salePrice: number,
@@ -97,7 +99,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 	};
 
 	//This will make a sale for a tank
-	makeASaleOfATank = ():void => {
+	makeASaleOfATank = (): void => {
 		//Check for if last tank can't allow them to sell tank
 		if(this.state.tanksToSell.length === 1) {
 			console.log("Can't sell last tank");
@@ -110,6 +112,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				this.getAllUsersTanksForSell();
 				//set the new selling price to zero 
 				this.setState({salePrice: 0});
+				this.props.onItemSold();
 			})
 		).catch(
 			error => {
