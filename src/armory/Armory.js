@@ -310,11 +310,6 @@ class Armory extends React.Component<Props, State> {
 					pageName="Armory"
 				/>
 				<div className="column armoryleft">
-					<label>Edit Code:&emsp;</label>
-					<Link to={verifyLink("/Casus")}>
-						<button className="smallbtn">Casus</button>
-					</Link>
-					<br/><br/>
 					<h4>Selected Tank</h4>
 					<button className="tankListBtn" onClick={() => this.setState({showTanks: true})}>{this.state.selectedTank.tankName}</button>
 					<br/>
@@ -323,6 +318,11 @@ class Armory extends React.Component<Props, State> {
 						showTanks={this.state.showTanks}
 						changeSelectedTank={this.changeSelectedTank}
 					/>
+					<br/><br/>
+					<Link to={verifyLink("/Casus")}>
+						<button className="primarybtn">Casus</button>
+					</Link>
+					<label>&emsp;Edit Code</label>
 					<br/>
 					<br/>
 					<RenameTankPopup
@@ -351,11 +351,13 @@ class Armory extends React.Component<Props, State> {
 						<div className="componentMenu">
 							<h4>Component Menu</h4>
 							<table>
-								<tr>
-									<th>Component Name</th>
-									<th>Number Owned</th>
-									<th>Point Value</th>
-								</tr>
+								<thead>
+									<tr>
+										<th>Component Name</th>
+										<th>Number Owned</th>
+										<th>Point Value</th>
+									</tr>
+								</thead>
 								<tbody>
 									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 										<tr key={index}>
@@ -373,7 +375,7 @@ class Armory extends React.Component<Props, State> {
 										</tr>
 									))}
 									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
-										<div></div> :
+										<tr></tr> :
 										<tr>
 											<td align="left">
 												<button 
