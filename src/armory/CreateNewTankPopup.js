@@ -35,14 +35,11 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			errorMessage: '',
 			newTankDialogOpen: false,
 		}
-
-		// Get the user ID for when a new tank is created.
-		this.getUserId();
     }
 
-	getUserId(): void {
+	// Once mounted, set the userId.
+	componentDidMount(): void {
 		const responsePromise = getUser();
-
 		responsePromise.then (
 			response => response.json().then(data => {
 				if(response.status !== 200) {
@@ -147,8 +144,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		return (
 			<div>
-				<h6>Create a New Tank</h6>
-				<button type="button" className="btn" onClick={() => this.setState({newTankDialogOpen: true})}>
+				<label>Create a New Tank&emsp;</label>
+				<button type="button" className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
 					Create
 				</button>
 				<Popup 
@@ -195,6 +192,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 						</div>
 					</div>
 				</Popup>
+				<br/>
+				<br/>
 			</div>
 		);
 	}
