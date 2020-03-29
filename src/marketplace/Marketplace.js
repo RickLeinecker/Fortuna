@@ -20,7 +20,7 @@ type State = {|
 // Marketplace component.
 class Marketplace extends React.Component<Props, State> {
 
-	constructor(){
+	constructor() {
 		super();
 		verifyLogin();
 		this.state={
@@ -28,7 +28,11 @@ class Marketplace extends React.Component<Props, State> {
 		}
 	}
 
-	render() {
+	onMoneyUpdated(): void {
+
+	}
+
+	render(): void {
 
 		let partView='';
 		switch(this.state.marketplaceViewClicked) {
@@ -73,6 +77,7 @@ class Marketplace extends React.Component<Props, State> {
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"
+					ref="navbar"
 				/>
 				<div className="row mt-5">
 					<div className="col-md-4">
