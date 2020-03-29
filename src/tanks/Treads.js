@@ -45,6 +45,7 @@ class Treads extends TankPart {
 				this.treadType = 'TREAD_1';
 				break;
 			default:
+				this.treadType = 'TREAD_1';
 				break;
 		}
 	}
