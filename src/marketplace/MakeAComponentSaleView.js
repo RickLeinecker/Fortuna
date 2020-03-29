@@ -47,7 +47,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		this.setState({userId:jsonObjectOfUser._id});
 		for (let key in jsonObjectOfUser.inventory.tankComponents) {
 		//This is how many of the current item the user has
-			amountOfItemsUserHas = jsonObjectOfUser.inventory.tankComponents[key];
+			let amountOfItemsUserHas = jsonObjectOfUser.inventory.tankComponents[key];
 			if(amountOfItemsUserHas > 0)
 			{
 				let obj = {};
