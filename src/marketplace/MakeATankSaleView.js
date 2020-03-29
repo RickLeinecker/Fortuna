@@ -82,7 +82,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 							jsonObjectOfTanks[tank].casusCode,
 							jsonObjectOfTanks[tank].isBot,
 							jsonObjectOfTanks[tank].userId,
-							jsonObjectOfTanks[tank].tankname
+							jsonObjectOfTanks[tank].tankName
 						);
 						tankOptions.push(getTank(blankTank));
 					}
