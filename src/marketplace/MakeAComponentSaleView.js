@@ -1,6 +1,5 @@
 //@flow strict
 import * as React from 'react';
-import Cookies from 'universal-cookie';
 import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {||}; 
@@ -32,15 +31,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	getUserInventory = async ():Promise<void> => {
 		itemsToSell = [];
 		itemsToSell.push({value: '', label: ''});
-		const cookies = new Cookies();
-		const token = cookies.get('token');
 		const response = await fetch('/api/user/getUser/', {
 			method: 'GET',
 			headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': token
+				'x-auth-token': getLoginToken()
 			},
 		});
 		const body = await response.text();

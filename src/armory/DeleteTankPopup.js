@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import Cookies from 'universal-cookie';
 import Tank from '../tanks/Tank.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
 
@@ -26,7 +25,6 @@ class DeleteTankPopup extends React.Component<Props, State> {
 
 	// Deletes the currently selected take after confirmation.
 	handleDeleteClick(): void {
-		const cookies = new Cookies();
 		const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + this.props.tank._id, {
 			method: 'DELETE',
 			headers: {

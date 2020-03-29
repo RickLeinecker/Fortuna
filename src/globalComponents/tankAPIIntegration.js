@@ -1,6 +1,5 @@
 //@flow strict
 
-import Cookies from 'universal-cookie';
 import getLoginToken from './getLoginToken.js';
 
 /*

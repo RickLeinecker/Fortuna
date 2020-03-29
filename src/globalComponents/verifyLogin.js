@@ -1,7 +1,6 @@
 //@flow strict
 
 import { verifyLink } from './verifyLink.js';
-import Cookies from 'universal-cookie';
 import getLoginToken from './getLoginToken.js';
 
 function verifyLogin(): void {

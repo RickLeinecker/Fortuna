@@ -30,7 +30,6 @@ import Scanner from '../tanks/Scanner.js';
 import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
-import Cookies from 'universal-cookie';
 import TankDisplay from '../tanks/TankDisplay.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
 
