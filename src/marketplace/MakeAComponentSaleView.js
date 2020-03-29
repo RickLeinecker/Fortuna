@@ -1,6 +1,10 @@
 //@flow strict
 import * as React from 'react';
 import getLoginToken from '../globalComponents/getLoginToken.js';
+import ListingObject from './ListingObject.js';
+import { getUser } from '../globalComponents/userAPIIntegration.js';
+import { makeASale } from './marketPlaceAPIConnections.js';
+import { toTitleCase } from '../globalComponents/Utility.js';
 
 type Props = {||}; 
 
@@ -9,10 +13,8 @@ type State = {|
 	salePrice: number,
 	itemID: string,
 	itemAmount: number,
+	itemsToSell: Array<ListingObject>,
 |};
-
-//TODO: get rid of this because this is very very bad practice
-let itemsToSell = [{value: '', label: ''}];
 
 class MakeAComponentSaleView extends React.Component<Props, State> {
 
@@ -23,73 +25,92 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			salePrice: 0,
 			itemID: '',
 			itemAmount: 0,
+			itemsToSell:[],
 		}
 		this.getUserInventory();
 	}
 
-
-	getUserInventory = async ():Promise<void> => {
-		itemsToSell = [];
-		itemsToSell.push({value: '', label: ''});
-		const response = await fetch('/api/user/getUser/', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken()
-			},
-		});
-		const body = await response.text();
-		const jsonObjectOfUser = JSON.parse(body);
-		//set the users id
-		this.setState({userId:jsonObjectOfUser._id});
-		for (let key in jsonObjectOfUser.inventory.tankComponents) {
-			//This is how many of the current item the user has
-			let amountOfItemsUserHas = jsonObjectOfUser.inventory.tankComponents[key];
-			if(amountOfItemsUserHas > 0) {
-				let obj = {};
-				obj['value'] = key;
-				obj['label'] = key;
-				itemsToSell.push(obj);
-			}		
-		}
-		//Need this to deal with the asynch nature of api calling......fun times
-		this.forceUpdate();
+	getUserInventory (): void  {
+		const responsePromise = getUser();
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data.msg);
+					console.log(data);
+					return data;
+				}
+				else {
+					const jsonObjectOfUser = data;
+					this.setState({userId:jsonObjectOfUser._id});
+					const componentsWeCanSell = [];
+					//Add an empty so that the user actually sets the states
+					componentsWeCanSell.push(new ListingObject("", 0));
+					for (const key in jsonObjectOfUser.inventory.tankComponents) {
+						// we need to atleast have one of these
+						if(jsonObjectOfUser.inventory.tankComponents[key] > 0) {
+							componentsWeCanSell.push(new ListingObject(key, jsonObjectOfUser.inventory.tankComponents[key]));
+						}
+						
+					}
+					this.setState({itemsToSell: componentsWeCanSell});
+				}
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
 
-	makeASale = async ():Promise<void> => {
-		const response = await fetch('/api/marketplace/addMarketSale/', {
-			method: 'post',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-			},
-			body: JSON.stringify({ sellerId: this.state.userId, salePrice: this.state.salePrice, itemId:this.state.itemID, itemType:"component", amount:this.state.itemAmount}),
-		});
-		const body = await response.text();
-		console.log(body);
+	makeASaleOfAComponent =  ():void => {
+		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.itemID, "component", this.state.itemAmount);
+		responsePromise.then(
+			response => response.json().then(data => {
+				console.log(data);
+				this.setState({
+					salePrice:0,
+					itemAmount: 0,
+				});
+				//Lets refresh the list of the inventory
+				this.getUserInventory();
+			})
+		).catch(
+			error => {
+				console.log('Couldnt connect to server!');
+				console.log(error);
+			}
+		);
 	};
 
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
 	handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
+	
+	formatAmountUserHas(amountOfThisItemUserHas: number): string {
+		let responseString = '';
+		if(amountOfThisItemUserHas > 0) {
+			responseString = '(' + amountOfThisItemUserHas + ')';
+		}
+		return responseString;
+	}
+
 	render(): React.Node  { 
 		return (
-		<div id="Parent">
-			<label>Select an Item to Sell</label>
-			<select className="itemForSale" onChange={this.handleChangeInSaleItem}>
-				{itemsToSell.map(({ value, label }, index) => 
-					<option key={index}  value={value}>{label}</option>
-				)}
-			</select>
-			<label>Selling Price</label>
-			<input type="number" className="form-control" onChange={this.handleChangeInSalePrice}></input>
-			<label>Amount to Sell</label>
-			<input type="number" className="form-control" onChange={this.handleChangeInAmountToSell}></input>
-			<button className="btn btn-success mt-2" onClick={this.makeASale}>Sell</button>
-		</div>
+			<div id="Parent">
+				<label>Select an Item to Sell</label>
+				<select className="itemForSale" onChange={this.handleChangeInSaleItem}>
+					{this.state.itemsToSell.map(({ name, amount }, index) => 
+						<option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>
+					)}
+				</select>
+				<label>Selling Price</label>
+				<input type="number" className="form-control" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
+				<label>Amount to Sell</label>
+				<input type="number" className="form-control" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
+				<button className="btn btn-success mt-2" onClick={this.makeASaleOfAComponent}>Sell</button>
+			</div>
 		);
 	}
 }

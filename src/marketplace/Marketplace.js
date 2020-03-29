@@ -32,8 +32,7 @@ class Marketplace extends React.Component<Props, State> {
 
 	}
 
-	render(): void {
-
+	render(): React.Node {
 		let partView='';
 		switch(this.state.marketplaceViewClicked) {
 			case 'CHASSIS':
