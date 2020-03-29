@@ -1,5 +1,7 @@
 //@flow strict
 import * as React from 'react';
+import { ToastContainer , toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import ListingObject from './ListingObject.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
@@ -75,22 +77,41 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		);
 		responsePromise.then(
 			response => response.json().then(data => {
-				console.log(data);
-				this.setState({
-					salePrice: 0,
-					itemAmount: 0,
-				});
-				//Lets refresh the list of the inventory
-				this.getUserInventory();
-				this.props.onItemSold();
+				if (response.status !== 201) {
+					console.log(response.status);
+					toast.error(data.msg);
+					console.log(data);
+				}
+				else {
+					toast.success(data.msg);
+					this.setState({
+						salePrice:0,
+						itemAmount: 0,
+					});
+					//Lets refresh the list of the inventory
+					this.getUserInventory();
+					this.props.onItemSold();
+				}
+
 			})
 		).catch(
 			error => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
 	};
+
+	//This will return the index of the listing array where the name is equal to the string sent in
+	getIndexOfListingArray (nameOfItem: string): number {
+		let index = 0;
+		for(index = 0; index < this.state.itemsToSell.length; index++) {
+			if(this.state.itemsToSell[index].name === nameOfItem) {
+				return index;
+			}
+		}
+		return -1;
+	}
 
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
@@ -118,6 +139,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				<label>Amount to Sell</label>
 				<input type="number" className="form-control" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
 				<button className="btn btn-success mt-2" onClick={this.makeASaleOfAComponent}>Sell</button>
+				<ToastContainer />
 			</div>
 		);
 	}
