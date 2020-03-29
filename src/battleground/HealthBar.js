@@ -4,26 +4,23 @@ import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 
 type Props = {
-	playersTank?: Tank,
+	playersTank: ?Tank,
 }
 
 
 class HealthBar extends React.Component<Props> {
 
-	constructor(props: Props) {
-		super(props);
-		
-	}
-
 	componentDidUpdate(prevProps: Props) {
-		const previousHealth = prevProps.playersTank?.health ?? 100;
-		const currentHealth = this.props.playersTank?.health ?? 100;
-		if(previousHealth !== currentHealth) {
+		let currentHealth = this.props.playersTank?.health ?? 100;
+		if(currentHealth < 0) {
+			currentHealth = 0;
+		}
+		if(this.props !== prevProps) {
 			const canvas = this.refs.canvas;
 			const ctx = canvas.getContext("2d");
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 			ctx.fillStyle="#FF0000";
-			ctx.fillRect(10,140,(currentHealth/100)*140,25);
+			ctx.fillRect(10,140,currentHealth,25);
 		}
 	}
 

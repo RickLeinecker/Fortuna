@@ -9,16 +9,11 @@ import Tank from '../tanks/Tank.js';
 type Props = {||};
 
 type State = {
-	playerOneTank?: Tank,
-	playerTwoTank?: Tank,
+	playerOneTank: ?Tank,
+	playerTwoTank: ?Tank,
 };
 
 class BattlegroundContainer extends React.Component<Props, State> {
-
-	constructor(props: Props) {
-		super(props);
-
-	}
 
 	render(): React.Node {
 		return (

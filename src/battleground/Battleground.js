@@ -209,7 +209,6 @@ class Battleground extends React.Component<Props> {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
 		}
-
 		this.props.setPlayerOneTank(this.testTanks[0]);
 		this.props.setPlayerTwoTank(this.testTanks[1]);
 
