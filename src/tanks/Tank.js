@@ -123,6 +123,7 @@ class Tank extends GameObject {
 		tankName: string,
 		_id: string,
 		userId: string,
+		
 	) {
 		super(position);
 

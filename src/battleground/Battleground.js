@@ -12,6 +12,10 @@ import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 
+type Props = {|
+	setPlayersTank: (Tank, Tank) => void,
+|};
+
 type MatchResult = 
 	'IN_PROGRESS' |
 	'TIME_UP' |
@@ -32,7 +36,7 @@ const TitleMessageForMatchResult: {[MatchResult]: string} = {
 	PLAYER_2_WINS: 'Player 2 wins!',
 }
 
-class Battleground extends React.Component<{||}> {
+class Battleground extends React.Component<Props> {
 	intervalID: number;
 	alive: boolean;
 	testTanks: Array<Tank>;
@@ -42,7 +46,7 @@ class Battleground extends React.Component<{||}> {
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
 	objectsToDelete: Array<GameObject>;
-
+	
 	//intro and closing scene variables
 	lifetimeCounter: number = 0;
 	currentZoomScale: number = 1;
@@ -52,8 +56,8 @@ class Battleground extends React.Component<{||}> {
 	matchResult: MatchResult;
 	postMatchCountdown: number = 0;
 
-	constructor() {
-		super();
+	constructor(props: Props) {
+		super(props);
 		verifyLogin();
 		window.addEventListener('resize', () => this._rerender());
 		imageLoaderInit();
@@ -204,6 +208,8 @@ class Battleground extends React.Component<{||}> {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
 		}
+		this.props.setPlayersTank(this.testTanks[0], this.testTanks[1]);
+
 	}
 
 	_resizeCanvas(): void {
