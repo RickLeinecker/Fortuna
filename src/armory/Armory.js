@@ -15,7 +15,7 @@ import RenameTankPopup from './RenameTankPopup.js';
 // Functions
 import { getInventory, getComponentPoints } from './GetInventoryInfo.js';
 import { getUser } from '../globalComponents/userAPIIntegration.js';
-import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
+import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 // Types and Classes
@@ -187,6 +187,12 @@ class Armory extends React.Component<Props, State> {
 	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
 	renameTank = (tank: Tank): void => {
 		this.setState({selectedTank: tank});
+
+		getFavoriteTank(favTank => {
+			if(tank._id === favTank._id) {
+				this.refs.SetWagerPopup.updateWagerTankName(tank.tankName);
+			}
+		});
 	}
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
@@ -279,6 +285,17 @@ class Armory extends React.Component<Props, State> {
 				break;
 		}
 
+		//if the part index was a scanner add-on, we have to rebuild the scanner
+		if (partIndex===4 || partIndex===5) {
+			const scannerType=this.state.selectedTank.scanner.name;
+			const newScanner=new Scanner(
+					scannerType, 
+					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
+					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
+				);
+			updatedTank.scanner = newScanner;
+		}
+
 		// Update the component, points, and parts array.
 		this.updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
 		updatedTank.parts[partIndex] = newComponent;
@@ -326,6 +343,7 @@ class Armory extends React.Component<Props, State> {
 					/>
 					<br/>
 					<SetWagerPopup
+						ref="SetWagerPopup"
 						wagerTank={this.state.selectedTank}
 					/>
 				</div>

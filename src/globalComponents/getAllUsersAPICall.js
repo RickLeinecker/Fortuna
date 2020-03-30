@@ -28,7 +28,8 @@ function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 						backendUser.userName, 
 						backendUser.money, 
 						backendUser.wager,
-						backendUser._id
+						backendUser._id,
+						backendUser.stats.elo,
 					);
 					allUsers.push(user);
 				}
