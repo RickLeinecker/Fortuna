@@ -9,7 +9,7 @@ import Replay from './Replay.js';
 //gets the user when passed a token stored as the login token
 function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {
 	const token=getLoginToken();
-	console.log(token);
+	console.log('getting all replays...');
 	const responsePromise: Promise<Response> = fetch('/api/replay/getReplayList', {
 		method: 'GET',
 		headers: {
@@ -37,6 +37,8 @@ function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {
 						backendReplay.eloExchanged,
 					)
 				);
+				console.log('returned replays: ');
+				console.log(replays);
 				onLoad(replays);
 			}
 		})
