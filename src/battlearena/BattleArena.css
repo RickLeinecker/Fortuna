@@ -2,7 +2,8 @@
 .baleft {
     width: 36%;
     margin-top: 5%;
-    text-align: center;
+    text-align: left;
+    padding-left: 20px;
 }
 
 .baleft h6 {
@@ -22,6 +23,25 @@
 
 .baright {
 	width: 29%;
-    margin-left: 50px;
+    margin-left: 10px;
     margin-top: 5%;
+}
+
+.searchPlayers {
+    text-align: center;
+}
+
+.replayTable {
+    font-size: 15px;
+}
+
+.replayTable th {
+    padding: 10px;
+}
+
+.replayTable td {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #04CCFF;
+    border-bottom: 1px solid #04CCFF;
 }

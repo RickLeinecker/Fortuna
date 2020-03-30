@@ -42,8 +42,8 @@ class Leaderboard extends React.Component<Props, State> {
 					<thead>
 						<tr>
 							<th></th>
-							<th>Player Name</th>
-							<th>Player ELO</th>
+							<th>Name</th>
+							<th>ELO</th>
 						</tr>
 					</thead>
 					<tbody>

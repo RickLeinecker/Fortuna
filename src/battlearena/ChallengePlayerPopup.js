@@ -95,7 +95,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				<ToastContainer />
 				<button 
 					onClick={(this.props.playerChallenged == null) ? () => this.quickplay() : () => this.setState({challengePlayerOpen: true})} 
-					className={(this.props.playerChallenged == null) ? "btn" : "clearbtn"}
+					className={(this.props.playerChallenged == null) ? "primarybtn" : "clearbtn"}
 				>
 					{this.props.playerChallenged?.username  ?? "Quickplay"}
 				</button>
@@ -111,6 +111,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 						{challengeButton}{cancelButton}
 					</div>
 				</Popup>
+				{(this.props.playerChallenged == null) ? <label>&emsp;Challenge First Player Available</label> : <div></div>}
 			</div>
 		);
 	}
