@@ -18,12 +18,14 @@ import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
 import getAllUsers from '../globalComponents/getAllUsersAPICall.js';
+import getUser from '../globalComponents/getUserAPICall.js';
 
 type Props = {||};
 
 type State = {|
 	selectedTank: ?Tank,
-	allTanks: Array<Tank>
+	allTanks: Array<Tank>,
+	userElo: number
 |};
 
 class BattleArena extends React.Component<Props, State> {
@@ -34,6 +36,7 @@ class BattleArena extends React.Component<Props, State> {
 		this.state = {
 			selectedTank: null,
 			allTanks: [],
+			userElo: 0,
 		};
 	}
 
@@ -51,20 +54,14 @@ class BattleArena extends React.Component<Props, State> {
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 
-		console.log('Challenging player!');
-		console.log(player);
-		//TODO if player == null, then this is quickplay, so find a random person and challenge them
-
-		// NEED TO GET PLAYER LIST AND CHOOSE RANDOM PLAYER.
-
 		if (player==null) {
-
-			toast.error('No player to challenge.');
+			toast.error('No player found.');
 			return;
 		}
 		const myTank=this.state.selectedTank;
 		if (myTank==null) {
 			toast.error('No selected tank for challenging.');
+			return;
 		}
 
 		prepareMatchAPICall(myTank, player, matchId => {
