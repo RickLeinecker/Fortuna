@@ -283,10 +283,10 @@ exports.getMatch = async (req: Request, res: Response) => {
     }   
 
     // Deconstruct
-    const { battleId } = req.params;
+    const { matchId } = req.params;
     
     // Check if match record exists
-    const match = await BattleRecord.findById(battleId);
+    const match = await BattleRecord.findById(matchId);
     if (!match) {
         console.error('Could not find match');
         return res.status(400).json({ msg: 'Cannot find match.' });
