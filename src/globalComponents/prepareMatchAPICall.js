@@ -7,7 +7,7 @@ import Tank from '../tanks/Tank.js';
 //gets the user when passed a token stored as the login token
 function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: string) => void) {
 	const token=getLoginToken();
-	const responsePromise: Promise<Response> = fetch('/api/user/allUsers', {
+	const responsePromise: Promise<Response> = fetch('/api/battle/prepareMatch', {
 		method: 'POST',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -27,7 +27,7 @@ function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: s
 				console.log(data.msg);
 			}
 			else {
-				const matchId=data._id;
+				const matchId=data;
 				console.log('successfully created match with id: '+matchId);
 				onLoad(matchId);
 			}

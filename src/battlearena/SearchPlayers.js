@@ -67,7 +67,7 @@ class SearchPlayers extends React.Component<Props, State> {
 						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>
 								<ChallengePlayerPopup 
-									onChallengePlayer={this.props.onChallengePlayer}
+									onChallengePlayer={user => this.props.onChallengePlayer(user)}
 									playerChallenged={user}
 								/>
 							</div>
