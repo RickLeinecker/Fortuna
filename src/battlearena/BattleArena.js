@@ -65,7 +65,7 @@ class BattleArena extends React.Component<Props, State> {
 
 		prepareMatchAPICall(myTank, player, matchId => {
 			console.log('Successfully prepared match with id: '+matchId);
-			//window.location.href=verifyLink('/Battleground');
+			window.location.href=verifyLink('/Battleground');
 		});
 
 	}
