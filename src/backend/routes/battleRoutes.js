@@ -35,4 +35,13 @@ router.patch('/reportResults', [
         .isMongoId()
 ], auth, battleController.reportResults);
 
+// Gets a match via match id
+// Header: x-auth-token
+// Path: matchId in path
+// Returns battle record associated with the id given.
+router.get('/getMatch/:matchId', [
+    check('matchId', 'matchId is required')
+        .isMongoId()
+], auth, battleController.getMatch);
+
 module.exports = router;
