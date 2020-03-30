@@ -2,14 +2,17 @@
 
 import * as React from 'react';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
+import getAllUsersAPICall from '../globalComponents/getAllUsersAPICall.js';
+import User from '../globalComponents/User.js';
+import Cookie from 'universal-cookie';
 
 type Props = {|
-	onChallengePlayer: (string) => void
+	onChallengePlayer: (?User) => void
 |};
 
 type State = {|
-	playerList: Array<string>,
-	searchList: Array<string>
+	queryString: string,
+	playerList: Array<User>,
 |};
 
 // Search Players Component. Takes an array of all players.
@@ -26,41 +29,29 @@ class SearchPlayers extends React.Component<Props, State> {
 	constructor() {
 		super();
 
-		this.handleSearch.bind(this);
-		this.handleKeyPress.bind(this);
-
 		this.state = {
-			playerList: ["Jim", "John", "Jimfrey", "Eich", "Eichers", "Baylor", "Jorge", "David", "Emil", "Adam"], // NEEDS API CALL HERE
-			searchList: []
+			queryString: '',
+			playerList: [],
 		}
 	}
 
-	// When a key is pressed, update the search results with handleSearch.
+	componentDidMount(): void {
+		//set by navbar
+		const myUsername=new Cookie().get('username');
+		getAllUsersAPICall(allUsers => {
+			const usersWithWager = allUsers.filter(user => user.username !== myUsername && user.wager>0);
+			this.setState({playerList: usersWithWager});
+		});
+	}
+
 	handleKeyPress = (e: SyntheticKeyboardEvent<HTMLInputElement>):void => {
-		if(e.key === 'Enter') {
-			this.handleSearch(e.currentTarget.value);
-		}
-	}
-
-	// When a user clicks search, handleSearch will activate.
-	handleSearch(searchName: string): void {
-
-		const playerList: Array<string> = this.state.playerList;
-
-		// Create a filtered list showing user's desired results.
-		let list: Array<string> = [];
-
-		for(const player of playerList) {
-			if(player.includes(searchName)) {
-				list.push(player);
-			}
-		}
-
-		// Set the search result into the state.
-		this.setState({ searchList: list });
+		this.setState({queryString: e.currentTarget.value});
 	}
 
 	render(): React.Node {
+		const playersToRender = this.state.playerList.filter(
+			user => user.username.includes(this.state.queryString)
+		);
 		return (
 			<div className="searchPlayers">
 				<h6>Click the Player's Name you wish to Challenge</h6>
@@ -73,11 +64,11 @@ class SearchPlayers extends React.Component<Props, State> {
 				<h6>Press Enter to Search</h6>
 				<div className="searchPlayersList">
 					<ul>
-						{this.state.searchList.map((name, index) =>
+						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>
 								<ChallengePlayerPopup 
 									onChallengePlayer={this.props.onChallengePlayer}
-									playerChallenged={name}
+									playerChallenged={user}
 								/>
 							</div>
 						)}

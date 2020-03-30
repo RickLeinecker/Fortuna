@@ -49,7 +49,7 @@ function getTank(tank: BackendTank): Tank {
 	const jammers: TankComponent = tank.components[6];
 	const treads: TankComponent = tank.components[7];
 	const items: Array<TankComponent> = [tank.components[8], tank.components[9], tank.components[10]];
-	const revivedCasusCode: CasusContainer = reviveCasusBlock(tank.casusCode);
+	const revivedCasusCode: ContainerBlock = reviveCasusBlock(tank.casusCode);
 	
 	// Setup return value.
 	const toReturn: Tank = new Tank (

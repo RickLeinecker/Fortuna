@@ -116,8 +116,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 	}
 }
 
-exports.reportResults = async (req: Request, res: Response) => 
-{
+exports.reportResults = async (req: Request, res: Response) => {
 	// Checks that we have received the correct body from the frontend 
 	const errors = validationResult(req);
 

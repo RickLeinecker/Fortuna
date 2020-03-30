@@ -99,7 +99,7 @@ class Battleground extends React.Component<Props> {
 			this.testTanks[index]=tankLoaded;
 			const oldIndex=this.gameObjects.indexOf(oldTank);
 			this.gameObjects[oldIndex]=tankLoaded;
-			if (index==0) {
+			if (index===0) {
 				tankLoaded.position=new Vec(-80, -40);
 			}
 			else {

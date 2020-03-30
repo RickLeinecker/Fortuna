@@ -4,9 +4,9 @@ import getLoginToken from './getLoginToken.js';
 import User from './User.js';
 
 //gets the user when passed a token stored as the login token
-function getUserAPICall(onLoad:(user: User) => void) {
+function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 	const token=getLoginToken();
-	const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
+	const responsePromise: Promise<Response> = fetch('/api/user/allUsers', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -22,12 +22,21 @@ function getUserAPICall(onLoad:(user: User) => void) {
 				console.log(data.msg);
 			}
 			else {
-				const user=new User(data.userName, data.money, data.wager, data._id);
-				onLoad(user);
+				const allUsers=[];
+				for (const backendUser of data) {
+					const user=new User(
+						backendUser.userName, 
+						backendUser.money, 
+						backendUser.wager,
+						backendUser._id
+					);
+					allUsers.push(user);
+				}
+				onLoad(allUsers);
 			}
 		})
 	);
 }
 
 
-export default getUserAPICall;
+export default getAllUsersAPICall;

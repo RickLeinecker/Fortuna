@@ -14,11 +14,6 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 
-type TrainingTankInfo = {
-	tankDisplayName: string,
-	tankID: string,
-}
-
 type Props = {||};
 
 type State = {|
