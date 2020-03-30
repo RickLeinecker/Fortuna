@@ -27,7 +27,16 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
     // Casus code in the form of a JSON object. Default null on creation.
     casusCode: {
         type: Object,
-        default: null
+        default: { 
+			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+			highlighted: false, 
+			blockClass: "ContainerBlock", 
+			children: [{ 
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
+				highlighted: true, 
+				blockClass: "EmptyBlock", 
+				dataType: "VOID" }] 
+			}
     },
     // Boolean field for if a tank is a bot. Default false on creation.
     isBot: {
