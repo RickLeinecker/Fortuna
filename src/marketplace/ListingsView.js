@@ -69,6 +69,7 @@ class ListingsView extends React.Component<Props, State> {
 					const jsonObjectOfUser = data;
 					//set the users id
 					this.setState({userId:jsonObjectOfUser._id});
+					this.directSaleToProperFunction();
 				}
 			})
 		).catch(
