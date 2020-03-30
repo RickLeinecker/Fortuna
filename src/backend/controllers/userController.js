@@ -101,60 +101,60 @@ exports.register = async (req: Request, res: Response) => {
 			}
 		});
 
-		// // Create a verification token for this user
-		// let token = new Token({
-		// 	_userId: user.id,
-		// 	token: crypto.randomBytes(16).toString('hex')
-		// });
+		// Create a verification token for this user
+		let token = new Token({
+			_userId: user.id,
+			token: crypto.randomBytes(16).toString('hex')
+		});
 
-		// // Save verification token to MongoDB
-		// await token.save((err: Error) => {
-		// 	if (err) {
-		// 		console.error(err.message);
-		// 		return res
-		// 			.status(500)
-		// 			.json({ msg: 'Could not save the token to the DB' });
-		// 	}
-		// });
+		// Save verification token to MongoDB
+		await token.save((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not save the token to the DB' });
+			}
+		});
 
-		// // Create nodemailer transport
-		// const transporter = nodemailer.createTransport({
-		// 	host: process.env.MAIL_SERVER,
-		// 	port: 465,
-		// 	secure: true,
-		// 	auth: {
-		// 		user: process.env.MAIL_USER,
-		// 		pass: process.env.MAIL_PASS
-		// 	}
-		// });
+		// Create nodemailer transport
+		const transporter = nodemailer.createTransport({
+			host: process.env.MAIL_SERVER,
+			port: 465,
+			secure: true,
+			auth: {
+				user: process.env.MAIL_USER,
+				pass: process.env.MAIL_PASS
+			}
+		});
 
-		// const textBody =
-		// 'Greetings Commander '+user.userName+'!\n\n' +
-		// 'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
-		// 'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+		const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		// const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-		// <p>Please verify your Fortuna account by using the link below:</p>
-		// <a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
+		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
-		// // Set email options
-		// const mailOptions = {
-		// 	from: 'Fortuna Project <no-reply@fortunaproject.com>',
-		// 	to: user.email,
-		// 	subject: 'Fortuna Account Confirmation Token',
-		// 	text: textBody,
-		// 	html: htmlBody
-		// };
+		// Set email options
+		const mailOptions = {
+			from: 'Fortuna Project <no-reply@fortunaproject.com>',
+			to: user.email,
+			subject: 'Fortuna Account Confirmation Token',
+			text: textBody,
+			html: htmlBody
+		};
 
-		// // Send confirmation email with token
-		// await transporter.sendMail(mailOptions, (err: Error) => {
-		// 	if (err) {
-		// 		console.log(err.message);
-		// 		return res
-		// 			.status(500)
-		// 			.json({ msg: 'Could not send out email.' });
-		// 	}
-		// });
+		// Send confirmation email with token
+		await transporter.sendMail(mailOptions, (err: Error) => {
+			if (err) {
+				console.log(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not send out email.' });
+			}
+		});
 		return res.status(201).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
 	} catch (err) {
