@@ -32,6 +32,7 @@ function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {
 						backendReplay.winner,
 						backendReplay.prizeMoney,
 						backendReplay.eloExchanged,
+						backendReplay._id,
 					)
 				);
 				console.log('returned replays: ');
