@@ -31,8 +31,19 @@
     text-align: center;
 }
 
+.replayList {
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 100%;
+}
+
 .replayTable {
     font-size: 15px;
+}
+
+.replayTable h4 {
+    text-align: center;
 }
 
 .replayTable th {

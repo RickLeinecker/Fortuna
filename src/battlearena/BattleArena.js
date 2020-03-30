@@ -109,6 +109,7 @@ class BattleArena extends React.Component<Props, State> {
 			</div>
 			<div className="column baright">
 				<Leaderboard />
+				<br/><br/>
 				<Replays />
 			</div>
 			<ToastContainer />

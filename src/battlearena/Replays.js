@@ -49,6 +49,8 @@ class Replays extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="replayTable">
+				<h4>{this.state.myUsername}'s Battle Record</h4>
+				<div className="replayList">
 				<table>
 					<thead>
 						<tr>
@@ -60,8 +62,8 @@ class Replays extends React.Component<Props, State> {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.replays.map(replay => 
-							<tr>
+						{this.state.replays.map((replay, index) => 
+							<tr key={index}>
 								<td>{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td>{this.getWinner(replay)}</td>
 								<td><button className="smallbtn">View Replay</button></td>
@@ -71,6 +73,7 @@ class Replays extends React.Component<Props, State> {
 						)}
 					</tbody>
 				</table>
+				</div>
 			</div>
 		);
 	}
