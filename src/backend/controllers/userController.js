@@ -15,6 +15,7 @@ require("regenerator-runtime");
 const User = require('../../models/userModel');
 const Token = require('../../models/tokenModel');
 const Tank = require('../../models/tankModel');
+const MarketSale = require('../../models/marketSaleModel');
 
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
@@ -100,60 +101,60 @@ exports.register = async (req: Request, res: Response) => {
 			}
 		});
 
-		// Create a verification token for this user
-		let token = new Token({
-			_userId: user.id,
-			token: crypto.randomBytes(16).toString('hex')
-		});
+		// // Create a verification token for this user
+		// let token = new Token({
+		// 	_userId: user.id,
+		// 	token: crypto.randomBytes(16).toString('hex')
+		// });
 
-		// Save verification token to MongoDB
-		await token.save((err: Error) => {
-			if (err) {
-				console.error(err.message);
-				return res
-					.status(500)
-					.json({ msg: 'Could not save the token to the DB' });
-			}
-		});
+		// // Save verification token to MongoDB
+		// await token.save((err: Error) => {
+		// 	if (err) {
+		// 		console.error(err.message);
+		// 		return res
+		// 			.status(500)
+		// 			.json({ msg: 'Could not save the token to the DB' });
+		// 	}
+		// });
 
-		// Create nodemailer transport
-		const transporter = nodemailer.createTransport({
-			host: process.env.MAIL_SERVER,
-			port: 465,
-			secure: true,
-			auth: {
-				user: process.env.MAIL_USER,
-				pass: process.env.MAIL_PASS
-			}
-		});
+		// // Create nodemailer transport
+		// const transporter = nodemailer.createTransport({
+		// 	host: process.env.MAIL_SERVER,
+		// 	port: 465,
+		// 	secure: true,
+		// 	auth: {
+		// 		user: process.env.MAIL_USER,
+		// 		pass: process.env.MAIL_PASS
+		// 	}
+		// });
 
-		const textBody =
-		'Greetings Commander '+user.userName+'!\n\n' +
-		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
-		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+		// const textBody =
+		// 'Greetings Commander '+user.userName+'!\n\n' +
+		// 'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		// 'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-		<p>Please verify your Fortuna account by using the link below:</p>
-		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
+		// const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		// <p>Please verify your Fortuna account by using the link below:</p>
+		// <a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
-		// Set email options
-		const mailOptions = {
-			from: 'Fortuna Project <no-reply@fortunaproject.com>',
-			to: user.email,
-			subject: 'Fortuna Account Confirmation Token',
-			text: textBody,
-			html: htmlBody
-		};
+		// // Set email options
+		// const mailOptions = {
+		// 	from: 'Fortuna Project <no-reply@fortunaproject.com>',
+		// 	to: user.email,
+		// 	subject: 'Fortuna Account Confirmation Token',
+		// 	text: textBody,
+		// 	html: htmlBody
+		// };
 
-		// Send confirmation email with token
-		await transporter.sendMail(mailOptions, (err: Error) => {
-			if (err) {
-				console.log(err.message);
-				return res
-					.status(500)
-					.json({ msg: 'Could not send out email.' });
-			}
-		});
+		// // Send confirmation email with token
+		// await transporter.sendMail(mailOptions, (err: Error) => {
+		// 	if (err) {
+		// 		console.log(err.message);
+		// 		return res
+		// 			.status(500)
+		// 			.json({ msg: 'Could not send out email.' });
+		// 	}
+		// });
 		return res.status(201).json({ msg: 'A verification email has been sent to ' + user.email + '.' });
 
 	} catch (err) {
@@ -514,6 +515,69 @@ exports.setWager = async (req: Request, res: Response) => {
 			.status(500)
 			.json({ msg: 'Failed to update user wager value'});
 	}
+}
+
+exports.editUser = async (req: Request, res: Response) => {
+	// Creates a place where errors that fail validation can accrue.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Check if user is in DB
+	const user = await User.findById(req.user.id, 'userName, password, email');
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user to edit' });
+	}
+
+	// Deconstruct body
+	const { userName, password, email } = req.body;
+
+	// Creates salt with 10 rounds(recommended)
+	const salt = await bcrypt.genSalt(10);
+	// bcrypt hash passwords
+	const newPassword = await bcrypt.hash(password, salt);
+	
+	// Update User
+	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { userName: userName, password: newPassword, email: email }, { new: true });
+	if (!updatedUser) {
+		console.error('Failed to save user updates');
+		return res.status(500).json({ msg: 'Failed to save user changes' });
+	}
+
+	// Return updated user
+	console.log('Successfully updated user.');
+	return res.status(200).send(updatedUser);
+}
+
+exports.deleteUser = async (req: Request, res: Response) => {
+
+	// Check if user is in DB
+	const user = await User.findById(req.user.id);
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user to delete' });
+	}
+
+	// Remove all Market sales owned by user
+	await MarketSale.deleteMany({ sellerId: req.user.id });
+	console.log('Deleted user market sales.');
+
+	// Remove all Tanks owned by user
+	await Tank.deleteMany({ userId: req.user.id });
+	console.log('Deleted user tanks.');
+	
+	// Delete user itself
+	await User.deleteOne({ _id: req.user.id });
+	
+	// Return success message
+	console.log('Deleted user.');
+	return res.status(200).json({ msg: 'User account has been deleted.' });
 }
 
 
