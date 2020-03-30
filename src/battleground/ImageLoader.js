@@ -97,7 +97,7 @@ function imageLoaderInit(): void {
 	allImages.EMBER2.src='Ember2.png';
 	allImages.SMOKE1.src='Smoke1.png';
 	allImages.SMOKE2.src='Smoke2.png';
-	allImages.SMOKE3.src='Smoke3.png';
+	allImages.SMOKE3.src='smoke3.png';
 	allImages.ELECTRICITY.src='Electricity.png';
 	allImages.ELECTRICITY_FLIPPED.src='ElectricityFlipped.png';
 	allImages.STATIC.src='static.png';
