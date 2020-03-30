@@ -70,7 +70,7 @@ class Replays extends React.Component<Props, State> {
 					</thead>
 					<tbody>
 						{this.state.replays.map(replay => 
-							<tr>
+							<tr key={replay.replayId}>
 								<td>{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td>{this.getWinner(replay)}</td>
 								<td><button className="smallbtn" onClick={() => this.watchReplay(replay)}>View Replay</button></td>
