@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 type Props = {|
 	tank: Tank;
