@@ -35,7 +35,7 @@ function getTestTank(id: number=1): Tank {
 		'',
 		'',
 	);
-	loadCasus(blocks => {toReturn.casusCode = blocks});
+	//loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
 

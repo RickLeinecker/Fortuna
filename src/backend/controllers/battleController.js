@@ -181,6 +181,11 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.status(404)
 					.json({ msg: 'Could not find userTwo'});
 			}
+
+			battle.winner = winner;
+
+			// Save battle winner and users money
+			await battle.save();
 		}
 		else if (winner === 1) { // userOne victory
 

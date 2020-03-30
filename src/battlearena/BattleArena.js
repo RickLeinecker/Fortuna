@@ -16,6 +16,7 @@ import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
+import {setMatchForBattleground} from '../battleground/setTanksToFightInBattleground.js';
 import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {||};
@@ -64,6 +65,7 @@ class BattleArena extends React.Component<Props, State> {
 
 		prepareMatchAPICall(myTank, player, matchId => {
 			console.log('Successfully prepared match with id: '+matchId);
+			setMatchForBattleground(matchId);
 			window.location.href=verifyLink('/Battleground');
 		});
 
