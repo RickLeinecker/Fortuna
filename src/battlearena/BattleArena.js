@@ -17,6 +17,7 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
 import {setMatchForBattleground} from '../battleground/setTanksToFightInBattleground.js';
+import getReplayListAPICall from '../globalComponents/getReplayListAPICall.js';
 
 type Props = {||};
 
@@ -45,6 +46,7 @@ class BattleArena extends React.Component<Props, State> {
 				});
 			}
 		});
+		getReplayListAPICall(() => {});
 	}
 
 	onChallengePlayer(player: ?User): void {
