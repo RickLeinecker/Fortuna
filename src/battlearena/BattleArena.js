@@ -17,7 +17,9 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
 import {setMatchForBattleground} from '../battleground/setTanksToFightInBattleground.js';
+import getReplayListAPICall from '../globalComponents/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
+import Replays from './Replays.js';
 
 type Props = {||};
 
@@ -48,6 +50,7 @@ class BattleArena extends React.Component<Props, State> {
 				});
 			}
 		});
+		getReplayListAPICall(() => {});
 	}
 
 	onChallengePlayer(player: ?User): void {
@@ -81,15 +84,15 @@ class BattleArena extends React.Component<Props, State> {
 				linkName="/MainMenu"
  			/>
 			<div className="column baleft">
-				<h5>Challenge First Player Available</h5>
 				<ChallengePlayerPopup 
 					onChallengePlayer = {(user) => this.onChallengePlayer(user)}
 					playerChallenged = {null}
 				/>
-				<h6>Practice Against Bots</h6>
+				<br/><br/>
 				<Link to={verifyLink("/TrainingArena")}>
-					<button type="button" className="btn">Training Arena</button>
+					<button className="btn">Training Arena</button>
 				</Link>
+				<label>&emsp;Practice against Bots</label>
 				<SearchPlayers onChallengePlayer={(user) => this.onChallengePlayer(user)} />
 			</div>
 			<div className="column bamiddle">
@@ -106,6 +109,8 @@ class BattleArena extends React.Component<Props, State> {
 			</div>
 			<div className="column baright">
 				<Leaderboard />
+				<br/><br/>
+				<Replays />
 			</div>
 			<ToastContainer />
 		</div>

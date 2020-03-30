@@ -61,8 +61,8 @@ class SearchPlayers extends React.Component<Props, State> {
 					placeholder="Search Players" 
 					onKeyPress={this.handleKeyPress}
 				/>
-				<h6>Press Enter to Search</h6>
 				<div className="searchPlayersList">
+					<h6>Press Enter to Search</h6>
 					<ul>
 						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>
