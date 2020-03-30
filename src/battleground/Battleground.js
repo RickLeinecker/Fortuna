@@ -13,6 +13,7 @@ import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
+import reportMatchResultAPICall from '../globalComponents/reportMatchResultAPICall.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
@@ -245,25 +246,35 @@ class Battleground extends React.Component<Props> {
 	}
 
 	_checkForWinner(): void {
-		//TODO: report winner to API
 		if (this.matchResult !== 'IN_PROGRESS') {
 			return;
 		}
 		if (this.lifetimeCounter > MAX_MATCH_LENGTH) {
 			this.matchResult = 'TIME_UP';
 			this.postMatchCountdown=POST_MATCH_TIME;
+			this.reportWinner(0);
 			return;
 		}
 		if (this.getTanks()[0].getHealth()<=0) {
 			this.matchResult = 'PLAYER_2_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
+			this.reportWinner(1);
 			return;
 		}
 		if (this.getTanks()[1].getHealth()<=0) {
 			this.matchResult = 'PLAYER_1_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
+			this.reportWinner(2);
 			return;
 		}
+	}
+
+	reportWinner(winner: 0|1|2) {
+		if (this.matchIdToReport == null) {
+			//not a match, just a training exercise
+			return;
+		}
+		reportMatchResultAPICall(winner, this.matchIdToReport);
 	}
 
 	_lerp(a: number, b: number, time: number) {
