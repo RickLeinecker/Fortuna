@@ -42,6 +42,8 @@ class Replays extends React.Component<Props, State> {
 				console.log('Match result outside of range (-1 to 2).');
 				break;
 		}
+
+		return 'Unable to get result.';
 	}
 
 	render(): React.Node {
