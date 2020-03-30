@@ -1,9 +1,6 @@
 //@flow strict
 
 import getLoginToken from './getLoginToken.js';
-import Tank from '../tanks/Tank.js';
-import {getTank} from '../tanks/TankLoader.js';
-import BackendTank from '../tanks/BackendTank.js';
 import Replay from './Replay.js';
 
 //gets the user when passed a token stored as the login token
