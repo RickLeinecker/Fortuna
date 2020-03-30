@@ -37,8 +37,13 @@ class Leaderboard extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
-				<h5>FORTUNA's Top Commanders</h5>
+				<h4>FORTUNA's Top Commanders</h4>
 				<table>
+					<thead>
+						<th></th>
+						<th>Player Name</th>
+						<th>Player ELO</th>
+					</thead>
 					<tbody>
 						{this.state.leaders.map(({username, elo}, index) =>
 							<tr key={index}>
