@@ -42,7 +42,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 
 		const personBeingChallengedTank = await Tank.findById(personBeingChallengedUserDoc.favoriteTank);
 
-		if(personBeingChallengedTank == null){
+		if (personBeingChallengedTank == null) {
 			return res
 				.status(404)
 				.json({ msg: "Could not find the personBeingChallenged's tank in DB"});
@@ -50,10 +50,17 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 
 		const challengerTank = await Tank.findById(challengerTankId);
 
-		if(challengerTank == null){
+		if (challengerTank == null) {
 			return res
 				.status(404)
 				.json({ msg: "Could not find the challenger's Tank in DB"});
+		}
+
+		if (challengerTank.userId == personBeingChallengedId) {
+			console.log('Cannot challenge self');
+			return res
+				.status(400)
+				.json({ msg: 'Cannot challenge self'});
 		}
 
 
@@ -67,7 +74,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 				.json({ msg: 'Could not find the challenger in DB'});
 		}
 
-		if(challengerUserDoc.money < personBeingChallengedUserDoc.wager){
+		if (challengerUserDoc.money < personBeingChallengedUserDoc.wager) {
 			console.log('Challenger does not have enough money to wager');
 			return res
 				.status(401)
