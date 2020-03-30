@@ -44,6 +44,7 @@ class Battleground extends React.Component<Props> {
 	testTanks: Array<Tank>;
 	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
+	matchIdToReport: ?string;
 
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
@@ -89,23 +90,27 @@ class Battleground extends React.Component<Props> {
 			this.gameObjects.push(t);
 		}
 		this.matchResult='IN_PROGRESS';
+		this.matchIdToReport=null;
 	}
 
 	componentDidMount(): void {
 		this._rerender();
 		this.alive=true;
-		getTanksToFightOnBattleground((tankLoaded, index) => {
-			const oldTank=this.testTanks[index];
-			this.testTanks[index]=tankLoaded;
-			const oldIndex=this.gameObjects.indexOf(oldTank);
-			this.gameObjects[oldIndex]=tankLoaded;
-			if (index===0) {
-				tankLoaded.position=new Vec(-80, -40);
-			}
-			else {
-				tankLoaded.position=new Vec(50, 40);
-			}
-		});
+		getTanksToFightOnBattleground(
+			(tankLoaded, index) => {
+				const oldTank=this.testTanks[index];
+				this.testTanks[index]=tankLoaded;
+				const oldIndex=this.gameObjects.indexOf(oldTank);
+				this.gameObjects[oldIndex]=tankLoaded;
+				if (index===0) {
+					tankLoaded.position=new Vec(-80, -40);
+				}
+				else {
+					tankLoaded.position=new Vec(50, 40);
+				}
+			},
+			matchId => {this.matchIdToReport=matchId;}
+		);
 		setTimeout(() => this._gameLoop(), 1000/20);
 	}
 
