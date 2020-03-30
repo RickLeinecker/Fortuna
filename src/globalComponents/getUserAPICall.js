@@ -4,7 +4,7 @@ import getLoginToken from './getLoginToken.js';
 import User from './User.js';
 
 //gets the user when passed a token stored as the login token
-function getUserAPICall(onLoad:(user: User) => void) {
+function getUserAPICall(onLoad:(user: User) => void): void {
 	const token=getLoginToken();
 	const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
 		method: 'GET',
@@ -22,7 +22,7 @@ function getUserAPICall(onLoad:(user: User) => void) {
 				console.log(data.msg);
 			}
 			else {
-				const user=new User(data.userName, data.money, data.wager);
+				const user=new User(data.userName, data.money, data.wager, data.stats.elo);
 				onLoad(user);
 			}
 		})

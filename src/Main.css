@@ -215,13 +215,18 @@ body {
 
 /* Leaderboard Styling */
 .leaderboard {
-	padding-left: 10px;
+	padding: 10px;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top: 50%;
 	background-color: #04213F;
 	border: 4px solid black;
 	border-radius: 8px;
+}
+
+.leaderboard td {
+	border-left: none;
+	border-right: none;
+	padding: 5px 25px 0px 0px;
 }
 
 /* Button Styling */
