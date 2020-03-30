@@ -2,18 +2,23 @@
 
 import getLoginToken from './getLoginToken.js';
 import User from './User.js';
+import Tank from '../tanks/Tank.js';
 
 //gets the user when passed a token stored as the login token
-function getUserAPICall(onLoad:(user: User) => void): void {
+function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: string) => void) {
 	const token=getLoginToken();
-	const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
-		method: 'GET',
+	const responsePromise: Promise<Response> = fetch('/api/battle/prepareMatch', {
+		method: 'POST',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': token
 		},
+		body: JSON.stringify({
+			personBeingChallengedId: otherPlayer.userID,
+			challengerTankId: myTank._id,
+		})
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
@@ -22,12 +27,13 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 				console.log(data.msg);
 			}
 			else {
-				const user=new User(data.userName, data.money, data.wager, data._id, data.stats.elo);
-				onLoad(user);
+				const matchId=data;
+				console.log('successfully created match with id: '+matchId);
+				onLoad(matchId);
 			}
 		})
 	);
 }
 
 
-export default getUserAPICall;
+export default prepareMatchAPICall;

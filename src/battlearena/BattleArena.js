@@ -14,6 +14,8 @@ import SelectTank from '../armory/SelectTank.js';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
+import User from '../globalComponents/User.js';
+import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
 
 type Props = {||};
 
@@ -44,19 +46,28 @@ class BattleArena extends React.Component<Props, State> {
 		});
 	}
 
-	onChallengePlayer(player: string): void {
+	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 
+		console.log('Challenging player!');
 		console.log(player);
-
-		// If statement encapsulates search challenge.
-		if(player !== "") {
-			// NEED TO CHALLENGE THE PLAYER NAMED
-		}
+		//TODO if player == null, then this is quickplay, so find a random person and challenge them
 
 		// NEED TO GET PLAYER LIST AND CHOOSE RANDOM PLAYER.
 
-		window.location.href=verifyLink('/Battleground');
+		if (player==null) {
+			throw new Error('Adam has to implement this still');
+		}
+		const myTank=this.state.selectedTank;
+		if (myTank==null) {
+			throw new Error('Adam will handle this with a toast!');
+		}
+
+		prepareMatchAPICall(myTank, player, matchId => {
+			console.log('Successfully prepared match with id: '+matchId);
+			window.location.href=verifyLink('/Battleground');
+		});
+
 	}
 
 
@@ -71,14 +82,14 @@ class BattleArena extends React.Component<Props, State> {
 			<div className="column baleft">
 				<h3>Find First Challenger Available</h3>
 				<ChallengePlayerPopup 
-					onChallengePlayer={this.onChallengePlayer}
-					playerChallenged="" 
+					onChallengePlayer = {(user) => this.onChallengePlayer(user)}
+					playerChallenged = {null}
 				/>
 				<h6>Practice Against Bots</h6>
 				<Link to={verifyLink("/TrainingArena")}>
 					<button type="button" className="btn">Training Arena</button>
 				</Link>
-				<SearchPlayers onChallengePlayer={this.onChallengePlayer} />
+				<SearchPlayers onChallengePlayer={(user) => this.onChallengePlayer(user)} />
 			</div>
 			<div className="column bamiddle">
 				<h5>Choose your Tank, Commander</h5>
@@ -87,6 +98,7 @@ class BattleArena extends React.Component<Props, State> {
 					<TankDisplay tankToDisplay={this.state.selectedTank} />
 				}
 				<SelectTank
+					selectedTank={this.state.selectedTank}
 					allTanks={this.state.allTanks}
 					changeSelectedTank={(tank) => this.setState({selectedTank: tank})}
 				/>

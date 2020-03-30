@@ -11,32 +11,16 @@ import SelectTank from '../armory/SelectTank.js';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-
-type TrainingTankInfo = {
-	tankDisplayName: string,
-	tankID: string,
-}
-
-const HARDCODED_TRAINING_TANKS: Array<TrainingTankInfo> = [
-	{
-		tankDisplayName: 'Sitting Duck',
-		tankID: '5e7e8e1659a651503e14d7d1',
-	},
-	{
-		tankDisplayName: 'Roomba',
-		tankID: '5e7e8ece59a651503e14d7d2',
-	},
-	{
-		tankDisplayName: 'Rando Tank',
-		tankID: '5e7e8f2959a651503e14d7d3',
-	},
-];
+import getBotTanksAPICall from '../globalComponents/getBotTanksAPICall.js';
+import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 
 type Props = {||};
 
 type State = {|
 	selectedTank: ?Tank,
 	allTanks: Array<Tank>,
+	enemySelectedTank: ?Tank,
+	enemyTanks: Array<Tank>,
 |};
 
 class TrainingArena extends React.Component<Props, State> {
@@ -47,6 +31,8 @@ class TrainingArena extends React.Component<Props, State> {
 		this.state = {
 			selectedTank: null,
 			allTanks: [],
+			enemySelectedTank: null,
+			enemyTanks: [],
 		};
 	}
 	componentDidMount(): void {
@@ -58,13 +44,17 @@ class TrainingArena extends React.Component<Props, State> {
 				});
 			}
 		});
+		getBotTanksAPICall(botTanks => this.setState({enemySelectedTank: botTanks[0], enemyTanks: botTanks}));
 	}
 
 	onClickStartBattle(): void {
+		const myTank=this.state.selectedTank;
+		const botTank=this.state.enemySelectedTank;
+		if (myTank == null || botTank == null) {
+			throw new Error('neither tank should be null!');
+		}
 		setReturnToFromBattlegroundLink('/TrainingArena');
-		const trainingBotSelect: HTMLSelectElement=this.refs.trainingBotSelect;
-		//const chosenBot=HARDCODED_TRAINING_TANKS.find(t => t.tankDisplayName === trainingBotSelect.value);
-		//TODO: start battle between chosen bot.tankID and the bot that I select
+		setTanksToFightInBattleground(myTank._id, botTank._id);
 		window.location.href=verifyLink('/Battleground');
 	}
 
@@ -83,6 +73,7 @@ class TrainingArena extends React.Component<Props, State> {
 						<TankDisplay tankToDisplay={this.state.selectedTank} />
 					}
 					<SelectTank
+						selectedTank={this.state.selectedTank}
 						allTanks={this.state.allTanks}
 						changeSelectedTank={(tank) => {
 							this.setState({selectedTank: tank});
@@ -104,11 +95,17 @@ class TrainingArena extends React.Component<Props, State> {
 				</div>
 				<div className="column taright">
 					<h5>Choose a Training Bot</h5>
-					<select className="dropdownMenu" ref="trainingBotSelect">
-						{HARDCODED_TRAINING_TANKS.map(trainingTankInfo =>
-							<option key= {trainingTankInfo.tankID}>{trainingTankInfo.tankDisplayName}</option>
-						)}
-					</select>
+					{
+						this.state.enemySelectedTank==null?<div></div>:
+						<TankDisplay tankToDisplay={this.state.enemySelectedTank} />
+					}
+					<SelectTank
+						selectedTank={this.state.enemySelectedTank}
+						allTanks={this.state.enemyTanks}
+						changeSelectedTank={(tank) => {
+							this.setState({enemySelectedTank: tank});
+						}}
+					/>
 				</div>
 			</div>
 		)

@@ -1,12 +1,12 @@
 //@flow strict
 
+import Tank from '../tanks/Tank.js';
 import getLoginToken from './getLoginToken.js';
-import User from './User.js';
+import { getTank } from '../tanks/TankLoader.js';
 
-//gets the user when passed a token stored as the login token
-function getUserAPICall(onLoad:(user: User) => void): void {
+function getBotTanksAPICall(onLoad: (botTanks: Array<Tank>)=> void): void {
 	const token=getLoginToken();
-	const responsePromise: Promise<Response> = fetch('/api/user/getUser', {
+	const responsePromise: Promise<Response> = fetch('/api/tank/getBotTanks', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -22,12 +22,14 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 				console.log(data.msg);
 			}
 			else {
-				const user=new User(data.userName, data.money, data.wager, data._id, data.stats.elo);
-				onLoad(user);
+				const allTanks: Array<Tank> = [];
+				for(const tank of data) {
+					allTanks.push(getTank(tank));
+				}
+				onLoad(allTanks);
 			}
 		})
 	);
 }
 
-
-export default getUserAPICall;
+export default getBotTanksAPICall;

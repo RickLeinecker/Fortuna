@@ -2,56 +2,37 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
+import User from '../globalComponents/User.js';
 
 type Props = {|
-	playerChallenged: string,
-	onChallengePlayer: (string) => void
-|};
-
-type State = {|
-	playerList: Array<string>,
-	playerChallengedWager: number,
-	userCurrency: number
+	playerChallenged: ?User,
+	onChallengePlayer: (?User) => void
 |};
 
 // Challenge Player Component. Creates a Popup to prevent accidental challenges.
 //
 // Prop Names:
-// playerChallenged (name of player being challenged. If Quickplay, then it will be "")
+// playerChallenged: null if quickplay, or the player to challenge
 // onChallengePlayer (function that handles challenging a player)
-//
-// State Names:
-// playerList (gets a list of players in similar elo)
-// playerChallengedWager (wager that the challenged player put up)
-// userCurrency (current user's currency)
 
-class ChallengePlayerPopup extends React.Component<Props, State> {
-
-	constructor(props: Props) {
-		super(props);
-
-		this.state = {
-			playerList: [],
-			playerChallengedWager: 20,
-			userCurrency: 30
-		};
-	}
+class ChallengePlayerPopup extends React.Component<Props> {
 
 	render(): React.Node {
 		return (
 			<Popup
 				trigger = {
-					<button type="button" className={(this.props.playerChallenged === "") ? "btn" : "clearbtn"}>
-						{(this.props.playerChallenged === "") ? "Quickplay" : this.props.playerChallenged}
+					<button type="button" className={(this.props.playerChallenged == null) ? "btn" : "clearbtn"}>
+						{this.props.playerChallenged?.username  ?? "Quickplay"}
 					</button>
 				} modal>
 				{close => (
 					<div className="popup">
-						<h3>Challenge {this.props.playerChallenged} with ${this.state.playerChallengedWager}?</h3>
+						<h3>
+							Challenge {(this.props.playerChallenged?.username ?? ' a random person')+' '} 
+							with ${this.props.playerChallenged?.wager ?? '??? '}?
+						</h3>
 						<button 
-							className={
-								(this.state.playerChallengedWager > this.state.userCurrency) ? "popupbtn disabled" : "popupbtn"
-							} 
+							className={"popupbtn"} 
 							type="button" 
 							onClick={() => this.props.onChallengePlayer(this.props.playerChallenged)}
 						>
