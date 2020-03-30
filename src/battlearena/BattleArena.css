@@ -1,7 +1,7 @@
 /* Battle Arena Page Styling */
 .baleft {
     width: 36%;
-    margin-top: 13%;
+    margin-top: 5%;
     text-align: center;
 }
 
@@ -12,7 +12,7 @@
 .bamiddle {
     width: 28%;
     text-align: center;
-    margin-top: 8%;
+    margin-top: 5%;
 }
 
 .bamiddle select {
