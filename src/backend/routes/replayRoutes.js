@@ -6,20 +6,17 @@
 
 // Required imports
 import express from 'express';
-import { check } from 'express-validator';
 import replayController from '../controllers/replayController';
+import auth from '../middleware/auth';
 
 // Import Constants
 const router = express.Router();
 
 // Get list of battle records for a user for replays
 // Route call: getReplayList
-// Req body: userId
-// Returns: List of all records that the user
+// Header: x-auth-token
+// Returns: List of all battle records for the user
 // is associated with.
-router.get('/getReplayList', [
-    check('userId', 'Please enter a valid userId')
-        .isString()
-    ], replayController.getReplayList);
+router.get('/getReplayList', auth, replayController.getReplayList);
 
 module.exports = router;

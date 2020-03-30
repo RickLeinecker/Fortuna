@@ -1,7 +1,6 @@
 // @flow strict
 
 // Required imports
-import { validationResult } from 'express-validator';
 import type { Request, Response } from 'express';
 
 // Model imports
@@ -9,21 +8,9 @@ import User from '../../models/userModel';
 import BattleRecord from '../../models/battleRecordModel';
 
 exports.getReplayList = async (req: Request, res: Response) => {
-    // Gather any errors from the route checking
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        // Return 400 as a bad request
-        return res
-            .status(400)
-            .json({ errors: errors.array() })
-    }
-
-    // Deconstruct body
-    const { userId } = req.body;
     
     // Check if user exists
-    const userCheck = await User.findById(userId);
+    const userCheck = await User.findById(req.user.id);
     if (!userCheck) {
         return res
             .status(400)
@@ -33,7 +20,7 @@ exports.getReplayList = async (req: Request, res: Response) => {
     // If user exists, can attempt to get list of records
     // Note: query and use populate('field that has the ObjectID', [array of properties to only show])
     try {
-        const records = await BattleRecord.find({ $or: [{ userOne: userId }, { userTwo: userId }] })
+        const records = await BattleRecord.find({ $or: [{ userOne: req.user.id }, { userTwo: req.user.id }] })
             .populate('userOne userTwo', 'userName');
         if (!records) {
             return res
