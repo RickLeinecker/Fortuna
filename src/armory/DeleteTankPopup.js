@@ -4,6 +4,8 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 type Props = {|
 	tank: Tank;
@@ -38,7 +40,7 @@ class DeleteTankPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 					return;
 				}
@@ -81,6 +83,7 @@ class DeleteTankPopup extends React.Component<Props, State> {
 							{deleteButton}{cancelButton}
 						</div>
 					</Popup>
+					<ToastContainer />
 				</div>
 			</div>
 		);
