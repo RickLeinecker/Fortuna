@@ -40,9 +40,11 @@ class Leaderboard extends React.Component<Props, State> {
 				<h4>FORTUNA's Top Commanders</h4>
 				<table>
 					<thead>
-						<th></th>
-						<th>Player Name</th>
-						<th>Player ELO</th>
+						<tr>
+							<th></th>
+							<th>Player Name</th>
+							<th>Player ELO</th>
+						</tr>
 					</thead>
 					<tbody>
 						{this.state.leaders.map(({username, elo}, index) =>
