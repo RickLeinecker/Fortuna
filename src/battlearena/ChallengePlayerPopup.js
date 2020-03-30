@@ -56,17 +56,12 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 	// If there this.props.playerChallenged is null, then it is quickplay.
 	quickplay(): void {
 		getAllUsers(users => {
-			const similarSkilledUsers: Array<User> = [];
-			for(const user of users) {
-				if(
-					((user.elo - this.state.userElo) >= -100 
-					&& (user.elo - this.state.userElo) <= 100) 
-					&& user.wager > 0
-					&& user.username !== this.state.myUsername
-				) {
-					similarSkilledUsers.push(user);
-				}
-			}
+			const similarSkilledUsers: Array<User> = users.filter(user => 
+				((user.elo - this.state.userElo) >= -100 
+				&& (user.elo - this.state.userElo) <= 100) 
+				&& user.wager > 0
+				&& user.username !== this.state.myUsername
+			);
 			if(similarSkilledUsers.length === 0) {
 				toast.error('No users found with similar skill level.');
 				return;
