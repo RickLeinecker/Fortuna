@@ -66,7 +66,7 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 				// Process all of the leaders into an array and load it.
 				const leaders: Array<User> = [];
 				for(const user of data) {
-					leaders.push(new User(user.userName, user.money, user.wager, user.stats.elo));
+					leaders.push(new User(user.userName, user.money, user.wager, user._id, user.stats.elo));
 				}
 				onLoad(leaders);
 			}
