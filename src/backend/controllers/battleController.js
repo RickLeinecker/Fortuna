@@ -77,8 +77,12 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 		const newRecord = new BattleRecord({
 			userOne: personBeingChallengedId,
 			userTwo: challengerTank.userId,
-			tankOne: personBeingChallengedTank,
-			tankTwo: challengerTank,
+			'tankOne.tankName': personBeingChallengedTank.tankName,
+			'tankOne.components': personBeingChallengedTank.components,
+			'tankOne.casusCode': personBeingChallengedTank.casusCode,
+			'tankTwo.tankName': challengerTank.tankName,
+			'tankTwo.components': challengerTank.components,
+			'tankTwo.casusCode': challengerTank.casusCode,
 			winner: -1,
 			prizeMoney: (personBeingChallengedUserDoc.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
@@ -265,4 +269,30 @@ exports.reportResults = async (req: Request, res: Response) => {
 			.json({ msg: 'Server Error'});
 	}
 
+}
+
+exports.getMatch = async (req: Request, res: Response) => {
+    // Checks that we have received the correct body from the frontend 
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // Return 400 for a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }   
+
+    // Deconstruct
+    const { matchId } = req.params;
+    
+    // Check if match record exists
+    const match = await BattleRecord.findById(matchId);
+    if (!match) {
+        console.error('Could not find match');
+        return res.status(400).json({ msg: 'Cannot find match.' });
+    }
+
+    // Success message and returns match
+    console.log('Match successfully retrieved!');
+    return res.status(200).send(match);
 }
