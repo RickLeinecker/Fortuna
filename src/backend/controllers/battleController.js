@@ -179,8 +179,6 @@ exports.reportResults = async (req: Request, res: Response) => {
 
 			// Save battle winner and users money
 			await battle.save();
-			await userOne.save();
-			await userTwo.save();
 		}
 		else if (winner === 1) { // userOne victory
 
