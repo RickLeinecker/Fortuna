@@ -15,7 +15,8 @@ const battleController = require('../controllers/battleController');
 
 // Gets each users favorite tank
 // Header: x-auth-token
-// Body: challengerTankId and challengeeId
+// Body: challengerTankId (logged in user's tank id) and 
+// personBeingChallengedId (opponent's user id)
 // Returns battle record id -- can easily be changed to the whole record if needed
 router.post('/prepareMatch', [
     check('challengerTankId', 'challengerTankId is required')
