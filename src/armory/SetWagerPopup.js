@@ -37,7 +37,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 	// Once mounted, get the user's currency, wager, and favorite tank.
 	componentDidMount(): void {
 		getUserAPICall(user => {
-			this.setState({userCurrency: user.money, userWager: user.wager});
+			this.setState({userCurrency: user.money, currentWager: user.wager});
 		});
 
 		getFavoriteTank(tank => {
@@ -111,7 +111,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 					<div className="wagerTank">
 						{this.state.currentWagerTank.tankName + ' '} 
 						<label>
-							for {this.state.userWager}
+							for {this.state.currentWager}
 						</label>
 					</div>
 				}</label>
