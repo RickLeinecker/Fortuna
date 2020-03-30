@@ -4,6 +4,9 @@ import * as React from 'react';
 import Replay from '../globalComponents/Replay.js';
 import getReplayListAPICall from '../globalComponents/getReplayListAPICall.js';
 import Cookies from 'universal-cookie'
+import {setMatchForBattleground} from '../battleground/setTanksToFightInBattleground.js';
+import { verifyLink } from '../globalComponents/verifyLink.js';
+import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
 
 type Props = {||};
 
@@ -46,6 +49,12 @@ class Replays extends React.Component<Props, State> {
 		return 'Unable to get result.';
 	}
 
+	watchReplay(replay: Replay): void {
+		setReturnToFromBattlegroundLink('/BattleArena');
+		setMatchForBattleground(replay.replayId);
+		window.location.href=verifyLink('/Battleground');
+	}
+
 	render(): React.Node {
 		return (
 			<div className="replayTable">
@@ -64,7 +73,7 @@ class Replays extends React.Component<Props, State> {
 							<tr>
 								<td>{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td>{this.getWinner(replay)}</td>
-								<td><button className="smallbtn">View Replay</button></td>
+								<td><button className="smallbtn" onClick={() => this.watchReplay(replay)}>View Replay</button></td>
 								<td>{replay.prizeMoney}</td>
 								<td>{(this.getWinner(replay) !== this.state.myUsername) ? '-' + replay.eloExchanged : '+' + replay.eloExchanged}</td>
 							</tr>

@@ -8,6 +8,7 @@ class Replay {
 	winner: -1|0|1|2;
 	prizeMoney: number;
 	eloExchanged: number;
+	replayId: string;
 
 	constructor(
 		tankOneName: string,
@@ -16,7 +17,8 @@ class Replay {
 		playerTwoName: string,
 		winner: -1|0|1|2,
 		prizeMoney: number,
-		eloExchanged: number
+		eloExchanged: number,
+		replayId: string,
 	) {
 		this.tankOneName=tankOneName;
 		this.tankTwoName=tankTwoName;
@@ -25,6 +27,7 @@ class Replay {
 		this.winner=winner;
 		this.prizeMoney=prizeMoney;
 		this.eloExchanged=eloExchanged;
+		this.replayId=replayId;
 	}
 }
 
