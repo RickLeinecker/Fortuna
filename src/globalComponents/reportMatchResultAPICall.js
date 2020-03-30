@@ -1,8 +1,6 @@
 //@flow strict
 
 import getLoginToken from './getLoginToken.js';
-import User from './User.js';
-import Tank from '../tanks/Tank.js';
 
 //gets the user when passed a token stored as the login token
 function reportMatchResultAPICall(winner: 0|1|2, matchId: string) {
