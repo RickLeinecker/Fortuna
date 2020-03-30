@@ -45,6 +45,17 @@ class SetWagerPopup extends React.Component<Props, State> {
 		});
 	}
 
+	// If the name of the wager tank is changed, update the currentWagerTank.
+	updateWagerTankName(newName: string): void {
+		if(this.state.currentWagerTank == null) {
+			console.log('Cannot find a selected tank');
+			return;
+		}
+		const newWagerTank: Tank = this.state.currentWagerTank;
+		newWagerTank.tankName = newName;
+		this.setState({currentWagerTank: newWagerTank});
+	}
+
 	handleWagerClick(): void {
 		// Error handling.
 		if (this.state.userWager > this.state.userCurrency) {
