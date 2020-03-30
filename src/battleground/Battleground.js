@@ -232,7 +232,7 @@ class Battleground extends React.Component<Props> {
 	_resizeCanvas(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const targetWidth=canvas.clientWidth;
-		const targetHeight=targetWidth*8/16;
+		const targetHeight=targetWidth/200*120;
 		if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
 			canvas.width = targetWidth;
 			canvas.height = targetHeight;
