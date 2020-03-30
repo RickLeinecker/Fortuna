@@ -24,7 +24,7 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
         type: [String],
         default: ['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty']
     },
-    // Casus code in the form of a JSON object. Default null on creation.
+    // Casus code in the form of a JSON object. Default Empty Bounding Box on creation.
     casusCode: {
         type: Object,
         default: { 
