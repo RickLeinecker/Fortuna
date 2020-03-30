@@ -16,6 +16,8 @@ import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
+import { ToastContainer , toast } from 'react-toastify';
+import getAllUsers from '../globalComponents/getAllUsersAPICall.js';
 
 type Props = {||};
 
@@ -56,11 +58,13 @@ class BattleArena extends React.Component<Props, State> {
 		// NEED TO GET PLAYER LIST AND CHOOSE RANDOM PLAYER.
 
 		if (player==null) {
-			throw new Error('Adam has to implement this still');
+
+			toast.error('No player to challenge.');
+			return;
 		}
 		const myTank=this.state.selectedTank;
 		if (myTank==null) {
-			throw new Error('Adam will handle this with a toast!');
+			toast.error('No selected tank for challenging.');
 		}
 
 		prepareMatchAPICall(myTank, player, matchId => {
@@ -80,7 +84,7 @@ class BattleArena extends React.Component<Props, State> {
 				linkName="/MainMenu"
  			/>
 			<div className="column baleft">
-				<h3>Find First Challenger Available</h3>
+				<h5>Challenge First Player Available</h5>
 				<ChallengePlayerPopup 
 					onChallengePlayer = {(user) => this.onChallengePlayer(user)}
 					playerChallenged = {null}
@@ -106,6 +110,7 @@ class BattleArena extends React.Component<Props, State> {
 			<div className="column baright">
 				<Leaderboard />
 			</div>
+			<ToastContainer />
 		</div>
 		);
 	}
