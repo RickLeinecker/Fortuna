@@ -15,7 +15,8 @@ type Props = {|
 type State = {|
 	challengePlayerOpen: boolean,
 	quickplayPlayer: User,
-	userElo: number
+	userElo: number,
+	myUsername: string
 |};
 
 // Challenge Player Component. Creates a Popup to prevent accidental challenges.
@@ -40,14 +41,15 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		this.state = {
 			challengePlayerOpen: false,
 			quickplayPlayer: blankUser,
-			userElo: 0
+			userElo: 0,
+			myUsername: ''
 		}
 	}
 
 	// Once mounted, get the current user's elo.
 	componentDidMount(): void {
 		getUser(user => {
-			this.setState({userElo: user.elo});
+			this.setState({userElo: user.elo, myUsername: user.username});
 		});
 	}
 
@@ -56,15 +58,22 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		getAllUsers(users => {
 			const similarSkilledUsers: Array<User> = [];
 			for(const user of users) {
-				if(((user.elo - this.state.userElo) >= -100 || (user.elo - this.state.userElo) <= 100) && user.wager > 0) {
+				if(
+					((user.elo - this.state.userElo) >= -100 
+					&& (user.elo - this.state.userElo) <= 100) 
+					&& user.wager > 0
+					&& user.username !== this.state.myUsername
+				) {
 					similarSkilledUsers.push(user);
 				}
 			}
-			if(similarSkilledUsers == null) {
+			if(similarSkilledUsers.length === 0) {
 				toast.error('No users found.');
-			} else {
+				return;
+			} 
+			else {
 				// If a user is found. Open the challenge popup and find a random user.
-				this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.random() * Math.floor(similarSkilledUsers.length - 1)]});
+				this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.floor(Math.random() * similarSkilledUsers.length)]});
 			}
 		});
 	}
@@ -88,6 +97,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		
 		return (
 			<div>
+				<ToastContainer />
 				<button 
 					onClick={(this.props.playerChallenged == null) ? () => this.quickplay() : () => this.setState({challengePlayerOpen: true})} 
 					className={(this.props.playerChallenged == null) ? "btn" : "clearbtn"}
@@ -100,7 +110,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<h4>
-							Challenge {(this.props.playerChallenged?.username ?? this.state.quickplayPlayer.username + ' ')} 
+							Challenge {(this.props.playerChallenged?.username ?? this.state.quickplayPlayer.username) + ' '} 
 							with ${this.props.playerChallenged?.wager ?? this.state.quickplayPlayer.wager}?
 						</h4>
 						{challengeButton}{cancelButton}

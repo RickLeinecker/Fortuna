@@ -17,8 +17,6 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/User.js';
 import prepareMatchAPICall from '../globalComponents/prepareMatchAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
-import getAllUsers from '../globalComponents/getAllUsersAPICall.js';
-import getUser from '../globalComponents/getUserAPICall.js';
 
 type Props = {||};
 
