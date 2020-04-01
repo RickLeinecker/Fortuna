@@ -37,7 +37,7 @@ class Vec {
 		return Math.sqrt(this.mag2());
 	}
 
-	unit():Vec {
+	unit(): Vec {
 		return this.scale(1/this.mag());
 	}
 
@@ -47,6 +47,13 @@ class Vec {
 		const newY=this.x*Math.sin(theta)+this.y*Math.sin(PI/2+theta);
 		return new Vec(newX, newY);
 	}
+
+	angle(): number{ 
+		const TAU=Math.PI*2;
+		const atan=Math.atan2(this.y, this.x);
+		return (atan+TAU)%TAU;
+	}
+
 }
 
 export default Vec;

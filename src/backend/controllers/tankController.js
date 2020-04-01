@@ -10,21 +10,37 @@ const { validationResult } = require('express-validator');
 
 
 exports.getFavorite = async (req: Request, res: Response) => {
-	await User.findById(req.user.id, 'favoriteTank', (err: Error, foundUser: User) => {
-		if (err) {
-			console.error(err.message);
-
+	try {
+		// Find user using auth token and select their favorite tank field
+		const myUser = await User.findById(req.user.id, 'favoriteTank');
+		
+		if (myUser == null) {
+			console.log('User not found in DB');
 			return res
-				.status(500)
-				.json({ msg: 'Could not find user in DB'});
-		} 
-		else {
-			console.log('Favorite retrieved');
-			return res
-				.status(200)
-				.send(foundUser.favoriteTank);
+				.status(404)
+				.json({ msg: 'User not found in DB'});
 		}
-	});
+
+		const favoritedTank = await Tank.findById(myUser.favoriteTank);
+		
+		if (favoritedTank == null) {
+			console.log('Tank not found in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Tank not found in DB'});
+		}
+
+		console.log('favoriteTank successfully retrieved');
+		return res
+			.status(200)
+			.send(favoritedTank);
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not get favorite'});
+	}
+	
 }
 
 exports.favoriteTank = async (req: Request, res: Response) => {
@@ -66,9 +82,62 @@ exports.userTanks = async (req: Request, res: Response) => {
 }
 
 exports.assignTank = async (req: Request, res: Response) => {
+	// Check if all the fields are input correctly from the frontend
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.log('bad request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Setup the new tank.
 	const tank = new Tank();
-	tank.userId = req.user.id;
+	tank.userId = req.body.userId;
 	tank.tankName = req.body.tankName;
+	tank.components = req.body.components;
+
+	// Get user to update inventory
+	let user = await User.findById(tank.userId);
+	if (!user) {
+		console.error('Tank User not in DB');
+		return res
+			.status(400)
+			.json({ msg: 'Tank user not found in DB' })
+	}
+
+	// Use up components
+	for (const compsOut of tank.components) {
+		if (compsOut === 'empty') {
+			continue;
+		}
+
+		if (user.inventory.tankComponents[compsOut] === 0) {
+			console.error(`Not enough ${compsOut} components to use.`);
+			return res
+				.status(400)
+				.json({ msg: `Not enough ${compsOut} components to use.` });
+		}
+		user.inventory.tankComponents[compsOut] -= 1;
+	}
+
+	// Update user
+	await user.save((err: Error) => {
+		if (err) {
+			console.error('Failed to save user inventory.');
+			return res
+				.status(500)
+				.json({ msg: 'Failed to save user inventory.' });
+		} 
+		else {
+			console.log('User inventory saved successfully!');
+		}
+	});
+
+	// Save new tank
 	await tank.save((err: Error) => {
         if (err) {
 			console.error(err.message);
@@ -87,7 +156,6 @@ exports.assignTank = async (req: Request, res: Response) => {
 }
 
 exports.tankUpdate = async (req: Request, res: Response) => {
-
 	// Check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
 
@@ -99,7 +167,6 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	
 	// Parse body
 	const { tankName, userId, components, isBot } = req.body;
 
@@ -118,7 +185,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Get user to update inventory
-	let user = User.findById(tank.body.userId);
+	let user = await User.findById(userId);
 	if (!user) {
 		console.error('Tank User not in DB');
 		return res
@@ -127,7 +194,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Replenish components
-	for (const compsIn in tank.tankComponents) {
+	for (const compsIn of tank.components) {
 		if (compsIn === 'empty') {
 			continue;
 		}
@@ -135,7 +202,7 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Use up components
-	for (const compsOut in req.body.tankComponents) {
+	for (const compsOut of req.body.components) {
 		if (compsOut === 'empty') {
 			continue;
 		}
@@ -150,12 +217,15 @@ exports.tankUpdate = async (req: Request, res: Response) => {
 	}
 
 	// Update user
-	user.save((err: Error) => {
+	await user.save((err: Error) => {
 		if (err) {
 			console.error('Failed to save user inventory.');
 			return res
 				.status(500)
 				.json({ msg: 'Failed to save user inventory.' });
+		} 
+		else {
+			console.log('User inventory saved successfully!');
 		}
 	});
 
@@ -226,6 +296,19 @@ exports.deleteTank = async (req: Request, res: Response) => {
 		return res.status(400).json({ msg: 'Could not find tank in DB' });
 	}
 
+	// Check if this the only tank left for the user
+	const tankList = await Tank.find({ userId: tank.userId });
+	if (!tankList) {
+		console.error('Could not get list of user tanks.');
+		return res.status(500).json({ msg: 'Could not find list of user tanks.' });
+	}
+
+	// tankList is an array of the objects, so you can access the length property
+	if (tankList.length === 1) {
+		console.error('This is the last tank of the user.');
+		return res.status(500).json({ msg: 'You cannot delete your last tank.' });
+	}
+
 	// Add components back to user inventory
 	let user = await User.findById({ _id: tank.userId });
 	if (!user) {
@@ -257,4 +340,20 @@ exports.deleteTank = async (req: Request, res: Response) => {
 	});
 	
 	return res.status(200).json({ msg: 'Successfully deleted Tank' });
+}
+
+exports.getBotTanks = async (req: Request, res: Response) => {
+	try {
+		const botTanks = await Tank.find({ isBot: true });
+		if (!botTanks) {
+			console.error('Could not retrieve bot tanks.');
+			return res.status(500).json({ msg: 'Could not retrieve bot tanks.' });
+		}
+
+		console.log('Retrieved bot tanks!');
+		return res.status(200).send(botTanks);
+	} catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Could not get bot tanks.' });
+	}
 }

@@ -79,4 +79,36 @@ router.get('/retrieveUser/:userId', userController.retrieveUser);
 // Returns an array of json users including the elo, _id, and userName
 router.get('/leaderboard', userController.getLeaders);
 
+// Set the wager amount for a user account
+// Route call: /setWager
+// Header: x-auth-token
+// Body: wager: int
+// returns the updated user doc
+router.patch('/setWager', [
+    check('wager', 'Please enter the wager amount you would like to set')
+        .isInt()
+], auth,  userController.setWager);
+
+// Edit user account information
+// Route call: /editUser
+// Header: x-auth-token
+// Body: userName, password, email
+// Returns the updated user document
+router.patch('/editUser', [
+    check('email', 'Enter a valid email')
+        .isEmail(),
+    check('userName', 'Enter a valid username of 3 or more characters')
+        .isString()
+        .isLength({ min: 3 }),
+    check('password', 'Enter a valid password of 5 or more characters')
+        .isString()
+        .isLength({ min: 5 })
+], auth,  userController.editUser);
+
+// Delete user account
+// Route call: /deleteUser
+// Header: x-auth-token
+// Returns a success message that the user has been deleted.
+router.delete('/deleteUser', auth,  userController.deleteUser);
+
 module.exports = router;

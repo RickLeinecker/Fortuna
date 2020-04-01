@@ -27,7 +27,7 @@ body {
 	margin-right: auto;
 	height: 200px;
 	text-align: center;
-	overflow:hidden;
+	overflow: hidden;
 	overflow-y: scroll;
 	list-style-type: none;
 }
@@ -215,13 +215,18 @@ body {
 
 /* Leaderboard Styling */
 .leaderboard {
-	padding-left: 10px;
+	padding: 10px;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top: 50%;
 	background-color: #04213F;
 	border: 4px solid black;
 	border-radius: 8px;
+}
+
+.leaderboard td {
+	border-left: none;
+	border-right: none;
+	padding: 5px 25px 0px 0px;
 }
 
 /* Button Styling */
@@ -247,6 +252,32 @@ body {
 }
 
 .btn:hover {
+	color: #04CCFF;
+	background: #000921;
+	border: 2px solid #04CCFF;
+}
+
+.smallbtn {
+	color: #000921;
+	background: #04CCFF;
+	border: 2px solid #04CCFF;
+	border-radius: 3px;
+	width: 100px; 
+}
+
+.smallbtn:disabled {
+	background-color: #999999;
+	border: 2px solid #000921
+}
+
+.smallbtn:disabled:hover {
+	cursor: default;
+	background-color: #999999;
+	color: #000921;
+	border: 2px solid #000921;
+}
+
+.smallbtn:hover {
 	color: #04CCFF;
 	background: #000921;
 	border: 2px solid #04CCFF;
@@ -340,4 +371,11 @@ select {
 	border: 1px solid #ced4da;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+
+/*this is just an inline class for anything that needs to be inline */
+.inline {
+	display: inline-block;
 }

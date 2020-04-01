@@ -14,11 +14,14 @@ import type {ImageName} from './ImageName.js';
 let initialized=false;
 const allImages: {[ImageName]: Image}= {
 	DIRT_BACKGROUND: new Image(),
+	SHADOW: new Image(),
 	WALL: new Image(),
 
 	C4: new Image(),
 	MINE: new Image(),
 	MINE_UNTRIGGERED: new Image(),
+	MISSILE_TRACKER_DART: new Image(),
+	MISSILE_TRACKER_TARGET: new Image(),
 
 	EMBER1: new Image(),
 	EMBER2: new Image(),
@@ -81,17 +84,20 @@ function imageLoaderInit(): void {
 
 	//------------------ADD MORE IMAGE HERE---------------------------
 	allImages.DIRT_BACKGROUND.src='DirtBackground.png';
+	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
 
 	allImages.C4.src='c4.png';
 	allImages.MINE.src='mine.png';
 	allImages.MINE_UNTRIGGERED.src='mineUntriggered.png';
+	allImages.MISSILE_TRACKER_DART.src='MissileTrackingDart.png';
+	allImages.MISSILE_TRACKER_TARGET.src='MissileTrackingTarget.png';
 
 	allImages.EMBER1.src='Ember1.png';
 	allImages.EMBER2.src='Ember2.png';
 	allImages.SMOKE1.src='Smoke1.png';
 	allImages.SMOKE2.src='Smoke2.png';
-	allImages.SMOKE3.src='Smoke3.png';
+	allImages.SMOKE3.src='smoke3.png';
 	allImages.ELECTRICITY.src='Electricity.png';
 	allImages.ELECTRICITY_FLIPPED.src='ElectricityFlipped.png';
 	allImages.STATIC.src='static.png';

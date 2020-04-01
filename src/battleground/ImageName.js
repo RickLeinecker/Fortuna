@@ -3,12 +3,15 @@
 type ImageName = 
 	//general
 	'DIRT_BACKGROUND' | 
+	'SHADOW' | 
 	'WALL' | 
 
 	//deployables
 	'C4' |
 	'MINE' |
 	'MINE_UNTRIGGERED' |
+	'MISSILE_TRACKER_DART' |
+	'MISSILE_TRACKER_TARGET' |
 
 	//particles
 	'EMBER1' |

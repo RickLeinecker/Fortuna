@@ -13,15 +13,16 @@ import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../armory/TankComponent.js';
+import reviveCasusBlock from '../casus/reviveCasusBlock.js';
 
 function getTestTank(id: number=1): Tank {
-	const position=id===1?new Vec(20, -20):new Vec(50, 40);
+	const position=id===1?new Vec(-80, -40):new Vec(50, 40);
 	const toReturn: Tank = new Tank(
 		position,
 		new Chassis(id===1?'moddableLight':'heavy'),  
 		new Gun(id===1?'laser':'plasma', false),
 		new Gun(id===1?'missile':'pulseLaser', true),
-		new Scanner(id===1?'mediumRangeScanner':'shortRangeScanner', false, false),
+		new Scanner(id===1?'longRangeScanner':'shortRangeScanner', false, false),
 		new TankPart('empty'),
 		new TankPart('empty'),
 		new Jammer(id===1?'mediumRangeJammer':'longRangeJammer'),
@@ -34,7 +35,7 @@ function getTestTank(id: number=1): Tank {
 		'',
 		'',
 	);
-	loadCasus(blocks => {toReturn.casusCode = blocks});
+	//loadCasus(blocks => {toReturn.casusCode = blocks});
 	return toReturn;
 }
 
@@ -48,6 +49,9 @@ function getTank(tank: BackendTank): Tank {
 	const jammers: TankComponent = tank.components[6];
 	const treads: TankComponent = tank.components[7];
 	const items: Array<TankComponent> = [tank.components[8], tank.components[9], tank.components[10]];
+	const revivedCasusCode: ContainerBlock = tank.casusCode!=null ? 
+		reviveCasusBlock(tank.casusCode) : 
+		new ContainerBlock();
 	
 	// Setup return value.
 	const toReturn: Tank = new Tank (
@@ -67,12 +71,11 @@ function getTank(tank: BackendTank): Tank {
 		new TankPart(items[0]),
 		new TankPart(items[1]),
 		new TankPart(items[2]),
-		getEmptyCasusCode(),
+		revivedCasusCode,
 		tank.tankName,
 		tank._id,
 		tank.userId,
 	)
-	loadCasus(blocks => {toReturn.casusCode = blocks}, tank._id);
 	return toReturn;
 }
 

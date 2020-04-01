@@ -4,6 +4,7 @@ import Vec from '../casus/blocks/Vec.js';
 import TankPart from './TankPart.js'
 import Gun from './Gun.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
+import {getImage} from '../battleground/ImageLoader.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
@@ -21,7 +22,12 @@ import DoubleListValue from '../casus/interpreter/DoubleListValue.js';
 import GameObject from '../battleground/GameObject.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import Mine from '../battleground/gameobjects/Mine.js';
-import {createGreenParticle, createEmberParticle} from '../battleground/gameobjects/Particle.js';
+import {
+	createGreenParticle, 
+	createEmberParticle, 
+	createSmokeCloud
+} from '../battleground/gameobjects/Particle.js';
+import Bullet from '../battleground/gameobjects/Bullet.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -29,6 +35,8 @@ import {
 	USE_C4_VAR_NAME,
 	USE_NITRO_REPAIR_VAR_NAME,
 	USE_OVERDRIVE_VAR_NAME,
+	USE_MISSILE_TRACKER_VAR_NAME,
+	TURRET_DIRECTION_VAR_NAME,
 
 	FORWARD_MOVEMENT_VAR_NAME,
 	TARGET_DIRECTION_VAR_NAME,
@@ -52,6 +60,7 @@ const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
 const OVERDRIVE_LENGTH=30*4;
+const MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD=20;
 
 class Tank extends GameObject {
 	//game state
@@ -64,6 +73,9 @@ class Tank extends GameObject {
 	nitroRepairTimerLeft: number;
 	haveOverdrive: boolean;
 	overdriveTimerLeft: number;
+	haveMissileTracker: boolean;
+	health: number;
+	createSmokeCounter=0;
 
 	// parts: 
 	chassis: Chassis;
@@ -112,6 +124,7 @@ class Tank extends GameObject {
 		tankName: string,
 		_id: string,
 		userId: string,
+		
 	) {
 		super(position);
 
@@ -133,18 +146,27 @@ class Tank extends GameObject {
 
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
-		this.rotation = Math.PI*0.8;
+		this.rotation = Math.PI*0.5;
 		this.haveC4 = true; //TODO: remove this, it is just for testing...
 		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
 		this.haveNitroRepair = true; //TODO: remove this, for testing...
 		this.nitroRepairTimerLeft = 0;
-
 		this.haveOverdrive = true; //TODO: remove this, just for testing...
 		this.overdriveTimerLeft = 0;
+		this.haveMissileTracker = true; //TODO: remove this, just for testing...
+		this.health = this._getArmorOffset();
 	}
 
 	update(battleground: Battleground): void {
+		if (this.getHealth()<=0) {
+			this.createSmokeCounter--;
+			if (this.createSmokeCounter<=0) {
+				this.createSmokeCounter=MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD;
+				createSmokeCloud(this.getPosition(), battleground);
+			}
+			return;
+		}
 		this.executeCasusFrame();	
 		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks(), battleground);
 	}
@@ -156,7 +178,6 @@ class Tank extends GameObject {
 	}
 	
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
-
 		//movement stuff
 		const otherTanks = tanks.filter(otherTank => otherTank !== this);
 		const forwardMovementUnclamped = this._getDouble(FORWARD_MOVEMENT_VAR_NAME);
@@ -247,6 +268,15 @@ class Tank extends GameObject {
 		}
 		//end of overdrive stuff
 		
+		//missile tracking stuff
+		if (this.haveMissileTracker && this._getBoolean(USE_MISSILE_TRACKER_VAR_NAME)) {
+			this.haveMissileTracker=false;
+			const targetAngle=this._getDouble(TURRET_DIRECTION_VAR_NAME);
+			const bullet=new Bullet(this.getPosition(), targetAngle, this, 'MISSILE_TRACKER_DART');
+			battleground.createGameObject(bullet);
+		}
+		//end of missile tracking stuff
+		
 		//update tank parts if I need to
 		for (const part: ?TankPart of this.parts) {
 			if (part != null) {
@@ -302,6 +332,7 @@ class Tank extends GameObject {
 	}
 
 	render(drawer: ImageDrawer): void {
+		drawer.draw(getImage('SHADOW'), this.getPosition(), 16, this.rotation);
 		this.treads.drawSelf(drawer, this.getPosition(), this.rotation);
 		if (this.secondaryGun!=null) {
 			this.secondaryGun.drawSelf(drawer, this.getPosition(), this.rotation);
@@ -408,7 +439,7 @@ class Tank extends GameObject {
 		}
 		return ans;
 	}
-
+	
 	getUsingOverdrive(): boolean {
 		return this.overdriveTimerLeft>0;
 	}
@@ -416,6 +447,22 @@ class Tank extends GameObject {
 	getJammed(): void {
 		if (this.scanner != null) {
 			this.scanner.getJammed();
+		}
+	}
+
+	takeDamage(damageAmount: number): void {
+		this.health-=damageAmount;
+		const maxHealth=this._getArmorOffset();
+		console.log('Took damage, now have '+this.health+' / '+maxHealth);
+	}
+
+	getHealth(): number {
+		return this.health;
+	}
+
+	setTurretAngleForDisplayOnly(turretAngle: number): void {
+		if (this.mainGun != null) {
+			this.mainGun.displayAngle=turretAngle;
 		}
 	}
 

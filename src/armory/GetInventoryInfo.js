@@ -10,98 +10,101 @@ import Component from './Component.js';
 const allComponentTypes: {[TankComponent]: ComponentType} = {
 
 	// Chassis
-	"moddableLight": "chassis",
-	"light": "chassis",
-	"moddable": "chassis",
-	"heavy": "chassis",
-	"moddableHeavy": "chassis",
+	moddableLight: "chassis",
+	light: "chassis",
+	moddable: "chassis",
+	heavy: "chassis",
+	moddableHeavy: "chassis",
 
 	// Weapons
-	"machineGun": "weapon",
-	"grenadeLauncher": "weapon",
-	"missile": "weapon",
-	"shotgun": "weapon",
-	"vulcanCannon": "weapon",
-	"laser": "weapon",
-	"plasma": "weapon",
-	"pulseLaser": "weapon",
-	"lancer": "weapon",
-	"deathRay": "weapon",
+	machineGun: "weapon",
+	grenadeLauncher: "weapon",
+	missile: "weapon",
+	shotgun: "weapon",
+	vulcanCannon: "weapon",
+	laser: "weapon",
+	plasma: "weapon",
+	pulseLaser: "weapon",
+	lancer: "weapon",
+	deathRay: "weapon",
 
 	// Scanners
-	"shortRangeScanner": "scanner",
-	"mediumRangeScanner": "scanner",
-	"longRangeScanner": "scanner",
+	shortRangeScanner: "scanner",
+	mediumRangeScanner: "scanner",
+	longRangeScanner: "scanner",
 
 	// Scanner Addons
-	"itemScanner": "scannerAddon",
-	"antiJammerScanner": "scannerAddon",
+	itemScanner: "scannerAddon",
+	antiJammerScanner: "scannerAddon",
 
 	// Jammers
-	"shortRangeJammer": "jammer",
-	"mediumRangeJammer": "jammer",
-	"longRangeJammer": "jammer",
+	shortRangeJammer: "jammer",
+	mediumRangeJammer: "jammer",
+	longRangeJammer: "jammer",
 
 	// Treads
-	"advancedTreads": "treads",
-	"fastTreads": "treads",
-	"armoredTreads": "treads",
-	"heavilyArmoredTreads": "treads",
+	advancedTreads: "treads",
+	fastTreads: "treads",
+	armoredTreads: "treads",
+	heavilyArmoredTreads: "treads",
 
 	// Single-Use Items
-	"mine": "item",
-	"c4": "item",
-	"nitroRepair": "item",
-	"overdrive": "item",
-	"missileTrackingBeacon": "item",
+	mine: "item",
+	c4: "item",
+	nitroRepair: "item",
+	overdrive: "item",
+	missileTrackingBeacon: "item",
 };
 
 // Contains all components and their point values.
 const allComponentPoints: {[TankComponent]: number} = {
 	
 	// Chassis
-	"moddableLight": -1,
-	"light": 0,
-	"moddable": -1,
-	"heavy": 0,
-	"moddableHeavy": -1,
+	moddableLight: -1,
+	light: 0,
+	moddable: -1,
+	heavy: 0,
+	moddableHeavy: -1,
 
 	// Weapons
-	"machineGun": 1,
-	"grenadeLauncher": 1,
-	"missile": 1,
-	"shotgun": 1,
-	"vulcanCannon": 1,
-	"laser": 1,
-	"plasma": 2,
-	"pulseLaser": 1,
-	"lancer": 2,
-	"deathRay": 2,
+	machineGun: 1,
+	grenadeLauncher: 1,
+	missile: 1,
+	shotgun: 1,
+	vulcanCannon: 1,
+	laser: 1,
+	plasma: 2,
+	pulseLaser: 1,
+	lancer: 2,
+	deathRay: 2,
 
 	// Scanners
-	"shortRangeScanner": 1,
-	"mediumRangeScanner": 2,
-	"longRangeScanner": 3,
-	"itemScanner": 1,
-	"antiJammerScanner": 1,
+	shortRangeScanner: 1,
+	mediumRangeScanner: 2,
+	longRangeScanner: 3,
+	itemScanner: 1,
+	antiJammerScanner: 1,
 
 	// Jammers
-	"shortRangeJammer": 1,
-	"mediumRangeJammer": 1,
-	"longRangeJammer": 1,
+	shortRangeJammer: 1,
+	mediumRangeJammer: 1,
+	longRangeJammer: 1,
 
 	// Treads
-	"advancedTreads": 2,
-	"fastTreads": 1,
-	"armoredTreads": 1,
-	"heavilyArmoredTreads": 2,
+	advancedTreads: 2,
+	fastTreads: 1,
+	armoredTreads: 1,
+	heavilyArmoredTreads: 2,
 
 	// Single-Use Items
-	"mine": 1,
-	"c4": 2,
-	"nitroRepair": 1,
-	"overdrive": 2,
-	"missileTrackingBeacon": 2,
+	mine: 1,
+	c4: 2,
+	nitroRepair: 1,
+	overdrive: 2,
+	missileTrackingBeacon: 2,
+
+	// Empty
+	empty: 0,
 };
 
 type InventoryType = {[TankComponent]: number};

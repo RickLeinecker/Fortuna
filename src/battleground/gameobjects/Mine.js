@@ -13,6 +13,8 @@ const MINE_WIDTH=6;
 const ARM_TIME=100;
 const ACTIVATE_DISTANCE=15;
 const TRIGGERED_UNTIL_EXPLOSION=25;
+const MINE_DAMAGE_RADIUS=20;
+const MINE_DAMAGE=30;
 
 class Mine extends GameObject {
 
@@ -75,6 +77,12 @@ class Mine extends GameObject {
 	_explode(battleground: Battleground): void {
 		battleground.deleteGameObject(this);
 		createSmokeCloud(this.getPosition(), battleground);
+		const tanks=battleground.getTanks();
+		for (const t:Tank of tanks) {
+			if (t.getPosition().sub(this.getPosition()).mag()<MINE_DAMAGE_RADIUS) {
+				t.takeDamage(MINE_DAMAGE);
+			}
+		}
 	}
 
 }

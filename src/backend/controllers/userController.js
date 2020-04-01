@@ -15,6 +15,7 @@ require("regenerator-runtime");
 const User = require('../../models/userModel');
 const Token = require('../../models/tokenModel');
 const Tank = require('../../models/tankModel');
+const MarketSale = require('../../models/marketSaleModel');
 
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
@@ -36,7 +37,7 @@ exports.register = async (req: Request, res: Response) => {
 	const { userName, email, password } = req.body;
 
 	// Attempts to add User to the database
-	try{
+	try {
 		// See if a user already exists with that username.
 		let user = await User.findOne({ userName });
 		if(user != null) {
@@ -78,7 +79,7 @@ exports.register = async (req: Request, res: Response) => {
 		// Create initial tank for user
 		let tank = new Tank();
 		tank.userId = user.id;
-		tank.tankName = 'Starter Tank';
+		tank.tankName = `${userName}'s Starter Tank`;
 		tank.components = ['moddable', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
 		tank.casusCode = { 
 			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
@@ -127,14 +128,22 @@ exports.register = async (req: Request, res: Response) => {
 			}
 		});
 
+		const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+
+		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
+
 		// Set email options
 		const mailOptions = {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Confirmation Token',
-			text: `Greetings Commander ${user.userName}!
-			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
-			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
+			text: textBody,
+			html: htmlBody
 		};
 
 		// Send confirmation email with token
@@ -352,15 +361,24 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 			}
 		});
 
+		const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'We recieved word that you needed to reconfirm your email.\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+
+		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>We recieved word that you needed to reconfirm your email.<br />
+		Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;		
+
 		// Set email options
 		const mailOptions = {
 			from: 'Fortuna Project <no-reply@fortunaproject.com>',
 			to: user.email,
 			subject: 'Fortuna Account Reconfirmation Token',
-			text: `Greetings Commander ${user.userName}!
-			We recieved word that you needed to reconfirm your email once more.
-			Please verify your Fortuna account by copying and pasting the link below into your browser:\n
-			http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}`
+			text: textBody,
+			html: htmlBody
 		};
 
 		// Send confirmation email with token
@@ -440,6 +458,126 @@ exports.allUsers = async (req: Request, res: Response) => {
 			res.send(users);
 			console.log('Retrieved all users.');
 	});
+}
+
+// Still need to add daily stipend
+exports.setWager = async (req: Request, res: Response) => {
+	try {
+		const user = await User.findById(req.user.id, 'wager money wagerDate');
+
+		// Check if found
+		if (user == null){
+			console.log('Could not find user in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find user in db'});
+		}
+
+		// One day's time. * 1000 because it's in milliseconds
+		const aDay = 60 * 60 * 24 * 1000;
+
+		// If a user has never made a wager or its been 24hrs since last stipend give them their stipend and update wagerDate
+		if (user.wagerDate == null || (new Date - user.wagerDate) > aDay) {
+			const newBalance = user.money + 5000;
+			user.money = newBalance;
+			user.wagerDate = new Date();
+			console.log('Applied stipend');
+		}
+		
+		// Add back the balance of the original wager
+		// Theres gotta be a cleaner way to do this but idk
+		const addBack = user.money + user.wager;
+		user.money = addBack;
+
+		if (user.money < req.body.wager) {
+			console.log('User does not have enough money to set that wager');
+			return res
+				.status(400)
+				.json({ msg: 'User does not have enough money'});
+		}
+		else {
+			// change wager amount and take that money from their balance
+			const take = user.money - req.body.wager;
+			user.money = take;
+
+			user.wager = req.body.wager;
+
+			await user.save();
+
+			console.log('Wager successfully updated');
+			return res
+				.status(200)
+				.send(user);
+		}
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Failed to update user wager value'});
+	}
+}
+
+exports.editUser = async (req: Request, res: Response) => {
+	// Creates a place where errors that fail validation can accrue.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Check if user is in DB
+	const user = await User.findById(req.user.id, 'userName, password, email');
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user to edit' });
+	}
+
+	// Deconstruct body
+	const { userName, password, email } = req.body;
+
+	// Creates salt with 10 rounds(recommended)
+	const salt = await bcrypt.genSalt(10);
+	// bcrypt hash passwords
+	const newPassword = await bcrypt.hash(password, salt);
+	
+	// Update User
+	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { userName: userName, password: newPassword, email: email }, { new: true });
+	if (!updatedUser) {
+		console.error('Failed to save user updates');
+		return res.status(500).json({ msg: 'Failed to save user changes' });
+	}
+
+	// Return updated user
+	console.log('Successfully updated user.');
+	return res.status(200).send(updatedUser);
+}
+
+exports.deleteUser = async (req: Request, res: Response) => {
+
+	// Check if user is in DB
+	const user = await User.findById(req.user.id);
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user to delete' });
+	}
+
+	// Remove all Market sales owned by user
+	await MarketSale.deleteMany({ sellerId: req.user.id });
+	console.log('Deleted user market sales.');
+
+	// Remove all Tanks owned by user
+	await Tank.deleteMany({ userId: req.user.id });
+	console.log('Deleted user tanks.');
+	
+	// Delete user itself
+	await User.deleteOne({ _id: req.user.id });
+	
+	// Return success message
+	console.log('Deleted user.');
+	return res.status(200).json({ msg: 'User account has been deleted.' });
 }
 
 

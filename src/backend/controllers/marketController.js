@@ -9,6 +9,9 @@ import MarketSale from '../../models/marketSaleModel';
 import User from '../../models/userModel';
 import Tank from '../../models/tankModel';
 
+// Master Seller Account
+const MASTER_ID = process.env.MASTER_SELLER;
+
 // Adds a Marketplace Sale
 // Different branches depending the itemType
 exports.addMarketSale = async (req: Request, res: Response) => {
@@ -39,6 +42,19 @@ exports.addMarketSale = async (req: Request, res: Response) => {
                 return res
                     .status(400)
                     .json({ msg: 'Tank does not exist under this user.' });
+            }
+
+            // Check if this the only tank left for the user
+            const tankList = await Tank.find({ userId: sellerId });
+            if (!tankList) {
+                console.error('Could not get list of user tanks.');
+                return res.status(500).json({ msg: 'Could not find list of user tanks.' });
+            }
+
+            // tankList is an array of the objects, so you can access the length property
+            if (tankList.length === 1) {
+                console.error('This is the last tank of the user.');
+                return res.status(500).json({ msg: 'You cannot delete your last tank.' });
             }
 
             // Make a new Marketplace Sale
@@ -367,22 +383,15 @@ exports.marketTransaction = async (req: Request, res: Response) => {
             }
 
             // Start transaction
-            buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                if (err) {
-                    console.error(err.message);
-                    return res
-                        .status(500)
-                        .json({ msg: 'Could not update buyer money.' });
-                }
-            });
-            await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                if (err) {
-                    console.error(err.message);
-                    return res
-                        .status(500)
-                        .json({ msg: 'Could not update seller money.' });
-                }
-            });
+            buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+            if (!buyer) {
+                console.error('Could not update buyer');
+                return res
+                    .status(500)
+                    .json({ msg: 'Could not update buyer' });
+            }
+            await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+            // Update tank ownership
             await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } }, (err: Error) => {
                 if (err) {
                     console.error(err.message);
@@ -415,22 +424,14 @@ exports.marketTransaction = async (req: Request, res: Response) => {
         if (sale.itemType === 'component') {
             try {
                 // Start transaction
-                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update buyer money.' });
-                    }
-                });
-                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update seller money.' });
-                    }
-                });
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                if (!buyer) {
+                    console.error('Could not update buyer');
+                    return res
+                        .status(500)
+                        .json({ msg: 'Could not update buyer' });
+                }
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
                 // Add items to buyer
                 buyer['inventory']['tankComponents'][sale.itemId] += sale.amount;
                 await buyer.save((err: Error) => {
@@ -442,15 +443,20 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                     }
                 });
 
-                // Remove the sale from database
-                await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not delete market sale.' });
-                    }
-                });
+                // Remove the sale from database if it does not belong to master account
+                if (sellerId !== String(MASTER_ID)) {
+                    console.log('Sale belongs to a user. Deleting.');
+                    await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+                        if (err) {
+                            console.error(err.message);
+                            return res
+                                .status(500)
+                                .json({ msg: 'Could not delete market sale.' });
+                        }
+                    });
+                } else {
+                    console.log('Sale belongs to master account. Not deleting.')
+                }
 
                 // Return current buyer
                 console.log('Successfully Bought Component(s)');
@@ -463,22 +469,14 @@ exports.marketTransaction = async (req: Request, res: Response) => {
         } else { // Casus Block
             try {
                 // Start transaction
-                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update buyer money.' });
-                    }
-                });
-                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not update seller money.' });
-                    }
-                });
+                buyer = await User.findByIdAndUpdate(buyerId, { $inc: { money: (sale.salePrice * -1) } }, { new: true });
+                if (!buyer) {
+                    console.error('Could not update buyer');
+                    return res
+                        .status(500)
+                        .json({ msg: 'Could not update buyer' });
+                }
+                await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
                 // Add items to buyer
                 buyer['inventory']['casusBlocks'][sale.itemId] += sale.amount;
                 await buyer.save((err: Error) => {
@@ -490,15 +488,20 @@ exports.marketTransaction = async (req: Request, res: Response) => {
                     }
                 });
 
-                // Remove the sale from database
-                await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
-                    if (err) {
-                        console.error(err.message);
-                        return res
-                            .status(500)
-                            .json({ msg: 'Could not delete market sale.' });
-                    }
-                });
+                // Remove the sale from database if it does not belong to master account
+                if (sellerId !== String(MASTER_ID)) {
+                    console.log('Sale belongs to a user. Deleting.');
+                    await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+                        if (err) {
+                            console.error(err.message);
+                            return res
+                                .status(500)
+                                .json({ msg: 'Could not delete market sale.' });
+                        }
+                    });
+                } else {
+                    console.log('Sale belongs to master account. Not deleting.')
+                }
 
                 // Return current buyer
                 console.log('Successfully Bought Casus Block(s)');

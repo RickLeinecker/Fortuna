@@ -1,11 +1,13 @@
 //@flow strict
 
 import * as React from 'react';
+import User from './User.js';
+import { getLeaders } from './userAPIIntegration.js';
 
 type Props = {||};
 
 type State = {|
-	leaderNames: Array<string>
+	leaders: Array<User>
 |};
 
 // Leaderboard component. Displays top 10 players.
@@ -22,52 +24,38 @@ class Leaderboard extends React.Component<Props, State> {
 		super();
 
 		this.state = {
-			leaderNames: [] // NEED AN API CALL HERE
+			leaders: []
 		}
 	}
 
-	componentDidMount() {
-		this.getLeaders();
-	}
-
-	//This function gets the leaders for the leaderboard
-	getLeaders(): void {
-		const responsePromise: Promise<Response> = fetch('/api/user/leaderboard', {
-			method: 'GET',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true'
-			},
+	componentDidMount(): void {
+		getLeaders(leaders => {
+			this.setState({leaders: leaders});
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					this.setState({leaderNames: data.map(usernames => usernames.userName)});
-				}
-			})
-		).catch(
-			(error) => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
-			}
-		);
-	};
+	}
 
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
-				<h5>FORTUNA's Top Commanders</h5>
-				{this.state.leaderNames.map((name, index) =>
-					<h6 key={index}>
-						{index + 1}.&#9;{name}
-					</h6>
-				)}
+				<h4>FORTUNA's Top Commanders</h4>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th>Name</th>
+							<th>ELO</th>
+						</tr>
+					</thead>
+					<tbody>
+						{this.state.leaders.map(({username, elo}, index) =>
+							<tr key={index}>
+								<td>{index + 1}.</td>
+								<td>{username}</td>
+								<td>{elo}</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
 			</div>
 		)
 	}

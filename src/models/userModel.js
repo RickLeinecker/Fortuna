@@ -27,18 +27,24 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Boolean,
         default: false
     },
-    // User starts with 0 money by default. This can be changed as needed
+    // User starts with 50000 money by default. This can be changed as needed
     money: {
         type: Number,
-        default: 0
+        default: 50000
     },
     wager: {
         type: Number,
         default: 0
     },
-    // String is the ObjectId of tank that is marked as favorite
+    // Date the last time user made a wager that gave them a stipend. Null default
+    wagerDate: {
+        type: Date,
+        default: null
+    },
+    // String is the ObjectId of tank that is marked as favorite. Null default
     favoriteTank: {
-        type: String
+        type: String,
+        default: null
     },
     // User's inventory. Separate sections for tank components and Casus blocks
     inventory: {

@@ -2,16 +2,14 @@
 .loginleft {
 	width: 30%;
 	padding-left: 2%;
+	margin-top: 13%;
 }
 
 .loginright {
 	width: 30%;
 	padding-right: 2%;
 	text-align: center;
-}
-
-.loginright button {
-	margin-top: 60%;
+	margin-top: 20%;
 }
 
 .loginmiddle {

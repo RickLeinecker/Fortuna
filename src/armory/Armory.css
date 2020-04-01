@@ -6,7 +6,7 @@
 }
 
 .armoryleft h6 {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .armorymiddle {
@@ -39,4 +39,82 @@
 	background-color: #04CCFF;
 	color: #000921;
 	display: inline;
+}
+
+.componentMenu table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.componentMenu th, td {
+    padding: 8px;
+    border-right: 1px solid #04CCFF;
+    border-left: 1px solid #04CCFF;
+}
+
+.componentMenuBtn {
+    border: none;
+    background: none;
+    color: #aa00ff;
+}
+
+.componentMenuBtn:active,
+.componentMenuBtn:focus {
+    border: 0.2em solid #aa00ff;
+    color: #aa00ff;
+}
+
+.componentMenuBtn:hover {
+    color: #7200ac;
+}
+
+.componentMenuBtn:disabled {
+    color: gray;
+}
+
+.componentMenuBtn:disabled:hover {
+    color: gray;
+    cursor: default;
+}
+
+.tankList {
+    height: 100px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.tankList h6 {
+    margin-top: 10px;
+}
+
+.tankListBtn {
+    color: #0062ff;
+    border: none;
+    background: none;
+}
+
+.tankListBtn:hover {
+    color: #003fa5;
+}
+
+.tankListBtn:active,
+.tankListBtn:focus {
+    border: 0.2em solid #0062ff;
+    color: #0062ff;
+}
+
+.wagerPopup {
+    text-align: center;
+}
+
+.deletePopup {
+    text-align: center;
+}
+
+.wagerTank {
+    color: #0062ff;
+}
+
+.wagerTank label {
+    color: #04CCFF;
 }

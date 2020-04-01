@@ -26,6 +26,10 @@ class Wall extends GameObject {
 		const delta=new Vec(WALL_LENGTH, 0).rotate(this.angle);
 		return new Seg(this.getPosition().sub(delta), this.getPosition().add(delta), WALL_WIDTH);
 	}
+
+	getRenderOrder(): number {
+		return 0.1;
+	}
 }
 
 export default Wall;
