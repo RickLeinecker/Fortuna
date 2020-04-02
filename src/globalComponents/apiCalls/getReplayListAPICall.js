@@ -1,7 +1,7 @@
 //@flow strict
 
-import getLoginToken from './getLoginToken.js';
-import Replay from './Replay.js';
+import getLoginToken from '../getLoginToken.js';
+import Replay from '../typesAndClasses/Replay.js';
 
 //gets the user when passed a token stored as the login token
 function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {

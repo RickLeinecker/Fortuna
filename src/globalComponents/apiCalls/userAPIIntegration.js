@@ -1,7 +1,7 @@
 //@flow strict
 
-import getLoginToken from '../globalComponents/getLoginToken.js';
-import User from './User.js';
+import getLoginToken from '../getLoginToken.js';
+import User from '../typesAndClasses/User.js';
 
 /*
 	This function has no input

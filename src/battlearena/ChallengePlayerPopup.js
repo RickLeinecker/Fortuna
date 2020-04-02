@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import User from '../globalComponents/User.js';
-import getAllUsers from '../globalComponents/getAllUsersAPICall.js';
-import getUser from '../globalComponents/getUserAPICall.js';
+import User from '../globalComponents/typesAndClasses/User.js';
+import getAllUsers from '../globalComponents/apiCalls/getAllUsersAPICall.js';
+import getUser from '../globalComponents/apiCalls/getUserAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|

@@ -1,9 +1,9 @@
 //@flow strict
 
-import BackendTank from '../tanks/BackendTank.js';
-import Tank from '../tanks/Tank.js';
-import getLoginToken from './getLoginToken.js';
-import { getTank } from '../tanks/TankLoader.js';
+import BackendTank from '../../tanks/BackendTank.js';
+import Tank from '../../tanks/Tank.js';
+import getLoginToken from '../getLoginToken.js';
+import { getTank } from '../../tanks/TankLoader.js';
 
 // This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: Tank) => void): void {

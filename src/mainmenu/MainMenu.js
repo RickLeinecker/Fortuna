@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
 // Main Menu component.
 class MainMenu extends React.Component<{||}> {

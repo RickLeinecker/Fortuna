@@ -1,8 +1,8 @@
 //@flow strict
 
 import * as React from 'react';
-import User from './User.js';
-import { getLeaders } from './userAPIIntegration.js';
+import User from './typesAndClasses/User.js';
+import { getLeaders } from './apiCalls/userAPIIntegration.js';
 
 type Props = {||};
 

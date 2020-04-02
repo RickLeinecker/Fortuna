@@ -1,16 +1,16 @@
 //@flow strict
 
 import TankPart from './TankPart.js';
-import {getImage} from '../battleground/ImageLoader.js';
+import { getImage } from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
-import {verifyBoolean} from '../casus/interpreter/Value.js';
-import {USE_JAMMER_VAR_NAME} from '../casus/userInteraction/CasusSpecialVariables.js';
-import {createElectricityPulse} from '../battleground/gameobjects/Particle.js';
+import { verifyBoolean } from '../casus/interpreter/Value.js';
+import { USE_JAMMER_VAR_NAME } from '../casus/userInteraction/CasusSpecialVariables.js';
+import { createElectricityPulse } from '../battleground/gameobjects/Particle.js';
 
 import type { Range } from './Range.js';
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import type Tank from './Tank.js';
 import type Battleground from '../battleground/Battleground.js';
 

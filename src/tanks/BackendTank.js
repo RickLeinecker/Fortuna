@@ -1,6 +1,6 @@
 //@flow strict
 
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 
 // Class used for handling the backend tank object.
 class BackendTank {

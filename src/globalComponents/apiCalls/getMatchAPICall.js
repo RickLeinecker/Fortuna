@@ -1,9 +1,9 @@
 //@flow strict
 
-import getLoginToken from './getLoginToken.js';
-import Tank from '../tanks/Tank.js';
-import {getTank} from '../tanks/TankLoader.js';
-import BackendTank from '../tanks/BackendTank.js';
+import getLoginToken from '../getLoginToken.js';
+import Tank from '../../tanks/Tank.js';
+import { getTank } from '../../tanks/TankLoader.js';
+import BackendTank from '../../tanks/BackendTank.js';
 
 //gets the user when passed a token stored as the login token
 function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matchId: string) => void) {

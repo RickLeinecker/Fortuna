@@ -1,4 +1,4 @@
 
 type ComponentType = 'chassis' | 'weapon' | 'scanner' | 'scannerAddon' | 'jammer' | 'treads' | 'item';
 
-export type {ComponentType};
+export type { ComponentType };

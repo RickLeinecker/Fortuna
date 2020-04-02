@@ -1,9 +1,8 @@
 //@flow strict
 import * as React from 'react';
 import { ToastContainer , toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import ListingObject from './ListingObject.js';
-import { getUser } from '../globalComponents/userAPIIntegration.js';
+import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 

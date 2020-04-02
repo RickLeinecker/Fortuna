@@ -4,11 +4,11 @@ import Vec from '../casus/blocks/Vec.js';
 import TankPart from './TankPart.js'
 import Gun from './Gun.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
-import {getImage} from '../battleground/ImageLoader.js';
+import { getImage } from '../battleground/ImageLoader.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
-import {getInterpriterState, setInterpriterState} from '../casus/interpreter/InterpriterState.js';
+import { getInterpriterState, setInterpriterState } from '../casus/interpreter/InterpriterState.js';
 import CasusBlock from '../casus/blocks/CasusBlock.js';
-import {verifyDouble, verifyBoolean} from '../casus/interpreter/Value.js';
+import { verifyDouble, verifyBoolean } from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
 import Chassis from './Chassis.js';

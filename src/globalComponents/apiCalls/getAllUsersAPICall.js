@@ -1,7 +1,7 @@
 //@flow strict
 
-import getLoginToken from './getLoginToken.js';
-import User from './User.js';
+import getLoginToken from '../getLoginToken.js';
+import User from '../typesAndClasses/User.js';
 
 //gets the user when passed a token stored as the login token
 function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {

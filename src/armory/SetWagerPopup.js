@@ -3,9 +3,9 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import { setWager } from '../globalComponents/userAPIIntegration.js';
-import getUserAPICall from '../globalComponents/getUserAPICall';
-import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/tankAPIIntegration.js';
+import { setWager } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall';
+import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {|
 	wagerTank: Tank,

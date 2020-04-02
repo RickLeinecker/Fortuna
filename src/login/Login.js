@@ -4,12 +4,13 @@ import * as React from 'react';
 import '../Main.css';
 import './Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
 import ResendEmailPopup from './ResendEmailPopup.js';
 import InfoPopup from './InfoPopup.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
 // Main login page. Front-page of Fortuna.
 class Login extends React.Component<{||}> {

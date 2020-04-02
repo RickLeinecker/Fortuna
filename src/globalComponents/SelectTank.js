@@ -1,58 +1,62 @@
 //@flow strict
 
 import * as React from 'react';
+import Tank from '../tanks/Tank.js';
 
 type Props = {|
-	changeCurrentTank: (SyntheticInputEvent<HTMLInputElement>) => void
+	allTanks: Array<Tank>,
+	changeSelectedTank: (Tank) => void,
+	selectedTank: ?Tank,
 |};
 
 type State = {|
-	tankList: Array<string>,
-	currentTank: string
+	showTanks: boolean,
 |};
-
-// Select Tank Component. Shows users all their tanks.
-//
-// Prop Names:
-// updateCurrentTank (function from Armory and Battle Arena)
-// 
-// State Names:
-// tankList (list of tank names that the user owns)
-// currentTank (the tank the user has selected in the dropdown)
-//
-// EXAMPLE PROP USAGE = <SelectTank updateCurrentTank={this.updateCurrentTank}
-//
-// Needs API calls to be added.
 
 class SelectTank extends React.Component<Props, State> {
 
-	constructor() {
-		super();
-
+	constructor(props: Props) {
+		super(props);
 		this.state = {
-			tankList: ["Bigone", "Small one", "hehaw ONE"], // NEEDS API CALL TO GET LIST OF TANK NAMES A USER HAS
-			currentTank: ""
+			showTanks: false,
 		};
 	}
 
+	onChangeSelectedTank(selectedTank: Tank): void {
+		this.props.changeSelectedTank(selectedTank);
+		this.setState({
+			showTanks: false
+		});
+	}
+
 	render(): React.Node {
-		return(
+		return (
 			<div>
-				<h3>Select a Tank</h3>
-				<select 
-					onChange={(e) => this.props.changeCurrentTank(e)}
-					className="dropdownMenu"
+				<button 
+					className="tankListBtn" 
+					onClick={() => this.setState({showTanks: true})}
 				>
-					<option defaultValue></option>
-					{this.state.tankList.map((tank, index) =>
-						<option
-							key={index}
-							value={tank}
-						>
-							{tank}
-						</option>
-					)}
-				</select>
+						{(this.props.selectedTank?.tankName??'loading tanks...')} 
+				</button>
+				<div>
+					{(this.state.showTanks) ?
+						<div className="tankList">
+							<h6>Select a Tank</h6>
+							{this.props.allTanks.map(tank => 
+								<div key={tank._id}>
+									<button 
+										className="tankListBtn" 
+										onClick={() => this.onChangeSelectedTank(tank)}
+									>
+										{tank.tankName}
+									</button>
+									<br/>
+								</div>
+							)}
+						</div> :
+						<div></div>
+					}
+				</div>
 			</div>
 		);
 	}

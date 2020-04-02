@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
-import getAllUsersAPICall from '../globalComponents/getAllUsersAPICall.js';
-import User from '../globalComponents/User.js';
+import getAllUsersAPICall from '../globalComponents/apiCalls/getAllUsersAPICall.js';
+import User from '../globalComponents/typesAndClasses/User.js';
 import Cookie from 'universal-cookie';
 
 type Props = {|

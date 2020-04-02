@@ -12,7 +12,7 @@ import Jammer from './Jammer.js';
 import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import BackendTank from './BackendTank.js';
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import reviveCasusBlock from '../casus/reviveCasusBlock.js';
 
 function getTestTank(id: number=1): Tank {

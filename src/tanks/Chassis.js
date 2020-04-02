@@ -1,10 +1,10 @@
 //@flow strict
 
 import TankPart from './TankPart.js';
-import {getImage} from '../battleground/ImageLoader.js';
+import { getImage } from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 
 // 5 Chassis types:
 //

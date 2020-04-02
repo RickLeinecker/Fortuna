@@ -1,8 +1,8 @@
 //@flow strict
 
 import TankPart from './TankPart.js';
-import {getImage} from '../battleground/ImageLoader.js';
-import {verifyBoolean, verifyDouble} from '../casus/interpreter/Value.js';
+import { getImage } from '../battleground/ImageLoader.js';
+import { verifyBoolean, verifyDouble } from '../casus/interpreter/Value.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import Vec from '../casus/blocks/Vec.js';
@@ -13,7 +13,7 @@ import {
 	SHOOT_SECONDARY_WEAPON_VAR_NAME,
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
 import type { BulletType } from '../battleground/gameobjects/Bullet.js';
