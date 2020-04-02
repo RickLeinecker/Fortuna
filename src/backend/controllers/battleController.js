@@ -1,8 +1,8 @@
 // @flow strict
 
-const { validationResult } = require('express-validator');
-
 import type { Request, Response } from 'express';
+
+const { validationResult } = require('express-validator');
 
 // npm library for elo calculations
 const EloRating = require('elo-rating');

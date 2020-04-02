@@ -1,7 +1,7 @@
 // @flow strict
 
-const jwt = require('jsonwebtoken');
 import type { Request, Response } from 'express';
+const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
