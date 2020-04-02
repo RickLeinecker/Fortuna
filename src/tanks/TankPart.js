@@ -5,7 +5,7 @@ import type Vec from '../casus/blocks/Vec.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
 import type InterpriterState from '../casus/interpreter/InterpriterState.js';
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 
 //A parent class for all tank parts
 

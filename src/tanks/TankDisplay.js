@@ -4,7 +4,7 @@ import * as React from 'react';
 import Tank from './Tank.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
-import {imageLoaderInit, addCallbackWhenImageLoaded} from '../battleground/ImageLoader.js';
+import { imageLoaderInit, addCallbackWhenImageLoaded } from '../battleground/ImageLoader.js';
 import './TankDisplay.css';
 
 type Props = {|

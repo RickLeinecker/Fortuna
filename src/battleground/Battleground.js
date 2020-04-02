@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import './Battleground.css';
-import {imageLoaderInit, getImage, addCallbackWhenImageLoaded} from './ImageLoader.js';
+import { imageLoaderInit, getImage, addCallbackWhenImageLoaded } from './ImageLoader.js';
 import ImageDrawer from './ImageDrawer.js';
 import Tank from '../tanks/Tank.js';
 import Wall from './Wall.js';
@@ -10,10 +10,10 @@ import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
 import { getTestTank } from '../tanks/TankLoader.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
-import reportMatchResultAPICall from '../globalComponents/reportMatchResultAPICall.js';
+import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchResultAPICall.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,

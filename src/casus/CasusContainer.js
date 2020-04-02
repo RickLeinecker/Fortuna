@@ -5,7 +5,7 @@ import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import Navbar from '../globalComponents/Navbar.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
 type Props = {||};
 

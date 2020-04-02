@@ -1,9 +1,9 @@
 //@flow strict
 
-import type { TankComponent } from './TankComponent.js';
-import type { ComponentType } from './ComponentType.js';
-import { allComponents } from './TankComponent.js';
-import Component from './Component.js';
+import type { TankComponent } from './typesAndClasses/TankComponent.js';
+import type { ComponentType } from '../globalComponents/typesAndClasses/ComponentType.js';
+import { allComponents } from './typesAndClasses/TankComponent.js';
+import Component from './typesAndClasses/Component.js';
 
 // Contains all components and their types.
 // If a new one is to be added make sure it is under the correct type.

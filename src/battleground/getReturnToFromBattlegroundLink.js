@@ -1,7 +1,7 @@
 //@flow strict
 
 import Cookies from 'universal-cookie';
-import type {LinkType} from '../globalComponents/LinkType.js';
+import type { LinkType } from '../globalComponents/typesAndClasses/LinkType.js';
 
 function getReturnToFromBattlegroundLink(): LinkType {
 	const fromLink=new Cookies().get('battlegroundReturnLink');

@@ -3,9 +3,9 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
-import Component from './Component.js';
-import { getUser } from '../globalComponents/userAPIIntegration.js';
-import type { TankComponent } from './TankComponent.js';
+import Component from '../globalComponents/typesAndClasses/Component.js';
+import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {|

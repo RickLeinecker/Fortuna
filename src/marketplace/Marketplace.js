@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../Main.css';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
 import type { MarketplaceViewDataTypes } from './MarketplaceViewDataTypes.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
 type Props = {||}; 
 

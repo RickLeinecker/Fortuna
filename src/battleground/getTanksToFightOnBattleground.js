@@ -2,9 +2,9 @@
 
 import Cookies from 'universal-cookie';
 import Tank from '../tanks/Tank.js';
-import getBotTanksAPICall from '../globalComponents/getBotTanksAPICall.js';
-import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
-import getMatchAPICall from '../globalComponents/getMatchAPICall.js';
+import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
+import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import getMatchAPICall from '../globalComponents/apiCalls/getMatchAPICall.js';
 
 function getTanksToFightOnBattleground(
 	onTankLoaded: (tankLoaded: Tank, index: 0|1) => void,

@@ -5,13 +5,13 @@ import * as React from 'react';
 import Navbar from '../globalComponents/Navbar.js';
 import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
-import { verifyLogin } from '../globalComponents/verifyLogin.js';
+import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
-import SelectTank from '../armory/SelectTank.js';
+import SelectTank from '../globalComponents/SelectTank.js';
 import Tank from '../tanks/Tank.js';
-import { getAllUsersTanks } from '../globalComponents/tankAPIIntegration.js';
+import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import getBotTanksAPICall from '../globalComponents/getBotTanksAPICall.js';
+import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 
 type Props = {||};

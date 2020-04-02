@@ -1,8 +1,8 @@
 //@flow strict
 
-import getLoginToken from './getLoginToken.js';
-import User from './User.js';
-import Tank from '../tanks/Tank.js';
+import getLoginToken from '../getLoginToken.js';
+import User from '../typesAndClasses/User.js';
+import Tank from '../../tanks/Tank.js';
 
 //gets the user when passed a token stored as the login token
 function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: string) => void) {

@@ -1,11 +1,10 @@
 //@flow strict
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
-import {getAllUsersTanks} from '../globalComponents/tankAPIIntegration.js';
-import {getUser} from '../globalComponents/userAPIIntegration.js';
-import {makeASale} from './marketPlaceAPIConnections.js';
+import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import { makeASale } from './marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 type Props = {|
 	onItemSold: () => void,

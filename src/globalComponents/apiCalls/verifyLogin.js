@@ -1,7 +1,7 @@
 //@flow strict
 
-import { verifyLink } from './verifyLink.js';
-import getLoginToken from './getLoginToken.js';
+import { verifyLink } from '../verifyLink.js';
+import getLoginToken from '../getLoginToken.js';
 
 function verifyLogin(): void {
 	const responsePromise: Promise<Response> = fetch('/api/verify', {

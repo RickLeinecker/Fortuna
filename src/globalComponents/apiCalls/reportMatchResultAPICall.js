@@ -1,6 +1,6 @@
 //@flow strict
 
-import getLoginToken from './getLoginToken.js';
+import getLoginToken from '../getLoginToken.js';
 
 //gets the user when passed a token stored as the login token
 function reportMatchResultAPICall(winner: 0|1|2, matchId: string) {

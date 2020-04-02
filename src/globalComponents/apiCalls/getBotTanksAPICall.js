@@ -1,8 +1,8 @@
 //@flow strict
 
-import Tank from '../tanks/Tank.js';
-import getLoginToken from './getLoginToken.js';
-import { getTank } from '../tanks/TankLoader.js';
+import Tank from '../../tanks/Tank.js';
+import getLoginToken from '../getLoginToken.js';
+import { getTank } from '../../tanks/TankLoader.js';
 
 function getBotTanksAPICall(onLoad: (botTanks: Array<Tank>)=> void): void {
 	const token=getLoginToken();

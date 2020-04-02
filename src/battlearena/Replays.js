@@ -1,10 +1,10 @@
 //@flow strict
 
 import * as React from 'react';
-import Replay from '../globalComponents/Replay.js';
-import getReplayListAPICall from '../globalComponents/getReplayListAPICall.js';
+import Replay from '../globalComponents/typesAndClasses/Replay.js';
+import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import Cookies from 'universal-cookie'
-import {setMatchForBattleground} from '../battleground/setTanksToFightInBattleground.js';
+import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
 

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import { updateTank } from '../globalComponents/tankAPIIntegration.js';
+import { updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {|
 	tank: Tank,

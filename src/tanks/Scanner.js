@@ -1,17 +1,17 @@
 //@flow strict
 
 import TankPart from './TankPart.js';
-import {getImage} from '../battleground/ImageLoader.js';
+import { getImage } from '../battleground/ImageLoader.js';
 import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import Mine from '../battleground/gameobjects/Mine.js';
 import C4 from '../battleground/gameobjects/C4.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import GameObject from '../battleground/GameObject.js';
-import {createStaticParticle} from '../battleground/gameobjects/Particle.js';
+import { createStaticParticle } from '../battleground/gameobjects/Particle.js';
 
 import type { Range } from './Range.js';
-import type { TankComponent } from '../armory/TankComponent.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import type Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
 
