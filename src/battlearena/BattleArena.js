@@ -84,15 +84,11 @@ class BattleArena extends React.Component<Props, State> {
 				linkName="/MainMenu"
  			/>
 			<div className="column baleft">
+				<h5>Challenge a Player</h5>
 				<ChallengePlayerPopup 
 					onChallengePlayer = {(user) => this.onChallengePlayer(user)}
 					playerChallenged = {null}
 				/>
-				<br/><br/>
-				<Link to={verifyLink("/TrainingArena")}>
-					<button className="btn">Training Arena</button>
-				</Link>
-				<label>&emsp;Practice against Bots</label>
 				<SearchPlayers onChallengePlayer={(user) => this.onChallengePlayer(user)} />
 			</div>
 			<div className="column bamiddle">

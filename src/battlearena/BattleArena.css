@@ -1,8 +1,8 @@
 /* Battle Arena Page Styling */
 .baleft {
-    width: 36%;
+    width: 30%;
     margin-top: 5%;
-    text-align: left;
+    text-align: center;
     padding-left: 20px;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .bamiddle {
-    width: 28%;
+    width: 40%;
     text-align: center;
     margin-top: 5%;
 }
@@ -33,8 +33,7 @@
 
 .replayList {
     height: 200px;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
     width: 100%;
 }
 
