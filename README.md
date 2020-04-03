@@ -27,6 +27,10 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Runs Flow on the `src/` directory to check for any static type errors.
 
+### `npm run cycles`
+
+Runs Madge on `lib/index.js` to check for any circular dependencies within the front-end.
+
 ### `npm run deploy`
 
 Builds the app for production to the `build` folder.<br />
