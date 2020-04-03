@@ -325,26 +325,27 @@ class Armory extends React.Component<Props, State> {
 						<button className="primarybtn">Casus</button>
 					</Link>
 					<label>&emsp;Edit Code</label>
-					<br/>
-					<br/>
-					<RenameTankPopup
-						tank={this.state.selectedTank}
-						renameTank={this.renameTank}
-					/>
-					<br/>
-					<CreateNewTankPopup 
-						ref="CreateNewTankPopup" 
-						chassis={this.state.chassis}
-						treads={this.state.treads}
-					/>
-					<DeleteTankPopup
-						tank={this.state.selectedTank}
-					/>
-					<br/>
-					<SetWagerPopup
-						ref="SetWagerPopup"
-						wagerTank={this.state.selectedTank}
-					/>
+					<br/><br/>
+					<h5>Tank Options</h5>
+					<div className="row">
+						<RenameTankPopup
+							tank={this.state.selectedTank}
+							renameTank={this.renameTank}
+						/>&emsp;
+						<CreateNewTankPopup 
+							ref="CreateNewTankPopup" 
+							chassis={this.state.chassis}
+							treads={this.state.treads}
+						/>&emsp;
+						<DeleteTankPopup
+							tank={this.state.selectedTank}
+						/>
+						<br/><br/><br/>
+						<SetWagerPopup
+							ref="SetWagerPopup"
+							wagerTank={this.state.selectedTank}
+						/>
+					</div>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
