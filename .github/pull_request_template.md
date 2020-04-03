@@ -20,5 +20,5 @@ Go down the list and check them off.
 - [ ] My code follows the style guidelines of this project
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have performed a self-review of my own code
-- [ ] My changes pass Flow, build without errors and (if applicable) pass unit tests.
+- [ ] My changes pass Flow, build without errors and (if applicable) pass Jest tests.
 - [ ] This change requires a update in the design document (if applicable)
