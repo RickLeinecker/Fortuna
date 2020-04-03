@@ -18,7 +18,7 @@ mongoose.connect(testDB, options)
     .then(() => console.log("Connected to Test Database"))
     .catch(() => console.error("Could not connect to Test Database"));
 
-describe("User model test", () => {
+describe("User model tests", () => {
     // Run before all tests are tried
     beforeAll(async () => {
         await User.deleteMany({});
