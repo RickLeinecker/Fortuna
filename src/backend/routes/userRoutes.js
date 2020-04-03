@@ -97,9 +97,6 @@ router.patch('/setWager', [
 router.patch('/editUser', [
     check('email', 'Enter a valid email')
         .isEmail(),
-    check('userName', 'Enter a valid username of 3 or more characters')
-        .isString()
-        .isLength({ min: 3 }),
     check('password', 'Enter a valid password of 5 or more characters')
         .isString()
         .isLength({ min: 5 })
