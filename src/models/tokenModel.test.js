@@ -51,11 +51,15 @@ describe("Token model tests", () => {
 
             const foundToken = await Token.findOne({ token: "randoToken" });
             const expectedToken = "randoToken";
-            const actualToken = foundToken.token;
-            const actualId = foundToken._userId;
 
-            expect(actualId).toEqual(testId);
-            expect(actualToken).toEqual(expectedToken);
+            expect(foundToken).toEqual(
+                expect.objectContaining({
+                    _userId: testId,
+                    token: expectedToken
+                })
+            );
+            // expect(foundToken._userId).toEqual(testId);
+            // expect(foundToken.token).toEqual(expectedToken);
         });
     });
 
