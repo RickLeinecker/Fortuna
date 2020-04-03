@@ -41,10 +41,11 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Date,
         default: null
     },
-    // String is the ObjectId of tank that is marked as favorite. Null default
+    // ObjectId of tank that is marked as favorite. Null default
     favoriteTank: {
-        type: String,
-        default: null
+        type: Mongoose.Schema.Types.ObjectId,
+        default: null,
+        ref: 'Tank'
     },
     // User's inventory. Separate sections for tank components and Casus blocks
     inventory: {
