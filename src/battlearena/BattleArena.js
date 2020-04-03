@@ -2,7 +2,6 @@
 
 import './BattleArena.css';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import Navbar from '../globalComponents/Navbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
