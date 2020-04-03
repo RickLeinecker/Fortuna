@@ -18,7 +18,7 @@ mongoose.connect(testDB, options)
     .then(() => console.log("Connected to Test Database"))
     .catch(() => console.error("Could not connect to Test Database"));
 
-describe("Token model test", () => {
+describe("Token model tests", () => {
     // Run before all tests are tried
     beforeAll(async () => {
         await Token.deleteMany({});
@@ -34,7 +34,7 @@ describe("Token model test", () => {
         await mongoose.connection.close();
     });
 
-    // Tests if the Users have a module
+    // Tests if the Tokens have a module
     it("has a module", () => {
         expect(Token).toBeDefined();
     });
