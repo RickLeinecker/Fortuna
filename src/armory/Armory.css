@@ -58,8 +58,7 @@
     color: #aa00ff;
 }
 
-.componentMenuBtn:active,
-.componentMenuBtn:focus {
+.selectedComponent {
     border: 0.2em solid #aa00ff;
     color: #aa00ff;
 }
@@ -83,24 +82,23 @@
     overflow-y: scroll;
 }
 
-.tankList h6 {
-    margin-top: 10px;
-}
-
 .tankListBtn {
     color: #0062ff;
     border: none;
     background: none;
 }
 
-.tankListBtn:hover {
-    color: #003fa5;
-}
-
-.tankListBtn:active,
-.tankListBtn:focus {
+.selectedTank {
     border: 0.2em solid #0062ff;
     color: #0062ff;
+}
+
+.tankList h6 {
+    margin-top: 10px;
+}
+
+.tankListBtn:hover {
+    color: #003fa5;
 }
 
 .wagerPopup {

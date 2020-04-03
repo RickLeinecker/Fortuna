@@ -27,19 +27,19 @@ class MainMenu extends React.Component<{||}> {
  				<div className="column menuleft">
 					<h6>Buy and sell tank parts.</h6>
 				 	<Link to={verifyLink("/Marketplace")}>
-						<button type="button" className="btn">Marketplace</button>
+						<button className="btn">Marketplace</button>
 					</Link>
 				</div>
 				<div className="column menumiddle">
 				<h6>Enter your tanks into the Battle Arena.</h6>
 					<Link to={verifyLink("/BattleArena")}>
-						<button type="button" className="btn">Battle Arena</button>
+						<button className="btn">Battle Arena</button>
 					</Link>
 				</div>
 				<div className="column menuright">
 				<h6>Customize your tank.</h6>
 					<Link to={verifyLink("/Armory")}>
-						<button type="button" className="btn">Armory</button>
+						<button className="btn">Armory</button>
 					</Link>
 				</div>
 			</div>
