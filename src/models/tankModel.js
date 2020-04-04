@@ -15,7 +15,7 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
     },
     // UserID of tank owner required on creation. String representation of ObjectID for user.
     userId: {
-        type: String,
+        type: Mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
