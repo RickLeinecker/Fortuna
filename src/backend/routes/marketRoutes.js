@@ -20,16 +20,11 @@ const router = express.Router();
 // Returns a confirmation message or an error
 // Check messages can be edited
 router.post('/addMarketSale', [
-    check('sellerId', 'Enter a sellerId')
-        .isString(),
-    check('salePrice', 'Enter a salePrice')
-        .isNumeric(),
-    check('itemId', 'Enter an itemId')
-        .isString(),
-    check('itemType', 'Enter an itemType')
-        .isString(),
-    check('amount', 'Enter an item amount')
-        .isNumeric()
+    check('sellerId', 'A valid MongoId is required.').isMongoId(),
+    check('salePrice', 'Enter a salePrice').isNumeric(),
+    check('itemId', 'Enter an itemId').isString(),
+    check('itemType', 'Enter an itemType').isString(),
+    check('amount', 'Enter an item amount').isNumeric()
 ], marketController.addMarketSale);
 
 // Get the list of all Market Sales
@@ -38,8 +33,7 @@ router.post('/addMarketSale', [
 // Returns list of all Market Sales not belonging to the user or an error
 // Check messages can be edited
 router.get('/getMarketSales/:userId', [
-    check('userId', 'userId is required')
-        .isString()
+    check('userId', 'A valid MongoId is required.').isMongoId()
 ], marketController.getMarketSales);
 
 // Get the list of all Market Sales
@@ -48,8 +42,7 @@ router.get('/getMarketSales/:userId', [
 // Returns list of all Tank Market Sales not belonging to the user or an error
 // Check messages can be edited
 router.get('/getTankMarketSales/:userId', [
-    check('userId', 'userId is required')
-        .isString()
+    check('userId', 'A valid MongoId is required.').isMongoId()
 ], marketController.getTankMarketSales);
 
 // Get a single market sale by ID
@@ -63,12 +56,9 @@ router.get('/getMarketsale', marketController.getMarketSale);
 // Req body needs buyer ID, seller ID, sale ID
 // Returns updated buyer (ie logged in user)
 router.put('/marketTransaction', [
-    check('buyerId', 'Missing buyerId')
-        .isString(),
-    check('sellerId', 'Missing sellerId')
-        .isString(),
-    check('saleId', 'Missing saleId')
-        .isString()
+    check('buyerId', 'A valid MongoId is required.').isMongoId(),
+    check('sellerId', 'A valid MongoId is required.').isMongoId(),
+    check('saleId', 'A valid MongoId is required.').isMongoId()
 ], marketController.marketTransaction);
 
 module.exports = router;

@@ -529,14 +529,14 @@ exports.editUser = async (req: Request, res: Response) => {
 	}
 
 	// Check if user is in DB
-	const user = await User.findById(req.user.id, 'userName, password, email');
+	const user = await User.findById(req.user.id, 'password, email');
 	if (!user) {
 		console.error('Could not find user in DB');
 		return res.status(400).json({ msg: 'Could not find user to edit' });
 	}
 
 	// Deconstruct body
-	const { userName, password, email } = req.body;
+	const { password, email } = req.body;
 
 	// Creates salt with 10 rounds(recommended)
 	const salt = await bcrypt.genSalt(10);
@@ -544,7 +544,7 @@ exports.editUser = async (req: Request, res: Response) => {
 	const newPassword = await bcrypt.hash(password, salt);
 	
 	// Update User
-	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { userName: userName, password: newPassword, email: email }, { new: true });
+	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { password: newPassword, email: email }, { new: true });
 	if (!updatedUser) {
 		console.error('Failed to save user updates');
 		return res.status(500).json({ msg: 'Failed to save user changes' });
