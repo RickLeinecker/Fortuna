@@ -12,7 +12,7 @@ const Component = new Mongoose.model('Component', new Mongoose.Schema({
         type: String,
         required: true
     },
-    // UserID of owner required on creation. String representation of ObjectID for user.
+    // UserID of owner required on creation.
     userId: {
         type: Mongoose.Schema.Types.ObjectId,
         required: true,
