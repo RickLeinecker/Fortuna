@@ -67,8 +67,8 @@ exports.addMarketSale = async (req: Request, res: Response) => {
                 amount
             });
 
-            // Mark tank as being sold and save change to DB
-            tank.userId = 'Marketplace';
+            // Mark tank as being sold (give temporary ownership to master account) and save change to DB
+            tank.userId = MASTER_ID;
             await tank.save((err: Error) => {
                 if (err) {
                     console.error(err.message);
