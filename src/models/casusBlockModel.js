@@ -12,7 +12,7 @@ const CasusBlock = new Mongoose.model('CasusBlock', new Mongoose.Schema({
         type: String,
         required: true
     },
-    // UserID of owner required on creation.
+    // User ObjectId of owner required on creation.
     userId: {
         type: Mongoose.Schema.Types.ObjectId,
         required: true,

@@ -7,7 +7,7 @@ import Mongoose from 'mongoose';
 const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     // _id field made on creation
 
-    // SellerID required on creation. String representation of seller's ObjectID.
+    // Seller user ObjectId required on creation. 
     sellerId: {
         type: Mongoose.Schema.Types.ObjectId,
         required: true,
