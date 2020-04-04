@@ -2,7 +2,11 @@
 .armoryleft {
     width: 30%;
     margin-top: 5%;
-    padding-left: 30px;
+    padding-left: 15px;
+}
+
+.rowPadding {
+    padding-left: 15px;
 }
 
 .armorymiddle {

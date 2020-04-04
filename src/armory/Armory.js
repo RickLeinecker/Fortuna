@@ -123,7 +123,6 @@ class Armory extends React.Component<Props, State> {
 				if(response.status !== 200) {
 					console.log(response.status);
 					console.log(data.msg);
-					console.log(data);
 				}
 				else {
 					this.setState({
@@ -327,7 +326,7 @@ class Armory extends React.Component<Props, State> {
 					<label>&emsp;Edit Code</label>
 					<br/><br/>
 					<h5>Tank Options</h5>
-					<div className="row">
+					<div className="row rowPadding">
 						<RenameTankPopup
 							tank={this.state.selectedTank}
 							renameTank={this.renameTank}
@@ -340,12 +339,12 @@ class Armory extends React.Component<Props, State> {
 						<DeleteTankPopup
 							tank={this.state.selectedTank}
 						/>
-						<br/><br/><br/>
-						<SetWagerPopup
-							ref="SetWagerPopup"
-							wagerTank={this.state.selectedTank}
-						/>
 					</div>
+					<br/><br/><br/>
+					<SetWagerPopup
+						ref="SetWagerPopup"
+						wagerTank={this.state.selectedTank}
+					/>
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
