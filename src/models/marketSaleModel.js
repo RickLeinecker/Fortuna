@@ -9,7 +9,7 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
 
     // SellerID required on creation. String representation of seller's ObjectID.
     sellerId: {
-        type: String,
+        type: Mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },
@@ -25,6 +25,7 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
     },
     // ItemID is required on creation. String representation of ObjectID for a tank
     // or a String description of the type of component or casus block.
+    // This field is the only exception to being an ObjectId type due to its double use.
     itemId: {
         type: String,
         required: true,
