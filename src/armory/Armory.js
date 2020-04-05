@@ -304,6 +304,11 @@ class Armory extends React.Component<Props, State> {
 		this.saveTank();
 	}
 
+	onWagerUpdate = (): void => {
+		const navbar = this.refs.navbar;
+		navbar.reloadNavbar();
+	}
+
 	render(): React.Node {
 		return (
 			<div id="Parent">
@@ -311,6 +316,7 @@ class Armory extends React.Component<Props, State> {
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Armory"
+					ref="navbar"
 				/>
 				<div className="column armoryleft">
 					<h4>Selected Tank</h4>
@@ -344,6 +350,7 @@ class Armory extends React.Component<Props, State> {
 					<SetWagerPopup
 						ref="SetWagerPopup"
 						wagerTank={this.state.selectedTank}
+						onWagerUpdate={this.onWagerUpdate}
 					/>
 				</div>
 				<div className="column armorymiddle">

@@ -9,6 +9,7 @@ import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/apiCalls
 
 type Props = {|
 	wagerTank: Tank,
+	onWagerUpdate: () => void;
 |};
 
 type State = {|
@@ -74,6 +75,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 		setWager(this.state.userWager, setSuccessful => {
 			if (setSuccessful) {
 				this.setState({currentWager: this.state.userWager});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
 			}
 			else {
 				this.setState({errorMessage: 'Could not set wager.'});
