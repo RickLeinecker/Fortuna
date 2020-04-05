@@ -94,7 +94,7 @@ class TankDisplay extends React.Component<Props> {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 		ctx.fillStyle = '#000921';
-		ctx.fillRect(0, 0, 1e9, 1e9);
+		ctx.clearRect(0, 0, 1e9, 1e9);
 		const drawer=new ImageDrawer(ctx, () => 400, () => 400);
 		drawer.setZoomScale(8);
 		this.props.tankToDisplay.position=new Vec(0, 0);

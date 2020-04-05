@@ -57,15 +57,15 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable">
+			<div className="replayList">
 				<h4>{this.state.myUsername}'s Battle Record</h4>
-				<div className="replayList">
+				<div className="replayTable">
 					<table>
 						<thead>
 							<tr>
 								<th>Opponent</th>
 								<th>Result</th>
-								<th></th>
+								<th>Replay</th>
 								<th>Prize</th>
 								<th>Elo Change</th>
 							</tr>

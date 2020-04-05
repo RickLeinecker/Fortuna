@@ -11,27 +11,6 @@ body {
 	min-width: 1530px;
 }
 
-
-/* Search Player List Styling */
-.searchPlayersList {
-	margin-top: 20px;
-}
-
-.searchPlayerListItem {
-	display: list-item;
-}
-
-.searchPlayersList ul {
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
-	height: 200px;
-	text-align: center;
-	overflow: hidden;
-	overflow-y: scroll;
-	list-style-type: none;
-}
-
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
 	width: 10px;

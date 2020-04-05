@@ -119,8 +119,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
 				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>
-					{(this.state.itemsToSell) ? <option>No Components to Sell</option> :
-						this.state.itemsToSell.map(({ name, amount }, index) => 
+					{this.state.itemsToSell.map(({ name, amount }, index) => 
 							<option key={index}  value={name}>{toTitleCase(name)} {'(' + amount + ')'}</option>
 					)}
 				</select>

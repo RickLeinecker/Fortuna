@@ -1,10 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import '../Main.css';
 import './Login.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
 import ResendEmailPopup from './ResendEmailPopup.js';
