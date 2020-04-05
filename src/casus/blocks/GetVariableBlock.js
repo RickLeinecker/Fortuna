@@ -8,7 +8,11 @@ import generateCornerPerim from './generateCornerPerim.js';
 import {getInterpriterState} from '../interpreter/InterpriterState.js';
 import InterpriterState from '../interpreter/InterpriterState.js';
 import type {Value} from '../interpreter/Value.js';
-import {isLegalConstant, getNameAsConstant} from '../userInteraction/defaultVariableNames.js';
+import {
+	isLegalConstant, 
+	getNameAsConstant, 
+	isBuiltInVariable
+} from '../userInteraction/defaultVariableNames.js';
 
 import {
 	RAMP_WIDTH, 
@@ -63,7 +67,17 @@ class GetVariableBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#ff00cb';
+		const builtInVariable = isBuiltInVariable(this.variableName, this.dataType);
+		const legalConstant = isLegalConstant(this.variableName, this.dataType);
+		if (builtInVariable) {
+			ctx.fillStyle = '#3dc2dc';
+		}
+		else if (legalConstant) {
+			ctx.fillStyle = '#aaaaaa';
+		}
+		else {
+			ctx.fillStyle = '#ff00cb';
+		}
 
 		const perim: Array<Vec> = this.getPerim();
 		ctx.beginPath();

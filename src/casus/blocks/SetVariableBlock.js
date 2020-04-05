@@ -8,6 +8,10 @@ import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
 import InterpriterState from '../interpreter/InterpriterState.js'
 import {getInterpriterState} from '../interpreter/InterpriterState.js'
+import {
+	isBuiltInVariable,
+	isLegalConstant,
+} from '../userInteraction/defaultVariableNames.js';
 
 import {
 	SET_VARIABLE_SET_WIDTH, 
@@ -82,7 +86,17 @@ class SetVariableBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#ff00cb';
+		const builtInVariable = isBuiltInVariable(this.variableName, this.paramType);
+		const legalConstant = isLegalConstant(this.variableName, this.paramType);
+		if (builtInVariable) {
+			ctx.fillStyle = '#3dc2dc';
+		}
+		else if (legalConstant) {
+			ctx.fillStyle = '#aaaaaa';
+		}
+		else {
+			ctx.fillStyle = '#ff00cb';
+		}
 
 		ctx.fillRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.w, this.boundingBox.h);
 
