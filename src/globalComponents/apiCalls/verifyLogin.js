@@ -4,8 +4,8 @@ import { verifyLink } from '../verifyLink.js';
 import getLoginToken from '../getLoginToken.js';
 
 function verifyLogin(): void {
-	// If the no user has logged in, then do not verify the login.
-	if(getLoginToken() == null) {
+	// If the use is on the login page and the token is null, do not check the token.
+	if(getLoginToken() == null && (window.location.pathname === '/Login' || window.location.pathname === '/')) {
 		return;
 	}
 
