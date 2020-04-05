@@ -100,12 +100,12 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
+				<h5>Set a Wager Tank</h5>
 				<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
 					Setup
 				</button>
-				<label>&emsp;Setup a Wager</label>
 				<br/><br/>
-				<h4>Current Wager</h4>
+				<label>Current Wager:&emsp;</label>
 				<label>{this.state.currentWagerTank == null ?
 					'No set wager tank' : 
 					<div className="wagerTank">

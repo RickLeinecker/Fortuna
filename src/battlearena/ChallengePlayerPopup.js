@@ -111,7 +111,6 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 						{challengeButton}{cancelButton}
 					</div>
 				</Popup>
-				{(this.props.playerChallenged == null) ? <label>&emsp;Challenge First Player Available</label> : <div></div>}
 			</div>
 		);
 	}

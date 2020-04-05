@@ -29,6 +29,9 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			itemAmount: 0,
 			itemsToSell:[],
 		}
+	}
+
+	componentDidMount(): void {
 		this.getUserInventory();
 	}
 
@@ -46,10 +49,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 					const jsonObjectOfUser = data;
 					this.setState({userId:jsonObjectOfUser._id});
 					const componentsWeCanSell = [];
-					//Add an empty so that the user actually sets the states
-					componentsWeCanSell.push(new ListingObject("", 0));
 					for (const key in jsonObjectOfUser.inventory.tankComponents) {
-						// we need to atleast have one of these
+						// We need to atleast have one of these.
 						if(jsonObjectOfUser.inventory.tankComponents[key] > 0) {
 							componentsWeCanSell.push(new ListingObject(key, jsonObjectOfUser.inventory.tankComponents[key]));
 						}
@@ -101,17 +102,6 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		);
 	};
 
-	//This will return the index of the listing array where the name is equal to the string sent in
-	getIndexOfListingArray (nameOfItem: string): number {
-		let index = 0;
-		for(index = 0; index < this.state.itemsToSell.length; index++) {
-			if(this.state.itemsToSell[index].name === nameOfItem) {
-				return index;
-			}
-		}
-		return -1;
-	}
-
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
 	handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
@@ -128,16 +118,19 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
-				<select className="itemForSale" onChange={this.handleChangeInSaleItem}>
+				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>
 					{this.state.itemsToSell.map(({ name, amount }, index) => 
-						<option key={index}  value={name}>{toTitleCase(name)} {this.formatAmountUserHas(amount)}</option>
+							<option key={index}  value={name}>{toTitleCase(name)} {'(' + amount + ')'}</option>
 					)}
 				</select>
+				<br/><br/>
 				<label>Selling Price</label>
-				<input type="number" className="form-control" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
+				<input type="number" className="inputText" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
+				<br/><br/>
 				<label>Amount to Sell</label>
-				<input type="number" className="form-control" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
-				<button className="btn btn-success mt-2" onClick={this.makeASaleOfAComponent}>Sell</button>
+				<input type="number" className="inputText" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
+				<br/><br/>
+				<button className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
 				<ToastContainer />
 			</div>
 		);

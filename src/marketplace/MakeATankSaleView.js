@@ -107,10 +107,12 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<br/>
 				<label>Selling Price</label>
-				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
-				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
+				<input type="number" value={this.state.salePrice} className="inputText" onChange={this.handleChangeInSalePrice}></input>
+				<br/><br/>
+				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
 				<ToastContainer />
 			</div>
 		);

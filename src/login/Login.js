@@ -1,10 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
-import '../Main.css';
 import './Login.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.min.css';
 import LoginPopup from './LoginPopup.js';
 import SignupPopup from './SignupPopup.js';
 import ResendEmailPopup from './ResendEmailPopup.js';
@@ -26,18 +23,21 @@ class Login extends React.Component<{||}> {
 
 	render(): React.Node {
 		return (
-			<div id="Parent">
+			<div>
 				<div className="column loginleft align-middle">
 					<Leaderboard />
 				</div>
 				<div className="column loginmiddle">
 					<h1>FORTUNA</h1>
 					<h6>Welcome Commander</h6>
+					<div className="inline">
 					<LoginPopup ref="loginPopup" />
 					<br/>
 					<SignupPopup 
 						onEmailRegisteredCallback={(email: string, password: string) => this.onEmailRegistered(email, password)}
 					/>
+					</div>
+					<br/>
 					<br/>
 					<ResendEmailPopup/>
 				</div>

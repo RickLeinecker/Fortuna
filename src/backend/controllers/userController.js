@@ -203,8 +203,8 @@ exports.login = async (req: Request, res: Response) => {
 			return res
 				.status(401)
 				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' + 
-					'Please check the email associated with this account for your verification token. ' +
-					'If your token has expired, feel free to request a new one.' });
+					'Check your email for your verification token. ' +
+					'If your token has expired, request a new one.' });
 		}
 
 		// Login successful. Proceed with JWT Creation

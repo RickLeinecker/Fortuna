@@ -13,7 +13,7 @@ type State = {|
 // Leaderboard component. Displays top 10 players.
 // 
 // State Names:
-// leaderNames (Pass the list of 10 top players to display on the leaderboard)
+// leaders (Pass the list of 10 top players to display on the leaderboard)
 // 
 // EXAMPLE PROP USAGE = <Leaderboard />
 //
@@ -37,20 +37,13 @@ class Leaderboard extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="leaderboard">
-				<h4>FORTUNA's Top Commanders</h4>
+				<h4>Top Commanders</h4>
 				<table>
-					<thead>
-						<tr>
-							<th></th>
-							<th>Name</th>
-							<th>ELO</th>
-						</tr>
-					</thead>
 					<tbody>
 						{this.state.leaders.map(({username, elo}, index) =>
 							<tr key={index}>
 								<td>{index + 1}.</td>
-								<td>{username}</td>
+								<td className="name">{username}</td>
 								<td>{elo}</td>
 							</tr>
 						)}

@@ -72,7 +72,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 				<button className="smallbtn" onClick={() => this.setState({renameTankOpen: true})}>
 					Rename
 				</button>
-				<label>&emsp;Rename Selected Tank</label>
 				<Popup
 					open={this.state.renameTankOpen}
 					onClose={() => this.setState({renameTankOpen: false})}
