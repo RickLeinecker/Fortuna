@@ -75,24 +75,28 @@ class GetListAtBlock extends CasusBlock {
 		return [this.list, this.indexBlock];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const listRes=this.list.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const listRes=this.list.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (listRes.length > 0) {
 			return listRes;
 		}
 		if (this.list.boundingBox.contains(v) && this.list.draggable()) {
 			const toReturn=[this.list];
-			this.list = new EmptyBlock(listVersionOf(this.paramType));
+			if (!justReturnCopy) {
+				this.list = new EmptyBlock(listVersionOf(this.paramType));
+			}
 			return toReturn;
 		}
 
-		const indexRes=this.indexBlock.removeBlockAt(v, removeAfter);
+		const indexRes=this.indexBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (indexRes.length > 0) {
 			return indexRes;
 		}
 		if (this.indexBlock.boundingBox.contains(v) && this.indexBlock.draggable()) {
 			const toReturn=[this.indexBlock];
-			this.indexBlock=new EmptyBlock('INT');
+			if (!justReturnCopy) {
+				this.indexBlock=new EmptyBlock('INT');
+			}
 			return toReturn;
 		}
 

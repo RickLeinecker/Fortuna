@@ -12,6 +12,7 @@ import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
+import casusBlockDeepClone from './casusBlockDeepClone.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -41,10 +42,8 @@ const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
 	
-
 	constructor(props: Props) {
 		super(props);
-
 		const containerBlock: ContainerBlock = new ContainerBlock([]);
 
 		loadCasus(
@@ -140,10 +139,13 @@ class CasusEditor extends React.Component<Props, State> {
 		
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true);
+			const wouldHaveRemoved = this.state.containerBlock.removeBlockAt(eventPos, false, true);
+			for (const block of wouldHaveRemoved) {
+				toSelect.push(casusBlockDeepClone(block));
+			}
 		}
 		else {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false);
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true, false);
 		}
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
@@ -172,7 +174,8 @@ class CasusEditor extends React.Component<Props, State> {
 		const block=this.state.variableBlockToRename;
 		if (block!=null) {
 			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
-			this.state.containerBlock.removeBlockAt(toRemovePos, false);
+			//TODO: only remove the block if it was successfully placed!
+			this.state.containerBlock.removeBlockAt(toRemovePos, false, false);
 		}
 
 		this.setState({variableBlockToRename: null});

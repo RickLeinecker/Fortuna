@@ -44,19 +44,25 @@ class ContainerBlock extends CasusBlock {
 		return this.children;
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		for (let i=0; i<this.children.length; i++) {
 			const child: CasusBlock = this.children[i];
-			const childRes = child.removeBlockAt(v, removeAfter);
+			const childRes = child.removeBlockAt(v, removeAfter, justReturnCopy);
 			if (childRes.length > 0) {
 				return childRes;
 			}
 			if (child.boundingBox.contains(v) && child.draggable()) {
-				const toReturn=removeAfter? this.children.splice(i) : this.children.splice(i, 1);
-				if (this.children.length === 0) {
-					this.children.push(new EmptyBlock('VOID'));
+				if (justReturnCopy) {
+					const toReturn = removeAfter ? this.children.slice(i) : this.children.slice(i, i+1);
+					return toReturn;
 				}
-				return toReturn;
+				else {
+					const toReturn = removeAfter ? this.children.splice(i) : this.children.splice(i, 1);
+					if (this.children.length === 0) {
+						this.children.push(new EmptyBlock('VOID'));
+					}
+					return toReturn;
+				}
 			}
 		}
 
