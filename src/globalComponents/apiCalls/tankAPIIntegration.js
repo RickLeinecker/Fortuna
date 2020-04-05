@@ -62,6 +62,30 @@ function setFavoriteTankId(tankId: ?string, onLoad:(setSuccessful: boolean) => v
 	);
 }
 
+function removeFavoriteTankId(onLoad:(setSuccessful: boolean) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/unfavoriteTank/', {
+		method: 'PATCH',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		}
+	});
+	responsePromise.then (
+		response => response.text().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				onLoad(false);
+			}
+			else {
+				onLoad(true);
+			}
+		})
+	);
+}
+
 function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + tank._id, {
 			method: 'PUT',
@@ -125,6 +149,7 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 export {
 	getFavoriteTank,
 	setFavoriteTankId,
+	removeFavoriteTankId,
 	updateTank,
 	getAllUsersTanks,
 }

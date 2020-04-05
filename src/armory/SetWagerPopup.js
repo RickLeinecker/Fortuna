@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { setWager } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall';
-import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { setFavoriteTankId, getFavoriteTank, removeFavoriteTankId } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {|
 	wagerTank: Tank,
@@ -102,7 +102,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				this.setState({errorMessage: 'Could not remove wager.'});
 			}
 		});
-		setFavoriteTankId(null, setSuccessful => {
+		removeFavoriteTankId(setSuccessful => {
 			if (setSuccessful) {
 				this.setState({removeWagerOpen: false, currentWagerTank: null, errorMessage: ''});
 			}

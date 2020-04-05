@@ -27,6 +27,13 @@ router.patch('/favoriteTank', [
         check('favoriteTank', 'A valid MongoId is required.').isMongoId()
     ], auth, tankController.favoriteTank);
 
+// Remove a favorite tank
+// Route call: /unfavoriteTank
+// Header: x-auth-token
+// Body: N/A
+// Returns a success message on success and an error message on failure.
+router.patch('/unfavoriteTank', auth, tankController.unfavoriteTank);
+
 // Retrieve array of all a users tanks
 // Route call: /userTanks
 // Header: x-auth-token
