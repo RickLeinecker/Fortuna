@@ -330,7 +330,7 @@ class Armory extends React.Component<Props, State> {
 						<button className="primarybtn">Casus</button>
 					</Link>
 					<label>&emsp;Edit Code</label>
-					<br/><br/>
+					<br/><br/><br/>
 					<h5>Tank Options</h5>
 					<div className="row rowPadding">
 						<RenameTankPopup
@@ -346,7 +346,7 @@ class Armory extends React.Component<Props, State> {
 							tank={this.state.selectedTank}
 						/>
 					</div>
-					<br/><br/><br/>
+					<br/><br/>
 					<SetWagerPopup
 						ref="SetWagerPopup"
 						wagerTank={this.state.selectedTank}

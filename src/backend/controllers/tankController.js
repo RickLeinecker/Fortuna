@@ -45,7 +45,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 
 exports.favoriteTank = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
-
+	
 	if (!errors.isEmpty()) {
 		// 400 is a bad request
 		console.error('Could not handle request');
@@ -69,6 +69,36 @@ exports.favoriteTank = async (req: Request, res: Response) => {
 			return res
 				.status(200)
 				.send(foundUser.favoriteTank);
+		}
+	});
+}
+
+exports.unfavoriteTank = async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.error('Could not handle request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Find the user and set favoriteTank to null.
+	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTank : null }, {new : true}, (err: Error, foundUser: User) => {
+		if (err) {
+			console.error(err.message);
+			
+			return res
+				.status(500)
+				.json({ msg: 'Could not set favoriteTank to null'});
+		}
+		else {
+			console.log('favoriteTank removed');
+			return res
+				.status(200)
+				.json({ msg: 'Favorite tank removed' });
 		}
 	});
 }
