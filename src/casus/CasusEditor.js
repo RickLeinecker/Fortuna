@@ -24,7 +24,7 @@ type State = {|
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,
-	variableBlockToRename: GetVariableBlock | SetVariableBlock | null
+	variableBlockToRename: GetVariableBlock | SetVariableBlock | null,
 |};
 
 type MouseEvent = {
@@ -41,7 +41,6 @@ const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
 	
-
 	constructor(props: Props) {
 		super(props);
 
@@ -50,7 +49,7 @@ class CasusEditor extends React.Component<Props, State> {
 		loadCasus(
 			casusBlock => {
 				this.setState({
-					containerBlock: casusBlock
+					containerBlock: casusBlock,
 				});
 				this._rerender();
 			}
@@ -61,7 +60,7 @@ class CasusEditor extends React.Component<Props, State> {
 			mouseX: 0,
 			mouseY: 0,
 			mouseOnScreen: false,
-			variableBlockToRename: null
+			variableBlockToRename: null,
 		}
 	}
 

@@ -6,11 +6,14 @@ import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
 import Navbar from '../globalComponents/Navbar.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
+import getTankForCasus from '../globalComponents/getTankForCasus.js';
+import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {||};
 
 type State = {
-	draggedBlocks: ?Array<CasusBlock>
+	draggedBlocks: ?Array<CasusBlock>,
+	tankName: string,
 };
 
 class CasusContainer extends React.Component<Props, State> {
@@ -19,8 +22,15 @@ class CasusContainer extends React.Component<Props, State> {
 		super(props);
 		verifyLogin();
 		this.state = {
-			draggedBlocks: null
+			draggedBlocks: null,
+			tankName: 'loading tank...'
 		};
+
+		const tankId=getTankForCasus();
+		getAllUsersTanks((successful, allTanks) => {
+			const tankEditing = allTanks.find(t => t._id === tankId);
+			this.setState({tankName: tankEditing?.tankName ?? ''});
+		});
 	}
 
 	render(): React.Node {
@@ -29,7 +39,7 @@ class CasusContainer extends React.Component<Props, State> {
 				<Navbar
 					linkName='/Armory'
 					returnName='Back to Armory'
-					pageName='Casus'
+					pageName={'Casus for '+this.state.tankName}
 				/>
 				<BlockBank 
 					draggedBlocks={this.state.draggedBlocks}
