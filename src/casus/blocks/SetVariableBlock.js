@@ -11,6 +11,7 @@ import {getInterpriterState} from '../interpreter/InterpriterState.js'
 import {
 	isBuiltInVariable,
 	isLegalConstant,
+	isDefaultVariableName,
 } from '../userInteraction/defaultVariableNames.js';
 
 import {
@@ -125,6 +126,20 @@ class SetVariableBlock extends CasusBlock {
 
 	getReturnType(): DataType {
 		return 'VOID';
+	}
+
+	getExistingVariableNames(dataType: DataType): Array<string> {
+		if (this.paramType !== dataType) {
+			return [];
+		}
+		//if it is a constant or a built in variable, don't add it to the list
+		const builtInVariable = isBuiltInVariable(this.variableName, this.paramType);
+		const legalConstant = isLegalConstant(this.variableName, this.paramType);
+		const isDefault = isDefaultVariableName(this.variableName);
+		if (legalConstant || builtInVariable || isDefault) {
+			return [];
+		}
+		return [this.variableName];
 	}
 
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {

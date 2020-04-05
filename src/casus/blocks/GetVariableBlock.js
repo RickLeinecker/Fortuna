@@ -11,7 +11,8 @@ import type {Value} from '../interpreter/Value.js';
 import {
 	isLegalConstant, 
 	getNameAsConstant, 
-	isBuiltInVariable
+	isBuiltInVariable,
+	isDefaultVariableName,
 } from '../userInteraction/defaultVariableNames.js';
 
 import {
@@ -101,6 +102,19 @@ class GetVariableBlock extends CasusBlock {
 
 	getReturnType(): DataType {
 		return this.dataType;
+	}
+
+	getExistingVariableNames(dataType: DataType): Array<string> {
+		if (this.dataType !== dataType) {
+			return [];
+		}
+		const builtInVariable = isBuiltInVariable(this.variableName, this.dataType);
+		const legalConstant = isLegalConstant(this.variableName, this.dataType);
+		const isDefault = isDefaultVariableName(this.variableName);
+		if (builtInVariable || legalConstant || isDefault) {
+			return [];
+		}
+		return [this.variableName];
 	}
 
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {

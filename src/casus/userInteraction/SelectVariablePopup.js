@@ -22,7 +22,8 @@ import './SelectVariablePopup.css';
 type Props = {|
 	variableBlockToRename: SetVariableBlock | GetVariableBlock | null,
 	onCancelClicked: () => void,
-	onVariableCreated: (string) => void
+	onVariableCreated: (variableName: string) => void,
+	getExistingVariableNames: (dataType: DataType) => Array<string>
 |};
 
 type State = {|
@@ -144,18 +145,25 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 	getPrepopulatedValues(): Array<string> {
 		const dataType=this.getExpectedDataType();
+		let prepopulatedValues=[];
 		switch(dataType) {
 			case 'INT':
-				return this.getPrepoulatedInts();
+				prepopulatedValues = this.getPrepoulatedInts();
+				break;
 			case 'DOUBLE':
-				return this.getPrepoulatedDoubles();
+				prepopulatedValues = this.getPrepoulatedDoubles();
+				break;
 			case 'BOOLEAN':
-				return this.getPrepopulatedBooleans();
+				prepopulatedValues = this.getPrepopulatedBooleans();
+				break;
 			case 'DOUBLE_LIST':
-				return this.getPrepopulatedDoubleLists();
+				prepopulatedValues = this.getPrepopulatedDoubleLists();
+				break;
 			default:
-				return [];
+				prepopulatedValues = [];
+				break;
 		}
+		return prepopulatedValues.concat(this.props.getExistingVariableNames(dataType));
 	}
 
 	getPrepoulatedInts(): Array<string> {
