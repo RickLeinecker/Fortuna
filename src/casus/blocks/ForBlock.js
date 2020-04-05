@@ -197,10 +197,10 @@ class ForBlock extends CasusBlock {
 	}
 
 	evaluate(): null {
-		this.initializationBlock.evaluate();
-		while (verifyBoolean(this.expressionBlock.evaluate()).val) {
-			this.contents.evaluate();
-			this.incrementBlock.evaluate();
+		this.initializationBlock.runEvaluate();
+		while (verifyBoolean(this.expressionBlock.runEvaluate()).val) {
+			this.contents.runEvaluate();
+			this.incrementBlock.runEvaluate();
 		}
 		return null;
 	}

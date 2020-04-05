@@ -12,8 +12,8 @@ class WhileBlock extends SingleConditionHeader {
 	}
 	
 	evaluate(): null {
-		while (verifyBoolean(this.conditionBlock.evaluate()).val) {
-			this.contents.evaluate();
+		while (verifyBoolean(this.conditionBlock.runEvaluate()).val) {
+			this.contents.runEvaluate();
 		}
 		return null;
 	}

@@ -11,7 +11,7 @@ class DoubleAbsBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): DoubleValue {
-		const childRes=verifyDouble(this.rChild.evaluate());
+		const childRes=verifyDouble(this.rChild.runEvaluate());
 		return childRes.abs();
 	}
 

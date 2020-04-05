@@ -11,8 +11,8 @@ class XorBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): BooleanValue {
-		const lRes=verifyBoolean(this.lChild.evaluate());
-		const rRes=verifyBoolean(this.rChild.evaluate());
+		const lRes=verifyBoolean(this.lChild.runEvaluate());
+		const rRes=verifyBoolean(this.rChild.runEvaluate());
 		return lRes.xor(rRes);
 	}
 }

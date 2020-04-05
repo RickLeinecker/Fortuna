@@ -178,12 +178,12 @@ class IfElseBlock extends CasusBlock {
 	}
 
 	evaluate(): null {
-		const condition=verifyBoolean(this.conditionBlock.evaluate());
+		const condition=verifyBoolean(this.conditionBlock.runEvaluate());
 		if (condition.val) {
-			return this.ifContents.evaluate();
+			return this.ifContents.runEvaluate();
 		}
 		else {
-			return this.elseContents.evaluate();
+			return this.elseContents.runEvaluate();
 		}
 	}
 

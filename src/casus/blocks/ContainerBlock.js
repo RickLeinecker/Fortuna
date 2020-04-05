@@ -150,7 +150,7 @@ class ContainerBlock extends CasusBlock {
 	
 	evaluate(): null {
 		for (const child: CasusBlock of this.children) {
-			child.evaluate();
+			child.runEvaluate();
 		}
 		return null;
 	}
