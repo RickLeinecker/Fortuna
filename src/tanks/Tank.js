@@ -172,6 +172,7 @@ class Tank extends GameObject {
 	}
 
 	executeCasusFrame(): void {
+		this.interpriterState.resetStatementsMade();
 		setInterpriterState(this.interpriterState);	
 		this.casusCode.evaluate();
 		this.interpriterState = getInterpriterState();

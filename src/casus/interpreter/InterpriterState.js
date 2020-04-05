@@ -22,6 +22,8 @@ import {
 import type {Value} from './Value.js';
 import type {DataType} from '../blocks/DataType.js';
 
+const MAX_STATEMENTS=5e4;
+
 class InterpriterState {
 	intVariables: Map<string, IntValue>;
 	booleanVariables: Map<string, BooleanValue>;
@@ -29,6 +31,7 @@ class InterpriterState {
 	intListVariables: Map<string, IntListValue>;
 	booleanListVariables: Map<string, BooleanListValue>;
 	doubleListVariables: Map<string, DoubleListValue>;
+	statementsMade: number;
 	
 	constructor() {
 		this.intVariables = new Map<string, IntValue>();
@@ -97,6 +100,18 @@ class InterpriterState {
 			default:
 				console.log('Unexpected variable type '+type+' in InterpreterState.setVariable!');
 		}
+	}
+
+	incrementStatementsMade(): void {
+		this.statementsMade++;
+	}
+
+	madeTooManyStatements(): boolean {
+		return this.statementsMade > MAX_STATEMENTS;
+	}
+
+	resetStatementsMade(): void {
+		this.statementsMade = 0;
 	}
 }
 
