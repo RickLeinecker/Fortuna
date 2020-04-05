@@ -97,7 +97,7 @@ class IntValue {
 		//validate that this number is in the range [-2^31, 2^31), and put it in there if it isn't
 		const minValue=-(2**31), maxValue=-minValue-1;
 		const modSize=2**32;
-		let x=input;
+		let x=input%modSize;
 
 		//these should each run at most once since the numbers stay small in intermediate calculations
 		while (x<minValue) {
