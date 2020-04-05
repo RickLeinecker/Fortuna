@@ -97,6 +97,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 		setWager(this.state.userWager, setSuccessful => {
 			if (setSuccessful) {
 				this.setState({currentWager: 0});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
 			}
 			else {
 				this.setState({errorMessage: 'Could not remove wager.'});
