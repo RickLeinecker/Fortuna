@@ -4,6 +4,12 @@ import { verifyLink } from '../verifyLink.js';
 import getLoginToken from '../getLoginToken.js';
 
 function verifyLogin(): void {
+	// If the no user has logged in, then do not verify the login.
+	if(getLoginToken() == null) {
+		return;
+	}
+
+	// Otherwise, check if the login token is valid.
 	const responsePromise: Promise<Response> = fetch('/api/verify', {
 		method: 'GET',
 		headers: {
