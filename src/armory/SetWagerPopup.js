@@ -134,7 +134,11 @@ class SetWagerPopup extends React.Component<Props, State> {
 						Setup
 					</button>
 					&emsp;
-					<button className="smallbtn" onClick={() => this.setState({removeWagerOpen: true})}>
+					<button 
+						disabled={(this.state.currentWagerTank == null) ? true : false}
+						className="smallbtn"
+						onClick={() => this.setState({removeWagerOpen: true})}
+					>
 						Remove
 					</button>
 				</div>
