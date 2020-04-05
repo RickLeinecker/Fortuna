@@ -37,7 +37,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 	)
 }
 
-function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => void): void {
+function setFavoriteTankId(tankId: ?string, onLoad:(setSuccessful: boolean) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
