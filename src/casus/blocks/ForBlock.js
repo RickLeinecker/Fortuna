@@ -6,6 +6,8 @@ import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
 import {verifyBoolean} from '../interpreter/Value.js';
+import InterpriterState from '../interpreter/InterpriterState.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
 
 import type {DataType} from './DataType.js';
 
@@ -199,6 +201,9 @@ class ForBlock extends CasusBlock {
 	evaluate(): null {
 		this.initializationBlock.runEvaluate();
 		while (verifyBoolean(this.expressionBlock.runEvaluate()).val) {
+			if (getInterpriterState().madeTooManyStatements()) {
+				break;
+			}
 			this.contents.runEvaluate();
 			this.incrementBlock.runEvaluate();
 		}

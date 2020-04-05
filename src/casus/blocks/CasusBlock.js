@@ -115,7 +115,7 @@ class CasusBlock {
 
 	runEvaluate(): ?Value {
 		const interpriterState = getInterpriterState();	
-		if (interpriterState.madeTooManyStatements()) {
+		if (interpriterState.madeTooManyStatements() && this.getReturnType() === 'VOID') {
 			return defaultValueFor(this.getReturnType());
 		}
 		else {

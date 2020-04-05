@@ -8,6 +8,7 @@ import Vec from './Vec.js';
 import {verifyBoolean} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
+import type {Value} from '../interpreter/Value.js';
 
 import {
 	IF_BLOCK_IF_WIDTH,
@@ -177,7 +178,7 @@ class IfElseBlock extends CasusBlock {
 		return null;
 	}
 
-	evaluate(): null {
+	evaluate(): ?Value {
 		const condition=verifyBoolean(this.conditionBlock.runEvaluate());
 		if (condition.val) {
 			return this.ifContents.runEvaluate();
