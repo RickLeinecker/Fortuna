@@ -94,7 +94,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Remove the user's wager and favorite tank.
 	handleRemoveClick(): void {
-		setWager(this.state.userWager, setSuccessful => {
+		setWager(0, setSuccessful => {
 			if (setSuccessful) {
 				this.setState({currentWager: 0});
 				// Update user currency in the navbar.
