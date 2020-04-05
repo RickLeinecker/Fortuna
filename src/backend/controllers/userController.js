@@ -21,6 +21,7 @@ const MarketSale = require('../../models/marketSaleModel');
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
 const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
+const MASTER_ID = process.env.MASTER_SELLER;
 
 exports.register = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
@@ -437,7 +438,7 @@ exports.retrieveUser  = async (req: Request, res: Response) => {
 exports.getLeaders = async (req: Request, res: Response) => {
 	// skip and limit determine how many to return
 	// the -1 in the sort is for descending order based on elo
-	await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
+	await User.find({ _id: { $ne: MASTER_ID } }, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
 		if(err){
 			res.send(err);
 			console.error(err.message);
