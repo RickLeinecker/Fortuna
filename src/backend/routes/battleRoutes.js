@@ -27,7 +27,7 @@ router.post('/prepareMatch', [
 
 // Updates elo and currency of both players after a match is complete
 // Header: x-auth-token
-// Body: winner (0 for a tie, 1 for userOne, 2 for user two) and the battleId
+// Body: winner (0 for a tie, 1 for userOne(challengee), 2 for userTwo(challenger) and the battleId
 // Returns: updated match record
 router.patch('/reportResults', [
     check('winner', 'Please enter 0 for a tie, 1 for userOne, 2 for userTwo')
