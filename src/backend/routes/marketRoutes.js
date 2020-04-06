@@ -33,7 +33,7 @@ router.post('/addMarketSale', [
 // Returns list of all Market Sales belonging to the user that are active or an error
 router.get('/getUsersMarketSales/:userId', [
 	check('userId', 'A valid MongoId is required.').isMongoId()
-], marketController.getMarketSales);
+], marketController.getUsersMarketSales);
 
 // Get the list of all Market Sales
 // Route call: getMarketSales
