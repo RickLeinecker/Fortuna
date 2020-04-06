@@ -122,6 +122,7 @@ class CasusBlock {
 			interpriterState.incrementStatementsMade();
 			return this.evaluate();
 		}
+	}
 
 	getExistingVariableNames(dataType: DataType): Array<string> {
 		const allVariables=[];
