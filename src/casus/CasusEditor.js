@@ -190,7 +190,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onCancelClicked() {
-		//delete variableblocktorename
+		//delete VariableBlockToRename
 		const block=this.state.variableBlockToRename;
 		if (block!=null) {
 			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
