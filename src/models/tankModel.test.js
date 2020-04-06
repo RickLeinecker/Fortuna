@@ -80,6 +80,7 @@ describe("Tank model tests", () => {
         });
     });
 
+    // Update a tank
     describe("Update a tank", () => {
         it("updates a tank", async () => {
             const testId = new mongoose.Types.ObjectId();
