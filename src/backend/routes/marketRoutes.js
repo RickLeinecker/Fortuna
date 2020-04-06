@@ -27,6 +27,14 @@ router.post('/addMarketSale', [
     check('amount', 'Enter an item amount').isNumeric()
 ], marketController.addMarketSale);
 
+// Get the list of all Market Sales this user has that are active
+// Route call: getUsersMarketSales
+// Req userId
+// Returns list of all Market Sales belonging to the user that are active or an error
+router.get('/getUsersMarketSales/:userId', [
+	check('userId', 'A valid MongoId is required.').isMongoId()
+], marketController.getMarketSales);
+
 // Get the list of all Market Sales
 // Route call: getMarketSales
 // Req needs userId
