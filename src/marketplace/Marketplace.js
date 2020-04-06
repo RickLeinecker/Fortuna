@@ -87,7 +87,7 @@ class Marketplace extends React.Component<Props, State> {
 							<h4>Buy</h4>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'CANNONS'})}>Weapons</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'SCANNERS'})}>Scanners</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'SCANNER_ADD_ONS'})}>Scanner Add-ons</button>
+							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'SCANNER_ADD_ONS'})}>Scanner Add-Ons</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'CHASSIS'})}>Chassis</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'JAMMERS'})}>Jammers</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'TREADS'})}>Treads</button>

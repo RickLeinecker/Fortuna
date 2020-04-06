@@ -239,7 +239,7 @@ class ListingsView extends React.Component<Props, State> {
 		}
 		//Add-ons is a weird case I am going to handle literally
 		if(title === 'scannerAddon') {
-			formattedTitle = "Scanner Add-ons";
+			formattedTitle = "Scanner Add-Ons";
 		}
 		return formattedTitle;
 	}
