@@ -2,6 +2,7 @@
 
 type BlockClass = 
 	'AndBlock' |
+	'CallFunctionBlock' |
 	'ContainerBlock' |
 	'DoubleAbsBlock' |
 	'DoubleAddBlock' |
@@ -17,6 +18,7 @@ type BlockClass =
 	'DoubleRoundBlock' |
 	'DoubleSubtractBlock' |
 	'DoubleTruncateBlock' |
+	'DefineFunctionBlock' |
 	'EmptyBlock' |
 	'ForBlock' |
 	'GetListAtBlock' |

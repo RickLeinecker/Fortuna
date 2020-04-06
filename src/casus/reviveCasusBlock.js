@@ -1,6 +1,7 @@
 //@flow strict
 
 import CasusBlock from './blocks/CasusBlock.js';
+import CallFunctionBlock from './blocks/CallFunctionBlock.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import AndBlock from './blocks/AndBlock.js';
 import DoubleAbsBlock from './blocks/DoubleAbsBlock.js';
@@ -17,6 +18,7 @@ import DoubleMultiplyBlock from './blocks/DoubleMultiplyBlock.js';
 import DoubleRoundBlock from './blocks/DoubleRoundBlock.js';
 import DoubleSubtractBlock from './blocks/DoubleSubtractBlock.js';
 import DoubleTruncateBlock from './blocks/DoubleTruncateBlock.js';
+import DefineFunctionBlock from './blocks/DefineFunctionBlock.js';
 import EmptyBlock from './blocks/EmptyBlock.js';
 import ForBlock from './blocks/ForBlock.js';
 import GetListAtBlock from './blocks/GetListAtBlock.js';
@@ -112,6 +114,9 @@ type SomeBlockFromServer = {
 	//indexBlock: SomeBlockFromServer, //shared with getListAtBlock
 	//expressionBlock: SomeBlockFromServer, //shared with forBlock
 	//paramType: DataType, //sharedWith getListAtBlock
+	
+	//callFunctionBlock
+	functionName: string
 };
 
 function verifyContainerBlock(block: CasusBlock): ContainerBlock {
@@ -145,6 +150,9 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn=new AndBlock();
 			toReturn.lChild=reviveCasusBlock(orig.lChild);
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
+			return toReturn;
+		case 'CallFunctionBlock':
+			toReturn=new CallFunctionBlock(orig.functionName);
 			return toReturn;
 		case 'ContainerBlock':
 			const children=orig.children.map(child => reviveCasusBlock(child));
@@ -216,6 +224,10 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 		case 'DoubleTruncateBlock':
 			toReturn=new DoubleTruncateBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
+			return toReturn;
+		case 'DefineFunctionBlock':
+			toReturn=new DefineFunctionBlock(orig.functionName);
+			toReturn.contents=verifyContainerBlock(reviveCasusBlock(orig.contents));
 			return toReturn;
 		case 'EmptyBlock':
 			dataType=orig.dataType;
