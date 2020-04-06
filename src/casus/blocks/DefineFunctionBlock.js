@@ -92,13 +92,13 @@ class DefineFunctionBlock extends CasusBlock {
 		}
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		if (this.expandBoundingBox.contains(v)) {
 			this.expanded = !this.expanded;
 			return [new ClickProcessedReceipt()];
 		}
 		if (this.expanded) {
-			return this.contents.removeBlockAt(v, removeAfter);
+			return this.contents.removeBlockAt(v, removeAfter, justReturnCopy);
 		}
 		else {
 			return [];

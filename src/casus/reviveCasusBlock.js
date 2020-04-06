@@ -421,4 +421,5 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 	}
 }
 
-export default reviveAsContainer;
+export {reviveAsContainer};
+export default reviveCasusBlock;
