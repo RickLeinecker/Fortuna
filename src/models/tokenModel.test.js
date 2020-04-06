@@ -50,12 +50,11 @@ describe("Token model tests", () => {
             await token.save();
 
             const foundToken = await Token.findOne({ token: "randoToken" });
-            const expectedToken = "randoToken";
 
             expect(foundToken).toEqual(
                 expect.objectContaining({
-                    _userId: testId,
-                    token: expectedToken
+                    _userId: token._userId,
+                    token: token.token
                 })
             );
         });
@@ -71,12 +70,10 @@ describe("Token model tests", () => {
             });
             const savedToken = await token.save();
 
-            const expectedToken = "randoToken";
-
             expect(savedToken).toEqual(
                 expect.objectContaining({
-                    _userId: testId,
-                    token: expectedToken
+                    _userId: token._userId,
+                    token: token.token
                 })
             );
         });
@@ -96,13 +93,11 @@ describe("Token model tests", () => {
             token._userId = newId;
             token.token = "editToken";
             const editedToken = await token.save();
-
-            const expectedToken = "editToken";
             
             expect(editedToken).toEqual(
                 expect.objectContaining({
-                    _userId: newId,
-                    token: expectedToken
+                    _userId: token._userId,
+                    token: token.token
                 })
             );
         });
