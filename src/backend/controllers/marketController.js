@@ -239,7 +239,7 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
         }
 
         // Get list of sales from DB that belong to logged in user
-        const salesList = await MarketSale.find({ sellerId: { $eq: userId } });
+        const salesList = await MarketSale.find({ sellerId: userId });
         if (!salesList) {
             return res
                 .status(400)
@@ -247,7 +247,7 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
         }
 
         // Return list of sales
-        console.log('Retrieved Market Sale List.');
+        console.log('Retrieved User\'s Market Sales List.');
         return res.status(200).json(salesList);
 
     }
