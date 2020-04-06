@@ -237,6 +237,10 @@ class ListingsView extends React.Component<Props, State> {
 		if(formattedTitle.charAt(formattedTitle.length-1) !== 's') {
 			formattedTitle = formattedTitle + 's';
 		}
+		//Add-ons is a weird case I am going to handle literally
+		if(title === 'scannerAddon') {
+			formattedTitle = "Scanner Add-Ons";
+		}
 		return formattedTitle;
 	}
 
