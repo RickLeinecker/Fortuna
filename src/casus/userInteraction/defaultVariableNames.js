@@ -5,6 +5,12 @@ import type {Value} from '../interpreter/Value.js';
 import IntValue from '../interpreter/IntValue.js';
 import BooleanValue from '../interpreter/BooleanValue.js';
 import DoubleValue from '../interpreter/DoubleValue.js';
+import {
+	builtInIntVariables, 
+	builtInBooleanVariables, 
+	builtInDoubleVariables, 
+	builtInDoubleListVariables
+} from './CasusSpecialVariables.js';
 
 const DEFAULT_INT_VARIABLE_NAME = '[Int variable]';
 const DEFAULT_DOUBLE_VARIABLE_NAME = '[Double variable]';
@@ -91,6 +97,24 @@ function getNameAsConstant(name: string, expectedType: DataType): ?Value {
 	return null;
 }
 
+function isBuiltInVariable(name: string, expectedType: DataType): boolean {
+	if (expectedType === 'BOOLEAN') {
+		return builtInBooleanVariables.includes(name);
+	}
+	else if (expectedType === 'INT') {
+		return builtInIntVariables.includes(name);
+	}
+	else if (expectedType === 'DOUBLE') {
+		return builtInDoubleVariables.includes(name);
+	}
+	else if (expectedType === 'DOUBLE_LIST') {
+		return builtInDoubleListVariables.includes(name);
+	}
+	else {
+		return false;
+	}
+}
+
 export {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
@@ -111,4 +135,5 @@ export {
 	isLegalVariableName,
 	isLegalConstant,
 	getNameAsConstant,
+	isBuiltInVariable,
 };

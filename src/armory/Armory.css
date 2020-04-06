@@ -36,6 +36,7 @@
 	display: inline;
 }
 
+/* Component Menu Styling */
 .componentMenu table {
     margin-left: auto;
     margin-right: auto;
@@ -71,6 +72,7 @@
     cursor: default;
 }
 
+/* Tank List Styling */
 .tankList {
     height: 100px;
     overflow: hidden;
@@ -96,6 +98,7 @@
     color: #003fa5;
 }
 
+/* Popup Styling */
 .wagerPopup {
     text-align: center;
 }

@@ -13,6 +13,8 @@ import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
 
+import type {DataType} from './blocks/DataType.js';
+
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
 	onDraggedBlocksReleased: () => void,
@@ -24,7 +26,7 @@ type State = {|
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,
-	variableBlockToRename: GetVariableBlock | SetVariableBlock | null
+	variableBlockToRename: GetVariableBlock | SetVariableBlock | null,
 |};
 
 type MouseEvent = {
@@ -41,7 +43,6 @@ const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
 	
-
 	constructor(props: Props) {
 		super(props);
 
@@ -50,7 +51,7 @@ class CasusEditor extends React.Component<Props, State> {
 		loadCasus(
 			casusBlock => {
 				this.setState({
-					containerBlock: casusBlock
+					containerBlock: casusBlock,
 				});
 				this._rerender();
 			}
@@ -61,7 +62,7 @@ class CasusEditor extends React.Component<Props, State> {
 			mouseX: 0,
 			mouseY: 0,
 			mouseOnScreen: false,
-			variableBlockToRename: null
+			variableBlockToRename: null,
 		}
 	}
 
@@ -95,6 +96,7 @@ class CasusEditor extends React.Component<Props, State> {
 					variableBlockToRename={this.state.variableBlockToRename}
 					onCancelClicked={() => this.onCancelClicked()}
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
+					getExistingVariableNames={(dataType) => this._getExistingVariableNames(dataType)}
 				/>
 			</div>
 		);
@@ -239,6 +241,10 @@ class CasusEditor extends React.Component<Props, State> {
 			canvas.width=canvas.clientWidth;
 			canvas.height=canvas.clientHeight;
 		}
+	}
+
+	_getExistingVariableNames(dataType: DataType) {
+		return this.state.containerBlock.getExistingVariableNames(dataType);
 	}
 
 	//checks if a realeased block would be placed on an empty block with void return type

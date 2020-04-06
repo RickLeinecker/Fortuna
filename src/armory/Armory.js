@@ -100,6 +100,10 @@ class Armory extends React.Component<Props, State> {
 	getTanks(): void {
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
+				if (allTanks.length === 0) {
+					console.log('Expected to have at least one tank!');
+					return;
+				}
 				// Always set the default selected tank to the newest tank.
 				const newSelectedTank = allTanks[allTanks.length-1];
 				setTankForCasus(newSelectedTank._id);
@@ -330,7 +334,7 @@ class Armory extends React.Component<Props, State> {
 						<button className="primarybtn">Casus</button>
 					</Link>
 					<label>&emsp;Edit Code</label>
-					<br/><br/>
+					<br/><br/><br/>
 					<h5>Tank Options</h5>
 					<div className="row rowPadding">
 						<RenameTankPopup
@@ -346,7 +350,7 @@ class Armory extends React.Component<Props, State> {
 							tank={this.state.selectedTank}
 						/>
 					</div>
-					<br/><br/><br/>
+					<br/><br/>
 					<SetWagerPopup
 						ref="SetWagerPopup"
 						wagerTank={this.state.selectedTank}

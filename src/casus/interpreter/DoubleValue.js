@@ -49,14 +49,10 @@ class DoubleValue {
 	}
 
 	round(): IntValue {
-		// TODO: this has the potential to be an insanely expensive call
-		// https://github.com/RickLeinecker/Fortuna/issues/81
 		return new IntValue(Math.round(this.val));
 	}
 
 	truncate(): IntValue {
-		// TODO: this has the potential to be an insanely expensive call
-		// https://github.com/RickLeinecker/Fortuna/issues/81
 		return new IntValue(Math.trunc(this.val));
 	}
 

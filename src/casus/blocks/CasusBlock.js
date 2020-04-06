@@ -122,6 +122,18 @@ class CasusBlock {
 			interpriterState.incrementStatementsMade();
 			return this.evaluate();
 		}
+
+	getExistingVariableNames(dataType: DataType): Array<string> {
+		const allVariables=[];
+		for (const child of this.getChildBlocks()) {
+			const childVariables=child.getExistingVariableNames(dataType);
+			for (const varName of childVariables) {
+				if (!allVariables.includes(varName)) {
+					allVariables.push(varName);
+				}
+			}
+		}
+		return allVariables;
 	}
 
 	//returns true if we were able to place it in some container, false otherwise
