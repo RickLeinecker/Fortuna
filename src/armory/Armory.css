@@ -29,15 +29,24 @@
 .componentMenu table {
     margin-left: auto;
     margin-right: auto;
+    border-collapse: collapse;
+}
+
+.componentMenu thead {
+    display: table-header-group;
+}
+
+.componentMenu tbody {
+    display: table-row-group;
     height: 200px;
     overflow-y: auto;
 }
 
-.componentMenu tbody {
-    width: 100%;
+.componentMenu th {
+    padding: 8px;
 }
 
-.componentMenu th, td {
+.componentMenu td {
     padding: 8px;
     border-right: 1px solid #04CCFF;
     border-left: 1px solid #04CCFF;
