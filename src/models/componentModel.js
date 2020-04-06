@@ -12,15 +12,16 @@ const Component = new Mongoose.model('Component', new Mongoose.Schema({
         type: String,
         required: true
     },
-    // UserID of owner required on creation. String representation of ObjectID for user.
+    // User ObjectId of owner required on creation.
     userId: {
-        type: String,
-        required: true
+        type: Mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     // Enum classification for component required on creation.
     componentType: {
         type: String,
-        enum: ['weapon', 'armor', 'treads', 'scanner', 'jammer', 'shield', 'item'],
+        enum: ['weapon', 'chassis', 'treads', 'scanner', 'jammer', 'shield', 'item', 'addon'],
         required: true
     }
 }));

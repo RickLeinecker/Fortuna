@@ -3,33 +3,12 @@
 }
 
 body {
-	background-color: #000921;
+	background-image: linear-gradient(to right, #04213F, #000921, #000921, #04213F);
 	color: #04CCFF;
 }
 
 .haveScorebarIfSmall {
 	min-width: 1530px;
-}
-
-
-/* Search Player List Styling */
-.searchPlayersList {
-	margin-top: 20px;
-}
-
-.searchPlayerListItem {
-	display: list-item;
-}
-
-.searchPlayersList ul {
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
-	height: 200px;
-	text-align: center;
-	overflow: hidden;
-	overflow-y: scroll;
-	list-style-type: none;
 }
 
 /* Scrollbar Styling */
@@ -60,9 +39,8 @@ body {
 
 /* Input Styling */
 .inputText {
-	margin-top: 10px;
 	padding-left: 5px;
-	width: 75%;
+	width: 100%;
 	border-radius: 4px;
 	border-color: #04CCFF;
 	background-color: #04CCFF;
@@ -77,8 +55,8 @@ body {
 /* Dropdown Menu Styling */
 .dropdownMenu {
 	cursor: pointer;
-	width: 80%;
-	padding: 10px 10px 10px 10px;
+	width: 100%;
+	padding: 7px 7px 7px 7px;
 	border-radius: 2px;
 	border-color: #04CCFF;
 	background-color: #04CCFF;
@@ -94,6 +72,7 @@ body {
 /* Navbar Styling */
 .navbar {
 	background-color: #3E5A6F;
+	border-bottom: 3px solid #04213F;
 	overflow: hidden;
 	display: flex;
 	flex-direction: row;
@@ -162,7 +141,7 @@ body {
 	color: #04213F;
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
-	border-radius: 8px;
+	border-radius: 3px;
 	margin-top: 20px;
 }
 
@@ -187,7 +166,7 @@ body {
 	color: #04213F;
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
-	border-radius: 8px;
+	border-radius: 3px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -202,7 +181,7 @@ body {
 	color: #04213F;
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
-	border-radius: 8px;
+	border-radius: 3px;
 	margin-left: 50px;
 	margin-top: 20px;
 }
@@ -221,6 +200,7 @@ body {
 	background-color: #04213F;
 	border: 4px solid black;
 	border-radius: 8px;
+	width: 280px;
 }
 
 .leaderboard td {
@@ -267,14 +247,12 @@ body {
 
 .smallbtn:disabled {
 	background-color: #999999;
-	border: 2px solid #000921
 }
 
 .smallbtn:disabled:hover {
 	cursor: default;
 	background-color: #999999;
 	color: #000921;
-	border: 2px solid #000921;
 }
 
 .smallbtn:hover {
@@ -339,25 +317,6 @@ body {
 	left: 80%;
 }
 
-
-.secondarybtn {
-	display: inline-block;
-	font-weight: 400;
-	color: #fff;
-	text-align: center;
-	vertical-align: middle;
-	user-select: none;
-	background-color: #007bff;
-	border: solid transparent;
-}
-
-.secondarybtn:disabled,
-.secondarybtn[disabled] {
-	border: 1px solid #999999;
-	background-color: #cccccc;
-	color: #666666;
-}
-
 /*Select Styling*/
 select {
 	display: block;
@@ -375,7 +334,11 @@ select {
 
 
 
-/*this is just an inline class for anything that needs to be inline */
+/* Miscellaneous. */
 .inline {
 	display: inline-block;
+}
+
+.name {
+	color: #a80b4b;
 }

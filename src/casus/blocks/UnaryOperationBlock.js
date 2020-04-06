@@ -55,18 +55,20 @@ class UnaryOperationBlock extends CasusBlock {
 		return [this.rChild];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		if (!this.boundingBox.contains(v)) {
 			return [];
 		}
 
-		const rChildRes = this.rChild.removeBlockAt(v, removeAfter);
+		const rChildRes = this.rChild.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (rChildRes.length > 0) {
 			return rChildRes;
 		}
 		if (this.rChild.boundingBox.contains(v) && this.rChild.draggable()) {
 			const toReturn=[this.rChild];
-			this.rChild=new EmptyBlock(this.paramType);
+			if (!justReturnCopy) {
+				this.rChild=new EmptyBlock(this.paramType);
+			}
 			return toReturn;
 		}
 

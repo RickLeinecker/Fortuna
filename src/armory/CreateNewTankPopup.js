@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import Popup from 'reactjs-popup';
-import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import Component from '../globalComponents/typesAndClasses/Component.js';
 import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import getLoginToken from '../globalComponents/getLoginToken.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	chassis: Array<Component>,
@@ -18,7 +18,6 @@ type State = {|
 	selectedTreads: TankComponent,
 	newTankName: string,
 	userId: string,
-	errorMessage: string,
 	newTankDialogOpen: boolean,
 |};
 
@@ -32,7 +31,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			selectedTreads: 'empty',
  			newTankName: '',
 			userId: '',
-			errorMessage: '',
 			newTankDialogOpen: false,
 		}
     }
@@ -44,7 +42,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if(response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 				}
 				else {
@@ -64,19 +62,15 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	handleCreateClick(): void {
 		// Error handling.
 		if(this.state.newTankName === '') {
-			this.setState({errorMessage: 'Need to have a tank name.'});
+			toast.error('Need to have a tank name.');
 			return;
 		}
 		else if(this.state.selectedChassis === 'empty' || this.state.selectedTreads === 'empty') {
-			this.setState({errorMessage: 'Need to have a chassis and tread.'});
+			toast.error('Need to have a chassis and treads.');
 			return;
 		}
-		else if(this.state.newTankName.length > 20) {
-			this.setState({errorMessage: 'Tank name needs to be 20 or less characters.'});
-			return;
-		}
-		else if(this.state.newTankName.length < 3) {
-			this.setState({errorMessage: 'Tank name needs to be 3 or more characters.'});
+		else if(this.state.newTankName.length > 20 || this.state.newTankName.length < 3) {
+			toast.error('Tank name needs to be between 3 and 20 characters.');
 			return;
 		}
 
@@ -112,9 +106,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
 					return;
 				}
 				else {
@@ -124,7 +117,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 				return;
 			}
@@ -146,7 +139,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 				<button className="smallbtn" onClick={() => this.setState({newTankDialogOpen: true})}>
 					Create
 				</button>
-				<label>&emsp;Create a New Tank</label>
 				<Popup 
 					open={this.state.newTankDialogOpen}
 					onClose={() => this.setState({newTankDialogOpen: false})}
@@ -182,17 +174,14 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 								</select>
 							</div>
 						</div>
-						<div className="fixedHeight">
-							{this.state.errorMessage}
-						</div>
+						<br/>
 						<div className="row col-md-12">
 							{createButton}
 							{cancelButton}
 						</div>
 					</div>
 				</Popup>
-				<br/>
-				<br/>
+				<ToastContainer />
 			</div>
 		);
 	}

@@ -23,7 +23,16 @@ router.get('/getFavorite', auth, tankController.getFavorite);
 // Header: x-auth-token
 // Body: favoriteTank (the id)
 // Returns the id of the favorited tank upon success and an error message upon failure
-router.patch('/favoriteTank', auth, tankController.favoriteTank);
+router.patch('/favoriteTank', [
+        check('favoriteTank', 'A valid MongoId is required.').isMongoId()
+    ], auth, tankController.favoriteTank);
+
+// Remove a favorite tank
+// Route call: /unfavoriteTank
+// Header: x-auth-token
+// Body: N/A
+// Returns a success message on success and an error message on failure.
+router.patch('/unfavoriteTank', auth, tankController.unfavoriteTank);
 
 // Retrieve array of all a users tanks
 // Route call: /userTanks
@@ -39,7 +48,7 @@ router.get('/userTanks', auth, tankController.userTanks);
 // Returns the id of the new tank
 router.post('/assignTank', [
         check('tankName', 'tankName is required').isString(),
-        check('userId', 'userId is required').isString(),
+        check('userId', 'A valid MongoId is required.').isMongoId(),
         check('components', 'components is required').isArray()
     ], auth, tankController.assignTank);
 
@@ -49,14 +58,10 @@ router.post('/assignTank', [
 // Body: tankName, userId, components, isBot
 // Returns the updated tank
 router.put('/tankUpdate/:tankId', [ 
-    check('tankName', 'tankName is required')
-        .isString(),
-    check('userId', 'userId is required')
-        .isString(),
-    check('components', 'components is required')
-        .isArray(),
-    check('isBot', 'isBot is required')
-        .isBoolean()
+    check('tankName', 'tankName is required').isString(),
+    check('userId', 'A valid MongoId is required.').isMongoId(),
+    check('components', 'components is required').isArray(),
+    check('isBot', 'isBot is required').isBoolean()
     ], auth, tankController.tankUpdate);
 
 // Updates only the casusCode of the tank
@@ -65,8 +70,7 @@ router.put('/tankUpdate/:tankId', [
 // Body: casusCode
 // Returns tank with updated casusCode
 router.put('/casusUpdate/:tankId', [ 
-    check('casusCode', 'casusCode is required')
-        .exists(),
+    check('casusCode', 'casusCode is required').exists(),
     ], auth, tankController.casusUpdate);
 
 // Deletes tank from DB
@@ -74,8 +78,7 @@ router.put('/casusUpdate/:tankId', [
 // Req must contain the tankId within the uri of the api call in place of <tankId>
 // Returns confirmation message that tank was deleted.
 router.delete('/deleteTank/:tankId', [
-    check('tankId', 'tankId should be a MongoId string')
-        .isMongoId()
+    check('tankId', 'A valid MongoId is required.').isMongoId()
     ], tankController.deleteTank);
 
 // Retrieve array of bot tanks

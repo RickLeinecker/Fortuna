@@ -11,8 +11,8 @@ class DoubleLessThanBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): BooleanValue {
-		const lRes=verifyDouble(this.lChild.evaluate());
-		const rRes=verifyDouble(this.rChild.evaluate());
+		const lRes=verifyDouble(this.lChild.runEvaluate());
+		const rRes=verifyDouble(this.rChild.runEvaluate());
 		return new BooleanValue(lRes.lessThan(rRes));
 	}
 

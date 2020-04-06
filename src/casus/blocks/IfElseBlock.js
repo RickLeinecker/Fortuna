@@ -8,6 +8,7 @@ import Vec from './Vec.js';
 import {verifyBoolean} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
+import type {Value} from '../interpreter/Value.js';
 
 import {
 	IF_BLOCK_IF_WIDTH,
@@ -112,22 +113,24 @@ class IfElseBlock extends CasusBlock {
 		return [this.conditionBlock, this.ifContents, this.elseContents];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (conditionRes.length > 0) {
 			return conditionRes;
 		}
 		if (this.conditionBlock.boundingBox.contains(v) && this.conditionBlock.draggable()) {
 			const toReturn = [this.conditionBlock];
-			this.conditionBlock = new EmptyBlock('BOOLEAN');
+			if (!justReturnCopy) {
+				this.conditionBlock = new EmptyBlock('BOOLEAN');
+			}
 			return toReturn;
 		}
 
-		const ifContentsRes = this.ifContents.removeBlockAt(v, removeAfter);
+		const ifContentsRes = this.ifContents.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (ifContentsRes.length > 0) {
 			return ifContentsRes;
 		}
-		return this.elseContents.removeBlockAt(v, removeAfter);
+		return this.elseContents.removeBlockAt(v, removeAfter, justReturnCopy);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
@@ -177,13 +180,13 @@ class IfElseBlock extends CasusBlock {
 		return null;
 	}
 
-	evaluate(): null {
-		const condition=verifyBoolean(this.conditionBlock.evaluate());
+	evaluate(): ?Value {
+		const condition=verifyBoolean(this.conditionBlock.runEvaluate());
 		if (condition.val) {
-			return this.ifContents.evaluate();
+			return this.ifContents.runEvaluate();
 		}
 		else {
-			return this.elseContents.evaluate();
+			return this.elseContents.runEvaluate();
 		}
 	}
 

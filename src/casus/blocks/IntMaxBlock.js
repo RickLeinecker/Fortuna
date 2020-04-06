@@ -11,8 +11,8 @@ class IntMaxBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): IntValue {
-		const lRes=verifyInt(this.lChild.evaluate());
-		const rRes=verifyInt(this.rChild.evaluate());
+		const lRes=verifyInt(this.lChild.runEvaluate());
+		const rRes=verifyInt(this.rChild.runEvaluate());
 		return lRes.maxWith(rRes);
 	}
 

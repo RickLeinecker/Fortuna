@@ -3,6 +3,8 @@
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
+import {defaultValueFor} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
 import type {Value} from '../interpreter/Value.js';
@@ -110,6 +112,30 @@ class CasusBlock {
 		return this.boundingBox.contains(v) ? this : null;
 	}
 
+	runEvaluate(): ?Value {
+		const interpriterState = getInterpriterState();	
+		if (interpriterState.madeTooManyStatements() && this.getReturnType() === 'VOID') {
+			return defaultValueFor(this.getReturnType());
+		}
+		else {
+			interpriterState.incrementStatementsMade();
+			return this.evaluate();
+		}
+	}
+
+	getExistingVariableNames(dataType: DataType): Array<string> {
+		const allVariables=[];
+		for (const child of this.getChildBlocks()) {
+			const childVariables=child.getExistingVariableNames(dataType);
+			for (const varName of childVariables) {
+				if (!allVariables.includes(varName)) {
+					allVariables.push(varName);
+				}
+			}
+		}
+		return allVariables;
+	}
+
 	//returns true if we were able to place it in some container, false otherwise
 	tryToPlaceInContainer(
 		v: Vec, 
@@ -145,7 +171,7 @@ class CasusBlock {
 		return [];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		return [];
 	}
 
@@ -170,7 +196,7 @@ class CasusBlock {
 	}
 
 	evaluate(): ?Value {
-		return null;
+		throw new Error('Didnt implement evaluate!');
 	}
 
 }

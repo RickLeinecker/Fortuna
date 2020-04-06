@@ -54,7 +54,7 @@ class SearchPlayers extends React.Component<Props, State> {
 		);
 		return (
 			<div className="searchPlayers">
-				<h6>Click the Player's Name you wish to Challenge</h6>
+				<h6>Click the Player to Challenge</h6>
 				<input 
 					type="text" 
 					className="inputText" 

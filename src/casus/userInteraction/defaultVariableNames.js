@@ -5,6 +5,12 @@ import type {Value} from '../interpreter/Value.js';
 import IntValue from '../interpreter/IntValue.js';
 import BooleanValue from '../interpreter/BooleanValue.js';
 import DoubleValue from '../interpreter/DoubleValue.js';
+import {
+	builtInIntVariables, 
+	builtInBooleanVariables, 
+	builtInDoubleVariables, 
+	builtInDoubleListVariables
+} from './CasusSpecialVariables.js';
 
 const DEFAULT_INT_VARIABLE_NAME = '[Int variable]';
 const DEFAULT_DOUBLE_VARIABLE_NAME = '[Double variable]';
@@ -17,6 +23,8 @@ const DEFAULT_BOOLEAN_VARIABLE_NAME_OR_CONST = '[Boolean variable or constant]';
 const DEFAULT_INT_LIST_NAME = '[Int list]';
 const DEFAULT_DOUBLE_LIST_NAME = '[Double list]';
 const DEFAULT_BOOLEAN_LIST_NAME = '[Boolean list]';
+
+const DEFAULT_FUNCTION_VARIABLE_NAME = '[Function]';
 
 const TRUE_KEYWORD = 'true';
 const FALSE_KEYWORD = 'false';
@@ -33,7 +41,9 @@ function isDefaultVariableName(candidateName: string): boolean {
 
 			candidateName === DEFAULT_INT_LIST_NAME ||
 			candidateName === DEFAULT_DOUBLE_LIST_NAME ||
-			candidateName === DEFAULT_BOOLEAN_LIST_NAME) {
+			candidateName === DEFAULT_BOOLEAN_LIST_NAME || 
+			candidateName === DEFAULT_FUNCTION_VARIABLE_NAME
+	) {
 		return true;
 	}
 	return false;
@@ -91,6 +101,24 @@ function getNameAsConstant(name: string, expectedType: DataType): ?Value {
 	return null;
 }
 
+function isBuiltInVariable(name: string, expectedType: DataType): boolean {
+	if (expectedType === 'BOOLEAN') {
+		return builtInBooleanVariables.includes(name);
+	}
+	else if (expectedType === 'INT') {
+		return builtInIntVariables.includes(name);
+	}
+	else if (expectedType === 'DOUBLE') {
+		return builtInDoubleVariables.includes(name);
+	}
+	else if (expectedType === 'DOUBLE_LIST') {
+		return builtInDoubleListVariables.includes(name);
+	}
+	else {
+		return false;
+	}
+}
+
 export {
 	DEFAULT_INT_VARIABLE_NAME,
 	DEFAULT_DOUBLE_VARIABLE_NAME,
@@ -104,6 +132,8 @@ export {
 	DEFAULT_DOUBLE_LIST_NAME,
 	DEFAULT_BOOLEAN_LIST_NAME,
 
+	DEFAULT_FUNCTION_VARIABLE_NAME,
+
 	TRUE_KEYWORD,
 	FALSE_KEYWORD,
 
@@ -111,4 +141,5 @@ export {
 	isLegalVariableName,
 	isLegalConstant,
 	getNameAsConstant,
+	isBuiltInVariable,
 };

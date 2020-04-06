@@ -6,6 +6,7 @@ import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import Vec from './Vec.js';
 import {verifyBoolean} from '../interpreter/Value.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
 
 import type {DataType} from './DataType.js';
 
@@ -107,36 +108,42 @@ class ForBlock extends CasusBlock {
 		return [this.initializationBlock, this.expressionBlock, this.incrementBlock, this.contents];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const initializationRes = this.initializationBlock.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const initializationRes = this.initializationBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (initializationRes.length > 0) {
 			return initializationRes;
 		}
 		if (this.initializationBlock.boundingBox.contains(v) && this.initializationBlock.draggable()) {
 			const toReturn = [this.initializationBlock];
-			this.initializationBlock = new EmptyBlock('VOID');
+			if (!justReturnCopy) {
+				this.initializationBlock = new EmptyBlock('VOID');
+			}
 			return toReturn;
 		}
-		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (expressionRes.length > 0) {
 			return expressionRes;
 		}
 		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
 			const toReturn = [this.expressionBlock];
-			this.expressionBlock = new EmptyBlock('BOOLEAN');
+			if (!justReturnCopy) {
+				this.expressionBlock = new EmptyBlock('BOOLEAN');
+			}
 			return toReturn;
 		}
-		const incrementRes = this.incrementBlock.removeBlockAt(v, removeAfter);
+		const incrementRes = this.incrementBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (incrementRes.length > 0) {
 			return incrementRes;
 		}
 		if (this.incrementBlock.boundingBox.contains(v) && this.incrementBlock.draggable()) {
 			const toReturn = [this.incrementBlock];
-			this.incrementBlock = new EmptyBlock('VOID');
+			if (!justReturnCopy) {
+				this.incrementBlock = new EmptyBlock('VOID');
+			}
 			return toReturn;
 		}
 
-		return this.contents.removeBlockAt(v, removeAfter);
+		return this.contents.removeBlockAt(v, removeAfter, justReturnCopy);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
@@ -197,10 +204,13 @@ class ForBlock extends CasusBlock {
 	}
 
 	evaluate(): null {
-		this.initializationBlock.evaluate();
-		while (verifyBoolean(this.expressionBlock.evaluate()).val) {
-			this.contents.evaluate();
-			this.incrementBlock.evaluate();
+		this.initializationBlock.runEvaluate();
+		while (verifyBoolean(this.expressionBlock.runEvaluate()).val) {
+			if (getInterpriterState().madeTooManyStatements()) {
+				break;
+			}
+			this.contents.runEvaluate();
+			this.incrementBlock.runEvaluate();
 		}
 		return null;
 	}

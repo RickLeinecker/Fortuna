@@ -1,7 +1,7 @@
 //@flow strict
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
-import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -59,10 +59,22 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		);
 	};
 
-	//This gets all of the users tanks and then adds them to the dropdown
+	// Get all of a user's tanks, besides the favorite tank.
 	getAllUsersTanksForSell() : void {
+		let favTankId: string = '';
+		getFavoriteTank(tank => {
+			favTankId = tank._id;
+		});
+
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
+				
+				// Find the favorite tank and remove it if it exists.
+				const index = allTanks.map(tank => tank._id).indexOf(favTankId);
+				if (index > -1) {
+					allTanks.splice(index, 1);
+				}
+			
 				this.setState({tanksToSell: allTanks});
 			}
 		});
@@ -107,10 +119,12 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="tankForSell" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<br/>
 				<label>Selling Price</label>
-				<input type="number" value={this.state.salePrice} className="form-control" onChange={this.handleChangeInSalePrice}></input>
-				<button className="btn btn-success mt-2" onClick={this.makeASaleOfATank}>Sell</button>
+				<input type="number" value={this.state.salePrice} className="inputText" onChange={this.handleChangeInSalePrice}></input>
+				<br/><br/>
+				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
 				<ToastContainer />
 			</div>
 		);

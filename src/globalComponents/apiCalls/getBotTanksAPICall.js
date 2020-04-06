@@ -19,7 +19,7 @@ function getBotTanksAPICall(onLoad: (botTanks: Array<Tank>)=> void): void {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const allTanks: Array<Tank> = [];

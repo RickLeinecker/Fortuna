@@ -21,6 +21,11 @@ import {
 
 import type {Value} from './Value.js';
 import type {DataType} from '../blocks/DataType.js';
+import type DefineFunctionBlock from '../blocks/DefineFunctionBlock.js';
+
+const MAX_STATEMENTS=5e4;
+//crashes between 2e4 and 3e4. Set to 2e3 just to be safe
+const MAX_RECURSION_DEPTH=2e3;
 
 class InterpriterState {
 	intVariables: Map<string, IntValue>;
@@ -29,6 +34,10 @@ class InterpriterState {
 	intListVariables: Map<string, IntListValue>;
 	booleanListVariables: Map<string, BooleanListValue>;
 	doubleListVariables: Map<string, DoubleListValue>;
+	functionList: Map<string, DefineFunctionBlock>;
+
+	statementsMade: number;
+	recursionDepth: number;
 	
 	constructor() {
 		this.intVariables = new Map<string, IntValue>();
@@ -37,6 +46,7 @@ class InterpriterState {
 		this.intListVariables = new Map<string, IntListValue>();
 		this.booleanListVariables = new Map<string, BooleanListValue>();
 		this.doubleListVariables = new Map<string, DoubleListValue>();
+		this.functionList = new Map<string, DefineFunctionBlock>();
 	}
 
 	getVariable(type: DataType, name: string): ?Value {
@@ -97,6 +107,40 @@ class InterpriterState {
 			default:
 				console.log('Unexpected variable type '+type+' in InterpreterState.setVariable!');
 		}
+	}
+
+	getFunction(functionName: string): ?DefineFunctionBlock {
+		return this.functionList.get(functionName);
+	}
+
+	setFunction(functionName: string, defineFunctionBlock: DefineFunctionBlock): void {
+		this.functionList.set(functionName, defineFunctionBlock);
+	}
+
+	incrementStatementsMade(): void {
+		this.statementsMade++;
+	}
+
+	madeTooManyStatements(): boolean {
+		return this.statementsMade > MAX_RECURSION_DEPTH;
+	}
+
+	incrementRecursionDepth(): void {
+		this.recursionDepth++;
+	}
+
+	decrementRecursionDepth(): void {
+		this.recursionDepth--;
+	}
+
+	inTooDeep(): boolean {
+		//maybe we're just trying too hard
+		//when really it's closer than it is too far
+		return this.recursionDepth>MAX_STATEMENTS;
+	}
+
+	resetStatementsMade(): void {
+		this.statementsMade = 0;
 	}
 }
 

@@ -14,9 +14,9 @@ class IfBlock extends SingleConditionHeader {
 	}
 
 	evaluate(): null {
-		const condition=verifyBoolean(this.conditionBlock.evaluate());
+		const condition=verifyBoolean(this.conditionBlock.runEvaluate());
 		if (condition.val) {
-			this.contents.evaluate();
+			this.contents.runEvaluate();
 		}
 		return null;
 	}

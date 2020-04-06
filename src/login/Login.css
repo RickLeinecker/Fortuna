@@ -15,9 +15,17 @@
 .loginmiddle {
 	width: 40%;
 	text-align: center;
+	border-right: #04CCFF;
+	border-left: #04CCFF;
 }
 
 .loginmiddle h1 {
+	color: #04CCFF;
+	text-shadow:
+		-2px -2px 0 #04213F,
+		2px -2px 0 #04213F,
+		-2px 2px 0 #04213F,
+		2px 2px 0 #04213F;
 	margin-top: 40%;
 }
 

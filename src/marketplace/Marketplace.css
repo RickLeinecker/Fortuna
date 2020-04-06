@@ -1,0 +1,20 @@
+.marketBtn {
+	color: #04213F;
+	background-color: #04CCFF;
+	border: 1px solid #000921;
+	padding: 7px 7px 7px 7px;
+}
+
+.marketBtn:hover {
+	color: #04CCFF;
+	background-color: #04213F;
+	border: 1px solid #04CCFF;
+}
+
+.list-group h4 {
+	margin-left: 5%;
+}
+
+.card {
+	background-color: #3E5A6F;
+}

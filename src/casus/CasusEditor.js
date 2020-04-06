@@ -8,10 +8,16 @@ import Vec from './blocks/Vec.js';
 import SelectVariablePopup from './userInteraction/SelectVariablePopup.js';
 import GetVariableBlock from './blocks/GetVariableBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
+import DefineFunctionBlock from './blocks/DefineFunctionBlock.js';
+import CallFunctionBlock from './blocks/CallFunctionBlock.js';
+import ClickProcessedReceipt from './blocks/ClickProcessedReceipt.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
+import casusBlockDeepClone from './casusBlockDeepClone.js';
+
+import type {DataType} from './blocks/DataType.js';
 
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
@@ -24,7 +30,7 @@ type State = {|
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,
-	variableBlockToRename: GetVariableBlock | SetVariableBlock | null
+	variableBlockToRename: GetVariableBlock | SetVariableBlock | DefineFunctionBlock | CallFunctionBlock | null,
 |};
 
 type MouseEvent = {
@@ -41,16 +47,14 @@ const RIGHT_BUTTON_CODE=2;
 
 class CasusEditor extends React.Component<Props, State> {
 	
-
 	constructor(props: Props) {
 		super(props);
-
 		const containerBlock: ContainerBlock = new ContainerBlock([]);
 
 		loadCasus(
 			casusBlock => {
 				this.setState({
-					containerBlock: casusBlock
+					containerBlock: casusBlock,
 				});
 				this._rerender();
 			}
@@ -61,7 +65,7 @@ class CasusEditor extends React.Component<Props, State> {
 			mouseX: 0,
 			mouseY: 0,
 			mouseOnScreen: false,
-			variableBlockToRename: null
+			variableBlockToRename: null,
 		}
 	}
 
@@ -95,6 +99,7 @@ class CasusEditor extends React.Component<Props, State> {
 					variableBlockToRename={this.state.variableBlockToRename}
 					onCancelClicked={() => this.onCancelClicked()}
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
+					getExistingVariableNames={(dataType) => this._getExistingVariableNames(dataType)}
 				/>
 			</div>
 		);
@@ -140,10 +145,21 @@ class CasusEditor extends React.Component<Props, State> {
 		
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true);
+			const wouldHaveRemoved = this.state.containerBlock.removeBlockAt(eventPos, false, true);
+			if (!this._isClickProcessedReceipt(wouldHaveRemoved)) {
+				toSelect=[];
+				//be sure to rerender at the end of processing
+				for (const block of wouldHaveRemoved) {
+					toSelect.push(casusBlockDeepClone(block));
+				}
+			}
 		}
 		else {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false);
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true, false);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				//be sure to rerender at the end of processing
+				toSelect= [];
+			}
 		}
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
@@ -161,6 +177,12 @@ class CasusEditor extends React.Component<Props, State> {
 		if (toRename instanceof SetVariableBlock) {
 			toRename.variableName = variableName;
 		}
+		if (toRename instanceof CallFunctionBlock) {
+			toRename.functionName = variableName;
+		}
+		if (toRename instanceof DefineFunctionBlock) {
+			toRename.functionName = variableName;
+		}
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
@@ -172,7 +194,8 @@ class CasusEditor extends React.Component<Props, State> {
 		const block=this.state.variableBlockToRename;
 		if (block!=null) {
 			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
-			this.state.containerBlock.removeBlockAt(toRemovePos, false);
+			//TODO: only remove the block if it was successfully placed!
+			this.state.containerBlock.removeBlockAt(toRemovePos, false, false);
 		}
 
 		this.setState({variableBlockToRename: null});
@@ -241,6 +264,10 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 	}
 
+	_getExistingVariableNames(dataType: DataType) {
+		return this.state.containerBlock.getExistingVariableNames(dataType);
+	}
+
 	//checks if a realeased block would be placed on an empty block with void return type
 	_wouldPlaceOnEmptyVoid(): boolean {
 		if (this.props.draggedBlocks != null) {
@@ -282,6 +309,13 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 	}
 
+	_isClickProcessedReceipt(blocksReturned: Array<CasusBlock>): boolean {
+		if (blocksReturned.length === 1 && blocksReturned[0] instanceof ClickProcessedReceipt) {
+			return true;
+		}
+		return false;
+	}
+
 	_openSelectVariablePopupIfNeeded(): void {
 		if (this.props.draggedBlocks == null) {
 			return;
@@ -290,8 +324,19 @@ class CasusEditor extends React.Component<Props, State> {
 			return;
 		}
 		const released=this.props.draggedBlocks[0];
-		if (released instanceof GetVariableBlock || released instanceof SetVariableBlock) {
+		if (
+			released instanceof GetVariableBlock || 
+			released instanceof SetVariableBlock
+		) {
 			if (isDefaultVariableName(released.variableName)) {
+				this.setState({variableBlockToRename: released});
+			}
+		}
+		else if (
+			released instanceof DefineFunctionBlock || 
+			released instanceof CallFunctionBlock
+		) {
+			if (isDefaultVariableName(released.functionName)) {
 				this.setState({variableBlockToRename: released});
 			}
 		}

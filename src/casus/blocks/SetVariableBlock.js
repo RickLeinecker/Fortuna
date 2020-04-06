@@ -8,6 +8,11 @@ import Vec from './Vec.js';
 import generateCornerPerim from './generateCornerPerim.js';
 import InterpriterState from '../interpreter/InterpriterState.js'
 import {getInterpriterState} from '../interpreter/InterpriterState.js'
+import {
+	isBuiltInVariable,
+	isLegalConstant,
+	isDefaultVariableName,
+} from '../userInteraction/defaultVariableNames.js';
 
 import {
 	SET_VARIABLE_SET_WIDTH, 
@@ -64,14 +69,16 @@ class SetVariableBlock extends CasusBlock {
 		return [this.expressionBlock];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (expressionRes.length > 0) {
 			return expressionRes;
 		}
 		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
 			const toReturn=[this.expressionBlock];
-			this.expressionBlock=new EmptyBlock(this.paramType);
+			if (!justReturnCopy) {
+				this.expressionBlock=new EmptyBlock(this.paramType);
+			}
 			return toReturn;
 		}
 		return [];
@@ -82,7 +89,17 @@ class SetVariableBlock extends CasusBlock {
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
-		ctx.fillStyle = '#ff00cb';
+		const builtInVariable = isBuiltInVariable(this.variableName, this.paramType);
+		const legalConstant = isLegalConstant(this.variableName, this.paramType);
+		if (builtInVariable) {
+			ctx.fillStyle = '#3dc2dc';
+		}
+		else if (legalConstant) {
+			ctx.fillStyle = '#aaaaaa';
+		}
+		else {
+			ctx.fillStyle = '#ff00cb';
+		}
 
 		ctx.fillRect(this.boundingBox.x, this.boundingBox.y, this.boundingBox.w, this.boundingBox.h);
 
@@ -113,6 +130,20 @@ class SetVariableBlock extends CasusBlock {
 		return 'VOID';
 	}
 
+	getExistingVariableNames(dataType: DataType): Array<string> {
+		if (this.paramType !== dataType) {
+			return [];
+		}
+		//if it is a constant or a built in variable, don't add it to the list
+		const builtInVariable = isBuiltInVariable(this.variableName, this.paramType);
+		const legalConstant = isLegalConstant(this.variableName, this.paramType);
+		const isDefault = isDefaultVariableName(this.variableName);
+		if (legalConstant || builtInVariable || isDefault) {
+			return [];
+		}
+		return [this.variableName];
+	}
+
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
 		if (!this.boundingBox.contains(v)) {
 			return null;
@@ -123,7 +154,7 @@ class SetVariableBlock extends CasusBlock {
 
 	evaluate(): null {
 		const interpreter : InterpriterState = getInterpriterState();
-		const setTo = this.expressionBlock.evaluate();
+		const setTo = this.expressionBlock.runEvaluate();
 		if (setTo == null) {
 			throw new Error('Didnt expect expression block to return null!');
 		}

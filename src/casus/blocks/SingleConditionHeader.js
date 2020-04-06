@@ -87,18 +87,20 @@ class SingleConditionHeader extends CasusBlock {
 		return [this.conditionBlock, this.contents];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const conditionRes = this.conditionBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (conditionRes.length > 0) {
 			return conditionRes;
 		}
 		if (this.conditionBlock.boundingBox.contains(v) && this.conditionBlock.draggable()) {
 			const toReturn = [this.conditionBlock];
-			this.conditionBlock = new EmptyBlock('BOOLEAN');
+			if (!justReturnCopy) {
+				this.conditionBlock = new EmptyBlock('BOOLEAN');
+			}
 			return toReturn;
 		}
 
-		return this.contents.removeBlockAt(v, removeAfter);
+		return this.contents.removeBlockAt(v, removeAfter, justReturnCopy);
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {

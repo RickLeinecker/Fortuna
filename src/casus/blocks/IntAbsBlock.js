@@ -11,7 +11,7 @@ class IntAbsBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): IntValue {
-		const childRes=verifyInt(this.rChild.evaluate());
+		const childRes=verifyInt(this.rChild.runEvaluate());
 		return childRes.abs();
 	}
 

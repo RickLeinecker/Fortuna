@@ -1,8 +1,8 @@
 /* Battle Arena Page Styling */
 .baleft {
-    width: 36%;
+    width: 30%;
     margin-top: 5%;
-    text-align: left;
+    text-align: center;
     padding-left: 20px;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .bamiddle {
-    width: 28%;
+    width: 40%;
     text-align: center;
     margin-top: 5%;
 }
@@ -27,19 +27,48 @@
     margin-top: 5%;
 }
 
+/* Search Player List Styling */
+.searchPlayersList {
+	margin-top: 20px;
+}
+
+.searchPlayerListItem {
+	display: list-item;
+}
+
+.searchPlayersList ul {
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	height: 200px;
+	text-align: center;
+	overflow: hidden;
+	overflow-y: scroll;
+	list-style-type: none;
+}
+
 .searchPlayers {
     text-align: center;
 }
 
+/* Replay Table Styling */
 .replayList {
-    height: 200px;
-    overflow: hidden;
-    overflow-y: scroll;
+    font-size: 15px;
+    text-align: center;
+}
+
+.replayTable table {
     width: 100%;
 }
 
-.replayTable {
-    font-size: 15px;
+.replayTable thead, tbody {
+    display: block;
+}
+
+.replayTable tbody {
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .replayTable h4 {
@@ -48,9 +77,11 @@
 
 .replayTable th {
     padding: 10px;
+    width: 20%;
 }
 
 .replayTable td {
+    width: 20%;
     border-left: none;
     border-right: none;
     border-top: 1px solid #04CCFF;

@@ -11,7 +11,7 @@ class IntToDoubleBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): DoubleValue {
-		const rRes=verifyInt(this.rChild.evaluate());
+		const rRes=verifyInt(this.rChild.runEvaluate());
 		return rRes.toDoubleValue();
 	}
 

@@ -21,6 +21,7 @@ const MarketSale = require('../../models/marketSaleModel');
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
 const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
+const MASTER_ID = process.env.MASTER_SELLER;
 
 exports.register = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
@@ -203,8 +204,8 @@ exports.login = async (req: Request, res: Response) => {
 			return res
 				.status(401)
 				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' + 
-					'Please check the email associated with this account for your verification token. ' +
-					'If your token has expired, feel free to request a new one.' });
+					'Check your email for your verification token. ' +
+					'If your token has expired, request a new one.' });
 		}
 
 		// Login successful. Proceed with JWT Creation
@@ -437,7 +438,7 @@ exports.retrieveUser  = async (req: Request, res: Response) => {
 exports.getLeaders = async (req: Request, res: Response) => {
 	// skip and limit determine how many to return
 	// the -1 in the sort is for descending order based on elo
-	await User.find({}, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
+	await User.find({ _id: { $ne: MASTER_ID } }, ['userName', 'stats.elo'], { skip: 0, limit: 10, sort:{'stats.elo': -1} }, function(err: Error, leaders: Array<User>){
 		if(err){
 			res.send(err);
 			console.error(err.message);
@@ -529,14 +530,14 @@ exports.editUser = async (req: Request, res: Response) => {
 	}
 
 	// Check if user is in DB
-	const user = await User.findById(req.user.id, 'userName, password, email');
+	const user = await User.findById(req.user.id, 'password, email');
 	if (!user) {
 		console.error('Could not find user in DB');
 		return res.status(400).json({ msg: 'Could not find user to edit' });
 	}
 
 	// Deconstruct body
-	const { userName, password, email } = req.body;
+	const { password, email } = req.body;
 
 	// Creates salt with 10 rounds(recommended)
 	const salt = await bcrypt.genSalt(10);
@@ -544,7 +545,7 @@ exports.editUser = async (req: Request, res: Response) => {
 	const newPassword = await bcrypt.hash(password, salt);
 	
 	// Update User
-	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { userName: userName, password: newPassword, email: email }, { new: true });
+	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { password: newPassword, email: email }, { new: true });
 	if (!updatedUser) {
 		console.error('Failed to save user updates');
 		return res.status(500).json({ msg: 'Failed to save user changes' });

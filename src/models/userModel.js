@@ -41,11 +41,18 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         type: Date,
         default: null
     },
-    // String is the ObjectId of tank that is marked as favorite. Null default
+    // Keeping the old 1v1 tank listings here so the current implementations won't break.
+    // ObjectId of tank that is marked as favorite. Null default
     favoriteTank: {
-        type: String,
-        default: null
+        type: Mongoose.Schema.Types.ObjectId,
+        default: null,
+        ref: 'Tank'
     },
+     // Array of ObjectId of tanks that are marked as favorite.
+    favoriteTanks: [{
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: 'Tank'
+    }],
     // User's inventory. Separate sections for tank components and Casus blocks
     inventory: {
         // Tracks number of tank components a user has.

@@ -11,12 +11,12 @@ class AndBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): BooleanValue {
-		const lRes=verifyBoolean(this.lChild.evaluate());
+		const lRes=verifyBoolean(this.lChild.runEvaluate());
 		if (!lRes.val) {
 			return lRes;
 		}
 
-		const rRes=verifyBoolean(this.rChild.evaluate());
+		const rRes=verifyBoolean(this.rChild.runEvaluate());
 		return rRes;
 	}
 

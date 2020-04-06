@@ -62,8 +62,8 @@ class TrainingArena extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<Navbar 
-					linkName="/BattleArena" 
-					returnName="Back to Battle Arena" 
+					linkName="/MainMenu" 
+					returnName="Back to Main Menu" 
 					pageName="Training Arena" 
 				/>
 				<div className="column taleft">

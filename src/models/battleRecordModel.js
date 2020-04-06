@@ -35,6 +35,7 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
         type: Number,
         required: true
     },
+    // Keeping the old 1v1 tank listings here so the current implementations won't break.
     // User one's tank state for this battle
     tankOne: {
         tankName: {
@@ -64,7 +65,37 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
             type: Object,
             required: true
         }
-    }
+    },
+    // User one's tank team's state for this battle
+    tankTeamOne: [{
+        tankName: {
+            type: String,
+            required: true
+        },
+        components: [{
+            type: String,
+            required: true
+        }],
+        casusCode: {
+            type: Object,
+            required: true
+        }
+    }],
+    // User two's tank team's state for this battle
+    tankTeamTwo: [{
+        tankName: {
+            type: String,
+            required: true
+        },
+        components: [{
+            type: String,
+            required: true
+        }],
+        casusCode: {
+            type: Object,
+            required: true
+        }
+    }],
 }));
 
 module.exports = BattleRecord;

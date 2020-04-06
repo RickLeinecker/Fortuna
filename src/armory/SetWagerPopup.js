@@ -5,10 +5,12 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { setWager } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall';
-import { setFavoriteTankId, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { setFavoriteTankId, getFavoriteTank, removeFavoriteTankId } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	wagerTank: Tank,
+	onWagerUpdate: () => void;
 |};
 
 type State = {|
@@ -17,7 +19,7 @@ type State = {|
 	currentWager: number,
 	currentWagerTank: ?Tank,
 	setWagerOpen: boolean,
-	errorMessage: string,
+	removeWagerOpen: boolean,
 |};
 
 class SetWagerPopup extends React.Component<Props, State> {
@@ -30,7 +32,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			currentWager: 0,
 			currentWagerTank: null,
 			setWagerOpen: false,
-			errorMessage: '',
+			removeWagerOpen: false,
 		}
 	}
 
@@ -56,14 +58,15 @@ class SetWagerPopup extends React.Component<Props, State> {
 		this.setState({currentWagerTank: newWagerTank});
 	}
 
+	// Set the user's wager and favorite tank.
 	handleWagerClick(): void {
 		// Error handling.
 		if (this.state.userWager > this.state.userCurrency) {
-			this.setState({errorMessage: 'Not enough currency.'});
+			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.userWager === 0) {
-			this.setState({errorMessage: 'Wager cannot be 0.'});
+		else if (this.state.userWager <= 0) {
+			toast.error('Wager cannot be 0.');
 			return;
 		}
 
@@ -71,17 +74,41 @@ class SetWagerPopup extends React.Component<Props, State> {
 		setWager(this.state.userWager, setSuccessful => {
 			if (setSuccessful) {
 				this.setState({currentWager: this.state.userWager});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
 			}
 			else {
-				this.setState({errorMessage: 'Could not set wager.'});
+				toast.error('Could not set wager.');
 			}
 		});
 		setFavoriteTankId(this.props.wagerTank._id, setSuccessful => {
 			if (setSuccessful) {
-				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank, errorMessage: ''});
+				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
 			}
 			else {
-				this.setState({errorMessage: 'Could not set wager tank.'});
+				toast.error('Could not set wager tank.');
+			}
+		});
+	}
+
+	// Remove the user's wager and favorite tank.
+	handleRemoveClick(): void {
+		setWager(0, setSuccessful => {
+			if (setSuccessful) {
+				this.setState({currentWager: 0});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
+			}
+			else {
+				toast.error('Could not remove wager.');
+			}
+		});
+		removeFavoriteTankId(setSuccessful => {
+			if (setSuccessful) {
+				this.setState({removeWagerOpen: false, currentWagerTank: null});
+			}
+			else {
+				toast.error('Could not remove wager tank.');
 			}
 		});
 	}
@@ -92,20 +119,35 @@ class SetWagerPopup extends React.Component<Props, State> {
 				Wager
 			</button>
 		);
+		const removeButton = (
+			<button className="popupbtn" onClick={() => this.handleRemoveClick()}>
+				Remove
+			</button>
+		);
 		const cancelButton = (
-			<button className="cancelbtn" onClick={() => this.setState({setWagerOpen: false})}>
+			<button className="cancelbtn" onClick={() => this.setState({setWagerOpen: false, removeWagerOpen: false})}>
 				Cancel
 			</button>
 		);
 
 		return (
 			<div>
-				<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
-					Setup
-				</button>
-				<label>&emsp;Setup a Wager</label>
-				<br/><br/>
-				<h4>Current Wager</h4>
+				<h5>Wager a Tank</h5>
+				<div className="row rowPadding">
+					<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
+						Setup
+					</button>
+					&emsp;
+					<button 
+						disabled={(this.state.currentWagerTank == null) ? true : false}
+						className="smallbtn"
+						onClick={() => this.setState({removeWagerOpen: true})}
+					>
+						Remove
+					</button>
+				</div>
+				<br/>
+				<label>Current Wager:&emsp;</label>
 				<label>{this.state.currentWagerTank == null ?
 					'No set wager tank' : 
 					<div className="wagerTank">
@@ -121,6 +163,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 						onClose={() => this.setState({setWagerOpen: false})}
 					>
 						<div className="popup">
+							<br/>
 							<h4>Enter amount to wager {this.props.wagerTank.tankName} for</h4>
 							<br/>
 							<input 
@@ -128,13 +171,23 @@ class SetWagerPopup extends React.Component<Props, State> {
 								className="inputText"
 								onChange={e => this.setState({ userWager: e.target.value})} 
 							/>
-							<div className="fixedHeight">
-								{this.state.errorMessage}
-							</div>
 							{wagerButton}{cancelButton}
 						</div>
 					</Popup>
 				</div>
+				<div className="deletePopup">
+					<Popup 
+						open={this.state.removeWagerOpen}
+						onClose={() => this.setState({removeWagerOpen: false})}
+					>
+						<div className="popup">
+							<br/>
+							<h4>Remove the wager for {this.props.wagerTank.tankName}?</h4>
+							{removeButton}{cancelButton}
+						</div>
+					</Popup>
+				</div>
+				<ToastContainer />
 			</div>
 		);
 	}

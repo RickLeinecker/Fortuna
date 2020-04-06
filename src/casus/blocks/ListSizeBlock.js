@@ -61,14 +61,16 @@ class ListSizeBlock extends CasusBlock {
 		return [this.list];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const listRes=this.list.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const listRes=this.list.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (listRes.length > 0) {
 			return listRes;
 		}
 		if (this.list.boundingBox.contains(v) && this.list.draggable()) {
 			const toReturn=[this.list];
-			this.list = new EmptyBlock(listVersionOf(this.paramType));
+			if (!justReturnCopy) {
+				this.list = new EmptyBlock(listVersionOf(this.paramType));
+			}
 			return toReturn;
 		}
 
@@ -117,7 +119,7 @@ class ListSizeBlock extends CasusBlock {
 	}
 
 	evaluate(): IntValue {
-		const list=this.list.evaluate();
+		const list=this.list.runEvaluate();
 		switch (this.paramType) {
 			case 'INT':
 				return verifyIntList(list).sizeOf();
