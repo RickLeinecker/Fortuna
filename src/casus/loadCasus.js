@@ -3,7 +3,7 @@
 import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
-import reviveCasusBlock from './reviveCasusBlock.js';
+import {reviveAsContainer} from './reviveCasusBlock.js';
 
 function loadCasus(
 	onBlocksLoaded: (casusBlock: ContainerBlock) => void, 
@@ -42,7 +42,7 @@ function loadCasus(
 					onBlocksLoaded(new ContainerBlock());
 					return;
 				}
-				let revived=reviveCasusBlock(tank.casusCode);
+				let revived=reviveAsContainer(tank.casusCode);
 				console.log('Recieved blocks.');
 				console.log(revived);
 				onBlocksLoaded(revived);

@@ -3,6 +3,8 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import SetVariableBlock from '../blocks/SetVariableBlock.js';
 import GetVariableBlock from '../blocks/GetVariableBlock.js';
+import DefineFunctionBlock from '../blocks/DefineFunctionBlock.js';
+import CallFunctionBlock from '../blocks/CallFunctionBlock.js';
 import {
 	TRUE_KEYWORD,
 	FALSE_KEYWORD,
@@ -20,7 +22,7 @@ import {
 import './SelectVariablePopup.css';
 
 type Props = {|
-	variableBlockToRename: SetVariableBlock | GetVariableBlock | null,
+	variableBlockToRename: SetVariableBlock | GetVariableBlock | DefineFunctionBlock | CallFunctionBlock | null,
 	onCancelClicked: () => void,
 	onVariableCreated: (variableName: string) => void,
 	getExistingVariableNames: (dataType: DataType) => Array<string>
@@ -57,6 +59,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 	render(): React.Node {
 		const enabled=this.getShouldBeAbleToClickCreateVariable();
 		const prepopulatedVariables=this.getPrepopulatedValues();
+		const selectVariableOrFunctionText='Select '+this._functionOrVariableWord();
 
 		return (
 			<Popup
@@ -66,7 +69,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 			>
 				<div className="popup centered">
-					<h2>Select Variable:</h2>
+					<h2>{selectVariableOrFunctionText}</h2>
 
 					{prepopulatedVariables.map(name => (
 						<button
@@ -98,6 +101,10 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 	getExpectedDataType(): DataType {
 		if (this.props.variableBlockToRename == null) {
+			return 'VOID';
+		}
+		if (this.props.variableBlockToRename instanceof CallFunctionBlock || 
+			this.props.variableBlockToRename instanceof DefineFunctionBlock) {
 			return 'VOID';
 		}
 		return (this.props.variableBlockToRename instanceof GetVariableBlock) ?
@@ -133,14 +140,14 @@ class SelectVariablePopup extends React.Component<Props, State> {
 	}
 
 	//returns "Constant/Create Variable", "Constant", or "Create Variable"
-	getCreateVariableText(): 'Enter a Constant or Variable To Create' | 'Constant' | 'Create Variable' {
+	getCreateVariableText(): string {
 		if (this.getTypedLegalVariableName() || !this.canHaveConstants()) {
-			return 'Create Variable';
+			return 'Create '+this._functionOrVariableWord();
 		}
 		if (this.getTypedLegalConstant()) {
 			return 'Constant';
 		}
-		return 'Enter a Constant or Variable To Create';
+		return 'Enter a Constant or '+this._functionOrVariableWord()+' To Create';
 	}
 
 	getPrepopulatedValues(): Array<string> {
@@ -195,6 +202,15 @@ class SelectVariablePopup extends React.Component<Props, State> {
 
 	getPrepopulatedDoubleLists(): Array<string> {
 		return builtInDoubleListVariables;
+	}
+
+	_isFunctionBlock(): boolean {
+		return this.props.variableBlockToRename instanceof CallFunctionBlock ||
+			this.props.variableBlockToRename instanceof DefineFunctionBlock;
+	}
+
+	_functionOrVariableWord(): string {
+		return this._isFunctionBlock()?'Function':'Variable';
 	}
 
 }

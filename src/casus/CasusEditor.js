@@ -8,10 +8,14 @@ import Vec from './blocks/Vec.js';
 import SelectVariablePopup from './userInteraction/SelectVariablePopup.js';
 import GetVariableBlock from './blocks/GetVariableBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
+import DefineFunctionBlock from './blocks/DefineFunctionBlock.js';
+import CallFunctionBlock from './blocks/CallFunctionBlock.js';
+import ClickProcessedReceipt from './blocks/ClickProcessedReceipt.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
+import casusBlockDeepClone from './casusBlockDeepClone.js';
 
 import type {DataType} from './blocks/DataType.js';
 
@@ -26,7 +30,7 @@ type State = {|
 	mouseX: number,
 	mouseY: number,
 	mouseOnScreen: boolean,
-	variableBlockToRename: GetVariableBlock | SetVariableBlock | null,
+	variableBlockToRename: GetVariableBlock | SetVariableBlock | DefineFunctionBlock | CallFunctionBlock | null,
 |};
 
 type MouseEvent = {
@@ -45,7 +49,6 @@ class CasusEditor extends React.Component<Props, State> {
 	
 	constructor(props: Props) {
 		super(props);
-
 		const containerBlock: ContainerBlock = new ContainerBlock([]);
 
 		loadCasus(
@@ -142,10 +145,23 @@ class CasusEditor extends React.Component<Props, State> {
 		
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true);
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false, true);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				toSelect=[];
+				//be sure to rerender at the end of processing
+			}
 		}
 		else {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false);
+			const wouldHaveRemoved = this.state.containerBlock.removeBlockAt(eventPos, false, true);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				toSelect=[];
+				//be sure to rerender at the end of processing
+			}
+			else {
+				for (const block of wouldHaveRemoved) {
+					toSelect.push(casusBlockDeepClone(block));
+				}
+			}
 		}
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
@@ -163,6 +179,12 @@ class CasusEditor extends React.Component<Props, State> {
 		if (toRename instanceof SetVariableBlock) {
 			toRename.variableName = variableName;
 		}
+		if (toRename instanceof CallFunctionBlock) {
+			toRename.functionName = variableName;
+		}
+		if (toRename instanceof DefineFunctionBlock) {
+			toRename.functionName = variableName;
+		}
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
@@ -174,7 +196,8 @@ class CasusEditor extends React.Component<Props, State> {
 		const block=this.state.variableBlockToRename;
 		if (block!=null) {
 			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
-			this.state.containerBlock.removeBlockAt(toRemovePos, false);
+			//TODO: only remove the block if it was successfully placed!
+			this.state.containerBlock.removeBlockAt(toRemovePos, false, false);
 		}
 
 		this.setState({variableBlockToRename: null});
@@ -288,6 +311,13 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 	}
 
+	_isClickProcessedReceipt(blocksReturned: Array<CasusBlock>): boolean {
+		if (blocksReturned.length === 1 && blocksReturned[0] instanceof ClickProcessedReceipt) {
+			return true;
+		}
+		return false;
+	}
+
 	_openSelectVariablePopupIfNeeded(): void {
 		if (this.props.draggedBlocks == null) {
 			return;
@@ -296,8 +326,19 @@ class CasusEditor extends React.Component<Props, State> {
 			return;
 		}
 		const released=this.props.draggedBlocks[0];
-		if (released instanceof GetVariableBlock || released instanceof SetVariableBlock) {
+		if (
+			released instanceof GetVariableBlock || 
+			released instanceof SetVariableBlock
+		) {
 			if (isDefaultVariableName(released.variableName)) {
+				this.setState({variableBlockToRename: released});
+			}
+		}
+		else if (
+			released instanceof DefineFunctionBlock || 
+			released instanceof CallFunctionBlock
+		) {
+			if (isDefaultVariableName(released.functionName)) {
 				this.setState({variableBlockToRename: released});
 			}
 		}

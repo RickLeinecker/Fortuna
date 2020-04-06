@@ -171,7 +171,7 @@ class CasusBlock {
 		return [];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		return [];
 	}
 
@@ -196,7 +196,7 @@ class CasusBlock {
 	}
 
 	evaluate(): ?Value {
-		return null;
+		throw new Error('Didnt implement evaluate!');
 	}
 
 }

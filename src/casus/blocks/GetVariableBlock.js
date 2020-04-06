@@ -59,7 +59,7 @@ class GetVariableBlock extends CasusBlock {
 		return [];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		return [];
 	}
 
