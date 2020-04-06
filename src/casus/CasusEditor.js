@@ -13,6 +13,8 @@ import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
 
+import type {DataType} from './blocks/DataType.js';
+
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
 	onDraggedBlocksReleased: () => void,
@@ -95,6 +97,7 @@ class CasusEditor extends React.Component<Props, State> {
 					variableBlockToRename={this.state.variableBlockToRename}
 					onCancelClicked={() => this.onCancelClicked()}
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
+					getExistingVariableNames={(dataType) => this._getExistingVariableNames(dataType)}
 				/>
 			</div>
 		);
@@ -239,6 +242,10 @@ class CasusEditor extends React.Component<Props, State> {
 			canvas.width=canvas.clientWidth;
 			canvas.height=canvas.clientHeight;
 		}
+	}
+
+	_getExistingVariableNames(dataType: DataType) {
+		return this.state.containerBlock.getExistingVariableNames(dataType);
 	}
 
 	//checks if a realeased block would be placed on an empty block with void return type

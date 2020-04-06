@@ -100,6 +100,10 @@ class Armory extends React.Component<Props, State> {
 	getTanks(): void {
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
+				if (allTanks.length === 0) {
+					console.log('Expected to have at least one tank!');
+					return;
+				}
 				// Always set the default selected tank to the newest tank.
 				const newSelectedTank = allTanks[allTanks.length-1];
 				setTankForCasus(newSelectedTank._id);
