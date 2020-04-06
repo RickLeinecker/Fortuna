@@ -12,6 +12,7 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
+import { ToastContainer , toast } from 'react-toastify';
 // Functions
 import { getInventory, getComponentPoints } from '../globalComponents/GetInventoryInfo.js';
 import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
@@ -101,7 +102,7 @@ class Armory extends React.Component<Props, State> {
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
 				if (allTanks.length === 0) {
-					console.log('Expected to have at least one tank!');
+					toast.error('Expected to have at least one tank!');
 					return;
 				}
 				// Always set the default selected tank to the newest tank.
@@ -126,7 +127,8 @@ class Armory extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if(response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
+					console.log(data);
 				}
 				else {
 					this.setState({
@@ -176,7 +178,7 @@ class Armory extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if(response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					toast.error(data.msg);
 					console.log(data);
 				}
 				else {
@@ -511,6 +513,7 @@ class Armory extends React.Component<Props, State> {
 						{toTitleCase(this.state.selectedTank.itemThree.name)}
 					</button>
 				</div>
+				<ToastContainer />
 			</div>
 		);
 	}

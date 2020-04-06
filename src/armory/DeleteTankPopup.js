@@ -51,7 +51,7 @@ class DeleteTankPopup extends React.Component<Props, State> {
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				toast.error('Could not connect to server!');
 				console.log(error);
 				return;
 			}
@@ -78,6 +78,7 @@ class DeleteTankPopup extends React.Component<Props, State> {
 						onClose={() => this.setState({deleteTankOpen: false})}
 					>
 						<div className="popup">
+							<br/>
 							<h4>Delete {this.props.tank.tankName}?</h4>
 							{deleteButton}{cancelButton}
 						</div>
