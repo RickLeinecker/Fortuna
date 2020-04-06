@@ -145,22 +145,20 @@ class CasusEditor extends React.Component<Props, State> {
 		
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
-			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false, true);
-			if (this._isClickProcessedReceipt(toSelect)) {
-				toSelect=[];
-				//be sure to rerender at the end of processing
-			}
-		}
-		else {
 			const wouldHaveRemoved = this.state.containerBlock.removeBlockAt(eventPos, false, true);
-			if (this._isClickProcessedReceipt(toSelect)) {
+			if (!this._isClickProcessedReceipt(wouldHaveRemoved)) {
 				toSelect=[];
 				//be sure to rerender at the end of processing
-			}
-			else {
 				for (const block of wouldHaveRemoved) {
 					toSelect.push(casusBlockDeepClone(block));
 				}
+			}
+		}
+		else {
+			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true, false);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				//be sure to rerender at the end of processing
+				toSelect= [];
 			}
 		}
 		if (toSelect.length > 0) {
