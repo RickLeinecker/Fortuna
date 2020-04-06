@@ -21,7 +21,7 @@ function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matc
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const dataT1=data.tankOne;

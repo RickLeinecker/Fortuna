@@ -24,7 +24,7 @@ function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: s
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const matchId=data;

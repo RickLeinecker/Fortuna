@@ -2,21 +2,18 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
 |}; 
 
 type State = {|
-	response: string,
 	userName: string,
 	email: string,
 	password: string,
 	confirmPassword: string,
-	responseToPost: string,
-	email:string,
-
-	errorMessage: string,
+	email: string,
 	signupDialogOpen: boolean
 |};
 
@@ -27,20 +24,18 @@ class SignupPopup extends React.Component<Props, State> {
 	constructor() {
 		super();
 
-		this.state={
-			response: '',
+		this.state = {
 			userName: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
-			responseToPost: '', errorMessage: '',
 			signupDialogOpen: false
 		}
 	}
 
 	handleSignUpClick(): void {
 		if (this.state.password !== this.state.confirmPassword) {
-			this.setState({errorMessage: 'Passwords do not match!'});	
+			toast.error('Passwords do not match!');
 			return;
 		}
 		const responsePromise: Promise<Response> = fetch('/api/user/registerUser', {
@@ -59,9 +54,8 @@ class SignupPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 201) {
 					console.log(response.status);
-					console.log(data.msg);
 					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
+					toast.error(getErrorFromObject(data));
 				}
 				else {
 					console.log(data);
@@ -71,7 +65,7 @@ class SignupPopup extends React.Component<Props, State> {
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -103,7 +97,6 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-
 						<div className="row col-md-12">
 							<label>Username</label>
 							<div className="input-group">
@@ -114,7 +107,6 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-
 						<div className="row col-md-12">
 							<label>Password</label>
 							<div className="input-group">
@@ -125,7 +117,6 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-
 						<div className="row col-md-12">
 							<label>Confirm Password</label>
 							<div className="input-group">
@@ -136,10 +127,7 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-
-						<div className="fixedHeight">
-							{this.state.errorMessage}
-						</div>
+						<br/>
 						<div className="row col-md-12">
 							<button className="popupbtn" onClick={() => this.handleSignUpClick()}>
 								Signup
@@ -150,6 +138,7 @@ class SignupPopup extends React.Component<Props, State> {
 						</div>
 					</div>
 				</Popup>
+				<ToastContainer />
 			</div>
 		);
 	}
