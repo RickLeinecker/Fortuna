@@ -11,7 +11,7 @@ class DoubleTruncateBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): IntValue {
-		const rRes=verifyDouble(this.rChild.evaluate());
+		const rRes=verifyDouble(this.rChild.runEvaluate());
 		return rRes.truncate();
 	}
 

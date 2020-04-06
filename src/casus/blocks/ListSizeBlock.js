@@ -117,7 +117,7 @@ class ListSizeBlock extends CasusBlock {
 	}
 
 	evaluate(): IntValue {
-		const list=this.list.evaluate();
+		const list=this.list.runEvaluate();
 		switch (this.paramType) {
 			case 'INT':
 				return verifyIntList(list).sizeOf();

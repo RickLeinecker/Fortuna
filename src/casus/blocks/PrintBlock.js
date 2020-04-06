@@ -10,7 +10,7 @@ class PrintBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): null {
-		const res=this.rChild.evaluate();
+		const res=this.rChild.runEvaluate();
 		console.log(res);
 		return null;
 	}

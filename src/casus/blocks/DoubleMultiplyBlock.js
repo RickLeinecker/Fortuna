@@ -11,8 +11,8 @@ class DoubleMultiplyBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): DoubleValue {
-		const lRes=verifyDouble(this.lChild.evaluate());
-		const rRes=verifyDouble(this.rChild.evaluate());
+		const lRes=verifyDouble(this.lChild.runEvaluate());
+		const rRes=verifyDouble(this.rChild.runEvaluate());
 		return lRes.mul(rRes);
 	}
 

@@ -171,9 +171,9 @@ class SetListAtBlock extends CasusBlock {
 	}
 
 	evaluate(): null {
-		const list = this.list.evaluate();
-		const index = verifyInt(this.indexBlock.evaluate());
-		const value = this.expressionBlock.evaluate();
+		const list = this.list.runEvaluate();
+		const index = verifyInt(this.indexBlock.runEvaluate());
+		const value = this.expressionBlock.runEvaluate();
 		switch (this.paramType) {
 			case 'INT':
 				verifyIntList(list).setAt(index, verifyInt(value));

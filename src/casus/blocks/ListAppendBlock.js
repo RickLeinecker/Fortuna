@@ -20,8 +20,8 @@ class ListAppendBlock extends BinaryOperationBlock {
 	}
 
 	evaluate(): null {
-		const toAppend = this.lChild.evaluate();
-		const list = this.rChild.evaluate();
+		const toAppend = this.lChild.runEvaluate();
+		const list = this.rChild.runEvaluate();
 		switch(this.paramType) {
 			case 'INT':
 				verifyIntList(list).append(verifyInt(toAppend));

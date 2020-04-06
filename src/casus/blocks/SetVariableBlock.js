@@ -152,7 +152,7 @@ class SetVariableBlock extends CasusBlock {
 
 	evaluate(): null {
 		const interpreter : InterpriterState = getInterpriterState();
-		const setTo = this.expressionBlock.evaluate();
+		const setTo = this.expressionBlock.runEvaluate();
 		if (setTo == null) {
 			throw new Error('Didnt expect expression block to return null!');
 		}

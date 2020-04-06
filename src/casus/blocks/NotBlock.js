@@ -11,7 +11,7 @@ class NotBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): BooleanValue {
-		const res=verifyBoolean(this.rChild.evaluate());
+		const res=verifyBoolean(this.rChild.runEvaluate());
 		return res.not();
 	}
 

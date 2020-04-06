@@ -142,7 +142,7 @@ class GetListAtBlock extends CasusBlock {
 	}
 
 	evaluate(): ?Value {
-		const index = verifyInt(this.indexBlock.evaluate());
+		const index = verifyInt(this.indexBlock.runEvaluate());
 		const interpreter: InterpriterState = getInterpriterState();
 		const expectedListType = listVersionOf(this.paramType);
 		if (!(this.list instanceof GetVariableBlock)) {

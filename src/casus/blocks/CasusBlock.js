@@ -3,6 +3,9 @@
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
+import InterpriterState from '../interpreter/InterpriterState.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
+import {defaultValueFor} from '../interpreter/Value.js';
 
 import type {DataType} from './DataType.js';
 import type {Value} from '../interpreter/Value.js';
@@ -108,6 +111,17 @@ class CasusBlock {
 			}
 		}
 		return this.boundingBox.contains(v) ? this : null;
+	}
+
+	runEvaluate(): ?Value {
+		const interpriterState = getInterpriterState();	
+		if (interpriterState.madeTooManyStatements() && this.getReturnType() === 'VOID') {
+			return defaultValueFor(this.getReturnType());
+		}
+		else {
+			interpriterState.incrementStatementsMade();
+			return this.evaluate();
+		}
 	}
 
 	getExistingVariableNames(dataType: DataType): Array<string> {

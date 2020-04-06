@@ -11,7 +11,7 @@ class MathTanBlock extends UnaryOperationBlock {
 	}
 
 	evaluate(): DoubleValue {
-		const res=verifyDouble(this.rChild.evaluate());
+		const res=verifyDouble(this.rChild.runEvaluate());
 		return res.tan();
 	}
 

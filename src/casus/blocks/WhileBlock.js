@@ -5,6 +5,8 @@ import {verifyBoolean} from '../interpreter/Value.js';
 import {
 	WHILE_BLOCK_WHILE_WIDTH
 } from './generateCornerPerim.js';
+import InterpriterState from '../interpreter/InterpriterState.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
 
 class WhileBlock extends SingleConditionHeader {
 	constructor() {
@@ -12,8 +14,11 @@ class WhileBlock extends SingleConditionHeader {
 	}
 	
 	evaluate(): null {
-		while (verifyBoolean(this.conditionBlock.evaluate()).val) {
-			this.contents.evaluate();
+		while (verifyBoolean(this.conditionBlock.runEvaluate()).val) {
+			if (getInterpriterState().madeTooManyStatements()) {
+				break;
+			}
+			this.contents.runEvaluate();
 		}
 		return null;
 	}
