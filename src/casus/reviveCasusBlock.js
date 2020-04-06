@@ -116,7 +116,11 @@ type SomeBlockFromServer = {
 	//paramType: DataType, //sharedWith getListAtBlock
 	
 	//callFunctionBlock
-	functionName: string
+	functionName: string,
+	
+	//defineFunctionBlock
+	//functionName: string
+	expanded: boolean,
 };
 
 function verifyContainerBlock(block: CasusBlock): ContainerBlock {
@@ -226,7 +230,7 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'DefineFunctionBlock':
-			toReturn=new DefineFunctionBlock(orig.functionName);
+			toReturn=new DefineFunctionBlock(orig.functionName, orig.expanded);
 			toReturn.contents=verifyContainerBlock(reviveCasusBlock(orig.contents));
 			return toReturn;
 		case 'EmptyBlock':

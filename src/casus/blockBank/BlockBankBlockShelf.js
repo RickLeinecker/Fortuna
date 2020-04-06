@@ -287,7 +287,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new IfBlock());
 		blocks.push(new IfElseBlock());
 		blocks.push(new WhileBlock());
-		blocks.push(new DefineFunctionBlock(DEFAULT_FUNCTION_VARIABLE_NAME));
+		blocks.push(new DefineFunctionBlock(DEFAULT_FUNCTION_VARIABLE_NAME, true));
 		blocks.push(new CallFunctionBlock(DEFAULT_FUNCTION_VARIABLE_NAME));
 		return blocks;
 	}

@@ -10,6 +10,7 @@ import GetVariableBlock from './blocks/GetVariableBlock.js';
 import SetVariableBlock from './blocks/SetVariableBlock.js';
 import DefineFunctionBlock from './blocks/DefineFunctionBlock.js';
 import CallFunctionBlock from './blocks/CallFunctionBlock.js';
+import ClickProcessedReceipt from './blocks/ClickProcessedReceipt.js';
 import {isDefaultVariableName} from './userInteraction/defaultVariableNames.js';
 import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
@@ -145,9 +146,17 @@ class CasusEditor extends React.Component<Props, State> {
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
 			toSelect = this.state.containerBlock.removeBlockAt(eventPos, true);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				toSelect=[];
+				//be sure to rerender at the end of processing
+			}
 		}
 		else {
 			toSelect = this.state.containerBlock.removeBlockAt(eventPos, false);
+			if (this._isClickProcessedReceipt(toSelect)) {
+				toSelect=[];
+				//be sure to rerender at the end of processing
+			}
 		}
 		if (toSelect.length > 0) {
 			this.props.onBlocksDragged(toSelect);
@@ -294,6 +303,13 @@ class CasusEditor extends React.Component<Props, State> {
 
 			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx, true);	
 		}
+	}
+
+	_isClickProcessedReceipt(blocksReturned: Array<CasusBlock>): boolean {
+		if (blocksReturned.length === 1 && blocksReturned[0] instanceof ClickProcessedReceipt) {
+			return true;
+		}
+		return false;
 	}
 
 	_openSelectVariablePopupIfNeeded(): void {

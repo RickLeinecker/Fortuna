@@ -3,6 +3,7 @@
 type BlockClass = 
 	'AndBlock' |
 	'CallFunctionBlock' |
+	'ClickProcessedReceipt' |
 	'ContainerBlock' |
 	'DoubleAbsBlock' |
 	'DoubleAddBlock' |
