@@ -1,4 +1,4 @@
-// Testing the Token Model from the data layer
+// Testing the Tank Model from the data layer
 
 // Required imports
 const mongoose = require("mongoose");
