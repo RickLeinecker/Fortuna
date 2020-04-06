@@ -3,7 +3,6 @@
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
-import InterpriterState from '../interpreter/InterpriterState.js';
 import {getInterpriterState} from '../interpreter/InterpriterState.js';
 import {defaultValueFor} from '../interpreter/Value.js';
 

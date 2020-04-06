@@ -25,21 +25,16 @@
     padding-right: 10px;
 }
 
-.tankComponentMenu {
-	width: 30%;
-	cursor: pointer;
-	margin-right: 10px;
-	border-radius: 4px;
-	border-color: #04CCFF;
-	background-color: #04CCFF;
-	color: #000921;
-	display: inline;
-}
-
 /* Component Menu Styling */
 .componentMenu table {
     margin-left: auto;
     margin-right: auto;
+    height: 200px;
+    overflow-y: auto;
+}
+
+.componentMenu tbody {
+    width: 100%;
 }
 
 .componentMenu th, td {
