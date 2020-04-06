@@ -22,7 +22,26 @@ function makeASale(userId:string, sellingPrice: number, itemId: string, itemType
 	return responsePromise;
 }
 
+/*
+	This function takes the following input
+		userId: the id of the user
+	This function returns the promise of the users current sales
+*/
+function getUsersCurrentSales(userId:string) : Promise<Response> {
+	console.log(userId);
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/getUsersMarketSales/' + userId, {
+		method: 'get',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+	});
+	return responsePromise;
+}
+
 
 export {
 	makeASale,
+	getUsersCurrentSales,
 }
