@@ -54,7 +54,51 @@ describe("Tank model tests", () => {
             expect(foundTank).toEqual(
                 expect.objectContaining({
                     tankName: "TestTank",
-                    userId: testId
+                    userId: tank.userId
+                })
+            );
+        });
+    });
+
+    // Save a tank
+    describe("Save a tank", () => {
+        it("saves a tank", async () => {
+            const testId = new mongoose.Types.ObjectId();
+            const tank = new Tank({
+                tankName: "SavedTank",
+                userId: testId
+            });
+
+            const savedTank = await tank.save();
+
+            expect(savedTank).toEqual(
+                expect.objectContaining({
+                    tankName: "SavedTank",
+                    userId: tank.userId
+                })
+            );
+        });
+    });
+
+    describe("Update a tank", () => {
+        it("updates a tank", async () => {
+            const testId = new mongoose.Types.ObjectId();
+            const tank = new Tank({
+                tankName: "OGTank",
+                userId: testId
+            });
+
+            await tank.save();
+
+            const newId = new mongoose.Types.ObjectId();
+            tank.tankName = "EditedTank";
+            tank.userId = newId;
+            const editedTank = await tank.save();
+
+            expect(editedTank).toEqual(
+                expect.objectContaining({
+                    tankName: "EditedTank",
+                    userId: tank.userId
                 })
             );
         });
