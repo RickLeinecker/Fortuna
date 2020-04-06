@@ -58,8 +58,6 @@ describe("Token model tests", () => {
                     token: expectedToken
                 })
             );
-            // expect(foundToken._userId).toEqual(testId);
-            // expect(foundToken.token).toEqual(expectedToken);
         });
     });
 
@@ -74,11 +72,13 @@ describe("Token model tests", () => {
             const savedToken = await token.save();
 
             const expectedToken = "randoToken";
-            const actualToken = savedToken.token;
-            const actualId = savedToken._userId;
 
-            expect(actualId).toEqual(testId);
-            expect(actualToken).toEqual(expectedToken);
+            expect(savedToken).toEqual(
+                expect.objectContaining({
+                    _userId: testId,
+                    token: expectedToken
+                })
+            );
         });
     });
 
@@ -98,11 +98,13 @@ describe("Token model tests", () => {
             const editedToken = await token.save();
 
             const expectedToken = "editToken";
-            const actualToken = editedToken.token;
-            const actualId = editedToken._userId;
-
-            expect(actualId).toEqual(newId);
-            expect(actualToken).toEqual(expectedToken);
+            
+            expect(editedToken).toEqual(
+                expect.objectContaining({
+                    _userId: newId,
+                    token: expectedToken
+                })
+            );
         });
     });
 });
