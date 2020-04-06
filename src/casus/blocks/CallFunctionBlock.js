@@ -3,6 +3,7 @@
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
+import {isDefaultVariableName} from '../userInteraction/defaultVariableNames.js';
 import Vec from './Vec.js';
 import measureText from './measureText.js';
 import generateCornerPerim from './generateCornerPerim.js';
@@ -53,6 +54,13 @@ class CallFunctionBlock extends CasusBlock {
 
 	getPerim(): Array<Vec> {
 		return generateCornerPerim(this.boundingBox, this.getReturnType()); 
+	}
+
+	getExistingVariableNames(dataType: DataType): Array<String> {
+		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
+			return [this.functionName];
+		}
+		return [];
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {

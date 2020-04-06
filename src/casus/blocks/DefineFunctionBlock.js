@@ -5,6 +5,7 @@ import CasusBlock from './CasusBlock.js';
 import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import measureText from './measureText.js';
+import {isDefaultVariableName} from '../userInteraction/defaultVariableNames.js';
 import Vec from './Vec.js';
 
 import type {DataType} from './DataType.js';
@@ -77,8 +78,15 @@ class DefineFunctionBlock extends CasusBlock {
 		return [this.contents];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean, ): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
 		return this.contents.removeBlockAt(v, removeAfter);
+	}
+
+	getExistingVariableNames(dataType: DataType): Array<String> {
+		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
+			return [this.functionName];
+		}
+		return [];
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
