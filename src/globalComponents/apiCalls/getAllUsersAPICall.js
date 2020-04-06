@@ -19,7 +19,7 @@ function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const allUsers=[];

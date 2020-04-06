@@ -19,7 +19,7 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const user=new User(data.userName, data.money, data.wager, data._id, data.stats.elo);

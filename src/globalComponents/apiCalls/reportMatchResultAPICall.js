@@ -22,7 +22,7 @@ function reportMatchResultAPICall(winner: 0|1|2, matchId: string) {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				console.log('successfully logged result of match.');

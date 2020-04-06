@@ -37,7 +37,7 @@ function setWager(wager: number, onLoad:(setSuccessful: boolean) => void): void 
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 				onLoad(false);
 			}
 			else {
@@ -60,7 +60,7 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				// Process all of the leaders into an array and load it.

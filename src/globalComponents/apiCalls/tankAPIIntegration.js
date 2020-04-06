@@ -20,7 +20,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
 			}
 			else {
 				const tank = new BackendTank(
@@ -106,7 +106,7 @@ function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): voi
 			response => response.json().then(data => {
 				if(response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
+					console.log(data);
 					onLoad(false);
 				}
 				else {
@@ -131,7 +131,6 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
 				console.log(data);
 				onLoad(false, []);
 			}
