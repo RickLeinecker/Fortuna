@@ -42,14 +42,10 @@ describe("Tank model tests", () => {
     // Get a Tank
     describe("Get a tank", () => {
         it("gets a tank", async () => {
-            const testId = new mongoose.Types.ObjectId().toHexString();
-            const testComp = ['empty', 'empty', 'empty', 
-            'empty', 'empty', 'empty', 'empty', 'empty', 
-            'empty', 'empty', 'empty'];
+            const testId = new mongoose.Types.ObjectId();
             const tank = new Tank({
                 tankName: "TestTank",
-                userId: testId,
-                components: testComp
+                userId: testId
             });
 
             await tank.save();
@@ -58,13 +54,9 @@ describe("Tank model tests", () => {
             expect(foundTank).toEqual(
                 expect.objectContaining({
                     tankName: "TestTank",
-                    userId: expect.stringMatching(testId)
+                    userId: testId
                 })
             );
-
-            // expect(foundTank.tankName).toEqual(expectedName);
-            // expect(foundTank.components).toEqual(expect.arrayContaining(testComp));
-            // expect(foundTank.isBot).toEqual(false);
         });
     });
 });
