@@ -2,21 +2,20 @@
 
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
-import EmptyBlock from './EmptyBlock.js';
 import {isDefaultVariableName} from '../userInteraction/defaultVariableNames.js';
 import Vec from './Vec.js';
 import measureText from './measureText.js';
 import generateCornerPerim from './generateCornerPerim.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
+import DefineFunctionBlock from './DefineFunctionBlock.js';
 
 import {
-	CENTER_WIDTH, 
 	RAMP_WIDTH, 
 	VPADDING, 
 	EMPTY_STATEMENT_HEIGHT,
 } from './generateCornerPerim.js';
 
 import type {DataType} from './DataType.js';
-import type {BlockClass} from './BlockClass.js';
 
 class CallFunctionBlock extends CasusBlock {
 
@@ -56,7 +55,7 @@ class CallFunctionBlock extends CasusBlock {
 		return generateCornerPerim(this.boundingBox, this.getReturnType()); 
 	}
 
-	getExistingVariableNames(dataType: DataType): Array<String> {
+	getExistingVariableNames(dataType: DataType): Array<string> {
 		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
 			return [this.functionName];
 		}
@@ -95,7 +94,25 @@ class CallFunctionBlock extends CasusBlock {
 		return null;
 	}
 
-	//TODO: evaluate()
+	evaluate(): null {
+		const interpreterState = getInterpriterState();
+		const toCall = interpreterState.getFunction(this.functionName);
+		if (toCall == null || !(toCall instanceof DefineFunctionBlock)) {
+			return null;
+		}
+
+		//Javascript has an embarassingly small stack size, so if we have infinite recursion,
+		//that will be a problem. Therefore, we have to keep track of how deep on the stack
+		//we are, so that we never crash the web browser.
+		if (interpreterState.inTooDeep()) {
+			//instead of going under again
+			return null;
+		}
+		interpreterState.incrementRecursionDepth();
+		toCall.contents.runEvaluate();
+		interpreterState.decrementRecursionDepth();
+		return null;
+	}
 }
 
 export default CallFunctionBlock;

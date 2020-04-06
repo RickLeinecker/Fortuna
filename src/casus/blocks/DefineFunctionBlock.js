@@ -2,14 +2,13 @@
 
 import BoundingBox from './BoundingBox.js';
 import CasusBlock from './CasusBlock.js';
-import EmptyBlock from './EmptyBlock.js';
 import ContainerBlock from './ContainerBlock.js';
 import measureText from './measureText.js';
 import {isDefaultVariableName} from '../userInteraction/defaultVariableNames.js';
 import Vec from './Vec.js';
+import {getInterpriterState} from '../interpreter/InterpriterState.js';
 
 import type {DataType} from './DataType.js';
-import type {BlockClass} from './BlockClass.js'
 
 import {
 	RAMP_WIDTH, 
@@ -82,7 +81,7 @@ class DefineFunctionBlock extends CasusBlock {
 		return this.contents.removeBlockAt(v, removeAfter);
 	}
 
-	getExistingVariableNames(dataType: DataType): Array<String> {
+	getExistingVariableNames(dataType: DataType): Array<string> {
 		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
 			return [this.functionName];
 		}
@@ -126,6 +125,12 @@ class DefineFunctionBlock extends CasusBlock {
 		if (result != null) {
 			console.log('ERROR! placing block in contents returned non-null meaning it got replaced!');
 		}
+		return null;
+	}
+
+	evaluate(): null {
+		const interpreterState = getInterpriterState();
+		interpreterState.setFunction(this.functionName, this);
 		return null;
 	}
 

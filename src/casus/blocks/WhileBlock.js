@@ -5,7 +5,6 @@ import {verifyBoolean} from '../interpreter/Value.js';
 import {
 	WHILE_BLOCK_WHILE_WIDTH
 } from './generateCornerPerim.js';
-import InterpriterState from '../interpreter/InterpriterState.js';
 import {getInterpriterState} from '../interpreter/InterpriterState.js';
 
 class WhileBlock extends SingleConditionHeader {
