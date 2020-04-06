@@ -69,14 +69,16 @@ class SetVariableBlock extends CasusBlock {
 		return [this.expressionBlock];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
-		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter);
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
+		const expressionRes=this.expressionBlock.removeBlockAt(v, removeAfter, justReturnCopy);
 		if (expressionRes.length > 0) {
 			return expressionRes;
 		}
 		if (this.expressionBlock.boundingBox.contains(v) && this.expressionBlock.draggable()) {
 			const toReturn=[this.expressionBlock];
-			this.expressionBlock=new EmptyBlock(this.paramType);
+			if (!justReturnCopy) {
+				this.expressionBlock=new EmptyBlock(this.paramType);
+			}
 			return toReturn;
 		}
 		return [];

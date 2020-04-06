@@ -13,7 +13,7 @@ import TankPart from './TankPart.js';
 import loadCasus from '../casus/loadCasus.js';
 import BackendTank from './BackendTank.js';
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
-import reviveCasusBlock from '../casus/reviveCasusBlock.js';
+import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
 
 function getTestTank(id: number=1): Tank {
 	const position=id===1?new Vec(-80, -40):new Vec(50, 40);
@@ -50,7 +50,7 @@ function getTank(tank: BackendTank): Tank {
 	const treads: TankComponent = tank.components[7];
 	const items: Array<TankComponent> = [tank.components[8], tank.components[9], tank.components[10]];
 	const revivedCasusCode: ContainerBlock = tank.casusCode!=null ? 
-		reviveCasusBlock(tank.casusCode) : 
+		reviveAsContainer(tank.casusCode) : 
 		new ContainerBlock();
 	
 	// Setup return value.
