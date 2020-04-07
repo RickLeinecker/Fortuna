@@ -315,6 +315,11 @@ class Battleground extends React.Component<Props> {
 	}
 
 	addDebugLine(line: string): void {
+		if (this.matchIdToReport != null) {
+			// then this is an actual match against another real player, not a training
+			// match, so don't show any debug
+			return;
+		}
 		this.props.addDebugLine(line);
 	}
 
