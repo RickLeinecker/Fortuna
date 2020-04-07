@@ -13,8 +13,9 @@ class DebugLog extends React.Component<Props> {
 	render(): React.Node {
 		return (
 			<div className='debugLog'>
+				<h4 className='debugLogHeader'>Tank Printouts</h4>
 				{this.props.debugLines.map((text, index) =>
-					<div key={index}>
+					<div key={index} className="debugEntry">
 						{text}
 					</div>
 				)}

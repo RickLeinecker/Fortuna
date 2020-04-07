@@ -5,3 +5,12 @@
 	height: 780px;
 	vertical-align: top;
 }
+
+.debugLogHeader {
+	padding: 10px;
+}
+
+.debugEntry {
+	padding-left: 10px;
+	padding-left: 30px;
+}
