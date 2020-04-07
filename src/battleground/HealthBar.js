@@ -3,35 +3,34 @@
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 import './HealthBar.css'
+import {getImage} from './ImageLoader.js';
 
 type Props = {
-	playersTank: ?Tank,
+	tank1: ?Tank,
+	tank2: ?Tank,
 }
 
 
 class HealthBar extends React.Component<Props> {
 
 	componentDidUpdate(prevProps: Props) {
-		let currentHealth = this.props.playersTank?.health ?? 100;
-		if(currentHealth < 0) {
-			currentHealth = 0;
-		}
 		if(this.props !== prevProps) {
 			const canvas = this.refs.canvas;
 			const ctx = canvas.getContext("2d");
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.fillStyle="#FF0000";
-			ctx.fillRect(10, 110,currentHealth,25);
+			ctx.fillStyle='black';
+			ctx.fillRect(0, 0, 10000, 10000);
+			ctx.drawImage(getImage('HEALTHBAR_BACKGROUND'), 0, 0);
 		}
 	}
 
 	render(): React.Node {
 		return (
 			<div className = "inline">
-				{this.props.playersTank?.tankName ?? ''}:
 				<canvas
 					className="healthBarCanvas inline"
 					ref="canvas"
+					width={1300}
+					height={100}
 				/>
 			</div>
 		);

@@ -16,6 +16,7 @@ const allImages: {[ImageName]: Image}= {
 	DIRT_BACKGROUND: new Image(),
 	SHADOW: new Image(),
 	WALL: new Image(),
+	HEALTHBAR_BACKGROUND: new Image(),
 
 	C4: new Image(),
 	MINE: new Image(),
@@ -86,6 +87,7 @@ function imageLoaderInit(): void {
 	allImages.DIRT_BACKGROUND.src='DirtBackground.png';
 	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
+	allImages.HEALTHBAR_BACKGROUND.src='HealthbarBackground.png';
 
 	allImages.C4.src='c4.png';
 	allImages.MINE.src='mine.png';

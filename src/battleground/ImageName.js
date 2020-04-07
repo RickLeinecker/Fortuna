@@ -5,6 +5,7 @@ type ImageName =
 	'DIRT_BACKGROUND' | 
 	'SHADOW' | 
 	'WALL' | 
+	'HEALTHBAR_BACKGROUND' | 
 
 	//deployables
 	'C4' |

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Battleground from './Battleground.js';
-import HealthBarsField from './HealthBarsField.js';
+import HealthBar from './HealthBar.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
 import DebugLog from './DebugLog.js';
@@ -48,9 +48,9 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					pageName='Battleground'
 				/>
 				<div className={haveDebug?'battlegroundContainer':'battlegroundContainerFull'}>
-					<HealthBarsField
-						playerOneTank = {this.state.playerOneTank}
-						playerTwoTank = {this.state.playerTwoTank}
+					<HealthBar
+						tank1 = {this.state.playerOneTank}
+						tank2 = {this.state.playerTwoTank}
 					/>
 					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
 						{battleground}
