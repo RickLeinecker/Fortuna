@@ -5,7 +5,8 @@ import type { Request, Response } from 'express';
 const { validationResult } = require('express-validator');
 
 // npm library for elo calculations
-const EloRating = require('elo-rating');
+const Elo = require('elo-js');
+const eloRating = new Elo();
 
 const User = require('../../models/userModel');
 const BattleRecord = require('../../models/battleRecordModel');
@@ -165,9 +166,9 @@ exports.reportResults = async (req: Request, res: Response) => {
 		}
 
 		if (winner === 0) { // tie
-			// Update the ties for user stats
-			const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money: Math.ceil(battle.prizeMoney * .7), 'stats.ties' : 1 } }, {new: true});
-			const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .7), 'stats.ties' : 1 } }, {new: true});
+			// Update the ties for user stats, users get back half their wager .7 of their wager money which is .35 of the prizemoney
+			const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
+			const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
 
 			if (userOne == null) {
 				console.log('userOne not found');
@@ -181,10 +182,29 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.status(404)
 					.json({ msg: 'Could not find userTwo'});
 			}
+	
+			const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
+			const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
+			
+			// We want eloExchanged to be a positive value so we take whoever's increased and subtract 
+			if (userOne.stats.elo > userTwo.stats.elo) {
+				const eloExchanged = userOne.stats.elo - newUserOneElo;
+				battle.eloExchanged = eloExchanged;
+			} else {
+				const eloExchanged = userTwo.stats.elo - newUserTwoElo;
+				battle.eloExchanged = eloExchanged;
+
+			}
+			
+
+			userOne.stats.elo = newUserOneElo;
+			userTwo.stats.elo = newUserTwoElo;
 
 			battle.winner = winner;
 
 			// Save battle winner and users money
+			await userOne.save();
+			await userTwo.save();
 			await battle.save();
 		}
 		else if (winner === 1) { // userOne victory
@@ -209,16 +229,16 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.json({ msg: 'Could not find userTwo'});
 			}
 
-			// To calculate how much elo is being transferred
-			const eloBefore = userOne.stats.elo;
+			// Calculate new elo values, returns the value of the player in the first parameter
+			const newUserOneElo = eloRating.ifWins(userOne.stats.elo, userTwo.stats.elo);
+			const newUserTwoElo = eloRating.ifLoses(userTwo.stats.elo, userOne.stats.elo);
 
-			const elo = EloRating.calculate(userOne.stats.elo, userTwo.stats.elo);
-			userOne.stats.elo = elo.playerRating;
-			userTwo.stats.elo = elo.opponentRating;
+			const eloExchanged = newUserOneElo - userOne.stats.elo;
 
-			// Difference in elo from after the match and before the match
-			battle.eloExchanged = userOne.stats.elo - eloBefore;
+			userOne.stats.elo = newUserOneElo;
+			userTwo.stats.elo = newUserTwoElo;
 
+			battle.eloExchanged = eloExchanged;
 			battle.winner = winner;
 
 			// Save elo updates
@@ -247,15 +267,17 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.json({ msg: 'Could not find userTwo'});
 			}
 
-			// To calculate how much elo is being transferred
-			const eloBefore = userOne.stats.elo;
+			// Calculate new elo values, returns the value of the player in the first parameter
+			const newUserOneElo = eloRating.ifLoses(userOne.stats.elo, userTwo.stats.elo);
+			const newUserTwoElo = eloRating.ifWins(userTwo.stats.elo, userOne.stats.elo);
 
-			const elo = EloRating.calculate(userTwo.stats.elo, userOne.stats.elo);
-			userOne.stats.elo = elo.opponentRating;
-			userTwo.stats.elo = elo.playerRating;
+			const eloExchanged = newUserTwoElo - userTwo.stats.elo;
 
-			// Difference in elo from before the new elo was calculated and after
-			battle.eloExchanged = eloBefore - userOne.stats.elo;
+			userOne.stats.elo = newUserOneElo;
+			userTwo.stats.elo = newUserTwoElo;
+
+			battle.eloExchanged = eloExchanged;
+			battle.winner = winner;
 
 			// Save elo updates
 			await battle.save();
