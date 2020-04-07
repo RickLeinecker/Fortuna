@@ -2,7 +2,6 @@
 
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
-import { getErrorFromObject } from '../getErrorFromObject.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.

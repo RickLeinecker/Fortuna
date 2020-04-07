@@ -1,11 +1,10 @@
 //@flow strict
 import * as React from 'react';
 import { ToastContainer , toast } from 'react-toastify';
-import ListingObject from './ListingObject.js';
+import Component from '../globalComponents/typesAndClasses/Component.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { makeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
-import TankComponent from '../globalComponents/typesAndClasses/TankComponent.js';
 
 type Props = {|
 	onItemSold: () => void,
@@ -16,7 +15,7 @@ type State = {|
 	salePrice: number,
 	itemID: string,
 	itemAmount: number,
-	itemsToSell: Array<ListingObject>,
+	itemsToSell: Array<Component>,
 |};
 
 class MakeAComponentSaleView extends React.Component<Props, State> {
@@ -43,13 +42,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				toast.error('Can not find logged in user!');
 			}
 			else {
-				const componentsToSell: Array<ListingObject> = [];
-				for (const key in user.inventory.tankComponents) {
-					if (user.inventory.tankComponents[key] > 0) {
-						componentsToSell.push(new ListingObject(key, user.inventory.tankComponents[key]));
-					}
-				}
-				this.setState({itemsToSell: componentsToSell});
+				this.setState({itemsToSell: user.inventory});
 			}
 		});
 	}
@@ -92,8 +85,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
 				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>
-					{this.state.itemsToSell.map(({ name, amount }, index) => 
-							<option key={index}  value={name}>{toTitleCase(name)} {'(' + amount + ')'}</option>
+					{this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
+							<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
 					)}
 				</select>
 				<br/><br/>

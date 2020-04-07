@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 import Component from '../globalComponents/typesAndClasses/Component.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 import { ToastContainer , toast } from 'react-toastify';
 import { createTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import Tank from '../tanks/Tank.js';

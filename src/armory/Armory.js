@@ -14,7 +14,7 @@ import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
 import { ToastContainer , toast } from 'react-toastify';
 // Functions
-import { getInventory, getComponentPoints } from '../globalComponents/GetInventoryInfo.js';
+import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
@@ -125,15 +125,17 @@ class Armory extends React.Component<Props, State> {
 				toast.error('Can not find logged in user!');
 			}
 			else {
+				console.log(user);
+				console.log(user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'));
 				this.setState({
-					inventory: getInventory(user.inventory.tankComponents),
-					chassis: getInventory(user.inventory.tankComponents, 'chassis'),
-					weapons: getInventory(user.inventory.tankComponents, 'weapon'),
-					scanners: getInventory(user.inventory.tankComponents, 'scanner'),
-					scannerAddons: getInventory(user.inventory.tankComponents, 'scannerAddon'),
-					jammers: getInventory(user.inventory.tankComponents, 'jammer'),
-					treads: getInventory(user.inventory.tankComponents, 'treads'),
-					items: getInventory(user.inventory.tankComponents, 'item'),
+					inventory: user.inventory,
+					chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),
+					weapons: user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'),
+					scanners: user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'),
+					scannerAddons: user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'),
+					jammers: user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'),
+					treads: user.inventory.filter(component => getComponentType(component.componentName) === 'treads'),
+					items: user.inventory.filter(component => getComponentType(component.componentName) === 'item'),
 				});
 			}
 		});
