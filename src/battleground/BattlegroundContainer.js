@@ -6,6 +6,7 @@ import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
 import DebugLog from './DebugLog.js';
+import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 
 import './BattlegroundContainer.css';
 
@@ -37,12 +38,13 @@ class BattlegroundContainer extends React.Component<Props, State> {
 				addDebugLine = {this.addDebugLine}
 			/>
 		);
+		const returnTo=getReturnToFromBattlegroundLink();
 		const haveDebug=this.state.debugLines.length!==0;
 		return (
 			<div>
 				<Navbar
-					linkName='/BattleArena'
-					returnName='Back to Battle Arena'
+					linkName={returnTo}
+					returnName='Exit Early'
 					pageName='Battleground'
 				/>
 				<div className={haveDebug?'battlegroundContainer':'battlegroundContainerFull'}>
