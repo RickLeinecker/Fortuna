@@ -2,9 +2,10 @@
 import * as React from 'react';
 import { ToastContainer , toast } from 'react-toastify';
 import ListingObject from './ListingObject.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
-import { makeASale } from './marketPlaceAPIConnections.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
+import { makeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
+import TankComponent from '../globalComponents/typesAndClasses/TankComponent.js';
 
 type Props = {|
 	onItemSold: () => void,
@@ -27,7 +28,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			salePrice: 0,
 			itemID: '',
 			itemAmount: 0,
-			itemsToSell:[],
+			itemsToSell: [],
 		}
 	}
 
@@ -35,72 +36,44 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		this.getUserInventory();
 	}
 
-	getUserInventory (): void  {
-		const responsePromise = getUser();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfUser = data;
-					this.setState({userId:jsonObjectOfUser._id});
-					const componentsWeCanSell = [];
-					for (const key in jsonObjectOfUser.inventory.tankComponents) {
-						// We need to atleast have one of these.
-						if(jsonObjectOfUser.inventory.tankComponents[key] > 0) {
-							componentsWeCanSell.push(new ListingObject(key, jsonObjectOfUser.inventory.tankComponents[key]));
-						}
-						
-					}
-					this.setState({itemsToSell: componentsWeCanSell});
-				}
-			})
-		).catch(
-			error => {
-				console.log('Couldnt connect to server!');
-				console.log(error);
+	// Gets all of the user's inventory.
+	getUserInventory(): void {
+		getUserAPICall(user => {
+			if (user == null) {
+				toast.error('Can not find logged in user!');
 			}
-		);
-	};
+			else {
+				const componentsToSell: Array<ListingObject> = [];
+				for (const key in user.inventory.tankComponents) {
+					if (user.inventory.tankComponents[key] > 0) {
+						componentsToSell.push(new ListingObject(key, user.inventory.tankComponents[key]));
+					}
+				}
+				this.setState({itemsToSell: componentsToSell});
+			}
+		});
+	}
 
-	makeASaleOfAComponent =  ():void => {
-		const responsePromise = makeASale(
+	makeASaleOfAComponent = (): void => {
+		makeASale(
 			this.state.userId, 
 			this.state.salePrice, 
 			this.state.itemID, 
 			"component", 
-			this.state.itemAmount
-		);
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 201) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					toast.success(data.msg);
-					this.setState({
-						salePrice:0,
-						itemAmount: 0,
-					});
-					//Lets refresh the list of the inventory
+			this.state.itemAmount,
+			success => {
+				if (success) {
+					toast.success("Item Placed in Market.");
+					this.setState({salePrice: 0, itemAmount: 0});
 					this.getUserInventory();
 					this.props.onItemSold();
 				}
-
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+				else {
+					toast.error("Could not place item in Market!");
+				}
 			}
 		);
-	};
+	}
 
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}

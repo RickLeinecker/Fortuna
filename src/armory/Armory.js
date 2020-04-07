@@ -15,8 +15,8 @@ import RenameTankPopup from './RenameTankPopup.js';
 import { ToastContainer , toast } from 'react-toastify';
 // Functions
 import { getInventory, getComponentPoints } from '../globalComponents/GetInventoryInfo.js';
-import { getUser } from '../globalComponents/apiCalls/getUserAPICall.js';
-import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
+import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 // Types and Classes
@@ -34,7 +34,6 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {||};
 
@@ -121,20 +120,20 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
-		getUser(user => {
+		getUserAPICall(user => {
 			if (user == null) {
 				toast.error('Can not find logged in user!');
 			}
 			else {
 				this.setState({
-					inventory: getInventory(data.inventory.tankComponents),
-					chassis: getInventory(data.inventory.tankComponents, 'chassis'),
-					weapons: getInventory(data.inventory.tankComponents, 'weapon'),
-					scanners: getInventory(data.inventory.tankComponents, 'scanner'),
-					scannerAddons: getInventory(data.inventory.tankComponents, 'scannerAddon'),
-					jammers: getInventory(data.inventory.tankComponents, 'jammer'),
-					treads: getInventory(data.inventory.tankComponents, 'treads'),
-					items: getInventory(data.inventory.tankComponents, 'item'),
+					inventory: getInventory(user.inventory.tankComponents),
+					chassis: getInventory(user.inventory.tankComponents, 'chassis'),
+					weapons: getInventory(user.inventory.tankComponents, 'weapon'),
+					scanners: getInventory(user.inventory.tankComponents, 'scanner'),
+					scannerAddons: getInventory(user.inventory.tankComponents, 'scannerAddon'),
+					jammers: getInventory(user.inventory.tankComponents, 'jammer'),
+					treads: getInventory(user.inventory.tankComponents, 'treads'),
+					items: getInventory(user.inventory.tankComponents, 'item'),
 				});
 			}
 		});
@@ -142,7 +141,6 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
 	changeSelectedTank(newTank: Tank): void {
 		this.setState(
 			{selectedTank: newTank},
@@ -151,39 +149,20 @@ class Armory extends React.Component<Props, State> {
 		setTankForCasus(newTank._id);
 	}
 
-	// Function that will save the selectedTank.
+	// Function that will save the selectedTank and update the user's inventory.
 	saveTank(): void {
-		const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
-			method: 'PUT',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken(),
-			},
-			body: JSON.stringify({ 
-				tankName: this.state.selectedTank.tankName, 
-				userId: this.state.selectedTank.userId, 
-				components: this.state.selectedTank.parts.map(part => part.name),
-				isBot: false,
-			}),
+		updateTank(this.state.selectedTank, successful => {
+			if(successful) {
+				this.getUserInventory();
+			}
+			else {
+				toast.error('Could not save tank!');
+			}
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					// Update the user inventory once the tank is saved and backend is refreshed.
-					this.getUserInventory();
-				}
-			})
-		);
 	}
 
-	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
+	// When RenameTankPopup renames a tank, update the selected tank.
+	// Also, if the tank is the favorited tank, update the the favorited tank too.
 	renameTank = (tank: Tank): void => {
 		this.setState({selectedTank: tank});
 

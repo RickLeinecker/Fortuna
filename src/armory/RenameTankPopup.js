@@ -8,7 +8,6 @@ import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	tank: Tank,
-	// ONCE API IS REWORKED, THIS NEEDS TO BE REMOVED
 	renameTank: (Tank) => void
 |}; 
 
@@ -41,8 +40,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		}
 
 		this.props.tank.tankName = this.state.newTankName;
-		updateTank(this.props.tank, updateSuccessful => {
-			if(updateSuccessful != null) {
+		updateTank(this.props.tank, success => {
+			if (success) {
 				this.setState({newTankName: '', renameTankOpen: false});
 				this.props.renameTank(this.props.tank);
 			}

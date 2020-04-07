@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { makeASale } from './marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
 
@@ -34,30 +34,16 @@ class MakeATankSaleView extends React.Component<Props, State> {
 
 	//this gets the user id
 	getUserID() : void {
-		const responsePromise = getUser();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfUser = data;
-					//set the users id
-					this.setState({userId:jsonObjectOfUser._id});
-					//gets the tanks that the user has currently to sell
-					this.getAllUsersTanksForSell();
-				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+		getUserAPICall(user => {
+			if (user == null) {
+				toast.error('Could not get logged in user!');
 			}
-		);
-	};
+			else {
+				this.setState({userId: user._id});
+				this.directSaleToProperFunction();
+			}
+		});
+	}
 
 	// Get all of a user's tanks, besides the favorite tank.
 	getAllUsersTanksForSell() : void {
@@ -87,30 +73,26 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			toast.error("Can't sell last tank");
 			return;
 		}
-		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 201) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					toast.success("Tank Listed!");
-					//lets get the new tanks that we have since we lost the current one
+
+		makeASale(
+			this.state.userId, 
+			this.state.salePrice, 
+			this.state.itemID, 
+			"component", 
+			1,
+			success => {
+				if (success) {
+					toast.success("Tank Placed in Market.");
 					this.getAllUsersTanksForSell();
-					//set the new selling price to zero 
 					this.setState({salePrice: 0});
 					this.props.onItemSold();
 				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+				else {
+					toast.error("Could not place tank in Market!");
+				}
 			}
 		);
-	};
+	}
 
 	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({tankBeingSoldId: target.value});}
 	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
