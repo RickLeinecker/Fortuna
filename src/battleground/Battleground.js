@@ -19,6 +19,7 @@ type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
 	setTimeLeftText: (string) => void,
 	addDebugLine: (string) => void,
+	setFadeInAlpha: (number) => void,
 |};
 
 type MatchResult = 
@@ -233,10 +234,15 @@ class Battleground extends React.Component<Props> {
 		//fade in curtain
 		if (this.lifetimeCounter<FADE_IN_START) {
 			drawer.fillBlackRect(1);
+			this.props.setFadeInAlpha(1);
 		}
 		else if (this.lifetimeCounter-FADE_IN_START<FADE_IN_LENGTH) {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
+			this.props.setFadeInAlpha(alpha);
+		}
+		else {
+			this.props.setFadeInAlpha(0);
 		}
 		this.props.setPlayersTank(this.testTanks[0], this.testTanks[1]);
 

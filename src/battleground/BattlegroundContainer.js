@@ -17,6 +17,7 @@ type State = {|
 	playerTwoTank: ?Tank,
 	debugLines: Array<string>,
 	timeLeftText: string,
+	fadeInAlpha: number,
 |};
 
 const MAX_DEBUG_LINES=30;
@@ -39,6 +40,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 				setPlayersTank = {this.setPlayersTank}
 				setTimeLeftText = {this.setTimeLeftText}
 				addDebugLine = {this.addDebugLine}
+				setFadeInAlpha = {this.setFadeInAlpha}
 			/>
 		);
 		const returnTo=getReturnToFromBattlegroundLink();
@@ -55,6 +57,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 						tank1 = {this.state.playerOneTank}
 						tank2 = {this.state.playerTwoTank}
 						timeLeftText = {this.state.timeLeftText}
+						fadeInAlpha = {this.state.fadeInAlpha}
 					/>
 					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
 						{battleground}
@@ -78,6 +81,12 @@ class BattlegroundContainer extends React.Component<Props, State> {
 	setTimeLeftText = (timeLeft: string): void  => {
 		this.setState({
 			timeLeftText: timeLeft
+		});
+	}
+	
+	setFadeInAlpha = (fadeInAlpha: number): void => {
+		this.setState({
+			fadeInAlpha: fadeInAlpha
 		});
 	}
 

@@ -7,6 +7,7 @@ import {getImage} from './ImageLoader.js';
 
 type Props = {|
 	timeLeftText: string,
+	fadeInAlpha: number,
 	tank1: ?Tank,
 	tank2: ?Tank,
 |}
@@ -37,8 +38,11 @@ class HealthBar extends React.Component<Props> {
 			ctx.fillText(text, WIDTH/2-width/2, HEIGHT*.8);
 			ctx.font=oldFont;
 
-
-			
+			const oldAlpha=ctx.globalAlpha;
+			ctx.globalAlpha=this.props.fadeInAlpha;
+			ctx.fillStyle='black';
+			ctx.fillRect(0, 0, WIDTH, HEIGHT);
+			ctx.globalAlpha=oldAlpha;
 		}
 	}
 
