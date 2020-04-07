@@ -17,6 +17,7 @@ import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchRe
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
+	setTimeLeftText: (string) => void,
 	addDebugLine: (string) => void,
 |};
 
@@ -225,6 +226,7 @@ class Battleground extends React.Component<Props> {
 		if (this.lifetimeCounter>INTRO_LENGTH) {
 			const timeLeft=MAX_MATCH_LENGTH-this.lifetimeCounter;
 			const secondsLeft=Math.max(0, Math.ceil(timeLeft/30));
+			this.props.setTimeLeftText(''+secondsLeft);
 			drawer.drawTimeText(''+secondsLeft);
 		}
 

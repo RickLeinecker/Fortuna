@@ -12,11 +12,12 @@ import './BattlegroundContainer.css';
 
 type Props = {||};
 
-type State = {
+type State = {|
 	playerOneTank: ?Tank,
 	playerTwoTank: ?Tank,
 	debugLines: Array<string>,
-};
+	timeLeftText: string,
+|};
 
 const MAX_DEBUG_LINES=30;
 
@@ -28,6 +29,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 			playerOneTank: null,
 			playerTwoTank : null,
 			debugLines: [],
+			timeLeftText: '',
 		}
 	}
 
@@ -35,6 +37,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		const battleground=(
 			<Battleground 
 				setPlayersTank = {this.setPlayersTank}
+				setTimeLeftText = {this.setTimeLeftText}
 				addDebugLine = {this.addDebugLine}
 			/>
 		);
@@ -51,6 +54,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					<HealthBar
 						tank1 = {this.state.playerOneTank}
 						tank2 = {this.state.playerTwoTank}
+						timeLeftText = {this.state.timeLeftText}
 					/>
 					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
 						{battleground}
@@ -68,6 +72,12 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		this.setState({
 			playerOneTank: playerOneTank,
 			playerTwoTank: playerTwoTank
+		});
+	}
+
+	setTimeLeftText = (timeLeft: string): void  => {
+		this.setState({
+			timeLeftText: timeLeft
 		});
 	}
 
