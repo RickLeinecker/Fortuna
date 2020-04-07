@@ -1,0 +1,7 @@
+.debugLog {
+	display: inline-block;
+	background:#111111;
+	width: 20%;
+	height: 780px;
+	vertical-align: top;
+}

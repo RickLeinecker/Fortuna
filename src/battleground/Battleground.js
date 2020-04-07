@@ -17,6 +17,7 @@ import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchRe
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
+	addDebugLine: (string) => void,
 |};
 
 type MatchResult = 
@@ -119,7 +120,7 @@ class Battleground extends React.Component<Props> {
 
 	render(): React.Node {
 		return (
-			<div>
+			<div className="battlegroundCanvasDiv">
 				<canvas
 					className="battlegroundCanvas"
 					ref="canvas"
@@ -177,6 +178,10 @@ class Battleground extends React.Component<Props> {
 	_rerender(): void {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
+		if (canvas==null) {
+			console.log('warning: null canvas!');
+			return;
+		}
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 		const drawer=new ImageDrawer(ctx);
 		drawer.fillBlackRect(1);
@@ -237,6 +242,10 @@ class Battleground extends React.Component<Props> {
 
 	_resizeCanvas(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
+		if (canvas==null) {
+			console.log('warning: null canvas!');
+			return;
+		}
 		const targetWidth=canvas.clientWidth;
 		const targetHeight=targetWidth/200*120;
 		if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
@@ -303,6 +312,10 @@ class Battleground extends React.Component<Props> {
 
 	deleteGameObject(toDelete: GameObject): void {
 		this.objectsToDelete.push(toDelete);
+	}
+
+	addDebugLine(line: string): void {
+		this.props.addDebugLine(line);
 	}
 
 }
