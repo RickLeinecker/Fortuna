@@ -15,7 +15,7 @@ import RenameTankPopup from './RenameTankPopup.js';
 import { ToastContainer , toast } from 'react-toastify';
 // Functions
 import { getInventory, getComponentPoints } from '../globalComponents/GetInventoryInfo.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import { getUser } from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
@@ -121,29 +121,23 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
-		const responsePromise = getUser();
-
-		responsePromise.then (
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					this.setState({
-						inventory: getInventory(data.inventory.tankComponents),
-						chassis: getInventory(data.inventory.tankComponents, 'chassis'),
-						weapons: getInventory(data.inventory.tankComponents, 'weapon'),
-						scanners: getInventory(data.inventory.tankComponents, 'scanner'),
-						scannerAddons: getInventory(data.inventory.tankComponents, 'scannerAddon'),
-						jammers: getInventory(data.inventory.tankComponents, 'jammer'),
-						treads: getInventory(data.inventory.tankComponents, 'treads'),
-						items: getInventory(data.inventory.tankComponents, 'item'),
-					});
-				}
-			})
-		)
+		getUser(user => {
+			if (user == null) {
+				toast.error('Can not find logged in user!');
+			}
+			else {
+				this.setState({
+					inventory: getInventory(data.inventory.tankComponents),
+					chassis: getInventory(data.inventory.tankComponents, 'chassis'),
+					weapons: getInventory(data.inventory.tankComponents, 'weapon'),
+					scanners: getInventory(data.inventory.tankComponents, 'scanner'),
+					scannerAddons: getInventory(data.inventory.tankComponents, 'scannerAddon'),
+					jammers: getInventory(data.inventory.tankComponents, 'jammer'),
+					treads: getInventory(data.inventory.tankComponents, 'treads'),
+					items: getInventory(data.inventory.tankComponents, 'item'),
+				});
+			}
+		});
 	}
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.

@@ -2,23 +2,7 @@
 
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
-
-/*
-	This function has no input
-	This function returns a json object of the user
-*/
-function getUser(): Promise<Response> {
-	const responsePromise: Promise<Response> = fetch('/api/user/getUser/', {
-		method: 'GET',
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': getLoginToken()
-		},
-	});
-	return responsePromise;
-}
+import { getErrorFromObject } from '../getErrorFromObject.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.
@@ -75,7 +59,6 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 }
 
 export {
-	getUser, 
 	setWager,
 	getLeaders
 };
