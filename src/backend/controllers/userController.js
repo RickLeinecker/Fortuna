@@ -479,10 +479,10 @@ exports.setWager = async (req: Request, res: Response) => {
 
 		// If a user has never made a wager or its been 24hrs since last stipend give them their stipend and update wagerDate
 		if (user.wagerDate == null || (new Date - user.wagerDate) > aDay) {
-			const newBalance = user.money + 5000;
+			const newBalance = user.money + 100;
 			user.money = newBalance;
 			user.wagerDate = new Date();
-			console.log('Applied stipend');
+			console.log('Applied daily wager stipend');
 		}
 		
 		// Add back the balance of the original wager
