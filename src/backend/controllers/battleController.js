@@ -248,6 +248,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userOne.stats.firstWinOfDayStreak = 0;
 					console.log("Given First Win of Day 3 Bonus. Resetting streak.");					
 				}
+				// Set lastFirstWindOfDay
+				userOne.stats.lastFirstWinOfDay = new Date();
 			}
 			// Update stats
 			userOne.stats.wins += 1;
@@ -329,6 +331,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userTwo.stats.firstWinOfDayStreak = 0;
 					console.log("Given First Win of Day 3 Bonus. Resetting streak.");					
 				}
+				// Set lastFirstWindOfDay
+				userTwo.stats.lastFirstWinOfDay = new Date();
 			}
 			// Update stats
 			userTwo.stats.wins += 1;
