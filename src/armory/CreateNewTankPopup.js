@@ -104,7 +104,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 				window.location.reload();
 			}
 			else {
-				toast.error("Could no Create Tank!");
+				toast.error("Could not Create Tank!");
 			}
 		});
 	}
