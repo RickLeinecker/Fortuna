@@ -30,7 +30,7 @@ function makeASale(
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				onLoad(false);
@@ -59,9 +59,9 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 				onLoad(data);
 			}
 			else {
-				const itemsForSaleArray: Array<SaleObject> = [];
+				const itemsForSale: Array<SaleObject> = [];
 				for(const sale of data) {
-					itemsForSaleArray.push(new SaleObject(
+					itemsForSale.push(new SaleObject(
 						sale.itemId,
 						sale.salePrice,
 						sale.amount,
@@ -69,7 +69,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 						sale._id
 					));
 				}
-				onLoad(itemsForSaleArray);
+				onLoad(itemsForSale);
 			}
 		})
 	);
@@ -96,7 +96,7 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 				const itemsForSale: Array<SaleObject> = [];
 				for (const sale of data) {
 					itemsForSale.push(new SaleObject(
-						sale.itemId,
+						sale.itemId.tankName,
 						sale.salePrice,
 						sale.amount,
 						sale.sellerId,

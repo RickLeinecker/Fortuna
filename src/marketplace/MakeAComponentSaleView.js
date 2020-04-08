@@ -42,7 +42,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				toast.error('Can not find logged in user!');
 			}
 			else {
-				this.setState({itemsToSell: user.inventory});
+				this.setState({itemsToSell: user.inventory, userId: user.userId, itemID: user.inventory[0].componentName});
 			}
 		});
 	}
@@ -67,10 +67,6 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			}
 		);
 	}
-
-	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({itemID: target.value});}
-	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
-	handleChangeInAmountToSell = ({ target }:{target:HTMLInputElement }) => {this.setState({itemAmount: parseInt(target.value)});}
 	
 	formatAmountUserHas(amountOfThisItemUserHas: number): string {
 		let responseString = '';
@@ -84,17 +80,17 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
-				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>
+				<select className="dropdownMenu" onChange={e => this.setState({itemID: e.target.value})}>
 					{this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
 							<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
 					)}
 				</select>
 				<br/><br/>
 				<label>Selling Price</label>
-				<input type="number" className="inputText" value={this.state.salePrice} onChange={this.handleChangeInSalePrice}></input>
+				<input type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
 				<br/><br/>
 				<label>Amount to Sell</label>
-				<input type="number" className="inputText" value={this.state.itemAmount} onChange={this.handleChangeInAmountToSell}></input>
+				<input type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
 				<br/><br/>
 				<button className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
 				<ToastContainer />

@@ -6,7 +6,8 @@ import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import { ToastContainer , toast } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
-import { getMarketSales, getMarketTanks, marketSale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
+import { getMarketSales, marketSale, getMarketTanks } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
+import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
 
 type Props = {|
 	// This is the type of item we are buying
@@ -75,19 +76,22 @@ class ListingsView extends React.Component<Props, State> {
 				toast.error('Could not get sales!');
 			}
 			else {
-				this.setState({itemsForSale: sales.filter(sale => getComponentType(verifyComponent(sale.name)) === this.props.sellerType)}); 
+				this.setState({itemsForSale: sales.filter(sale => 
+					allComponents.includes(sale.name)
+					&& getComponentType(verifyComponent(sale.name)) === this.props.sellerType
+				)}); 
 			}
 		});
 	}
 
 	//This function uses the users id and gets the tanks that are active in the marketplace
 	getMarketSalesForTanks(): void  {
-		getMarketTanks(this.state.userId, tanks => {
-			if(tanks == null) {
+		getMarketTanks(this.state.userId, sales => {
+			if(sales == null) {
 				toast.error('Could not get sale tanks!');
 			}
 			else {
-				this.setState({itemsForSale: tanks}); 
+				this.setState({itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name)))}); 
 			}
 		});
 	}

@@ -2,7 +2,6 @@
 
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
-import { getInventory } from '../GetInventoryInfo.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.
@@ -50,8 +49,9 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 				// Process all of the leaders into an array and load it.
 				const leaders: Array<User> = [];
 				for(const user of data) {
-					leaders.push(new User(user.userName, user.money, user.wager, user._id, user.stats.elo, getInventory(user.inventory.tankComponents)));
+					leaders.push(new User(user.userName, user.money, user.wager, user._id, user.stats.elo, []));
 				}
+				console.log(leaders);
 				onLoad(leaders);
 			}
 		})

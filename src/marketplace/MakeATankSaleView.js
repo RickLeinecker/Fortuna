@@ -16,6 +16,7 @@ type State = {|
 	tankBeingSoldId: string,
 	itemAmount: number,
 	tanksToSell: Array<Tank>,
+	favTankId: string
 |};
 
 class MakeATankSaleView extends React.Component<Props, State> {
@@ -28,10 +29,11 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			tankBeingSoldId: '',
 			itemAmount: 0,
 			tanksToSell: [],
+			favTankId: ''
 		}
 	}
 
-	// Once mounted, get the userId.
+	// Once mounted, get the userId and favorite tank id.
 	componentDidMount(): void {
 		getUserAPICall(user => {
 			if (user == null) {
@@ -42,20 +44,21 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				this.getAllUsersTanksForSell();
 			}
 		});
+
+		getFavoriteTank(tank => {
+			if (tank != null) {
+				this.setState({ favTankId: tank._id});
+			}
+		});
 	}
 
 	// Get all of a user's tanks, besides the favorite tank.
 	getAllUsersTanksForSell() : void {
-		let favTankId: string = '';
-		getFavoriteTank(tank => {
-			favTankId = tank._id;
-		});
-
 		getAllUsersTanks((successful, allTanks) => {
 			if (successful) {
 				
 				// Find the favorite tank and remove it if it exists.
-				const index = allTanks.map(tank => tank._id).indexOf(favTankId);
+				const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankId);
 				if (index > -1) {
 					allTanks.splice(index, 1);
 				}
@@ -92,18 +95,27 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			}
 		);
 	}
-
-	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({tankBeingSoldId: target.value});}
-	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
 	
 	render(): React.Node  { 
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<select 
+					className="dropdownMenu" 
+					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
+				>
+					{this.state.tanksToSell.map(({ tankName, _id }, index) => 
+						<option key={index}  value={_id}>{tankName}</option>
+					)}
+				</select>
 				<br/>
 				<label>Selling Price</label>
-				<input type="number" value={this.state.salePrice} className="inputText" onChange={this.handleChangeInSalePrice}></input>
+				<input 
+					type="number" 
+					value={this.state.salePrice} 
+					className="inputText" 
+					onChange={e => this.setState({salePrice: e.target.value})}
+				></input>
 				<br/><br/>
 				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
 				<ToastContainer />

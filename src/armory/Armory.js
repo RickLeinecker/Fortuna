@@ -125,8 +125,6 @@ class Armory extends React.Component<Props, State> {
 				toast.error('Can not find logged in user!');
 			}
 			else {
-				console.log(user);
-				console.log(user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'));
 				this.setState({
 					inventory: user.inventory,
 					chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),

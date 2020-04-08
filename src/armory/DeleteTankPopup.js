@@ -29,10 +29,10 @@ class DeleteTankPopup extends React.Component<Props, State> {
 		deleteTank(this.props.tank._id, success => {
 			if (success) {
 				toast.success("Tank Deleted.");
+				window.location.reload();
 			}
 			else {
 				toast.error("Could not Delete Tank!");
-				window.location.reload();
 			}
 		});
 	}
