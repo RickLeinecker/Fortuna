@@ -238,8 +238,14 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
                 .json({ msg: 'User does not exist' });
         }
 
-        // Get list of sales from DB that belong to logged in user
-        const salesList = await MarketSale.find({ sellerId: userId });
+		// Get list of sales from DB that belong to logged in user
+		const salesList = await MarketSale.find();
+		const salesListWithUserOnly = [];
+		for(let eachSale in salesList) {
+			if(salesList[eachSale].sellerId == userId) {
+				salesListWithUserOnly.push(salesList[eachSale]);
+			}
+		}
         if (!salesList) {
             return res
                 .status(400)
@@ -247,8 +253,8 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
         }
 
         // Return list of sales
-        console.log('Retrieved User\'s Market Sales List.');
-        return res.status(200).json(salesList);
+		console.log('Retrieved User\'s Market Sales List.');
+        return res.status(200).json(salesListWithUserOnly);
 
     }
     catch (err) {
@@ -556,4 +562,47 @@ exports.marketTransaction = async (req: Request, res: Response) => {
             }
         }
     }
+}
+
+// Removes a sale from the uses
+exports.removeAMarketSale = async (req: Request, res: Response) => {
+	
+    // Validation
+    const errors = validationResult(req);
+	
+    if (!errors.isEmpty()) {
+        // Return 400 for a bad request
+        return res
+            .status(400)
+            .json({ errors: errors.array() });
+    }
+
+    // Deconstruct request body
+	const { saleId } = req.body;
+
+    // Check if sale exists
+    const sale = await MarketSale.findById(saleId);
+    if (!sale) {
+        return res
+            .status(400)
+            .json({ msg: 'Sale post does not exist' });
+	}
+	
+	try {
+		await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Could not delete market sale.' });
+			}
+		});
+		// Return status
+		console.log('Successfully Removed Sale');
+		return res.status(201).json({ msg: 'Removed Sale'});
+
+	} catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Cannot Remove Sale' });
+	}
 }

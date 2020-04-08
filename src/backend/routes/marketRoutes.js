@@ -69,4 +69,12 @@ router.put('/marketTransaction', [
     check('saleId', 'A valid MongoId is required.').isMongoId()
 ], marketController.marketTransaction);
 
+// Remove A Sale
+// Route call: removeAMarketSale
+// Req body needs sale ID
+// Returns the status
+router.put('/removeAMarketSale', [
+    check('saleId', 'A valid MongoId is required.').isMongoId()
+], marketController.removeAMarketSale);
+
 module.exports = router;

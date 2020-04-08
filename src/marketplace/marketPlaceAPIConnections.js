@@ -28,7 +28,6 @@ function makeASale(userId:string, sellingPrice: number, itemId: string, itemType
 	This function returns the promise of the users current sales
 */
 function getUsersCurrentSales(userId:string) : Promise<Response> {
-	console.log(userId);
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/getUsersMarketSales/' + userId, {
 		method: 'get',
 		headers: {

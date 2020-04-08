@@ -3,13 +3,15 @@ import * as React from 'react';
 import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import { ToastContainer , toast } from 'react-toastify';
 import { getUsersCurrentSales } from './marketPlaceAPIConnections.js';
+import { toTitleCase } from '../globalComponents/Utility.js';
+import SaleObject from './SaleObject.js';
 
 type Props = {|
-	onItemSold: () => void,
 |}; 
 
 type State = {|
 	userId: string,
+	itemsUserHasForSale: Array<SaleObject>
 |};
 
 class RemoveASaleView extends React.Component<Props, State> {
@@ -18,9 +20,14 @@ class RemoveASaleView extends React.Component<Props, State> {
 		super();
 		this.state={
 			userId: '',
+			itemsUserHasForSale: [],
 		}
+	}
+
+	componentDidMount() {
 		this.getUserID();
 	}
+
 
 	//this gets the user id
 	getUserID() : void {
@@ -59,7 +66,7 @@ class RemoveASaleView extends React.Component<Props, State> {
 					console.log(data);
 				}
 				else {
-					console.log(data);
+					this.setState({itemsUserHasForSale:data}); 
 				}
 			})
 		).catch(
@@ -69,11 +76,58 @@ class RemoveASaleView extends React.Component<Props, State> {
 			}
 		);
 	};
+
+
+	//This creates a card for every sale the user has
+	createCards = () => {
+		const cards = [];
+		console.log(this.state.itemsUserHasForSale);
+		for (let i = 0; i < this.state.itemsUserHasForSale.length; i++) {
+			//Have to handle tanks and items differently
+			if(this.state.itemsUserHasForSale[i].itemType === "component") {
+				cards.push(
+					<div className="card mb-2" key={i}>
+						<div className="card-body">
+							<h5 className="card-title">Item Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].itemId)}</h5>
+							<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].salePrice}</h5>
+							<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
+							<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i]._id)}>Remove</button>
+						</div>
+					</div>
+				)
+			}			
+		}
+		return cards;
+	}
 	
+	//This is the function to remove the tank sale from the marketplace
+	removeSale (saleId: string): void {
+		const responsePromise: Promise<Response> = fetch('/api/marketplace/removeAMarketSale/', {
+			method: 'put',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+			},
+			body: JSON.stringify({ saleId:saleId }),
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				toast.error(data.msg);
+				this.getUsersCurrentSales();
+			})
+		).catch(
+			error => {
+				toast.error('Couldnt connect to server!');
+				console.log(error);
+			}
+		); 
+	};
+
 	render(): React.Node  { 
 		return (
 			<div id="Parent">
-				<h1>Here to remove sales!</h1>
+				{this.createCards()}
 				<ToastContainer />
 			</div>
 		);
