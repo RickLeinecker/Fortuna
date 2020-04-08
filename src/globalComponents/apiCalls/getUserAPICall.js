@@ -20,7 +20,6 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(data);
 			}
 			else {
 				const user = new User(data.userName, data.money, data.wager, data._id, data.stats.elo, getInventory(data.inventory.tankComponents));

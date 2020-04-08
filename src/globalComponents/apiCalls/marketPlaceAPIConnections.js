@@ -56,7 +56,6 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(data);
 			}
 			else {
 				const itemsForSale: Array<SaleObject> = [];
