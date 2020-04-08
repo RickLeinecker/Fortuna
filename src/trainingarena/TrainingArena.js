@@ -36,13 +36,11 @@ class TrainingArena extends React.Component<Props, State> {
 		};
 	}
 	componentDidMount(): void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
+		getAllUsersTanks(allTanks => {
 				this.setState({
 					allTanks: allTanks,
 					selectedTank: allTanks[0]
-				});
-			}
+			});
 		});
 		getBotTanksAPICall(botTanks => this.setState({enemySelectedTank: botTanks[0], enemyTanks: botTanks}));
 	}
