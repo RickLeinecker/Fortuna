@@ -31,6 +31,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 			playerTwoTank : null,
 			debugLines: [],
 			timeLeftText: '',
+			fadeInAlpha: 1,
 		}
 	}
 
