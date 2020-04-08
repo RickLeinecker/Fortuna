@@ -4,7 +4,7 @@ import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 import {getImage} from './ImageLoader.js';
 
-import type {ImageType} from './ImageType.js';
+import type {ImageName} from './ImageName.js';
 
 import './HealthBar.css'
 
@@ -53,19 +53,23 @@ class HealthBar extends React.Component<Props> {
 	}
 
 	draw1V1Healthbars(ctx: CanvasRenderingContext2D): void {
+		const tank1=this.props.tank1, tank2=this.props.tank2;
+		if (tank1==null || tank2==null) {
+			return;
+		}
 		// draw tank names
 		const oldFont=ctx.font;
 		const LIGHT_BLUE='#04CCFF';
 		ctx.font='normal small-caps 30px arial';
 
-		let text=this.props.tank1?.tankName??'';
+		let text=tank1?.tankName??'';
 		ctx.fillStyle='black';
 		let width=ctx.measureText(text).width;
 		ctx.fillText(text, WIDTH/80+2, HEIGHT*.4+2);
 		ctx.fillStyle=LIGHT_BLUE;
 		ctx.fillText(text, WIDTH/80, HEIGHT*.4);
 
-		text=this.props.tank2?.tankName??'';
+		text=tank2?.tankName??'';
 		ctx.fillStyle='black';
 		width=ctx.measureText(text).width;
 		ctx.fillText(text, WIDTH-WIDTH/80-width+2, HEIGHT*.4+2);
@@ -81,8 +85,8 @@ class HealthBar extends React.Component<Props> {
 		ctx.fillRect(WIDTH/80, HEIGHT*.55, BAR_WIDTH, HEIGHT*.3);
 		ctx.fillRect(WIDTH-WIDTH/80-BAR_WIDTH, HEIGHT*.55, BAR_WIDTH, HEIGHT*.3);
 		ctx.fillStyle=LIGHT_BLUE;
-		const percent1=Math.max(0, this.props.tank1.getHealth()/this.props.tank1._getArmorOffset());
-		const percent2=Math.max(0, this.props.tank2.getHealth()/this.props.tank2._getArmorOffset());
+		const percent1=Math.max(0, tank1.getHealth()/tank1._getArmorOffset());
+		const percent2=Math.max(0, tank2.getHealth()/tank2._getArmorOffset());
 		const BORDER=4;
 		const SMALL_WIDTH=BAR_WIDTH-2*BORDER;
 		const SMALL_HEIGHT=HEIGHT*.3-2*BORDER;
@@ -93,19 +97,19 @@ class HealthBar extends React.Component<Props> {
 		
 		//draw items for each tank
 		const playerOneItems: Array<ImageName> = [];
-		if (this.props.tank1.haveC4) {
+		if (tank1.haveC4) {
 			playerOneItems.push('C4');
 		}
-		for (let i=0; i<this.props.tank1.minesLeft; i++) {
+		for (let i=0; i<tank1.minesLeft; i++) {
 			playerOneItems.push('MINE');
 		}
-		if (this.props.tank1.haveNitroRepair) {
+		if (tank1.haveNitroRepair) {
 			playerOneItems.push('GREEN_PARTICLE');
 		}
-		if (this.props.tank1.haveOverdrive) {
+		if (tank1.haveOverdrive) {
 			playerOneItems.push('EMBER1');
 		}
-		if (this.props.tank1.haveMissileTracker) {
+		if (tank1.haveMissileTracker) {
 			playerOneItems.push('MISSILE_TRACKER_DART');
 		}
 		const ICON_WIDTH=30;
@@ -117,19 +121,19 @@ class HealthBar extends React.Component<Props> {
 		}
 
 		const playerTwoItems: Array<ImageName> = [];
-		if (this.props.tank2.haveC4) {
+		if (tank2.haveC4) {
 			playerTwoItems.push('C4');
 		}
-		for (let i=0; i<this.props.tank1.minesLeft; i++) {
+		for (let i=0; i<tank1.minesLeft; i++) {
 			playerTwoItems.push('MINE');
 		}
-		if (this.props.tank2.haveNitroRepair) {
+		if (tank2.haveNitroRepair) {
 			playerTwoItems.push('GREEN_PARTICLE');
 		}
-		if (this.props.tank2.haveOverdrive) {
+		if (tank2.haveOverdrive) {
 			playerTwoItems.push('EMBER1');
 		}
-		if (this.props.tank2.haveMissileTracker) {
+		if (tank2.haveMissileTracker) {
 			playerTwoItems.push('MISSILE_TRACKER_DART');
 		}
 		curX=WIDTH-WIDTH*.20
@@ -137,6 +141,35 @@ class HealthBar extends React.Component<Props> {
 			ctx.drawImage(getImage(item), curX-ICON_WIDTH, curY, ICON_WIDTH, ICON_WIDTH);
 			curX-=ICON_WIDTH*1.5;
 		}
+		//end draw items for each tank
+		
+		//draw jammed static
+		if (tank1.isJammed()) {
+			const oldAlpha=ctx.globalAlpha;
+			ctx.globalAlpha=0.8;
+			const STATIC_WIDTH=520;
+			const STATIC_HEIGHT=100;	
+			ctx.drawImage(getImage('JAMMED'), 0, 0, STATIC_WIDTH, STATIC_HEIGHT);
+			ctx.fillStyle='#222222';
+			ctx.font='bold small-caps 90px arial';
+			ctx.globalAlpha=1;
+			ctx.fillText("JAMMED", WIDTH*.05, HEIGHT*.84);
+			ctx.globalAlpha=oldAlpha;
+		}
+		if (tank2.isJammed()) {
+			const oldAlpha=ctx.globalAlpha;
+			ctx.globalAlpha=0.8;
+			const STATIC_WIDTH=520;
+			const STATIC_HEIGHT=100;	
+			ctx.drawImage(getImage('JAMMED'), WIDTH-STATIC_WIDTH, HEIGHT-STATIC_HEIGHT, STATIC_WIDTH, STATIC_HEIGHT);
+			ctx.fillStyle='#222222';
+			ctx.font='bold small-caps 90px arial';
+			ctx.globalAlpha=1;
+			const JAMMED_WIDTH=ctx.measureText("JAMMED").width;
+			ctx.fillText("JAMMED", WIDTH-WIDTH*.05-JAMMED_WIDTH, HEIGHT*.84);
+			ctx.globalAlpha=oldAlpha;
+		}
+		//end draw jammed static
 	}
 
 	render(): React.Node {

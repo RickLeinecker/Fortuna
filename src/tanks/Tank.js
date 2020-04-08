@@ -354,6 +354,13 @@ class Tank extends GameObject {
 		}
 	}
 
+	isJammed(): boolean {
+		if (this.scanner == null) {
+			return false;
+		}
+		return this.scanner.isJammed();
+	}
+
 	_setDouble(name: string, to: number): void {
 		this.interpriterState.setVariable('DOUBLE', name, new DoubleValue(to));
 	}

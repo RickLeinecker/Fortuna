@@ -6,6 +6,7 @@ type ImageName =
 	'SHADOW' | 
 	'WALL' | 
 	'HEALTHBAR_BACKGROUND' | 
+	'JAMMED' | 
 
 	//deployables
 	'C4' |

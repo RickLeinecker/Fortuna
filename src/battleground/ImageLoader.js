@@ -17,6 +17,7 @@ const allImages: {[ImageName]: Image}= {
 	SHADOW: new Image(),
 	WALL: new Image(),
 	HEALTHBAR_BACKGROUND: new Image(),
+	JAMMED: new Image(),
 
 	C4: new Image(),
 	MINE: new Image(),
@@ -88,6 +89,7 @@ function imageLoaderInit(): void {
 	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
 	allImages.HEALTHBAR_BACKGROUND.src='HealthbarBackground.png';
+	allImages.JAMMED.src='Jammed.png';
 
 	allImages.C4.src='c4.png';
 	allImages.MINE.src='mine.png';
