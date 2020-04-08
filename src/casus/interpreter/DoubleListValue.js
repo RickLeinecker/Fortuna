@@ -21,7 +21,7 @@ class DoubleListValue {
 	
 	getAt(index: IntValue): DoubleValue {
 		if (index.val<0 || index.val>=this.list.length) {
-			return verifyDouble(defaultValueFor('INT'));
+			return verifyDouble(defaultValueFor('DOUBLE'));
 		}
 		return this.list[index.val];
 	}
