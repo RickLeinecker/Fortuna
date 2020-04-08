@@ -10,6 +10,7 @@ type ImageName =
 	'DIRT_BACKGROUND' | 
 	'SHADOW' | 
 	'WALL' | 
+	'WALL_BIG' | 
 	'HEALTHBAR_BACKGROUND' | 
 	'JAMMED' | 
 	'TOO_MANY_INSTRUCTIONS' | 

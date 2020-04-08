@@ -8,23 +8,37 @@ import GameObject from './GameObject.js';
 
 const WALL_LENGTH=17;
 const WALL_WIDTH=3;
+const SMALL_DRAW_WIDTH=45;
+const BIG_DRAW_WIDTH=70;
 
 class Wall extends GameObject {
 	angle: number;
+	big: boolean;
+	width: number;
+	length: number;
+	drawWidth: number;
 
-	constructor(position: Vec, angle: number) {
+	constructor(position: Vec, angle: number, big: boolean) {
 		super(position);
 		this.angle = angle;
+		this.big=big;
+		this.drawWidth=big?BIG_DRAW_WIDTH:SMALL_DRAW_WIDTH;
+		this.width=WALL_WIDTH;
+		this.length=WALL_LENGTH;
+		if (big) {
+			this.width*=BIG_DRAW_WIDTH/SMALL_DRAW_WIDTH;
+			this.length*=BIG_DRAW_WIDTH/SMALL_DRAW_WIDTH;
+		}
 	}
 	
 	render(drawer: ImageDrawer): void {
-		drawer.draw(getImage('WALL'), this.getPosition(), 45, this.angle-Math.PI/2);
+		drawer.draw(getImage(this.big?'WALL_BIG':'WALL'), this.getPosition(), this.drawWidth, this.angle-Math.PI/2);
 		drawer.drawSeg(this.getCollisionWall());
 	}
 
 	getCollisionWall(): Seg {
-		const delta=new Vec(WALL_LENGTH, 0).rotate(this.angle);
-		return new Seg(this.getPosition().sub(delta), this.getPosition().add(delta), WALL_WIDTH);
+		const delta=new Vec(this.length, 0).rotate(this.angle);
+		return new Seg(this.getPosition().sub(delta), this.getPosition().add(delta), this.width);
 	}
 
 	getRenderOrder(): number {

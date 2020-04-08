@@ -19,6 +19,7 @@ const allImages: {[ImageName]: Image}= {
 	LUNAR_BACKGROUND: new Image(),
 	SHADOW: new Image(),
 	WALL: new Image(),
+	WALL_BIG: new Image(),
 	HEALTHBAR_BACKGROUND: new Image(),
 	JAMMED: new Image(),
 	TOO_MANY_INSTRUCTIONS: new Image(),
@@ -96,6 +97,7 @@ function imageLoaderInit(): void {
 	allImages.LUNAR_BACKGROUND.src='Lunar.png';
 	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
+	allImages.WALL_BIG.src='WallBig.png';
 	allImages.HEALTHBAR_BACKGROUND.src='HealthbarBackground.png';
 	allImages.JAMMED.src='Jammed.png';
 	allImages.TOO_MANY_INSTRUCTIONS.src='TooManyInstructions.png';
