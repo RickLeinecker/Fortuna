@@ -6,15 +6,15 @@ class User {
 	username: string;
 	money: number;
 	wager: number;
-	userID: string;
+	userId: string;
 	elo: number;
 	inventory: Array<Component>
 
-	constructor(username: string, money: number, wager: number, userID: string, elo: number, inventory: Array<Component>) {
+	constructor(username: string, money: number, wager: number, userId: string, elo: number, inventory: Array<Component>) {
 		this.username = username;
 		this.money = money;
 		this.wager = wager;
-		this.userID = userID;
+		this.userId = userId;
 		this.elo = elo;
 		this.inventory = inventory;
 	}

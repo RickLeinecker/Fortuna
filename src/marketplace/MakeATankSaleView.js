@@ -3,7 +3,7 @@ import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
-import { makeASale } from './marketPlaceAPIConnections.js';
+import { makeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
@@ -29,18 +29,17 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			itemAmount: 0,
 			tanksToSell: [],
 		}
-		this.getUserID();
 	}
 
-	//this gets the user id
-	getUserID() : void {
+	// Once mounted, get the userId.
+	componentDidMount(): void {
 		getUserAPICall(user => {
 			if (user == null) {
 				toast.error('Could not get logged in user!');
 			}
 			else {
-				this.setState({userId: user._id});
-				this.directSaleToProperFunction();
+				this.setState({userId: user.userId});
+				this.getAllUsersTanksForSell();
 			}
 		});
 	}
@@ -77,8 +76,8 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		makeASale(
 			this.state.userId, 
 			this.state.salePrice, 
-			this.state.itemID, 
-			"component", 
+			this.state.tankBeingSoldId, 
+			"tank", 
 			1,
 			success => {
 				if (success) {

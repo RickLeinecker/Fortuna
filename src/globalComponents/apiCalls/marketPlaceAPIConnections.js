@@ -59,7 +59,17 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 				onLoad(data);
 			}
 			else {
-				onLoad(data);
+				const itemsForSaleArray: Array<SaleObject> = [];
+				for(const sale of data) {
+					itemsForSaleArray.push(new SaleObject(
+						sale.itemId,
+						sale.salePrice,
+						sale.amount,
+						sale.sellerId,
+						sale._id
+					));
+				}
+				onLoad(itemsForSaleArray);
 			}
 		})
 	);
@@ -79,10 +89,21 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(data);
+				const itemsForSale: Array<SaleObject> = [];
+				onLoad(itemsForSale);
 			}
 			else {
-				onLoad(data);
+				const itemsForSale: Array<SaleObject> = [];
+				for (const sale of data) {
+					itemsForSale.push(new SaleObject(
+						sale.itemId,
+						sale.salePrice,
+						sale.amount,
+						sale.sellerId,
+						sale._id
+					));
+				} 
+				onLoad(itemsForSale);
 			}
 		})
 	);

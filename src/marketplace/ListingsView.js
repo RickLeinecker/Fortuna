@@ -3,7 +3,7 @@ import * as React from 'react';
 import { getComponentType, verifyComponent } from '../globalComponents/GetInventoryInfo.js';
 import type { SellingType } from './SellingType.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
-import SaleObject from './SaleObject.js';
+import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import { ToastContainer , toast } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import { getMarketSales, getMarketTanks, marketSale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
@@ -61,7 +61,7 @@ class ListingsView extends React.Component<Props, State> {
 				toast.error('Could not get logged in user!');
 			}
 			else {
-				this.setState({userId: user._id});
+				this.setState({userId: user.userId});
 				this.directSaleToProperFunction();
 			}
 		});
@@ -75,23 +75,7 @@ class ListingsView extends React.Component<Props, State> {
 				toast.error('Could not get sales!');
 			}
 			else {
-				const itemsForSaleArray: Array<SaleObject> = [];
-				for (const sale in sales) {
-					// Need to make sure that this sale involves a component and not a tank
-					if(getComponentType(sales[sale].itemId) != null) {
-						const typeOfItem = getComponentType(verifyComponent(sales[sale].itemId));
-						if(typeOfItem === this.props.sellerType) {
-							itemsForSaleArray.push(new SaleObject(
-								sales[sale].itemId,
-								sales[sale].salePrice,
-								sales[sale].amount,
-								sales[sale].sellerId,
-								sales[sale]._id
-							));
-						}
-					}
-				}
-				this.setState({itemsForSale: itemsForSaleArray}); 
+				this.setState({itemsForSale: sales.filter(sale => getComponentType(verifyComponent(sale.name)) === this.props.sellerType)}); 
 			}
 		});
 	}
@@ -103,20 +87,7 @@ class ListingsView extends React.Component<Props, State> {
 				toast.error('Could not get sale tanks!');
 			}
 			else {
-				const itemsForSaleArray: Array<SaleObject> = [];
-				for (const sale in tanks) {
-					// If this isn't a component it must be a tank so we can process it here
-					if (getComponentType(tanks[sale].itemId._id) == null) {
-						itemsForSaleArray.push(new SaleObject(
-							tanks[sale].itemId.tankName,
-							tanks[sale].salePrice,
-							tanks[sale].amount,
-							tanks[sale].sellerId,
-							tanks[sale]._id
-						));
-					}
-				} 
-				this.setState({itemsForSale:itemsForSaleArray}); 
+				this.setState({itemsForSale: tanks}); 
 			}
 		});
 	}
@@ -143,7 +114,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	// Handles purchases.
 	buyItem (sellerId: string, saleId: string): void {
-		marketSale(success => {
+		marketSale(this.state.userId, sellerId, saleId, success => {
 			if(success) {
 				toast.success("Item Purchased.");
 				this.directSaleToProperFunction();

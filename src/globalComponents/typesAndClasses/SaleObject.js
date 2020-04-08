@@ -1,11 +1,12 @@
 //@flow strict
 
 class SaleObject {
-	name:string;
+	name: string;
 	price: number;
 	amount: number;
 	sellerId: string;
 	saleId: string;
+	
 	constructor(name: string, price: number, amount: number, sellerId: string, saleId: string) {
 		this.name = name;
 		this.price = price;

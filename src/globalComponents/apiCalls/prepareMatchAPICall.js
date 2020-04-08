@@ -16,7 +16,7 @@ function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: s
 			'x-auth-token': token
 		},
 		body: JSON.stringify({
-			personBeingChallengedId: otherPlayer.userID,
+			personBeingChallengedId: otherPlayer.userId,
 			challengerTankId: myTank._id,
 		})
 	});

@@ -2,17 +2,17 @@
 
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
+import { getInventory } from '../GetInventoryInfo.js';
 
 //gets the user when passed a token stored as the login token
 function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
-	const token=getLoginToken();
 	const responsePromise: Promise<Response> = fetch('/api/user/allUsers', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': token
+			'x-auth-token': getLoginToken()
 		},
 	});
 	responsePromise.then (
@@ -24,12 +24,13 @@ function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 			else {
 				const allUsers=[];
 				for (const backendUser of data) {
-					const user=new User(
+					const user = new User(
 						backendUser.userName, 
 						backendUser.money, 
 						backendUser.wager,
 						backendUser._id,
 						backendUser.stats.elo,
+						getInventory(backendUser.inventory.tankComponents)
 					);
 					allUsers.push(user);
 				}
