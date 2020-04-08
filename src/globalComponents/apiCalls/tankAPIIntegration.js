@@ -176,8 +176,8 @@ function createTank(tank: Tank, onLoad:() => void): void {
 
 function deleteTank(tankId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + tankId, {
-			method: 'DELETE',
-			headers: {
+		method: 'DELETE',
+		headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true',

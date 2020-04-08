@@ -115,18 +115,16 @@ class Armory extends React.Component<Props, State> {
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
 		getUserAPICall(user => {
-			if (user != null) {
-				this.setState({
-					inventory: user.inventory,
-					chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),
-					weapons: user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'),
-					scanners: user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'),
-					scannerAddons: user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'),
-					jammers: user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'),
-					treads: user.inventory.filter(component => getComponentType(component.componentName) === 'treads'),
-					items: user.inventory.filter(component => getComponentType(component.componentName) === 'item'),
-				});
-			}
+			this.setState({
+				inventory: user.inventory,
+				chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),
+				weapons: user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'),
+				scanners: user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'),
+				scannerAddons: user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'),
+				jammers: user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'),
+				treads: user.inventory.filter(component => getComponentType(component.componentName) === 'treads'),
+				items: user.inventory.filter(component => getComponentType(component.componentName) === 'item'),
+			});
 		});
 	}
 

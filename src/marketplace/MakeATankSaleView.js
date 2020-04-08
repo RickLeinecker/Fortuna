@@ -36,13 +36,8 @@ class MakeATankSaleView extends React.Component<Props, State> {
 	// Once mounted, get the userId and favorite tank id.
 	componentDidMount(): void {
 		getUserAPICall(user => {
-			if (user == null) {
-				toast.error('Could not get logged in user!');
-			}
-			else {
-				this.setState({userId: user.userId});
-				this.getAllUsersTanksForSell();
-			}
+			this.setState({userId: user.userId});
+			this.getAllUsersTanksForSell();
 		});
 
 		getFavoriteTank(tank => {
