@@ -354,6 +354,13 @@ class Tank extends GameObject {
 		}
 	}
 
+	isJammed(): boolean {
+		if (this.scanner == null) {
+			return false;
+		}
+		return this.scanner.isJammed();
+	}
+
 	_setDouble(name: string, to: number): void {
 		this.interpriterState.setVariable('DOUBLE', name, new DoubleValue(to));
 	}
@@ -469,6 +476,14 @@ class Tank extends GameObject {
 		if (this.mainGun != null) {
 			this.mainGun.displayAngle=turretAngle;
 		}
+	}
+
+	getHitRecursionLimit(): boolean {
+		return this.interpriterState.everHitRecursionLimit();
+	}
+
+	getHitInstructionsLimit(): boolean {
+		return this.interpriterState.everHitInstructionLimit();
 	}
 
 }

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Battleground from './Battleground.js';
-import HealthBarsField from './HealthBarsField.js';
+import HealthBar from './HealthBar.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
 import DebugLog from './DebugLog.js';
@@ -12,11 +12,13 @@ import './BattlegroundContainer.css';
 
 type Props = {||};
 
-type State = {
+type State = {|
 	playerOneTank: ?Tank,
 	playerTwoTank: ?Tank,
 	debugLines: Array<string>,
-};
+	timeLeftText: string,
+	fadeInAlpha: number,
+|};
 
 const MAX_DEBUG_LINES=30;
 
@@ -28,6 +30,8 @@ class BattlegroundContainer extends React.Component<Props, State> {
 			playerOneTank: null,
 			playerTwoTank : null,
 			debugLines: [],
+			timeLeftText: '',
+			fadeInAlpha: 1,
 		}
 	}
 
@@ -35,7 +39,9 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		const battleground=(
 			<Battleground 
 				setPlayersTank = {this.setPlayersTank}
+				setTimeLeftText = {this.setTimeLeftText}
 				addDebugLine = {this.addDebugLine}
+				setFadeInAlpha = {this.setFadeInAlpha}
 			/>
 		);
 		const returnTo=getReturnToFromBattlegroundLink();
@@ -48,9 +54,11 @@ class BattlegroundContainer extends React.Component<Props, State> {
 					pageName='Battleground'
 				/>
 				<div className={haveDebug?'battlegroundContainer':'battlegroundContainerFull'}>
-					<HealthBarsField
-						playerOneTank = {this.state.playerOneTank}
-						playerTwoTank = {this.state.playerTwoTank}
+					<HealthBar
+						tank1 = {this.state.playerOneTank}
+						tank2 = {this.state.playerTwoTank}
+						timeLeftText = {this.state.timeLeftText}
+						fadeInAlpha = {this.state.fadeInAlpha}
 					/>
 					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
 						{battleground}
@@ -68,6 +76,18 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		this.setState({
 			playerOneTank: playerOneTank,
 			playerTwoTank: playerTwoTank
+		});
+	}
+
+	setTimeLeftText = (timeLeft: string): void  => {
+		this.setState({
+			timeLeftText: timeLeft
+		});
+	}
+	
+	setFadeInAlpha = (fadeInAlpha: number): void => {
+		this.setState({
+			fadeInAlpha: fadeInAlpha
 		});
 	}
 

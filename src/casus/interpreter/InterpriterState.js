@@ -38,6 +38,8 @@ class InterpriterState {
 
 	statementsMade: number;
 	recursionDepth: number;
+	hitInstructionLimit: boolean;
+	hitRecursionLimit: boolean;
 
 	printedStatements: Array<string>;
 	
@@ -49,6 +51,13 @@ class InterpriterState {
 		this.booleanListVariables = new Map<string, BooleanListValue>();
 		this.doubleListVariables = new Map<string, DoubleListValue>();
 		this.functionList = new Map<string, DefineFunctionBlock>();
+
+		this.statementsMade=0;
+		this.recursionDepth=0;
+		this.hitInstructionLimit=false;
+		this.hitRecursionLimit=false;
+
+		this.printedStatements=[];
 	}
 
 	getVariable(type: DataType, name: string): ?Value {
@@ -124,7 +133,9 @@ class InterpriterState {
 	}
 
 	madeTooManyStatements(): boolean {
-		return this.statementsMade > MAX_RECURSION_DEPTH;
+		const TLE=this.statementsMade > MAX_STATEMENTS;
+		this.hitInstructionLimit=this.hitInstructionLimit || TLE;
+		return TLE;
 	}
 
 	incrementRecursionDepth(): void {
@@ -138,11 +149,16 @@ class InterpriterState {
 	inTooDeep(): boolean {
 		//maybe we're just trying too hard
 		//when really it's closer than it is too far
-		return this.recursionDepth>MAX_STATEMENTS;
+		const inTooDeep=this.recursionDepth>MAX_RECURSION_DEPTH;
+		this.hitRecursionLimit=this.hitRecursionLimit || inTooDeep;
+		return inTooDeep;
 	}
 
 	resetStatementsMade(): void {
+		this.hitInstructionLimit=false;
+		this.hitRecursionLimit=false;
 		this.statementsMade = 0;
+		this.recursionDepth = 0;
 	}
 
 	printDebugLine(toPrint: string): void {
@@ -151,6 +167,14 @@ class InterpriterState {
 
 	resetDebug(): void {
 		this.printedStatements =  [];
+	}
+
+	everHitInstructionLimit(): boolean {
+		return this.hitInstructionLimit;
+	}
+
+	everHitRecursionLimit(): boolean {
+		return this.hitRecursionLimit;
 	}
 }
 

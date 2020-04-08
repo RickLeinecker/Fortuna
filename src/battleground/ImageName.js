@@ -5,6 +5,10 @@ type ImageName =
 	'DIRT_BACKGROUND' | 
 	'SHADOW' | 
 	'WALL' | 
+	'HEALTHBAR_BACKGROUND' | 
+	'JAMMED' | 
+	'TOO_MANY_INSTRUCTIONS' | 
+	'RECURSION_TOO_DEEP' | 
 
 	//deployables
 	'C4' |
