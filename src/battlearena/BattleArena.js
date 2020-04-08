@@ -19,6 +19,7 @@ import { setMatchForBattleground } from '../battleground/setTanksToFightInBattle
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
 import Replays from './Replays.js';
+import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 
 type Props = {||};
 
@@ -68,6 +69,8 @@ class BattleArena extends React.Component<Props, State> {
 		prepareMatchAPICall(myTank, player, matchId => {
 			console.log('Successfully prepared match with id: '+matchId);
 			setMatchForBattleground(matchId);
+			//TODO: select an appropriate arena depending on the match
+			setBattlegroundArena('DIRT');
 			window.location.href=verifyLink('/Battleground');
 		});
 

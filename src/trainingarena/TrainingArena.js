@@ -13,6 +13,7 @@ import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegratio
 import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
+import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 
 type Props = {||};
 
@@ -50,11 +51,17 @@ class TrainingArena extends React.Component<Props, State> {
 	onClickStartBattle(): void {
 		const myTank=this.state.selectedTank;
 		const botTank=this.state.enemySelectedTank;
+		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
 		if (myTank == null || botTank == null) {
 			throw new Error('neither tank should be null!');
 		}
+		const selected = arenaSelector.value;
+		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
+			setBattlegroundArena(selected);
+		}
 		setReturnToFromBattlegroundLink('/TrainingArena');
 		setTanksToFightInBattleground(myTank._id, botTank._id);
+
 		window.location.href=verifyLink('/Battleground');
 	}
 
@@ -81,6 +88,13 @@ class TrainingArena extends React.Component<Props, State> {
 					/>
 				</div>
 				<div className="column tamiddle">
+					<h5>Arena</h5>
+					<select className="dropdownMenu" ref="arenaSelect">
+						<option value="DIRT">Classic</option>
+						<option value="HEX">Hex</option>
+						<option value="CANDEN">Canden</option>
+						<option value="LUNAR">Lunar</option>
+					</select>
 					<button 
 						type="button" 
 						className="primarybtn" 
