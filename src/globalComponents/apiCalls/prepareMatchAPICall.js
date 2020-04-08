@@ -8,14 +8,13 @@ import getErrorFromObject from '../getErrorFromObject.js';
 
 //gets the user when passed a token stored as the login token
 function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: string) => void) {
-	const token=getLoginToken();
 	const responsePromise: Promise<Response> = fetch('/api/battle/prepareMatch', {
 		method: 'POST',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': token
+			'x-auth-token': getLoginToken()
 		},
 		body: JSON.stringify({
 			personBeingChallengedId: otherPlayer.userId,

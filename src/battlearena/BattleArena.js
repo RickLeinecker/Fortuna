@@ -41,13 +41,11 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				this.setState({
-					allTanks: allTanks,
-					selectedTank: allTanks[0]
-				});
-			}
+		getAllUsersTanks(allTanks => {
+			this.setState({
+				allTanks: allTanks,
+				selectedTank: allTanks[0]
+			});
 		});
 		getReplayListAPICall(() => {});
 	}
@@ -55,12 +53,12 @@ class BattleArena extends React.Component<Props, State> {
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 
-		if (player==null) {
+		if (player == null) {
 			toast.error('No player found.');
 			return;
 		}
-		const myTank=this.state.selectedTank;
-		if (myTank==null) {
+		const myTank = this.state.selectedTank;
+		if (myTank == null) {
 			toast.error('No selected tank for challenging.');
 			return;
 		}
