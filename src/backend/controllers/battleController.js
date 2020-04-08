@@ -186,16 +186,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 			const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
 			const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
 			
-			// We want eloExchanged to be a positive value so we take whoever's increased and subtract 
-			if (userOne.stats.elo > userTwo.stats.elo) {
-				const eloExchanged = userOne.stats.elo - newUserOneElo;
-				battle.eloExchanged = eloExchanged;
-			} else {
-				const eloExchanged = userTwo.stats.elo - newUserTwoElo;
-				battle.eloExchanged = eloExchanged;
-
-			}
-			
+			// Record elo exchanged on tie
+			battle.eloExchanged = Math.abs(userOne.stats.elo-newUserOneElo);			
 
 			userOne.stats.elo = newUserOneElo;
 			userTwo.stats.elo = newUserTwoElo;
