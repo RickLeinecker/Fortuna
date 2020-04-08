@@ -3,6 +3,8 @@
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
 import Tank from '../../tanks/Tank.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 //gets the user when passed a token stored as the login token
 function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: string) => void) {
@@ -25,6 +27,7 @@ function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: s
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				const matchId=data;

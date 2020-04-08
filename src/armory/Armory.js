@@ -121,10 +121,7 @@ class Armory extends React.Component<Props, State> {
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
 		getUserAPICall(user => {
-			if (user == null) {
-				toast.error('Can not find logged in user!');
-			}
-			else {
+			if (user != null) {
 				this.setState({
 					inventory: user.inventory,
 					chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),

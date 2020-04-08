@@ -41,10 +41,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	// Once mounted, set the userId.
 	componentDidMount(): void {
 		getUserAPICall(user => {
-			if (user == null) {
-				toast.error('Can not find logged in user!');
-			}
-			else {
+			if (user != null) {
 				this.setState({userId: user.userId});
 			}
 		});

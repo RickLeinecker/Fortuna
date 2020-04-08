@@ -1,6 +1,8 @@
 //@flow strict
 
 import SaleObject from '../typesAndClasses/SaleObject.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 /*
 	This function takes the following input
@@ -56,6 +58,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				const itemsForSale: Array<SaleObject> = [];
@@ -88,8 +91,7 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				const itemsForSale: Array<SaleObject> = [];
-				onLoad(itemsForSale);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				const itemsForSale: Array<SaleObject> = [];

@@ -2,6 +2,8 @@
 
 import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.
@@ -44,6 +46,7 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				// Process all of the leaders into an array and load it.

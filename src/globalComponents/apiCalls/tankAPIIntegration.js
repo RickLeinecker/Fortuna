@@ -4,6 +4,8 @@ import BackendTank from '../../tanks/BackendTank.js';
 import Tank from '../../tanks/Tank.js';
 import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 // This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: Tank) => void): void {
@@ -21,6 +23,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				const tank = new BackendTank(
