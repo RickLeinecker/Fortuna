@@ -40,7 +40,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 	)
 }
 
-function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => void): void {
+function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
@@ -56,16 +56,16 @@ function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => vo
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
 }
 
-function removeFavoriteTankId(onLoad:(setSuccessful: boolean) => void): void {
+function removeFavoriteTankId(onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/unfavoriteTank/', {
 		method: 'PATCH',
 		headers: {
@@ -80,16 +80,17 @@ function removeFavoriteTankId(onLoad:(setSuccessful: boolean) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
 }
 
-function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): void {
+// Updates a user's tank.
+function updateTank(tank: Tank, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + tank._id, {
 			method: 'PUT',
 			headers: {
@@ -110,17 +111,17 @@ function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): voi
 				if(response.status !== 200) {
 					console.log(response.status);
 					console.log(data);
-					onLoad(false);
+					toast.error(getErrorFromObject(response));
 				}
 				else {
-					onLoad(true);
+					onLoad();
 				}
 			})
 		);
 }
 
 // This function gets all of the tanks the user is associated with
-function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) => void): void {
+function getAllUsersTanks(onLoad: (allTanks: Array<Tank>) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
 		method: 'GET',
 		headers: {
@@ -135,20 +136,20 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false, []);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
 				const allTanks: Array<Tank> = [];
 				for(const tank of data) {
 					allTanks.push(getTank(tank));
 				}
-				onLoad(true, allTanks);
+				onLoad(allTanks);
 			}
 		})
 	);
 }
 
-function createTank(tank: Tank, onLoad:(success: boolean) => void): void {
+function createTank(tank: Tank, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 		method: 'POST',
 		headers: {
@@ -164,16 +165,16 @@ function createTank(tank: Tank, onLoad:(success: boolean) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
 }
 
-function deleteTank(tankId: string, onLoad:(success: boolean) => void): void {
+function deleteTank(tankId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + tankId, {
 			method: 'DELETE',
 			headers: {
@@ -188,10 +189,10 @@ function deleteTank(tankId: string, onLoad:(success: boolean) => void): void {
 				if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);

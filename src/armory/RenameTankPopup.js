@@ -40,14 +40,9 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		}
 
 		this.props.tank.tankName = this.state.newTankName;
-		updateTank(this.props.tank, success => {
-			if (success) {
-				this.setState({newTankName: '', renameTankOpen: false});
-				this.props.renameTank(this.props.tank);
-			}
-			else {
-				toast.error('Could not rename tank.');
-			}
+		updateTank(this.props.tank, () => {
+			this.setState({newTankName: '', renameTankOpen: false});
+			this.props.renameTank(this.props.tank);
 		});
 	}
 

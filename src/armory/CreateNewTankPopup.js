@@ -41,9 +41,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	// Once mounted, set the userId.
 	componentDidMount(): void {
 		getUserAPICall(user => {
-			if (user != null) {
-				this.setState({userId: user.userId});
-			}
+			this.setState({userId: user.userId});
 		});
 	}
 
@@ -95,14 +93,8 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			this.state.userId,
 			this.state.newTankName
 		));
-		createTank(newTank, success => {
-			if (success) {
-				toast.success("Tank Created.");
-				window.location.reload();
-			}
-			else {
-				toast.error("Could not Create Tank!");
-			}
+		createTank(newTank, () => {
+			window.location.reload();
 		});
 	}
 

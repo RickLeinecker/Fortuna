@@ -12,7 +12,7 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 // Functions
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
@@ -98,23 +98,17 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all user tanks and sets them to the state.
 	getTanks(): void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				if (allTanks.length === 0) {
-					toast.error('Expected to have at least one tank!');
-					return;
-				}
-				// Always set the default selected tank to the newest tank.
-				const newSelectedTank = allTanks[allTanks.length-1];
-				setTankForCasus(newSelectedTank._id);
-				// Update the state, and then run initPoints after the state has been set.
-				this.setState({
-						allTanks: allTanks, 
-						selectedTank: newSelectedTank, 
-					},
-					this.initPoints
-				);
-			}
+		getAllUsersTanks(allTanks => {
+			// Always set the default selected tank to the newest tank.
+			const newSelectedTank = allTanks[allTanks.length-1];
+			setTankForCasus(newSelectedTank._id);
+			// Update the state, and then run initPoints after the state has been set.
+			this.setState({
+					allTanks: allTanks, 
+					selectedTank: newSelectedTank, 
+				},
+				this.initPoints
+			);
 		});
 	}
 
@@ -148,13 +142,8 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank and update the user's inventory.
 	saveTank(): void {
-		updateTank(this.state.selectedTank, successful => {
-			if(successful) {
-				this.getUserInventory();
-			}
-			else {
-				toast.error('Could not save tank!');
-			}
+		updateTank(this.state.selectedTank, () => {
+			this.getUserInventory();
 		});
 	}
 
@@ -174,7 +163,6 @@ class Armory extends React.Component<Props, State> {
 	initPoints(): void {
 		const tank: Tank = this.state.selectedTank;
 		let newPoints: number = 0;
-		this.setState({ points: 0 });
 		for(let i = 0; i < 11; i++) {
 			newPoints = newPoints + getComponentPoints(tank.parts[i].name);
 		}

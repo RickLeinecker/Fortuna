@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { deleteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {|
@@ -26,14 +26,8 @@ class DeleteTankPopup extends React.Component<Props, State> {
 
 	// Deletes the currently selected take after confirmation.
 	handleDeleteClick(): void {
-		deleteTank(this.props.tank._id, success => {
-			if (success) {
-				toast.success("Tank Deleted.");
-				window.location.reload();
-			}
-			else {
-				toast.error("Could not Delete Tank!");
-			}
+		deleteTank(this.props.tank._id, () => {
+			window.location.reload();
 		});
 	}
 
