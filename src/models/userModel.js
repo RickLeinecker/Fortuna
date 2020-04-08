@@ -30,7 +30,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     // User starts with 50000 money by default. This can be changed as needed
     money: {
         type: Number,
-        default: 50000
+        default: 1000
     },
     wager: {
         type: Number,
