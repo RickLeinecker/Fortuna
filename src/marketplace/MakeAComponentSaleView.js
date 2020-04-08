@@ -38,12 +38,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
 		getUserAPICall(user => {
-			if (user == null) {
-				toast.error('Can not find logged in user!');
-			}
-			else {
-				this.setState({itemsToSell: user.inventory, userId: user.userId, itemID: user.inventory[0].componentName});
-			}
+			this.setState({itemsToSell: user.inventory, userId: user.userId, itemID: user.inventory[0].componentName});
 		});
 	}
 
@@ -55,15 +50,10 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			"component", 
 			this.state.itemAmount,
 			success => {
-				if (success) {
-					toast.success("Item Placed in Market.");
-					this.setState({salePrice: 0, itemAmount: 0});
-					this.getUserInventory();
-					this.props.onItemSold();
-				}
-				else {
-					toast.error("Could not place item in Market!");
-				}
+				toast.success("Item Placed in Market.");
+				this.setState({salePrice: 0, itemAmount: 0});
+				this.getUserInventory();
+				this.props.onItemSold();
 			}
 		);
 	}

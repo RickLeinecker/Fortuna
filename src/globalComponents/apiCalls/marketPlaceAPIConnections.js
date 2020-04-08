@@ -19,7 +19,7 @@ function makeASale(
 	itemId: string, 
 	itemType: string, 
 	amountOfSellingItems: number, 
-	onLoad:(success: boolean) => void
+	onLoad:() => void
 ): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/addMarketSale/', {
 		method: 'POST',
@@ -35,10 +35,10 @@ function makeASale(
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
@@ -110,7 +110,7 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 	);
 }
 
-function marketSale(userId: string, sellerId: string, saleId: string, onLoad:(success: boolean) => void): void {
+function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/marketTransaction/', {
 		method: 'put',
 		headers: {
@@ -125,10 +125,10 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:(su
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(getErrorFromObject(response));
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);

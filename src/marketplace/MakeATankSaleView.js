@@ -46,17 +46,13 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		});
 
 		getFavoriteTank(tank => {
-			if (tank != null) {
-				this.setState({ favTankId: tank._id});
-			}
+			this.setState({ favTankId: tank._id});
 		});
 	}
 
 	// Get all of a user's tanks, besides the favorite tank.
 	getAllUsersTanksForSell() : void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				
+		getAllUsersTanks(allTanks => {
 				// Find the favorite tank and remove it if it exists.
 				const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankId);
 				if (index > -1) {
@@ -64,7 +60,6 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				}
 			
 				this.setState({tanksToSell: allTanks});
-			}
 		});
 	};
 
@@ -82,16 +77,11 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			this.state.tankBeingSoldId, 
 			"tank", 
 			1,
-			success => {
-				if (success) {
-					toast.success("Tank Placed in Market.");
-					this.getAllUsersTanksForSell();
-					this.setState({salePrice: 0});
-					this.props.onItemSold();
-				}
-				else {
-					toast.error("Could not place tank in Market!");
-				}
+			() => {
+				toast.success("Tank Placed in Market.");
+				this.getAllUsersTanksForSell();
+				this.setState({salePrice: 0});
+				this.props.onItemSold();
 			}
 		);
 	}

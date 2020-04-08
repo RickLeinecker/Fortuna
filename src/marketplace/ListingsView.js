@@ -58,13 +58,8 @@ class ListingsView extends React.Component<Props, State> {
 	//This gets us the user's id 
 	getUserId(): void {
 		getUserAPICall(user => {
-			if (user == null) {
-				toast.error('Could not get logged in user!');
-			}
-			else {
-				this.setState({userId: user.userId});
-				this.directSaleToProperFunction();
-			}
+			this.setState({userId: user.userId});
+			this.directSaleToProperFunction();
 		});
 	};
 
@@ -72,27 +67,17 @@ class ListingsView extends React.Component<Props, State> {
 	//This only works for components as tanks is a different api call
 	getMarketSalesForComponents(): void  {
 		getMarketSales(this.state.userId, sales => {
-			if(sales == null) {
-				toast.error('Could not get sales!');
-			}
-			else {
-				this.setState({itemsForSale: sales.filter(sale => 
-					allComponents.includes(sale.name)
-					&& getComponentType(verifyComponent(sale.name)) === this.props.sellerType
-				)}); 
-			}
+			this.setState({itemsForSale: sales.filter(sale => 
+				allComponents.includes(sale.name)
+				&& getComponentType(verifyComponent(sale.name)) === this.props.sellerType
+			)}); 
 		});
 	}
 
 	//This function uses the users id and gets the tanks that are active in the marketplace
 	getMarketSalesForTanks(): void  {
 		getMarketTanks(this.state.userId, sales => {
-			if(sales == null) {
-				toast.error('Could not get sale tanks!');
-			}
-			else {
 				this.setState({itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name)))}); 
-			}
 		});
 	}
 
@@ -119,28 +104,23 @@ class ListingsView extends React.Component<Props, State> {
 	// Handles purchases.
 	buyItem (sellerId: string, saleId: string): void {
 		marketSale(this.state.userId, sellerId, saleId, success => {
-			if(success) {
-				toast.success("Item Purchased.");
-				this.directSaleToProperFunction();
-				this.props.onItemBought();
-			}
-			else {
-				toast.error("Could not buy item.");
-			}
+			toast.success("Item Purchased.");
+			this.directSaleToProperFunction();
+			this.props.onItemBought();
 		});
 	}
 
 	//This formats the title of the listing views
 	formatTitle(title:string) {
-		//did this because title is a const and I need to reassign the title
+		// Did this because title is a const and I need to reassign the title
 		let formattedTitle = title;
-		//Capitalizes the first letter
+		// Capitalizes the first letter
 		formattedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.substring(1);
-		//adds s to the end of the word if it doesn't contain an s
+		// Adds s to the end of the word if it doesn't contain an s
 		if(formattedTitle.charAt(formattedTitle.length-1) !== 's') {
 			formattedTitle = formattedTitle + 's';
 		}
-		//Add-ons is a weird case I am going to handle literally
+		// Add-ons is a weird case I am going to handle literally
 		if(title === 'scannerAddon') {
 			formattedTitle = "Scanner Add-Ons";
 		}
