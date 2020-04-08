@@ -18,6 +18,8 @@ const allImages: {[ImageName]: Image}= {
 	WALL: new Image(),
 	HEALTHBAR_BACKGROUND: new Image(),
 	JAMMED: new Image(),
+	TOO_MANY_INSTRUCTIONS: new Image(),
+	RECURSION_TOO_DEEP: new Image(),
 
 	C4: new Image(),
 	MINE: new Image(),
@@ -90,6 +92,8 @@ function imageLoaderInit(): void {
 	allImages.WALL.src='Wall.png';
 	allImages.HEALTHBAR_BACKGROUND.src='HealthbarBackground.png';
 	allImages.JAMMED.src='Jammed.png';
+	allImages.TOO_MANY_INSTRUCTIONS.src='TooManyInstructions.png';
+	allImages.RECURSION_TOO_DEEP.src='RecursionTooDeep.png';
 
 	allImages.C4.src='c4.png';
 	allImages.MINE.src='mine.png';

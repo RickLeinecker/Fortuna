@@ -478,6 +478,14 @@ class Tank extends GameObject {
 		}
 	}
 
+	getHitRecursionLimit(): boolean {
+		return this.interpriterState.everHitRecursionLimit();
+	}
+
+	getHitInstructionsLimit(): boolean {
+		return this.interpriterState.everHitInstructionLimit();
+	}
+
 }
 
 export default Tank;

@@ -143,6 +143,33 @@ class HealthBar extends React.Component<Props> {
 		}
 		//end draw items for each tank
 		
+		//draw warnings
+		const WARNING_WIDTH=70;
+		if (this.props.tank1.getHitInstructionsLimit()) {
+			ctx.drawImage(getImage('TOO_MANY_INSTRUCTIONS'), WIDTH*0.35, HEIGHT*.2, WARNING_WIDTH, WARNING_WIDTH);
+		}
+		if (this.props.tank1.getHitRecursionLimit()) {
+			ctx.drawImage(getImage('RECURSION_TOO_DEEP'), WIDTH*0.395, HEIGHT*.2, WARNING_WIDTH, WARNING_WIDTH);
+		}
+		if (this.props.tank2.getHitInstructionsLimit()) {
+			ctx.drawImage(
+				getImage('TOO_MANY_INSTRUCTIONS'), 
+				WIDTH-WIDTH*0.35-WARNING_WIDTH, 
+				HEIGHT*.2, 
+				WARNING_WIDTH, 
+				WARNING_WIDTH
+			);
+		}
+		if (this.props.tank2.getHitRecursionLimit()) {
+			ctx.drawImage(
+				getImage('RECURSION_TOO_DEEP'), 
+				WIDTH-WIDTH*0.395-WARNING_WIDTH, 
+				HEIGHT*.2, 
+				WARNING_WIDTH, 
+				WARNING_WIDTH);
+		}
+		//end draw warnings
+		
 		//draw jammed static
 		if (tank1.isJammed()) {
 			const oldAlpha=ctx.globalAlpha;
