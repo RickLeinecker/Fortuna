@@ -54,8 +54,8 @@ class InterpriterState {
 
 		this.statementsMade=0;
 		this.recursionDepth=0;
-		this.hitInstructionLimit=0;
-		this.hitRecursionLimit=0;
+		this.hitInstructionLimit=false;
+		this.hitRecursionLimit=false;
 
 		this.printedStatements=[];
 	}
@@ -134,7 +134,7 @@ class InterpriterState {
 
 	madeTooManyStatements(): boolean {
 		const TLE=this.statementsMade > MAX_STATEMENTS;
-		this.hitInstructionLimit|=TLE;
+		this.hitInstructionLimit=this.hitInstructionLimit || TLE;
 		return TLE;
 	}
 
@@ -150,7 +150,7 @@ class InterpriterState {
 		//maybe we're just trying too hard
 		//when really it's closer than it is too far
 		const inTooDeep=this.recursionDepth>MAX_RECURSION_DEPTH;
-		this.hitRecursionLimit |= inTooDeep;
+		this.hitRecursionLimit=this.hitRecursionLimit || inTooDeep;
 		return inTooDeep;
 	}
 

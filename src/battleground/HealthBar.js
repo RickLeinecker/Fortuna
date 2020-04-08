@@ -145,13 +145,13 @@ class HealthBar extends React.Component<Props> {
 		
 		//draw warnings
 		const WARNING_WIDTH=70;
-		if (this.props.tank1.getHitInstructionsLimit()) {
+		if (tank1.getHitInstructionsLimit()) {
 			ctx.drawImage(getImage('TOO_MANY_INSTRUCTIONS'), WIDTH*0.35, HEIGHT*.2, WARNING_WIDTH, WARNING_WIDTH);
 		}
-		if (this.props.tank1.getHitRecursionLimit()) {
+		if (tank1.getHitRecursionLimit()) {
 			ctx.drawImage(getImage('RECURSION_TOO_DEEP'), WIDTH*0.395, HEIGHT*.2, WARNING_WIDTH, WARNING_WIDTH);
 		}
-		if (this.props.tank2.getHitInstructionsLimit()) {
+		if (tank2.getHitInstructionsLimit()) {
 			ctx.drawImage(
 				getImage('TOO_MANY_INSTRUCTIONS'), 
 				WIDTH-WIDTH*0.35-WARNING_WIDTH, 
@@ -160,7 +160,7 @@ class HealthBar extends React.Component<Props> {
 				WARNING_WIDTH
 			);
 		}
-		if (this.props.tank2.getHitRecursionLimit()) {
+		if (tank2.getHitRecursionLimit()) {
 			ctx.drawImage(
 				getImage('RECURSION_TOO_DEEP'), 
 				WIDTH-WIDTH*0.395-WARNING_WIDTH, 
