@@ -30,7 +30,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     // User starts with 50000 money by default. This can be changed as needed
     money: {
         type: Number,
-        default: 50000
+        default: 1000
     },
     wager: {
         type: Number,
@@ -419,6 +419,15 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         elo: {
             type: Number,
             default: 0
+        },
+        // Fields for first daily win streak goes up to 3 days 
+        firstWinOfDayStreak: {
+            type: Number,
+            default: 0
+        },
+        lastFirstWinOfDay: {
+            type: Date,
+            default: null
         }
     },
     // Records date/time when user was created.
