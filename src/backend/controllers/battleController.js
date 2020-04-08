@@ -234,11 +234,11 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userOne.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 2 Bonus");					
 				}
-				else if (userOne.stats.firstWinOfDayStreak === 2) {
-					// +300 for third day of the streak, and streak resets
+				else {
+					// +300 for third day of the streak onward.
 					userOne.money += (battle.prizeMoney + 300);
-					userOne.stats.firstWinOfDayStreak = 0;
-					console.log("Given First Win of Day 3 Bonus. Resetting streak.");					
+					userOne.stats.firstWinOfDayStreak++;
+					console.log("Given First Win of Day 3+ Bonus.");					
 				}
 				// Set lastFirstWindOfDay
 				userOne.stats.lastFirstWinOfDay = new Date();
@@ -317,11 +317,11 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 2 Bonus");					
 				}
-				else if (userTwo.stats.firstWinOfDayStreak === 2) {
-					// +300 for third day of the streak, and streak resets
+				else {
+					// +300 for third day of the streak onward
 					userTwo.money += (battle.prizeMoney + 300);
-					userTwo.stats.firstWinOfDayStreak = 0;
-					console.log("Given First Win of Day 3 Bonus. Resetting streak.");					
+					userTwo.stats.firstWinOfDayStreak++;
+					console.log("Given First Win of Day 3+ Bonus.");					
 				}
 				// Set lastFirstWindOfDay
 				userTwo.stats.lastFirstWinOfDay = new Date();
