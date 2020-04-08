@@ -228,7 +228,6 @@ class Battleground extends React.Component<Props> {
 			const timeLeft=MAX_MATCH_LENGTH-this.lifetimeCounter;
 			const secondsLeft=Math.max(0, Math.ceil(timeLeft/30));
 			this.props.setTimeLeftText(''+secondsLeft);
-			drawer.drawTimeText(''+secondsLeft);
 		}
 
 		//fade in curtain
