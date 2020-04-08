@@ -2,8 +2,11 @@
 
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
-import './HealthBar.css'
 import {getImage} from './ImageLoader.js';
+
+import type {ImageType} from './ImageType.js';
+
+import './HealthBar.css'
 
 type Props = {|
 	timeLeftText: string,
@@ -88,6 +91,52 @@ class HealthBar extends React.Component<Props> {
 		ctx.fillRect(WIDTH-WIDTH/80-BORDER-SMALL_WIDTH2, HEIGHT*.55+BORDER, SMALL_WIDTH2, SMALL_HEIGHT);
 		// end draw actual health bars
 		
+		//draw items for each tank
+		const playerOneItems: Array<ImageName> = [];
+		if (this.props.tank1.haveC4) {
+			playerOneItems.push('C4');
+		}
+		for (let i=0; i<this.props.tank1.minesLeft; i++) {
+			playerOneItems.push('MINE');
+		}
+		if (this.props.tank1.haveNitroRepair) {
+			playerOneItems.push('GREEN_PARTICLE');
+		}
+		if (this.props.tank1.haveOverdrive) {
+			playerOneItems.push('EMBER1');
+		}
+		if (this.props.tank1.haveMissileTracker) {
+			playerOneItems.push('MISSILE_TRACKER_DART');
+		}
+		const ICON_WIDTH=30;
+		let curX=WIDTH*.20
+		const curY=HEIGHT*.15;
+		for (const item of playerOneItems) {
+			ctx.drawImage(getImage(item), curX, curY, ICON_WIDTH, ICON_WIDTH);
+			curX+=ICON_WIDTH*1.5;
+		}
+
+		const playerTwoItems: Array<ImageName> = [];
+		if (this.props.tank2.haveC4) {
+			playerTwoItems.push('C4');
+		}
+		for (let i=0; i<this.props.tank1.minesLeft; i++) {
+			playerTwoItems.push('MINE');
+		}
+		if (this.props.tank2.haveNitroRepair) {
+			playerTwoItems.push('GREEN_PARTICLE');
+		}
+		if (this.props.tank2.haveOverdrive) {
+			playerTwoItems.push('EMBER1');
+		}
+		if (this.props.tank2.haveMissileTracker) {
+			playerTwoItems.push('MISSILE_TRACKER_DART');
+		}
+		curX=WIDTH-WIDTH*.20
+		for (const item of playerTwoItems) {
+			ctx.drawImage(getImage(item), curX-ICON_WIDTH, curY, ICON_WIDTH, ICON_WIDTH);
+			curX-=ICON_WIDTH*1.5;
+		}
 	}
 
 	render(): React.Node {
