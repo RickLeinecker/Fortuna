@@ -14,6 +14,9 @@ import type {ImageName} from './ImageName.js';
 let initialized=false;
 const allImages: {[ImageName]: Image}= {
 	DIRT_BACKGROUND: new Image(),
+	HEX_BACKGROUND: new Image(),
+	CANDEN_BACKGROUND: new Image(),
+	LUNAR_BACKGROUND: new Image(),
 	SHADOW: new Image(),
 	WALL: new Image(),
 	HEALTHBAR_BACKGROUND: new Image(),
@@ -88,6 +91,9 @@ function imageLoaderInit(): void {
 
 	//------------------ADD MORE IMAGE HERE---------------------------
 	allImages.DIRT_BACKGROUND.src='DirtBackground.png';
+	allImages.HEX_BACKGROUND.src='Hex.png';
+	allImages.CANDEN_BACKGROUND.src='Canden.png';
+	allImages.LUNAR_BACKGROUND.src='Lunar.png';
 	allImages.SHADOW.src='Shadow.png';
 	allImages.WALL.src='Wall.png';
 	allImages.HEALTHBAR_BACKGROUND.src='HealthbarBackground.png';

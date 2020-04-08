@@ -14,6 +14,10 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
 import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchResultAPICall.js';
+import getBattlegroundArena from './getBattlegroundArena.js';
+
+import type {ArenaType} from './ArenaType.js';
+import type {ImageName} from './ImageName.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
@@ -27,6 +31,13 @@ type MatchResult =
 	'TIME_UP' |
 	'PLAYER_1_WINS' |
 	'PLAYER_2_WINS';
+
+const backgroundForArena: {[ArenaType]: ImageName} = {
+	'DIRT': 'DIRT_BACKGROUND',
+	'HEX': 'HEX_BACKGROUND',
+	'LUNAR': 'LUNAR_BACKGROUND',
+	'CANDEN': 'CANDEN_BACKGROUND',
+}
 
 const FADE_IN_START=10;
 const FADE_IN_LENGTH=60;
@@ -49,6 +60,7 @@ class Battleground extends React.Component<Props> {
 	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
 	matchIdToReport: ?string;
+	arena: ArenaType;
 
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
@@ -70,6 +82,7 @@ class Battleground extends React.Component<Props> {
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
+		this.arena=getBattlegroundArena();
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
@@ -207,7 +220,8 @@ class Battleground extends React.Component<Props> {
 		drawer.setZoomScale(this.currentZoomScale);
 
 		//actually render all of the objects
-		drawer.draw(getImage('DIRT_BACKGROUND'), new Vec(0, 0), 200, 0, 1, 120);
+		const backgroundImageName=backgroundForArena[this.arena];
+		drawer.draw(getImage(backgroundImageName), new Vec(0, 0), 200, 0, 1, 120);
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.render(drawer);
 		}
