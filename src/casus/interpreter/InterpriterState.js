@@ -38,6 +38,8 @@ class InterpriterState {
 
 	statementsMade: number;
 	recursionDepth: number;
+
+	printedStatements: Array<string>;
 	
 	constructor() {
 		this.intVariables = new Map<string, IntValue>();
@@ -141,6 +143,14 @@ class InterpriterState {
 
 	resetStatementsMade(): void {
 		this.statementsMade = 0;
+	}
+
+	printDebugLine(toPrint: string): void {
+		this.printedStatements.push(toPrint);
+	}
+
+	resetDebug(): void {
+		this.printedStatements =  [];
 	}
 }
 

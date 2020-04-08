@@ -5,6 +5,8 @@ import Battleground from './Battleground.js';
 import HealthBarsField from './HealthBarsField.js';
 import Navbar from '../globalComponents/Navbar.js';
 import Tank from '../tanks/Tank.js';
+import DebugLog from './DebugLog.js';
+import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 
 import './BattlegroundContainer.css';
 
@@ -13,7 +15,10 @@ type Props = {||};
 type State = {
 	playerOneTank: ?Tank,
 	playerTwoTank: ?Tank,
+	debugLines: Array<string>,
 };
+
+const MAX_DEBUG_LINES=30;
 
 class BattlegroundContainer extends React.Component<Props, State> {
 
@@ -22,25 +27,38 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		this.state={
 			playerOneTank: null,
 			playerTwoTank : null,
+			debugLines: [],
 		}
 	}
 
 	render(): React.Node {
+		const battleground=(
+			<Battleground 
+				setPlayersTank = {this.setPlayersTank}
+				addDebugLine = {this.addDebugLine}
+			/>
+		);
+		const returnTo=getReturnToFromBattlegroundLink();
+		const haveDebug=this.state.debugLines.length!==0;
 		return (
 			<div>
 				<Navbar
-					linkName='/BattleArena'
-					returnName='Back to Battle Arena'
+					linkName={returnTo}
+					returnName='Exit Early'
 					pageName='Battleground'
 				/>
-				<div className="battlegroundContainer">
+				<div className={haveDebug?'battlegroundContainer':'battlegroundContainerFull'}>
 					<HealthBarsField
 						playerOneTank = {this.state.playerOneTank}
 						playerTwoTank = {this.state.playerTwoTank}
 					/>
-					<Battleground 
-						setPlayersTank = {this.setPlayersTank}
-					/>
+					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
+						{battleground}
+						{haveDebug?
+							<DebugLog debugLines={this.state.debugLines}/>:
+							<div></div>
+						}
+					</div>
 				</div>
 			</div>
 		);
@@ -50,6 +68,16 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		this.setState({
 			playerOneTank: playerOneTank,
 			playerTwoTank: playerTwoTank
+		});
+	}
+
+	addDebugLine = (line: string): void => {
+		const newDebugLines=this.state.debugLines.concat(line);
+		while (newDebugLines.length>MAX_DEBUG_LINES) {
+			newDebugLines.shift();
+		}
+		this.setState({
+			debugLines: newDebugLines,
 		});
 	}
 }

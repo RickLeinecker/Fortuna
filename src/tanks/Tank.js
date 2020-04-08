@@ -167,15 +167,19 @@ class Tank extends GameObject {
 			}
 			return;
 		}
-		this.executeCasusFrame();	
+		this.executeCasusFrame(battleground);	
 		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks(), battleground);
 	}
 
-	executeCasusFrame(): void {
+	executeCasusFrame(battleground: Battleground): void {
 		this.interpriterState.resetStatementsMade();
+		this.interpriterState.resetDebug();
 		setInterpriterState(this.interpriterState);	
 		this.casusCode.runEvaluate();
 		this.interpriterState = getInterpriterState();
+		for (const debugLine of this.interpriterState.printedStatements) {
+			battleground.addDebugLine(' '+this.tankName+': '+debugLine);
+		}
 	}
 	
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
