@@ -496,6 +496,13 @@ exports.setWager = async (req: Request, res: Response) => {
 				.status(400)
 				.json({ msg: 'User does not have enough money'});
 		}
+
+		if (req.body.wager < 50) {
+			console.error('User cannot have a wager lower than 50');
+			return res
+				.status(400)
+				.json({ msg: 'User cannot have a wager lower than 50'});			
+		}
 		else {
 			// change wager amount and take that money from their balance
 			const take = user.money - req.body.wager;
