@@ -21,9 +21,17 @@ const battleController = require('../controllers/battleController');
 router.post('/prepareMatch', [
     check('challengerTankId', 'challengerTankId is required')
         .isMongoId(),
-    check('personBeingChallengedId', 'challengeeId is required')
+    check('personBeingChallengedId', 'personBeingChallengedId is required')
         .isMongoId()
-], auth, battleController.prepareMatch);
+], auth, battleController.prepareMatch1v1);
+
+router.post('/prepareMatch3v3', [
+    check('challengerTankIds', 'Need 3 tank Ids')
+        .isArray({ min: 3, max: 3})
+        .isMongoId(),
+    check('personBeingChallengedId', 'personBeingChallengedId is required')
+        .isMongoId()
+], auth, battleController.prepareMatch3v3);
 
 // Updates elo and currency of both players after a match is complete
 // Header: x-auth-token

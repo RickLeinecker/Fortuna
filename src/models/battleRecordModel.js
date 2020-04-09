@@ -40,60 +40,60 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
     tankOne: {
         tankName: {
             type: String,
-            required: true
+            required: false
         },
         components: [{
             type: String,
-            required: true
+            required: false
         }],
         casusCode: {
             type: Object,
-            required: true
+            required: false
         }
     },
     // User two's tank state for this battle
     tankTwo: {
         tankName: {
             type: String,
-            required: true
+            required: false
         },
         components: [{
             type: String,
-            required: true
+            required: false
         }],
         casusCode: {
             type: Object,
-            required: true
+            required: false
         }
     },
     // User one's tank team's state for this battle
     tankTeamOne: [{
         tankName: {
             type: String,
-            required: true
+            required: false
         },
         components: [{
             type: String,
-            required: true
+            required: false
         }],
         casusCode: {
             type: Object,
-            required: true
+            required: false
         }
     }],
     // User two's tank team's state for this battle
     tankTeamTwo: [{
         tankName: {
             type: String,
-            required: true
+            required: false
         },
         components: [{
             type: String,
-            required: true
+            required: false
         }],
         casusCode: {
             type: Object,
-            required: true
+            required: false
         }
     }],
 }));
