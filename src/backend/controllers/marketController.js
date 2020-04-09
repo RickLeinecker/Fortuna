@@ -239,13 +239,16 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
         }
 
 		// Get list of sales from DB that belong to logged in user
-		const salesList = await MarketSale.find();
-		const salesListWithUserOnly = [];
-		for(let eachSale in salesList) {
-			if(salesList[eachSale].sellerId == userId) {
-				salesListWithUserOnly.push(salesList[eachSale]);
+		const salesListOfTanks = await MarketSale.find({ sellerId: { $eq: "" + userId + "" }, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
+		const salesListOfComponents = await MarketSale.find({ sellerId: { $eq: userId }, itemType: { $eq: 'component' }});
+		const salesList = [];
+		salesList.push(salesListOfTanks);
+		salesList.push(salesListOfComponents);
+		/*for(let eachSale in salesList) {
+			if(salesListOfComponents[eachSale].sellerId == userId) {
+				salesListWithUserOnly.push(salesListOfComponents[eachSale]);
 			}
-		}
+		}*/
         if (!salesList) {
             return res
                 .status(400)
@@ -254,7 +257,7 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
 
         // Return list of sales
 		console.log('Retrieved User\'s Market Sales List.');
-        return res.status(200).json(salesListWithUserOnly);
+        return res.status(200).json(salesList);
 
     }
     catch (err) {

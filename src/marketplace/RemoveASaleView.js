@@ -1,10 +1,10 @@
 //@flow strict
 import * as React from 'react';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import { ToastContainer , toast } from 'react-toastify';
 import { getUsersCurrentSales } from './marketPlaceAPIConnections.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
-import SaleObject from './SaleObject.js';
+import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 
 type Props = {|
 |}; 
@@ -31,28 +31,10 @@ class RemoveASaleView extends React.Component<Props, State> {
 
 	//this gets the user id
 	getUserID() : void {
-		const responsePromise = getUser();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					const jsonObjectOfUser = data;
-					//set the users id
-					this.setState({userId:jsonObjectOfUser._id});
-					//this gets the users current sales
-					this.getUsersCurrentSales();
-				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
-			}
-		);
+		getUserAPICall(user => {
+			this.setState({userId: user.userId});
+			this.getUsersCurrentSales();
+		});
 	};
 
 	//This gets the users current sales
