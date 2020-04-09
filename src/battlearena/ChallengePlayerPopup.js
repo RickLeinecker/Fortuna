@@ -36,7 +36,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		super(props);
 
 		// Need a blank user to avoid null issues. Probably fix later.
-		const blankUser = new User('', 0, 0, '', 0);
+		const blankUser = new User('', 0, 0, '', 0, []);
 
 		this.state = {
 			challengePlayerOpen: false,

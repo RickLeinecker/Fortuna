@@ -21,6 +21,13 @@ exports.getFavorite = async (req: Request, res: Response) => {
 				.json({ msg: 'User not found in DB'});
 		}
 
+		if (myUser.favoriteTank == null) {
+			console.log('No favorite tank set');
+			return res
+				.status(200)
+				.json({ msg: 'No set favorite tank' });
+		}
+
 		const favoritedTank = await Tank.findById(myUser.favoriteTank);
 		
 		if (favoritedTank == null) {

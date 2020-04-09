@@ -3,9 +3,8 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
-import 'react-toastify/dist/ReactToastify.min.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { deleteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 
 type Props = {|
 	tank: Tank;
@@ -27,35 +26,9 @@ class DeleteTankPopup extends React.Component<Props, State> {
 
 	// Deletes the currently selected take after confirmation.
 	handleDeleteClick(): void {
-		const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + this.props.tank._id, {
-			method: 'DELETE',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken()
-			},
+		deleteTank(this.props.tank._id, () => {
+			window.location.reload();
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-					return;
-				}
-				else {
-					// If no errors, reload the page and the tank will be deleted.
-					window.location.reload();
-				}
-			})
-		).catch(
-			(error) => {
-				toast.error('Could not connect to server!');
-				console.log(error);
-				return;
-			}
-		);
 	}
 
 	render(): React.Node {
