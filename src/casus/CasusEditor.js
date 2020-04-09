@@ -190,12 +190,14 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onCancelClicked() {
-		//delete variableBlockToRename
+		//delete VariableBlockToRename
 		const block=this.state.variableBlockToRename;
 		if (block!=null) {
 			const toRemovePos=new Vec(block.boundingBox.x+1, block.boundingBox.y+1);
-			//TODO: only remove the block if it was successfully placed!
-			this.state.containerBlock.removeBlockAt(toRemovePos, false, false);
+			const deepest = this.state.containerBlock.getDeepestChildContainingPoint(toRemovePos);
+			if (deepest === block) {
+				this.state.containerBlock.removeBlockAt(toRemovePos, false, false);
+			}
 		}
 
 		this.setState({variableBlockToRename: null});

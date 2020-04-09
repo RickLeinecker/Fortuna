@@ -78,9 +78,11 @@
 .replayTable th {
     padding: 10px;
     width: 20%;
+    text-align: center;
 }
 
 .replayTable td {
+    padding: 10px;
     width: 20%;
     border-left: none;
     border-right: none;

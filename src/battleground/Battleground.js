@@ -14,9 +14,18 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
 import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchResultAPICall.js';
+import getBattlegroundArena from './getBattlegroundArena.js';
+import getBattlegroundWidth from './getBattlegroundWidth.js';
+import getBattlegroundHeight from './getBattlegroundHeight.js';
+
+import type {ArenaType} from './ArenaType.js';
+import type {ImageName} from './ImageName.js';
 
 type Props = {|
 	setPlayersTank: (Tank, Tank) => void,
+	setTimeLeftText: (string) => void,
+	addDebugLine: (string) => void,
+	setFadeInAlpha: (number) => void,
 |};
 
 type MatchResult = 
@@ -29,8 +38,63 @@ const FADE_IN_START=10;
 const FADE_IN_LENGTH=60;
 const FPS=30;
 const INTRO_LENGTH=120;
-const MAX_MATCH_LENGTH=INTRO_LENGTH + 30*60;
 const POST_MATCH_TIME=90;
+
+const backgroundForArena: {[ArenaType]: ImageName} = {
+	DIRT: 'DIRT_BACKGROUND',
+	HEX: 'HEX_BACKGROUND',
+	LUNAR: 'LUNAR_BACKGROUND',
+	CANDEN: 'CANDEN_BACKGROUND',
+}
+
+const arenaWidth: {[ArenaType]: number} = {
+	DIRT: 200,
+	HEX: 200,
+	LUNAR: 300,
+	CANDEN: 300,
+}
+
+const matchLengthForArena: {[ArenaType]: number} = {
+	DIRT: INTRO_LENGTH + 30*60,
+	HEX: INTRO_LENGTH + 30*60,
+	LUNAR: INTRO_LENGTH + 30*100,
+	CANDEN: INTRO_LENGTH+ 30*100,
+}
+
+const wallsForArena: {[ArenaType]: Array<Wall>} = {
+	DIRT: [
+		new Wall(new Vec(10, 0), 0, false),
+		new Wall(new Vec(60, 0), Math.PI/2, false),
+		new Wall(new Vec(-50, 30), Math.PI/5, false),
+		new Wall(new Vec(-50, -30), -Math.PI/5, false),
+	],
+	HEX: [
+		new Wall(new Vec(-30, 22), Math.PI/4, false),
+		new Wall(new Vec(-30, -22), -Math.PI/4, false),
+		new Wall(new Vec(30, 22), Math.PI*3/4, false),
+		new Wall(new Vec(30, -22), -Math.PI*3/4, false),
+
+		new Wall(new Vec(-75, 25), Math.PI/2, false),
+		new Wall(new Vec(75, -25), -Math.PI/2, false),
+	],
+	LUNAR: [
+		new Wall(new Vec(-100, -15), Math.PI*.45, true),
+		new Wall(new Vec(-84, 60), Math.PI*-0.1, true),
+		new Wall(new Vec(-14, -10), Math.PI*-0.2, true),
+		new Wall(new Vec(55, -52), Math.PI*0.3, true),
+		new Wall(new Vec(50, 40), Math.PI*0.43, true),
+		new Wall(new Vec(125, -30), Math.PI*0.49, true),
+	],
+	CANDEN: [
+		new Wall(new Vec(-115, 0), Math.PI*.5, true),
+		new Wall(new Vec(115, 0), Math.PI*.5, true),
+		new Wall(new Vec(0, 0), 0, true),
+		new Wall(new Vec(0, 60), Math.PI*.5, true),
+		new Wall(new Vec(0, -60), Math.PI*.5, true),
+	],
+
+}
+
 
 const TitleMessageForMatchResult: {[MatchResult]: string} = {
 	IN_PROGRESS: '',
@@ -46,6 +110,7 @@ class Battleground extends React.Component<Props> {
 	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
 	matchIdToReport: ?string;
+	arena: ArenaType;
 
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
@@ -59,6 +124,7 @@ class Battleground extends React.Component<Props> {
 	targetCameraPos: Vec = new Vec(0, 0);
 	matchResult: MatchResult;
 	postMatchCountdown: number = 0;
+	maxMatchLength: number;
 
 	constructor(props: Props) {
 		super(props);
@@ -67,21 +133,20 @@ class Battleground extends React.Component<Props> {
 		imageLoaderInit();
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
+		this.arena=getBattlegroundArena();
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
 		this.testTanks = [getTestTank(1), getTestTank(2)];
-		const walls = [
-			new Wall(new Vec(10, 0), 0),
-			new Wall(new Vec(60, 0), Math.PI/2),
-			new Wall(new Vec(-50, 30), Math.PI/5),
-			new Wall(new Vec(-50, -30), -Math.PI/5)
-		];
+		this.maxMatchLength = matchLengthForArena[this.arena];
+		const walls = wallsForArena[this.arena];
+		const W=arenaWidth[this.arena]/2;
+		const H=W/200*120;
 		this.collisionSegs = [
-			new Seg(new Vec(-100, 60), new Vec(100, 60)),
-			new Seg(new Vec(-100, -60), new Vec(100, -60)),
-			new Seg(new Vec(-100, 60), new Vec(-100, -60)),
-			new Seg(new Vec(100, 60), new Vec(100, -60))
+			new Seg(new Vec(-W, H), new Vec(W, H)),
+			new Seg(new Vec(-W, -H), new Vec(W, -H)),
+			new Seg(new Vec(-W, H), new Vec(-W, -H)),
+			new Seg(new Vec(W, H), new Vec(W, -H))
 		];
 		for (const w: Wall of walls) {
 			this.collisionSegs.push(w.getCollisionWall());
@@ -119,7 +184,7 @@ class Battleground extends React.Component<Props> {
 
 	render(): React.Node {
 		return (
-			<div>
+			<div className="battlegroundCanvasDiv">
 				<canvas
 					className="battlegroundCanvas"
 					ref="canvas"
@@ -177,8 +242,12 @@ class Battleground extends React.Component<Props> {
 	_rerender(): void {
 		this._resizeCanvas();
 		const canvas: HTMLCanvasElement = this.refs.canvas;
+		if (canvas==null) {
+			console.log('warning: null canvas!');
+			return;
+		}
 		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		const drawer=new ImageDrawer(ctx);
+		const drawer=new ImageDrawer(ctx, getBattlegroundWidth, getBattlegroundHeight, arenaWidth[this.arena]);
 		drawer.fillBlackRect(1);
 
 		//camera movement and setup
@@ -200,7 +269,10 @@ class Battleground extends React.Component<Props> {
 		drawer.setZoomScale(this.currentZoomScale);
 
 		//actually render all of the objects
-		drawer.draw(getImage('DIRT_BACKGROUND'), new Vec(0, 0), 200, 0, 1, 120);
+		const backgroundImageName=backgroundForArena[this.arena];
+		const aWidth=arenaWidth[this.arena];
+		const aHeight=aWidth/200*120;
+		drawer.draw(getImage(backgroundImageName), new Vec(0, 0), aWidth, 0, 1, aHeight);
 		for (const gameObject: GameObject of this.gameObjects) {
 			gameObject.render(drawer);
 		}
@@ -218,18 +290,23 @@ class Battleground extends React.Component<Props> {
 
 		//countdown timer
 		if (this.lifetimeCounter>INTRO_LENGTH) {
-			const timeLeft=MAX_MATCH_LENGTH-this.lifetimeCounter;
+			const timeLeft=this.maxMatchLength-this.lifetimeCounter;
 			const secondsLeft=Math.max(0, Math.ceil(timeLeft/30));
-			drawer.drawTimeText(''+secondsLeft);
+			this.props.setTimeLeftText(''+secondsLeft);
 		}
 
 		//fade in curtain
 		if (this.lifetimeCounter<FADE_IN_START) {
 			drawer.fillBlackRect(1);
+			this.props.setFadeInAlpha(1);
 		}
 		else if (this.lifetimeCounter-FADE_IN_START<FADE_IN_LENGTH) {
 			const alpha=1-(this.lifetimeCounter-FADE_IN_START)/FADE_IN_LENGTH; 
 			drawer.fillBlackRect(alpha);
+			this.props.setFadeInAlpha(alpha);
+		}
+		else {
+			this.props.setFadeInAlpha(0);
 		}
 		this.props.setPlayersTank(this.testTanks[0], this.testTanks[1]);
 
@@ -237,6 +314,10 @@ class Battleground extends React.Component<Props> {
 
 	_resizeCanvas(): void {
 		const canvas: HTMLCanvasElement = this.refs.canvas;
+		if (canvas==null) {
+			console.log('warning: null canvas!');
+			return;
+		}
 		const targetWidth=canvas.clientWidth;
 		const targetHeight=targetWidth/200*120;
 		if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
@@ -249,7 +330,7 @@ class Battleground extends React.Component<Props> {
 		if (this.matchResult !== 'IN_PROGRESS') {
 			return;
 		}
-		if (this.lifetimeCounter > MAX_MATCH_LENGTH) {
+		if (this.lifetimeCounter > this.maxMatchLength) {
 			this.matchResult = 'TIME_UP';
 			this.postMatchCountdown=POST_MATCH_TIME;
 			this.reportWinner(0);
@@ -303,6 +384,15 @@ class Battleground extends React.Component<Props> {
 
 	deleteGameObject(toDelete: GameObject): void {
 		this.objectsToDelete.push(toDelete);
+	}
+
+	addDebugLine(line: string): void {
+		if (this.matchIdToReport != null) {
+			// then this is an actual match against another real player, not a training
+			// match, so don't show any debug
+			return;
+		}
+		this.props.addDebugLine(line);
 	}
 
 }

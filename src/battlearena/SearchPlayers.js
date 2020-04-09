@@ -39,8 +39,7 @@ class SearchPlayers extends React.Component<Props, State> {
 		//set by navbar
 		const myUsername=new Cookie().get('username');
 		getAllUsersAPICall(allUsers => {
-			const usersWithWager = allUsers.filter(user => user.username !== myUsername && user.wager>0);
-			this.setState({playerList: usersWithWager});
+			this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
 		});
 	}
 

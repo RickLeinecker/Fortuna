@@ -40,7 +40,7 @@ class Replays extends React.Component<Props, State> {
 			case 0:
 				return 'tie';
 			case -1:
-				return 'in progress';
+				return 'Unfinished: view to see result';
 			default:
 				console.log('Match result outside of range (-1 to 2).');
 				break;
@@ -73,9 +73,9 @@ class Replays extends React.Component<Props, State> {
 						<tbody>
 							{this.state.replays.slice(0).reverse().map(replay => 
 								<tr key={replay.replayId}>
-									<td>{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
+									<td className="name">{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 									<td>{this.getWinner(replay)}</td>
-									<td><button className="smallbtn" onClick={() => this.watchReplay(replay)}>View</button></td>
+									<td><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
 									<td>{replay.prizeMoney}</td>
 									<td>{(this.getWinner(replay) !== this.state.myUsername) ? '-' + replay.eloExchanged : '+' + replay.eloExchanged}</td>
 								</tr>

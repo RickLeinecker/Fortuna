@@ -1,5 +1,6 @@
 //@flow strict
 // Document Schema for the Verification Token Model
+// for email verification
 
 // Required Imports
 import Mongoose from 'mongoose';
