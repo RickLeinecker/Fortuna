@@ -41,7 +41,9 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		});
 
 		getFavoriteTank(tank => {
-			this.setState({ favTankId: tank._id});
+			if (tank != null) {
+				this.setState({ favTankId: tank._id});
+			}
 		});
 	}
 

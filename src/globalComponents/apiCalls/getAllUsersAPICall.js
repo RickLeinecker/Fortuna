@@ -22,7 +22,7 @@ function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const allUsers=[];

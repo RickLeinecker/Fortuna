@@ -35,7 +35,7 @@ function makeASale(
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();
@@ -58,7 +58,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const itemsForSale: Array<SaleObject> = [];
@@ -91,7 +91,7 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const itemsForSale: Array<SaleObject> = [];
@@ -125,7 +125,7 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();

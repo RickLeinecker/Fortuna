@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
 
 // This function gets the id of the users favorite tank
-function getFavoriteTank(onLoad:(tank: Tank) => void): void {
+function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
 		headers: {
@@ -18,14 +18,19 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 			'x-auth-token': getLoginToken()
 		},
 	});
-	responsePromise.then (
+	responsePromise.then(
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
+				// Check data for no favorite tank. Then the user has no favorite.
+				if (getErrorFromObject(data) === 'No set favorite tank') {
+					onLoad(null);
+					return;
+				}
 				const tank = new BackendTank(
 					data._id,
 					data.components,
@@ -56,7 +61,7 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(data);
 			}
 			else {
 				onLoad();
@@ -80,7 +85,7 @@ function removeFavoriteTankId(onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(data);
 			}
 			else {
 				onLoad();
@@ -111,7 +116,7 @@ function updateTank(tank: Tank, onLoad:() => void): void {
 				if(response.status !== 200) {
 					console.log(response.status);
 					console.log(data);
-					toast.error(getErrorFromObject(response));
+					toast.error(getErrorFromObject(data));
 				}
 				else {
 					onLoad();
@@ -136,7 +141,7 @@ function getAllUsersTanks(onLoad: (allTanks: Array<Tank>) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const allTanks: Array<Tank> = [];
@@ -165,7 +170,7 @@ function createTank(tank: Tank, onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();
@@ -189,7 +194,7 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 				if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();

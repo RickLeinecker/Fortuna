@@ -23,7 +23,7 @@ function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const replays=data.map(backendReplay =>

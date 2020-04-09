@@ -26,7 +26,7 @@ function prepareMatchAPICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: s
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const matchId=data;

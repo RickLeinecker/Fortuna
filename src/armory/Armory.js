@@ -151,7 +151,7 @@ class Armory extends React.Component<Props, State> {
 		this.setState({selectedTank: tank});
 
 		getFavoriteTank(favTank => {
-			if(tank._id === favTank._id) {
+			if (favTank != null && tank._id === favTank._id) {
 				this.refs.SetWagerPopup.updateWagerTankName(tank.tankName);
 			}
 		});

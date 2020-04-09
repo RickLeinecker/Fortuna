@@ -24,7 +24,7 @@ function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matc
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const dataT1=data.tankOne;

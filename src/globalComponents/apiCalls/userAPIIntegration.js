@@ -23,7 +23,7 @@ function setWager(wager: number, onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();
@@ -46,7 +46,7 @@ function getLeaders(onLoad:(leaders: Array<User>) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				// Process all of the leaders into an array and load it.

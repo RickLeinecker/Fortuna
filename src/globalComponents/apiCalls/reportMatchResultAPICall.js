@@ -25,7 +25,7 @@ function reportMatchResultAPICall(winner: 0|1|2, matchId: string) {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(response));
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				console.log('successfully logged result of match.');
