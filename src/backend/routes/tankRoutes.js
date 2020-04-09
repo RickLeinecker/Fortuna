@@ -24,7 +24,7 @@ router.get('/getFavorite', auth, tankController.getFavorite);
 // Body: favoriteTank (the id)
 // Returns the id of the favorited tank upon success and an error message upon failure
 router.patch('/favoriteTank', [
-        check('favoriteTank', 'A valid ongoId is required.').isMongoId()
+        check('favoriteTank', 'A valid MongoId is required.').isMongoId()
     ], auth, tankController.favoriteTank);
 
 // Remove a favorite tank
@@ -41,6 +41,17 @@ router.patch('/unfavoriteTank', auth, tankController.unfavoriteTank);
 // Returns the array of ids of the favorited tank team upon success and an 
 // error message upon failure
 router.get('/getFavoriteTankTeam', auth, tankController.getFavoriteTankTeam);
+
+// Set a favorite tank team
+// Route call: /setFavoriteTankTeam
+// Header: x-auth-token
+// Body: Array of three tank ids of Tanks to add to team.
+// Returns the array of the tank team upon success and an error message upon failure
+router.patch('/setFavoriteTankTeam', [
+    check('tankTeam', 'Need array 3 Tank MongoIds')
+    .isArray({ min: 3, max: 3 })
+    .isMongoId()
+], auth, tankController.setFavoriteTankTeam);
 
 // Retrieve array of all a users tanks
 // Route call: /userTanks
