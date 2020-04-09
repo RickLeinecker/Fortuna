@@ -65,7 +65,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.userWager <= 0) {
+		else if (this.state.userWager < 50) {
 			toast.error('Wager cannot be 0.');
 			return;
 		}
