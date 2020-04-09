@@ -239,8 +239,8 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
         }
 
 		// Get list of sales from DB that belong to logged in user
-		const salesListOfTanks = await MarketSale.find({ sellerId: { $eq: "" + userId + "" }, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
-		const salesListOfComponents = await MarketSale.find({ sellerId: { $eq: userId }, itemType: { $eq: 'component' }});
+		const salesListOfTanks = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
+		const salesListOfComponents = await MarketSale.find({ sellerId: userId , itemType: { $eq: 'component' }});
 		const salesList = [];
 		salesList.push(salesListOfTanks);
 		salesList.push(salesListOfComponents);
