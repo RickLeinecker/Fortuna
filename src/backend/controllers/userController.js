@@ -522,7 +522,7 @@ exports.setWager = async (req: Request, res: Response) => {
 			else {
 				console.log('Wager updated and stipend added');
 				return res
-					.status(200)
+					.status(201)
 					.send(user);
 			}
 		}

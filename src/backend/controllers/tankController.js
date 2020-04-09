@@ -106,6 +106,7 @@ exports.unfavoriteTank = async (req: Request, res: Response) => {
 	const addBack = user.money + user.wager;
 	user.money = addBack;
 	user.favoriteTank = null;
+	user.wager = 0;
 
 	await user.save();
 
