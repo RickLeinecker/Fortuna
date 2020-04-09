@@ -50,7 +50,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 	// If the name of the wager tank is changed, update the currentWagerTank.
 	updateWagerTankName(newName: string): void {
 		if(this.state.currentWagerTank == null) {
-			console.log('Cannot find a selected tank');
+			console.log('No set wager tank.');
 			return;
 		}
 		const newWagerTank: Tank = this.state.currentWagerTank;
@@ -65,51 +65,27 @@ class SetWagerPopup extends React.Component<Props, State> {
 			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.userWager <= 0) {
-			toast.error('Wager cannot be 0.');
+		else if (this.state.userWager < 50) {
+			toast.error('Wager cannot be less than 50.');
 			return;
 		}
 
 		// Check if the wager was set. Close the popup if it is.
-		setWager(this.state.userWager, setSuccessful => {
-			if (setSuccessful) {
-				this.setState({currentWager: this.state.userWager});
-				// Update user currency in the navbar.
-				this.props.onWagerUpdate();
-			}
-			else {
-				toast.error('Could not set wager.');
-			}
+		setWager(this.state.userWager, () => {
+			this.setState({currentWager: this.state.userWager});
+			// Update user currency in the navbar.
+			this.props.onWagerUpdate();
 		});
-		setFavoriteTankId(this.props.wagerTank._id, setSuccessful => {
-			if (setSuccessful) {
-				this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
-			}
-			else {
-				toast.error('Could not set wager tank.');
-			}
+		setFavoriteTankId(this.props.wagerTank._id, () => {
+			this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
 		});
 	}
 
 	// Remove the user's wager and favorite tank.
 	handleRemoveClick(): void {
-		setWager(0, setSuccessful => {
-			if (setSuccessful) {
-				this.setState({currentWager: 0});
-				// Update user currency in the navbar.
-				this.props.onWagerUpdate();
-			}
-			else {
-				toast.error('Could not remove wager.');
-			}
-		});
-		removeFavoriteTankId(setSuccessful => {
-			if (setSuccessful) {
-				this.setState({removeWagerOpen: false, currentWagerTank: null});
-			}
-			else {
-				toast.error('Could not remove wager tank.');
-			}
+		removeFavoriteTankId(() => {
+			this.setState({removeWagerOpen: false, currentWagerTank: null, currentWager: 0});
+			this.props.onWagerUpdate();
 		});
 	}
 

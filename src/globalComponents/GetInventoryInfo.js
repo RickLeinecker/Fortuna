@@ -135,27 +135,15 @@ function verifyComponent(comp: string): TankComponent {
 
 // Converts back end inventory into a frontend array of components.
 // The optional second parameter is used for returning a specific type of component.
-function getInventory(inventory: InventoryType, type?: ComponentType): Array<Component> {
+function getInventory(inventory: InventoryType): Array<Component> {
 	const newInventory: Array<Component> = [];
-	if(type !== null) {
-		for(const componentString in inventory) {
-			// Change the component string to a tank component.
-			const component: TankComponent = verifyComponent(componentString);
-
-			// Push new components onto the new inventory if they have the correct type and do not equal 0.
-			if (allComponentTypes[component] === type && inventory[component] !== 0) {
-				newInventory.push(new Component(component, inventory[component]));
-			}
-		}
-	}
-	else {
-		for(const componentString in inventory) {
-			// Change the string to a tank component and push onto the newInventory.
-			const component: TankComponent = verifyComponent(componentString);
+	for(const componentString in inventory) {
+		// Change the string to a tank component and push onto the newInventory.
+		const component: TankComponent = verifyComponent(componentString);
+		if(inventory[component] !== 0) {
 			newInventory.push(new Component(component, inventory[component]));
 		}
 	}
-
 	return newInventory;
 }
 

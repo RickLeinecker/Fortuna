@@ -3,10 +3,13 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Component from '../globalComponents/typesAndClasses/Component.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 import { ToastContainer , toast } from 'react-toastify';
+import { createTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import Tank from '../tanks/Tank.js';
+import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
+import BackendTank from '../tanks/BackendTank.js';
 
 type Props = {|
 	chassis: Array<Component>,
@@ -37,19 +40,9 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 
 	// Once mounted, set the userId.
 	componentDidMount(): void {
-		const responsePromise = getUser();
-		responsePromise.then (
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					this.setState({userId: data._id});
-				}
-			})
-		)
+		getUserAPICall(user => {
+			this.setState({userId: user.userId});
+		});
 	}
 
 	// Converts camel case to title case.
@@ -92,36 +85,17 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 			}
 		}
 
-		const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
-			method: 'POST',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken()
-			},
-			body: JSON.stringify({ tankName: this.state.newTankName, userId: this.state.userId, components: components }),
+		const newTank: Tank = getTank(new BackendTank(
+			'',
+			components,
+			getEmptyCasusCode(),
+			false,
+			this.state.userId,
+			this.state.newTankName
+		));
+		createTank(newTank, () => {
+			window.location.reload();
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-					return;
-				}
-				else {
-					// If no errors, reload the page and the new tank will be set.
-					window.location.reload();
-				}
-			})
-		).catch(
-			(error) => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
-				return;
-			}
-		);
 	}
 
 	render(): React.Node {
