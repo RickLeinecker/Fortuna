@@ -43,6 +43,52 @@ exports.getFavorite = async (req: Request, res: Response) => {
 	
 }
 
+exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
+	try {
+		// Find user using auth token and select their favorite tank team field
+		const myUser = await User.findById(req.user.id, 'favoriteTanks');
+		
+		if (myUser == null) {
+			console.log('User not found in DB');
+			return res
+				.status(404)
+				.json({ msg: 'User not found in DB'});
+		}
+
+		// if the array is empty return an empty array
+		// if a new user, the field should be an empty array
+		// by default
+		if (myUser.favoriteTanks.length === 0) {
+			console.log("No favorite tank team found");
+			return res
+				.status(200)
+				.send([]);
+		}
+
+		// Check if all of the tanks are in the DB
+		for (const tankId of myUser.favoriteTanks) {
+			const tank = await Tank.findById(tankId);
+			if (!tank) {
+				console.error('Team Tank not in DB');
+				return res
+					.status(404)
+					.json({ msg: 'Team Tank not in DB'});
+			}
+		}
+
+		// At this point we should be good.
+		console.log('favoriteTank successfully retrieved');
+		return res
+			.status(200)
+			.send(myUser.favoriteTanks);
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not get favorite tanks'});
+	}
+}
+
 exports.favoriteTank = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	
