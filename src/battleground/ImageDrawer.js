@@ -12,15 +12,18 @@ class ImageDrawer {
 	zoomScale: number;
 	getCanvasWidth: () => number;
 	getCanvasHeight: () => number;
+	gameWidth: number;
 
 	constructor(
 		ctx: CanvasRenderingContext2D,
 		getCanvasWidth: () => number = getBattlegroundWidth,
-		getCanvasHeight: () => number = getBattlegroundHeight
+		getCanvasHeight: () => number = getBattlegroundHeight,
+		gameWidth: number = 200,
 	) {
 		this.ctx=ctx;
 		this.position=new Vec(0, 0);
 		this.zoomScale=1;
+		this.gameWidth=gameWidth;
 		this.getCanvasWidth=getCanvasWidth;
 		this.getCanvasHeight=getCanvasHeight;
 	}
@@ -129,7 +132,7 @@ class ImageDrawer {
 	//
 	_uncompressPosition(oldPosition: Vec): Vec {
 		const positive=oldPosition;
-		const scalar=this.getCanvasWidth()/200.0*this.zoomScale;
+		const scalar=this.getCanvasWidth()/this.gameWidth*this.zoomScale;
 		const newX=positive.x*scalar;
 		const newY=positive.y*scalar;
 		return new Vec(newX, this.getCanvasHeight()-newY).add(
@@ -138,7 +141,7 @@ class ImageDrawer {
 	}
 
 	_uncompressWidth(oldWidth: number): number {
-		const scalar=this.getCanvasWidth()/200.0*this.zoomScale;
+		const scalar=this.getCanvasWidth()/this.gameWidth*this.zoomScale;
 		return oldWidth*scalar;
 	}
 
