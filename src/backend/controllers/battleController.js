@@ -1,6 +1,7 @@
 // @flow strict
 
 import type { Request, Response } from 'express';
+import { toast } from 'react-toastify';
 
 const { validationResult } = require('express-validator');
 
@@ -214,12 +215,13 @@ exports.reportResults = async (req: Request, res: Response) => {
 			// Update money with first win of day bonus, if applicable
 			const aDay = 60 * 60 * 24 * 1000;
 			const compare = (!userOne.stats.lastFirstWinOfDay) ? (new Date() - userOne.stats.lastFirstWinOfDay) : 0;
+			let bonusUser = 0;
 			// If last recorded first win of the day is null or it's been over a day since
 			if (userOne.stats.lastFirstWinOfDay == null || compare > aDay) {
 				// If it's been over 2 days since, the streak is broken
 				if (compare > (aDay*2)) {
 					userOne.stats.firstWinOfDayStreak = 0;
-					console.log("Streak Broken :(");	
+					console.log("Streak Broken :(");
 				}
 				// Give bonus based on current streak
 				if (userOne.stats.firstWinOfDayStreak === 0) {
@@ -227,18 +229,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userOne.money += (battle.prizeMoney + 100);
 					userOne.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
+					bonusUser = 1;
 				}
 				else if (userOne.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userOne.money += (battle.prizeMoney + 200);
 					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");					
+					console.log("Given First Win of Day 2 Bonus");	
+					bonusUser = 1;				
 				}
 				else {
 					// +300 for third day of the streak onward.
 					userOne.money += (battle.prizeMoney + 300);
 					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");					
+					console.log("Given First Win of Day 3+ Bonus.");
+					bonusUser = 1;					
 				}
 				// Set lastFirstWindOfDay
 				userOne.stats.lastFirstWinOfDay = new Date();
@@ -310,18 +315,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userTwo.money += (battle.prizeMoney + 100);
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
+					bonusUser = 2;
 				}
 				else if (userTwo.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userTwo.money += (battle.prizeMoney + 200);
 					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");					
+					console.log("Given First Win of Day 2 Bonus");
+					bonusUser = 2;					
 				}
 				else {
 					// +300 for third day of the streak onward
 					userTwo.money += (battle.prizeMoney + 300);
 					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");					
+					console.log("Given First Win of Day 3+ Bonus.");
+					bonusUser = 2;					
 				}
 				// Set lastFirstWindOfDay
 				userTwo.stats.lastFirstWinOfDay = new Date();
@@ -345,6 +353,20 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
+
+			console.log(req.user.id);
+			console.log(userOne.id);
+			console.log(userTwo.id);
+			if (bonusUser === 1 && req.user.id === userOne.id) {
+				return
+					.status(200)
+					.json({ msg: 'First win of the day!' });
+			}
+			else if (bonusUser === 2 && req.user.id === userTwo.id) {
+				return
+					.status(200)
+					.json({ msg: 'First win of the day!' });
+			}
 		}
 		else { // Invalid victor
 			console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the personBeingChallenged is the victor, or 2 in the event the challenger is the victor');
