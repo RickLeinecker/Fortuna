@@ -50,7 +50,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 	// If the name of the wager tank is changed, update the currentWagerTank.
 	updateWagerTankName(newName: string): void {
 		if(this.state.currentWagerTank == null) {
-			toast.error('No set wager tank');
+			console.log('No set wager tank.');
 			return;
 		}
 		const newWagerTank: Tank = this.state.currentWagerTank;
