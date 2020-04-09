@@ -53,6 +53,13 @@ router.patch('/setFavoriteTankTeam', [
     .isMongoId()
 ], auth, tankController.setFavoriteTankTeam);
 
+// Sets favorite tank team to empty array and wager to 0
+// Route call: /unfavoriteTankTeam
+// Header: x-auth-token
+// Body: N/A
+// Returns a success message on success and an error message on failure.
+router.patch('/unfavoriteTankTeam', auth, tankController.unfavoriteTankTeam);
+
 // Retrieve array of all a users tanks
 // Route call: /userTanks
 // Header: x-auth-token

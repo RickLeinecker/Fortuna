@@ -200,6 +200,36 @@ exports.unfavoriteTank = async (req: Request, res: Response) => {
 	});
 }
 
+exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.error('Could not handle request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Find the user and set favoriteTank to null.
+	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTanks : [], wager : 0 }, {new : true}, (err: Error, foundUser: User) => {
+		if (err) {
+			console.error(err.message);
+			
+			return res
+				.status(500)
+				.json({ msg: 'Could not set favorite tanks to [] or wager to 0'});
+		}
+		else {
+			console.log('favoriteTanks removed');
+			return res
+				.status(200)
+				.json({ msg: 'Favorite tanks removed and wager is 0' });
+		}
+	});
+}
+
 exports.userTanks = async (req: Request, res: Response) => {
 	await Tank.find({ userId: req.user.id }, (err: Error, tanks: Array<Tank>) => {
 		if (err) {
