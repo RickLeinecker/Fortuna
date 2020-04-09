@@ -65,8 +65,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.userWager <= 0) {
-			toast.error('Wager cannot be 0.');
+		else if (this.state.userWager < 50) {
+			toast.error('Wager cannot be less than 50.');
 			return;
 		}
 
@@ -83,13 +83,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Remove the user's wager and favorite tank.
 	handleRemoveClick(): void {
-		setWager(0, setSuccessful => {
-			this.setState({currentWager: 0});
-			// Update user currency in the navbar.
-			this.props.onWagerUpdate();
-		});
 		removeFavoriteTankId(() => {
-			this.setState({removeWagerOpen: false, currentWagerTank: null});
+			this.setState({removeWagerOpen: false, currentWagerTank: null, currentWager: 0});
+			this.props.onWagerUpdate();
 		});
 	}
 

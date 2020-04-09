@@ -93,19 +93,19 @@ exports.unfavoriteTank = async (req: Request, res: Response) => {
 	}
 
 	// Find the user and set favoriteTank to null.
-	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTank : null }, {new : true}, (err: Error, foundUser: User) => {
+	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTank : null, wager : 0 }, {new : true}, (err: Error, foundUser: User) => {
 		if (err) {
 			console.error(err.message);
 			
 			return res
 				.status(500)
-				.json({ msg: 'Could not set favoriteTank to null'});
+				.json({ msg: 'Could not set favorite tank to null or wager to 0'});
 		}
 		else {
 			console.log('favoriteTank removed');
 			return res
 				.status(200)
-				.json({ msg: 'Favorite tank removed' });
+				.json({ msg: 'Favorite tank removed and wager is 0' });
 		}
 	});
 }
