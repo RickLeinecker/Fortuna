@@ -5,17 +5,14 @@ import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {||}; 
 
 type State = {|
-	response: string,
 	userName: string,
 	password: string,
-	responseToPost: string,
 	loggedIn: boolean,
-
-	errorMessage: string,
 	loginDialogOpen: boolean
 |};
 
@@ -25,14 +22,10 @@ class LoginPopup extends React.Component<Props, State> {
 	constructor() {
 		super();
 
-		this.state={
-			response: '',
+		this.state = {
 			userName: '',
 			password: '',
-			responseToPost: '',
 			loggedIn: false,
-
-			errorMessage: '',
 			loginDialogOpen: false
 		}
 	}
@@ -52,9 +45,8 @@ class LoginPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
 					console.log(data);
-					this.setState({errorMessage: getErrorFromObject(data)});
+					toast.error(getErrorFromObject(data));
 				}
 				else {
 					setLoginToken(data.token);
@@ -63,7 +55,7 @@ class LoginPopup extends React.Component<Props, State> {
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -77,9 +69,9 @@ class LoginPopup extends React.Component<Props, State> {
 		this.setState({
 			userName: registeredUsername,
 			password: registeredPassword,
-			loginDialogOpen: true,
-			errorMessage: 'Please click the link we set to your email and then log in.'
+			loginDialogOpen: true
 		});
+		toast.success('Please click the link we sent to your email to verify your account.');
 	}
 
 	render(): React.Node {
@@ -128,15 +120,14 @@ class LoginPopup extends React.Component<Props, State> {
 							</div>
 							<div className="help-block with-errors text-danger"></div>
 						</div>
-						<div className="fixedHeight">
-							{this.state.errorMessage}
-						</div>
+						<br/>
 						<div className="row col-md-12">
 							{loginButton}
 							{cancelButton}
 						</div>
 					</div>
 				</Popup>
+				<ToastContainer />
 			</div>
 		);
 	}

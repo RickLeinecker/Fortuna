@@ -10,7 +10,7 @@
     "browser": "^0.2.6",
     "cors": "^2.8.5",
     "dotenv-flow": "^3.1.0",
-    "elo-rating": "^1.0.1",
+    "elo-js": "^1.0.1",
     "express": "^4.17.1",
     "express-validator": "^6.3.1",
     "for": "^0.1.0",

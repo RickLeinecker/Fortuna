@@ -12,10 +12,11 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
+import { ToastContainer } from 'react-toastify';
 // Functions
-import { getInventory, getComponentPoints } from '../globalComponents/GetInventoryInfo.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
-import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
+import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 // Types and Classes
@@ -33,7 +34,6 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import getLoginToken from '../globalComponents/getLoginToken.js';
 
 type Props = {||};
 
@@ -98,55 +98,38 @@ class Armory extends React.Component<Props, State> {
 
 	// Gets all user tanks and sets them to the state.
 	getTanks(): void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				if (allTanks.length === 0) {
-					console.log('Expected to have at least one tank!');
-					return;
-				}
-				// Always set the default selected tank to the newest tank.
-				const newSelectedTank = allTanks[allTanks.length-1];
-				setTankForCasus(newSelectedTank._id);
-				// Update the state, and then run initPoints after the state has been set.
-				this.setState({
-						allTanks: allTanks, 
-						selectedTank: newSelectedTank, 
-					},
-					this.initPoints
-				);
-			}
+		getAllUsersTanks(allTanks => {
+			// Always set the default selected tank to the newest tank.
+			const newSelectedTank = allTanks[allTanks.length-1];
+			setTankForCasus(newSelectedTank._id);
+			// Update the state, and then run initPoints after the state has been set.
+			this.setState({
+					allTanks: allTanks, 
+					selectedTank: newSelectedTank, 
+				},
+				this.initPoints
+			);
 		});
 	}
 
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
-		const responsePromise = getUser();
-
-		responsePromise.then (
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-				}
-				else {
-					this.setState({
-						inventory: getInventory(data.inventory.tankComponents),
-						chassis: getInventory(data.inventory.tankComponents, 'chassis'),
-						weapons: getInventory(data.inventory.tankComponents, 'weapon'),
-						scanners: getInventory(data.inventory.tankComponents, 'scanner'),
-						scannerAddons: getInventory(data.inventory.tankComponents, 'scannerAddon'),
-						jammers: getInventory(data.inventory.tankComponents, 'jammer'),
-						treads: getInventory(data.inventory.tankComponents, 'treads'),
-						items: getInventory(data.inventory.tankComponents, 'item'),
-					});
-				}
-			})
-		)
+		getUserAPICall(user => {
+			this.setState({
+				inventory: user.inventory,
+				chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),
+				weapons: user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'),
+				scanners: user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'),
+				scannerAddons: user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'),
+				jammers: user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'),
+				treads: user.inventory.filter(component => getComponentType(component.componentName) === 'treads'),
+				items: user.inventory.filter(component => getComponentType(component.componentName) === 'item'),
+			});
+		});
 	}
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	// Wonky type declaration for the function in order to bind to this and avoid Flow error.
 	changeSelectedTank(newTank: Tank): void {
 		this.setState(
 			{selectedTank: newTank},
@@ -155,44 +138,20 @@ class Armory extends React.Component<Props, State> {
 		setTankForCasus(newTank._id);
 	}
 
-	// Function that will save the selectedTank.
+	// Function that will save the selectedTank and update the user's inventory.
 	saveTank(): void {
-		const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + this.state.selectedTank._id, {
-			method: 'PUT',
-			headers: {
-				'Access-Control-Allow-Origin': '*',
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Credentials': 'true',
-				'x-auth-token': getLoginToken(),
-			},
-			body: JSON.stringify({ 
-				tankName: this.state.selectedTank.tankName, 
-				userId: this.state.selectedTank.userId, 
-				components: this.state.selectedTank.parts.map(part => part.name),
-				isBot: false,
-			}),
+		updateTank(this.state.selectedTank, () => {
+			this.getUserInventory();
 		});
-		responsePromise.then(
-			response => response.json().then(data => {
-				if(response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-				}
-				else {
-					// Update the user inventory once the tank is saved and backend is refreshed.
-					this.getUserInventory();
-				}
-			})
-		);
 	}
 
-	// ONCE THE API IS UPDATED, THIS FUNCTION NEEDS TO BE REMOVED.
+	// When RenameTankPopup renames a tank, update the selected tank.
+	// Also, if the tank is the favorited tank, update the the favorited tank too.
 	renameTank = (tank: Tank): void => {
 		this.setState({selectedTank: tank});
 
 		getFavoriteTank(favTank => {
-			if(tank._id === favTank._id) {
+			if (favTank != null && tank._id === favTank._id) {
 				this.refs.SetWagerPopup.updateWagerTankName(tank.tankName);
 			}
 		});
@@ -202,7 +161,6 @@ class Armory extends React.Component<Props, State> {
 	initPoints(): void {
 		const tank: Tank = this.state.selectedTank;
 		let newPoints: number = 0;
-		this.setState({ points: 0 });
 		for(let i = 0; i < 11; i++) {
 			newPoints = newPoints + getComponentPoints(tank.parts[i].name);
 		}
@@ -362,48 +320,50 @@ class Armory extends React.Component<Props, State> {
 					<TankDisplay tankToDisplay={this.state.selectedTank} />
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
-						<div className="componentMenu">
+						<div>
 							<h4>Component Menu</h4>
-							<table>
-								<thead>
-									<tr>
-										<th>Component Name</th>
-										<th>Number Owned</th>
-										<th>Point Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
-										<tr key={index}>
-											<td align="left">
-												<button 
-													className="componentMenuBtn"
-													onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
-													disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
-												>
-													{toTitleCase(componentName)}
-												</button>
-											</td>
-											<td>{numberOwned}</td>
-											<td>{getComponentPoints(componentName)}</td>
-										</tr>
-									))}
-									{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
-										<tr></tr> :
+							<div className="componentMenu">
+								<table>
+									<thead>
 										<tr>
-											<td align="left">
-												<button 
-													className="componentMenuBtn"
-													onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
-												>
-													Empty
-												</button>
-											</td>
-											<td></td><td></td>
+											<th>Component Name</th>
+											<th>Number Owned</th>
+											<th>Point Value</th>
 										</tr>
-									}
-								</tbody>
-							</table>
+									</thead>
+									<tbody>
+										{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
+											<tr key={index}>
+												<td align="left">
+													<button 
+														className="componentMenuBtn"
+														onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
+														disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
+													>
+														{toTitleCase(componentName)}
+													</button>
+												</td>
+												<td>{numberOwned}</td>
+												<td>{getComponentPoints(componentName)}</td>
+											</tr>
+										))}
+										{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
+											<tr></tr> :
+											<tr>
+												<td align="left">
+													<button 
+														className="componentMenuBtn"
+														onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
+													>
+														Empty
+													</button>
+												</td>
+												<td></td><td></td>
+											</tr>
+										}
+									</tbody>
+								</table>
+							</div>
 						</div>
 					}
 				</div>
@@ -509,6 +469,7 @@ class Armory extends React.Component<Props, State> {
 						{toTitleCase(this.state.selectedTank.itemThree.name)}
 					</button>
 				</div>
+				<ToastContainer />
 			</div>
 		);
 	}

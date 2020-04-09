@@ -1,4 +1,9 @@
 .battlegroundCanvas {
 	background-color: #fafafa;
-	width: 1300px; 
+	width: 1300px;
+}
+
+.battlegroundCanvasDiv {
+	width: 80%;	
+	display: inline-block;
 }

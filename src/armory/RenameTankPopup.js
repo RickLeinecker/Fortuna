@@ -4,16 +4,15 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	tank: Tank,
-	// ONCE API IS REWORKED, THIS NEEDS TO BE REMOVED
 	renameTank: (Tank) => void
 |}; 
 
 type State = {|
 	newTankName: string,
-	errorMessage: string,
 	renameTankOpen: boolean
 |};
 
@@ -24,7 +23,6 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 		
 		this.state = {
 			newTankName: '',
-			errorMessage: '',
 			renameTankOpen: false
 		}
     }
@@ -33,27 +31,18 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 	handleRenameClick(): void {
 		// Error handling.
 		if(this.state.newTankName === '') {
-			this.setState({errorMessage: 'Need to have a tank name.'});
+			toast.error('Need to have a tank name.');
 			return;
 		}
-		else if(this.state.newTankName.length > 20) {
-			this.setState({errorMessage: 'Tank name needs to be 20 or less characters.'});
-			return;
-		}
-		else if(this.state.newTankName.length < 3) {
-			this.setState({errorMessage: 'Tank name needs to be 3 or more characters.'});
+		else if(this.state.newTankName.length > 20 || this.state.newTankName.length < 3) {
+			toast.error('Tank name needs to be between 3 and 20 characters.');
 			return;
 		}
 
 		this.props.tank.tankName = this.state.newTankName;
-		updateTank(this.props.tank, updateSuccessful => {
-			if(updateSuccessful != null) {
-				this.setState({newTankName: '', errorMessage: '', renameTankOpen: false});
-				this.props.renameTank(this.props.tank);
-			}
-			else {
-				this.setState({errorMessage: 'Could not rename tank.'});
-			}
+		updateTank(this.props.tank, () => {
+			this.setState({newTankName: '', renameTankOpen: false});
+			this.props.renameTank(this.props.tank);
 		});
 	}
 
@@ -83,12 +72,11 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 							className="inputText" 
 							onChange={e => this.setState({newTankName: e.target.value})} 
 						/>
-						<div className="fixedHeight">
-							{this.state.errorMessage}
-						</div>
+						<br/>
 						{renameButton}{cancelButton}
 					</div>
 				</Popup>
+				<ToastContainer />
 			</div>
 		);
 	}

@@ -1,7 +1,24 @@
 .battlegroundContainer {
+	width: 1625px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+.debugAndBattleContainer {
+	width: 1625px;
+}
+
+.battlegroundContainerFull {
 	width: 1300px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 
 }
+
+.debugAndBattleContainerFull {
+	width: 1300px;
+}
+

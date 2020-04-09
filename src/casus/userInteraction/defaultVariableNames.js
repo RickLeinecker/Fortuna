@@ -24,6 +24,8 @@ const DEFAULT_INT_LIST_NAME = '[Int list]';
 const DEFAULT_DOUBLE_LIST_NAME = '[Double list]';
 const DEFAULT_BOOLEAN_LIST_NAME = '[Boolean list]';
 
+const DEFAULT_FUNCTION_VARIABLE_NAME = '[Function]';
+
 const TRUE_KEYWORD = 'true';
 const FALSE_KEYWORD = 'false';
 
@@ -39,7 +41,9 @@ function isDefaultVariableName(candidateName: string): boolean {
 
 			candidateName === DEFAULT_INT_LIST_NAME ||
 			candidateName === DEFAULT_DOUBLE_LIST_NAME ||
-			candidateName === DEFAULT_BOOLEAN_LIST_NAME) {
+			candidateName === DEFAULT_BOOLEAN_LIST_NAME || 
+			candidateName === DEFAULT_FUNCTION_VARIABLE_NAME
+	) {
 		return true;
 	}
 	return false;
@@ -127,6 +131,8 @@ export {
 	DEFAULT_INT_LIST_NAME,
 	DEFAULT_DOUBLE_LIST_NAME,
 	DEFAULT_BOOLEAN_LIST_NAME,
+
+	DEFAULT_FUNCTION_VARIABLE_NAME,
 
 	TRUE_KEYWORD,
 	FALSE_KEYWORD,

@@ -4,6 +4,8 @@ import getLoginToken from '../getLoginToken.js';
 import Tank from '../../tanks/Tank.js';
 import { getTank } from '../../tanks/TankLoader.js';
 import BackendTank from '../../tanks/BackendTank.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 //gets the user when passed a token stored as the login token
 function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matchId: string) => void) {
@@ -21,7 +23,8 @@ function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matc
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const dataT1=data.tankOne;
@@ -30,7 +33,7 @@ function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matc
 					'uh_oh_no_tank_id',
 					dataT1.components,
 					dataT1.casusCode,
-					false,//we don't actually know if it is a bot, hopefuelly it doesn't matter
+					false, // We don't actually know if it is a bot, hopefuelly it doesn't matter
 					data.userOne,
 					dataT1.tankName
 				);
@@ -38,7 +41,7 @@ function getMatchAPICall(matchId: string, onLoad:(tank1: Tank, tank2: Tank, matc
 					'uh_oh_no_tank_id',
 					dataT2.components,
 					dataT2.casusCode,
-					false,//we don't actually know if it is a bot, hopefuelly it doesn't matter
+					false, // We don't actually know if it is a bot, hopefuelly it doesn't matter
 					data.userTwo,
 					dataT2.tankName
 				);

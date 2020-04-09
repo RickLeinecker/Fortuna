@@ -17,6 +17,8 @@ import GetListAtBlock from '../blocks/GetListAtBlock.js';
 import ListSizeBlock from '../blocks/ListSizeBlock.js';
 import ListAppendBlock from '../blocks/ListAppendBlock.js';
 import PrintBlock from '../blocks/PrintBlock.js';
+import CallFunctionBlock from '../blocks/CallFunctionBlock.js';
+import DefineFunctionBlock from '../blocks/DefineFunctionBlock.js';
 
 import IntEqualsBlock from '../blocks/IntEqualsBlock.js';
 import IntGreaterThanBlock from '../blocks/IntGreaterThanBlock.js';
@@ -71,7 +73,9 @@ import {
 
 	DEFAULT_INT_LIST_NAME,
 	DEFAULT_DOUBLE_LIST_NAME,
-	DEFAULT_BOOLEAN_LIST_NAME
+	DEFAULT_BOOLEAN_LIST_NAME,
+
+	DEFAULT_FUNCTION_VARIABLE_NAME,
 } from '../userInteraction/defaultVariableNames.js';
 
 import type {BlockBankType} from './BlockBankType.js';
@@ -283,6 +287,8 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new IfBlock());
 		blocks.push(new IfElseBlock());
 		blocks.push(new WhileBlock());
+		blocks.push(new DefineFunctionBlock(DEFAULT_FUNCTION_VARIABLE_NAME, true));
+		blocks.push(new CallFunctionBlock(DEFAULT_FUNCTION_VARIABLE_NAME));
 		return blocks;
 	}
 

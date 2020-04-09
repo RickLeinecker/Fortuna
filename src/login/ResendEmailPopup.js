@@ -3,12 +3,12 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
+import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {||}; 
 
 type State = {|
 	email: string,
-	message: string,
 	popupOpen:boolean,
 |};
 
@@ -19,7 +19,6 @@ class ResendEmailPopup extends React.Component<Props, State> {
 		this.state={
 			email: '',
 			popupOpen: false,
-			message: '',
 		}
 	}
 
@@ -37,18 +36,18 @@ class ResendEmailPopup extends React.Component<Props, State> {
 			response => response.json().then(data => {
 				if (response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
 					console.log(data);
-					this.setState({message: getErrorFromObject(data)});
+					toast.error(getErrorFromObject(data));
 				}
 				else {
 					console.log(data);
-					this.setState({message: "Your reconfirmation email has been sent!"});
+					toast.success("Your reconfirmation email has been sent!");
+					this.setState({popupOpen: false});
 				}
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				toast.error('Couldnt connect to server!');
 				console.log(error);
 			}
 		);
@@ -90,15 +89,13 @@ class ResendEmailPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="fixedHeight">
-							{this.state.message}
-						</div>
 						<div className="row col-md-12">
 							{resendButton}
 							{cancelButton}
 						</div>
 					</div>
 				</Popup>
+				<ToastContainer />
 			</div>
 		);
 	}

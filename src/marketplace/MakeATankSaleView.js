@@ -2,8 +2,8 @@
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
-import { getUser } from '../globalComponents/apiCalls/userAPIIntegration.js';
-import { makeASale } from './marketPlaceAPIConnections.js';
+import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
+import { makeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
@@ -16,6 +16,7 @@ type State = {|
 	tankBeingSoldId: string,
 	itemAmount: number,
 	tanksToSell: Array<Tank>,
+	favTankId: string
 |};
 
 class MakeATankSaleView extends React.Component<Props, State> {
@@ -28,55 +29,34 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			tankBeingSoldId: '',
 			itemAmount: 0,
 			tanksToSell: [],
+			favTankId: ''
 		}
-		this.getUserID();
 	}
 
-	//this gets the user id
-	getUserID() : void {
-		const responsePromise = getUser();
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(data.msg);
-					console.log(data);
-					return data;
-				}
-				else {
-					const jsonObjectOfUser = data;
-					//set the users id
-					this.setState({userId:jsonObjectOfUser._id});
-					//gets the tanks that the user has currently to sell
-					this.getAllUsersTanksForSell();
-				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+	// Once mounted, get the userId and favorite tank id.
+	componentDidMount(): void {
+		getUserAPICall(user => {
+			this.setState({userId: user.userId});
+			this.getAllUsersTanksForSell();
+		});
+
+		getFavoriteTank(tank => {
+			if (tank != null) {
+				this.setState({ favTankId: tank._id});
 			}
-		);
-	};
+		});
+	}
 
 	// Get all of a user's tanks, besides the favorite tank.
 	getAllUsersTanksForSell() : void {
-		let favTankId: string = '';
-		getFavoriteTank(tank => {
-			favTankId = tank._id;
-		});
-
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				
+		getAllUsersTanks(allTanks => {
 				// Find the favorite tank and remove it if it exists.
-				const index = allTanks.map(tank => tank._id).indexOf(favTankId);
+				const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankId);
 				if (index > -1) {
 					allTanks.splice(index, 1);
 				}
 			
 				this.setState({tanksToSell: allTanks});
-			}
 		});
 	};
 
@@ -87,42 +67,42 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			toast.error("Can't sell last tank");
 			return;
 		}
-		const responsePromise = makeASale(this.state.userId, this.state.salePrice, this.state.tankBeingSoldId, 'tank', 1);
-		responsePromise.then(
-			response => response.json().then(data => {
-				if (response.status !== 201) {
-					console.log(response.status);
-					toast.error(data.msg);
-					console.log(data);
-				}
-				else {
-					toast.success("Tank Listed!");
-					//lets get the new tanks that we have since we lost the current one
-					this.getAllUsersTanksForSell();
-					//set the new selling price to zero 
-					this.setState({salePrice: 0});
-					this.props.onItemSold();
-				}
-			})
-		).catch(
-			error => {
-				toast.error('Couldnt connect to server!');
-				console.log(error);
+
+		makeASale(
+			this.state.userId, 
+			this.state.salePrice, 
+			this.state.tankBeingSoldId, 
+			"tank", 
+			1,
+			() => {
+				toast.success("Tank Placed in Market.");
+				this.getAllUsersTanksForSell();
+				this.setState({salePrice: 0});
+				this.props.onItemSold();
 			}
 		);
-	};
-
-	handleChangeInSaleItem = ({ target }:{target:HTMLInputElement }) => {this.setState({tankBeingSoldId: target.value});}
-	handleChangeInSalePrice = ({ target }:{target:HTMLInputElement }) => {this.setState({salePrice: parseInt(target.value)});}
+	}
 	
 	render(): React.Node  { 
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select className="dropdownMenu" onChange={this.handleChangeInSaleItem}>{this.state.tanksToSell.map(({ tankName, _id }, index) => <option key={index}  value={_id}>{tankName}</option>)}</select>
+				<select 
+					className="dropdownMenu" 
+					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
+				>
+					{this.state.tanksToSell.map(({ tankName, _id }, index) => 
+						<option key={index}  value={_id}>{tankName}</option>
+					)}
+				</select>
 				<br/>
 				<label>Selling Price</label>
-				<input type="number" value={this.state.salePrice} className="inputText" onChange={this.handleChangeInSalePrice}></input>
+				<input 
+					type="number" 
+					value={this.state.salePrice} 
+					className="inputText" 
+					onChange={e => this.setState({salePrice: e.target.value})}
+				></input>
 				<br/><br/>
 				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
 				<ToastContainer />

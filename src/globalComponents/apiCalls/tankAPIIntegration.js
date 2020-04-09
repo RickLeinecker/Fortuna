@@ -4,9 +4,11 @@ import BackendTank from '../../tanks/BackendTank.js';
 import Tank from '../../tanks/Tank.js';
 import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
+import { toast } from 'react-toastify';
+import getErrorFromObject from '../getErrorFromObject.js';
 
 // This function gets the id of the users favorite tank
-function getFavoriteTank(onLoad:(tank: Tank) => void): void {
+function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
 		method: 'GET',
 		headers: {
@@ -16,13 +18,19 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 			'x-auth-token': getLoginToken()
 		},
 	});
-	responsePromise.then (
+	responsePromise.then(
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
 			}
 			else {
+				// Check data for no favorite tank. Then the user has no favorite.
+				if (getErrorFromObject(data) === 'No set favorite tank') {
+					onLoad(null);
+					return;
+				}
 				const tank = new BackendTank(
 					data._id,
 					data.components,
@@ -37,7 +45,7 @@ function getFavoriteTank(onLoad:(tank: Tank) => void): void {
 	)
 }
 
-function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => void): void {
+function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
 		headers: {
@@ -53,16 +61,16 @@ function setFavoriteTankId(tankId: string, onLoad:(setSuccessful: boolean) => vo
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(data);
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
 }
 
-function removeFavoriteTankId(onLoad:(setSuccessful: boolean) => void): void {
+function removeFavoriteTankId(onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/unfavoriteTank/', {
 		method: 'PATCH',
 		headers: {
@@ -77,16 +85,17 @@ function removeFavoriteTankId(onLoad:(setSuccessful: boolean) => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				onLoad(false);
+				toast.error(data);
 			}
 			else {
-				onLoad(true);
+				onLoad();
 			}
 		})
 	);
 }
 
-function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): void {
+// Updates a user's tank.
+function updateTank(tank: Tank, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/tankUpdate/' + tank._id, {
 			method: 'PUT',
 			headers: {
@@ -106,18 +115,18 @@ function updateTank(tank: Tank, onLoad:(updateSuccessful: boolean) => void): voi
 			response => response.json().then(data => {
 				if(response.status !== 200) {
 					console.log(response.status);
-					console.log(data.msg);
-					onLoad(false);
+					console.log(data);
+					toast.error(getErrorFromObject(data));
 				}
 				else {
-					onLoad(true);
+					onLoad();
 				}
 			})
 		);
 }
 
 // This function gets all of the tanks the user is associated with
-function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) => void): void {
+function getAllUsersTanks(onLoad: (allTanks: Array<Tank>) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/userTanks/', {
 		method: 'GET',
 		headers: {
@@ -131,16 +140,64 @@ function getAllUsersTanks(onLoad: (successful: boolean, allTanks: Array<Tank>) =
 		response => response.json().then(data => {
 			if (response.status !== 200) {
 				console.log(response.status);
-				console.log(data.msg);
 				console.log(data);
-				onLoad(false, []);
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				const allTanks: Array<Tank> = [];
 				for(const tank of data) {
 					allTanks.push(getTank(tank));
 				}
-				onLoad(true, allTanks);
+				onLoad(allTanks);
+			}
+		})
+	);
+}
+
+function createTank(tank: Tank, onLoad:() => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
+		method: 'POST',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+		body: JSON.stringify({ tankName: tank.tankName, userId: tank.userId, components: tank.parts.map(part => part.name) }),
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				onLoad();
+			}
+		})
+	);
+}
+
+function deleteTank(tankId: string, onLoad:() => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/deleteTank/' + tankId, {
+		method: 'DELETE',
+		headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true',
+				'x-auth-token': getLoginToken()
+			},
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				onLoad();
 			}
 		})
 	);
@@ -152,5 +209,7 @@ export {
 	removeFavoriteTankId,
 	updateTank,
 	getAllUsersTanks,
+	createTank,
+	deleteTank
 }
 

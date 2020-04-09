@@ -23,7 +23,6 @@ function verifyLogin(): void {
 		response => response.json().then(data => {
 			if (response.status !== 200 && window.location.pathname !== '/Login') {
 				console.log(response.status);
-				console.log(data.msg);
 				console.log(data);
 				window.location = verifyLink('/Login');
 			} else if(response.status === 200 && (window.location.pathname === '/Login' || window.location.pathname === '/')) {

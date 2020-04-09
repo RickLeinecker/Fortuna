@@ -3,8 +3,18 @@
 type ImageName = 
 	//general
 	'DIRT_BACKGROUND' | 
+	'HEX_BACKGROUND' | 
+	'CANDEN_BACKGROUND' | 
+	'LUNAR_BACKGROUND' | 
+	'DIRT_BACKGROUND' | 
+	'DIRT_BACKGROUND' | 
 	'SHADOW' | 
 	'WALL' | 
+	'WALL_BIG' | 
+	'HEALTHBAR_BACKGROUND' | 
+	'JAMMED' | 
+	'TOO_MANY_INSTRUCTIONS' | 
+	'RECURSION_TOO_DEEP' | 
 
 	//deployables
 	'C4' |

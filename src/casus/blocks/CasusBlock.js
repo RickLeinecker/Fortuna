@@ -3,7 +3,6 @@
 import BoundingBox from './BoundingBox.js';
 import Vec from './Vec.js';
 import {HIGHLIGHT_STROKE_WIDTH, BOARDER_STROKE_WIDTH} from './generateCornerPerim.js';
-import InterpriterState from '../interpreter/InterpriterState.js';
 import {getInterpriterState} from '../interpreter/InterpriterState.js';
 import {defaultValueFor} from '../interpreter/Value.js';
 
@@ -172,7 +171,7 @@ class CasusBlock {
 		return [];
 	}
 
-	removeBlockAt(v: Vec, removeAfter: boolean): Array<CasusBlock> {
+	removeBlockAt(v: Vec, removeAfter: boolean, justReturnCopy: boolean): Array<CasusBlock> {
 		return [];
 	}
 
@@ -197,7 +196,7 @@ class CasusBlock {
 	}
 
 	evaluate(): ?Value {
-		return null;
+		throw new Error('Didnt implement evaluate!');
 	}
 
 }

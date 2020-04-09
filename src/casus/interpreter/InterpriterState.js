@@ -21,8 +21,11 @@ import {
 
 import type {Value} from './Value.js';
 import type {DataType} from '../blocks/DataType.js';
+import type DefineFunctionBlock from '../blocks/DefineFunctionBlock.js';
 
 const MAX_STATEMENTS=5e4;
+//crashes between 2e4 and 3e4. Set to 2e3 just to be safe
+const MAX_RECURSION_DEPTH=2e3;
 
 class InterpriterState {
 	intVariables: Map<string, IntValue>;
@@ -31,7 +34,14 @@ class InterpriterState {
 	intListVariables: Map<string, IntListValue>;
 	booleanListVariables: Map<string, BooleanListValue>;
 	doubleListVariables: Map<string, DoubleListValue>;
+	functionList: Map<string, DefineFunctionBlock>;
+
 	statementsMade: number;
+	recursionDepth: number;
+	hitInstructionLimit: boolean;
+	hitRecursionLimit: boolean;
+
+	printedStatements: Array<string>;
 	
 	constructor() {
 		this.intVariables = new Map<string, IntValue>();
@@ -40,6 +50,14 @@ class InterpriterState {
 		this.intListVariables = new Map<string, IntListValue>();
 		this.booleanListVariables = new Map<string, BooleanListValue>();
 		this.doubleListVariables = new Map<string, DoubleListValue>();
+		this.functionList = new Map<string, DefineFunctionBlock>();
+
+		this.statementsMade=0;
+		this.recursionDepth=0;
+		this.hitInstructionLimit=false;
+		this.hitRecursionLimit=false;
+
+		this.printedStatements=[];
 	}
 
 	getVariable(type: DataType, name: string): ?Value {
@@ -102,16 +120,61 @@ class InterpriterState {
 		}
 	}
 
+	getFunction(functionName: string): ?DefineFunctionBlock {
+		return this.functionList.get(functionName);
+	}
+
+	setFunction(functionName: string, defineFunctionBlock: DefineFunctionBlock): void {
+		this.functionList.set(functionName, defineFunctionBlock);
+	}
+
 	incrementStatementsMade(): void {
 		this.statementsMade++;
 	}
 
 	madeTooManyStatements(): boolean {
-		return this.statementsMade > MAX_STATEMENTS;
+		const TLE=this.statementsMade > MAX_STATEMENTS;
+		this.hitInstructionLimit=this.hitInstructionLimit || TLE;
+		return TLE;
+	}
+
+	incrementRecursionDepth(): void {
+		this.recursionDepth++;
+	}
+
+	decrementRecursionDepth(): void {
+		this.recursionDepth--;
+	}
+
+	inTooDeep(): boolean {
+		//maybe we're just trying too hard
+		//when really it's closer than it is too far
+		const inTooDeep=this.recursionDepth>MAX_RECURSION_DEPTH;
+		this.hitRecursionLimit=this.hitRecursionLimit || inTooDeep;
+		return inTooDeep;
 	}
 
 	resetStatementsMade(): void {
+		this.hitInstructionLimit=false;
+		this.hitRecursionLimit=false;
 		this.statementsMade = 0;
+		this.recursionDepth = 0;
+	}
+
+	printDebugLine(toPrint: string): void {
+		this.printedStatements.push(toPrint);
+	}
+
+	resetDebug(): void {
+		this.printedStatements =  [];
+	}
+
+	everHitInstructionLimit(): boolean {
+		return this.hitInstructionLimit;
+	}
+
+	everHitRecursionLimit(): boolean {
+		return this.hitRecursionLimit;
 	}
 }
 

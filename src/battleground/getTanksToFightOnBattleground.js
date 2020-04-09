@@ -28,10 +28,7 @@ function getTanksToFightOnBattleground(
 				onTankLoaded(tank2, 1);
 			}
 		});
-		getAllUsersTanks((successful, usersTanks) => {
-			if (!successful) {
-				throw new Error("Couldn't get user's tanks!");
-			}
+		getAllUsersTanks(usersTanks => {
 			const tank1=usersTanks.find(tank => tank._id === tankId1);
 			if (tank1 != null) {
 				onTankLoaded(tank1, 0);
