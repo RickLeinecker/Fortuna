@@ -66,7 +66,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			return;
 		}
 		else if (this.state.userWager < 50) {
-			toast.error('Wager cannot be 0.');
+			toast.error('Wager cannot be less than 50.');
 			return;
 		}
 
