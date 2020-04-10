@@ -10,7 +10,8 @@ import getUserAPICall from './apiCalls/getUserAPICall.js';
 type Props = {
 	linkName: LinkType,
 	returnName?: string,
-	pageName: string
+	pageName: string,
+	youtubeLink?: string
 }
 
 type State = {
@@ -70,6 +71,11 @@ class Navbar extends React.Component<Props, State> {
 		window.location = verifyLink('/Login');
 	}
 
+	//Sends the user to the youtube link provided
+	sendUserToYoutubeLink(): void {
+		window.open(this.props.youtubeLink);
+	}
+
 	reloadNavbar(): void {
 		getUserAPICall(user => {
 			const cookies = new Cookies();
@@ -87,6 +93,10 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
+		const youtubeLink = (this.props.youtubeLink==null || this.props.youtubeLink==null) ? null : (
+			<button onClick={this.sendUserToYoutubeLink.bind(this)} className="navbtn">Tutorial</button>
+		); 
+
 		return (
 			<div className="navbar">
 				<div className="navleft">
@@ -94,6 +104,7 @@ class Navbar extends React.Component<Props, State> {
 				</div>
 				<div className="navmiddle">
 					<h4>{this.props.pageName}</h4>
+					{youtubeLink}
 				</div>
 				<div className="navright">
 					<h5>{this.state.username} | ${this.state.userCurrency}</h5>

@@ -84,6 +84,7 @@ class Marketplace extends React.Component<Props, State> {
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"
 					ref="navbar"
+					youtubeLink="https://www.youtube.com/watch?v=hnmnJLNz2vk"
 				/>
 				<div className="row mt-5">
 					<div className="col-md-4">

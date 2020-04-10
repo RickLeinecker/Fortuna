@@ -134,10 +134,64 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 	);
 }
 
+function getUsersCurrentSales(userId:string, onLoad:() => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/getUsersMarketSales/' + userId, {
+		method: 'get',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data.msg);
+				console.log(data);
+			}
+			else {
+				console.log(data);
+				const currentListings = data;
+				onLoad(currentListings);
+			}
+		})
+	).catch(
+		error => {
+			toast.error('Couldnt connect to server!');
+			console.log(error);
+		}
+	);
+}
+
+function removeASale(saleId: string): void {
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/removeAMarketSale/', {
+		method: 'delete',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+		body: JSON.stringify({ saleId:saleId }),
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			toast.error(data.msg);
+			this.getUsersCurrentSales();
+		})
+	).catch(
+		error => {
+			toast.error('Couldnt connect to server!');
+			console.log(error);
+		}
+	);
+}
 
 export {
 	makeASale,
 	getMarketSales,
 	getMarketTanks,
-	marketSale
+	marketSale,
+	getUsersCurrentSales,
+	removeASale
 }
