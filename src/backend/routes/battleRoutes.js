@@ -18,13 +18,17 @@ const battleController = require('../controllers/battleController');
 // Body: challengerTankId (logged in user's tank id) and 
 // personBeingChallengedId (opponent's user id)
 // Returns battle record id -- can easily be changed to the whole record if needed
-router.post('/prepareMatch', [
+router.post('/prepareMatch1v1', [
     check('challengerTankId', 'challengerTankId is required')
         .isMongoId(),
     check('personBeingChallengedId', 'personBeingChallengedId is required')
         .isMongoId()
 ], auth, battleController.prepareMatch1v1);
 
+// Prepares the battleRecord for a match and updates the balance of the challenger
+// Header: x-auth-token
+// Body: challengerTankIds and personBeingChallengedId
+// Returns the newly created batlleRecordId
 router.post('/prepareMatch3v3', [
     check('challengerTankIds', 'Need 3 tank Ids')
         .isArray({ min: 3, max: 3})

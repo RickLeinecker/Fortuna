@@ -33,8 +33,7 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 			return res
 				.status(404)
 				.json({ msg: 'Could not find the personBeingChallenged in DB'})
-		}
-		else if (personBeingChallengedUserDoc.wager == 0) { // Check that they have a wager set
+		} else if (personBeingChallengedUserDoc.wager === 0) { // Check that they have a wager set
 			console.log('personBeingChallenged does not have a wager set')
 			return res
 				.status(400)
@@ -154,7 +153,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			return res
 				.status()
 				.json({ msg: 'Could not find user being challenged'});
-		} else if (personBeingChallenged.wager == 0) { // Check that they have a wager set
+		} else if (personBeingChallenged.wager === 0) { // Check that they have a wager set
 			console.log('personBeingChallenged does not have a wager set')
 			return res
 				.status(400)
