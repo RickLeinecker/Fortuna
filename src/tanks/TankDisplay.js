@@ -8,7 +8,8 @@ import { imageLoaderInit, addCallbackWhenImageLoaded } from '../battleground/Ima
 import './TankDisplay.css';
 
 type Props = {|
-	tankToDisplay: Tank
+	tankToDisplay: Tank,
+	smallTank: boolean
 |};
 
 const FPS=20;
@@ -54,7 +55,7 @@ class TankDisplay extends React.Component<Props> {
 		return (
 			<div>
 				<canvas
-					className="tankDisplayCanvas"
+					className={(this.props.smallTank) ? "smallTankDisplayCanvas" : "tankDisplayCanvas"}
 					ref="canvas"
 					width="400px"
 					height="400px"
