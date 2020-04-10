@@ -282,7 +282,7 @@ exports.getMarketSales = async (req: Request, res: Response) => {
                 .status(400)
                 .json({ msg: 'User does not exist' });
         }
-		
+
         // Get list of sales from DB that do not belong to logged in user
         const salesList = await MarketSale.find({ sellerId: { $ne: userId } });
         if (!salesList) {
