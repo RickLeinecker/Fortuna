@@ -134,7 +134,7 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 	);
 }
 
-function getUsersCurrentSales(userId:string, onLoad:() => void): void {
+function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<SaleObject>) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/getUsersMarketSales/' + userId, {
 		method: 'get',
 		headers: {
@@ -151,8 +151,28 @@ function getUsersCurrentSales(userId:string, onLoad:() => void): void {
 				console.log(data);
 			}
 			else {
-				console.log(data);
-				const currentListings = data;
+				const currentListings: Array<SaleObject> = [];
+				for (const sale of data) {
+					if(sale.itemType === "component") {
+						currentListings.push(new SaleObject(
+							sale.itemId,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id
+						));
+					}
+					else if(sale.itemType === "tank") {
+						currentListings.push(new SaleObject(
+							sale.itemId.tankName,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id
+						));
+					}
+					
+				} 
 				onLoad(currentListings);
 			}
 		})
@@ -177,7 +197,6 @@ function removeASale(saleId: string): void {
 	responsePromise.then(
 		response => response.json().then(data => {
 			toast.error(data.msg);
-			this.getUsersCurrentSales();
 		})
 	).catch(
 		error => {

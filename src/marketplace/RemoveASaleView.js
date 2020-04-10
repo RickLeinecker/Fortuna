@@ -48,31 +48,16 @@ class RemoveASaleView extends React.Component<Props, State> {
 	createCards = () => {
 		const cards = [];
 		for (let i = 0; i < this.state.itemsUserHasForSale.length; i++) {
-			//Have to handle tanks and items differently
-			if(this.state.itemsUserHasForSale[i].itemType === "component") {
-				cards.push(
-					<div className="card mb-2" key={i}>
-						<div className="card-body">
-							<h5 className="card-title">Item Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].itemId)}</h5>
-							<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].salePrice}</h5>
-							<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
-							<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i]._id)}>Remove</button>
-						</div>
+			cards.push(
+				<div className="card mb-2" key={i}>
+					<div className="card-body">
+						<h5 className="card-title">Tank Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].name)}</h5>
+						<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].price}</h5>
+						<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
+						<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i].saleId)}>Remove</button>
 					</div>
-				)
-			}		
-			else if(this.state.itemsUserHasForSale[i].itemType === "tank") {
-				cards.push(
-					<div className="card mb-2" key={i}>
-						<div className="card-body">
-							<h5 className="card-title">Tank Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].itemId.tankName)}</h5>
-							<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].salePrice}</h5>
-							<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
-							<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i]._id)}>Remove</button>
-						</div>
-					</div>
-				)
-			}		
+				</div>
+			)	
 		}
 		return cards;
 	}
@@ -80,6 +65,7 @@ class RemoveASaleView extends React.Component<Props, State> {
 	//This is the function to remove the tank sale from the marketplace
 	removeSale (saleId: string): void {
 		removeASale(saleId);
+		this.getUsersCurrentSales();
 	};
 
 	render(): React.Node  { 

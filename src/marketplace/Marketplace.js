@@ -70,7 +70,7 @@ class Marketplace extends React.Component<Props, State> {
 				partView=(<MakeATankSaleView onItemSold={this.onMoneyChanged}></MakeATankSaleView>);
 				break;
 			case 'REMOVE_A_SALE':
-				partView=(<RemoveASaleView onItemSold={this.onMoneyChanged}></RemoveASaleView>);
+				partView=(<RemoveASaleView></RemoveASaleView>);
 				break;
 			default:
 				partView=(<h2>Select a type on the left</h2>);
