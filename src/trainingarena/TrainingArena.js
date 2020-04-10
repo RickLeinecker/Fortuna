@@ -15,6 +15,8 @@ import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
+import getPreferredArena from '../globalComponents/getPreferredArena.js';
+import setPreferredArena from '../globalComponents/setPreferredArena.js';
 
 type Props = {||};
 
@@ -63,8 +65,17 @@ class TrainingArena extends React.Component<Props, State> {
 
 		window.location.href=verifyLink('/Battleground');
 	}
+	
+	onChange(): void {
+		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
+		const selected = arenaSelector.value;
+		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
+			setPreferredArena(selected);
+		}
+	}
 
 	render(): React.Node {
+		const preferredArena=getPreferredArena();
 		return (
 			<div id="Parent">
 				<Navbar 
@@ -88,7 +99,7 @@ class TrainingArena extends React.Component<Props, State> {
 				</div>
 				<div className="column tamiddle">
 					<h5>Arena</h5>
-					<select className="dropdownMenu" ref="arenaSelect">
+					<select className="dropdownMenu" ref="arenaSelect" defaultValue={preferredArena} onChange={() => this.onChange()}>
 						<option value="DIRT">Classic</option>
 						<option value="HEX">Hex</option>
 						<option value="CANDEN">Canden</option>
