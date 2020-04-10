@@ -416,9 +416,10 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
             type: Number,
             default: 0
         },
+        // Starting elo is 400
         elo: {
             type: Number,
-            default: 0
+            default: 500
         },
         // Fields for first daily win streak goes up to 3 days 
         firstWinOfDayStreak: {
