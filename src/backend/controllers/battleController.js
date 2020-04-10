@@ -12,7 +12,7 @@ const User = require('../../models/userModel');
 const BattleRecord = require('../../models/battleRecordModel');
 const Tank = require('../../models/tankModel');
 
-exports.prepareMatch = async (req: Request, res: Response) => {
+exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 
 	// Contains errors for failed validation.
 	const errors = validationResult(req);
@@ -82,6 +82,7 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 				.json({ msg: 'Challenger does not have enough money to wager'});
 		}
 
+
 		const newRecord = new BattleRecord({
 			userOne: personBeingChallengedId,
 			userTwo: challengerTank.userId,
@@ -96,12 +97,19 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 			eloExchanged: 0
 		});
 
+		if (Math.random()<0.5) {
+			newRecord.map = 'DIRT';
+		} else {
+			newRecord.map = 'HEX';
+		}
+
 		// Take the wager amount from the challenger's money
 		const challengerBalance = challengerUserDoc.money - personBeingChallengedUserDoc.wager;
 		challengerUserDoc.money = challengerBalance;
 
 		// Disable the personBeingChallenged wager
 		personBeingChallengedUserDoc.wager = 0;
+		personBeingChallengedUserDoc.favoriteTank = null;
 		await personBeingChallengedUserDoc.save();
 
 		// Save the updated balance to the db
@@ -118,13 +126,140 @@ exports.prepareMatch = async (req: Request, res: Response) => {
 				console.log('Match successfully created!');
 				return res
 					.status(200)
-					.send(newRecord._id)
+					.send(newRecord._id);
 			}
 		});
 	} catch (err) {
 		return res
 			.status(500)
 			.json({ msg: 'Server Error'});
+	}
+}
+
+exports.prepareMatch3v3 = async (req: Request, res: Response) => {
+	// Checks that we have received the correct body from the frontend 
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	const { personBeingChallengedId, challengerTankIds } = req.body;
+
+
+	try {
+		// Holds the array of each tank
+		const tankTeamOne = [];
+		const tankTeamTwo = [];
+
+		const personBeingChallenged = await User.findById(personBeingChallengedId);
+
+		if (personBeingChallenged == null) {
+			console.log('Could not find personBeingChallenged in DB');
+			return res
+				.status()
+				.json({ msg: 'Could not find user being challenged'});
+		} else if (personBeingChallenged.wager === 0) { // Check that they have a wager set
+			console.log('personBeingChallenged does not have a wager set')
+			return res
+				.status(400)
+				.json({ msg: 'personBeingChallenged does not have a wager set'});
+		}
+
+
+		// Get the tank objects of the personBeingChallenged
+		for (const tankId of personBeingChallenged.favoriteTanks) {
+			const tank = await Tank.findById(tankId, 'tankName components casusCode');
+
+			if (tank == null){
+				return res
+					.status(404)
+					.json({ msg: 'Could not find one of the tanks of personBeingChallenged'});
+			}
+			tankTeamOne.push(tank);
+		}
+		// Get the tank objects of the challenger
+		for (const tankId of challengerTankIds) {
+			const tank = await Tank.findById(tankId, 'tankName components casusCode');
+
+			if (tank == null) {
+				return res
+					.status(404)
+					.json({ msg: 'Could not find one of the tanks of the challenger'});
+			}
+			tankTeamTwo.push(tank);
+		}
+
+		// Shouldnt need to check if null since we queried this earlier
+		// Also we need to do this so we can query the challenger user doc
+		const challengerId = await Tank.findById(challengerTankIds[0], 'userId');
+
+		// Need to see how much money they have
+		const challenger = await User.findById(challengerId.userId, 'money');
+
+		if (challenger == null) {
+			console.log('Could not find the challenger in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find the challenger in DB'});
+		}
+		// Make sure they have enough for the wager
+		if (challenger.money < personBeingChallenged.wager) {
+			console.log('Challenger does not have enough money to wager');
+			return res
+				.status(401)
+				.json({ msg: 'Challenger does not have enough money to wager'});
+		}
+
+		const newRecord = new BattleRecord({
+			userOne: personBeingChallengedId,
+			userTwo: challengerId.userId,
+			tankTeamOne: tankTeamOne,
+			tankTeamTwo: tankTeamTwo,
+			winner: -1,
+			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
+			eloExchanged: 0
+		});
+
+		if (Math.random()<0.5) {
+			newRecord.map = 'CANDEN';
+		} else {
+			newRecord.map = 'LUNAR';
+		}
+
+		// Take the wager amount from the challenger's money
+		const challengerBalance = challenger.money - personBeingChallenged.wager;
+		challenger.money = challengerBalance;
+
+		// Disable the personBeingChallenged wager
+		personBeingChallenged.wager = 0;
+		personBeingChallenged.favoriteTanks = null;
+		await personBeingChallenged.save();
+
+		// Save the updated balance to the db
+		await challenger.save();
+
+		await newRecord.save ((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Unable to save battle record to DB.' });
+			}
+			else{
+				console.log('Match successfully created!');
+				return res
+					.status(200)
+					.send(newRecord._id);
+			}
+		});
+	} catch (err) {
+		return res
+			.status(500)
+			.json({ errors: err });
 	}
 }
 
@@ -182,10 +317,10 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.status(404)
 					.json({ msg: 'Could not find userTwo'});
 			}
-	
+
 			const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
 			const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
-			
+
 			// Record elo exchanged on tie
 			battle.eloExchanged = Math.abs(userOne.stats.elo-newUserOneElo);			
 
@@ -368,27 +503,27 @@ exports.reportResults = async (req: Request, res: Response) => {
 }
 
 exports.getMatch = async (req: Request, res: Response) => {
-    // Checks that we have received the correct body from the frontend 
-    const errors = validationResult(req);
+	// Checks that we have received the correct body from the frontend 
+	const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        // Return 400 for a bad request
-        return res
-            .status(400)
-            .json({ errors: errors.array() });
-    }   
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}   
 
-    // Deconstruct
-    const { matchId } = req.params;
-    
-    // Check if match record exists
-    const match = await BattleRecord.findById(matchId);
-    if (!match) {
-        console.error('Could not find match');
-        return res.status(400).json({ msg: 'Cannot find match.' });
-    }
+	// Deconstruct
+	const { matchId } = req.params;
 
-    // Success message and returns match
-    console.log('Match successfully retrieved!');
-    return res.status(200).send(match);
+	// Check if match record exists
+	const match = await BattleRecord.findById(matchId);
+	if (!match) {
+		console.error('Could not find match');
+		return res.status(400).json({ msg: 'Cannot find match.' });
+	}
+
+	// Success message and returns match
+	console.log('Match successfully retrieved!');
+	return res.status(200).send(match);
 }
