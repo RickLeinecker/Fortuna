@@ -71,7 +71,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 		}
 
 		// Check if the wager was set. Close the popup if it is.
-		setWager(this.state.userWager, () => {
+		setWager(this.state.userWager, stipendApplied => {
+			if (stipendApplied) {
+				toast.success('$100 added for setting your daily wager!');
+			}
 			this.setState({currentWager: this.state.userWager});
 			// Update user currency in the navbar.
 			this.props.onWagerUpdate();
@@ -126,12 +129,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 				<label>Current Wager:&emsp;</label>
 				<label>{this.state.currentWagerTank == null ?
 					'No set wager tank' : 
-					<div className="wagerTank">
-						{this.state.currentWagerTank.tankName + ' '} 
-						<label>
-							for {this.state.currentWager}
-						</label>
-					</div>
+					<label>
+						{this.state.currentWagerTank.tankName + ' for ' + this.state.currentWager}
+					</label>
 				}</label>
 				<div className="wagerPopup">
 					<Popup 
