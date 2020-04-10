@@ -219,21 +219,27 @@ exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
 	}
 
 	// Find the user and set favoriteTank to null.
-	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTanks : [], wager : 0 }, {new : true}, (err: Error, foundUser: User) => {
-		if (err) {
-			console.error(err.message);
-			
-			return res
-				.status(500)
-				.json({ msg: 'Could not set favorite tanks to [] or wager to 0'});
-		}
-		else {
-			console.log('favoriteTanks removed');
-			return res
-				.status(200)
-				.json({ msg: 'Favorite tanks removed and wager is 0' });
-		}
-	});
+	const user = await User.findById(req.user.id, 'wager money favoriteTanks');
+
+	// Check if found.
+	if (user == null) {
+		console.log('Could not find user in DB');
+		return res
+			.status(404)
+			.json({ msg: 'Could not find user in db'});
+	}
+
+	const addBack = user.money + user.wager;
+	user.money = addBack;
+	user.favoriteTanks = [];
+	user.wager = 0;
+
+	await user.save();
+
+	console.log('Favorite tank removed and wager is 0');
+	return res
+		.status(200)
+		.json({ msg: 'Favorite tank removed and wager is 0' });
 }
 
 exports.userTanks = async (req: Request, res: Response) => {
