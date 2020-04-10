@@ -277,6 +277,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 
 	try {
 		const battle = await BattleRecord.findById(battleId);
+		// Tracks which user got the stipend for the first win of the day.
+		let bonusUser = 0;
 
 		if (battle == null) {
 			console.log('battle not found');
@@ -348,7 +350,6 @@ exports.reportResults = async (req: Request, res: Response) => {
 			// Update money with first win of day bonus, if applicable
 			const aDay = 60 * 60 * 24 * 1000;
 			const compare = (!userOne.stats.lastFirstWinOfDay) ? (new Date() - userOne.stats.lastFirstWinOfDay) : 0;
-			let bonusUser = 0;
 			// If last recorded first win of the day is null or it's been over a day since
 			if (userOne.stats.lastFirstWinOfDay == null || compare > aDay) {
 				// If it's been over 2 days since, the streak is broken
@@ -410,6 +411,20 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
+
+			// Check for if the logged in user got a first win of the day.
+			if (bonusUser === 1 && req.user.id === userOne.id) {
+				console.log('Battlerecord complete');
+				return res
+					.status(200)
+					.json({ msg: 'First win of the day!' });
+			}
+			else if (bonusUser === 2 && req.user.id === userTwo.id) {
+				console.log('Battlerecord complete');
+				return res
+					.status(200)
+					.json({ msg: 'First win of the day!' });
+			}
 		}
 		else if (winner === 2) { // userTwo victory
 			// Update money and losses for user one
@@ -486,17 +501,17 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
-
-			console.log(req.user.id);
-			console.log(userOne.id);
-			console.log(userTwo.id);
+			
+			// Check for if the logged in user got a first win of the day.
 			if (bonusUser === 1 && req.user.id === userOne.id) {
-				return
+				console.log('Battlerecord complete');
+				return res
 					.status(200)
 					.json({ msg: 'First win of the day!' });
 			}
 			else if (bonusUser === 2 && req.user.id === userTwo.id) {
-				return
+				console.log('Battlerecord complete');
+				return res
 					.status(200)
 					.json({ msg: 'First win of the day!' });
 			}
