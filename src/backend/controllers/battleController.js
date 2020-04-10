@@ -98,7 +98,7 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 			eloExchanged: 0
 		});
 
-		if (Math.random()<0.5)) {
+		if (Math.random()<0.5) {
 			newRecord.map = 'DIRT';
 		} else {
 			newRecord.map = 'HEX';
@@ -224,7 +224,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			eloExchanged: 0
 		});
 		
-		if (Math.random()<0.5)) {
+		if (Math.random()<0.5) {
 			newRecord.map = 'CANDEN';
 		} else {
 			newRecord.map = 'LUNAR';
