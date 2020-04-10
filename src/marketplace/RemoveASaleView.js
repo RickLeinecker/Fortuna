@@ -46,7 +46,7 @@ class RemoveASaleView extends React.Component<Props, State> {
 			cards.push(
 				<div className="card mb-2" key={i}>
 					<div className="card-body">
-						<h5 className="card-title">Tank Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].name)}</h5>
+						<h5 className="card-title">Item Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].name)}</h5>
 						<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].price}</h5>
 						<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
 						<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i].saleId)}>Remove</button>
