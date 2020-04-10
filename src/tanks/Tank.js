@@ -124,7 +124,6 @@ class Tank extends GameObject {
 		tankName: string,
 		_id: string,
 		userId: string,
-		
 	) {
 		super(position);
 
@@ -147,15 +146,36 @@ class Tank extends GameObject {
 		this.interpriterState = new InterpriterState();
 		this.casusCode = casusCode;
 		this.rotation = Math.PI*0.5;
-		this.haveC4 = true; //TODO: remove this, it is just for testing...
-		this.minesLeft = 2; //TODO: remove this, for testing...
 		this.usedMineLastFrame = false;
-		this.haveNitroRepair = true; //TODO: remove this, for testing...
 		this.nitroRepairTimerLeft = 0;
-		this.haveOverdrive = true; //TODO: remove this, just for testing...
 		this.overdriveTimerLeft = 0;
-		this.haveMissileTracker = true; //TODO: remove this, just for testing...
 		this.health = this._getArmorOffset();
+
+
+		//process onetimeitems from items passed into constructor
+		this.haveC4 = false; 
+		this.minesLeft = 0;
+		this.haveNitroRepair = false;
+		this.haveOverdrive = false;
+		this.haveMissileTracker = false;
+		for (const itemPart of [itemOne, itemTwo, itemThree]) {
+			if (itemPart.name === 'mine') {
+				this.minesLeft++;
+			}
+			else if (itemPart.name === 'c4') {
+				this.haveC4 = true;
+			}
+			else if (itemPart.name === 'overdrive') {
+				this.haveOverdrive = true;
+			}
+			else if (itemPart.name === 'nitroRepair') {
+				this.haveNitroRepair = true;
+			}
+			else if (itemPart.name === 'missileTrackingBeacon') {
+				this.haveMissileTracker = true;
+			}
+		}
+
 	}
 
 	update(battleground: Battleground): void {
