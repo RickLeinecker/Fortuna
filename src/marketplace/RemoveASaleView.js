@@ -59,6 +59,11 @@ class RemoveASaleView extends React.Component<Props, State> {
 				</div>
 			)	
 		}
+		if(cards.length === 0) {
+			cards.push(
+				<h1>No Active Sales!</h1>
+			)	
+		}
 		return cards;
 	}
 	
