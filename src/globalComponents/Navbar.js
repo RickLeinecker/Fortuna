@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import type { LinkType } from './typesAndClasses/LinkType.js';
 import { verifyLink } from './verifyLink.js';
 import getUserAPICall from './apiCalls/getUserAPICall.js';
+import YoutubeVideoPopup from './YoutubeVideoPopup.js';
 
 type Props = {
 	linkName: LinkType,
@@ -71,11 +72,6 @@ class Navbar extends React.Component<Props, State> {
 		window.location = verifyLink('/Login');
 	}
 
-	//Sends the user to the youtube link provided
-	sendUserToYoutubeLink(): void {
-		window.open(this.props.youtubeLink);
-	}
-
 	reloadNavbar(): void {
 		getUserAPICall(user => {
 			const cookies = new Cookies();
@@ -83,6 +79,12 @@ class Navbar extends React.Component<Props, State> {
 			cookies.set('money', user.money);
 			this.setState({username: user.username, userCurrency: user.money});
 		});
+	}
+
+	//Youtube links need to be formatted to play within our domain
+	formatYoutubeLink(link:string): string {
+		const formattedYoutubeLink = "https://www.youtube.com/embed/" + link.slice(link.indexOf('=')+1);
+		return formattedYoutubeLink;
 	}
 
 	render(): React.Node {
@@ -94,7 +96,7 @@ class Navbar extends React.Component<Props, State> {
 		);
 
 		const youtubeLink = (this.props.youtubeLink==null || this.props.youtubeLink==null) ? null : (
-			<button onClick={this.sendUserToYoutubeLink.bind(this)} className="navbtn">Tutorial</button>
+			<YoutubeVideoPopup youtubeVideoLink={this.formatYoutubeLink(this.props.youtubeLink)}></YoutubeVideoPopup>
 		); 
 
 		return (

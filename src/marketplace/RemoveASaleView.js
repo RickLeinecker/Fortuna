@@ -25,17 +25,12 @@ class RemoveASaleView extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		this.getUserID();
-	}
-
-
-	//this gets the user id
-	getUserID() : void {
+		//This gets the user's id and then gets the users current sales
 		getUserAPICall(user => {
 			this.setState({userId: user.userId});
 			this.getUsersCurrentSales();
 		});
-	};
+	}
 
 	//This gets the users current sales
 	getUsersCurrentSales() : void {
