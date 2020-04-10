@@ -478,7 +478,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
 				// Add items to buyer
-				buyer['inventory']['tankComponents'][sale.itemId] += sale.amount;
+				buyer.inventory.tankComponents[sale.itemId] += sale.amount;
 				await buyer.save((err: Error) => {
 					if (err) {
 						console.error(err.message);
@@ -523,7 +523,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
 				// Add items to buyer
-				buyer['inventory']['casusBlocks'][sale.itemId] += sale.amount;
+				buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
 				await buyer.save((err: Error) => {
 					if (err) {
 						console.error(err.message);
@@ -621,7 +621,7 @@ exports.removeAMarketSale = async (req: Request, res: Response) => {
 			// Give back the amount of components
 			const seller = await User.findById(sale.sellerId);
 
-			seller['inventory']['tankComponents'][sale.itemId] += sale.amount;
+			seller.inventory.tankComponents[sale.itemId] += sale.amount;
 
 			// Save user
 			await seller.save((err: Error) => {
@@ -638,7 +638,7 @@ exports.removeAMarketSale = async (req: Request, res: Response) => {
 			const seller = await User.findById(sale.sellerId);
 
 			// Give back amount of casusBlocks
-			seller['inventory']['casusBlocks'][sale.itemId] += sale.amount;
+			seller.inventory.casusBlocks[sale.itemId] += sale.amount;
 
 			// Save user
 			await seller.save((err: Error) => {
