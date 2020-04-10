@@ -62,12 +62,12 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	onClickStartBattle(): void {
-		const myTankOne: Tank = this.state.selectedTankOne;
-		const myTankTwo: Tank = this.state.selectedTankTwo;
-		const myTankThree: Tank = this.state.selectedTankThree;
-		const botTankOne: Tank = this.state.botTankOne;
-		const botTankTwo: Tank = this.state.botTankTwo;
-		const botTankThree: Tank = this.state.botTankThree;
+		const myTankOne: ?Tank = this.state.selectedTankOne;
+		const myTankTwo: ?Tank = this.state.selectedTankTwo;
+		const myTankThree: ?Tank = this.state.selectedTankThree;
+		const botTankOne: ?Tank = this.state.botTankOne;
+		const botTankTwo: ?Tank = this.state.botTankTwo;
+		const botTankThree: ?Tank = this.state.botTankThree;
 		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
 		if (myTankOne == null && myTankTwo == null && myTankThree == null) {
 			toast.error('One of your tanks must be selected!');
@@ -81,10 +81,14 @@ class TrainingArena extends React.Component<Props, State> {
 		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
 			setBattlegroundArena(selected);
 		}
-		setReturnToFromBattlegroundLink('/TrainingArena');
 
-		// NEED TO UPDATE SET TANKS TO FIGHT IN BATTLEGROUND
+		// NEED TO UPDATE SET 3v3 TANKS TO FIGHT IN BATTLEGROUND
 		if (this.state.battleType === '1 vs 1') {
+			if (myTankOne == null || botTankOne == null) {
+				toast.error('One bot tank and one of your tanks must be selected!');
+				return;
+			}
+			setReturnToFromBattlegroundLink('/TrainingArena');
 			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
 		}
 		else {

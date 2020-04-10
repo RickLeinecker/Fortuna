@@ -68,15 +68,19 @@ class BattleArena extends React.Component<Props, State> {
 		}
 
 		// Ensure that the user has at least one set tank.
-		const myTankOne: Tank = this.state.selectedTankOne;
-		const myTankTwo: Tank = this.state.selectedTankTwo;
-		const myTankThree: Tank = this.state.selectedTankThree;
+		const myTankOne: ?Tank = this.state.selectedTankOne;
+		const myTankTwo: ?Tank = this.state.selectedTankTwo;
+		const myTankThree: ?Tank = this.state.selectedTankThree;
 		if (myTankOne == null && myTankTwo == null && myTankThree == null) {
-			toast.error('No selected tank for challenging.');
+			toast.error('No selected tank for challenging!');
 			return;
 		}
 
 		if (this.state.battleType === '1 vs 1') {
+			if (myTankOne == null) {
+				toast.error('No tank selected!');
+				return;
+			}
 			prepare1v1APICall(myTankOne, player, matchId => {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);

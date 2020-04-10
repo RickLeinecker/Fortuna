@@ -22,7 +22,7 @@ class SelectTank extends React.Component<Props, State> {
 		};
 	}
 
-	onChangeSelectedTank(selectedTank: Tank): void {
+	onChangeSelectedTank(selectedTank: ?Tank): void {
 		this.props.changeSelectedTank(selectedTank);
 		this.setState({
 			showTanks: false
