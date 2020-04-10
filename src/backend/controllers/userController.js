@@ -91,7 +91,7 @@ exports.register = async (req: Request, res: Response) => {
 				highlighted: true, 
 				blockClass: "EmptyBlock", 
 				dataType: "VOID" }] 
-			};
+		};
 
 		await tank.save((err: Error) => {
 			if (err) {
@@ -130,13 +130,13 @@ exports.register = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-		'Greetings Commander '+user.userName+'!\n\n' +
-		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
-		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+			'Greetings Commander '+user.userName+'!\n\n' +
+			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
 		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-		<p>Please verify your Fortuna account by using the link below:</p>
-		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
+			<p>Please verify your Fortuna account by using the link below:</p>
+			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
 		// Set email options
 		const mailOptions = {
@@ -363,15 +363,15 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-		'Greetings Commander '+user.userName+'!\n\n' +
-		'We recieved word that you needed to reconfirm your email.\n' +
-		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
-		'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
+			'Greetings Commander '+user.userName+'!\n\n' +
+			'We recieved word that you needed to reconfirm your email.\n' +
+			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
 		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-		<p>We recieved word that you needed to reconfirm your email.<br />
-		Please verify your Fortuna account by using the link below:</p>
-		<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;		
+			<p>We recieved word that you needed to reconfirm your email.<br />
+			Please verify your Fortuna account by using the link below:</p>
+			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;		
 
 		// Set email options
 		const mailOptions = {
@@ -445,7 +445,7 @@ exports.getLeaders = async (req: Request, res: Response) => {
 		}
 		else
 			res.send(leaders);
-			console.log('Retrieved user leaders.');
+		console.log('Retrieved user leaders.');
 	});
 }
 
@@ -457,7 +457,7 @@ exports.allUsers = async (req: Request, res: Response) => {
 		}
 		else
 			res.send(users);
-			console.log('Retrieved all users.');
+		console.log('Retrieved all users.');
 	});
 }
 
@@ -485,7 +485,7 @@ exports.setWager = async (req: Request, res: Response) => {
 			user.wagerDate = now;
 			console.log('Applied daily wager stipend');
 		}
-		
+
 		// Add back the balance of the original wager
 		// Theres gotta be a cleaner way to do this but idk
 		const addBack = user.money + user.wager;
@@ -551,7 +551,7 @@ exports.editUser = async (req: Request, res: Response) => {
 	const salt = await bcrypt.genSalt(10);
 	// bcrypt hash passwords
 	const newPassword = await bcrypt.hash(password, salt);
-	
+
 	// Update User
 	const updatedUser = await User.findOneAndUpdate({ _id: req.user.id }, { password: newPassword, email: email }, { new: true });
 	if (!updatedUser) {
@@ -580,10 +580,10 @@ exports.deleteUser = async (req: Request, res: Response) => {
 	// Remove all Tanks owned by user
 	await Tank.deleteMany({ userId: req.user.id });
 	console.log('Deleted user tanks.');
-	
+
 	// Delete user itself
 	await User.deleteOne({ _id: req.user.id });
-	
+
 	// Return success message
 	console.log('Deleted user.');
 	return res.status(200).json({ msg: 'User account has been deleted.' });

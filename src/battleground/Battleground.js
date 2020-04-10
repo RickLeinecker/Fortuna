@@ -339,13 +339,13 @@ class Battleground extends React.Component<Props> {
 		if (this.getTanks()[0].getHealth()<=0) {
 			this.matchResult = 'PLAYER_2_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
-			this.reportWinner(1);
+			this.reportWinner(2);
 			return;
 		}
 		if (this.getTanks()[1].getHealth()<=0) {
 			this.matchResult = 'PLAYER_1_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
-			this.reportWinner(2);
+			this.reportWinner(1);
 			return;
 		}
 	}
