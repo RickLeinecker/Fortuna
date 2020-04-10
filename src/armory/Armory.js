@@ -287,6 +287,7 @@ class Armory extends React.Component<Props, State> {
 						selectedTank={this.state.selectedTank}
 						allTanks={this.state.allTanks}
 						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
+						propogateChangesToCasus={true}
 					/>
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>

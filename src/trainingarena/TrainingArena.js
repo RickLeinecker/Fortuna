@@ -95,6 +95,7 @@ class TrainingArena extends React.Component<Props, State> {
 						changeSelectedTank={(tank) => {
 							this.setState({selectedTank: tank});
 						}}
+						propogateChangesToCasus={true}
 					/>
 				</div>
 				<div className="column tamiddle">
@@ -129,6 +130,7 @@ class TrainingArena extends React.Component<Props, State> {
 						changeSelectedTank={(tank) => {
 							this.setState({enemySelectedTank: tank});
 						}}
+						propogateChangesToCasus={false}
 					/>
 				</div>
 			</div>

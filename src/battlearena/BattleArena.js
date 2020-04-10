@@ -102,6 +102,7 @@ class BattleArena extends React.Component<Props, State> {
 					selectedTank={this.state.selectedTank}
 					allTanks={this.state.allTanks}
 					changeSelectedTank={(tank) => this.setState({selectedTank: tank})}
+					propogateChangesToCasus={true}
 				/>
 			</div>
 			<div className="column baright">

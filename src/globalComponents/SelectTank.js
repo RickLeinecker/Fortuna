@@ -8,6 +8,7 @@ type Props = {|
 	allTanks: Array<Tank>,
 	changeSelectedTank: (Tank) => void,
 	selectedTank: ?Tank,
+	propogateChangesToCasus: boolean,
 |};
 
 type State = {|
@@ -21,6 +22,16 @@ class SelectTank extends React.Component<Props, State> {
 		this.state = {
 			showTanks: false,
 		};
+	}
+
+	componentDidUpdate(prevProps: Props): void {
+		if (prevProps !== this.props && 
+			this.props.selectedTank!=null && 
+			this.props.propogateChangesToCasus) {
+			if (this.props.selectedTank != null) {
+				setPreferredSelectedTank(this.props.selectedTank);
+			}
+		}
 	}
 
 	onChangeSelectedTank(selectedTank: Tank): void {
