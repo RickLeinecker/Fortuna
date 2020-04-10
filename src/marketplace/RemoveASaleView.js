@@ -1,6 +1,6 @@
 //@flow strict
 import * as React from 'react';
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
@@ -61,7 +61,7 @@ class RemoveASaleView extends React.Component<Props, State> {
 		}
 		if(cards.length === 0) {
 			cards.push(
-				<h1>No Active Sales!</h1>
+				<h1 key="0">No Active Sales!</h1>
 			)	
 		}
 		return cards;
