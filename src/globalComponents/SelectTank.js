@@ -53,9 +53,11 @@ class SelectTank extends React.Component<Props, State> {
 									<br/>
 								</div>
 							)}
-							<button className="removeTankBtn" onClick={() => this.onChangeSelectedTank(null)}>
-								Remove Tank
-							</button>
+							{window.location.pathname === '/Armory' ? <div></div> :
+								<button className="removeTankBtn" onClick={() => this.onChangeSelectedTank(null)}>
+									Remove Tank
+								</button>
+							}
 						</div> :
 						<div></div>
 					}
