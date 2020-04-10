@@ -279,7 +279,7 @@ exports.reportResults = async (req: Request, res: Response) => {
 	try {
 		const battle = await BattleRecord.findById(battleId);
 		// Tracks which user got the stipend for the first win of the day.
-		let bonusUser = 0;
+		let bonusAdded = 0;
 
 		if (battle == null) {
 			console.log('battle not found');
@@ -364,21 +364,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userOne.money += (battle.prizeMoney + 100);
 					userOne.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
-					bonusUser = 1;
+					bonusAdded = 100;
 				}
 				else if (userOne.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userOne.money += (battle.prizeMoney + 200);
 					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");	
-					bonusUser = 1;				
+					console.log("Given First Win of Day 2 Bonus");
+					bonusAdded = 200;			
 				}
 				else {
 					// +300 for third day of the streak onward.
 					userOne.money += (battle.prizeMoney + 300);
 					userOne.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 3+ Bonus.");
-					bonusUser = 1;					
+					bonusAdded = 300;				
 				}
 				// Set lastFirstWindOfDay
 				userOne.stats.lastFirstWinOfDay = new Date();
@@ -414,17 +414,11 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await userTwo.save();
 
 			// Check for if the logged in user got a first win of the day.
-			if (bonusUser === 1 && req.user.id === userOne.id) {
+			if (bonusAdded > 0 && req.user.id === userOne.id) {
 				console.log('Battlerecord complete');
 				return res
 					.status(200)
-					.json({ msg: 'First win of the day!' });
-			}
-			else if (bonusUser === 2 && req.user.id === userTwo.id) {
-				console.log('Battlerecord complete');
-				return res
-					.status(200)
-					.json({ msg: 'First win of the day!' });
+					.json({ msg: 'First win of the day, day ' + userOne.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
 			}
 		}
 		else if (winner === 2) { // userTwo victory
@@ -464,21 +458,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userTwo.money += (battle.prizeMoney + 100);
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
-					bonusUser = 2;
+					bonusAdded = 100;
 				}
 				else if (userTwo.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userTwo.money += (battle.prizeMoney + 200);
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 2 Bonus");
-					bonusUser = 2;					
+					bonusAdded = 200;				
 				}
 				else {
 					// +300 for third day of the streak onward
 					userTwo.money += (battle.prizeMoney + 300);
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 3+ Bonus.");
-					bonusUser = 2;					
+					bonusAdded = 300;				
 				}
 				// Set lastFirstWindOfDay
 				userTwo.stats.lastFirstWinOfDay = new Date();
@@ -503,18 +497,12 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await userOne.save();
 			await userTwo.save();
 			
-			// Check for if the logged in user got a first win of the day.
-			if (bonusUser === 1 && req.user.id === userOne.id) {
+			// Check if the logged in user got their first win.
+			if (bonusAdded > 0 && req.user.id === userTwo.id) {
 				console.log('Battlerecord complete');
 				return res
 					.status(200)
-					.json({ msg: 'First win of the day!' });
-			}
-			else if (bonusUser === 2 && req.user.id === userTwo.id) {
-				console.log('Battlerecord complete');
-				return res
-					.status(200)
-					.json({ msg: 'First win of the day!' });
+					.json({ msg: 'First win of the day, day ' + userTwo.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
 			}
 		}
 		else { // Invalid victor
@@ -524,11 +512,12 @@ exports.reportResults = async (req: Request, res: Response) => {
 				.json({ msg: 'Bad Request'});
 		}
 
+
 		console.log('All documents updated successfully! BattleRecord complete');
 		return res
 			.status(200)
 			.send(battle);
-
+		
 	} catch (err) {
 		console.error('Update failed')
 		return res
