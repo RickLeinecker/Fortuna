@@ -97,10 +97,9 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 			eloExchanged: 0
 		});
 
-		const coinflip = Math.floor(Math.random() * 2);
-		if (coinflip === 0) {
+		if (Math.random()<0.5)) {
 			newRecord.map = 'DIRT';
-		} else if (coinflip === 1) {
+		} else {
 			newRecord.map = 'HEX';
 		}
 
@@ -223,11 +222,10 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
-
-		const coinflip = Math.floor(Math.random() * 2);
-		if (coinflip === 0) {
+		
+		if (Math.random()<0.5)) {
 			newRecord.map = 'CANDEN';
-		} else if (coinflip === 1) {
+		} else {
 			newRecord.map = 'LUNAR';
 		}
 
