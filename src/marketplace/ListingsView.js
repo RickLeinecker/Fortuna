@@ -86,19 +86,38 @@ class ListingsView extends React.Component<Props, State> {
 		const cards = []
 		// Outer loop to create parent
 		for (let i = 0; i < this.state.itemsForSale.length; i++) {
-			// Create the parent and add the children
-			cards.push(
-				<div className="card mb-2" key={i}>
-					<div className="card-body">
-						<h5 className="card-title">Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
-						<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
-						<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
-						<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+			// Handle tank and components different to display tank 
+			if(this.props.sellerType === 'tanks') {
+				cards.push(
+					<div className="card mb-2" key={i}>
+						<div className="card-body">
+							<h5 className="card-title" onClick={() => this.showTankComponents(this.state.itemsForSale[i].tankId)} >Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+						</div>
 					</div>
-				</div>
-			)
+				)
+			}
+			else {
+				cards.push(
+					<div className="card mb-2" key={i}>
+						<div className="card-body">
+							<h5 className="card-title">Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+						</div>
+					</div>
+				)
+			}
 		}
 		return cards;
+	}
+
+	//Shows the component parts of a certain tank
+	showTankComponents(tankId: string) {
+		console.log(tankId);
 	}
 
 	// Handles purchases.
