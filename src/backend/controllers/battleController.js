@@ -82,6 +82,7 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 				.json({ msg: 'Challenger does not have enough money to wager'});
 		}
 
+
 		const newRecord = new BattleRecord({
 			userOne: personBeingChallengedId,
 			userTwo: challengerTank.userId,
@@ -95,6 +96,13 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallengedUserDoc.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
+
+		const coinflip = Math.floor(Math.random() * 2);
+		if (coinflip === 0) {
+			newRecord.map = 'DIRT';
+		} else if (coinflip === 1) {
+			newRecord.map = 'HEX';
+		}
 
 		// Take the wager amount from the challenger's money
 		const challengerBalance = challengerUserDoc.money - personBeingChallengedUserDoc.wager;
@@ -215,6 +223,13 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
+
+		const coinflip = Math.floor(Math.random() * 2);
+		if (coinflip === 0) {
+			newRecord.map = 'CANDEN';
+		} else if (coinflip === 1) {
+			newRecord.map = 'LUNAR';
+		}
 
 		// Take the wager amount from the challenger's money
 		const challengerBalance = challenger.money - personBeingChallenged.wager;
