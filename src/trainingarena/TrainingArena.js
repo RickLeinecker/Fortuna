@@ -14,14 +14,21 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+import { toast, ToastContainer } from 'react-toastify';
+import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 
 type Props = {||};
 
 type State = {|
-	selectedTank: ?Tank,
+	selectedTankOne: ?Tank,
+	selectedTankTwo: ?Tank,
+	selectedTankThree: ?Tank,
 	allTanks: Array<Tank>,
-	enemySelectedTank: ?Tank,
-	enemyTanks: Array<Tank>,
+	botTankOne: ?Tank,
+	botTankTwo: ?Tank,
+	botTankThree: ?Tank,
+	botTanks: Array<Tank>,
+	battleType: BattleType
 |};
 
 class TrainingArena extends React.Component<Props, State> {
@@ -30,35 +37,56 @@ class TrainingArena extends React.Component<Props, State> {
 		super();
 		verifyLogin();
 		this.state = {
-			selectedTank: null,
+			selectedTankOne: null,
+			selectedTankTwo: null,
+			selectedTankThree: null,
 			allTanks: [],
-			enemySelectedTank: null,
-			enemyTanks: [],
+			botTankOne: null,
+			botTankTwo: null,
+			botTankThree: null,
+			botTanks: [],
+			battleType: '1 vs 1'
 		};
 	}
+
 	componentDidMount(): void {
 		getAllUsersTanks(allTanks => {
 				this.setState({
 					allTanks: allTanks,
-					selectedTank: allTanks[0]
+					selectedTankOne: allTanks[0]
 			});
 		});
-		getBotTanksAPICall(botTanks => this.setState({enemySelectedTank: botTanks[0], enemyTanks: botTanks}));
+		getBotTanksAPICall(botTanks => this.setState({botTankOne: botTanks[0], botTanks: botTanks}));
 	}
 
 	onClickStartBattle(): void {
-		const myTank=this.state.selectedTank;
-		const botTank=this.state.enemySelectedTank;
+		const myTankOne: Tank = this.state.selectedTankOne;
+		const myTankTwo: Tank = this.state.selectedTankTwo;
+		const myTankThree: Tank = this.state.selectedTankThree;
+		const botTankOne: Tank = this.state.botTankOne;
+		const botTankTwo: Tank = this.state.botTankTwo;
+		const botTankThree: Tank = this.state.botTankThree;
 		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
-		if (myTank == null || botTank == null) {
-			throw new Error('neither tank should be null!');
+		if (myTankOne == null && myTankTwo == null && myTankThree == null) {
+			toast.error('One of your tanks must be selected!');
+			return;
+		}
+		if (botTankOne == null && botTankTwo == null && botTankThree == null) {
+			toast.error('One bot tank must be selected!');
+			return;
 		}
 		const selected = arenaSelector.value;
 		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
 			setBattlegroundArena(selected);
 		}
 		setReturnToFromBattlegroundLink('/TrainingArena');
-		setTanksToFightInBattleground(myTank._id, botTank._id);
+
+		if (this.state.battleType === '1 vs 1') {
+			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
+		}
+		else {
+
+		}
 
 		window.location.href=verifyLink('/Battleground');
 	}
@@ -119,6 +147,7 @@ class TrainingArena extends React.Component<Props, State> {
 						}}
 					/>
 				</div>
+				<ToastContainer />
 			</div>
 		)
 	}
