@@ -19,6 +19,7 @@ import { setMatchForBattleground } from '../battleground/setTanksToFightInBattle
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
 import Replays from './Replays.js';
+import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 
 type Props = {||};
 
@@ -41,13 +42,11 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		getAllUsersTanks((successful, allTanks) => {
-			if (successful) {
-				this.setState({
-					allTanks: allTanks,
-					selectedTank: allTanks[0]
-				});
-			}
+		getAllUsersTanks(allTanks => {
+			this.setState({
+				allTanks: allTanks,
+				selectedTank: allTanks[0]
+			});
 		});
 		getReplayListAPICall(() => {});
 	}
@@ -55,12 +54,12 @@ class BattleArena extends React.Component<Props, State> {
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 
-		if (player==null) {
+		if (player == null) {
 			toast.error('No player found.');
 			return;
 		}
-		const myTank=this.state.selectedTank;
-		if (myTank==null) {
+		const myTank = this.state.selectedTank;
+		if (myTank == null) {
 			toast.error('No selected tank for challenging.');
 			return;
 		}
@@ -68,6 +67,8 @@ class BattleArena extends React.Component<Props, State> {
 		prepareMatchAPICall(myTank, player, matchId => {
 			console.log('Successfully prepared match with id: '+matchId);
 			setMatchForBattleground(matchId);
+			//TODO: select an appropriate arena depending on the match
+			setBattlegroundArena('DIRT');
 			window.location.href=verifyLink('/Battleground');
 		});
 

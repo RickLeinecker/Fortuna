@@ -167,15 +167,19 @@ class Tank extends GameObject {
 			}
 			return;
 		}
-		this.executeCasusFrame();	
+		this.executeCasusFrame(battleground);	
 		this.executePhysics(battleground.getCollisionSegs(), battleground.getTanks(), battleground);
 	}
 
-	executeCasusFrame(): void {
+	executeCasusFrame(battleground: Battleground): void {
 		this.interpriterState.resetStatementsMade();
+		this.interpriterState.resetDebug();
 		setInterpriterState(this.interpriterState);	
 		this.casusCode.runEvaluate();
 		this.interpriterState = getInterpriterState();
+		for (const debugLine of this.interpriterState.printedStatements) {
+			battleground.addDebugLine(' '+this.tankName+': '+debugLine);
+		}
 	}
 	
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
@@ -350,6 +354,13 @@ class Tank extends GameObject {
 		}
 	}
 
+	isJammed(): boolean {
+		if (this.scanner == null) {
+			return false;
+		}
+		return this.scanner.isJammed();
+	}
+
 	_setDouble(name: string, to: number): void {
 		this.interpriterState.setVariable('DOUBLE', name, new DoubleValue(to));
 	}
@@ -465,6 +476,14 @@ class Tank extends GameObject {
 		if (this.mainGun != null) {
 			this.mainGun.displayAngle=turretAngle;
 		}
+	}
+
+	getHitRecursionLimit(): boolean {
+		return this.interpriterState.everHitRecursionLimit();
+	}
+
+	getHitInstructionsLimit(): boolean {
+		return this.interpriterState.everHitInstructionLimit();
 	}
 
 }

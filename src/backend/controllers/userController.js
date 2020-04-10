@@ -478,11 +478,12 @@ exports.setWager = async (req: Request, res: Response) => {
 		const aDay = 60 * 60 * 24 * 1000;
 
 		// If a user has never made a wager or its been 24hrs since last stipend give them their stipend and update wagerDate
-		if (user.wagerDate == null || (new Date - user.wagerDate) > aDay) {
-			const newBalance = user.money + 5000;
+		const now = new Date();
+		if (user.wagerDate == null || (now - user.wagerDate) > aDay) {
+			const newBalance = user.money + 100;
 			user.money = newBalance;
-			user.wagerDate = new Date();
-			console.log('Applied stipend');
+			user.wagerDate = now;
+			console.log('Applied daily wager stipend');
 		}
 		
 		// Add back the balance of the original wager
@@ -495,6 +496,13 @@ exports.setWager = async (req: Request, res: Response) => {
 			return res
 				.status(400)
 				.json({ msg: 'User does not have enough money'});
+		}
+
+		if (req.body.wager < 50) {
+			console.error('User cannot have a wager lower than 50');
+			return res
+				.status(400)
+				.json({ msg: 'User cannot have a wager lower than 50'});			
 		}
 		else {
 			// change wager amount and take that money from their balance

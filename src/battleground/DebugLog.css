@@ -1,0 +1,16 @@
+.debugLog {
+	display: inline-block;
+	background:#111111;
+	width: 20%;
+	height: 780px;
+	vertical-align: top;
+}
+
+.debugLogHeader {
+	padding: 10px;
+}
+
+.debugEntry {
+	padding-left: 10px;
+	padding-left: 30px;
+}

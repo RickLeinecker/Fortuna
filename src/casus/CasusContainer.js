@@ -27,7 +27,7 @@ class CasusContainer extends React.Component<Props, State> {
 		};
 
 		const tankId=getTankForCasus();
-		getAllUsersTanks((successful, allTanks) => {
+		getAllUsersTanks(allTanks => {
 			const tankEditing = allTanks.find(t => t._id === tankId);
 			this.setState({tankName: tankEditing?.tankName ?? ''});
 		});

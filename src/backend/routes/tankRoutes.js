@@ -27,7 +27,7 @@ router.patch('/favoriteTank', [
         check('favoriteTank', 'A valid MongoId is required.').isMongoId()
     ], auth, tankController.favoriteTank);
 
-// Remove a favorite tank
+// Sets favorite tank to null and wager to 0
 // Route call: /unfavoriteTank
 // Header: x-auth-token
 // Body: N/A
