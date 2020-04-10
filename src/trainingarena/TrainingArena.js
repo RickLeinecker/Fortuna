@@ -14,6 +14,7 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 
 type Props = {||};
 
@@ -40,7 +41,7 @@ class TrainingArena extends React.Component<Props, State> {
 		getAllUsersTanks(allTanks => {
 				this.setState({
 					allTanks: allTanks,
-					selectedTank: allTanks[0]
+					selectedTank: getPreferredSelectedTank(allTanks)
 			});
 		});
 		getBotTanksAPICall(botTanks => this.setState({enemySelectedTank: botTanks[0], enemyTanks: botTanks}));

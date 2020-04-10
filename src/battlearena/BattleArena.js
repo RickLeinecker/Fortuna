@@ -20,6 +20,7 @@ import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPIC
 import { ToastContainer , toast } from 'react-toastify';
 import Replays from './Replays.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 
 type Props = {||};
 
@@ -45,7 +46,7 @@ class BattleArena extends React.Component<Props, State> {
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
-				selectedTank: allTanks[0]
+				selectedTank: getPreferredSelectedTank(allTanks)
 			});
 		});
 		getReplayListAPICall(() => {});

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
+import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
 
 type Props = {|
 	allTanks: Array<Tank>,
@@ -23,6 +24,7 @@ class SelectTank extends React.Component<Props, State> {
 	}
 
 	onChangeSelectedTank(selectedTank: Tank): void {
+		setPreferredSelectedTank(selectedTank);
 		this.props.changeSelectedTank(selectedTank);
 		this.setState({
 			showTanks: false
