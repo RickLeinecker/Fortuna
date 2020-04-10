@@ -1,7 +1,6 @@
 // @flow strict
 
 import type { Request, Response } from 'express';
-import { toast } from 'react-toastify';
 
 const { validationResult } = require('express-validator');
 
