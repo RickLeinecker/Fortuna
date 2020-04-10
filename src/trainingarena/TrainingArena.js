@@ -16,6 +16,7 @@ import setTanksToFightInBattleground from '../battleground/setTanksToFightInBatt
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
+import setTankForCasus from '../globalComponents/setTankForCasus.js';
 
 type Props = {||};
 
@@ -55,6 +56,7 @@ class TrainingArena extends React.Component<Props, State> {
 					allTanks: allTanks,
 					selectedTankOne: allTanks[0]
 			});
+			setTankForCasus(allTanks[0]._id);
 		});
 		getBotTanksAPICall(botTanks => this.setState({botTankOne: botTanks[0], botTanks: botTanks}));
 	}
@@ -81,6 +83,7 @@ class TrainingArena extends React.Component<Props, State> {
 		}
 		setReturnToFromBattlegroundLink('/TrainingArena');
 
+		// NEED TO UPDATE SET TANKS TO FIGHT IN BATTLEGROUND
 		if (this.state.battleType === '1 vs 1') {
 			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
 		}
@@ -101,19 +104,70 @@ class TrainingArena extends React.Component<Props, State> {
 				/>
 				<div className="column taleft">
 					<h5>Choose your Tank, Commander</h5>
-					{
-						this.state.selectedTank==null?<div></div>:
-						<TankDisplay tankToDisplay={this.state.selectedTank} />
+					<br/>
+					{(this.state.battleType === '1 vs 1') ?
+						<div>
+							<SelectTank
+								selectedTank={this.state.selectedTankOne}
+								allTanks={this.state.allTanks}
+								changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+							/>
+							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
+						</div> :
+						<div className="threeTankDisplay">
+							<table>
+								<thead>
+									<tr>
+										<th>
+											<SelectTank
+												selectedTank={this.state.selectedTankTwo}
+												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankThree)}
+												changeSelectedTank={(tank) => this.setState({selectedTankTwo: tank})}
+											/>
+										</th>
+										<th>
+											<SelectTank
+												selectedTank={this.state.selectedTankOne}
+												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankThree && tank !== this.state.selectedTankTwo)}
+												changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+											/>
+										</th>
+										<th>
+											<SelectTank
+												selectedTank={this.state.selectedTankThree}
+												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankTwo)}
+												changeSelectedTank={(tank) => this.setState({selectedTankThree: tank})}
+											/>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true} />}
+											
+										</td>
+										<td>
+											{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true} />}
+										</td>
+										<td>
+											{this.state.selectedTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankThree} smallTank={true} />}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					}
-					<SelectTank
-						selectedTank={this.state.selectedTank}
-						allTanks={this.state.allTanks}
-						changeSelectedTank={(tank) => {
-							this.setState({selectedTank: tank});
-						}}
-					/>
 				</div>
 				<div className="column tamiddle">
+					<h5>Current Battle Type: {this.state.battleType}</h5>
+					<button 
+						className="primarybtn" 
+						onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+					>
+						Change Battle Type
+					</button>
+					<br/><br/><br/>
 					<h5>Arena</h5>
 					<select className="dropdownMenu" ref="arenaSelect">
 						<option value="DIRT">Classic</option>
@@ -121,6 +175,7 @@ class TrainingArena extends React.Component<Props, State> {
 						<option value="CANDEN">Canden</option>
 						<option value="LUNAR">Lunar</option>
 					</select>
+					<br/><br/><br/>
 					<button 
 						type="button" 
 						className="primarybtn" 
@@ -128,24 +183,67 @@ class TrainingArena extends React.Component<Props, State> {
 					>
 						Start Battle
 					</button>
-					<br/>
+					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
-						<button className="clearbtn">Back to Casus</button>
+						<button className="clearbtn">Click to go back to Casus</button>
 					</Link>
 				</div>
 				<div className="column taright">
 					<h5>Choose a Training Bot</h5>
-					{
-						this.state.enemySelectedTank==null?<div></div>:
-						<TankDisplay tankToDisplay={this.state.enemySelectedTank} />
+					<br/>
+					{(this.state.battleType === '1 vs 1') ?
+						<div>
+							<SelectTank
+								selectedTank={this.state.botTankOne}
+								allTanks={this.state.botTanks}
+								changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
+							/>
+							{this.state.botTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={false} />}
+						</div> :
+						<div className="threeTankDisplay">
+							<table>
+								<thead>
+									<tr>
+										<th>
+											<SelectTank
+												selectedTank={this.state.botTankTwo}
+												allTanks={this.state.botTanks}
+												changeSelectedTank={(tank) => this.setState({botTankTwo: tank})}
+											/>
+										</th>
+										<th>
+											<SelectTank
+												selectedTank={this.state.botTankOne}
+												allTanks={this.state.botTanks}
+												changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
+											/>
+										</th>
+										<th>
+											<SelectTank
+												selectedTank={this.state.botTankThree}
+												allTanks={this.state.botTanks}
+												changeSelectedTank={(tank) => this.setState({botTankThree: tank})}
+											/>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											{this.state.botTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankTwo} smallTank={true} />}
+											
+										</td>
+										<td>
+											{this.state.botTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={true} />}
+										</td>
+										<td>
+											{this.state.botTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankThree} smallTank={true} />}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					}
-					<SelectTank
-						selectedTank={this.state.enemySelectedTank}
-						allTanks={this.state.enemyTanks}
-						changeSelectedTank={(tank) => {
-							this.setState({enemySelectedTank: tank});
-						}}
-					/>
 				</div>
 				<ToastContainer />
 			</div>
