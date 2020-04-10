@@ -14,7 +14,7 @@ import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/typesAndClasses/User.js';
-import prepareMatchAPICall from '../globalComponents/apiCalls/prepareMatchAPICall.js';
+import { prepare3v3APICall, prepare1v1APICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -61,24 +61,39 @@ class BattleArena extends React.Component<Props, State> {
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 
+		// Check if there is no player that is able to be challenged.
 		if (player == null) {
 			toast.error('No player found.');
 			return;
 		}
-		const myTank = this.state.selectedTankOne;
-		if (myTank == null) {
+
+		// Ensure that the user has at least one set tank.
+		const myTankOne: Tank = this.state.selectedTankOne;
+		const myTankTwo: Tank = this.state.selectedTankTwo;
+		const myTankThree: Tank = this.state.selectedTankThree;
+		if (myTankOne == null && myTankTwo == null && myTankThree == null) {
 			toast.error('No selected tank for challenging.');
 			return;
 		}
 
-		prepareMatchAPICall(myTank, player, matchId => {
-			console.log('Successfully prepared match with id: '+matchId);
-			setMatchForBattleground(matchId);
-			//TODO: select an appropriate arena depending on the match
-			setBattlegroundArena('DIRT');
-			window.location.href=verifyLink('/Battleground');
-		});
-
+		if (this.state.battleType === '1 vs 1') {
+			prepare1v1APICall(myTankOne, player, matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
+				setBattlegroundArena('DIRT');
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
+		else {
+			prepare3v3APICall(myTankOne, myTankTwo, myTankThree, player, matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
+				setBattlegroundArena('DIRT');
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
 	}
 
 
