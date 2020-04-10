@@ -19,10 +19,10 @@ const battleController = require('../controllers/battleController');
 // personBeingChallengedId (opponent's user id)
 // Returns battle record id -- can easily be changed to the whole record if needed
 router.post('/prepareMatch1v1', [
-    check('challengerTankId', 'challengerTankId is required')
-        .isMongoId(),
-    check('personBeingChallengedId', 'personBeingChallengedId is required')
-        .isMongoId()
+	check('challengerTankId', 'challengerTankId is required')
+		.isMongoId(),
+	check('personBeingChallengedId', 'personBeingChallengedId is required')
+		.isMongoId()
 ], auth, battleController.prepareMatch1v1);
 
 // Prepares the battleRecord for a match and updates the balance of the challenger
@@ -30,11 +30,11 @@ router.post('/prepareMatch1v1', [
 // Body: challengerTankIds and personBeingChallengedId
 // Returns the newly created batlleRecordId
 router.post('/prepareMatch3v3', [
-    check('challengerTankIds', 'Need 3 tank Ids')
-        .isArray({ min: 3, max: 3})
-        .isMongoId(),
-    check('personBeingChallengedId', 'personBeingChallengedId is required')
-        .isMongoId()
+	check('challengerTankIds', 'Need 3 tank Ids')
+		.isArray({ min: 3, max: 3})
+		.isMongoId(),
+	check('personBeingChallengedId', 'personBeingChallengedId is required')
+		.isMongoId()
 ], auth, battleController.prepareMatch3v3);
 
 // Updates elo and currency of both players after a match is complete
@@ -42,10 +42,10 @@ router.post('/prepareMatch3v3', [
 // Body: winner (0 for a tie, 1 for userOne(challengee), 2 for userTwo(challenger) and the battleId
 // Returns: updated match record
 router.patch('/reportResults', [
-    check('winner', 'Please enter 0 for a tie, 1 for userOne, 2 for userTwo')
-        .isInt(),
-    check('battleId', 'Please provide the associated battleId')
-        .isMongoId()
+	check('winner', 'Please enter 0 for a tie, 1 for userOne, 2 for userTwo')
+		.isInt(),
+	check('battleId', 'Please provide the associated battleId')
+		.isMongoId()
 ], auth, battleController.reportResults);
 
 // Gets a match via match id
@@ -53,8 +53,8 @@ router.patch('/reportResults', [
 // Path: matchId in path
 // Returns battle record associated with the id given.
 router.get('/getMatch/:matchId', [
-    check('matchId', 'matchId is required')
-        .isMongoId()
+	check('matchId', 'matchId is required')
+		.isMongoId()
 ], auth, battleController.getMatch);
 
 module.exports = router;
