@@ -18,13 +18,13 @@ const userController = require('../controllers/userController');
 // Req must include userName and password in body
 // Returns a prompt that a email confirmation was sent.
 router.post('/registerUser', [
-    check('userName', 'Please enter a username with 3 or more characters')
-        .isLength({ min: 3 }),
-    check('password', 'Please enter a password with 5 or more characters')
-        .isLength({ min: 5 }),
-    check('email', 'Please enter a valid email')
-        .isEmail()
-    ], userController.register);
+	check('userName', 'Please enter a username with 3 or more characters')
+		.isLength({ min: 3 }),
+	check('password', 'Please enter a password with 5 or more characters')
+		.isLength({ min: 5 }),
+	check('email', 'Please enter a valid email')
+		.isEmail()
+], userController.register);
 
 // Login a User
 // Route call: /login
@@ -39,20 +39,20 @@ router.post('/login', userController.login);
 // in the email.
 // Returns success prompt, then user can go login
 router.post('/confirmEmail', [
-    check('email', 'Please enter a valid email')
-        .isEmail(),
-    check('token', 'A verification token is required')
-        .exists()
-    ], userController.confirmToken);
+	check('email', 'Please enter a valid email')
+		.isEmail(),
+	check('token', 'A verification token is required')
+		.exists()
+], userController.confirmToken);
 
 // Resend a confirmation email to User's email
 // Route call: resendConfirm
 // Req must include email in body provided by user
 // Returns success prompt that email was sent.
 router.post('/resendConfirm', [
-    check('email', 'Please enter a valid email')
-        .isEmail()
-    ], userController.resendConfirm);
+	check('email', 'Please enter a valid email')
+		.isEmail()
+], userController.resendConfirm);
 
 // Retrieve all users
 // Route call: /allUsers
@@ -85,8 +85,8 @@ router.get('/leaderboard', userController.getLeaders);
 // Body: wager: int
 // returns the updated user doc
 router.patch('/setWager', [
-    check('wager', 'Please enter the wager amount you would like to set')
-        .isInt()
+	check('wager', 'Please enter the wager amount you would like to set')
+		.isInt()
 ], auth,  userController.setWager);
 
 // Edit user account information
@@ -95,11 +95,11 @@ router.patch('/setWager', [
 // Body: userName, password, email
 // Returns the updated user document
 router.patch('/editUser', [
-    check('email', 'Enter a valid email')
-        .isEmail(),
-    check('password', 'Enter a valid password of 5 or more characters')
-        .isString()
-        .isLength({ min: 5 })
+	check('email', 'Enter a valid email')
+		.isEmail(),
+	check('password', 'Enter a valid password of 5 or more characters')
+		.isString()
+		.isLength({ min: 5 })
 ], auth,  userController.editUser);
 
 // Delete user account

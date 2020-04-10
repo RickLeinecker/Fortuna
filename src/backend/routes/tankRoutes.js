@@ -24,8 +24,8 @@ router.get('/getFavorite', auth, tankController.getFavorite);
 // Body: favoriteTank (the id)
 // Returns the id of the favorited tank upon success and an error message upon failure
 router.patch('/favoriteTank', [
-        check('favoriteTank', 'A valid MongoId is required.').isMongoId()
-    ], auth, tankController.favoriteTank);
+	check('favoriteTank', 'A valid MongoId is required.').isMongoId()
+], auth, tankController.favoriteTank);
 
 // Sets favorite tank to null and wager to 0
 // Route call: /unfavoriteTank
@@ -48,9 +48,9 @@ router.get('/getFavoriteTankTeam', auth, tankController.getFavoriteTankTeam);
 // Body: Array of three tank ids of Tanks to add to team.
 // Returns the array of the tank team upon success and an error message upon failure
 router.patch('/setFavoriteTankTeam', [
-    check('tankTeam', 'Need array 3 Tank MongoIds')
-    .isArray({ min: 3, max: 3 })
-    .isMongoId()
+	check('tankTeam', 'Need array 3 Tank MongoIds')
+		.isArray({ min: 3, max: 3 })
+		.isMongoId()
 ], auth, tankController.setFavoriteTankTeam);
 
 // Sets favorite tank team to empty array and wager to 0
@@ -73,10 +73,10 @@ router.get('/userTanks', auth, tankController.userTanks);
 // Body: tankName
 // Returns the id of the new tank
 router.post('/assignTank', [
-        check('tankName', 'tankName is required').isString(),
-        check('userId', 'A valid MongoId is required.').isMongoId(),
-        check('components', 'components is required').isArray()
-    ], auth, tankController.assignTank);
+	check('tankName', 'tankName is required').isString(),
+	check('userId', 'A valid MongoId is required.').isMongoId(),
+	check('components', 'components is required').isArray()
+], auth, tankController.assignTank);
 
 // Updates the entire document of the tank
 // Route Call: /tankUpdate/<tankId>
@@ -84,11 +84,11 @@ router.post('/assignTank', [
 // Body: tankName, userId, components, isBot
 // Returns the updated tank
 router.put('/tankUpdate/:tankId', [ 
-    check('tankName', 'tankName is required').isString(),
-    check('userId', 'A valid MongoId is required.').isMongoId(),
-    check('components', 'components is required').isArray(),
-    check('isBot', 'isBot is required').isBoolean()
-    ], auth, tankController.tankUpdate);
+	check('tankName', 'tankName is required').isString(),
+	check('userId', 'A valid MongoId is required.').isMongoId(),
+	check('components', 'components is required').isArray(),
+	check('isBot', 'isBot is required').isBoolean()
+], auth, tankController.tankUpdate);
 
 // Updates only the casusCode of the tank
 // Route Call: /casusUpdate/<tankId>
@@ -96,16 +96,16 @@ router.put('/tankUpdate/:tankId', [
 // Body: casusCode
 // Returns tank with updated casusCode
 router.put('/casusUpdate/:tankId', [ 
-    check('casusCode', 'casusCode is required').exists(),
-    ], auth, tankController.casusUpdate);
+	check('casusCode', 'casusCode is required').exists(),
+], auth, tankController.casusUpdate);
 
 // Deletes tank from DB
 // Route Call: /deleteTank/<tankId>
 // Req must contain the tankId within the uri of the api call in place of <tankId>
 // Returns confirmation message that tank was deleted.
 router.delete('/deleteTank/:tankId', [
-    check('tankId', 'A valid MongoId is required.').isMongoId()
-    ], tankController.deleteTank);
+	check('tankId', 'A valid MongoId is required.').isMongoId()
+], tankController.deleteTank);
 
 // Retrieve array of bot tanks
 // Route call: /getBotTanks

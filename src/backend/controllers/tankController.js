@@ -13,7 +13,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 	try {
 		// Find user using auth token and select their favorite tank field
 		const myUser = await User.findById(req.user.id, 'favoriteTank');
-		
+
 		if (myUser == null) {
 			console.log('User not found in DB');
 			return res
@@ -29,7 +29,7 @@ exports.getFavorite = async (req: Request, res: Response) => {
 		}
 
 		const favoritedTank = await Tank.findById(myUser.favoriteTank);
-		
+
 		if (favoritedTank == null) {
 			console.log('Tank not found in DB');
 			return res
@@ -47,14 +47,14 @@ exports.getFavorite = async (req: Request, res: Response) => {
 			.status(500)
 			.json({ msg: 'Could not get favorite'});
 	}
-	
+
 }
 
 exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
 	try {
 		// Find user using auth token and select their favorite tank team field
 		const myUser = await User.findById(req.user.id, 'favoriteTanks');
-		
+
 		if (myUser == null) {
 			console.log('User not found in DB');
 			return res
@@ -98,7 +98,7 @@ exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
 
 exports.favoriteTank = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
-	
+
 	if (!errors.isEmpty()) {
 		// 400 is a bad request
 		console.error('Could not handle request');
@@ -128,7 +128,7 @@ exports.favoriteTank = async (req: Request, res: Response) => {
 
 exports.setFavoriteTankTeam = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
-	
+
 	if (!errors.isEmpty()) {
 		// 400 is a bad request
 		console.error('Could not handle request');
@@ -172,7 +172,7 @@ exports.setFavoriteTankTeam = async (req: Request, res: Response) => {
 
 exports.unfavoriteTank = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
-	
+
 	if (!errors.isEmpty()) {
 		// 400 is a bad request
 		console.error('Could not handle request');
@@ -208,7 +208,7 @@ exports.unfavoriteTank = async (req: Request, res: Response) => {
 
 exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
-	
+
 	if (!errors.isEmpty()) {
 		// 400 is a bad request
 		console.error('Could not handle request');
@@ -319,20 +319,20 @@ exports.assignTank = async (req: Request, res: Response) => {
 
 	// Save new tank
 	await tank.save((err: Error) => {
-        if (err) {
+		if (err) {
 			console.error(err.message);
 
-            return res
-                .status(500)
-                .json({ msg: 'Unable to save tank to DB.' });
+			return res
+				.status(500)
+				.json({ msg: 'Unable to save tank to DB.' });
 		} 
 		else {
 			console.log('Tank successfully saved to DB');
 			return res
 				.status(200)
 				.send(tank);
-        }
-    });
+		}
+	});
 }
 
 exports.tankUpdate = async (req: Request, res: Response) => {
@@ -518,7 +518,7 @@ exports.deleteTank = async (req: Request, res: Response) => {
 			return res.status(500).json({ msg: 'Could not delete tank from DB' });
 		}
 	});
-	
+
 	return res.status(200).json({ msg: 'Successfully deleted Tank' });
 }
 
