@@ -50,6 +50,52 @@ exports.getFavorite = async (req: Request, res: Response) => {
 	
 }
 
+exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
+	try {
+		// Find user using auth token and select their favorite tank team field
+		const myUser = await User.findById(req.user.id, 'favoriteTanks');
+		
+		if (myUser == null) {
+			console.log('User not found in DB');
+			return res
+				.status(404)
+				.json({ msg: 'User not found in DB'});
+		}
+
+		// if the array is empty return an empty array
+		// if a new user, the field should be an empty array
+		// by default
+		if (myUser.favoriteTanks.length === 0) {
+			console.log("No favorite tank team found");
+			return res
+				.status(200)
+				.send([]);
+		}
+
+		// Check if all of the tanks are in the DB
+		for (const tankId of myUser.favoriteTanks) {
+			const tank = await Tank.findById(tankId);
+			if (!tank) {
+				console.error('Team Tank not in DB');
+				return res
+					.status(404)
+					.json({ msg: 'Team Tank not in DB'});
+			}
+		}
+
+		// At this point we should be good.
+		console.log('favoriteTank successfully retrieved');
+		return res
+			.status(200)
+			.send(myUser.favoriteTanks);
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not get favorite tanks'});
+	}
+}
+
 exports.favoriteTank = async (req: Request, res: Response) => {
 	const errors = validationResult(req);
 	
@@ -76,6 +122,50 @@ exports.favoriteTank = async (req: Request, res: Response) => {
 			return res
 				.status(200)
 				.send(foundUser.favoriteTank);
+		}
+	});
+}
+
+exports.setFavoriteTankTeam = async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.error('Could not handle request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct body
+	const { tankTeam } = req.body;
+
+	// Check if all of the tanks are in the DB
+	for (const tankId of tankTeam) {
+		const tank = await Tank.findById(tankId);
+		if (!tank) {
+			console.error('Team Tank not in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Team Tank not in DB'});
+		}
+	}	
+
+	// the 'new' option means return the document after it has been updated
+	await User.findOneAndUpdate( { _id: req.user.id }, {favoriteTanks : tankTeam }, {new :true}, (err: Error, foundUser: User) => {
+		if (err) {
+			console.error(err.message);
+
+			return res
+				.status(500)
+				.json({ msg: 'Could not update user favoriteTanks'});
+		} 
+		else {
+			console.log('Tank Team favorited!');
+			return res
+				.status(200)
+				.send(foundUser.favoriteTanks);
 		}
 	});
 }
@@ -114,6 +204,36 @@ exports.unfavoriteTank = async (req: Request, res: Response) => {
 	return res
 		.status(200)
 		.json({ msg: 'Favorite tank removed and wager is 0' });
+}
+
+exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
+	const errors = validationResult(req);
+	
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		console.error('Could not handle request');
+
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Find the user and set favoriteTank to null.
+	await User.findOneAndUpdate( {_id: req.user.id }, {favoriteTanks : [], wager : 0 }, {new : true}, (err: Error, foundUser: User) => {
+		if (err) {
+			console.error(err.message);
+			
+			return res
+				.status(500)
+				.json({ msg: 'Could not set favorite tanks to [] or wager to 0'});
+		}
+		else {
+			console.log('favoriteTanks removed');
+			return res
+				.status(200)
+				.json({ msg: 'Favorite tanks removed and wager is 0' });
+		}
+	});
 }
 
 exports.userTanks = async (req: Request, res: Response) => {
