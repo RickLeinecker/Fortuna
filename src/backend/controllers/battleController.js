@@ -109,6 +109,7 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 
 		// Disable the personBeingChallenged wager
 		personBeingChallengedUserDoc.wager = 0;
+		personBeingChallengedUserDoc.favoriteTank = null;
 		await personBeingChallengedUserDoc.save();
 
 		// Save the updated balance to the db
@@ -153,7 +154,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 		// Holds the array of each tank
 		const tankTeamOne = [];
 		const tankTeamTwo = [];
-	
+
 		const personBeingChallenged = await User.findById(personBeingChallengedId);
 
 		if (personBeingChallenged == null) {
@@ -205,7 +206,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 				.status(404)
 				.json({ msg: 'Could not find the challenger in DB'});
 		}
-		// Make sure they have enuf for the wager
+		// Make sure they have enough for the wager
 		if (challenger.money < personBeingChallenged.wager) {
 			console.log('Challenger does not have enough money to wager');
 			return res
@@ -222,7 +223,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
-		
+
 		if (Math.random()<0.5) {
 			newRecord.map = 'CANDEN';
 		} else {
@@ -235,6 +236,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 
 		// Disable the personBeingChallenged wager
 		personBeingChallenged.wager = 0;
+		personBeingChallenged.favoriteTanks = null;
 		await personBeingChallenged.save();
 
 		// Save the updated balance to the db
@@ -315,10 +317,10 @@ exports.reportResults = async (req: Request, res: Response) => {
 					.status(404)
 					.json({ msg: 'Could not find userTwo'});
 			}
-	
+
 			const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
 			const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
-			
+
 			// Record elo exchanged on tie
 			battle.eloExchanged = Math.abs(userOne.stats.elo-newUserOneElo);			
 
@@ -501,27 +503,27 @@ exports.reportResults = async (req: Request, res: Response) => {
 }
 
 exports.getMatch = async (req: Request, res: Response) => {
-    // Checks that we have received the correct body from the frontend 
-    const errors = validationResult(req);
+	// Checks that we have received the correct body from the frontend 
+	const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        // Return 400 for a bad request
-        return res
-            .status(400)
-            .json({ errors: errors.array() });
-    }   
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}   
 
-    // Deconstruct
-    const { matchId } = req.params;
-    
-    // Check if match record exists
-    const match = await BattleRecord.findById(matchId);
-    if (!match) {
-        console.error('Could not find match');
-        return res.status(400).json({ msg: 'Cannot find match.' });
-    }
+	// Deconstruct
+	const { matchId } = req.params;
 
-    // Success message and returns match
-    console.log('Match successfully retrieved!');
-    return res.status(200).send(match);
+	// Check if match record exists
+	const match = await BattleRecord.findById(matchId);
+	if (!match) {
+		console.error('Could not find match');
+		return res.status(400).json({ msg: 'Cannot find match.' });
+	}
+
+	// Success message and returns match
+	console.log('Match successfully retrieved!');
+	return res.status(200).send(match);
 }
