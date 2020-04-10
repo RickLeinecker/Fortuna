@@ -317,7 +317,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<TankDisplay tankToDisplay={this.state.selectedTank} />
+					<TankDisplay tankToDisplay={this.state.selectedTank} smallTank={false} />
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div>

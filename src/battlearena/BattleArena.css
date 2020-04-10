@@ -89,3 +89,30 @@
     border-top: 1px solid #04CCFF;
     border-bottom: 1px solid #04CCFF;
 }
+
+/* Tank Display Styling */
+.threeTankDisplay {
+    text-align: center;
+}
+
+.threeTankDisplay thead, tbody {
+    display: inline-block;
+}
+
+.threeTankDisplay th {
+    width: 150px;
+}
+
+.threeTankDisplay td {
+    width: 33%;
+}
+
+.emptyTankSmall {
+    width: 150px;
+    height: 150px;
+}
+
+.emptyTankBig {
+    width: 300px;
+    height: 300px;
+}
