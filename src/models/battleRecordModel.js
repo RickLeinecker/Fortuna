@@ -44,61 +44,49 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
     // User one's tank state for this battle
     tankOne: {
         tankName: {
-            type: String,
-            required: true
+            type: String
         },
         components: [{
-            type: String,
-            required: true
+            type: String
         }],
         casusCode: {
-            type: Object,
-            required: true
+            type: Object
         }
     },
     // User two's tank state for this battle
     tankTwo: {
         tankName: {
-            type: String,
-            required: true
+            type: String
         },
         components: [{
-            type: String,
-            required: true
+            type: String
         }],
         casusCode: {
-            type: Object,
-            required: true
+            type: Object
         }
     },
     // User one's tank team's state for this battle
     tankTeamOne: [{
         tankName: {
-            type: String,
-            required: true
+            type: String
         },
         components: [{
-            type: String,
-            required: true
+            type: String
         }],
         casusCode: {
-            type: Object,
-            required: true
+            type: Object
         }
     }],
     // User two's tank team's state for this battle
     tankTeamTwo: [{
         tankName: {
-            type: String,
-            required: true
+            type: String
         },
         components: [{
-            type: String,
-            required: true
+            type: String
         }],
         casusCode: {
-            type: Object,
-            required: true
+            type: Object
         }
     }],
 }));
