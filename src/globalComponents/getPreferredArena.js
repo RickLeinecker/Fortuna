@@ -2,13 +2,22 @@
 
 import Cookies from 'universal-cookie';
 import type {ArenaType} from '../battleground/ArenaType.js';
+import type {BattleType} from '../battleground/BattleType.js';
 
-function getPreferredArena(): ArenaType {
+function getPreferredArena(battleType: BattleType): ArenaType {
 	const result=new Cookies().get('preferredArena');
-	if (result === 'HEX' || result === 'DIRT' || result === 'CANDEN' || result === 'LUNAR') {
-		return result;
+	if (battleType === '1 vs 1') {
+		if (result === 'HEX' || result === 'DIRT') {
+			return result;
+		}
+		return 'DIRT';
 	}
-	return 'DIRT';
+	else {
+		if (result === 'CANDEN' || result === 'LUNAR') {
+			return result;
+		}
+		return 'CANDEN';
+	}
 }
 
 export default getPreferredArena;

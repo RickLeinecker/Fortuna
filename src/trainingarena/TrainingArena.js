@@ -119,7 +119,7 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const preferredArena=getPreferredArena();
+		const preferredArena=getPreferredArena(this.state.battleType);
 		return (
 			<div id="Parent">
 				<Navbar 
@@ -198,12 +198,28 @@ class TrainingArena extends React.Component<Props, State> {
 					</button>
 					<br/><br/><br/>
 					<h5>Arena</h5>
-					<select className="dropdownMenu" ref="arenaSelect" defaultValue={preferredArena} onChange={() => this.onChange()}>
-						<option value="DIRT">Classic</option>
-						<option value="HEX">Hex</option>
-						<option value="CANDEN">Canden</option>
-						<option value="LUNAR">Lunar</option>
-					</select>
+					{ this.state.battleType === '1 vs 1' ? 
+						<select 
+							className="dropdownMenu" 
+							ref="arenaSelect" 
+							defaultValue={preferredArena} 
+							onChange={() => this.onChange()}
+						>
+							<option value="DIRT">Classic</option>
+							<option value="HEX">Hex</option>
+						</select>
+					:
+						<select 
+							className="dropdownMenu" 
+							ref="arenaSelect" 
+							defaultValue={preferredArena} 
+							onChange={() => this.onChange()}
+						>
+							<option value="CANDEN">Canden</option>
+							<option value="LUNAR">Lunar</option>
+						</select>
+
+					}
 					<br/><br/><br/>
 					<button 
 						type="button" 
