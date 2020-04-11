@@ -366,3 +366,7 @@ select {
 .name {
 	color: #a80b4b;
 }
+
+.helpLink {
+	cursor: pointer;
+}
