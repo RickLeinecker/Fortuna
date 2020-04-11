@@ -6,36 +6,48 @@ import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getMatchAPICall from '../globalComponents/apiCalls/getMatchAPICall.js';
 
+// On the onTankLoaded callback, indecies 0-2 refer to tanks on Team1
+// refer to tanks on team2
 function getTanksToFightOnBattleground(
-	onTankLoaded: (tankLoaded: Tank, index: 0|1) => void,
+	onTankLoaded: (tankLoaded: Tank, index: number) => void,
 	onMatchIDLoaded: (matchID: string) => void
 ): void {
 	//well, we need an api call to get tanks based on their ids, so this cucrently isn't possible
 	const cookies=new Cookies();
 	const tanksOrMatch=cookies.get('tanksOrMatch');
 	if (tanksOrMatch === 'tanks') {
-		const tankId1=cookies.get('tankToFight1');
-		const tankId2=cookies.get('tankToFight2');
-		console.log('Getting tanks '+tankId1+' '+tankId2);
+		const cookieNames: Array<string> =[
+			'tank1Me',
+			'tank2Me',
+			'tank3Me',
+			'tank1Enemy',
+			'tank2Enemy',
+			'tank3Enemy',
+		];
+		const targetTankIds=cookieNames.map(cookieName => cookies.get(cookieName));
+		console.log('Getting tanks: ');
+		console.log(targetTankIds);
 
 		getBotTanksAPICall(botTanks => {
-			const tank1=botTanks.find(tank => tank._id === tankId1);
-			if (tank1 != null) {
-				onTankLoaded(tank1, 0);
-			}
-			const tank2=botTanks.find(tank => tank._id === tankId2);
-			if (tank2 != null) {
-				onTankLoaded(tank2, 1);
+			for (let index=0; index<targetTankIds.length; index++) {
+				if (targetTankIds[index] == null) {
+					continue;
+				}
+				const matchedTank=botTanks.find(tank => tank._id === targetTankIds[index]);
+				if (matchedTank!=null) {
+					onTankLoaded(matchedTank, index);
+				}
 			}
 		});
 		getAllUsersTanks(usersTanks => {
-			const tank1=usersTanks.find(tank => tank._id === tankId1);
-			if (tank1 != null) {
-				onTankLoaded(tank1, 0);
-			}
-			const tank2=usersTanks.find(tank => tank._id === tankId2);
-			if (tank2 != null) {
-				onTankLoaded(tank2, 1);
+			for (let index=0; index<targetTankIds.length; index++) {
+				if (targetTankIds[index] == null) {
+					continue;
+				}
+				const matchedTank=usersTanks.find(tank => tank._id === targetTankIds[index]);
+				if (matchedTank!=null) {
+					onTankLoaded(matchedTank, index);
+				}
 			}
 		});
 	}

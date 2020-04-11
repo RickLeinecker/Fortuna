@@ -9,7 +9,6 @@ import Wall from './Wall.js';
 import Vec from '../casus/blocks/Vec.js';
 import Seg from '../geometry/Seg.js';
 import GameObject from './GameObject.js';
-import { getTestTank } from '../tanks/TankLoader.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
 import getTanksToFightOnBattleground from './getTanksToFightOnBattleground.js';
@@ -107,7 +106,7 @@ const TitleMessageForMatchResult: {[MatchResult]: string} = {
 class Battleground extends React.Component<Props> {
 	intervalID: number;
 	alive: boolean;
-	testTanks: Array<Tank>;
+	testTanks: Array<?Tank>;
 	gameObjects: Array<GameObject>;
 	collisionSegs: Array<Seg>;
 	matchIdToReport: ?string;
@@ -138,7 +137,7 @@ class Battleground extends React.Component<Props> {
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
-		this.testTanks = [getTestTank(1), getTestTank(2)];
+		this.testTanks = [null, null, null, null, null, null];
 		this.maxMatchLength = matchLengthForArena[this.arena];
 		const walls = wallsForArena[this.arena];
 		const W=arenaWidth[this.arena]/2;
@@ -153,9 +152,6 @@ class Battleground extends React.Component<Props> {
 			this.collisionSegs.push(w.getCollisionWall());
 			this.gameObjects.push(w);
 		}
-		for (const t: Tank of this.testTanks) {
-			this.gameObjects.push(t);
-		}
 		this.matchResult='IN_PROGRESS';
 		this.matchIdToReport=null;
 	}
@@ -165,16 +161,10 @@ class Battleground extends React.Component<Props> {
 		this.alive=true;
 		getTanksToFightOnBattleground(
 			(tankLoaded, index) => {
-				const oldTank=this.testTanks[index];
 				this.testTanks[index]=tankLoaded;
-				const oldIndex=this.gameObjects.indexOf(oldTank);
-				this.gameObjects[oldIndex]=tankLoaded;
-				if (index===0) {
-					tankLoaded.position=new Vec(-80, -40);
-				}
-				else {
-					tankLoaded.position=new Vec(50, 40);
-				}
+				this.gameObjects.push(tankLoaded);
+				tankLoaded.position=new Vec(15*index, 40);
+				tankLoaded.setRenderOrderOffset(index);
 			},
 			matchId => {this.matchIdToReport=matchId;}
 		);
@@ -228,7 +218,9 @@ class Battleground extends React.Component<Props> {
 	}
 
 	_update(): void {
-		this._checkForWinner();
+		if (this.lifetimeCounter>INTRO_LENGTH) {
+			this._checkForWinner();
+		}
 		if (this.matchResult !== 'IN_PROGRESS') {
 			this.postMatchCountdown--;
 			if (this.postMatchCountdown === 0) {
@@ -310,7 +302,9 @@ class Battleground extends React.Component<Props> {
 		else {
 			this.props.setFadeInAlpha(0);
 		}
-		this.props.setPlayersTank(this.testTanks[0], this.testTanks[1]);
+		if (this.testTanks[0]!=null && this.testTanks[3]!=null) {
+			this.props.setPlayersTank(this.testTanks[0], this.testTanks[3]);
+		}
 
 	}
 
@@ -338,13 +332,25 @@ class Battleground extends React.Component<Props> {
 			this.reportWinner(0);
 			return;
 		}
-		if (this.getTanks()[0].getHealth()<=0) {
+		let p1TanksAlive=0, p2TanksAlive=2;
+		for (let i=0; i<6; i++) {
+			const tank=this.testTanks[i];
+			if (tank!=null && tank.getHealth()>0) {
+				if (i>=3) {
+					p1TanksAlive++;
+				}
+				else {
+					p2TanksAlive++;
+				}
+			}
+		}
+		if (p1TanksAlive===0) {
 			this.matchResult = 'PLAYER_2_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
 			this.reportWinner(2);
 			return;
 		}
-		if (this.getTanks()[1].getHealth()<=0) {
+		if (p2TanksAlive===0) {
 			this.matchResult = 'PLAYER_1_WINS';
 			this.postMatchCountdown=POST_MATCH_TIME;
 			this.reportWinner(1);
@@ -373,7 +379,13 @@ class Battleground extends React.Component<Props> {
 	}
 
 	getTanks(): Array<Tank> {
-		return this.testTanks;
+		const nonNullTanks=[];
+		for (const t: ?Tank of this.testTanks) {
+			if (t!=null) {
+				nonNullTanks.push(t);
+			}
+		}
+		return nonNullTanks;
 	}
 
 	getAllGameObjects(): Array<GameObject> {

@@ -76,6 +76,7 @@ class Tank extends GameObject {
 	haveMissileTracker: boolean;
 	health: number;
 	createSmokeCounter=0;
+	renderOrderOffset: number;
 
 	// parts: 
 	chassis: Chassis;
@@ -490,6 +491,14 @@ class Tank extends GameObject {
 
 	getHealth(): number {
 		return this.health;
+	}
+
+	getRenderOrder(): number {
+		return 0.001+this.renderOrderOffset/1000;
+	}
+
+	setRenderOrderOffset(newOffset: number): void {
+		this.renderOrderOffset=newOffset;
 	}
 
 	setTurretAngleForDisplayOnly(turretAngle: number): void {

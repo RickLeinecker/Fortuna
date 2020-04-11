@@ -13,6 +13,7 @@ import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegratio
 import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
+import {setTanksToFightInBattleground3v3} from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 import getPreferredArena from '../globalComponents/getPreferredArena.js';
@@ -85,17 +86,17 @@ class TrainingArena extends React.Component<Props, State> {
 			setBattlegroundArena(selected);
 		}
 
+		setReturnToFromBattlegroundLink('/TrainingArena');
 		// NEED TO UPDATE SET 3v3 TANKS TO FIGHT IN BATTLEGROUND
 		if (this.state.battleType === '1 vs 1') {
 			if (myTankOne == null || botTankOne == null) {
 				toast.error('One bot tank and one of your tanks must be selected!');
 				return;
 			}
-			setReturnToFromBattlegroundLink('/TrainingArena');
 			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
 		}
 		else {
-
+			setTanksToFightInBattleground3v3(myTankOne, myTankTwo, myTankThree, botTankOne, botTankTwo, botTankThree);
 		}
 
 		window.location.href=verifyLink('/Battleground');
