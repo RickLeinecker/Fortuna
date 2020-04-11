@@ -537,3 +537,27 @@ exports.getBotTanks = async (req: Request, res: Response) => {
 		return res.status(500).json({ msg: 'Could not get bot tanks.' });
 	}
 }
+
+exports.getTankById = async (req: Request, res: Response) => {
+	try{
+		const tank = findById(req.body.tankId);
+
+		if (tank === null) {
+			console.log('Could not find tank in DB');
+			return res
+				.status(404)
+				.json({ msg: 'could not find tank'});
+		}
+		else {
+			console.log('Tank successfully retrieved');
+			return res
+				.status(200)
+				.send(tank);
+		}
+	} catch (err) {
+		console.log(err);
+		return res
+			.status(500)
+			.json({ msg: 'Api call failed: Server Error'});
+	}
+}
