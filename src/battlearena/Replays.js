@@ -31,12 +31,12 @@ class Replays extends React.Component<Props, State> {
 		});
 	}
 
-	getWinner(replay: Replay): string {
+	getMatchResult(replay: Replay): string {
 		switch(replay.winner) {
 			case 2:
-				return replay.playerTwoName + ' won';
+				return (replay.playerTwoName === this.state.myUsername) ? 'Win' : 'Loss';
 			case 1:
-				return replay.playerOneName + ' won';
+				return (replay.playerOneName === this.state.myUsername) ? 'Win' : 'Loss';
 			case 0:
 				return 'tie';
 			case -1:
@@ -57,32 +57,32 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayList">
+			<div className="replayTable">
 				<h4>{this.state.myUsername}'s Battle Record</h4>
-				<div className="replayTable">
-					<table>
-						<thead>
-							<tr>
-								<th>Opponent</th>
-								<th>Result</th>
-								<th>Replay</th>
-								<th>Prize</th>
-								<th>Elo Change</th>
+				<table>
+					<thead>
+						<tr>
+							<th>Opponent</th>
+							<th>Result</th>
+							<th>Replay</th>
+							<th>Prize</th>
+							<th>Elo</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						{this.state.replays.slice(0).reverse().map(replay => 
+							<tr key={replay.replayId}>
+								<td className="name">{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
+								<td>{this.getMatchResult(replay)}</td>
+								<td><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
+								<td>{this.getMatchResult(replay) === 'Win' ? '+' + replay.prizeMoney : '-' + replay.prizeMoney}</td>
+								<td>{this.getMatchResult(replay) === 'Win' ? '+' + replay.eloExchanged : '-' + replay.eloExchanged}</td>
+								<td>{replay.tankOneName == null ? '3v3' : '1v1'}</td>
 							</tr>
-						</thead>
-						<tbody>
-							{this.state.replays.slice(0).reverse().map(replay => 
-								<tr key={replay.replayId}>
-									<td className="name">{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
-									<td>{this.getWinner(replay)}</td>
-									<td><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
-									<td>{replay.prizeMoney}</td>
-									<td>{replay.eloExchanged}</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
-				</div>
+						)}
+					</tbody>
+				</table>
 			</div>
 		);
 	}
