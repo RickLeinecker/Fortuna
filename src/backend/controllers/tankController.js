@@ -539,8 +539,19 @@ exports.getBotTanks = async (req: Request, res: Response) => {
 }
 
 exports.getTankById = async (req: Request, res: Response) => {
+
+	//check if all the fields are input correctly from the frontend
+	const errors = validationResult(req);
+
+	if(!errors.isEmpty()){
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+	
 	try{
-		const tank = Tank.findById(req.body.tankId);
+		const tank = await Tank.findById(req.params.tankId);
 
 		if (tank === null) {
 			console.log('Could not find tank in DB');
@@ -558,6 +569,6 @@ exports.getTankById = async (req: Request, res: Response) => {
 		console.log(err);
 		return res
 			.status(500)
-			.json({ msg: 'Api call failed: Server Error'});
+			.json({ errors: err });
 	}
 }
