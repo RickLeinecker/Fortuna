@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie';
 import Tank from '../tanks/Tank.js';
 
 function getPreferredSelectedTank(loadedTanks: Array<Tank>): Tank {
+	console.log('Loaded all tanks');
 	if (loadedTanks.length === 0) {
 		throw new Error('All users must have at least one tank!');
 	}
@@ -15,6 +16,7 @@ function getPreferredSelectedTank(loadedTanks: Array<Tank>): Tank {
 	if (foundTank == null) {
 		return loadedTanks[0];
 	}
+	console.log('returning favorited tank!');
 	return foundTank;
 }
 

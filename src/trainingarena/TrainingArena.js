@@ -55,9 +55,9 @@ class TrainingArena extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		getAllUsersTanks(allTanks => {
-				this.setState({
-					allTanks: allTanks,
-					selectedTank: getPreferredSelectedTank(allTanks)
+			this.setState({
+				allTanks: allTanks,
+				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
 			setTankForCasus(allTanks[0]._id);
 		});
@@ -268,17 +268,6 @@ class TrainingArena extends React.Component<Props, State> {
 							</table>
 						</div>
 					}
-<<<<<<< HEAD
-					<SelectTank
-						selectedTank={this.state.enemySelectedTank}
-						allTanks={this.state.enemyTanks}
-						changeSelectedTank={(tank) => {
-							this.setState({enemySelectedTank: tank});
-						}}
-						propogateChangesToCasus={false}
-					/>
-=======
->>>>>>> 90b808c7f082e7735b0eb6d88d1402f6f8874cc3
 				</div>
 				<ToastContainer />
 			</div>
