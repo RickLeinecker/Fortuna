@@ -28,28 +28,24 @@ function getTanksToFightOnBattleground(
 		console.log('Getting tanks: ');
 		console.log(targetTankIds);
 
-		getBotTanksAPICall(botTanks => {
-			for (let index=0; index<targetTankIds.length; index++) {
-				if (targetTankIds[index] == null) {
-					continue;
-				}
-				const matchedTank=botTanks.find(tank => tank._id === targetTankIds[index]);
+		for (let index=0; index<targetTankIds.length; index++) {
+			const targetIndex=targetTankIds[index];
+			if (targetIndex==null || targetIndex=='') {
+				continue;
+			}
+			getBotTanksAPICall(botTanks => {
+				const matchedTank=botTanks.find(tank => tank._id === targetIndex);
 				if (matchedTank!=null) {
 					onTankLoaded(matchedTank, index);
 				}
-			}
-		});
-		getAllUsersTanks(usersTanks => {
-			for (let index=0; index<targetTankIds.length; index++) {
-				if (targetTankIds[index] == null) {
-					continue;
-				}
-				const matchedTank=usersTanks.find(tank => tank._id === targetTankIds[index]);
+			});
+			getAllUsersTanks(usersTanks => {
+				const matchedTank=usersTanks.find(tank => tank._id === targetIndex);
 				if (matchedTank!=null) {
 					onTankLoaded(matchedTank, index);
 				}
-			}
-		});
+			});
+		}
 	}
 	else if (tanksOrMatch === 'match') {
 		const matchId=cookies.get('matchToLoad');
