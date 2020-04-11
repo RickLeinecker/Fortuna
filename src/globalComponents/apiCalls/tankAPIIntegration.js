@@ -203,6 +203,40 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 	);
 }
 
+//Input: Id of a tank
+//Output: a tank object of the tank whose id equals the id that was passed in
+function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/getTankById/' + tankId, {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				const tank = new BackendTank(
+					data._id,
+					data.components,
+					data.casusCode,
+					data.isBot,
+					data.userid,
+					data.tankName
+				);
+				onLoad(getTank(tank));
+			}
+		})
+	)
+}
+
 export {
 	getFavoriteTank,
 	setFavoriteTankId,
@@ -210,6 +244,7 @@ export {
 	updateTank,
 	getAllUsersTanks,
 	createTank,
-	deleteTank
+	deleteTank,
+	getTankById
 }
 
