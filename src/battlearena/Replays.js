@@ -77,7 +77,7 @@ class Replays extends React.Component<Props, State> {
 									<td>{this.getWinner(replay)}</td>
 									<td><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
 									<td>{replay.prizeMoney}</td>
-									<td>{(this.getWinner(replay) !== this.state.myUsername) ? '-' + replay.eloExchanged : '+' + replay.eloExchanged}</td>
+									<td>{replay.eloExchanged}</td>
 								</tr>
 							)}
 						</tbody>

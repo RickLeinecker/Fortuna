@@ -12,7 +12,7 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 // Functions
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
@@ -130,7 +130,11 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	changeSelectedTank(newTank: Tank): void {
+	changeSelectedTank(newTank: ?Tank): void {
+		if (newTank == null) {
+			toast.error('New tank does not exist!');
+			return;
+		}
 		this.setState(
 			{selectedTank: newTank},
 			this.initPoints
@@ -317,7 +321,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<TankDisplay tankToDisplay={this.state.selectedTank} />
+					<TankDisplay tankToDisplay={this.state.selectedTank} smallTank={false} />
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div>
