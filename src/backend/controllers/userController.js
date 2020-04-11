@@ -584,19 +584,21 @@ exports.passwordResetReq = async (req: Request, res: Response) => {
 	const textBody =
 		'Greetings Commander '+user.userName+'!\n\n' +
 		'We recieved word that you needed to reset your password.\n' +
-		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
-		'http://'+FRONTEND+'/ResetPassword/'+token.token+'/'+user.email;
+		'Please reset your Fortuna account password by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ResetPassword/'+token.token+'/'+user.email + '\n\n' +
+		'If this request was not made by you, feel free to disregard this email.';
 
 	const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
 		<p>We recieved word that you needed to reset your password.<br />
-		Please verify your Fortuna account by using the link below:</p>
-		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>`;		
+		Please reset your Fortuna account password by using the link below:</p>
+		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>
+		<p>If this request was not made by you, feel free to disregard this email.</p>`;		
 
 	// Set email options
 	const mailOptions = {
 		from: 'Fortuna Project <no-reply@fortunaproject.com>',
 		to: user.email,
-		subject: 'Fortuna Account Reconfirmation Token',
+		subject: 'Fortuna Account Password Reset Token',
 		text: textBody,
 		html: htmlBody
 	};
@@ -641,7 +643,7 @@ exports.resetPassword = async (req: Request, res: Response) => {
 	}
 
 	// If token was found, find the user associated with it
-	let user = await User.findOne({ _id: dbToken._userId, email: email });
+	let user = await User.findOne({ /*_id: dbToken._userId,*/ email: email });
 	if (!user) {
 		return res
 			.status(400)
