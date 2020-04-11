@@ -255,7 +255,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 				.json({ type: 'not-verified',
 					msg: 'The token you are using is not a valid token. ' +
 					'Check your confirmation email and try again. ' + 
-					'Otherwise, your token may have expired.' })
+					'Otherwise, your token may have expired.' });
 		}
 
 		// If token was found, find the user associated with it
@@ -264,7 +264,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 			return res
 				.status(400)
 				.json({ msg: 'We were unable to find a user for this token. ' +
-					'Check your email address and try again.' })
+					'Check your email address and try again.' });
 		}
 
 		// If user is already verified, what the heck are you doing here?
@@ -272,7 +272,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 			return res
 				.status(400)
 				.json({ type: 'already-verified', 
-					msg: 'This user has already been verified.' })
+					msg: 'This user has already been verified.' });
 		}
 
 		// Assuming you got past all that nonsense, the user is now made to be verified
@@ -282,7 +282,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 				console.error(err.message);
 				return res
 					.status(500)
-					.json({ msg: 'Unable to update user in DB.' })
+					.json({ msg: 'Unable to update user in DB.' });
 			}
 		});
 
@@ -533,6 +533,149 @@ exports.setWager = async (req: Request, res: Response) => {
 			.status(500)
 			.json({ msg: 'Failed to update user wager value'});
 	}
+}
+
+exports.passwordResetReq = async (req: Request, res: Response) => {
+	// Creates a place where errors that fail validation can accrue.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+	
+	// Check if user exists based on email
+	const user = await User.findOne({ email: req.body.email });
+	if (!user) {
+		console.error('Could not find user in DB');
+		return res.status(400).json({ msg: 'Could not find user in DB' });		
+	}
+	
+	// If user is found prepare emailing process
+	// Create a confirmation token
+	let token = new Token({
+		_userId: user.id,
+		token: crypto.randomBytes(16).toString('hex')
+	});
+
+	// Save verification token to MongoDB
+	await token.save((err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res
+				.status(500)
+				.json({ msg: 'Could not save the token to DB' })
+		}
+	});
+
+	// Create nodemailer transport
+	const transporter = nodemailer.createTransport({
+		host: process.env.MAIL_SERVER,
+		port: 465,
+		secure: true,
+		auth: {
+			user: process.env.MAIL_USER,
+			pass: process.env.MAIL_PASS
+		}
+	});
+
+	const textBody =
+		'Greetings Commander '+user.userName+'!\n\n' +
+		'We recieved word that you needed to reset your password.\n' +
+		'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
+		'http://'+FRONTEND+'/ResetPassword/'+token.token+'/'+user.email;
+
+	const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		<p>We recieved word that you needed to reset your password.<br />
+		Please verify your Fortuna account by using the link below:</p>
+		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>`;		
+
+	// Set email options
+	const mailOptions = {
+		from: 'Fortuna Project <no-reply@fortunaproject.com>',
+		to: user.email,
+		subject: 'Fortuna Account Reconfirmation Token',
+		text: textBody,
+		html: htmlBody
+	};
+
+	// Send confirmation email with token
+	await transporter.sendMail(mailOptions, (err: Error) => {
+		if (err) {
+			console.log(err.message);
+			return res
+				.status(500)
+				.json({ msg: 'Could not send out email.' });
+		}
+	});
+
+	// Return success
+	return res
+		.status(200)
+		.json({ msg: 'A password reset email has been sent to ' + user.email + '.' });
+}
+
+exports.resetPassword = async (req: Request, res: Response) => {
+	// Creates a place where errors that fail validation can accrue.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// 400 is a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+	
+	const { email, token, newPassword } = req.body;
+
+	const dbToken = await Token.findOne({ token: token });
+	if (!dbToken) {
+		return res
+		.status(400)
+		.json({ type: 'not-verified',
+			msg: 'The token you are using is not a valid token. ' +
+			'Check your password reset email and try again. ' + 
+			'Otherwise, your token may have expired.' });
+	}
+
+	// If token was found, find the user associated with it
+	let user = await User.findOne({ _id: dbToken._userId, email: email });
+	if (!user) {
+		return res
+			.status(400)
+			.json({ msg: 'We were unable to find a user for this token. ' +
+				'Check your email address and try again.' });
+	}
+
+	// Update password
+	const salt = await bcrypt.genSalt(10);
+	const updatedPw = await bcrypt.hash(newPassword, salt);
+	user.password = updatedPw;
+	await user.save((err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res
+				.status(500)
+				.json({ msg: 'Unable to update user in DB.' });
+		}
+	});
+
+	// The verification token is also deleted
+	await Token.deleteOne({ token: token }, (err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res
+				.status(500)
+				.json({ msg: 'Unable to delete token from DB.' });
+		}
+	});
+
+	// Return success message
+	return res
+		.status(200)
+		.json({ msg: 'Your password has been reset. Please log in.' });
 }
 
 exports.editUser = async (req: Request, res: Response) => {
