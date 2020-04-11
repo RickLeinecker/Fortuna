@@ -196,7 +196,15 @@ function removeASale(saleId: string): void {
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			toast.error(data.msg);
+			if (response.status !== 201) {
+				console.log(response.status);
+				toast.error(data.msg);
+				console.log(data);
+			}
+			else {
+				toast.success(data.msg);
+			}
+			
 		})
 	).catch(
 		error => {
