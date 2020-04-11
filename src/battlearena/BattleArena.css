@@ -57,30 +57,36 @@
     text-align: center;
 }
 
+.replayTable table {
+    width: 80%;
+}
+
 .replayTable thead {
     display: block;
+    width: 100%;
 }
 
 .replayTable tbody {
+    width: 100%;
     display: block;
     height: 150px;
-    width: 450px;
     overflow-y: auto;
     overflow-x: auto;
 }
 
 .replayTable h4 {
-    text-align: center;
+    text-align: left;
+    margin-left: 10%;
 }
 
 .replayTable th {
     padding: 10px;
     text-align: center;
-    width: 75px;
+    width: 16%;
 }
 
 .replayTable td {
-    width: 75px;
+    width: 16%;
     padding: 7px;
     border-left: none;
     border-right: none;
