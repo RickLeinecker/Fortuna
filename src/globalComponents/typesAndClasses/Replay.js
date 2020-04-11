@@ -1,5 +1,5 @@
 //@flow strict
-import type { Map } from './Map.js';
+import type { ArenaType } from '../../battleground/ArenaType.js';
 
 class Replay {
 	tankOneName: ?string;
@@ -10,7 +10,7 @@ class Replay {
 	prizeMoney: number;
 	eloExchanged: number;
 	replayId: string;
-	map: Map;
+	map: ArenaType;
 	tankTeamOneNames: Array<?string>;
 	tankTeamTwoNames: Array<?string>;
 
@@ -23,7 +23,7 @@ class Replay {
 		prizeMoney: number,
 		eloExchanged: number,
 		replayId: string,
-		map: Map,
+		map: ArenaType,
 		tankTeamOneNames: Array<?string>,
 		tankTeamTwoNames: Array<?string>
 	) {
