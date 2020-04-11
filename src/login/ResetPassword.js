@@ -96,39 +96,33 @@ class ResetPassword extends React.Component<Props, State> {
         }
 
         return (
-            <div>
-                <Popup
-                    open={this.state.showNewPasswordPopup}
-                >
-                    <div className="popup">
-                        <h3>Password Reset</h3>
-                        <div className="row col-md-12">
-                            <label>Enter Your New Password</label>
-                            <div className="input-group">
-                                <input
-                                    type="password"
-                                    className="inputText"
-                                    onChange={e => this.setState({ newPassword: e.target.value })}
-                                />
-                            </div>
-                        </div>
-                        <div className="row col-md-12">
-                            <label>Confirm Password</label>
-                            <div className="input-group">
-                                <input
-                                    type="password"
-                                    className="inputText"
-                                    onChange={e => this.setState({ confirmPassword: e.target.value })}
-                                />
-                            </div>
-                        </div>
-                        <div className="row col-md-12">
-                            {button}
-                        </div>
-                    </div>
-                </Popup>
-                <ToastContainer />
-            </div>
+			<div className="vcenter">
+				<h3 className="row col-md-12 d-flex justify-content-center">Password Reset</h3>
+				<div className="row col-md-12 d-flex justify-content-center">
+					<label>Enter Your New Password</label>
+					<div className="input-group  justify-content-center">
+						<input
+							type="password"
+							className="inputText col-md-6"
+							onChange={e => this.setState({ newPassword: e.target.value })}
+						/>
+					</div>
+				</div>
+				<div className="row col-md-12 d-flex justify-content-center">
+					<label>Confirm Password</label>
+					<div className="input-group  justify-content-center">
+						<input
+							type="password"
+							className="inputText col-md-6"
+							onChange={e => this.setState({ confirmPassword: e.target.value })}
+						/>
+					</div>
+				</div>
+				<div className="row col-md-12 d-flex justify-content-center">
+					{button}
+				</div>
+				<ToastContainer />
+			</div>
         );
     }
 }
