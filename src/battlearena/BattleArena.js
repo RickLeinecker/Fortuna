@@ -20,6 +20,8 @@ import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPIC
 import { ToastContainer , toast } from 'react-toastify';
 import Replays from './Replays.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
+
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
 type Props = {||};
@@ -52,7 +54,7 @@ class BattleArena extends React.Component<Props, State> {
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
-				selectedTankOne: allTanks[0]
+				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
 		});
 		getReplayListAPICall(() => {});
@@ -126,6 +128,7 @@ class BattleArena extends React.Component<Props, State> {
 							selectedTank={this.state.selectedTankOne}
 							allTanks={this.state.allTanks}
 							changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+							propogateChangesToCasus={true}
 						/>
 						{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
 					</div> :
@@ -138,6 +141,7 @@ class BattleArena extends React.Component<Props, State> {
 											selectedTank={this.state.selectedTankTwo}
 											allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankThree)}
 											changeSelectedTank={(tank) => this.setState({selectedTankTwo: tank})}
+											propogateChangesToCasus={false}
 										/>
 									</th>
 									<th>
@@ -145,6 +149,7 @@ class BattleArena extends React.Component<Props, State> {
 											selectedTank={this.state.selectedTankOne}
 											allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankThree && tank !== this.state.selectedTankTwo)}
 											changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+											propogateChangesToCasus={false}
 										/>
 									</th>
 									<th>
@@ -152,6 +157,7 @@ class BattleArena extends React.Component<Props, State> {
 											selectedTank={this.state.selectedTankThree}
 											allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankTwo)}
 											changeSelectedTank={(tank) => this.setState({selectedTankThree: tank})}
+											propogateChangesToCasus={false}
 										/>
 									</th>
 								</tr>
@@ -173,13 +179,13 @@ class BattleArena extends React.Component<Props, State> {
 						</table>
 					</div>
 				}
-			<h5>Current Battle Type: {this.state.battleType}</h5>
-			<button 
-				className="primarybtn" 
-				onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
-			>
-				Change Battle Type
-			</button>
+				<h5>Current Battle Type: {this.state.battleType}</h5>
+				<button 
+					className="primarybtn" 
+					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+				>
+					Change Battle Type
+				</button>
 			</div>
 			<div className="column baright">
 				<Leaderboard />

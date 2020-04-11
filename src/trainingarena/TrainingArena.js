@@ -14,6 +14,9 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
+import getPreferredArena from '../globalComponents/getPreferredArena.js';
+import setPreferredArena from '../globalComponents/setPreferredArena.js';
 import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
@@ -52,9 +55,9 @@ class TrainingArena extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		getAllUsersTanks(allTanks => {
-				this.setState({
-					allTanks: allTanks,
-					selectedTankOne: allTanks[0]
+			this.setState({
+				allTanks: allTanks,
+				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
 			setTankForCasus(allTanks[0]._id);
 		});
@@ -97,8 +100,17 @@ class TrainingArena extends React.Component<Props, State> {
 
 		window.location.href=verifyLink('/Battleground');
 	}
+	
+	onChange(): void {
+		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
+		const selected = arenaSelector.value;
+		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
+			setPreferredArena(selected);
+		}
+	}
 
 	render(): React.Node {
+		const preferredArena=getPreferredArena();
 		return (
 			<div id="Parent">
 				<Navbar 
@@ -115,6 +127,7 @@ class TrainingArena extends React.Component<Props, State> {
 								selectedTank={this.state.selectedTankOne}
 								allTanks={this.state.allTanks}
 								changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+								propogateChangesToCasus={true}
 							/>
 							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
 						</div> :
@@ -127,6 +140,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.selectedTankTwo}
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankThree)}
 												changeSelectedTank={(tank) => this.setState({selectedTankTwo: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 										<th>
@@ -134,6 +148,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.selectedTankOne}
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankThree && tank !== this.state.selectedTankTwo)}
 												changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 										<th>
@@ -141,6 +156,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.selectedTankThree}
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankTwo)}
 												changeSelectedTank={(tank) => this.setState({selectedTankThree: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 									</tr>
@@ -173,7 +189,7 @@ class TrainingArena extends React.Component<Props, State> {
 					</button>
 					<br/><br/><br/>
 					<h5>Arena</h5>
-					<select className="dropdownMenu" ref="arenaSelect">
+					<select className="dropdownMenu" ref="arenaSelect" defaultValue={preferredArena} onChange={() => this.onChange()}>
 						<option value="DIRT">Classic</option>
 						<option value="HEX">Hex</option>
 						<option value="CANDEN">Canden</option>
@@ -201,6 +217,7 @@ class TrainingArena extends React.Component<Props, State> {
 								selectedTank={this.state.botTankOne}
 								allTanks={this.state.botTanks}
 								changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
+								propogateChangesToCasus={false}
 							/>
 							{this.state.botTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={false} />}
 						</div> :
@@ -213,6 +230,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.botTankTwo}
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankTwo: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 										<th>
@@ -220,6 +238,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.botTankOne}
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 										<th>
@@ -227,6 +246,7 @@ class TrainingArena extends React.Component<Props, State> {
 												selectedTank={this.state.botTankThree}
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankThree: tank})}
+												propogateChangesToCasus={false}
 											/>
 										</th>
 									</tr>

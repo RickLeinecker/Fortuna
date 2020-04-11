@@ -2,11 +2,13 @@
 
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
+import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
 
 type Props = {|
 	allTanks: Array<Tank>,
 	changeSelectedTank: (?Tank) => void,
 	selectedTank: ?Tank,
+	propogateChangesToCasus: boolean,
 |};
 
 type State = {|
@@ -22,7 +24,19 @@ class SelectTank extends React.Component<Props, State> {
 		};
 	}
 
+	componentDidUpdate(prevProps: Props): void {
+		if (prevProps !== this.props && 
+			this.props.selectedTank!=null && 
+			this.props.propogateChangesToCasus && 
+			this.props.selectedTank != null) {
+			setPreferredSelectedTank(this.props.selectedTank);
+		}
+	}
+
 	onChangeSelectedTank(selectedTank: ?Tank): void {
+		if (selectedTank!=null) {
+			setPreferredSelectedTank(selectedTank);
+		}
 		this.props.changeSelectedTank(selectedTank);
 		this.setState({
 			showTanks: false
