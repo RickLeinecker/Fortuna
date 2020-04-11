@@ -162,6 +162,22 @@ class Armory extends React.Component<Props, State> {
 		});
 	}
 
+	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
+	checkItems(newComponent: TankComponent): boolean {
+		// Check if the new component is already in other slots, and that it is not a mine.
+		if (
+			((newComponent === this.state.selectedTank.parts[10].name) ||
+			(newComponent === this.state.selectedTank.parts[9].name) ||
+			(newComponent === this.state.selectedTank.parts[8].name)) &&
+			newComponent !== 'mine'
+		) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
 	initPoints(): void {
 		const tank: Tank = this.state.selectedTank;
@@ -174,6 +190,10 @@ class Armory extends React.Component<Props, State> {
 
 	// Ensure that the new point value doesn't go over the limit.
 	checkPoints(newComponent: TankComponent, oldPartIndex: number): boolean {
+		// Check the items to ensure that you don't have duplicate items (besides mine).
+		if (this.checkItems(newComponent)) {
+			return true;
+		}
 		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(this.state.selectedTank.parts[oldPartIndex].name) > 10) ? true : false;
 	}
 
