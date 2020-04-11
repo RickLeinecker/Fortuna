@@ -5,7 +5,7 @@ import Tank from '../tanks/Tank.js';
 
 type Props = {|
 	allTanks: Array<Tank>,
-	changeSelectedTank: (Tank) => void,
+	changeSelectedTank: (?Tank) => void,
 	selectedTank: ?Tank,
 |};
 
@@ -22,7 +22,7 @@ class SelectTank extends React.Component<Props, State> {
 		};
 	}
 
-	onChangeSelectedTank(selectedTank: Tank): void {
+	onChangeSelectedTank(selectedTank: ?Tank): void {
 		this.props.changeSelectedTank(selectedTank);
 		this.setState({
 			showTanks: false
@@ -36,7 +36,7 @@ class SelectTank extends React.Component<Props, State> {
 					className={(this.state.showTanks) ? "tankListBtn selectedTank" : "tankListBtn"}
 					onClick={() => this.setState({showTanks: true})}
 				>
-						{(this.props.selectedTank?.tankName??'Loading tanks...')} 
+						{(this.props.selectedTank?.tankName??'No Selected Tank')} 
 				</button>
 				<div>
 					{(this.state.showTanks) ?
@@ -53,6 +53,11 @@ class SelectTank extends React.Component<Props, State> {
 									<br/>
 								</div>
 							)}
+							{window.location.pathname === '/Armory' ? <div></div> :
+								<button className="removeTankBtn" onClick={() => this.onChangeSelectedTank(null)}>
+									Remove Tank
+								</button>
+							}
 						</div> :
 						<div></div>
 					}

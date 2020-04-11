@@ -29,6 +29,9 @@ function reportMatchResultAPICall(winner: 0|1|2, matchId: string) {
 			}
 			else {
 				console.log('successfully logged result of match.');
+				if (getErrorFromObject(data) !== '') {
+					toast.success(getErrorFromObject(data));
+				}
 			}
 		})
 	);
