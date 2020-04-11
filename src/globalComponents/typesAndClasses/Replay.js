@@ -2,8 +2,8 @@
 import type { Map } from './Map.js';
 
 class Replay {
-	tankOneName: string;
-	tankTwoName: string;
+	tankOneName: ?string;
+	tankTwoName: ?string;
 	playerOneName: string;
 	playerTwoName: string;
 	winner: -1|0|1|2;
@@ -11,12 +11,12 @@ class Replay {
 	eloExchanged: number;
 	replayId: string;
 	map: Map;
-	tankTeamOneNames: Array<string>;
-	tankTeamTwoNames: Array<string>;
+	tankTeamOneNames: Array<?string>;
+	tankTeamTwoNames: Array<?string>;
 
 	constructor(
-		tankOneName: string,
-		tankTwoName: string,
+		tankOneName: ?string,
+		tankTwoName: ?string,
 		playerOneName: string,
 		playerTwoName: string,
 		winner: -1|0|1|2,
@@ -24,8 +24,8 @@ class Replay {
 		eloExchanged: number,
 		replayId: string,
 		map: Map,
-		tankTeamOneNames: Array<string>,
-		tankTeamTwoNames: Array<string>
+		tankTeamOneNames: Array<?string>,
+		tankTeamTwoNames: Array<?string>
 	) {
 		this.tankOneName=tankOneName;
 		this.tankTwoName=tankTwoName;
