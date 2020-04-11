@@ -21,6 +21,8 @@ import setPreferredArena from '../globalComponents/setPreferredArena.js';
 import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
+import getPreferredBattleType from './getPreferredBattleType.js';
+import setPreferredBattleType from './setPreferredBattleType.js';
 
 type Props = {||};
 
@@ -50,7 +52,7 @@ class TrainingArena extends React.Component<Props, State> {
 			botTankTwo: null,
 			botTankThree: null,
 			botTanks: [],
-			battleType: '1 vs 1'
+			battleType: getPreferredBattleType(),
 		};
 	}
 
@@ -100,6 +102,12 @@ class TrainingArena extends React.Component<Props, State> {
 		}
 
 		window.location.href=verifyLink('/Battleground');
+	}
+
+	onChangeBattleTypeClicked(): void {
+		const newBattleType = this.state.battleType=='1 vs 1'?'3 vs 3':'1 vs 1';
+		setPreferredBattleType(newBattleType);
+		this.setState({battleType: newBattleType});
 	}
 	
 	onChange(): void {
@@ -184,7 +192,7 @@ class TrainingArena extends React.Component<Props, State> {
 					<h5>Current Battle Type: {this.state.battleType}</h5>
 					<button 
 						className="primarybtn" 
-						onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+						onClick={() => this.onChangeBattleTypeClicked()}
 					>
 						Change Battle Type
 					</button>

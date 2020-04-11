@@ -336,7 +336,7 @@ class Battleground extends React.Component<Props> {
 		for (let i=0; i<6; i++) {
 			const tank=this.testTanks[i];
 			if (tank!=null && tank.getHealth()>0) {
-				if (i>=3) {
+				if (i<3) {
 					p1TanksAlive++;
 				}
 				else {
