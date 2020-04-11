@@ -228,7 +228,7 @@ function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
 					data.components,
 					data.casusCode,
 					data.isBot,
-					data.userid,
+					data.userId,
 					data.tankName
 				);
 				onLoad(getTank(tank));
