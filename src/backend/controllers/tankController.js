@@ -540,7 +540,7 @@ exports.getBotTanks = async (req: Request, res: Response) => {
 
 exports.getTankById = async (req: Request, res: Response) => {
 	try{
-		const tank = findById(req.body.tankId);
+		const tank = Tank.findById(req.body.tankId);
 
 		if (tank === null) {
 			console.log('Could not find tank in DB');
