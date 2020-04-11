@@ -1,4 +1,5 @@
 //@flow strict
+import type { Map } from './Map.js';
 
 class Replay {
 	tankOneName: string;
@@ -9,6 +10,9 @@ class Replay {
 	prizeMoney: number;
 	eloExchanged: number;
 	replayId: string;
+	map: Map;
+	tankTeamOneNames: Array<string>;
+	tankTeamTwoNames: Array<string>;
 
 	constructor(
 		tankOneName: string,
@@ -19,6 +23,9 @@ class Replay {
 		prizeMoney: number,
 		eloExchanged: number,
 		replayId: string,
+		map: Map,
+		tankTeamOneNames: Array<string>,
+		tankTeamTwoNames: Array<string>
 	) {
 		this.tankOneName=tankOneName;
 		this.tankTwoName=tankTwoName;
@@ -28,6 +35,9 @@ class Replay {
 		this.prizeMoney=prizeMoney;
 		this.eloExchanged=eloExchanged;
 		this.replayId=replayId;
+		this.map = map;
+		this.tankTeamOneNames = tankTeamOneNames;
+		this.tankTeamTwoNames = tankTeamTwoNames;
 	}
 }
 
