@@ -7,7 +7,7 @@ import getErrorFromObject from '../getErrorFromObject.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating success (true) or failure (false). Maybe change to string to return the error.
-function setWager(wager: number, onLoad:() => void): void {
+function setWager(wager: number, onLoad:(stipendApplied: boolean) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/user/setWager/', {
 		method: 'PATCH',
 		headers: {
@@ -20,13 +20,16 @@ function setWager(wager: number, onLoad:() => void): void {
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status !== 200 && response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
 			}
-			else {
-				onLoad();
+			else if (response.status === 200) {
+				onLoad(false);
+			}
+			else if (response.status === 201) {
+				onLoad(true);
 			}
 		})
 	);

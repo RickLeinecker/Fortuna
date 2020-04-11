@@ -89,6 +89,18 @@
     background: none;
 }
 
+.removeTankBtn {
+    color: rgb(194, 0, 0);
+    border: none;
+    background: none;
+}
+
+.removeTankBtn:hover {
+    color: rgb(124, 0, 0);
+    border: none;
+    background:
+}
+
 .selectedTank {
     border: 0.2em solid #0062ff;
     color: #0062ff;

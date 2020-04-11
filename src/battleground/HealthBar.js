@@ -60,7 +60,13 @@ class HealthBar extends React.Component<Props> {
 		// draw tank names
 		const oldFont=ctx.font;
 		const LIGHT_BLUE='#04CCFF';
+		const MAX_NAME_WIDTH=WIDTH*.19;
+		let fontSize=30;
 		ctx.font='normal small-caps 30px arial';
+		while (ctx.measureText(tank1?.tankName??'').width>MAX_NAME_WIDTH) {
+			fontSize--;
+			ctx.font='normal small-caps '+fontSize+'px arial';
+		}
 
 		let text=tank1?.tankName??'';
 		ctx.fillStyle='black';
@@ -69,6 +75,12 @@ class HealthBar extends React.Component<Props> {
 		ctx.fillStyle=LIGHT_BLUE;
 		ctx.fillText(text, WIDTH/80, HEIGHT*.4);
 
+		fontSize=30;
+		ctx.font='normal small-caps 30px arial';
+		while (ctx.measureText(tank2?.tankName??'').width>MAX_NAME_WIDTH) {
+			fontSize--;
+			ctx.font='normal small-caps '+fontSize+'px arial';
+		}
 		text=tank2?.tankName??'';
 		ctx.fillStyle='black';
 		width=ctx.measureText(text).width;

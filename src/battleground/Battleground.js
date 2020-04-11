@@ -17,6 +17,7 @@ import reportMatchResultAPICall from '../globalComponents/apiCalls/reportMatchRe
 import getBattlegroundArena from './getBattlegroundArena.js';
 import getBattlegroundWidth from './getBattlegroundWidth.js';
 import getBattlegroundHeight from './getBattlegroundHeight.js';
+import { ToastContainer } from 'react-toastify';
 
 import type {ArenaType} from './ArenaType.js';
 import type {ImageName} from './ImageName.js';
@@ -189,6 +190,7 @@ class Battleground extends React.Component<Props> {
 					className="battlegroundCanvas"
 					ref="canvas"
 				/>
+				<ToastContainer />
 			</div>
 		);
 	}

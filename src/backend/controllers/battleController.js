@@ -223,7 +223,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
-
+		
 		if (Math.random()<0.5) {
 			newRecord.map = 'CANDEN';
 		} else {
@@ -278,6 +278,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 
 	try {
 		const battle = await BattleRecord.findById(battleId);
+		// Tracks which user got the stipend for the first win of the day.
+		let bonusAdded = 0;
 
 		if (battle == null) {
 			console.log('battle not found');
@@ -354,7 +356,7 @@ exports.reportResults = async (req: Request, res: Response) => {
 				// If it's been over 2 days since, the streak is broken
 				if (compare > (aDay*2)) {
 					userOne.stats.firstWinOfDayStreak = 0;
-					console.log("Streak Broken :(");	
+					console.log("Streak Broken :(");
 				}
 				// Give bonus based on current streak
 				if (userOne.stats.firstWinOfDayStreak === 0) {
@@ -362,18 +364,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userOne.money += (battle.prizeMoney + 100);
 					userOne.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
+					bonusAdded = 100;
 				}
 				else if (userOne.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userOne.money += (battle.prizeMoney + 200);
 					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");					
+					console.log("Given First Win of Day 2 Bonus");
+					bonusAdded = 200;			
 				}
 				else {
 					// +300 for third day of the streak onward.
 					userOne.money += (battle.prizeMoney + 300);
 					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");					
+					console.log("Given First Win of Day 3+ Bonus.");
+					bonusAdded = 300;				
 				}
 				// Set lastFirstWindOfDay
 				userOne.stats.lastFirstWinOfDay = new Date();
@@ -407,6 +412,14 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
+
+			// Check for if the logged in user got a first win of the day.
+			if (bonusAdded > 0 && req.user.id === userOne.id) {
+				console.log('Battlerecord complete');
+				return res
+					.status(200)
+					.json({ msg: 'First win of the day, day ' + userOne.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+			}
 		}
 		else if (winner === 2) { // userTwo victory
 			// Update money and losses for user one
@@ -445,18 +458,21 @@ exports.reportResults = async (req: Request, res: Response) => {
 					userTwo.money += (battle.prizeMoney + 100);
 					userTwo.stats.firstWinOfDayStreak++;
 					console.log("Given First Win of Day 1 Bonus");
+					bonusAdded = 100;
 				}
 				else if (userTwo.stats.firstWinOfDayStreak === 1) {
 					// +200 for second day of the streak
 					userTwo.money += (battle.prizeMoney + 200);
 					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");					
+					console.log("Given First Win of Day 2 Bonus");
+					bonusAdded = 200;				
 				}
 				else {
 					// +300 for third day of the streak onward
 					userTwo.money += (battle.prizeMoney + 300);
 					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");					
+					console.log("Given First Win of Day 3+ Bonus.");
+					bonusAdded = 300;				
 				}
 				// Set lastFirstWindOfDay
 				userTwo.stats.lastFirstWinOfDay = new Date();
@@ -480,6 +496,14 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
+			
+			// Check if the logged in user got their first win.
+			if (bonusAdded > 0 && req.user.id === userTwo.id) {
+				console.log('Battlerecord complete');
+				return res
+					.status(200)
+					.json({ msg: 'First win of the day, day ' + userTwo.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+			}
 		}
 		else { // Invalid victor
 			console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the personBeingChallenged is the victor, or 2 in the event the challenger is the victor');
@@ -488,11 +512,12 @@ exports.reportResults = async (req: Request, res: Response) => {
 				.json({ msg: 'Bad Request'});
 		}
 
+
 		console.log('All documents updated successfully! BattleRecord complete');
 		return res
 			.status(200)
 			.send(battle);
-
+		
 	} catch (err) {
 		console.error('Update failed')
 		return res
