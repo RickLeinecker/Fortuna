@@ -155,7 +155,7 @@ class Scanner extends TankPart {
 			return [];
 		}
 		const myPosition=parentPos.add(this.offsetFromParent.rotate(parentRotation));
-		const otherTanks=battleground.getTanks().filter(tank => tank!==parentTank);
+		const otherTanks=battleground.getTanksOnOtherTeam(parentTank).filter(tank => tank!==parentTank);
 		const canSee=otherTanks.filter(tank => tank.getPosition().sub(myPosition).mag()<this._getScanRadius());
 		return canSee;
 	}

@@ -388,6 +388,32 @@ class Battleground extends React.Component<Props> {
 		return nonNullTanks;
 	}
 
+	getTanksOnOtherTeam(me: Tank): Array<Tank> {
+		const myIndex=this.testTanks.indexOf(me);
+		const startIndex=myIndex<3?3:0;
+		const endIndex=myIndex<3?5:2;
+		const enemyTanks=[];
+		for (let i=startIndex; i<=endIndex; i++) {
+			if (this.testTanks[i] != null) {
+				enemyTanks.push(this.testTanks[i]);
+			}
+		}
+		return enemyTanks;
+	}
+
+	getTanksOnSameTeam(me: Tank): Array<Tank> {
+		const myIndex=this.testTanks.indexOf(me);
+		const startIndex=myIndex<3?0:3;
+		const endIndex=myIndex<3?2:5;
+		const friendlyTanks=[];
+		for (let i=startIndex; i<=endIndex; i++) {
+			if (this.testTanks[i] != null) {
+				friendlyTanks.push(this.testTanks[i]);
+			}
+		}
+		return friendlyTanks;
+	}
+
 	getAllGameObjects(): Array<GameObject> {
 		return this.gameObjects;
 	}

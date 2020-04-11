@@ -7,7 +7,7 @@ import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.
 import getMatchAPICall from '../globalComponents/apiCalls/getMatchAPICall.js';
 
 // On the onTankLoaded callback, indecies 0-2 refer to tanks on Team1
-// refer to tanks on team2
+// indecies 3-5 refer to tanks on team2
 function getTanksToFightOnBattleground(
 	onTankLoaded: (tankLoaded: Tank, index: number) => void,
 	onMatchIDLoaded: (matchID: string) => void
@@ -30,7 +30,7 @@ function getTanksToFightOnBattleground(
 
 		for (let index=0; index<targetTankIds.length; index++) {
 			const targetIndex=targetTankIds[index];
-			if (targetIndex==null || targetIndex=='') {
+			if (targetIndex==null || targetIndex==='') {
 				continue;
 			}
 			getBotTanksAPICall(botTanks => {
@@ -50,7 +50,7 @@ function getTanksToFightOnBattleground(
 	else if (tanksOrMatch === 'match') {
 		const matchId=cookies.get('matchToLoad');
 		console.log('trying to load match '+matchId);
-		getMatchAPICall(matchId, (tank1, tank2, matchId) => {//todo: do something with this...
+		getMatchAPICall(matchId, (tank1, tank2, matchId) => {
 			console.log('match loaded!');
 			onTankLoaded(tank1, 0);
 			onTankLoaded(tank2, 1);
