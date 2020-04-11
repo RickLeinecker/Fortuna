@@ -2,7 +2,7 @@
 
 import Cookies from 'universal-cookie';
 import type {ArenaType} from '../battleground/ArenaType.js';
-import type {BattleType} from '../battleground/BattleType.js';
+import type {BattleType} from './typesAndClasses/BattleType.js';
 
 function getPreferredArena(battleType: BattleType): ArenaType {
 	const result=new Cookies().get('preferredArena');
