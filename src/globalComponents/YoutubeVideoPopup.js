@@ -29,9 +29,9 @@ class YoutubeVideoPopup extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div>
-				<h6 className="helpLink" onClick={() => this.setState({youtubeVideoOpen: true})}>
+				<button className="clearbtn" onClick={() => this.setState({youtubeVideoOpen: true})}>
 					Help?
-				</h6>
+				</button>
 				<Popup 
 					open={this.state.youtubeVideoOpen}
 					onClose={() => this.handleCloseClick()}

@@ -102,11 +102,13 @@ class Navbar extends React.Component<Props, State> {
 		return (
 			<div className="navbar">
 				<div className="navleft">
-					{link}	
+					<div className="row rowPadding">
+						{link}&emsp;
+						{youtubeLink}
+					</div>
 				</div>
 				<div className="navmiddle">
 					<h4>{this.props.pageName}</h4>
-					{youtubeLink}
 				</div>
 				<div className="navright">
 					<h5>{this.state.username} | ${this.state.userCurrency}</h5>
