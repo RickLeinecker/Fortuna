@@ -19,6 +19,7 @@ import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 // Types and Classes
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -105,7 +106,7 @@ class Armory extends React.Component<Props, State> {
 			// Update the state, and then run initPoints after the state has been set.
 			this.setState({
 					allTanks: allTanks, 
-					selectedTank: newSelectedTank, 
+					selectedTank: getPreferredSelectedTank(allTanks), 
 				},
 				this.initPoints
 			);
@@ -290,6 +291,7 @@ class Armory extends React.Component<Props, State> {
 						selectedTank={this.state.selectedTank}
 						allTanks={this.state.allTanks}
 						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
+						propogateChangesToCasus={true}
 					/>
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
