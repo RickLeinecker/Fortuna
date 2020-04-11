@@ -83,7 +83,7 @@ class ListingsView extends React.Component<Props, State> {
 	getMarketSalesForTanks(): void  {
 		getMarketTanks(this.state.userId, sales => {
 				this.setState({itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name)))}); 
-				//Once we have all of the tanks add them to the array that is going to show them
+				//Once we have all of the tanks being sold add them to the array that is going to house those tanks
 				for(let i = 0; i < sales.length; i++) {
 					this.addTankToTanksBeingShown(sales[i].tankId, i);
 				}
