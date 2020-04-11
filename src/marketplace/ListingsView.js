@@ -82,17 +82,16 @@ class ListingsView extends React.Component<Props, State> {
 	//This function uses the users id and gets the tanks that are active in the marketplace
 	getMarketSalesForTanks(): void  {
 		getMarketTanks(this.state.userId, sales => {
-				//Once we have all of the tanks being sold add them to the array that is going to house those tanks
-				const tanksForSale: Array<Tank> = [];
-				for(const tank of sales) {
-					getTankById(tank.tankId, tankReturned => {
-						tanksForSale.push(tankReturned);
-					});
-				}
-				this.setState({
-					itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name))),
-					tanksBeingShown: tanksForSale
+			//Once we have all of the tanks being sold add them to the array that is going to house those tanks
+			const tanksForSale: Array<Tank> = [];
+			for(const tank of sales) {
+				getTankById(tank.tankId, tankReturned => {
+					tanksForSale.push(tankReturned);
 				});
+			this.setState({
+				itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name))),
+				tanksBeingShown: tanksForSale
+			});
 		});
 	}
 
