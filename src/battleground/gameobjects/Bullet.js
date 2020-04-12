@@ -69,10 +69,10 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		damage: 7,
 	},
 	PLASMA_BLOB: {
-		speed: 1.2,
+		speed: 1.35,
 		width: 20,
-		lifetime: 100,
-		damage: 30,
+		lifetime: 130,
+		damage: 35,
 	},
 	PULSE_LASER_PARTICLE: {
 		speed: 0,
