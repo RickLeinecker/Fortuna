@@ -12,7 +12,7 @@ type Props = {
 	linkName: LinkType,
 	returnName?: string,
 	pageName: string,
-	youtubeLinks?: Array<string>
+	youtubeLink?: string
 }
 
 type State = {
@@ -82,12 +82,8 @@ class Navbar extends React.Component<Props, State> {
 	}
 
 	//Youtube links need to be formatted to play within our domain
-	formatYoutubeLink(links:Array<string>): Array<string> {
-		const formattedLinks: Array<string> = [];
-		for(const link of links) {
-			formattedLinks.push('https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1));
-		}
-		return formattedLinks;
+	formatYoutubeLink(link: string): string {
+		return 'https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1);
 	}
 
 	render(): React.Node {
@@ -98,8 +94,10 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
-		const youtubeLink = (this.props.youtubeLinks==null) ? <div></div> : (
-			<YoutubeVideoPopup youtubeVideoLinks={this.formatYoutubeLink(this.props.youtubeLinks)}></YoutubeVideoPopup>
+		const youtubeLink = (this.props.youtubeLink==null) ? <div></div> : (
+			<YoutubeVideoPopup youtubeVideoLink={
+				this.formatYoutubeLink(this.props.youtubeLink)
+			}/>
 		); 
 
 		return (
