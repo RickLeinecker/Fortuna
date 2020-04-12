@@ -304,7 +304,10 @@ class Armory extends React.Component<Props, State> {
 					returnName="Back to Main Menu" 
 					pageName="Armory"
 					ref="navbar"
-					youtubeLink={"https://www.youtube.com/watch?v=kEClhrMWogY", "https://www.youtube.com/watch?v=1nnY9wlLOYU"}
+					youtubeLinks={[
+						'https://www.youtube.com/watch?v=kEClhrMWogY', 
+						'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+					]}
 				/>
 				<div className="column armoryleft">
 					<h4>Selected Tank</h4>

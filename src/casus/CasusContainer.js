@@ -40,7 +40,7 @@ class CasusContainer extends React.Component<Props, State> {
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
-					youtubeLink="https://youtu.be/Ns_B7uTJyak"
+					youtubeLinks={['https://www.youtube.com/watch?v=0i4C7AdcFKo']}
 				/>
 				<BlockBank 
 					draggedBlocks={this.state.draggedBlocks}

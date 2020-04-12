@@ -12,7 +12,7 @@ type Props = {
 	linkName: LinkType,
 	returnName?: string,
 	pageName: string,
-	youtubeLink?: string
+	youtubeLinks?: Array<string>
 }
 
 type State = {
@@ -94,9 +94,9 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
-		const youtubeLink = (this.props.youtubeLink==null) ? <div></div> : (
-			<YoutubeVideoPopup youtubeVideoLink={
-				this.formatYoutubeLink(this.props.youtubeLink)
+		const youtubeLinks = (this.props.youtubeLinks==null) ? <div></div> : (
+			<YoutubeVideoPopup youtubeVideoLinks={
+				this.props.youtubeLinks.map(l => this.formatYoutubeLink(l))
 			}/>
 		); 
 
@@ -105,7 +105,7 @@ class Navbar extends React.Component<Props, State> {
 				<div className="navleft">
 					<div className="row rowPadding">
 						{link}&emsp;
-						{youtubeLink}
+						{youtubeLinks}
 					</div>
 				</div>
 				<div className="navmiddle">
