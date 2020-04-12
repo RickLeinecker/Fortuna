@@ -464,6 +464,9 @@ class Battleground extends React.Component<Props> {
 
 	deleteGameObject(toDelete: GameObject): void {
 		this.objectsToDelete.push(toDelete);
+		if (this.testTanks.filter(t => t===toDelete).length>0) {
+			this.testTanks[this.testTanks.indexOf(toDelete)]=null;
+		}
 	}
 
 	addDebugLine(line: string): void {

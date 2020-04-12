@@ -77,7 +77,6 @@ class Tank extends GameObject {
 	overdriveTimerLeft: number;
 	haveMissileTracker: boolean;
 	health: number;
-	createSmokeCounter=0;
 	renderOrderOffset: number;
 
 	// parts: 
@@ -183,11 +182,9 @@ class Tank extends GameObject {
 
 	update(battleground: Battleground): void {
 		if (this.getHealth()<=0) {
-			this.createSmokeCounter--;
-			if (this.createSmokeCounter<=0) {
-				this.createSmokeCounter=MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD;
-				createSmokeCloud(this.getPosition(), battleground);
-			}
+			createSmokeCloud(this.getPosition(), battleground);
+			createSmokeCloud(this.getPosition(), battleground);
+			battleground.deleteGameObject(this);
 			return;
 		}
 		this.executeCasusFrame(battleground);	
