@@ -141,7 +141,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			});
 		}
 		else {
-			if (this.state.newWager3v3Tanks === []) {
+			if (this.state.newWager3v3Tanks[0] == null && this.state.newWager3v3Tanks[1] == null && this.state.newWager3v3Tanks[2] == null) {
 				toast.error('No set 3v3 tanks!');
 				return;
 			}
@@ -203,7 +203,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			</button>
 		);
 		const cancelButton = (
-			<button className="cancelbtn" onClick={() => this.setState({setWagerOpen: false, removeWagerOpen: false})}>
+			<button className="cancelbtn" onClick={() => this.setState({setWagerOpen: false, removeWagerOpen: false, newWager3v3Tanks: [null, null, null]})}>
 				Cancel
 			</button>
 		);
@@ -225,28 +225,28 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 				</div>
 				<br/>
-				<label>Current Wagers:</label>
-				<br/>
+				<h6>Current 1v1 Wager:</h6>
 				<label>{this.state.userWager1v1Tank == null ?
-					'No set 1v1 wager tank' : 
+					<div>No set 1v1 wager tank<br/><br/></div> : 
 					<label>
-						{this.state.userWager1v1Tank.tankName + ' for ' + this.state.userWager}
+						<div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> for {this.state.userWager}
 					</label>
 				}</label>
 				<br/>
+				<h6>Current 3v3 Wager:</h6>
 				<label>{this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null ?
 					'No set 3v3 wager tanks' : 
 					<label>
-						{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
-						{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
-						{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' | '}
+						{this.state.userWager3v3Tanks[0] == null ? <div>No Tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[0].tankName}</div>}
+						{this.state.userWager3v3Tanks[1] == null ? <div>No Tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[1].tankName}</div>}
+						{this.state.userWager3v3Tanks[2] == null ? <div>No Tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[2].tankName}</div>}
 						for {this.state.userWager3v3}
 					</label>
 				}</label>
 				<div className="wagerPopup">
 					<Popup 
 						open={this.state.setWagerOpen}
-						onClose={() => this.setState({setWagerOpen: false})}
+						onClose={() => this.setState({setWagerOpen: false, newWager3v3Tanks: [null, null, null]})}
 					>
 						<div className="popup">
 							<br/>
@@ -368,7 +368,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 								<div>
 									<h5>{this.state.userWager1v1Tank == null ? 
 										'No set 1v1 Wager Tank' : 
-										<div>Remove {this.state.userWager1v1Tank.tankName} from being wagered?</div>
+										<div>Remove <div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> from being wagered?</div>
 									}</h5>
 								</div> :
 								<div>
@@ -376,9 +376,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 										<h5>No 3v3 tanks wagered</h5> :
 										<h5>
 											Remove 
-											{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
-											{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
-											{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' |?'}
+											{this.state.userWager3v3Tanks[0] == null ? <div>No tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[0].tankName}</div>}
+											{this.state.userWager3v3Tanks[1] == null ? <div>No tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[1].tankName}</div>}
+											{this.state.userWager3v3Tanks[2] == null ? <div>No tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[2].tankName}</div>}
+											<div>from being wagered?</div>
 										</h5>
 									}
 								</div>

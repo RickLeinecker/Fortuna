@@ -65,10 +65,11 @@ function getFavoriteTankTeam(onLoad:(tanks: Array<?Tank>) => void): void {
 			}
 			else {
 				if (data === []) {
-					onLoad([]);
+					onLoad([null, null, null]);
 					return;
 				}
 				const tanks: Array<?Tank> = [];
+				console.log(data);
 				for(let i: number = 0; i < 3; i++) {
 					if (data[i] != null) {
 						tanks.push(getTank(new BackendTank(

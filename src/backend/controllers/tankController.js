@@ -73,21 +73,27 @@ exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
 		}
 
 		// Check if all of the tanks are in the DB
+		const tanks = [];
 		for (const tankId of myUser.favoriteTanks) {
+			if (tankId == null) {
+				tanks.push(null);
+				continue;
+			}
 			const tank = await Tank.findById(tankId);
+			tanks.push(await Tank.findById(tankId));
 			if (!tank) {
-				console.error('Team Tank not in DB');
+				console.error('Tank in Team not in DB');
 				return res
 					.status(404)
-					.json({ msg: 'Team Tank not in DB'});
+					.json({ msg: 'Tank in Team not in DB'});
 			}
 		}
 
 		// At this point we should be good.
-		console.log('favoriteTank successfully retrieved');
+		console.log('favoriteTanks successfully retrieved');
 		return res
 			.status(200)
-			.send(myUser.favoriteTanks);
+			.send(tanks);
 	} catch (err) {
 		console.error(err.message);
 		return res
@@ -143,6 +149,10 @@ exports.setFavoriteTankTeam = async (req: Request, res: Response) => {
 
 	// Check if all of the tanks are in the DB
 	for (const tankId of tankTeam) {
+		// If the ID is null, we can ignore it
+		if (tankId == null) {
+			continue;
+		}
 		const tank = await Tank.findById(tankId);
 		if (!tank) {
 			console.error('Team Tank not in DB');
@@ -231,8 +241,8 @@ exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
 
 	const addBack = user.money + user.wager;
 	user.money = addBack;
-	user.favoriteTanks = [];
-	user.wager = 0;
+	user.favoriteTanks = [null, null, null];
+	user.wager3v3 = 0;
 
 	await user.save();
 
