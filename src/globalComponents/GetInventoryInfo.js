@@ -60,18 +60,18 @@ const allComponentTypes: {[TankComponent]: ComponentType} = {
 const allComponentPoints: {[TankComponent]: number} = {
 	
 	// Chassis
-	moddableLight: -1,
+	moddableLight: -2,
 	light: 0,
-	moddable: -1,
+	moddable: -2,
 	heavy: 0,
-	moddableHeavy: -1,
+	moddableHeavy: -2,
 
 	// Weapons
 	machineGun: 1,
 	grenadeLauncher: 1,
 	missile: 1,
 	shotgun: 1,
-	vulcanCannon: 1,
+	vulcanCannon: 3,
 	laser: 1,
 	plasma: 2,
 	pulseLaser: 1,
@@ -98,8 +98,8 @@ const allComponentPoints: {[TankComponent]: number} = {
 
 	// Single-Use Items
 	mine: 1,
-	c4: 2,
-	nitroRepair: 1,
+	c4: 1,
+	nitroRepair: 2,
 	overdrive: 2,
 	missileTrackingBeacon: 2,
 
