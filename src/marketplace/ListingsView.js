@@ -90,19 +90,25 @@ class ListingsView extends React.Component<Props, State> {
 			// Handle tank and components different to display tank 
 			// Have to make sure that the tanks are being ready to be shown
 			if(this.props.sellerType === 'tanks') {
-				cards.push(
-					<div className="card mb-2" key={i}>
-						<div className="card-body">
-							<h5 className="card-title">Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
-							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
-							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
-							<ShowTankPopup tankIdToShow={this.state.itemsForSale[i].tankId}></ShowTankPopup>
-							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+				const tankId = this.state.itemsForSale[i].tankId;
+				if(tankId == null) {
+					console.log("Tank Id is null");
+				}
+				else {
+					cards.push(
+						<div className="card mb-2" key={i}>
+							<div className="card-body">
+								<h5 className="card-title">Tank to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+								<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+								<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+								<ShowTankPopup tankIdToShow={tankId}></ShowTankPopup>
+								<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+							</div>
 						</div>
-					</div>
-				)
+					)
+				}
 			}
-			else if(this.props.sellerType !== 'tanks') {
+			else {
 				cards.push(
 					<div className="card mb-2" key={i}>
 						<div className="card-body">

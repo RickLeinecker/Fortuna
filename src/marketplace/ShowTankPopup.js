@@ -4,17 +4,15 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank';
 import { getTankById } from '../globalComponents/apiCalls/tankAPIIntegration';
 import TankDisplay from '../tanks/TankDisplay.js';
-import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
-import BackendTank from '../tanks/BackendTank.js';
 
 
 type Props = {|
-	tankIdToShow: ?string
+	tankIdToShow: string
 |}; 
 
 type State = {|
 	showingTank: boolean,
-	tankBeingShown: Tank
+	tankBeingShown: ?Tank
 |}
 
 // This popup takes an id of a tank, gets that tank, and shows it
@@ -22,18 +20,9 @@ class ShowTankPopup extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-		//This blank tank is a placeholder for the tank that we are goiing to pull from the show tank function
-		const blankTank: BackendTank = new BackendTank(
-			'',
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
-			getEmptyCasusCode(),
-			false,
-			'',
-			''
-		);
 		this.state = {
 			showingTank: false,
-			tankBeingShown: getTank(blankTank)
+			tankBeingShown: null
 		}
 	}
 
@@ -63,7 +52,7 @@ class ShowTankPopup extends React.Component<Props, State> {
 					onClose={() => this.handleCloseClick()}
 				>
 					<div className="popup">
-						<TankDisplay tankToDisplay={this.state.tankBeingShown} smallTank={false} />
+						{this.state.tankBeingShown == null ? "Loading Tank":<TankDisplay tankToDisplay={this.state.tankBeingShown} smallTank={false} />}
 					</div>
 				</Popup>
 			</div>
