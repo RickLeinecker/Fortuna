@@ -55,11 +55,14 @@ exports.register = async (req: Request, res: Response) => {
 				.json({ msg: 'A user with that email already exists' });
 		}
 
+		// Make initial tank team array of 3 nulls
+		const favoriteTanks = [null, null, null];
 		// Instantiate a new user
 		user = new User({
 			userName,
 			email,
-			password
+			password,
+			favoriteTanks
 		});
 
 		// Creates salt with 10 rounds(recommended)
