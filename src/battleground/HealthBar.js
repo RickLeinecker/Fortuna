@@ -11,12 +11,13 @@ import './HealthBar.css'
 type Props = {|
 	timeLeftText: string,
 	fadeInAlpha: number,
-	tank1: ?Tank,
-	tank2: ?Tank,
+	team1Tanks: Array<?Tank>,
+	team2Tanks: Array<?Tank>,
 |}
 
 const WIDTH=1300;
 const HEIGHT=100;
+const LIGHT_BLUE='#04CCFF';
 
 class HealthBar extends React.Component<Props> {
 
@@ -41,7 +42,24 @@ class HealthBar extends React.Component<Props> {
 			ctx.fillText(text, WIDTH/2-width/2, HEIGHT*.8);
 			ctx.font=oldFont;
 
-			this.draw1V1Healthbars(ctx);
+			const teamOneNonnull: Array<Tank> = [];
+			const teamTwoNonnull: Array<Tank> = [];
+			for (const t: ?Tank of this.props.team1Tanks) {
+				if (t!=null) {
+					teamOneNonnull.push(t);
+				}
+			}
+			for (const t: ?Tank of this.props.team2Tanks) {
+				if (t!=null) {
+					teamTwoNonnull.push(t);
+				}
+			}
+			if (teamOneNonnull.length == 1 && teamTwoNonnull.length == 1) {
+				this.draw1V1Healthbars(ctx, teamOneNonnull[0], teamTwoNonnull[0]);
+			}
+			else {
+				this.draw3v3Healthbars(ctx, teamOneNonnull, teamTwoNonnull);
+			}
 
 			//draw black intro curtain
 			const oldAlpha=ctx.globalAlpha;
@@ -52,14 +70,12 @@ class HealthBar extends React.Component<Props> {
 		}
 	}
 
-	draw1V1Healthbars(ctx: CanvasRenderingContext2D): void {
-		const tank1=this.props.tank1, tank2=this.props.tank2;
+	draw1V1Healthbars(ctx: CanvasRenderingContext2D, tank1: Tank, tank2: Tank): void {
 		if (tank1==null || tank2==null) {
 			return;
 		}
 		// draw tank names
 		const oldFont=ctx.font;
-		const LIGHT_BLUE='#04CCFF';
 		const MAX_NAME_WIDTH=WIDTH*.19;
 		let fontSize=30;
 		ctx.font='normal small-caps 30px arial';
