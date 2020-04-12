@@ -338,7 +338,7 @@ class Armory extends React.Component<Props, State> {
 					<br/><br/>
 					<SetWagerPopup
 						ref="SetWagerPopup"
-						wagerTank={this.state.selectedTank}
+						allTanks={this.state.allTanks}
 						onWagerUpdate={this.onWagerUpdate}
 					/>
 				</div>

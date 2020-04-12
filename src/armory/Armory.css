@@ -98,7 +98,7 @@
 .removeTankBtn:hover {
     color: rgb(124, 0, 0);
     border: none;
-    background:
+    background: none;
 }
 
 .selectedTank {
@@ -116,7 +116,7 @@
 
 /* Popup Styling */
 .wagerPopup {
-    text-align: center;
+    text-align: left;
 }
 
 .deletePopup {

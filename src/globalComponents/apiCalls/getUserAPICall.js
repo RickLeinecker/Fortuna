@@ -25,7 +25,7 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 				toast.error(getErrorFromObject(data));
 			}
 			else {
-				const user = new User(data.userName, data.money, data.wager, data._id, data.stats.elo, getInventory(data.inventory.tankComponents));
+				const user = new User(data.userName, data.money, data.wager, data.wager3v3, data._id, data.stats.elo, getInventory(data.inventory.tankComponents));
 				onLoad(user);
 			}
 		})

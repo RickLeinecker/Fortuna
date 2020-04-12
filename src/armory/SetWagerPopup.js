@@ -3,23 +3,36 @@
 import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
-import { setWager } from '../globalComponents/apiCalls/userAPIIntegration.js';
+import { setWager, setWager3v3 } from '../globalComponents/apiCalls/userAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall';
-import { setFavoriteTankId, getFavoriteTank, removeFavoriteTankId } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { 
+	setFavoriteTankId, 
+	getFavoriteTank,
+	removeFavoriteTankId, 
+	removeFavoriteTankTeamIds,
+	getFavoriteTankTeam, 
+	setFavoriteTankTeamIds 
+} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { ToastContainer , toast } from 'react-toastify';
+import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
 type Props = {|
-	wagerTank: Tank,
-	onWagerUpdate: () => void;
+	allTanks: Array<Tank>,
+	onWagerUpdate: () => void
 |};
 
 type State = {|
 	userCurrency: number,
 	userWager: number,
-	currentWager: number,
-	currentWagerTank: ?Tank,
+	userWager3v3: number,
+	newWager: number,
+	userWager3v3Tanks: Array<?Tank>,
+	userWager1v1Tank: ?Tank,
+	newWager3v3Tanks: Array<?Tank>,
+	newWager1v1Tank: ?Tank,
 	setWagerOpen: boolean,
 	removeWagerOpen: boolean,
+	battleType: BattleType
 |};
 
 class SetWagerPopup extends React.Component<Props, State> {
@@ -29,67 +42,120 @@ class SetWagerPopup extends React.Component<Props, State> {
 		this.state = {
 			userCurrency: 0,
 			userWager: 0,
-			currentWager: 0,
-			currentWagerTank: null,
+			userWager3v3: 0,
+			newWager: 0,
+			userWager3v3Tanks: [],
+			userWager1v1Tank: null,
+			newWager3v3Tanks: [],
+			newWager1v1Tank: null,
 			setWagerOpen: false,
 			removeWagerOpen: false,
+			battleType: '1 vs 1'
 		}
 	}
 
 	// Once mounted, get the user's currency, wager, and favorite tank.
 	componentDidMount(): void {
 		getUserAPICall(user => {
-			this.setState({userCurrency: user.money, currentWager: user.wager});
+			this.setState({userCurrency: user.money, userWager: user.wager, userWager3v3: user.wager3v3});
 		});
 
 		getFavoriteTank(tank => {
-			this.setState({currentWagerTank: tank});
+			this.setState({userWager1v1Tank: tank});
+		});
+
+		getFavoriteTankTeam(tanks => {
+			this.setState({userWager3v3Tanks: tanks});
 		});
 	}
 
 	// If the name of the wager tank is changed, update the currentWagerTank.
-	updateWagerTankName(newName: string): void {
-		if(this.state.currentWagerTank == null) {
-			console.log('No set wager tank.');
-			return;
+	updateWagerTankName(newName: string, tankIndex?: number): void {
+		// If a tank index is passed, then you are updating the 3v3 tanks.
+		if (tankIndex == null) {
+			// Null check, however should not be able to rename a null tank.
+			if (this.state.userWager1v1Tank == null) {
+				return;
+			}
+			const newWagerTank: Tank = this.state.userWager1v1Tank;
+			newWagerTank.tankName = newName;
+			this.setState({userWager1v1Tank: newWagerTank});
 		}
-		const newWagerTank: Tank = this.state.currentWagerTank;
-		newWagerTank.tankName = newName;
-		this.setState({currentWagerTank: newWagerTank});
+		else {
+			const newWagerTanks: Array<?Tank> = this.state.userWager3v3Tanks;
+			// Null check, however should not be able to rename a null tank.
+			if (newWagerTanks[tankIndex] == null) {
+				return;
+			}
+			newWagerTanks[tankIndex].tankName = newName;
+			this.setState({userWager3v3Tanks: newWagerTanks});
+		}
 	}
 
 	// Set the user's wager and favorite tank.
 	handleWagerClick(): void {
 		// Error handling.
-		if (this.state.userWager > this.state.userCurrency) {
+		if (this.state.newWager > this.state.userCurrency) {
 			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.userWager < 50) {
+		else if (this.state.newWager < 50) {
 			toast.error('Wager cannot be less than 50.');
 			return;
 		}
 
-		// Check if the wager was set. Close the popup if it is.
-		setWager(this.state.userWager, stipendApplied => {
-			if (stipendApplied) {
-				toast.success('$100 added for setting your daily wager!');
+		// Set the new wager and favorite tank depending on the battleType.
+		if (this.state.battleType === '1 vs 1') {
+			if (this.state.newWager1v1Tank == null) {
+				toast.error('No set 1v1 tank!');
+				return;
 			}
-			this.setState({currentWager: this.state.userWager});
-			// Update user currency in the navbar.
-			this.props.onWagerUpdate();
-		});
-		setFavoriteTankId(this.props.wagerTank._id, () => {
-			this.setState({setWagerOpen: false, currentWagerTank: this.props.wagerTank});
-		});
+			setWager(this.state.newWager, stipendApplied => {
+				if (stipendApplied) {
+					toast.success('$100 added for setting your daily wager!');
+				}
+				this.setState({userWager: this.state.newWager});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
+			});
+			setFavoriteTankId((this.state.newWager1v1Tank == null ? '' : this.state.newWager1v1Tank._id), () => {
+				this.setState({setWagerOpen: false, userWager1v1Tank: this.state.newWager1v1Tank});
+			});
+		}
+		else {
+			if (this.state.newWager3v3Tanks === []) {
+				toast.error('No set 3v3 tanks!');
+				return;
+			}
+			setWager3v3(this.state.newWager, stipendApplied => {
+				if (stipendApplied) {
+					toast.success('$100 added for setting your daily wager!');
+				}
+				this.setState({userWager3v3: this.state.newWager});
+				// Update user currency in the navbar.
+				this.props.onWagerUpdate();
+			});
+			setFavoriteTankTeamIds(this.state.newWager3v3Tanks.map(tank => tank == null ? null : tank._id), () => {
+				this.setState({setWagerOpen: false, userWager3v3Tanks: this.state.newWager3v3Tanks});
+			});
+		}
+		
 	}
 
 	// Remove the user's wager and favorite tank.
 	handleRemoveClick(): void {
-		removeFavoriteTankId(() => {
-			this.setState({removeWagerOpen: false, currentWagerTank: null, currentWager: 0});
-			this.props.onWagerUpdate();
-		});
+		if (this.state.battleType === '1 vs 1') {
+			removeFavoriteTankId(() => {
+				this.setState({removeWagerOpen: false, userWager1v1Tank: null, userWager: 0});
+				this.props.onWagerUpdate();
+			});
+		}
+		else {
+			removeFavoriteTankTeamIds(() => {
+				this.setState({removeWagerOpen: false, userWager3v3Tanks: [], userWager3v3: 0});
+				this.props.onWagerUpdate();
+			});
+		}
 	}
 
 	render(): React.Node {
@@ -99,7 +165,11 @@ class SetWagerPopup extends React.Component<Props, State> {
 			</button>
 		);
 		const removeButton = (
-			<button className="popupbtn" onClick={() => this.handleRemoveClick()}>
+			<button 
+				className="popupbtn" 
+				onClick={() => this.handleRemoveClick()}
+				disabled={(this.state.battleType === '1 vs 1' && this.state.userWager1v1Tank == null) || (this.state.battleType === '3 vs 3' && this.state.userWager3v3Tanks === []) ? true : false}
+			>
 				Remove
 			</button>
 		);
@@ -118,7 +188,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 					&emsp;
 					<button 
-						disabled={(this.state.currentWagerTank == null) ? true : false}
+						disabled={(this.state.userWager1v1Tank == null && this.state.userWager3v3Tanks === []) ? true : false}
 						className="smallbtn"
 						onClick={() => this.setState({removeWagerOpen: true})}
 					>
@@ -126,11 +196,22 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 				</div>
 				<br/>
-				<label>Current Wager:&emsp;</label>
-				<label>{this.state.currentWagerTank == null ?
-					'No set wager tank' : 
+				<label>Current Wagers:</label>
+				<br/>
+				<label>{this.state.userWager1v1Tank == null ?
+					'No set 1v1 wager tank' : 
 					<label>
-						{this.state.currentWagerTank.tankName + ' for ' + this.state.currentWager}
+						{this.state.userWager1v1Tank.tankName + ' for ' + this.state.userWager}
+					</label>
+				}</label>
+				<br/>
+				<label>{this.state.userWager1v1Tank == null ?
+					'No set 3v3 wager tanks' : 
+					<label>
+						{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
+						{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
+						{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' | '}
+						for {this.state.userWager3v3}
 					</label>
 				}</label>
 				<div className="wagerPopup">
@@ -140,12 +221,30 @@ class SetWagerPopup extends React.Component<Props, State> {
 					>
 						<div className="popup">
 							<br/>
-							<h4>Enter amount to wager {this.props.wagerTank.tankName} for</h4>
-							<br/>
+							<h5>Select Wager's Battle Type</h5>
+							<div className="row center">
+								<button 
+									onClick={() => this.setState({battleType: '1 vs 1'})}
+									className="smallbtn"
+								>
+									1 vs 1
+								</button>&emsp;
+								<button 
+									onClick={() => this.setState({battleType: '3 vs 3'})}
+									className="smallbtn"
+								>
+									3 vs 3
+								</button>
+							</div>
+							<br/><br/>
+							<h5>Select Tank{this.state.battleType === '1 vs 1' ? '' : 's'}</h5>
+							{this.state.battleType === '1 vs 1' ?
+								<div></div> : <div></div>
+							}
 							<input 
 								type="number" 
 								className="inputText"
-								onChange={e => this.setState({ userWager: e.target.value})} 
+								onChange={e => this.setState({ newWager: e.target.value})} 
 							/>
 							{wagerButton}{cancelButton}
 						</div>
@@ -158,7 +257,37 @@ class SetWagerPopup extends React.Component<Props, State> {
 					>
 						<div className="popup">
 							<br/>
-							<h4>Remove the wager for {this.props.wagerTank.tankName}?</h4>
+							<h5>Select Wager's Battle Type</h5>
+							<div className="row center">
+								<button 
+									onClick={() => this.setState({battleType: '1 vs 1'})}
+									className="smallbtn"
+								>
+									1 vs 1
+								</button>&emsp;
+								<button 
+									onClick={() => this.setState({battleType: '3 vs 3'})}
+									className="smallbtn"
+								>
+									3 vs 3
+								</button>
+							</div>
+							{this.state.battleType === '1 vs 1' ?
+								<div>
+									<h5>{this.state.userWager1v1Tank == null ? 
+										'No set 1v1 Wager Tank' : 
+										<div>Remove {this.state.userWager1v1Tank.tankName} from being wagered?</div>
+									}</h5>
+								</div> :
+								<div>
+									<h6>
+										Remove 
+										{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
+										{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
+										{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' |?'}
+									</h6>
+								</div>
+							}
 							{removeButton}{cancelButton}
 						</div>
 					</Popup>
