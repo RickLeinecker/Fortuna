@@ -48,10 +48,6 @@ class ShowTankPopup extends React.Component<Props, State> {
 		});
 	}
 
-	handleCloseClick(): void {
-		this.setState({showingTank: false});
-	}
-
 	render(): React.Node {
 		return (
 			<div>
@@ -60,10 +56,11 @@ class ShowTankPopup extends React.Component<Props, State> {
 				</button>
 				<Popup 
 					open={this.state.showingTank}
-					onClose={() => this.handleCloseClick()}
+					onClose={() => this.setState({showingTank: false})}
 				>
 					<div className="popup">
 						<TankDisplay tankToDisplay={this.state.tankBeingShown} smallTank={false} />
+						<button onClick={() => this.setState({showingTank: false})} className="closebtn">Close</button>
 					</div>
 				</Popup>
 			</div>
