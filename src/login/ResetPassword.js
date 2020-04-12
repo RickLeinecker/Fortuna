@@ -4,7 +4,6 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import getErrorFromObject from '../globalComponents/getErrorFromObject';
 import { ToastContainer, toast } from 'react-toastify';
-import Popup from 'reactjs-popup';
 
 type Props = {
     match: {
