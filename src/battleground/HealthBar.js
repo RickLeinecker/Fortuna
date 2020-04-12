@@ -54,7 +54,7 @@ class HealthBar extends React.Component<Props> {
 					teamTwoNonnull.push(t);
 				}
 			}
-			if (teamOneNonnull.length == 1 && teamTwoNonnull.length == 1) {
+			if (teamOneNonnull.length === 1 && teamTwoNonnull.length === 1) {
 				this.draw1V1Healthbars(ctx, teamOneNonnull[0], teamTwoNonnull[0]);
 			}
 			else {
@@ -256,7 +256,6 @@ class HealthBar extends React.Component<Props> {
 			const TEXT_WIDTH=ctx.measureText(tank.tankName).width;
 			let text=tank?.tankName??'';
 			ctx.fillStyle='black';
-			let width=ctx.measureText(text).width;
 			ctx.fillText(text, WIDTH*.22-TEXT_WIDTH, curY+BAR_HEIGHT*.6+2);
 			ctx.fillStyle=LIGHT_BLUE;
 			ctx.fillText(text, WIDTH*.22-TEXT_WIDTH, curY+BAR_HEIGHT*.6);
@@ -341,10 +340,8 @@ class HealthBar extends React.Component<Props> {
 				ctx.font='normal small-caps '+fontSize+'px arial';
 			}
 
-			const TEXT_WIDTH=ctx.measureText(tank.tankName).width;
 			let text=tank?.tankName??'';
 			ctx.fillStyle='black';
-			let width=ctx.measureText(text).width;
 			ctx.fillText(text, WIDTH-WIDTH*.22, curY+BAR_HEIGHT*.6+2);
 			ctx.fillStyle=LIGHT_BLUE;
 			ctx.fillText(text, WIDTH-WIDTH*.22, curY+BAR_HEIGHT*.6);
