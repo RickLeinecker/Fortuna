@@ -22,7 +22,7 @@ import type {ArenaType} from './ArenaType.js';
 import type {ImageName} from './ImageName.js';
 
 type Props = {|
-	setPlayersTank: (Tank, Tank) => void,
+	setPlayersTank: (Array<?Tank>, Array<?Tank>) => void,
 	setTimeLeftText: (string) => void,
 	addDebugLine: (string) => void,
 	setFadeInAlpha: (number) => void,
@@ -337,7 +337,7 @@ class Battleground extends React.Component<Props> {
 			this.props.setFadeInAlpha(0);
 		}
 		if (this.testTanks[0]!=null && this.testTanks[3]!=null) {
-			this.props.setPlayersTank(this.testTanks[0], this.testTanks[3]);
+			this.props.setPlayersTank(this.testTanks.slice(0, 3), this.testTanks.slice(3, 6));
 		}
 
 	}
