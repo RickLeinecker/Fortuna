@@ -11,13 +11,12 @@ import './HealthBar.css'
 type Props = {|
 	timeLeftText: string,
 	fadeInAlpha: number,
-	team1Tanks: Array<?Tank>,
-	team2Tanks: Array<?Tank>,
+	tank1: ?Tank,
+	tank2: ?Tank,
 |}
 
 const WIDTH=1300;
 const HEIGHT=100;
-const LIGHT_BLUE='#04CCFF';
 
 class HealthBar extends React.Component<Props> {
 
@@ -42,24 +41,7 @@ class HealthBar extends React.Component<Props> {
 			ctx.fillText(text, WIDTH/2-width/2, HEIGHT*.8);
 			ctx.font=oldFont;
 
-			const teamOneNonnull: Array<Tank> = [];
-			const teamTwoNonnull: Array<Tank> = [];
-			for (const t: ?Tank of this.props.team1Tanks) {
-				if (t!=null) {
-					teamOneNonnull.push(t);
-				}
-			}
-			for (const t: ?Tank of this.props.team2Tanks) {
-				if (t!=null) {
-					teamTwoNonnull.push(t);
-				}
-			}
-			if (teamOneNonnull.length == 1 && teamTwoNonnull.length == 1) {
-				this.draw1V1Healthbars(ctx, teamOneNonnull[0], teamTwoNonnull[0]);
-			}
-			else {
-				this.draw3v3Healthbars(ctx, teamOneNonnull, teamTwoNonnull);
-			}
+			this.draw1V1Healthbars(ctx);
 
 			//draw black intro curtain
 			const oldAlpha=ctx.globalAlpha;
@@ -70,12 +52,14 @@ class HealthBar extends React.Component<Props> {
 		}
 	}
 
-	draw1V1Healthbars(ctx: CanvasRenderingContext2D, tank1: Tank, tank2: Tank): void {
+	draw1V1Healthbars(ctx: CanvasRenderingContext2D): void {
+		const tank1=this.props.tank1, tank2=this.props.tank2;
 		if (tank1==null || tank2==null) {
 			return;
 		}
 		// draw tank names
 		const oldFont=ctx.font;
+		const LIGHT_BLUE='#04CCFF';
 		const MAX_NAME_WIDTH=WIDTH*.19;
 		let fontSize=30;
 		ctx.font='normal small-caps 30px arial';
@@ -225,27 +209,6 @@ class HealthBar extends React.Component<Props> {
 			ctx.globalAlpha=oldAlpha;
 		}
 		//end draw jammed static
-	}
-
-	draw3v3Healthbars(ctx: CanvasRenderingContext2D, team1Tanks: Array<Tank>, team2Tanks: Array<Tank>): void {
-		let curY=HEIGHT*.11;
-		for (const tank: Tank of team1Tanks) {
-			ctx.fillStyle='#030915';
-			const BAR_WIDTH=WIDTH*.2;
-			const BAR_HEIGHT=HEIGHT*.2;
-			ctx.fillRect(WIDTH/80, curY, BAR_WIDTH, BAR_HEIGHT);
-			ctx.fillStyle=LIGHT_BLUE;
-			const percent1=Math.max(0, tank.getHealth()/tank._getArmorOffset());
-			const BORDER=4;
-			const SMALL_WIDTH=BAR_WIDTH-2*BORDER;
-			const SMALL_HEIGHT=BAR_HEIGHT-2*BORDER;
-			ctx.fillRect(WIDTH/80+BORDER, curY+BORDER, SMALL_WIDTH*percent1, SMALL_HEIGHT);
-
-			
-
-
-			curY+=HEIGHT*0.3;
-		}
 	}
 
 	render(): React.Node {

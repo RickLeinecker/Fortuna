@@ -13,11 +13,11 @@ import './BattlegroundContainer.css';
 type Props = {||};
 
 type State = {|
+	playerOneTank: ?Tank,
+	playerTwoTank: ?Tank,
 	debugLines: Array<string>,
 	timeLeftText: string,
 	fadeInAlpha: number,
-	teamOneTanks: Array<?Tank>,
-	teamTwoTanks: Array<?Tank>,
 |};
 
 const MAX_DEBUG_LINES=30;
@@ -27,11 +27,11 @@ class BattlegroundContainer extends React.Component<Props, State> {
 	constructor() {
 		super();
 		this.state={
+			playerOneTank: null,
+			playerTwoTank : null,
 			debugLines: [],
 			timeLeftText: '',
 			fadeInAlpha: 1,
-			teamOneTanks: [],
-			teamTwoTanks: [],
 		}
 	}
 
@@ -55,10 +55,10 @@ class BattlegroundContainer extends React.Component<Props, State> {
 				/>
 				<div className={haveDebug?'battlegroundContainer':'battlegroundContainerFull'}>
 					<HealthBar
+						tank1 = {this.state.playerOneTank}
+						tank2 = {this.state.playerTwoTank}
 						timeLeftText = {this.state.timeLeftText}
 						fadeInAlpha = {this.state.fadeInAlpha}
-						team1Tanks = {this.state.teamOneTanks}
-						team2Tanks = {this.state.teamTwoTanks}
 					/>
 					<div className={haveDebug?'debugAndBattleContainer':'debugAndBattleContainerFull'}>
 						{battleground}
@@ -72,10 +72,10 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		);
 	}
 
-	setPlayersTank = (teamOneTanks: Array<?Tank>, teamTwoTanks: Array<?Tank>): void  => {
+	setPlayersTank = (playerOneTank: Tank, playerTwoTank: Tank): void  => {
 		this.setState({
-			teamOneTanks: teamOneTanks,
-			teamTwoTanks: teamTwoTanks
+			playerOneTank: playerOneTank,
+			playerTwoTank: playerTwoTank
 		});
 	}
 
