@@ -79,7 +79,7 @@ const STATS_FOR_GUN: {[GunType]: GunStats} = {
 	},
 	GUN_4: {
 		bullet: 'PLASMA_BLOB',
-		betweenShotsCooldown: 60,
+		betweenShotsCooldown: 80,
 		orthogonalOffset: 0,
 		numBulletsPerShot: 1,
 	},

@@ -118,11 +118,11 @@ class Scanner extends TankPart {
 	_getScanRadius(): number {
 		switch (this.range) {
 			case 'SMALL':
-				return 50;
+				return 80;
 			case 'MEDIUM':
-				return 90;
+				return 140;
 			case 'LARGE':
-				return 150;
+				return 200;
 			default:
 				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
 		}
