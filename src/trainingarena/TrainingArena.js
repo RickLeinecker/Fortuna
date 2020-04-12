@@ -13,6 +13,7 @@ import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegratio
 import TankDisplay from '../tanks/TankDisplay.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import setTanksToFightInBattleground from '../battleground/setTanksToFightInBattleground.js';
+import {setTanksToFightInBattleground3v3} from '../battleground/setTanksToFightInBattleground.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 import getPreferredArena from '../globalComponents/getPreferredArena.js';
@@ -20,6 +21,8 @@ import setPreferredArena from '../globalComponents/setPreferredArena.js';
 import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
+import getPreferredBattleType from './getPreferredBattleType.js';
+import setPreferredBattleType from './setPreferredBattleType.js';
 
 type Props = {||};
 
@@ -49,7 +52,7 @@ class TrainingArena extends React.Component<Props, State> {
 			botTankTwo: null,
 			botTankThree: null,
 			botTanks: [],
-			battleType: '1 vs 1'
+			battleType: getPreferredBattleType(),
 		};
 	}
 
@@ -85,20 +88,26 @@ class TrainingArena extends React.Component<Props, State> {
 			setBattlegroundArena(selected);
 		}
 
+		setReturnToFromBattlegroundLink('/TrainingArena');
 		// NEED TO UPDATE SET 3v3 TANKS TO FIGHT IN BATTLEGROUND
 		if (this.state.battleType === '1 vs 1') {
 			if (myTankOne == null || botTankOne == null) {
 				toast.error('One bot tank and one of your tanks must be selected!');
 				return;
 			}
-			setReturnToFromBattlegroundLink('/TrainingArena');
 			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
 		}
 		else {
-
+			setTanksToFightInBattleground3v3(myTankOne, myTankTwo, myTankThree, botTankOne, botTankTwo, botTankThree);
 		}
 
 		window.location.href=verifyLink('/Battleground');
+	}
+
+	onChangeBattleTypeClicked(): void {
+		const newBattleType = this.state.battleType === '1 vs 1'?'3 vs 3':'1 vs 1';
+		setPreferredBattleType(newBattleType);
+		this.setState({battleType: newBattleType});
 	}
 	
 	onChange(): void {
@@ -110,7 +119,7 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const preferredArena=getPreferredArena();
+		const preferredArena=getPreferredArena(this.state.battleType);
 		return (
 			<div id="Parent">
 				<Navbar 
@@ -183,18 +192,34 @@ class TrainingArena extends React.Component<Props, State> {
 					<h5>Current Battle Type: {this.state.battleType}</h5>
 					<button 
 						className="primarybtn" 
-						onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+						onClick={() => this.onChangeBattleTypeClicked()}
 					>
 						Change Battle Type
 					</button>
 					<br/><br/><br/>
 					<h5>Arena</h5>
-					<select className="dropdownMenu" ref="arenaSelect" defaultValue={preferredArena} onChange={() => this.onChange()}>
-						<option value="DIRT">Classic</option>
-						<option value="HEX">Hex</option>
-						<option value="CANDEN">Canden</option>
-						<option value="LUNAR">Lunar</option>
-					</select>
+					{ this.state.battleType === '1 vs 1' ? 
+						<select 
+							className="dropdownMenu" 
+							ref="arenaSelect" 
+							defaultValue={preferredArena} 
+							onChange={() => this.onChange()}
+						>
+							<option value="DIRT">Classic</option>
+							<option value="HEX">Hex</option>
+						</select>
+					:
+						<select 
+							className="dropdownMenu" 
+							ref="arenaSelect" 
+							defaultValue={preferredArena} 
+							onChange={() => this.onChange()}
+						>
+							<option value="CANDEN">Canden</option>
+							<option value="LUNAR">Lunar</option>
+						</select>
+
+					}
 					<br/><br/><br/>
 					<button 
 						type="button" 
