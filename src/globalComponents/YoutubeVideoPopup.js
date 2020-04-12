@@ -36,10 +36,13 @@ class YoutubeVideoPopup extends React.Component<Props, State> {
 					open={this.state.youtubeVideoOpen}
 					onClose={() => this.handleCloseClick()}
 				>
-					<div className="popup">
+					<div className="popup youtubePopup">
 						<div className="row com-md-12 d-flex justify-content-center">
 							{this.props.youtubeVideoLinks.map((link, index) =>
-								<iframe key={index} src={this.props.youtubeVideoLink} title='yotubeVideo' height='480' width='720'></iframe>
+								<div>
+									<iframe key={index} src={link} title='yotubeVideo' height='480' width='720'></iframe>
+									<br/>
+								</div>
 							)}
 						</div>
 					</div>
