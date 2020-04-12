@@ -5,9 +5,11 @@ import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import getAllUsersAPICall from '../globalComponents/apiCalls/getAllUsersAPICall.js';
 import User from '../globalComponents/typesAndClasses/User.js';
 import Cookie from 'universal-cookie';
+import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
 type Props = {|
-	onChallengePlayer: (?User) => void
+	onChallengePlayer: (?User) => void,
+	battleType: BattleType
 |};
 
 type State = {|
@@ -39,7 +41,25 @@ class SearchPlayers extends React.Component<Props, State> {
 		//set by navbar
 		const myUsername=new Cookie().get('username');
 		getAllUsersAPICall(allUsers => {
-			this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
+			if (this.props.battleType === '1 vs 1') {
+				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
+			}
+			else {
+				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager3v3 > 0)});
+			}
+		});
+	}
+
+	componentDidUpdate(): void {
+		// Update the search players when the battleType changes.
+		const myUsername=new Cookie().get('username');
+		getAllUsersAPICall(allUsers => {
+			if (this.props.battleType === '1 vs 1') {
+				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
+			}
+			else {
+				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager3v3 > 0)});
+			}
 		});
 	}
 
@@ -68,6 +88,7 @@ class SearchPlayers extends React.Component<Props, State> {
 								<ChallengePlayerPopup 
 									onChallengePlayer={user => this.props.onChallengePlayer(user)}
 									playerChallenged={user}
+									battleType={this.props.battleType}
 								/>
 							</div>
 						)}

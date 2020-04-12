@@ -140,6 +140,9 @@ class Gun extends TankPart {
 
 	constructor(name: TankComponent, isSecondary: boolean) {
 		super(name);
+		if (name==null) {
+			throw new Error('Cannot have a name of null');
+		}
 		switch(name) {
 			case 'grenadeLauncher':
 				this.gunType = 'GUN_1';

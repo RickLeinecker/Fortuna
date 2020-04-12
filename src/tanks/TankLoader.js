@@ -40,6 +40,10 @@ function getTestTank(id: number=1): Tank {
 }
 
 function getTank(tank: BackendTank): Tank {
+	if (tank == null) {
+		throw new Error('Backend tank is null!');
+	}
+
 	// Setup TankComponent arrays.
 	const position = new Vec(50, 40);
 	const chassis: TankComponent = tank.components[0];

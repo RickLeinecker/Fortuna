@@ -6,10 +6,12 @@ import User from '../globalComponents/typesAndClasses/User.js';
 import getAllUsers from '../globalComponents/apiCalls/getAllUsersAPICall.js';
 import getUser from '../globalComponents/apiCalls/getUserAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
+import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
 type Props = {|
 	playerChallenged: ?User,
 	onChallengePlayer: (?User) => void,
+	battleType: BattleType
 |};
 
 type State = {|
@@ -55,22 +57,43 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 
 	// If there this.props.playerChallenged is null, then it is quickplay.
 	quickplay(): void {
-		getAllUsers(users => {
-			const similarSkilledUsers: Array<User> = users.filter(user => 
-				((user.elo - this.state.userElo) >= -100 
-				&& (user.elo - this.state.userElo) <= 100) 
-				&& user.wager > 0
-				&& user.username !== this.state.myUsername
-			);
-			if(similarSkilledUsers.length === 0) {
-				toast.error('No users found with similar skill level.');
-				return;
-			} 
-			else {
-				// If a user is found. Open the challenge popup and find a random user.
-				this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.floor(Math.random() * similarSkilledUsers.length)]});
-			}
-		});
+		// Check battle type and filter users appropriately.
+		if (this.props.battleType === '1 vs 1') {
+			getAllUsers(users => {
+				const similarSkilledUsers: Array<User> = users.filter(user => 
+					((user.elo - this.state.userElo) >= -100 
+					&& (user.elo - this.state.userElo) <= 100) 
+					&& user.wager > 0
+					&& user.username !== this.state.myUsername
+				);
+				if(similarSkilledUsers.length === 0) {
+					toast.error('No users found with similar skill level.');
+					return;
+				} 
+				else {
+					// If a user is found. Open the challenge popup and find a random user.
+					this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.floor(Math.random() * similarSkilledUsers.length)]});
+				}
+			});
+		}
+		else {
+			getAllUsers(users => {
+				const similarSkilledUsers: Array<User> = users.filter(user => 
+					((user.elo - this.state.userElo) >= -100 
+					&& (user.elo - this.state.userElo) <= 100) 
+					&& user.wager3v3 > 0
+					&& user.username !== this.state.myUsername
+				);
+				if(similarSkilledUsers.length === 0) {
+					toast.error('No users found with similar skill level.');
+					return;
+				} 
+				else {
+					// If a user is found. Open the challenge popup and find a random user.
+					this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.floor(Math.random() * similarSkilledUsers.length)]});
+				}
+			});
+		}
 	}
 
 	render(): React.Node {
@@ -106,7 +129,10 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 					<div className="popup">
 						<h4>
 							Challenge {(this.props.playerChallenged?.username ?? this.state.quickplayPlayer.username) + ' '} 
-							with ${this.props.playerChallenged?.wager ?? this.state.quickplayPlayer.wager}?
+							with ${this.props.battleType === '1 vs 1' ? 
+								this.props.playerChallenged?.wager ?? this.state.quickplayPlayer.wager :
+								this.props.playerChallenged?.wager3v3 ?? this.state.quickplayPlayer.wager3v3
+							}?
 						</h4>
 						{challengeButton}{cancelButton}
 					</div>
