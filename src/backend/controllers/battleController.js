@@ -162,7 +162,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			return res
 				.status()
 				.json({ msg: 'Could not find user being challenged'});
-		} else if (personBeingChallenged.wager === 0) { // Check that they have a wager set
+		} else if (personBeingChallenged.wager3v3 === 0) { // Check that they have a wager set
 			console.log('personBeingChallenged does not have a wager set')
 			return res
 				.status(400)
@@ -207,7 +207,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 				.json({ msg: 'Could not find the challenger in DB'});
 		}
 		// Make sure they have enough for the wager
-		if (challenger.money < personBeingChallenged.wager) {
+		if (challenger.money < personBeingChallenged.wager3v3) {
 			console.log('Challenger does not have enough money to wager');
 			return res
 				.status(401)
@@ -220,7 +220,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			tankTeamOne: tankTeamOne,
 			tankTeamTwo: tankTeamTwo,
 			winner: -1,
-			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
+			prizeMoney: (personBeingChallenged.wager3v3 * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
 		
@@ -231,11 +231,11 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 		}
 
 		// Take the wager amount from the challenger's money
-		const challengerBalance = challenger.money - personBeingChallenged.wager;
+		const challengerBalance = challenger.money - personBeingChallenged.wager3v3;
 		challenger.money = challengerBalance;
 
 		// Disable the personBeingChallenged wager
-		personBeingChallenged.wager = 0;
+		personBeingChallenged.wager3v3 = 0;
 		personBeingChallenged.favoriteTanks = null;
 		await personBeingChallenged.save();
 
