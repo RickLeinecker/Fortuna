@@ -92,10 +92,9 @@ class ListingsView extends React.Component<Props, State> {
 			if(this.props.sellerType === 'tanks') {
 				const tankId = this.state.itemsForSale[i].tankId;
 				if(tankId == null) {
-					console.log("Tank Id is null");
+					throw new Error("Tank Id is null");
 				}
-				else {
-					cards.push(
+				cards.push(
 						<div className="card mb-2" key={i}>
 							<div className="card-body">
 								<h5 className="card-title">Tank to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
@@ -105,8 +104,7 @@ class ListingsView extends React.Component<Props, State> {
 								<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 							</div>
 						</div>
-					)
-				}
+					);
 			}
 			else {
 				cards.push(
@@ -118,7 +116,7 @@ class ListingsView extends React.Component<Props, State> {
 							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 						</div>
 					</div>
-				)
+				);
 			}
 		}
 		return cards;
