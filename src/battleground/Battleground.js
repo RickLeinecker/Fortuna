@@ -96,12 +96,12 @@ const wallsForArena: {[ArenaType]: Array<Wall>} = {
 
 const spawnPointsForArena: {[ArenaType]: Array<Vec>} = {
 	DIRT: [
-		new Vec(-70, -40),
-		new Vec(-70, -40),
-		new Vec(-70, -40),
-		new Vec(70, 40),
-		new Vec(70, 40),
-		new Vec(70, 40),
+		new Vec(-70, 40),
+		new Vec(-70, 40),
+		new Vec(-70, 40),
+		new Vec(70, -40),
+		new Vec(70, -40),
+		new Vec(70, -40),
 	],
 	HEX: [
 		new Vec(-60, -30),

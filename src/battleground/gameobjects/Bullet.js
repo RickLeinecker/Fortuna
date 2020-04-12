@@ -230,6 +230,20 @@ class Bullet extends GameObject {
 		const mySeg=new Seg(prevPosition, newPosition);
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
+
+		//special case for if I am a pulse laser doing damage:
+		if (this.bulletType === 'PULSE_LASER_PARTICLE') {
+			if (this.lifetime===Math.round(stats.lifetime*.7)) {
+				for (const t:Tank of allTanks) {
+					if (t.getPosition().sub(this.getPosition()).mag()<stats.width/2) {
+						t.takeDamage(stats.damage);
+					}
+				}
+			}
+			return false;
+		}
+		//end special case for pulse laser
+		
 		for (const t:Tank of allTanks) {
 			const distance=mySeg.distanceTo(t.getPosition());
 			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {
