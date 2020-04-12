@@ -242,7 +242,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 
 		// Disable the personBeingChallenged wager
 		personBeingChallenged.wager3v3 = 0;
-		personBeingChallenged.favoriteTanks = null;
+		personBeingChallenged.favoriteTanks = [null, null, null];
 		await personBeingChallenged.save();
 
 		// Save the updated balance to the db

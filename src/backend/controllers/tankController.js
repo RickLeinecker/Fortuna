@@ -65,7 +65,7 @@ exports.getFavoriteTankTeam = async (req: Request, res: Response) => {
 		// if the array is empty return an empty array
 		// if a new user, the field should be an empty array
 		// by default
-		if (myUser.favoriteTanks.length === 0) {
+		if (myUser.favoriteTanks[0] == null && myUser.favoriteTanks[1] == null && myUser.favoriteTanks[2] == null) {
 			console.log("No favorite tank team found");
 			return res
 				.status(200)
