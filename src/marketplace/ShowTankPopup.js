@@ -60,7 +60,6 @@ class ShowTankPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<TankDisplay tankToDisplay={this.state.tankBeingShown} smallTank={false} />
-						<button onClick={() => this.setState({showingTank: false})} className="closebtn">Close</button>
 					</div>
 				</Popup>
 			</div>
