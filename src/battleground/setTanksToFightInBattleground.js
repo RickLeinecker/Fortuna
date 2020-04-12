@@ -8,6 +8,10 @@ function setTanksToFightInBattleground(tankId1: string, tankId2: string): void {
 	cookies.set('tanksOrMatch', 'tanks');
 	cookies.set('tank1Me', tankId1);
 	cookies.set('tank1Enemy', tankId2);
+	cookies.set('tank2Me', '');
+	cookies.set('tank2Enemy', '');
+	cookies.set('tank3Me', '');
+	cookies.set('tank3Enemy', '');
 }
 
 function setTanksToFightInBattleground3v3(

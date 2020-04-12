@@ -82,12 +82,8 @@ class Navbar extends React.Component<Props, State> {
 	}
 
 	//Youtube links need to be formatted to play within our domain
-	formatYoutubeLink(links:Array<string>): Array<string> {
-		const formattedLinks: Array<string> = [];
-		for(const link of links) {
-			formattedLinks.push('https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1));
-		}
-		return formattedLinks;
+	formatYoutubeLink(link: string): string {
+		return 'https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1);
 	}
 
 	render(): React.Node {
@@ -98,8 +94,10 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
-		const youtubeLink = (this.props.youtubeLinks==null) ? <div></div> : (
-			<YoutubeVideoPopup youtubeVideoLinks={this.formatYoutubeLink(this.props.youtubeLinks)}></YoutubeVideoPopup>
+		const youtubeLinks = (this.props.youtubeLinks==null) ? <div></div> : (
+			<YoutubeVideoPopup youtubeVideoLinks={
+				this.props.youtubeLinks.map(l => this.formatYoutubeLink(l))
+			}/>
 		); 
 
 		return (
@@ -107,7 +105,7 @@ class Navbar extends React.Component<Props, State> {
 				<div className="navleft">
 					<div className="row rowPadding">
 						{link}&emsp;
-						{youtubeLink}
+						{youtubeLinks}
 					</div>
 				</div>
 				<div className="navmiddle">
