@@ -33,9 +33,9 @@ type BulletStats = {
 
 const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	DEATH_RAY_BULLET: {
-		speed: 1.4,
+		speed: 1,
 		width: 25,
-		lifetime: 100,
+		lifetime: 45,
 		damage: 20,
 	},
 	GREEN_LASER: {
@@ -53,8 +53,8 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	GUN_BULLET: {
 		speed: 2,
 		width: 13,
-		lifetime: 39,
-		damage: 3,
+		lifetime: 45,
+		damage: 2,
 	},
 	RED_LASER: {
 		speed: 6,
@@ -141,6 +141,12 @@ class Bullet extends GameObject {
 		}
 		//end grenade stuff
 		
+		//stuff for making the death ray go faster
+		if (this.bulletType === 'DEATH_RAY_BULLET') {
+			vel=vel.scale(1*stats.lifetime/this.lifetime);
+		}
+		//end death ray
+
 		//stuff for missiles going towards tracking beacons
 		if (this.bulletType === 'MISSILE') {
 			const beacons = battleground.getAllGameObjects().filter(o => o instanceof MissileTrackingBeacon);
