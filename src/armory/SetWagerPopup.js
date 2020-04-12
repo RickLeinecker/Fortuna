@@ -11,17 +11,20 @@ import {
 	removeFavoriteTankId, 
 	removeFavoriteTankTeamIds,
 	getFavoriteTankTeam, 
-	setFavoriteTankTeamIds 
+	setFavoriteTankTeamIds,
+	getAllUsersTanks
 } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { ToastContainer , toast } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
+import { getEmptyCasusCode, getTank } from '../tanks/TankLoader.js';
+import BackendTank from '../tanks/BackendTank.js';
 
 type Props = {|
-	allTanks: Array<Tank>,
 	onWagerUpdate: () => void
 |};
 
 type State = {|
+	allTanks: Array<Tank>,
 	userCurrency: number,
 	userWager: number,
 	userWager3v3: number,
@@ -29,7 +32,7 @@ type State = {|
 	userWager3v3Tanks: Array<?Tank>,
 	userWager1v1Tank: ?Tank,
 	newWager3v3Tanks: Array<?Tank>,
-	newWager1v1Tank: ?Tank,
+	newWager1v1Tank: Tank,
 	setWagerOpen: boolean,
 	removeWagerOpen: boolean,
 	battleType: BattleType
@@ -39,15 +42,26 @@ class SetWagerPopup extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
+		// Create a blank tank as a placeholder until tanks are pulled.
+		const blankTank: BackendTank = new BackendTank(
+			'',
+			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
+			getEmptyCasusCode(),
+			false,
+			'',
+			''
+		);
+
 		this.state = {
+			allTanks: [],
 			userCurrency: 0,
 			userWager: 0,
 			userWager3v3: 0,
 			newWager: 0,
-			userWager3v3Tanks: [],
+			userWager3v3Tanks: [null, null, null],
 			userWager1v1Tank: null,
 			newWager3v3Tanks: [],
-			newWager1v1Tank: null,
+			newWager1v1Tank: getTank(blankTank),
 			setWagerOpen: false,
 			removeWagerOpen: false,
 			battleType: '1 vs 1'
@@ -60,12 +74,17 @@ class SetWagerPopup extends React.Component<Props, State> {
 			this.setState({userCurrency: user.money, userWager: user.wager, userWager3v3: user.wager3v3});
 		});
 
+		getAllUsersTanks(tanks => {
+			this.setState({allTanks: tanks, newWager1v1Tank: tanks[0]});
+		});
+
 		getFavoriteTank(tank => {
 			this.setState({userWager1v1Tank: tank});
 		});
 
 		getFavoriteTankTeam(tanks => {
 			this.setState({userWager3v3Tanks: tanks});
+			console.log(tanks);
 		});
 	}
 
@@ -106,11 +125,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
-			if (this.state.newWager1v1Tank == null) {
-				toast.error('No set 1v1 tank!');
-				return;
-			}
 			setWager(this.state.newWager, stipendApplied => {
+				if (this.state.newWager1v1Tank._id === '') {
+					toast.error('Tank not loaded yet, select it again.');
+				}
 				if (stipendApplied) {
 					toast.success('$100 added for setting your daily wager!');
 				}
@@ -118,7 +136,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				// Update user currency in the navbar.
 				this.props.onWagerUpdate();
 			});
-			setFavoriteTankId((this.state.newWager1v1Tank == null ? '' : this.state.newWager1v1Tank._id), () => {
+			setFavoriteTankId(this.state.newWager1v1Tank._id, () => {
 				this.setState({setWagerOpen: false, userWager1v1Tank: this.state.newWager1v1Tank});
 			});
 		}
@@ -160,7 +178,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Updates newWager3v3Tanks when changing a tank.
 	update3v3Tanks(newTankName: string, tankIndex: number): void {
-		const newTank: Tank = this.props.allTanks[this.props.allTanks.findIndex(tank => tank.tankName === newTankName)];
+		const newTank: Tank = this.state.allTanks[this.state.allTanks.findIndex(tank => tank.tankName === newTankName)];
 		let newWager3v3Tanks: Array<?Tank> = this.state.newWager3v3Tanks;
 		newWager3v3Tanks[tankIndex] = newTank;
 		this.setState({newWager3v3Tanks: newWager3v3Tanks});
@@ -176,7 +194,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 			<button 
 				className="popupbtn" 
 				onClick={() => this.handleRemoveClick()}
-				disabled={(this.state.battleType === '1 vs 1' && this.state.userWager1v1Tank == null) || (this.state.battleType === '3 vs 3' && this.state.userWager3v3Tanks === []) ? true : false}
+				disabled={
+					(this.state.battleType === '1 vs 1' && this.state.userWager1v1Tank == null) || 
+					(this.state.battleType === '3 vs 3' && this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) ? true : false
+				}
 			>
 				Remove
 			</button>
@@ -196,7 +217,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 					&emsp;
 					<button 
-						disabled={(this.state.userWager1v1Tank == null && this.state.userWager3v3Tanks === []) ? true : false}
+						disabled={(this.state.userWager1v1Tank == null && this.state.userWager3v3Tanks === [null, null, null]) ? true : false}
 						className="smallbtn"
 						onClick={() => this.setState({removeWagerOpen: true})}
 					>
@@ -213,7 +234,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</label>
 				}</label>
 				<br/>
-				<label>{this.state.userWager1v1Tank == null ?
+				<label>{this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null ?
 					'No set 3v3 wager tanks' : 
 					<label>
 						{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
@@ -250,9 +271,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 								<div>
 									<select 
 										className="dropdownMenu"
-										onChange={(e) => this.setState({newWager1v1Tank: this.props.allTanks[this.props.allTanks.findIndex(tank => tank.tankName === e.target.value)]})}
+										onChange={(e) => this.setState({newWager1v1Tank: this.state.allTanks[this.state.allTanks.findIndex(tank => tank.tankName === e.target.value)]})}
 									>
-										{this.props.allTanks.map(tank => tank.tankName).map((tankName, index) => 
+										{this.state.allTanks.map(tank => tank.tankName).map((tankName, index) => 
 											<option key={index}>
 												{tankName}
 											</option>
@@ -265,7 +286,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 										onChange={(e) => this.update3v3Tanks(e.target.value, 0)}
 									>
 										<option value={null}>No Tank</option>
-										{this.props.allTanks
+										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[1] && tank !== this.state.newWager3v3Tanks[2])
 											.map(tank => tank.tankName)
 											.map((tankName, index) => 
@@ -281,7 +302,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 										onChange={(e) => this.update3v3Tanks(e.target.value, 1)}
 									>
 										<option value={null}>No Tank</option>
-										{this.props.allTanks
+										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[2])
 											.map(tank => tank.tankName)
 											.map((tankName, index) => 
@@ -297,7 +318,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 										onChange={(e) => this.update3v3Tanks(e.target.value, 2)}
 									>
 										<option value={null}>No Tank</option>
-										{this.props.allTanks
+										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[1])
 											.map(tank => tank.tankName)
 											.map((tankName, index) => 
@@ -342,6 +363,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 									3 vs 3
 								</button>
 							</div>
+							<br/>
 							{this.state.battleType === '1 vs 1' ?
 								<div>
 									<h5>{this.state.userWager1v1Tank == null ? 
@@ -350,12 +372,15 @@ class SetWagerPopup extends React.Component<Props, State> {
 									}</h5>
 								</div> :
 								<div>
-									<h6>
-										Remove 
-										{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
-										{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
-										{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' |?'}
-									</h6>
+									{this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null ?
+										<h5>No 3v3 tanks wagered</h5> :
+										<h5>
+											Remove 
+											{this.state.userWager3v3Tanks[0] == null ? '| ' : '| ' + this.state.userWager3v3Tanks[0].tankName + ' | '}
+											{this.state.userWager3v3Tanks[1] == null ? '| ' : this.state.userWager3v3Tanks[1].tankName + ' | '}
+											{this.state.userWager3v3Tanks[2] == null ? '| ' : this.state.userWager3v3Tanks[2].tankName + ' |?'}
+										</h5>
+									}
 								</div>
 							}
 							{removeButton}{cancelButton}
