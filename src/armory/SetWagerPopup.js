@@ -84,7 +84,6 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		getFavoriteTankTeam(tanks => {
 			this.setState({userWager3v3Tanks: tanks});
-			console.log(tanks);
 		});
 	}
 
