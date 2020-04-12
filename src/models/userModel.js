@@ -39,7 +39,7 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     wager3v3: {
         type: Number,
         default: 0
-    }
+    },
     // Date the last time user made a wager that gave them a stipend. Null default
     wagerDate: {
         type: Date,
