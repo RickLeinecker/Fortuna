@@ -223,7 +223,7 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 			prizeMoney: (personBeingChallenged.wager * 2), // Each person puts in for the wager
 			eloExchanged: 0
 		});
-
+		
 		if (Math.random()<0.5) {
 			newRecord.map = 'CANDEN';
 		} else {

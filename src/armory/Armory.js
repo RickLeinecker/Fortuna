@@ -12,13 +12,14 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 // Functions
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
+import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 // Types and Classes
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -105,7 +106,7 @@ class Armory extends React.Component<Props, State> {
 			// Update the state, and then run initPoints after the state has been set.
 			this.setState({
 					allTanks: allTanks, 
-					selectedTank: newSelectedTank, 
+					selectedTank: getPreferredSelectedTank(allTanks), 
 				},
 				this.initPoints
 			);
@@ -130,7 +131,11 @@ class Armory extends React.Component<Props, State> {
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	changeSelectedTank(newTank: Tank): void {
+	changeSelectedTank(newTank: ?Tank): void {
+		if (newTank == null) {
+			toast.error('New tank does not exist!');
+			return;
+		}
 		this.setState(
 			{selectedTank: newTank},
 			this.initPoints
@@ -157,6 +162,22 @@ class Armory extends React.Component<Props, State> {
 		});
 	}
 
+	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
+	checkItems(newComponent: TankComponent): boolean {
+		// Check if the new component is already in other slots, and that it is not a mine.
+		if (
+			((newComponent === this.state.selectedTank.parts[10].name) ||
+			(newComponent === this.state.selectedTank.parts[9].name) ||
+			(newComponent === this.state.selectedTank.parts[8].name)) &&
+			newComponent !== 'mine'
+		) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
 	initPoints(): void {
 		const tank: Tank = this.state.selectedTank;
@@ -169,6 +190,10 @@ class Armory extends React.Component<Props, State> {
 
 	// Ensure that the new point value doesn't go over the limit.
 	checkPoints(newComponent: TankComponent, oldPartIndex: number): boolean {
+		// Check the items to ensure that you don't have duplicate items (besides mine).
+		if (this.checkItems(newComponent)) {
+			return true;
+		}
 		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(this.state.selectedTank.parts[oldPartIndex].name) > 10) ? true : false;
 	}
 
@@ -286,6 +311,7 @@ class Armory extends React.Component<Props, State> {
 						selectedTank={this.state.selectedTank}
 						allTanks={this.state.allTanks}
 						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
+						propogateChangesToCasus={true}
 					/>
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
@@ -317,7 +343,7 @@ class Armory extends React.Component<Props, State> {
 				</div>
 				<div className="column armorymiddle">
 					<h1>{this.state.selectedTank.tankName}</h1>
-					<TankDisplay tankToDisplay={this.state.selectedTank} />
+					<TankDisplay tankToDisplay={this.state.selectedTank} smallTank={false} />
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div>
