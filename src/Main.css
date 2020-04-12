@@ -86,6 +86,7 @@ body {
 
 .navleft {
 	width: 25%;
+	display: block;
 }
 
 .navmiddle {
@@ -367,7 +368,9 @@ select {
 .name {
 	color: #a80b4b;
 }
-
+.helpLink {
+	cursor: pointer;
+}
 .vcenter{
 	margin-top: 15%;
 }

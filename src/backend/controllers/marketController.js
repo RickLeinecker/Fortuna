@@ -214,6 +214,51 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 	}
 }
 
+// Gets all Marketplace Sales of the user that are active
+exports.getUsersMarketSales = async (req: Request, res: Response) => {
+	// Validation
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct userId from parameter
+	const { userId } = req.params;
+
+	try {
+		// Check if valid user
+		const user = await User.findById(userId);
+		if (!user) {
+			return res
+				.status(400)
+				.json({ msg: 'User does not exist' });
+		}
+
+		// Get list of sales from DB that belong to logged in user
+		const salesListOfTanks = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
+		const salesListOfComponents = await MarketSale.find({ sellerId: userId , itemType: { $eq: 'component' }});
+		const salesList = salesListOfTanks.concat(salesListOfComponents);
+		if (!salesList) {
+			return res
+				.status(400)
+				.json({ msg: 'Unable to get list of Market Sales.' });
+		}
+
+		// Return list of sales
+		console.log("Retrieved User's Market Sales List.");
+		return res.status(200).json(salesList);
+
+	}
+	catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Unable to find list of Sales.' });
+	}
+}
+
 // Gets all Marketplace Sales
 exports.getMarketSales = async (req: Request, res: Response) => {
 	// Validation
@@ -433,7 +478,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
 				// Add items to buyer
-				buyer['inventory']['tankComponents'][sale.itemId] += sale.amount;
+				buyer.inventory.tankComponents[sale.itemId] += sale.amount;
 				await buyer.save((err: Error) => {
 					if (err) {
 						console.error(err.message);
@@ -478,7 +523,7 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
 				// Add items to buyer
-				buyer['inventory']['casusBlocks'][sale.itemId] += sale.amount;
+				buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
 				await buyer.save((err: Error) => {
 					if (err) {
 						console.error(err.message);
@@ -513,4 +558,110 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 			}
 		}
 	}
+}
+
+// Removes a sale from the uses
+exports.removeAMarketSale = async (req: Request, res: Response) => {
+	
+	// Validation
+	const errors = validationResult(req);
+	
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct request body
+	const { saleId } = req.body;
+
+	// Check if sale exists
+	const sale = await MarketSale.findById(saleId);
+	if (!sale) {
+		console.error('Sale post does not exist');
+		return res
+			.status(400)
+			.json({ msg: 'Sale post does not exist' });
+	}
+
+	// Check if user exists
+	const user = User.findById(sale.sellerId);
+	if (!user) {
+		console.error('User does not exist');
+		return res
+			.status(400)
+			.json({ msg: 'User does not exist' });
+	}
+
+	// Check between tank and component/casus
+	if (sale.itemType === 'tank') {
+
+		// Check if tank still exists
+		let tank = await Tank.findById(sale.itemId);
+		if (!tank) {
+			console.error('Tank is not in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Tank is not in DB' });
+		}
+
+		// Reassign to seller
+		tank = await Tank.findByIdAndUpdate(sale.itemId, { userId: sale.sellerId }, { new: true });
+		if (!tank) {
+			console.error('Failed to reassign tank');
+			return res
+				.status(500)
+				.json({ msg: 'Failed to reassign tank' });
+		}
+	}
+	// else the post had components or casus blocks
+	else {
+		if (sale.itemType === 'component') {
+			// Give back the amount of components
+			const seller = await User.findById(sale.sellerId);
+
+			seller.inventory.tankComponents[sale.itemId] += sale.amount;
+
+			// Save user
+			await seller.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not update seller inventory.' });
+				}
+			});
+		}
+		// post had casus blocks
+		else {
+			const seller = await User.findById(sale.sellerId);
+
+			// Give back amount of casusBlocks
+			seller.inventory.casusBlocks[sale.itemId] += sale.amount;
+
+			// Save user
+			await seller.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not update seller inventory.' });
+				}
+			});
+		}
+	}
+    
+	// Delete marketsale post
+	await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+		if (err) {
+			console.error(err.message);
+			return res
+				.status(500)
+				.json({ msg: 'Could not delete market sale.' });
+		}
+	});
+	// Return status
+	console.log('Successfully Removed Sale');
+	return res.status(201).json({ msg: 'Removed Sale'});
 }
