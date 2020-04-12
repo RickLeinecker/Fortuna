@@ -4,7 +4,8 @@
 
 body {
 	background-image: linear-gradient(to right, #04213F, #000921, #000921, #04213F);
-	color: #04CCFF;
+	color: #04CCFF; 
+	height:100%;
 }
 
 .haveScorebarIfSmall {
@@ -365,4 +366,8 @@ select {
 
 .name {
 	color: #a80b4b;
+}
+
+.vcenter{
+	margin-top: 15%;
 }

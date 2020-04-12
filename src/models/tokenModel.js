@@ -19,12 +19,12 @@ const Token = new Mongoose.model('Token', new Mongoose.Schema({
         type: String,
         required: true
     },
-    // Date property to track the life of the token and to set expiration in 12 hrs.
+    // Date property to track the life of the token and to set expiration in 4 hours.
     issueDate: {
         type: Date,
         required: true,
         default: Date.now,
-        expires: 43200
+        expires: 14400
     }
 }));
 

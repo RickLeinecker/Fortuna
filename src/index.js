@@ -13,6 +13,7 @@ import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
 import BattlegroundContainer from './battleground/BattlegroundContainer.js';
 import ConfirmEmail from './login/ConfirmEmail.js';
+import ResetPassword from './login/ResetPassword.js';
 
 // The routing const holds the paths to other react components.
 const routing = (
@@ -29,6 +30,7 @@ const routing = (
 				<Route path="/TrainingArena" component={TrainingArena} />
 				<Route path="/Battleground" component={BattlegroundContainer} />
 				<Route path = '/ConfirmEmail/:token/:email' component= {ConfirmEmail}/>
+				<Route path='/ResetPassword/:token/:email' component={ResetPassword}/>
 			</Switch>
 		</div>
 	</Router>
