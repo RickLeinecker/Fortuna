@@ -89,7 +89,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 	LANCER_PARTICLE: {
 		speed: 3,
 		width: 1,
-		lifetime: 0,
+		lifetime: 3,
 		damage: 40,
 	},
 	MISSILE_TRACKER_DART: {
@@ -195,11 +195,11 @@ class Bullet extends GameObject {
 
 	render(drawer: ImageDrawer): void {
 		const type=this.bulletType;
+		const stats=STATS_FOR_BULLET[this.bulletType];
 		if (type === 'LANCER_PARTICLE') {
 			//don't render the lancer particles here, create a particle effect for it
 			return;
 		}
-		const stats=STATS_FOR_BULLET[this.bulletType];
 		const position=this.getPosition();
 		//special case pulse laser because it changes scale and alpha over lifetime
 		if (type === 'PULSE_LASER_PARTICLE') {
@@ -230,6 +230,20 @@ class Bullet extends GameObject {
 		const mySeg=new Seg(prevPosition, newPosition);
 		const stats=STATS_FOR_BULLET[this.bulletType];
 		const EXTRA_WIDTH=this.bulletType === 'DEATH_RAY_BULLET'?5:2;
+
+		//special case for if I am a pulse laser doing damage:
+		if (this.bulletType === 'PULSE_LASER_PARTICLE') {
+			if (this.lifetime===Math.round(stats.lifetime*.7)) {
+				for (const t:Tank of allTanks) {
+					if (t.getPosition().sub(this.getPosition()).mag()<stats.width/2) {
+						t.takeDamage(stats.damage);
+					}
+				}
+			}
+			return false;
+		}
+		//end special case for pulse laser
+		
 		for (const t:Tank of allTanks) {
 			const distance=mySeg.distanceTo(t.getPosition());
 			if (distance<t.getBoundingCircle().r+EXTRA_WIDTH) {

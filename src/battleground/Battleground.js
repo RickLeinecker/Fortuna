@@ -96,12 +96,12 @@ const wallsForArena: {[ArenaType]: Array<Wall>} = {
 
 const spawnPointsForArena: {[ArenaType]: Array<Vec>} = {
 	DIRT: [
-		new Vec(-70, -40),
-		new Vec(-70, -40),
-		new Vec(-70, -40),
-		new Vec(70, 40),
-		new Vec(70, 40),
-		new Vec(70, 40),
+		new Vec(-70, 40),
+		new Vec(-70, 40),
+		new Vec(-70, 40),
+		new Vec(70, -40),
+		new Vec(70, -40),
+		new Vec(70, -40),
 	],
 	HEX: [
 		new Vec(-60, -30),
@@ -366,7 +366,7 @@ class Battleground extends React.Component<Props> {
 			this.reportWinner(0);
 			return;
 		}
-		let p1TanksAlive=0, p2TanksAlive=2;
+		let p1TanksAlive=0, p2TanksAlive=0;
 		for (let i=0; i<6; i++) {
 			const tank=this.testTanks[i];
 			if (tank!=null && tank.getHealth()>0) {
