@@ -6,11 +6,13 @@ import Cookies from 'universal-cookie';
 import type { LinkType } from './typesAndClasses/LinkType.js';
 import { verifyLink } from './verifyLink.js';
 import getUserAPICall from './apiCalls/getUserAPICall.js';
+import YoutubeVideoPopup from './YoutubeVideoPopup.js';
 
 type Props = {
 	linkName: LinkType,
 	returnName?: string,
-	pageName: string
+	pageName: string,
+	youtubeLinks?: Array<string>
 }
 
 type State = {
@@ -79,6 +81,15 @@ class Navbar extends React.Component<Props, State> {
 		});
 	}
 
+	//Youtube links need to be formatted to play within our domain
+	formatYoutubeLink(links:Array<string>): Array<string> {
+		const formattedLinks: Array<string> = [];
+		for(const link of links) {
+			formattedLinks.push('https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1));
+		}
+		return formattedLinks;
+	}
+
 	render(): React.Node {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
@@ -87,10 +98,17 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
+		const youtubeLink = (this.props.youtubeLinks==null) ? <div></div> : (
+			<YoutubeVideoPopup youtubeVideoLinks={this.formatYoutubeLink(this.props.youtubeLinks)}></YoutubeVideoPopup>
+		); 
+
 		return (
 			<div className="navbar">
 				<div className="navleft">
-					{link}	
+					<div className="row rowPadding">
+						{link}&emsp;
+						{youtubeLink}
+					</div>
 				</div>
 				<div className="navmiddle">
 					<h4>{this.props.pageName}</h4>

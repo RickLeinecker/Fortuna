@@ -45,6 +45,8 @@ import {
 
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	TEAM_TANK_XS_VAR_NAME,
+	TEAM_TANK_YS_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,
@@ -76,6 +78,7 @@ class Tank extends GameObject {
 	haveMissileTracker: boolean;
 	health: number;
 	createSmokeCounter=0;
+	renderOrderOffset: number;
 
 	// parts: 
 	chassis: Chassis;
@@ -328,6 +331,12 @@ class Tank extends GameObject {
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
 
+		const friendlyTanks=this._getFriendlyTanks(battleground);
+		const friendlyTankXs=friendlyTanks.map(tank => tank.getPosition().x);
+		const friendlyTankYs=friendlyTanks.map(tank => tank.getPosition().y);
+		this._setDoubleArray(TEAM_TANK_XS_VAR_NAME, friendlyTankXs);
+		this._setDoubleArray(TEAM_TANK_YS_VAR_NAME, friendlyTankYs);
+
 		const mines=this._getMines(battleground);
 		const minesXs=mines.map(mine => mine.getPosition().x);
 		const minesYs=mines.map(mine => mine.getPosition().y);
@@ -419,6 +428,11 @@ class Tank extends GameObject {
 		);
 	}
 
+	_getFriendlyTanks(battleground: Battleground): Array<Tank> {
+		//for now at least just let users see all of their teammates, even if they are out of scanner range
+		return battleground.getTanksOnSameTeam(this);
+	}
+
 	_getMines(battleground: Battleground): Array<GameObject> {
 		if (this.scanner == null) {
 			return [];
@@ -490,6 +504,14 @@ class Tank extends GameObject {
 
 	getHealth(): number {
 		return this.health;
+	}
+
+	getRenderOrder(): number {
+		return 0.001+this.renderOrderOffset/1000;
+	}
+
+	setRenderOrderOffset(newOffset: number): void {
+		this.renderOrderOffset=newOffset;
 	}
 
 	setTurretAngleForDisplayOnly(turretAngle: number): void {

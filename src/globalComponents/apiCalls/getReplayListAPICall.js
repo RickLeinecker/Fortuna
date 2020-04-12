@@ -36,6 +36,9 @@ function getReplayListAPICall(onLoad:(replays: Array<Replay>) => void) {
 						backendReplay.prizeMoney,
 						backendReplay.eloExchanged,
 						backendReplay._id,
+						backendReplay.map,
+						backendReplay.tankTeamOne.map(tank => tank.tankName),
+						backendReplay.tankTeamTwo.map(tank => tank.tankName)
 					)
 				);
 				console.log('returned replays: ');

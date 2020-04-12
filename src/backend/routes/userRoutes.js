@@ -72,7 +72,6 @@ router.get('/getUser', auth, userController.getUser);
 // Returns a JSON object with all the user's info except the pass
 router.get('/retrieveUser/:userId', userController.retrieveUser);
 
-
 // Retrieve top 10 users as of rn, that can be easily changed if needed - see userController
 // Route call: /leaderboard
 // Req requires no info
@@ -89,11 +88,37 @@ router.patch('/setWager', [
 		.isInt()
 ], auth,  userController.setWager);
 
+// Send a password reset email to User's email
+// Route call: passwordResetReq
+// Req must include email in body provided by user
+// Returns success prompt that email was sent.
+router.post('/passwordResetReq', [
+	check('email', 'Please enter a valid email')
+		.isEmail()
+], userController.passwordResetReq);
+
+// Reset a user's password
+// Route call: resetPassword
+// Req must include email in body provided by user
+// Token should be in the body as an input from the URL
+// in the email.
+// New password is in the body from the field.
+// Returns success prompt, then user can go login
+router.patch('/resetPassword', [
+	check('email', 'Please enter a valid email')
+		.isEmail(),
+	check('token', 'A verification token is required')
+		.exists(),
+	check('newPassword', 'A new password is required')
+		.isString()
+], userController.resetPassword);
+
 // Edit user account information
 // Route call: /editUser
 // Header: x-auth-token
 // Body: userName, password, email
 // Returns the updated user document
+// NOT IMPLEMENTED IN FRONT-END. But route works and can be used.
 router.patch('/editUser', [
 	check('email', 'Enter a valid email')
 		.isEmail(),
@@ -106,6 +131,10 @@ router.patch('/editUser', [
 // Route call: /deleteUser
 // Header: x-auth-token
 // Returns a success message that the user has been deleted.
+// NOT IMPLEMENTED IN FRONT-END. But route works and can be used.
+// NOTE: Using this will require a change in the way the BattleRecord
+// stores userOne and userTwo, as they are ObjectIds, and using this
+// route deletes that ObjectId from the DB.
 router.delete('/deleteUser', auth,  userController.deleteUser);
 
 module.exports = router;

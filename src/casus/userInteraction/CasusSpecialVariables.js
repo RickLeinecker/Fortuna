@@ -25,6 +25,8 @@ const TANK_Y_VAR_NAME: string = 'tankY';
 //double lists
 const ENEMY_TANK_XS_VAR_NAME: string = 'enemyTankXs';
 const ENEMY_TANK_YS_VAR_NAME: string = 'enemyTankYs';
+const TEAM_TANK_XS_VAR_NAME: string = 'friendlyTankXs';
+const TEAM_TANK_YS_VAR_NAME: string = 'friendlyTankYs';
 const EXPLOSIVE_XS_VAR_NAME: string = 'explosiveXs';
 const EXPLOSIVE_YS_VAR_NAME: string = 'explosiveYs';
 const WALL_XS_VAR_NAME: string = 'wallXs';
@@ -56,6 +58,8 @@ const builtInDoubleVariables: Array<string> = [
 const builtInDoubleListVariables: Array<string> = [
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	TEAM_TANK_XS_VAR_NAME,
+	TEAM_TANK_YS_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,
@@ -81,6 +85,8 @@ export {
 
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	TEAM_TANK_XS_VAR_NAME,
+	TEAM_TANK_YS_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,

@@ -6,6 +6,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
+import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewDataTypes } from './MarketplaceViewDataTypes.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
@@ -68,6 +69,9 @@ class Marketplace extends React.Component<Props, State> {
 			case 'MAKE_A_TANK_SALE':
 				partView=(<MakeATankSaleView onItemSold={this.onMoneyChanged}></MakeATankSaleView>);
 				break;
+			case 'REMOVE_A_SALE':
+				partView=(<RemoveASaleView></RemoveASaleView>);
+				break;
 			default:
 				partView=(<h2>Select a type on the left</h2>);
 				break;
@@ -80,6 +84,7 @@ class Marketplace extends React.Component<Props, State> {
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"
 					ref="navbar"
+					youtubeLinks={["https://www.youtube.com/watch?v=hnmnJLNz2vk"]}
 				/>
 				<div className="row mt-5">
 					<div className="col-md-4">
@@ -97,6 +102,7 @@ class Marketplace extends React.Component<Props, State> {
 							<h4>Sell</h4>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'MAKE_A_SALE_COMPONENT'})}>Make a Component Sale</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'MAKE_A_TANK_SALE'})}>Make a Tank Sale</button>
+							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'REMOVE_A_SALE'})}>Remove a Sale</button>
 					 	</div>
 					</div>
 					<div className="col-md-4">

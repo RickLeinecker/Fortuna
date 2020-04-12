@@ -27,6 +27,14 @@ router.post('/addMarketSale', [
 	check('amount', 'Enter an item amount').isNumeric()
 ], marketController.addMarketSale);
 
+// Get the list of all Market Sales this user has that are active
+// Route call: getUsersMarketSales
+// Req userId
+// Returns list of all Market Sales belonging to the user that are active or an error
+router.get('/getUsersMarketSales/:userId', [
+	check('userId', 'A valid MongoId is required.').isMongoId()
+], marketController.getUsersMarketSales);
+
 // Get the list of all Market Sales
 // Route call: getMarketSales
 // Req needs userId
@@ -60,5 +68,13 @@ router.put('/marketTransaction', [
 	check('sellerId', 'A valid MongoId is required.').isMongoId(),
 	check('saleId', 'A valid MongoId is required.').isMongoId()
 ], marketController.marketTransaction);
+
+// Remove A Sale
+// Route call: removeAMarketSale
+// Req body needs sale ID
+// Returns the status
+router.delete('/removeAMarketSale', [
+    check('saleId', 'A valid MongoId is required.').isMongoId()
+], marketController.removeAMarketSale);
 
 module.exports = router;

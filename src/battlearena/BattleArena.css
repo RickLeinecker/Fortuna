@@ -52,39 +52,42 @@
 }
 
 /* Replay Table Styling */
-.replayList {
+.replayTable {
     font-size: 15px;
     text-align: center;
 }
 
 .replayTable table {
-    width: 100%;
+    width: 80%;
 }
 
-.replayTable thead, tbody {
+.replayTable thead {
     display: block;
+    width: 100%;
 }
 
 .replayTable tbody {
-    height: 150px;
     width: 100%;
+    display: block;
+    height: 150px;
     overflow-y: auto;
     overflow-x: auto;
 }
 
 .replayTable h4 {
-    text-align: center;
+    text-align: left;
+    margin-left: 10%;
 }
 
 .replayTable th {
     padding: 10px;
-    width: 20%;
     text-align: center;
+    width: 16%;
 }
 
 .replayTable td {
-    padding: 10px;
-    width: 20%;
+    width: 16%;
+    padding: 7px;
     border-left: none;
     border-right: none;
     border-top: 1px solid #04CCFF;

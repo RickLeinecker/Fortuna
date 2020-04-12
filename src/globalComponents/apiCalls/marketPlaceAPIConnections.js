@@ -68,7 +68,8 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 						sale.salePrice,
 						sale.amount,
 						sale.sellerId,
-						sale._id
+						sale._id,
+						null
 					));
 				}
 				onLoad(itemsForSale);
@@ -101,7 +102,8 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 						sale.salePrice,
 						sale.amount,
 						sale.sellerId,
-						sale._id
+						sale._id,
+						sale.itemId._id
 					));
 				} 
 				onLoad(itemsForSale);
@@ -134,10 +136,91 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 	);
 }
 
+function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<SaleObject>) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/getUsersMarketSales/' + userId, {
+		method: 'get',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data.msg);
+				console.log(data);
+			}
+			else {
+				const currentListings: Array<SaleObject> = [];
+				for (const sale of data) {
+					if(sale.itemType === "component") {
+						currentListings.push(new SaleObject(
+							sale.itemId,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id
+						));
+					}
+					else if(sale.itemType === "tank") {
+						currentListings.push(new SaleObject(
+							sale.itemId.tankName,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id
+						));
+					}
+					
+				} 
+				onLoad(currentListings);
+			}
+		})
+	).catch(
+		error => {
+			toast.error('Couldnt connect to server!');
+			console.log(error);
+		}
+	);
+}
+
+function removeASale(saleId: string): void {
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/removeAMarketSale/', {
+		method: 'delete',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+		body: JSON.stringify({ saleId:saleId }),
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 201) {
+				console.log(response.status);
+				toast.error(data.msg);
+				console.log(data);
+			}
+			else {
+				toast.success(data.msg);
+			}
+			
+		})
+	).catch(
+		error => {
+			toast.error('Couldnt connect to server!');
+			console.log(error);
+		}
+	);
+}
 
 export {
 	makeASale,
 	getMarketSales,
 	getMarketTanks,
-	marketSale
+	marketSale,
+	getUsersCurrentSales,
+	removeASale
 }
