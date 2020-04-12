@@ -30,9 +30,8 @@ router.post('/prepareMatch1v1', [
 // Body: challengerTankIds and personBeingChallengedId
 // Returns the newly created batlleRecordId
 router.post('/prepareMatch3v3', [
-	check('challengerTankIds', 'Need 3 tank Ids')
-		.isArray({ min: 3, max: 3})
-		.isMongoId(),
+	check('challengerTankIds')
+		.isArray({ min: 3, max: 3}),
 	check('personBeingChallengedId', 'personBeingChallengedId is required')
 		.isMongoId()
 ], auth, battleController.prepareMatch3v3);

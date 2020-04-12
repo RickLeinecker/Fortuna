@@ -172,6 +172,9 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 
 		// Get the tank objects of the personBeingChallenged
 		for (const tankId of personBeingChallenged.favoriteTanks) {
+			if (tankId == null) {
+				continue;
+			}
 			const tank = await Tank.findById(tankId, 'tankName components casusCode');
 
 			if (tank == null){
@@ -183,6 +186,9 @@ exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 		}
 		// Get the tank objects of the challenger
 		for (const tankId of challengerTankIds) {
+			if (tankId == null) {
+				continue;
+			}
 			const tank = await Tank.findById(tankId, 'tankName components casusCode');
 
 			if (tank == null) {

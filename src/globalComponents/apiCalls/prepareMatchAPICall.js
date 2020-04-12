@@ -38,15 +38,15 @@ function prepare1v1APICall(myTank: Tank, otherPlayer: User, onLoad:(matchId: str
 }
 
 function prepare3v3APICall(myTankOne: ?Tank, myTankTwo: ?Tank, myTankThree: ?Tank, otherPlayer: User, onLoad:(matchId: string) => void) {
-	const myTankIds: Array<string> = [];
+	const myTankIds: Array<?string> = [null, null, null];
 	if (myTankOne != null) {
-		myTankIds.push(myTankOne._id);
+		myTankIds[0] = myTankOne._id;
 	}
 	if (myTankTwo != null) {
-		myTankIds.push(myTankTwo._id);
+		myTankIds[1] = myTankTwo._id;
 	}
 	if (myTankThree != null) {
-		myTankIds.push(myTankThree._id);
+		myTankIds[2] = myTankThree._id;
 	}
 
 	const responsePromise: Promise<Response> = fetch('api/battle/prepareMatch3v3', {
