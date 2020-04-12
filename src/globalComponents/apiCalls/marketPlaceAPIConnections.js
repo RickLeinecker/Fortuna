@@ -69,7 +69,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 						sale.amount,
 						sale.sellerId,
 						sale._id,
-						"0"
+						null
 					));
 				}
 				onLoad(itemsForSale);

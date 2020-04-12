@@ -6,9 +6,9 @@ class SaleObject {
 	amount: number;
 	sellerId: string;
 	saleId: string;
-	tankId: string;
+	tankId: ?string;
 	
-	constructor(name: string, price: number, amount: number, sellerId: string, saleId: string, tankId: string) {
+	constructor(name: string, price: number, amount: number, sellerId: string, saleId: string, tankId: ?string) {
 		this.name = name;
 		this.price = price;
 		this.amount = amount;

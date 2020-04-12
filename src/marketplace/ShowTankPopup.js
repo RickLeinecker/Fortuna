@@ -9,7 +9,7 @@ import BackendTank from '../tanks/BackendTank.js';
 
 
 type Props = {|
-	tankIdToShow: string
+	tankIdToShow: ?string
 |}; 
 
 type State = {|

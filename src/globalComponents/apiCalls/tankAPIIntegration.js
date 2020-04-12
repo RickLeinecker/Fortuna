@@ -205,7 +205,11 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 
 //Input: Id of a tank
 //Output: a tank object of the tank whose id equals the id that was passed in
-function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
+function getTankById(tankId: ?string, onLoad:(tank: Tank) => void): void {
+	if(tankId == null) {
+		console.log("Tank Id is null");
+		return;
+	}
 	const responsePromise: Promise<Response> = fetch('/api/tank/getTankById/' + tankId, {
 		method: 'GET',
 		headers: {
