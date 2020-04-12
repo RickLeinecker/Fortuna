@@ -105,7 +105,7 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	onChangeBattleTypeClicked(): void {
-		const newBattleType = this.state.battleType=='1 vs 1'?'3 vs 3':'1 vs 1';
+		const newBattleType = this.state.battleType === '1 vs 1'?'3 vs 3':'1 vs 1';
 		setPreferredBattleType(newBattleType);
 		this.setState({battleType: newBattleType});
 	}
