@@ -158,6 +158,14 @@ class SetWagerPopup extends React.Component<Props, State> {
 		}
 	}
 
+	// Updates newWager3v3Tanks when changing a tank.
+	update3v3Tanks(newTankName: string, tankIndex: number): void {
+		const newTank: Tank = this.props.allTanks[this.props.allTanks.findIndex(tank => tank.tankName === newTankName)];
+		let newWager3v3Tanks: Array<?Tank> = this.state.newWager3v3Tanks;
+		newWager3v3Tanks[tankIndex] = newTank;
+		this.setState({newWager3v3Tanks: newWager3v3Tanks});
+	}
+
 	render(): React.Node {
 		const wagerButton = (
 			<button className="popupbtn" onClick={() => this.handleWagerClick()}>
@@ -236,11 +244,73 @@ class SetWagerPopup extends React.Component<Props, State> {
 									3 vs 3
 								</button>
 							</div>
-							<br/><br/>
+							<br/>
 							<h5>Select Tank{this.state.battleType === '1 vs 1' ? '' : 's'}</h5>
 							{this.state.battleType === '1 vs 1' ?
-								<div></div> : <div></div>
+								<div>
+									<select 
+										className="dropdownMenu"
+										onChange={(e) => this.setState({newWager1v1Tank: this.props.allTanks[this.props.allTanks.findIndex(tank => tank.tankName === e.target.value)]})}
+									>
+										{this.props.allTanks.map(tank => tank.tankName).map((tankName, index) => 
+											<option key={index}>
+												{tankName}
+											</option>
+										)}
+									</select>
+								</div> : 
+								<div>
+									<select 
+										className="dropdownMenu"
+										onChange={(e) => this.update3v3Tanks(e.target.value, 0)}
+									>
+										<option value={null}>No Tank</option>
+										{this.props.allTanks
+											.filter(tank => tank !== this.state.newWager3v3Tanks[1] && tank !== this.state.newWager3v3Tanks[2])
+											.map(tank => tank.tankName)
+											.map((tankName, index) => 
+												<option key={index}>
+													{tankName}
+												</option>
+											)
+										}
+									</select>
+									<br/>
+									<select 
+										className="dropdownMenu"
+										onChange={(e) => this.update3v3Tanks(e.target.value, 1)}
+									>
+										<option value={null}>No Tank</option>
+										{this.props.allTanks
+											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[2])
+											.map(tank => tank.tankName)
+											.map((tankName, index) => 
+												<option key={index}>
+													{tankName}
+												</option>
+											)
+										}
+									</select>
+									<br/>
+									<select 
+										className="dropdownMenu"
+										onChange={(e) => this.update3v3Tanks(e.target.value, 2)}
+									>
+										<option value={null}>No Tank</option>
+										{this.props.allTanks
+											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[1])
+											.map(tank => tank.tankName)
+											.map((tankName, index) => 
+												<option key={index}>
+													{tankName}
+												</option>
+											)
+										}
+									</select>
+								</div>
 							}
+							<br/>
+							<h6>Input amount to wager your tank{this.state.battleType === '1 vs 1' ? ' for' : 's for'}</h6>
 							<input 
 								type="number" 
 								className="inputText"
