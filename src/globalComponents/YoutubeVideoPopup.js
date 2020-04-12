@@ -3,7 +3,7 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 
 type Props = {|
-	youtubeVideoLink: string
+	youtubeVideoLinks: Array<string>
 |}; 
 
 type State = {|
@@ -38,7 +38,9 @@ class YoutubeVideoPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<div className="row com-md-12 d-flex justify-content-center">
-							<iframe src={this.props.youtubeVideoLink} title='youtubeVideo' height='480' width='720'></iframe>
+							{this.props.youtubeVideoLinks.map((link, index) =>
+								<iframe key={index} src={this.props.youtubeVideoLink} title='yotubeVideo' height='480' width='720'></iframe>
+							)}
 						</div>
 					</div>
 				</Popup>
