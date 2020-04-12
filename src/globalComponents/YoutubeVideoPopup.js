@@ -39,8 +39,8 @@ class YoutubeVideoPopup extends React.Component<Props, State> {
 					<div className="popup youtubePopup">
 						<div className="row com-md-12 d-flex justify-content-center">
 							{this.props.youtubeVideoLinks.map((link, index) =>
-								<div>
-									<iframe key={index} src={link} title='yotubeVideo' height='480' width='720'></iframe>
+								<div key={index}>
+									<iframe src={link} title='yotubeVideo' height='480' width='720'></iframe>
 									<br/>
 								</div>
 							)}
