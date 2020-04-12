@@ -8,9 +8,7 @@ import { ToastContainer , toast } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import { getMarketSales, marketSale, getMarketTanks } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
-import { getTankById } from '../globalComponents/apiCalls/tankAPIIntegration';
-import Tank from '../tanks/Tank.js';
-import TankDisplay from '../tanks/TankDisplay.js';
+import ShowTankPopup from './ShowTankPopup.js';
 
 type Props = {|
 	// This is the type of item we are buying
@@ -22,7 +20,6 @@ type State = {|
 	userId: string,
 	// This allows for all the items that are for sale to be with in one array
 	itemsForSale: Array<SaleObject>,
-	tanksBeingShown: Array<Tank>,
 |};
 
 
@@ -32,7 +29,6 @@ class ListingsView extends React.Component<Props, State> {
 		this.state={
 			userId: '',
 			itemsForSale: [],
-			tanksBeingShown: [],
 		}
 	}
 
@@ -83,10 +79,6 @@ class ListingsView extends React.Component<Props, State> {
 	getMarketSalesForTanks(): void  {
 		getMarketTanks(this.state.userId, sales => {
 				this.setState({itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name)))}); 
-				//Once we have all of the tanks add them to the array that is going to show them
-				for(let i = 0; i < sales.length; i++) {
-					this.addTankToTanksBeingShown(sales[i].tankId, i);
-				}
 		});
 	}
 
@@ -97,15 +89,14 @@ class ListingsView extends React.Component<Props, State> {
 		for (let i = 0; i < this.state.itemsForSale.length; i++) {
 			// Handle tank and components different to display tank 
 			// Have to make sure that the tanks are being ready to be shown
-			if(this.props.sellerType === 'tanks'  && this.state.itemsForSale.length === this.state.tanksBeingShown.length) {
-				console.log(this.state);
+			if(this.props.sellerType === 'tanks') {
 				cards.push(
 					<div className="card mb-2" key={i}>
 						<div className="card-body">
 							<h5 className="card-title">Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
 							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
 							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
-							<TankDisplay tankToDisplay={this.state.tanksBeingShown[i]} smallTank={true} />
+							<ShowTankPopup tankIdToShow={this.state.itemsForSale[i].tankId}></ShowTankPopup>
 							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
 						</div>
 					</div>
@@ -127,15 +118,6 @@ class ListingsView extends React.Component<Props, State> {
 		return cards;
 	}
 
-	//This function takes in an id of a tank and adds the view of that tank to the state of tanks being shown
-	addTankToTanksBeingShown(tankId: string, index: number) {
-		getTankById(tankId, tankReturned => {
-			const tanksBeingShown = this.state.tanksBeingShown;
-			tanksBeingShown[index] = tankReturned;
-			this.setState({tanksBeingShown: tanksBeingShown});
-		});
-		
-	}
 
 	// Handles purchases.
 	buyItem (sellerId: string, saleId: string): void {
