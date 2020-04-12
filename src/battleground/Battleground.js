@@ -92,9 +92,42 @@ const wallsForArena: {[ArenaType]: Array<Wall>} = {
 		new Wall(new Vec(0, 60), Math.PI*.5, true),
 		new Wall(new Vec(0, -60), Math.PI*.5, true),
 	],
-
 }
 
+const spawnPointsForArena: {[ArenaType]: Array<Vec>} = {
+	DIRT: [
+		new Vec(-70, -40),
+		new Vec(-70, -40),
+		new Vec(-70, -40),
+		new Vec(70, 40),
+		new Vec(70, 40),
+		new Vec(70, 40),
+	],
+	HEX: [
+		new Vec(-60, -30),
+		new Vec(-60, -30),
+		new Vec(-60, -30),
+		new Vec(60, 30),
+		new Vec(60, 30),
+		new Vec(60, 30),
+	],
+	LUNAR: [
+		new Vec(-105, -60),
+		new Vec(-70, -40),
+		new Vec(-55, -70),
+		new Vec(105, 60),
+		new Vec(70, 40),
+		new Vec(110, 20),
+	],
+	CANDEN: [
+		new Vec(-133, 0),
+		new Vec(-100, 60),
+		new Vec(-100, -60),
+		new Vec(133, 0),
+		new Vec(100, 60),
+		new Vec(100, -60),
+	],
+}
 
 const TitleMessageForMatchResult: {[MatchResult]: string} = {
 	IN_PROGRESS: '',
@@ -163,7 +196,8 @@ class Battleground extends React.Component<Props> {
 			(tankLoaded, index) => {
 				this.testTanks[index]=tankLoaded;
 				this.gameObjects.push(tankLoaded);
-				tankLoaded.position=new Vec(15*index, 40);
+				const spawnPoint=spawnPointsForArena[this.arena][index];
+				tankLoaded.position=spawnPoint;
 				tankLoaded.setRenderOrderOffset(index);
 			},
 			matchId => {this.matchIdToReport=matchId;}
