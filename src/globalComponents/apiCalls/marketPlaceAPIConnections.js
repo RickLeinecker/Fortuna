@@ -68,7 +68,8 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 						sale.salePrice,
 						sale.amount,
 						sale.sellerId,
-						sale._id
+						sale._id,
+						null
 					));
 				}
 				onLoad(itemsForSale);
@@ -101,7 +102,8 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 						sale.salePrice,
 						sale.amount,
 						sale.sellerId,
-						sale._id
+						sale._id,
+						sale.itemId._id
 					));
 				} 
 				onLoad(itemsForSale);
