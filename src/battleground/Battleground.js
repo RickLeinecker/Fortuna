@@ -281,11 +281,11 @@ class Battleground extends React.Component<Props> {
 		//camera movement and setup
 		if (this.lifetimeCounter===30) {
 			this.targetZoomScale=2.5;
-			this.targetCameraPos=this.getTanks()[0].getPosition();
+			this.targetCameraPos=this.testTanks[0]?.getPosition()??new Vec(0, 0);
 		}
 		if (this.lifetimeCounter===60) {
 			this.targetZoomScale=2.5;
-			this.targetCameraPos=this.getTanks()[1].getPosition();
+			this.targetCameraPos=this.testTanks[3]?.getPosition()??new Vec(0, 0);
 		}
 		if (this.lifetimeCounter===90) {
 			this.targetZoomScale=1;
