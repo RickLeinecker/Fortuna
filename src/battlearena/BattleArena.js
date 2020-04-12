@@ -118,7 +118,10 @@ class BattleArena extends React.Component<Props, State> {
 					onChallengePlayer = {(user) => this.onChallengePlayer(user)}
 					playerChallenged = {null}
 				/>
-				<SearchPlayers onChallengePlayer={(user) => this.onChallengePlayer(user)} />
+				<SearchPlayers 
+					onChallengePlayer={(user) => this.onChallengePlayer(user)}
+					battleType={this.state.battleType}
+				/>
 			</div>
 			<div className="column bamiddle">
 				<h5>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
