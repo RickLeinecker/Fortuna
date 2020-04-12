@@ -167,13 +167,18 @@ class Battleground extends React.Component<Props> {
 		addCallbackWhenImageLoaded(()=>this._rerender());
 
 		this.arena=getBattlegroundArena();
+		this.setUpForArena(this.arena);
+	}
+
+	setUpForArena(arena: ArenaType) {
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
 		this.testTanks = [null, null, null, null, null, null];
-		this.maxMatchLength = matchLengthForArena[this.arena];
-		const walls = wallsForArena[this.arena];
-		const W=arenaWidth[this.arena]/2;
+		this.lifetimeCounter = 0;
+		this.maxMatchLength = matchLengthForArena[arena];
+		const walls = wallsForArena[arena];
+		const W=arenaWidth[arena]/2;
 		const H=W/200*120;
 		this.collisionSegs = [
 			new Seg(new Vec(-W, H), new Vec(W, H)),
@@ -200,7 +205,8 @@ class Battleground extends React.Component<Props> {
 				tankLoaded.position=spawnPoint;
 				tankLoaded.setRenderOrderOffset(index);
 			},
-			matchId => {this.matchIdToReport=matchId;}
+			matchId => {this.matchIdToReport=matchId;},
+			arenaType => {this.setUpForArena(arenaType);}
 		);
 		setTimeout(() => this._gameLoop(), 1000/20);
 	}

@@ -5,12 +5,14 @@ import Tank from '../tanks/Tank.js';
 import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getMatchAPICall from '../globalComponents/apiCalls/getMatchAPICall.js';
+import type {ArenaType} from './ArenaType.js';
 
 // On the onTankLoaded callback, indecies 0-2 refer to tanks on Team1
 // indecies 3-5 refer to tanks on team2
 function getTanksToFightOnBattleground(
 	onTankLoaded: (tankLoaded: Tank, index: number) => void,
-	onMatchIDLoaded: (matchID: string) => void
+	onMatchIDLoaded: (matchID: string) => void,
+	onArenaLoaded: (arenaType: ArenaType) => void
 ): void {
 	//well, we need an api call to get tanks based on their ids, so this cucrently isn't possible
 	const cookies=new Cookies();
@@ -50,10 +52,14 @@ function getTanksToFightOnBattleground(
 	else if (tanksOrMatch === 'match') {
 		const matchId=cookies.get('matchToLoad');
 		console.log('trying to load match '+matchId);
-		getMatchAPICall(matchId, (tank1, tank2, matchId) => {
+		getMatchAPICall(matchId, (tanksLoaded, matchId, arenaType) => {
 			console.log('match loaded!');
-			onTankLoaded(tank1, 0);
-			onTankLoaded(tank2, 1);
+			onArenaLoaded(arenaType);
+			for (let i=0; i<6; i++) {
+				if (tanksLoaded[i] != null) {
+					onTankLoaded(tanksLoaded[i], i);
+				}
+			}
 			onMatchIDLoaded(matchId);			
 		});
 	}
