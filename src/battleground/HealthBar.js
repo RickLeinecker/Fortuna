@@ -230,175 +230,20 @@ class HealthBar extends React.Component<Props> {
 	draw3v3Healthbars(ctx: CanvasRenderingContext2D, team1Tanks: Array<Tank>, team2Tanks: Array<Tank>): void {
 		let curY=HEIGHT*.11;
 		for (const tank: Tank of team1Tanks) {
-			//draw healthbar
 			ctx.fillStyle='#030915';
 			const BAR_WIDTH=WIDTH*.2;
 			const BAR_HEIGHT=HEIGHT*.2;
-			ctx.fillRect(WIDTH*.23, curY, BAR_WIDTH, BAR_HEIGHT);
+			ctx.fillRect(WIDTH/80, curY, BAR_WIDTH, BAR_HEIGHT);
 			ctx.fillStyle=LIGHT_BLUE;
 			const percent1=Math.max(0, tank.getHealth()/tank._getArmorOffset());
 			const BORDER=4;
 			const SMALL_WIDTH=BAR_WIDTH-2*BORDER;
 			const SMALL_HEIGHT=BAR_HEIGHT-2*BORDER;
-			ctx.fillRect(WIDTH*.23+BORDER, curY+BORDER, SMALL_WIDTH*percent1, SMALL_HEIGHT);
-			//end draw health bar
+			ctx.fillRect(WIDTH/80+BORDER, curY+BORDER, SMALL_WIDTH*percent1, SMALL_HEIGHT);
+
 			
-			//draw tank name
-			const oldFont=ctx.font;
-			const MAX_NAME_WIDTH=WIDTH*.1;
-			let fontSize=20;
-			ctx.font='normal small-caps 20px arial';
-			while (ctx.measureText(tank.tankName).width>MAX_NAME_WIDTH) {
-				fontSize--;
-				ctx.font='normal small-caps '+fontSize+'px arial';
-			}
-
-			const TEXT_WIDTH=ctx.measureText(tank.tankName).width;
-			let text=tank?.tankName??'';
-			ctx.fillStyle='black';
-			let width=ctx.measureText(text).width;
-			ctx.fillText(text, WIDTH*.22-TEXT_WIDTH, curY+BAR_HEIGHT*.6+2);
-			ctx.fillStyle=LIGHT_BLUE;
-			ctx.fillText(text, WIDTH*.22-TEXT_WIDTH, curY+BAR_HEIGHT*.6);
-
-			ctx.font=oldFont;
-			//end draw tank name
-
-			//draw warnings
-			const WARNING_WIDTH=30;
-			if (tank.getHitInstructionsLimit()) {
-				ctx.drawImage(
-					getImage('TOO_MANY_INSTRUCTIONS'), 
-					WIDTH*.005, 
-					curY-HEIGHT*0.06, 
-					WARNING_WIDTH, 
-					WARNING_WIDTH
-				);
-			}
-			if (tank.getHitRecursionLimit()) {
-				ctx.drawImage(
-					getImage('RECURSION_TOO_DEEP'), 
-					WIDTH*0.033, 
-					curY-HEIGHT*0.06, 
-					WARNING_WIDTH, 
-					WARNING_WIDTH
-				);
-			}
-			//end draw warnings
-			
-			//draw item icons
-			const itemsOwned: Array<ImageName> = [];
-			if (tank.haveC4) {
-				itemsOwned.push('C4');
-			}
-			for (let i=0; i<tank.minesLeft; i++) {
-				itemsOwned.push('MINE');
-			}
-			if (tank.haveNitroRepair) {
-				itemsOwned.push('GREEN_PARTICLE');
-			}
-			if (tank.haveOverdrive) {
-				itemsOwned.push('EMBER1');
-			}
-			if (tank.haveMissileTracker) {
-				itemsOwned.push('MISSILE_TRACKER_DART');
-			}
-			const ICON_WIDTH=20;
-			let curX=WIDTH*.11
-			for (const item of itemsOwned) {
-				ctx.drawImage(getImage(item), curX, curY, ICON_WIDTH, ICON_WIDTH);
-				curX-=ICON_WIDTH*1.1;
-			}
-			//end draw item icons
-			
-			curY+=HEIGHT*0.3;
-		}
 
 
-		//Now the same thing, but for the other team!
-		curY=HEIGHT*.11;
-		for (const tank: Tank of team2Tanks) {
-			//draw healthbar
-			ctx.fillStyle='#030915';
-			const BAR_WIDTH=WIDTH*.2;
-			const BAR_HEIGHT=HEIGHT*.2;
-			ctx.fillRect(WIDTH-WIDTH*.23-BAR_WIDTH, curY, BAR_WIDTH, BAR_HEIGHT);
-			ctx.fillStyle=LIGHT_BLUE;
-			const percent1=Math.max(0, tank.getHealth()/tank._getArmorOffset());
-			const BORDER=4;
-			const SMALL_WIDTH=BAR_WIDTH-2*BORDER;
-			const SMALL_HEIGHT=BAR_HEIGHT-2*BORDER;
-			ctx.fillRect(WIDTH-WIDTH*.23-SMALL_WIDTH*percent1-BORDER, curY+BORDER, SMALL_WIDTH*percent1, SMALL_HEIGHT);
-			//end draw health bar
-			
-			//draw tank name
-			const oldFont=ctx.font;
-			const MAX_NAME_WIDTH=WIDTH*.1;
-			let fontSize=20;
-			ctx.font='normal small-caps 20px arial';
-			while (ctx.measureText(tank.tankName).width>MAX_NAME_WIDTH) {
-				fontSize--;
-				ctx.font='normal small-caps '+fontSize+'px arial';
-			}
-
-			const TEXT_WIDTH=ctx.measureText(tank.tankName).width;
-			let text=tank?.tankName??'';
-			ctx.fillStyle='black';
-			let width=ctx.measureText(text).width;
-			ctx.fillText(text, WIDTH-WIDTH*.22, curY+BAR_HEIGHT*.6+2);
-			ctx.fillStyle=LIGHT_BLUE;
-			ctx.fillText(text, WIDTH-WIDTH*.22, curY+BAR_HEIGHT*.6);
-
-			ctx.font=oldFont;
-			//end draw tank name
-
-			//draw warnings
-			const WARNING_WIDTH=30;
-			if (tank.getHitInstructionsLimit()) {
-				ctx.drawImage(
-					getImage('TOO_MANY_INSTRUCTIONS'), 
-					WIDTH-WARNING_WIDTH-WIDTH*.005, 
-					curY-HEIGHT*0.06, 
-					WARNING_WIDTH, 
-					WARNING_WIDTH
-				);
-			}
-			if (tank.getHitRecursionLimit()) {
-				ctx.drawImage(
-					getImage('RECURSION_TOO_DEEP'), 
-					WIDTH-WARNING_WIDTH-WIDTH*0.033, 
-					curY-HEIGHT*0.06, 
-					WARNING_WIDTH, 
-					WARNING_WIDTH
-				);
-			}
-			//end draw warnings
-			
-			//draw item icons
-			const itemsOwned: Array<ImageName> = [];
-			if (tank.haveC4) {
-				itemsOwned.push('C4');
-			}
-			for (let i=0; i<tank.minesLeft; i++) {
-				itemsOwned.push('MINE');
-			}
-			if (tank.haveNitroRepair) {
-				itemsOwned.push('GREEN_PARTICLE');
-			}
-			if (tank.haveOverdrive) {
-				itemsOwned.push('EMBER1');
-			}
-			if (tank.haveMissileTracker) {
-				itemsOwned.push('MISSILE_TRACKER_DART');
-			}
-			const ICON_WIDTH=20;
-			let curX=WIDTH*.11
-			for (const item of itemsOwned) {
-				ctx.drawImage(getImage(item), WIDTH-ICON_WIDTH-curX, curY, ICON_WIDTH, ICON_WIDTH);
-				curX-=ICON_WIDTH*1.1;
-			}
-			//end draw item icons
-			
 			curY+=HEIGHT*0.3;
 		}
 	}
