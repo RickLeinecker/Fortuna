@@ -373,6 +373,11 @@ select {
 	margin-top: 15%;
 }
 
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .youtubePopup {
 	height: 510px;
 	overflow-y: auto;

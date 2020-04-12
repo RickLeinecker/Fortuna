@@ -36,10 +36,56 @@ function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
 					data.components,
 					data.casusCode,
 					data.isBot,
-					data.userid,
+					data.userId,
 					data.tankName
 				);
 				onLoad(getTank(tank));
+			}
+		})
+	)
+}
+
+// Function that gets the user's favorite tank team.
+function getFavoriteTankTeam(onLoad:(tanks: Array<?Tank>) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/getFavoriteTankTeam/', {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				if (data === []) {
+					onLoad([null, null, null]);
+					return;
+				}
+				const tanks: Array<?Tank> = [];
+				console.log(data);
+				for(let i: number = 0; i < 3; i++) {
+					if (data[i] != null) {
+						tanks.push(getTank(new BackendTank(
+							data[i]._id,
+							data[i].components,
+							data[i].casusCode,
+							data[i].isBot,
+							data[i].userId,
+							data[i].tankName
+						)));
+					}
+					else {
+						tanks.push(null);
+					}
+				}
+				onLoad(tanks);
 			}
 		})
 	)
@@ -70,8 +116,57 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	);
 }
 
+function setFavoriteTankTeamIds(tankIds: Array<?string>, onLoad:() => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/setFavoriteTankTeam/', {
+		method: 'PATCH',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+		body: JSON.stringify({ tankTeam: tankIds }),
+	});
+	responsePromise.then (
+		response => response.text().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(data);
+			}
+			else {
+				onLoad();
+			}
+		})
+	);
+}
+
 function removeFavoriteTankId(onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/unfavoriteTank/', {
+		method: 'PATCH',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		}
+	});
+	responsePromise.then (
+		response => response.text().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(data);
+			}
+			else {
+				onLoad();
+			}
+		})
+	);
+}
+
+function removeFavoriteTankTeamIds(onLoad:() => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/unfavoriteTankTeam/', {
 		method: 'PATCH',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -239,8 +334,11 @@ function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
 
 export {
 	getFavoriteTank,
+	getFavoriteTankTeam,
 	setFavoriteTankId,
+	setFavoriteTankTeamIds,
 	removeFavoriteTankId,
+	removeFavoriteTankTeamIds,
 	updateTank,
 	getAllUsersTanks,
 	createTank,

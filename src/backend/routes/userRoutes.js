@@ -88,6 +88,16 @@ router.patch('/setWager', [
 		.isInt()
 ], auth,  userController.setWager);
 
+// Set the wager 3v3 amount for a user account
+// Route call: /setWager3v3
+// Header: x-auth-token
+// Body: wager3v3: int
+// returns the updated user doc
+router.patch('/setWager3v3', [
+	check('wager3v3', 'Please enter the wager amount you would like to set')
+		.isInt()
+], auth,  userController.setWager3v3);
+
 // Send a password reset email to User's email
 // Route call: passwordResetReq
 // Req must include email in body provided by user

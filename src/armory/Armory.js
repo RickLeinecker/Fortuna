@@ -20,6 +20,7 @@ import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponen
 import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
+import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
 // Types and Classes
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -103,6 +104,7 @@ class Armory extends React.Component<Props, State> {
 			// Always set the default selected tank to the newest tank.
 			const newSelectedTank = allTanks[allTanks.length-1];
 			setTankForCasus(newSelectedTank._id);
+			setPreferredSelectedTank(newSelectedTank);
 			// Update the state, and then run initPoints after the state has been set.
 			this.setState({
 					allTanks: allTanks, 
@@ -338,7 +340,6 @@ class Armory extends React.Component<Props, State> {
 					<br/><br/>
 					<SetWagerPopup
 						ref="SetWagerPopup"
-						wagerTank={this.state.selectedTank}
 						onWagerUpdate={this.onWagerUpdate}
 					/>
 				</div>
