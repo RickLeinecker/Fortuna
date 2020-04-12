@@ -31,6 +31,7 @@ function getAllUsersAPICall(onLoad:(allUsers: Array<User>) => void) {
 						backendUser.userName, 
 						backendUser.money, 
 						backendUser.wager,
+						backendUser.wager3v3,
 						backendUser._id,
 						backendUser.stats.elo,
 						getInventory(backendUser.inventory.tankComponents)

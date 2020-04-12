@@ -50,7 +50,6 @@ router.get('/getFavoriteTankTeam', auth, tankController.getFavoriteTankTeam);
 router.patch('/setFavoriteTankTeam', [
 	check('tankTeam', 'Need array 3 Tank MongoIds')
 		.isArray({ min: 3, max: 3 })
-		.isMongoId()
 ], auth, tankController.setFavoriteTankTeam);
 
 // Sets favorite tank team to empty array and wager to 0

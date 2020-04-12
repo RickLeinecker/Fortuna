@@ -55,11 +55,14 @@ exports.register = async (req: Request, res: Response) => {
 				.json({ msg: 'A user with that email already exists' });
 		}
 
+		// Make initial tank team array of 3 nulls
+		const favoriteTanks = [null, null, null];
 		// Instantiate a new user
 		user = new User({
 			userName,
 			email,
-			password
+			password,
+			favoriteTanks
 		});
 
 		// Creates salt with 10 rounds(recommended)
@@ -461,7 +464,6 @@ exports.allUsers = async (req: Request, res: Response) => {
 	});
 }
 
-// Still need to add daily stipend
 exports.setWager = async (req: Request, res: Response) => {
 	try {
 		const user = await User.findById(req.user.id, 'wager money wagerDate');
@@ -511,6 +513,79 @@ exports.setWager = async (req: Request, res: Response) => {
 			const take = user.money - req.body.wager;
 			user.money = take;
 			user.wager = req.body.wager;
+
+			await user.save();
+
+			if (stipendAdded) {
+				console.log('Wager updated and stipend added');
+				return res
+					.status(201)
+					.send(user);
+			}
+			else {
+				console.log('Wager successfully updated');
+				return res
+					.status(200)
+					.send(user);
+			}
+		}
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Failed to update user wager value'});
+	}
+}
+
+exports.setWager3v3 = async (req: Request, res: Response) => {
+	try {
+		const user = await User.findById(req.user.id, 'wager3v3 money wagerDate');
+
+		// Check if found
+		if (user == null){
+			console.log('Could not find user in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find user in db'});
+		}
+
+		// One day's time. * 1000 because it's in milliseconds
+		const aDay = 60 * 60 * 24 * 1000;
+
+		// If a user has never made a wager or its been 24hrs since last stipend give them their stipend and update wagerDate
+		const now = new Date();
+		let stipendAdded = false
+		if (user.wagerDate == null || (now - user.wagerDate) > aDay) {
+			const newBalance = user.money + 100;
+			user.money = newBalance;
+			user.wagerDate = now;
+			stipendAdded = true;
+			console.log('Applied daily wager stipend');
+		}
+
+		// Add back the balance of the original wager
+		// Theres gotta be a cleaner way to do this but idk
+		const addBack = user.money + user.wager3v3;
+		user.money = addBack;
+
+		if (user.money < req.body.wager3v3) {
+			console.log('User does not have enough money to set that wager');
+			return res
+				.status(400)
+				.json({ msg: 'User does not have enough money'});
+		}
+
+		if (req.body.wager3v3 < 50) {
+			console.error('User cannot have a wager lower than 50');
+			return res
+				.status(400)
+				.json({ msg: 'User cannot have a wager lower than 50'});			
+		}
+		else {
+			// change wager amount and take that money from their balance
+			const take = user.money - req.body.wager3v3;
+			user.money = take;
+			user.wager3v3 = req.body.wager3v3;
 
 			await user.save();
 
