@@ -126,6 +126,7 @@ class TrainingArena extends React.Component<Props, State> {
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Training Arena" 
+					youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
 				/>
 				<div className="column taleft">
 					<h5>Choose your Tank, Commander</h5>
