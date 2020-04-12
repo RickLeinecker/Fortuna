@@ -102,9 +102,9 @@ class Chassis extends TankPart {
 			case 'CHASSIS_3':
 				return 150;
 			case 'CHASSIS_4':
-				return 170;
+				return 160;
 			case 'CHASSIS_5':
-				return 130;
+				return 120;
 			default: throw new Error('UNEXPECTED CHASSIS TYPE: '+this.chassisType);
 		}
 	}

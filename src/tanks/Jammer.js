@@ -125,11 +125,11 @@ class Jammer extends TankPart {
 	_getMaxRange(): number {
 		switch (this.range) {
 			case 'SMALL':
-				return 30;
+				return 45;
 			case 'MEDIUM':
-				return 50;
+				return 60;
 			case 'LARGE':
-				return 90;
+				return 100;
 			default:
 				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
 		}
