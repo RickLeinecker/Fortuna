@@ -62,7 +62,6 @@ const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
 const OVERDRIVE_LENGTH=30*4;
-const MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD=20;
 
 class Tank extends GameObject {
 	//game state
