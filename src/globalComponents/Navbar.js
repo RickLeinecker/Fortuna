@@ -98,7 +98,7 @@ class Navbar extends React.Component<Props, State> {
 			</Link>
 		);
 
-		const youtubeLink = (this.props.youtubeLinks==null) ? <div>{console.log('null')}</div> : (
+		const youtubeLink = (this.props.youtubeLinks==null) ? <div></div> : (
 			<YoutubeVideoPopup youtubeVideoLinks={this.formatYoutubeLink(this.props.youtubeLinks)}></YoutubeVideoPopup>
 		); 
 
