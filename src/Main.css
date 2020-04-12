@@ -368,9 +368,12 @@ select {
 .name {
 	color: #a80b4b;
 }
-.helpLink {
-	cursor: pointer;
-}
+
 .vcenter{
 	margin-top: 15%;
+}
+
+.youtubePopup {
+	height: 510px;
+	overflow-y: auto;
 }
