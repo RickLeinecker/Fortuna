@@ -171,6 +171,8 @@ class Battleground extends React.Component<Props> {
 	}
 
 	setUpForArena(arena: ArenaType) {
+		console.log('setting up arena: '+arena);
+		this.arena=arena;
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
@@ -464,6 +466,9 @@ class Battleground extends React.Component<Props> {
 
 	deleteGameObject(toDelete: GameObject): void {
 		this.objectsToDelete.push(toDelete);
+		if (this.testTanks.filter(t => t===toDelete).length>0) {
+			this.testTanks[this.testTanks.indexOf(toDelete)]=null;
+		}
 	}
 
 	addDebugLine(line: string): void {

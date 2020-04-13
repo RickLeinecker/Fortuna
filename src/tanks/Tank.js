@@ -62,7 +62,6 @@ const ORIG_TURN_DIVIDER=2;
 const NITRO_TURN_DIVIDER=1.4;
 
 const OVERDRIVE_LENGTH=30*4;
-const MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD=20;
 
 class Tank extends GameObject {
 	//game state
@@ -77,7 +76,6 @@ class Tank extends GameObject {
 	overdriveTimerLeft: number;
 	haveMissileTracker: boolean;
 	health: number;
-	createSmokeCounter=0;
 	renderOrderOffset: number;
 
 	// parts: 
@@ -183,11 +181,9 @@ class Tank extends GameObject {
 
 	update(battleground: Battleground): void {
 		if (this.getHealth()<=0) {
-			this.createSmokeCounter--;
-			if (this.createSmokeCounter<=0) {
-				this.createSmokeCounter=MAX_CREATE_SMOKE_COUNTER_WHEN_DEAD;
-				createSmokeCloud(this.getPosition(), battleground);
-			}
+			createSmokeCloud(this.getPosition(), battleground);
+			createSmokeCloud(this.getPosition(), battleground);
+			battleground.deleteGameObject(this);
 			return;
 		}
 		this.executeCasusFrame(battleground);	
