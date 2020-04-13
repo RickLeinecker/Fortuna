@@ -106,10 +106,13 @@ class DefineFunctionBlock extends CasusBlock {
 	}
 
 	getExistingVariableNames(dataType: DataType): Array<string> {
+		const existing=this.contents.getExistingVariableNames(dataType);
 		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
-			return [this.functionName];
+			if (!existing.includes(this.functionName)) {
+				existing.push(this.functionName);
+			}
 		}
-		return [];
+		return existing;
 	}
 
 	drawSelf(ctx: CanvasRenderingContext2D): void {
