@@ -171,6 +171,8 @@ class Battleground extends React.Component<Props> {
 	}
 
 	setUpForArena(arena: ArenaType) {
+		console.log('setting up arena: '+arena);
+		this.arena=arena;
 		this.gameObjects = [];
 		this.newObjects = [];
 		this.objectsToDelete = [];
