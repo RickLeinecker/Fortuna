@@ -190,8 +190,12 @@ class SetWagerPopup extends React.Component<Props, State> {
 				className="popupbtn" 
 				onClick={() => this.handleRemoveClick()}
 				disabled={
-					(this.state.battleType === '1 vs 1' && this.state.userWager1v1Tank == null) || 
-					(this.state.battleType === '3 vs 3' && this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) ? true : false
+					((this.state.battleType === '1 vs 1' && (this.state.userWager1v1Tank == null || this.state.userWager === 0)) || 
+					(this.state.battleType === '3 vs 3' && (( 
+						this.state.userWager3v3Tanks[0] == null && 
+						this.state.userWager3v3Tanks[1] == null && 
+						this.state.userWager3v3Tanks[2] == null) ||
+						this.state.userWager3v3 === 0)))
 				}
 			>
 				Remove
@@ -214,7 +218,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 					<button 
 						disabled={
 							((this.state.userWager1v1Tank == null  || this.state.userWager === 0)&& 
-							(this.state.userWager3v3Tanks === [null, null, null] || this.state.userWager3v3))
+							(this.state.userWager3v3Tanks === [null, null, null] || this.state.userWager3v3===0 ))
 						}
 						className="smallbtn"
 						onClick={() => this.setState({removeWagerOpen: true})}
@@ -364,13 +368,13 @@ class SetWagerPopup extends React.Component<Props, State> {
 							<br/>
 							{this.state.battleType === '1 vs 1' ?
 								<div>
-									<h5>{this.state.userWager1v1Tank == null ? 
+									<h5>{(this.state.userWager1v1Tank == null || this.state.userWager === 0) ? 
 										'No set 1v1 Wager Tank' : 
 										<div>Remove <div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> from being wagered?</div>
 									}</h5>
 								</div> :
 								<div>
-									{this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null ?
+									{(this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) || this.state.userWager3v3===0 ?
 										<h5>No 3v3 tanks wagered</h5> :
 										<h5>
 											Remove 
