@@ -526,10 +526,10 @@ exports.setWager = async (req: Request, res: Response) => {
 		}
 
 		if (req.body.wager < 50) {
-			console.error('User cannot have a wager lower than 50');
+			console.error('Cannot set a wager lower than $50');
 			return res
 				.status(400)
-				.json({ msg: 'User cannot have a wager lower than 50'});			
+				.json({ msg: "Can't wager less than $50"});			
 		}
 		else {
 			// change wager amount and take that money from their balance
@@ -599,10 +599,10 @@ exports.setWager3v3 = async (req: Request, res: Response) => {
 		}
 
 		if (req.body.wager3v3 < 50) {
-			console.error('User cannot have a wager lower than 50');
+			console.error('User cannot have a wager lower than $50');
 			return res
 				.status(400)
-				.json({ msg: 'User cannot have a wager lower than 50'});			
+				.json({ msg: "Can't wager less than $50"});			
 		}
 		else {
 			// change wager amount and take that money from their balance
