@@ -112,12 +112,6 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Set the user's wager and favorite tank.
 	handleWagerClick(): void {
-		// Error handling.
-		if (this.state.newWager > this.state.userCurrency) {
-			toast.error('Not enough currency.');
-			return;
-		}
-
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
 			setWager(this.state.newWager, stipendApplied => {
