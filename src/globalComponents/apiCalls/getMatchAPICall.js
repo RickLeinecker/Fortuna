@@ -32,7 +32,6 @@ function getMatchAPICall(
 				toast.error(getErrorFromObject(data));
 			}
 			else {
-				console.log(data);
 				//might be either a 1v1 or a 3v3 match
 				if (data.tankTeamOne.length===0) {
 					console.log(data);
