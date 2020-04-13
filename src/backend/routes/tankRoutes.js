@@ -116,8 +116,8 @@ router.get('/getBotTanks', tankController.getBotTanks);
 // Route call: /getTankById/<tankId>
 // Body: N/A
 // returns the tank object
-router.get('/getTankById/:tankId', [
-	check('tankId', 'a valid MongoId is required.').isMongoId()
+router.get('/getTanksById', [
+	check('tankIds', 'a valid MongoId is required.').isArray()
 ], tankController.getTankById);
 
 module.exports = router;
