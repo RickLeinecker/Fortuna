@@ -117,10 +117,6 @@ class SetWagerPopup extends React.Component<Props, State> {
 			toast.error('Not enough currency.');
 			return;
 		}
-		else if (this.state.newWager < 50) {
-			toast.error('Wager cannot be less than 50.');
-			return;
-		}
 
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
@@ -216,7 +212,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 					&emsp;
 					<button 
-						disabled={(this.state.userWager1v1Tank == null && this.state.userWager3v3Tanks === [null, null, null]) ? true : false}
+						disabled={
+							((this.state.userWager1v1Tank == null  || this.state.userWager === 0)&& 
+							(this.state.userWager3v3Tanks === [null, null, null] || this.state.userWager3v3))
+						}
 						className="smallbtn"
 						onClick={() => this.setState({removeWagerOpen: true})}
 					>
@@ -225,7 +224,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				</div>
 				<br/>
 				<h6>Current 1v1 Wager:</h6>
-				<label>{this.state.userWager1v1Tank == null ?
+				<label>{this.state.userWager1v1Tank == null || this.state.userWager===0 ?
 					<div>No set 1v1 wager tank<br/><br/></div> : 
 					<label>
 						<div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> for {this.state.userWager}
@@ -233,7 +232,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				}</label>
 				<br/>
 				<h6>Current 3v3 Wager:</h6>
-				<label>{this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null ?
+				<label>{(this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) || this.state.userWager3v3===0?
 					'No set 3v3 wager tanks' : 
 					<label>
 						{this.state.userWager3v3Tanks[0] == null ? <div>No Tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[0].tankName}</div>}
