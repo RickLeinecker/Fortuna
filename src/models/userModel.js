@@ -438,6 +438,18 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
     dateCreated: {
         type: Date,
         default: Date.now
+    },
+    // Records last date when user logged in
+    lastLogin: {
+        type: Date,
+        default: null
+    },
+    // Records user expiration date, unverified accounts get removed after
+    // 24 hours, this is cleared by verifying account.
+    expirationDate: {
+        type: Date,
+        default: Date.now,
+        expires: 86400
     }
 }));
 
