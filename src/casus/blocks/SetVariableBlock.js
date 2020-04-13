@@ -132,16 +132,20 @@ class SetVariableBlock extends CasusBlock {
 
 	getExistingVariableNames(dataType: DataType): Array<string> {
 		if (this.paramType !== dataType) {
-			return [];
+			return this.expressionBlock.getExistingVariableNames(dataType);
 		}
 		//if it is a constant or a built in variable, don't add it to the list
 		const builtInVariable = isBuiltInVariable(this.variableName, this.paramType);
 		const legalConstant = isLegalConstant(this.variableName, this.paramType);
 		const isDefault = isDefaultVariableName(this.variableName);
 		if (legalConstant || builtInVariable || isDefault) {
-			return [];
+			return this.expressionBlock.getExistingVariableNames(dataType);
 		}
-		return [this.variableName];
+		const toAddTo=this.expressionBlock.getExistingVariableNames(dataType);
+		if (!toAddTo.includes(this.variableName)) {
+			toAddTo.push(this.variableName);
+		}
+		return toAddTo;
 	}
 
 	tryToPlace(v: Vec, blockToPlace: CasusBlock, ctx: ?CanvasRenderingContext2D): ?CasusBlock {
