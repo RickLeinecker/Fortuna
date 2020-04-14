@@ -160,12 +160,6 @@ exports.login = async (req: Request, res: Response) => {
 	try{
 		// See if User exists - might change this to const
 		const user = await User.findOne({ userName: userName });
-		if(user == null){
-			return res
-				.status(401)
-				.json({ msg: 'The user name ' + userName + 
-					' is not associated with any account.' });
-		}
 
 		// Checks if the plaintext password matches the hashed pass form db
 		const isMatch = await bcrypt.compare(password, user.password);
