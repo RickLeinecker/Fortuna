@@ -92,7 +92,7 @@ class ListingsView extends React.Component<Props, State> {
 			if(this.props.sellerType === 'tanks') {
 				const tankId = this.state.itemsForSale[i].tankId;
 				if(tankId == null) {
-					throw new Error("Tank Id is null");
+					return (<h5>Loading Tanks...</h5>);
 				}
 				cards.push(
 						<div className="card mb-2" key={i}>
