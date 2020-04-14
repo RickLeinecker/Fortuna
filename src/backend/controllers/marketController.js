@@ -32,6 +32,18 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 	// to the property in the User Model.
 	const { sellerId, salePrice, itemId, itemType, amount } = req.body;
 
+	if (salePrice % 1 !== 0 || amount % 1 !== 0) {
+		return res
+			.status(400)
+			.json({ msg: 'Sale Prices and Amounts cannot be decimals.' });
+	}
+
+	if (salePrice < 0 || amount < 0) {
+		return res
+			.status(400)
+			.json({ msg: 'Sale Prices and Amounts cannot be negative.' });
+	}
+
 	// If the item is a tank
 	if (itemType === 'tank') {
 		try {
