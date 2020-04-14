@@ -563,7 +563,7 @@ exports.getTankById = async (req: Request, res: Response) => {
 	try{
 		const tankArray = [];
 
-		for (const tankId of req.body.tankIds) {
+		for (const tankId of req.query.array) {
 			if (tankId == null) {
 				continue;
 			}

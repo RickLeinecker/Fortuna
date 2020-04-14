@@ -301,7 +301,7 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 //Input: Id of a tank
 //Output: a tank object of the tank whose id equals the id that was passed in
 function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void {
-	const responsePromise: Promise<Response> = fetch('/api/tank/getTanksById', {
+	const responsePromise: Promise<Response> = fetch('/api/tank/getTanksById/?'+ tankIds, {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -309,7 +309,7 @@ function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': getLoginToken()
 		},
-		body: JSON.stringify({ tankIds: tankIds}),
+		//body: JSON.stringify({ tankIds: tankIds}),
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
