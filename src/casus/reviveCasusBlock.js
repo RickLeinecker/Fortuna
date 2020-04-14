@@ -363,6 +363,7 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			return toReturn;
 		case 'MathPowBlock':
 			toReturn=new MathPowBlock();
+			toReturn.lChild=reviveCasusBlock(orig.lChild);
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'MathSinBlock':
