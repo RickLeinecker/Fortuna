@@ -26,21 +26,21 @@ class MainMenu extends React.Component<{||}> {
 				<h1 className="menuheader">Where to Commander?</h1>
  				<div className="column menuleft">
 				 	<Link to={verifyLink("/Marketplace")}>
-						<button className="btn">Marketplace</button>
+						<button className="mainMenuBtn">Marketplace</button>
 					</Link>
 				</div>
 				<div className="column menumiddle">
 					<Link to={verifyLink("/BattleArena")}>
-						<button className="btn">Battle Arena</button>
+						<button className="mainMenuBtn">Battle Arena</button>
 					</Link>
 					<br/><br/><br/>
 					<Link to={verifyLink("/TrainingArena")}>
-						<button className="btn">Training Arena</button>
+						<button className="mainMenuBtn">Training Arena</button>
 					</Link>
 				</div>
 				<div className="column menuright">
 					<Link to={verifyLink("/Armory")}>
-						<button className="btn">Armory</button>
+						<button className="mainMenuBtn">Armory</button>
 					</Link>
 				</div>
 			</div>
