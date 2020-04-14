@@ -300,7 +300,7 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 
 //Input: Id of a tank
 //Output: a tank object of the tank whose id equals the id that was passed in
-function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void {
+function getTanksById(tankIds: string, onLoad:(tanks: Array<Tank>) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getTanksById/?'+ tankIds, {
 		method: 'GET',
 		headers: {
@@ -309,7 +309,6 @@ function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': getLoginToken()
 		},
-		//body: JSON.stringify({ tankIds: tankIds}),
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
@@ -319,8 +318,19 @@ function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void
 				toast.error(getErrorFromObject(data));
 			}
 			else {
-				console.log(data);
-				//onLoad(getTank(tank));
+				const tanks = [];
+				for(let i = 0; i < data.length; i++) {
+					const tank = new BackendTank(
+						data[i]._id,
+						data[i].components,
+						data[i].casusCode,
+						data[i].isBot,
+						data[i].userId,
+						data[i].tankName
+					);
+					tanks.push(getTank(tank));
+				}
+				onLoad(tanks);
 			}
 		})
 	)

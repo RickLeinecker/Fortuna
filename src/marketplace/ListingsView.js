@@ -10,6 +10,7 @@ import { getMarketSales, marketSale, getMarketTanks } from '../globalComponents/
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
 import Tank from '../tanks/Tank.js';
 import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
+import TankDisplay from '../tanks/TankDisplay.js';
 
 type Props = {|
 	// This is the type of item we are buying
@@ -89,12 +90,16 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
 	getTanksToShow() {
-		const idOfTanksInTheMarketplace = [];
+		let queryOfTankId = "";
 		for(let i = 0; i < this.state.itemsForSale.length; i++) {
-			idOfTanksInTheMarketplace[i] = this.state.itemsForSale[i].tankId;
+			if(this.state.itemsForSale[i].tankId == null) {
+				throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
+			}
+			queryOfTankId = queryOfTankId + "array=" + this.state.itemsForSale[i].tankId + "&"; 
 		}
-		console.log(idOfTanksInTheMarketplace);
-		getTanksById(idOfTanksInTheMarketplace, tanksReturned => {
+		queryOfTankId = queryOfTankId.substring(0, queryOfTankId.length-1);
+		console.log(queryOfTankId);
+		getTanksById(queryOfTankId, tanksReturned => {
 			this.setState({
 				tanksForSale: tanksReturned,
 			});
@@ -111,11 +116,21 @@ class ListingsView extends React.Component<Props, State> {
 			if(this.props.sellerType === 'tanks') {
 				
 				if(this.state.tanksForSale == null) {
-					console.log("Tank is loading");
+					console.log("Tanks are loading");
 				}
 				else {
 					const tankObject = this.state.tanksForSale[i];
-					console.log(tankObject);
+					cards.push(
+						<div className="card mb-2" key={i}>
+							<div className="card-body">
+								<h5 className="card-title">Tank to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+								<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
+								<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
+								<TankDisplay tankToDisplay={tankObject} smallTank={false} />
+								<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
+							</div>
+						</div>
+					);
 				}
 			}
 			else {
