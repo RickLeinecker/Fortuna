@@ -50,7 +50,7 @@ class SelectTank extends React.Component<Props, State> {
 					className={(this.state.showTanks) ? "tankListBtn selectedTank" : "tankListBtn"}
 					onClick={() => this.setState({showTanks: true})}
 				>
-						{(this.props.selectedTank?.tankName??'No Selected Tank')} 
+						{(this.props.selectedTank?.tankName??'No Tank Selected')} 
 				</button>
 				<div>
 					{(this.state.showTanks) ?

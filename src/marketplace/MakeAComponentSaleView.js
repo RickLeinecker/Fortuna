@@ -75,7 +75,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 							<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
 					)}
 				</select>
-				<br/><br/>
+				<br/>
 				<label>Selling Price</label>
 				<input type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
 				<br/><br/>

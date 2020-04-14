@@ -125,7 +125,7 @@ class ListingsView extends React.Component<Props, State> {
 					cards.push(
 						<div className="card mb-2" key={i}>
 							<div className="card-body">
-								<h5 className="card-title">Tank to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+								<h5 className="card-title">{toTitleCase(this.state.itemsForSale[i].name)}</h5>
 								<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
 								<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
 								<TankDisplay tankToDisplay={tankObject} smallTank={false} />
@@ -139,7 +139,7 @@ class ListingsView extends React.Component<Props, State> {
 				cards.push(
 					<div className="card mb-2" key={i}>
 						<div className="card-body">
-							<h5 className="card-title">Item to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
+							<h5 className="card-title">{toTitleCase(this.state.itemsForSale[i].name)}</h5>
 							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
 							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
 							<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>

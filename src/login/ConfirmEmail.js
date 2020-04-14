@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
+import { verifyLink } from '../globalComponents/verifyLink.js';
 
 type Props = {
 	match: {
@@ -50,7 +51,7 @@ class ConfirmEmail extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.setState({message: "Confirmed! Please go to our login page and login"});
+					this.setState({message: "Confirmed!"});
 				}
 			})
 		).catch(
@@ -65,8 +66,9 @@ class ConfirmEmail extends React.Component<Props, State> {
 		return (
 			<div className="confirmPage">
 				<h3>{this.state.message}</h3>
-				<Link to="/Login">
-					<button className="clearbtn">Click here to go to Login</button>
+				<br/>
+				<Link to={verifyLink("/Login")}>
+					<button className="primarybtn">Return to Login</button>
 				</Link>
 			</div>
 		);
