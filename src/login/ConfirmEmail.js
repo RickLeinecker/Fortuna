@@ -68,7 +68,7 @@ class ConfirmEmail extends React.Component<Props, State> {
 				<h3>{this.state.message}</h3>
 				<br/>
 				<Link to={verifyLink("/Login")}>
-					<button className="primarybtn">Return Login</button>
+					<button className="primarybtn">Return to Login</button>
 				</Link>
 			</div>
 		);
