@@ -17,7 +17,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
-import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
@@ -26,7 +25,6 @@ import type { TankComponent } from '../globalComponents/typesAndClasses/TankComp
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import TankPart from '../tanks/TankPart.js';
-import BackendTank from '../tanks/BackendTank.js';
 import Component from '../globalComponents/typesAndClasses/Component.js';
 import Tank from '../tanks/Tank.js';
 import Chassis from '../tanks/Chassis.js';
