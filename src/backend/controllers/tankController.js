@@ -561,20 +561,26 @@ exports.getTankById = async (req: Request, res: Response) => {
 	}
 	
 	try{
-		const tank = await Tank.findById(req.params.tankId);
+		const tankArray = [];
 
-		if (tank === null) {
-			console.log('Could not find tank in DB');
-			return res
-				.status(404)
-				.json({ msg: 'could not find tank'});
+		for (const tankId of req.query.array) {
+			if (tankId == null) {
+				continue;
+			}
+			const tank = await Tank.findById(tankId);
+
+			if (tank == null){
+				return res
+					.status(404)
+					.json({ msg: 'Could not find one of the tanks of personBeingChallenged'});
+			}
+			tankArray.push(tank);
 		}
-		else {
-			console.log('Tank successfully retrieved');
-			return res
-				.status(200)
-				.send(tank);
-		}
+
+		console.log('Tanks successfully retrieved');
+		return res
+			.status(200)
+			.send(tankArray);
 	} catch (err) {
 		console.log(err);
 		return res
