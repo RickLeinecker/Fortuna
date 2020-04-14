@@ -90,6 +90,8 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
 	getTanksToShow() {
+		//The api takes in the tank ids in a particular manner and this query is how the api takes the ids
+		//Example array=id1&array=id2&array=id3&array=id4
 		let queryOfTankId = "";
 		for(let i = 0; i < this.state.itemsForSale.length; i++) {
 			if(this.state.itemsForSale[i].tankId == null) {
@@ -97,8 +99,9 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			queryOfTankId = queryOfTankId + "array=" + this.state.itemsForSale[i].tankId + "&"; 
 		}
+		//Take away the last & to not have a trailing &
 		queryOfTankId = queryOfTankId.substring(0, queryOfTankId.length-1);
-		console.log(queryOfTankId);
+		
 		getTanksById(queryOfTankId, tanksReturned => {
 			this.setState({
 				tanksForSale: tanksReturned,
