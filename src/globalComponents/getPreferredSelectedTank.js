@@ -10,10 +10,12 @@ function getPreferredSelectedTank(loadedTanks: Array<Tank>): Tank {
 	}
 	const preferredTankId=new Cookies().get('preferredTankId');
 	if (preferredTankId == null) {
+		console.log('No cookie set :( returning default');
 		return loadedTanks[0];
 	}
 	const foundTank=loadedTanks.find(tank => tank._id === preferredTankId);
 	if (foundTank == null) {
+		console.log('Couldnt find favorite tank :( returning default');
 		return loadedTanks[0];
 	}
 	console.log('returning favorited tank!');
