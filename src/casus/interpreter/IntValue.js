@@ -42,12 +42,13 @@ class IntValue {
 
 		//now b is nonnegative
 		let res=0;
+		let toAdd=a;
 		while (b!==0) {
-			res=this.normalize(res*2);
-			if (res%2!==0) {
-				res=this.normalize(res+a);
+			if (b%2!==0) {
+				res=this.normalize(res+toAdd);
 			}
 			b=Math.trunc(b/2);
+			toAdd=this.normalize(toAdd*2);
 		}
 		return new IntValue(res);
 	}
