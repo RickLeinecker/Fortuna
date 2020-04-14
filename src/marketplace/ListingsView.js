@@ -117,9 +117,8 @@ class ListingsView extends React.Component<Props, State> {
 			// Handle tank and components different to display tank 
 			// Have to make sure that the tanks are being ready to be shown
 			if(this.props.sellerType === 'tanks') {
-				
 				if(this.state.tanksForSale == null) {
-					console.log("Tanks are loading");
+					return(<h5>Loading Tanks...</h5>);
 				}
 				else {
 					const tankObject = this.state.tanksForSale[i];
