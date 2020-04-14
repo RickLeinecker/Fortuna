@@ -231,7 +231,7 @@ class TrainingArena extends React.Component<Props, State> {
 					</button>
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
-						<button className="clearbtn">Click to go back to Casus</button>
+						<button className="smallbtn">Casus</button>
 					</Link>
 				</div>
 				<div className="column taright">

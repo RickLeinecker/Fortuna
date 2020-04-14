@@ -164,7 +164,7 @@ exports.login = async (req: Request, res: Response) => {
 			return res
 				.status(401)
 				.json({ msg: 'The user name ' + userName + 
-					' is not associated with any account. Double-check your user name and try again.' });
+					' is not associated with any account.' });
 		}
 
 		// Checks if the plaintext password matches the hashed pass form db
@@ -182,8 +182,7 @@ exports.login = async (req: Request, res: Response) => {
 			return res
 				.status(401)
 				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' + 
-					'Check your email for your verification token. ' +
-					'If your token has expired, request a new one.' });
+					'Check your email for verification, or request a new one.' });
 		}
 
 		// Login successful. Check if this is the user's very
@@ -277,9 +276,9 @@ exports.confirmToken = async (req: Request, res: Response) => {
 			return res
 				.status(400)
 				.json({ type: 'not-verified',
-					msg: 'The token you are using is not a valid token. ' +
+					msg: 'The token you are using is not valid. ' +
 					'Check your confirmation email and try again. ' + 
-					'Otherwise, your token may have expired.' });
+					'Otherwise, request a new confirmation email at the Login page.' });
 		}
 
 		// If token was found, find the user associated with it
