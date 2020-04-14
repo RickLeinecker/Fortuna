@@ -35,6 +35,7 @@ function saveCasus(casusCode: ContainerBlock): void {
 	})
 	.catch(e => {
 		console.log('error saving casus!');
+		toast.error("Couldn't save Casus code");
 		console.log(e);
 	});
 }
