@@ -3,7 +3,6 @@
 
 // Required imports
 const express = require('express');
-const bodyParser = require('body-parser');
 
 // API Routes
 const userRoutes = require('./routes/userRoutes');
@@ -18,7 +17,7 @@ const battleRoutes = require('./routes/battleRoutes');
 const app = express();
 
 // As of express v4.16, npm body-parser is bundled with express again
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
 
 // Giving Routes to the Express server
 app.use('/api/tank', tankRoutes);
