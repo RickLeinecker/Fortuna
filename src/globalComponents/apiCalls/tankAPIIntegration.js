@@ -300,8 +300,8 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 
 //Input: Id of a tank
 //Output: a tank object of the tank whose id equals the id that was passed in
-function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
-	const responsePromise: Promise<Response> = fetch('/api/tank/getTankById/' + tankId, {
+function getTanksById(tankIds: Array<string>, onLoad:(tank: Tank) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/getTanksById', {
 		method: 'GET',
 		headers: {
 			'Access-Control-Allow-Origin': '*',
@@ -309,6 +309,7 @@ function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
 			'Access-Control-Allow-Credentials': 'true',
 			'x-auth-token': getLoginToken()
 		},
+		body: JSON.stringify({ tankIds: tankIds}),
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
@@ -318,15 +319,8 @@ function getTankById(tankId: string, onLoad:(tank: Tank) => void): void {
 				toast.error(getErrorFromObject(data));
 			}
 			else {
-				const tank = new BackendTank(
-					data._id,
-					data.components,
-					data.casusCode,
-					data.isBot,
-					data.userId,
-					data.tankName
-				);
-				onLoad(getTank(tank));
+				console.log(data);
+				//onLoad(getTank(tank));
 			}
 		})
 	)
@@ -343,6 +337,6 @@ export {
 	getAllUsersTanks,
 	createTank,
 	deleteTank,
-	getTankById
+	getTanksById
 }
 

@@ -1,8 +1,8 @@
 //@flow strict
-import * as React from 'react';
+/*import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank';
-import { getTankById } from '../globalComponents/apiCalls/tankAPIIntegration';
+import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
 import TankDisplay from '../tanks/TankDisplay.js';
 
 
@@ -61,4 +61,4 @@ class ShowTankPopup extends React.Component<Props, State> {
 	}
 }
 
-export default ShowTankPopup;
+export default ShowTankPopup;*/

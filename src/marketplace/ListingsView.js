@@ -8,7 +8,8 @@ import { ToastContainer , toast } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import { getMarketSales, marketSale, getMarketTanks } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
-import ShowTankPopup from './ShowTankPopup.js';
+import Tank from '../tanks/Tank.js';
+import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
 
 type Props = {|
 	// This is the type of item we are buying
@@ -20,6 +21,8 @@ type State = {|
 	userId: string,
 	// This allows for all the items that are for sale to be with in one array
 	itemsForSale: Array<SaleObject>,
+	// This is used to hold all of the tanks for sale. Will be null when the sellerType is not tank
+	tanksForSale: ?Array<Tank>
 |};
 
 
@@ -29,6 +32,7 @@ class ListingsView extends React.Component<Props, State> {
 		this.state={
 			userId: '',
 			itemsForSale: [],
+			tanksForSale: null,
 		}
 	}
 
@@ -79,6 +83,21 @@ class ListingsView extends React.Component<Props, State> {
 	getMarketSalesForTanks(): void  {
 		getMarketTanks(this.state.userId, sales => {
 				this.setState({itemsForSale: sales.filter(sale => !(allComponents.includes(sale.name)))}); 
+				this.getTanksToShow();
+		});
+	}
+
+	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
+	getTanksToShow() {
+		const idOfTanksInTheMarketplace = [];
+		for(let i = 0; i < this.state.itemsForSale.length; i++) {
+			idOfTanksInTheMarketplace[i] = this.state.itemsForSale[i].tankId;
+		}
+		console.log(idOfTanksInTheMarketplace);
+		getTanksById(idOfTanksInTheMarketplace, tanksReturned => {
+			this.setState({
+				tanksForSale: tanksReturned,
+			});
 		});
 	}
 
@@ -90,21 +109,14 @@ class ListingsView extends React.Component<Props, State> {
 			// Handle tank and components different to display tank 
 			// Have to make sure that the tanks are being ready to be shown
 			if(this.props.sellerType === 'tanks') {
-				const tankId = this.state.itemsForSale[i].tankId;
-				if(tankId == null) {
-					throw new Error("Tank Id is null");
+				
+				if(this.state.tanksForSale == null) {
+					console.log("Tank is loading");
 				}
-				cards.push(
-						<div className="card mb-2" key={i}>
-							<div className="card-body">
-								<h5 className="card-title">Tank to buy: {toTitleCase(this.state.itemsForSale[i].name)}</h5>
-								<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
-								<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
-								<ShowTankPopup tankIdToShow={tankId}></ShowTankPopup>
-								<button className="btn btn-success mt-2" onClick={() => this.buyItem(this.state.itemsForSale[i].sellerId, this.state.itemsForSale[i].saleId)}>Buy</button>
-							</div>
-						</div>
-					);
+				else {
+					const tankObject = this.state.tanksForSale[i];
+					console.log(tankObject);
+				}
 			}
 			else {
 				cards.push(
