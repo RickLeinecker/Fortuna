@@ -10,6 +10,7 @@ import {
 	FALSE_KEYWORD,
 	isLegalVariableName,
 	isLegalConstant,
+	isBuiltInVariable,
 } from '../userInteraction/defaultVariableNames.js';
 import type {DataType} from '../blocks/DataType.js';
 import {
@@ -59,6 +60,7 @@ class SelectVariablePopup extends React.Component<Props, State> {
 	render(): React.Node {
 		const enabled=this.getShouldBeAbleToClickCreateVariable();
 		const prepopulatedVariables=this.getPrepopulatedValues();
+		const dataType=this.getExpectedDataType();
 		const selectVariableOrFunctionText='Select '+this._functionOrVariableWord();
 
 		return (
@@ -71,14 +73,23 @@ class SelectVariablePopup extends React.Component<Props, State> {
 				<div className="popup centered">
 					<h2>{selectVariableOrFunctionText}</h2>
 
-					{prepopulatedVariables.map(name => (
-						<button
-							className="popupbtn normalPadding" 
+					{prepopulatedVariables.map(name => {
+						const constant=isLegalConstant(name, dataType);
+						const builtIn=isBuiltInVariable(name, dataType);
+						let className='popupbtnPink normalPadding';
+						if (constant) {
+							className='popupbtnGray normalPadding';
+						}
+						else if (builtIn) {
+							className='popupbtn normalPadding';
+						}
+						return (<button
+							className={className}
 							onClick= {() => this.onCreateVariableSelected(name)}
 							key={name}>
 							{name}
-						</button>
-					))}
+						</button>);
+					})}
 					<br/>
 					<input className="inputText" onChange={(e) => this.handleInputChange(e.target.value)}/>
 					<br/>
