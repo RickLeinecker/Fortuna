@@ -89,20 +89,15 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
-	getTanksToShow() {
-		//The api takes in the tank ids in a particular manner and this query is how the api takes the ids
-		//Example array=id1&array=id2&array=id3&array=id4
-		let queryOfTankId = "";
+	getTanksToShow() { 
+		const arrayOfTanks = [];
 		for(let i = 0; i < this.state.itemsForSale.length; i++) {
 			if(this.state.itemsForSale[i].tankId == null) {
 				throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
 			}
-			queryOfTankId = queryOfTankId + "array=" + this.state.itemsForSale[i].tankId + "&"; 
+			arrayOfTanks.push(this.state.itemsForSale[i].tankId);
 		}
-		//Take away the last & to not have a trailing &
-		queryOfTankId = queryOfTankId.substring(0, queryOfTankId.length-1);
-		
-		getTanksById(queryOfTankId, tanksReturned => {
+		getTanksById(arrayOfTanks, tanksReturned => {
 			this.setState({
 				tanksForSale: tanksReturned,
 			});
@@ -112,6 +107,10 @@ class ListingsView extends React.Component<Props, State> {
 	// This creates a card for every sale
 	createCards = () => {
 		const cards = []
+		//Check for no sales
+		if(this.state.itemsForSale.length === 0) {
+			return(<h5>No Sales Availiable At This Time</h5>);
+		}
 		// Outer loop to create parent
 		for (let i = 0; i < this.state.itemsForSale.length; i++) {
 			// Handle tank and components different to display tank 
