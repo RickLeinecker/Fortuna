@@ -56,6 +56,7 @@ import MathTanBlock from '../blocks/MathTanBlock.js';
 import MathAcosBlock from '../blocks/MathAcosBlock.js';
 import MathAsinBlock from '../blocks/MathAsinBlock.js';
 import MathAtanBlock from '../blocks/MathAtanBlock.js';
+import MathAtan2Block from '../blocks/MathAtan2Block.js';
 import MathSqrtBlock from '../blocks/MathSqrtBlock.js';
 import MathPowBlock from '../blocks/MathPowBlock.js';
 
@@ -300,6 +301,7 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 		blocks.push(new MathAcosBlock());
 		blocks.push(new MathAsinBlock());
 		blocks.push(new MathAtanBlock());
+		blocks.push(new MathAtan2Block());
 		blocks.push(new MathSqrtBlock());
 		blocks.push(new MathPowBlock());
 		return blocks;

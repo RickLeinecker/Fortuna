@@ -1,0 +1,21 @@
+//@flow strict
+
+import BinaryOperationBlock from './BinaryOperationBlock.js';
+import DoubleValue from '../interpreter/DoubleValue.js';
+import {verifyDouble} from '../interpreter/Value.js';
+
+class MathAtan2Block extends BinaryOperationBlock {
+
+	constructor() {
+		super('MathAtan2Block', 'DOUBLE', 'DOUBLE', ', dx:', 'atan2 dy:');
+	}
+
+	evaluate(): DoubleValue {
+		const lRes=verifyDouble(this.lChild.runEvaluate());
+		const rRes=verifyDouble(this.rChild.runEvaluate());
+		return lRes.atan2(rRes);
+	}
+
+}
+
+export default MathAtan2Block;
