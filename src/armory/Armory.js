@@ -17,7 +17,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
-import { getTank, getEmptyCasusCode } from '../tanks/TankLoader.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
@@ -26,7 +25,6 @@ import type { TankComponent } from '../globalComponents/typesAndClasses/TankComp
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import TankPart from '../tanks/TankPart.js';
-import BackendTank from '../tanks/BackendTank.js';
 import Component from '../globalComponents/typesAndClasses/Component.js';
 import Tank from '../tanks/Tank.js';
 import Chassis from '../tanks/Chassis.js';
@@ -40,7 +38,7 @@ import TankDisplay from '../tanks/TankDisplay.js';
 type Props = {||};
 
 type State = {|
-	selectedTank: Tank,
+	selectedTank: ?Tank,
 	allTanks: Array<Tank>,
 	inventory: Array<Component>,
 	chassis: Array<Component>,
@@ -61,18 +59,9 @@ class Armory extends React.Component<Props, State> {
 	constructor() {
 		super();
 		verifyLogin();
-		// Create a blank tank as a placeholder until tanks are pulled.
-		const blankTank: BackendTank = new BackendTank(
-			'',
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
-			getEmptyCasusCode(),
-			false,
-			'',
-			''
-		);
 
 		this.state = {
-			selectedTank: getTank(blankTank),
+			selectedTank: null,
 			allTanks: [],
 			inventory: [],
 			chassis: [],
@@ -86,10 +75,6 @@ class Armory extends React.Component<Props, State> {
 			currentPartIndex: -1,
 			points: 0,
 		}
-
-		if (this.state.selectedTank == null) {
-			throw new Error('Failed in loading blank tank!');
-		}
 	}
 
 	componentDidMount(): void {
@@ -102,13 +87,13 @@ class Armory extends React.Component<Props, State> {
 	getTanks(): void {
 		getAllUsersTanks(allTanks => {
 			// Always set the default selected tank to the newest tank.
-			const newSelectedTank = allTanks[allTanks.length-1];
+			const newSelectedTank = getPreferredSelectedTank(allTanks);
 			setTankForCasus(newSelectedTank._id);
 			setPreferredSelectedTank(newSelectedTank);
 			// Update the state, and then run initPoints after the state has been set.
 			this.setState({
 					allTanks: allTanks, 
-					selectedTank: getPreferredSelectedTank(allTanks), 
+					selectedTank: newSelectedTank,
 				},
 				this.initPoints
 			);
@@ -147,6 +132,9 @@ class Armory extends React.Component<Props, State> {
 
 	// Function that will save the selectedTank and update the user's inventory.
 	saveTank(): void {
+		if (this.state.selectedTank == null) {
+			throw new Error('Tried to save selected tank null!');
+		}
 		updateTank(this.state.selectedTank, () => {
 			this.getUserInventory();
 		});
@@ -167,6 +155,9 @@ class Armory extends React.Component<Props, State> {
 	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
 	checkItems(newComponent: TankComponent): boolean {
 		// Check if the new component is already in other slots, and that it is not a mine.
+		if (this.state.selectedTank == null) {
+			return false;
+		}
 		if (
 			((newComponent === this.state.selectedTank.parts[10].name) ||
 			(newComponent === this.state.selectedTank.parts[9].name) ||
@@ -182,6 +173,9 @@ class Armory extends React.Component<Props, State> {
 
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
 	initPoints(): void {
+		if (this.state.selectedTank == null) {
+			return;
+		}
 		const tank: Tank = this.state.selectedTank;
 		let newPoints: number = 0;
 		for(let i = 0; i < 11; i++) {
@@ -192,11 +186,15 @@ class Armory extends React.Component<Props, State> {
 
 	// Ensure that the new point value doesn't go over the limit.
 	checkPoints(newComponent: TankComponent, oldPartIndex: number): boolean {
+		const tank=this.state.selectedTank;
+		if (tank == null) {
+			return false;
+		}
 		// Check the items to ensure that you don't have duplicate items (besides mine).
 		if (this.checkItems(newComponent)) {
 			return true;
 		}
-		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(this.state.selectedTank.parts[oldPartIndex].name) > 10) ? true : false;
+		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(tank.parts[oldPartIndex].name) > 10) ? true : false;
 	}
 
 	// Update the points in the state.
@@ -216,6 +214,9 @@ class Armory extends React.Component<Props, State> {
 
 	// Updates the selected tank's components and their inventory.
 	updateComponent(component: TankComponent, partIndex: number): void {
+		if (this.state.selectedTank == null) {
+			return;
+		}
 		// Setup a new tank that will be updated and set to the selected tank.
 		const updatedTank: Tank = this.state.selectedTank;
 		// Find the component's type and setup new component accordingly.
@@ -299,6 +300,7 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
+		const selectedTank=this.state.selectedTank;
 		return (
 			<div id="Parent">
 				<Navbar 
@@ -313,12 +315,14 @@ class Armory extends React.Component<Props, State> {
 				/>
 				<div className="column armoryleft">
 					<h4>Selected Tank</h4>
-					<SelectTank
-						selectedTank={this.state.selectedTank}
-						allTanks={this.state.allTanks}
-						changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
-						propogateChangesToCasus={true}
-					/>
+					{selectedTank==null?<div></div>:
+						<SelectTank
+							selectedTank={selectedTank}
+							allTanks={this.state.allTanks}
+							changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
+							propogateChangesToCasus={true}
+						/>
+					}
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
 						<button className="primarybtn">Casus</button>
@@ -327,18 +331,22 @@ class Armory extends React.Component<Props, State> {
 					<br/><br/><br/>
 					<h5>Tank Options</h5>
 					<div className="row rowPadding">
-						<RenameTankPopup
-							tank={this.state.selectedTank}
-							renameTank={this.renameTank}
-						/>&emsp;
+						{selectedTank==null?<div></div>:
+							<RenameTankPopup
+								tank={selectedTank}
+								renameTank={this.renameTank}
+							/>
+						}&emsp;
 						<CreateNewTankPopup 
 							ref="CreateNewTankPopup" 
 							chassis={this.state.chassis}
 							treads={this.state.treads}
 						/>&emsp;
-						<DeleteTankPopup
-							tank={this.state.selectedTank}
-						/>
+						{selectedTank==null?<div></div>:
+							<DeleteTankPopup
+								tank={selectedTank}
+							/>
+						}
 					</div>
 					<br/><br/>
 					<SetWagerPopup
@@ -347,8 +355,10 @@ class Armory extends React.Component<Props, State> {
 					/>
 				</div>
 				<div className="column armorymiddle">
-					<h1>{this.state.selectedTank.tankName}</h1>
-					<TankDisplay tankToDisplay={this.state.selectedTank} smallTank={false} />
+					<h1>{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+					{selectedTank==null?<div></div>:
+						<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
+					}
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div>
@@ -398,108 +408,111 @@ class Armory extends React.Component<Props, State> {
 						</div>
 					}
 				</div>
-				<div className="column armoryright">
-					<h5>{this.state.points}/10 Points Used</h5>
-					<label>Chassis: </label>
-					<button 
-						className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"} 
-						onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
-					>
-						{toTitleCase(this.state.selectedTank.chassis.name)}
-					</button>
-					<br/>
-					<br/>
 
-					<label>Main Gun: </label>
-					<button 
-						className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
-					>
-						{toTitleCase(this.state.selectedTank.mainGun.name)}
-					</button>
-					<br/>
-					<label>Secondary Gun: </label>
-					<button 
-						className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
-					>
-						{toTitleCase(this.state.selectedTank.secondaryGun.name)}
-					</button>
-					<br/>
-					<br/>
+				{selectedTank==null?<div></div>:
+					<div className="column armoryright">
+						<h5>{this.state.points}/10 Points Used</h5>
+						<label>Chassis: </label>
+						<button 
+							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"} 
+							onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
+						>
+							{toTitleCase(selectedTank.chassis.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label>Scanners: </label>
-					<button 
-						className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
-					>
-						{toTitleCase(this.state.selectedTank.scanner.name)}
-					</button>
-					<br/>
-					<label>Scanner Addon: </label>
-					<button 
-						className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
-						disabled={(this.state.selectedTank.scanner.name === 'empty') ? true : false}
-					>
-						{toTitleCase(this.state.selectedTank.scannerAddonOne.name)}
-					</button>
-					<br/>
-					<label>Scanner Addon: </label>
-					<button 
-						className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
-						disabled={(this.state.selectedTank.scanner.name === 'empty') ? true : false}
-					>
-						{toTitleCase(this.state.selectedTank.scannerAddonTwo.name)}
-					</button>
-					<br/>
-					<br/>
+						<label>Main Gun: </label>
+						<button 
+							className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
+						>
+							{toTitleCase(selectedTank.mainGun.name)}
+						</button>
+						<br/>
+						<label>Secondary Gun: </label>
+						<button 
+							className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
+						>
+							{toTitleCase(selectedTank.secondaryGun.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label>Jammers: </label>
-					<button 
-						className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
-					>
-						{toTitleCase(this.state.selectedTank.jammer.name)}
-					</button>
-					<br/>
-					<br/>
+						<label>Scanners: </label>
+						<button 
+							className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
+						>
+							{toTitleCase(selectedTank.scanner.name)}
+						</button>
+						<br/>
+						<label>Scanner Addon: </label>
+						<button 
+							className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
+							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
+						>
+							{toTitleCase(selectedTank.scannerAddonOne.name)}
+						</button>
+						<br/>
+						<label>Scanner Addon: </label>
+						<button 
+							className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
+							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
+						>
+							{toTitleCase(selectedTank.scannerAddonTwo.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label>Treads: </label>
-					<button 
-						className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
-					>
-						{toTitleCase(this.state.selectedTank.treads.name)}
-					</button>
-					<br/>
-					<br/>
+						<label>Jammers: </label>
+						<button 
+							className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
+						>
+							{toTitleCase(selectedTank.jammer.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label>Item: </label>
-					<button 
-						className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
-					>
-						{toTitleCase(this.state.selectedTank.itemOne.name)}
-					</button>
-					<br/>
-					<label>Item: </label>
-					<button 
-						className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
-					>
-						{toTitleCase(this.state.selectedTank.itemTwo.name)}
-					</button>
-					<br/>
-					<label>Item: </label>
-					<button 
-						className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
-						onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
-					>
-						{toTitleCase(this.state.selectedTank.itemThree.name)}
-					</button>
-				</div>
+						<label>Treads: </label>
+						<button 
+							className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
+						>
+							{toTitleCase(selectedTank.treads.name)}
+						</button>
+						<br/>
+						<br/>
+
+						<label>Item: </label>
+						<button 
+							className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
+						>
+							{toTitleCase(selectedTank.itemOne.name)}
+						</button>
+						<br/>
+						<label>Item: </label>
+						<button 
+							className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
+						>
+							{toTitleCase(selectedTank.itemTwo.name)}
+						</button>
+						<br/>
+						<label>Item: </label>
+						<button 
+							className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
+						>
+							{toTitleCase(selectedTank.itemThree.name)}
+						</button>
+					</div>
+				}
 				<ToastContainer />
 			</div>
 		);
