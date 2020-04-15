@@ -90,6 +90,10 @@ class DoubleValue {
 		return new DoubleValue(Math.tan(this.val));
 	}
 
+	atan2(o: DoubleValue): DoubleValue {
+		return new DoubleValue(Math.atan2(this.val, o.val));
+	}
+
 	pow(o: DoubleValue): DoubleValue {
 		if (this.val===0 && o.val === 0) {
 			return new DoubleValue(0);
