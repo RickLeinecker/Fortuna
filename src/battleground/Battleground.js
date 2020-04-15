@@ -55,7 +55,7 @@ const arenaWidth: {[ArenaType]: number} = {
 }
 
 const matchLengthForArena: {[ArenaType]: number} = {
-	DIRT: INTRO_LENGTH + 30*1,
+	DIRT: INTRO_LENGTH + 30*60,
 	HEX: INTRO_LENGTH + 30*60,
 	LUNAR: INTRO_LENGTH + 30*100,
 	CANDEN: INTRO_LENGTH+ 30*100,
