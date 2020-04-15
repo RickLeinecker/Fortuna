@@ -548,7 +548,7 @@ exports.getBotTanks = async (req: Request, res: Response) => {
 	}
 }
 
-exports.getTankById = async (req: Request, res: Response) => {
+exports.getTanksById = async (req: Request, res: Response) => {
 
 	//check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
@@ -560,10 +560,11 @@ exports.getTankById = async (req: Request, res: Response) => {
 			.json({ errors: errors.array() });
 	}
 	
-	try{
+	try {
+		const queryArray = JSON.parse(req.query['array']);
 		const tankArray = [];
 
-		for (const tankId of req.query.array) {
+		for (const tankId of queryArray) {
 			if (tankId == null) {
 				continue;
 			}
