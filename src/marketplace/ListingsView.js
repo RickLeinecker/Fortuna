@@ -90,14 +90,14 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
 	getTanksToShow() { 
-		const arrayOfTanks = [];
+		const arrayOfTankIds = [];
 		for(let i = 0; i < this.state.itemsForSale.length; i++) {
 			if(this.state.itemsForSale[i].tankId == null) {
 				throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
 			}
-			arrayOfTanks.push(this.state.itemsForSale[i].tankId);
+			arrayOfTankIds.push(this.state.itemsForSale[i].tankId);
 		}
-		getTanksById(arrayOfTanks, tanksReturned => {
+		getTanksById(arrayOfTankIds, tanksReturned => {
 			this.setState({
 				tanksForSale: tanksReturned,
 			});
