@@ -20,7 +20,6 @@ import getPreferredArena from '../globalComponents/getPreferredArena.js';
 import setPreferredArena from '../globalComponents/setPreferredArena.js';
 import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
-import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
 
@@ -62,7 +61,6 @@ class TrainingArena extends React.Component<Props, State> {
 				allTanks: allTanks,
 				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
-			setTankForCasus(allTanks[0]._id);
 		});
 		getBotTanksAPICall(botTanks => this.setState({botTankOne: botTanks[0], botTanks: botTanks}));
 	}

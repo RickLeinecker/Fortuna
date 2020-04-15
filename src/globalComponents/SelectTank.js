@@ -28,13 +28,17 @@ class SelectTank extends React.Component<Props, State> {
 		if (prevProps !== this.props && 
 			this.props.selectedTank!=null && 
 			this.props.propogateChangesToCasus && 
-			this.props.selectedTank != null) {
-			setPreferredSelectedTank(this.props.selectedTank);
+			prevProps.selectedTank !== this.props.selectedTank
+		) {
+			const setTo=this.props.selectedTank;
+			if (setTo!=null) {
+				setPreferredSelectedTank(this.props.selectedTank);
+			}
 		}
 	}
 
 	onChangeSelectedTank(selectedTank: ?Tank): void {
-		if (selectedTank!=null) {
+		if (selectedTank!=null && this.props.propogateChangesToCasus) {
 			setPreferredSelectedTank(selectedTank);
 		}
 		this.props.changeSelectedTank(selectedTank);
