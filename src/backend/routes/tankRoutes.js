@@ -119,6 +119,6 @@ router.get('/getBotTanks', tankController.getBotTanks);
 // returns the tank objects
 router.get('/getTanksById', [
 	check('array', 'A JSON array of MongoIds is required.').isJSON()
-], tankController.getTankById);
+], tankController.getTanksById);
 
 module.exports = router;

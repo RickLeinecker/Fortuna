@@ -548,7 +548,7 @@ exports.getBotTanks = async (req: Request, res: Response) => {
 	}
 }
 
-exports.getTankById = async (req: Request, res: Response) => {
+exports.getTanksById = async (req: Request, res: Response) => {
 
 	//check if all the fields are input correctly from the frontend
 	const errors = validationResult(req);
