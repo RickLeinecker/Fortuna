@@ -18,8 +18,11 @@ class PrintBlock extends UnaryOperationBlock {
 		if (res==null) {
 			throw new Error('Tried to print something that was null!');
 		}
-		if (res instanceof IntValue || res instanceof DoubleValue ) {
+		if (res instanceof IntValue) {
 			getInterpriterState().printDebugLine(res.val + '');
+		}
+		if (res instanceof DoubleValue) {
+			getInterpriterState().printDebugLine((Math.round(res.val * 1e3) / 1e3).toFixed(3));
 		}
 		if (res instanceof BooleanValue) {
 			getInterpriterState().printDebugLine(res.val ? 'true': 'false');
