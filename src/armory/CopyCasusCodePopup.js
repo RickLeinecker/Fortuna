@@ -28,7 +28,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 	}
 
 	setTankBeingCopiedFrom(tankBeingUsedId: string): void {
-		this.setState({tankBeingCopiedFrom: this.props.usersTanks.find(tank => tank._id == tankBeingUsedId)});
+		this.setState({tankBeingCopiedFrom: this.props.usersTanks.find(tank => tank._id === tankBeingUsedId)});
 	}
 
 	copyCasusCode(): void {

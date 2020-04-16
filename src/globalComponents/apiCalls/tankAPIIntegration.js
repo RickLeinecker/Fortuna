@@ -6,7 +6,6 @@ import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
-import ContainerBlock from '../../casus/blocks/ContainerBlock.js';
 
 
 // This function gets the id of the users favorite tank
