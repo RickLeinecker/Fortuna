@@ -8,3 +8,36 @@
 	height: 350px;
 	width: 100%;
 }
+
+.undoBtn {
+	background-color: #000921;
+	color: #04CCFF;
+	border: 1px solid #04CCFF;
+	margin: 5px;
+	padding: 5px;
+	margin-top: 10px;
+	width: 70px;
+}
+
+.undoBtn:hover {
+	color: rgb(0, 114, 143);
+	border: 1px solid rgb(0, 114, 143);
+}
+
+.undoBtn:disabled {
+	cursor: default;
+	background-color: gray;
+}
+
+.undoBtn:disabled:hover {
+	color: #04CCFF;
+	border: 1px solid #04CCFF;
+}
+
+.undoBtnArea {
+	text-align: right;
+	position: fixed;
+	top: 100;
+	right: 0;
+	z-index: 100;
+}

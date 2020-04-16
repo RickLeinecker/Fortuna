@@ -237,6 +237,7 @@ class Battleground extends React.Component<Props> {
 			//stop updating
 			return;
 		}
+		const loopStartTime=Date.now();
 		this.lifetimeCounter++;
 
 		//sort objects in render order
@@ -256,7 +257,9 @@ class Battleground extends React.Component<Props> {
 			this.gameObjects = this.gameObjects.filter(x => x !== toRemove);
 		}
 		this.objectsToDelete = [];
-		setTimeout(() => this._gameLoop(), 1000/FPS);
+		const loopEndTime=Date.now();
+		const nextFrameStartTime=loopStartTime+1000/FPS;
+		setTimeout(() => this._gameLoop(), Math.max(0, nextFrameStartTime-loopEndTime));
 	}
 
 	_update(): void {
