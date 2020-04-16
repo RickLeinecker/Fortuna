@@ -31,7 +31,14 @@ async function auth (req: Request, res: Response, next: NextFunction){
 		const decoded = jwt.verify(token, jwtSecret);
 
 		const thisUser = await User.findById(decoded.user.id, 'lastLogin');
-		if	(decoded.user.issued < thisUser.lastLogin)	{
+		if	(thisUser == null)
+		{
+			console.log('Could not find user in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find user'});
+		}
+		else if	(decoded.user.issued < thisUser.lastLogin)	{
 			console.log('Cant sign into two places at once!');
 			return res
 				.status(400)
