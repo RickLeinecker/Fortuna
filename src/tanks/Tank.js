@@ -42,11 +42,14 @@ import {
 	TARGET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
+	TANK_HEALTH_VAR_NAME,
 
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	ENEMY_TANK_HEALTH_VAR_NAME,
 	TEAM_TANK_XS_VAR_NAME,
 	TEAM_TANK_YS_VAR_NAME,
+	TEAM_TANK_HEALTH_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,
@@ -203,6 +206,10 @@ class Tank extends GameObject {
 	}
 
 	setCasusVariables(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
+		this._setDouble(TANK_X_VAR_NAME, this.position.x);
+		this._setDouble(TANK_Y_VAR_NAME, this.position.y);
+		this._setDouble(TANK_HEALTH_VAR_NAME, this.health);
+
 		//set generic casus lists
 		const wallXs=[];
 		const wallYs=[];
@@ -218,14 +225,18 @@ class Tank extends GameObject {
 		const enemyTanks=this._getEnemyTanks(battleground);
 		const otherTankXs=enemyTanks.map(tank => tank.getPosition().x);
 		const otherTankYs=enemyTanks.map(tank => tank.getPosition().y);
+		const otherTankHealths=enemyTanks.map(tank => tank.health);
 		this._setDoubleArray(ENEMY_TANK_XS_VAR_NAME, otherTankXs);
 		this._setDoubleArray(ENEMY_TANK_YS_VAR_NAME, otherTankYs);
+		this._setDoubleArray(ENEMY_TANK_HEALTH_VAR_NAME, otherTankHealths);
 
 		const friendlyTanks=this._getFriendlyTanks(battleground);
 		const friendlyTankXs=friendlyTanks.map(tank => tank.getPosition().x);
 		const friendlyTankYs=friendlyTanks.map(tank => tank.getPosition().y);
+		const friendlyTankHealths=friendlyTanks.map(tank => tank.health);
 		this._setDoubleArray(TEAM_TANK_XS_VAR_NAME, friendlyTankXs);
 		this._setDoubleArray(TEAM_TANK_YS_VAR_NAME, friendlyTankYs);
+		this._setDoubleArray(TEAM_TANK_HEALTH_VAR_NAME, friendlyTankHealths);
 
 		const mines=this._getMines(battleground);
 		const minesXs=mines.map(mine => mine.getPosition().x);
@@ -273,8 +284,6 @@ class Tank extends GameObject {
 		}
 
 		this._setBoolean(RAN_INTO_WALL_VAR_NAME, ranIntoWall);
-		this._setDouble(TANK_X_VAR_NAME, this.position.x);
-		this._setDouble(TANK_Y_VAR_NAME, this.position.y);
 		//end of movement stuff
 		
 		//gun stuff
