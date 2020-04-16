@@ -26,6 +26,11 @@
 	background-color: gray;
 }
 
+.undoBtn:disabled:hover {
+	color: #04CCFF;
+	border: 1px solid #04CCFF;
+}
+
 .undoBtnArea {
 	text-align: right;
 	position: fixed;
