@@ -3,6 +3,7 @@
 import CasusBlock from './blocks/CasusBlock.js';
 import reviveCasusBlock from './reviveCasusBlock.js';
 import {reviveAsContainer} from './reviveCasusBlock.js';
+import ContainerBlock from './blocks/ContainerBlock.js';
 
 // Creates a deep clone of this object.
 // This is helpful for copy-pasting purposes, for example
