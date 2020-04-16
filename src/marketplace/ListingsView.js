@@ -93,7 +93,8 @@ class ListingsView extends React.Component<Props, State> {
 		const arrayOfTankIds = [];
 		for(let i = 0; i < this.state.itemsForSale.length; i++) {
 			if(this.state.itemsForSale[i].tankId == null) {
-				throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
+				console.log("Loading Tanks...");
+				return;
 			}
 			arrayOfTankIds.push(this.state.itemsForSale[i].tankId);
 		}
