@@ -6,6 +6,8 @@ import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import ContainerBlock from '../../casus/blocks/ContainerBlock.js';
+
 
 // This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
@@ -337,6 +339,41 @@ function getTanksById(tankIds: Array<string>, onLoad:(tanks: Array<Tank>) => voi
 	)
 }
 
+function updateCasusCode(tankId: string, casusCode: ContainerBlock): void {
+	if (casusCode.children.length===0) {
+		console.log('Tried to save empty, so we will ignore that...');
+		return;
+	}
+
+	fetch('/api/tank/casusUpdate/'+tankId, {
+		method: 'PUT',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+		body: JSON.stringify({
+			casusCode: casusCode
+		})
+	})
+	.then(res => {
+		if (res.status !== 200) {
+			console.log('Got unexpected status response when saving casus!');
+			console.log(res);
+			toast.error("Couldn't save Casus code");
+		}
+		else {
+			toast.success("Casus Code Successfully Copied");
+		}
+	})
+	.catch(e => {
+		console.log('error saving casus!');
+		toast.error("Couldn't save Casus code");
+		console.log(e);
+	});
+}
+
 export {
 	getFavoriteTank,
 	getFavoriteTankTeam,
@@ -348,6 +385,7 @@ export {
 	getAllUsersTanks,
 	createTank,
 	deleteTank,
-	getTanksById
+	getTanksById,
+	updateCasusCode
 }
 

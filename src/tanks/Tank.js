@@ -54,6 +54,7 @@ import {
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 import type Battleground from '../battleground/Battleground.js';
+import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 
 const NITRO_REPAIR_LENGTH=30*3;
 const ORIG_MOVE_SPEED=0.7;
@@ -106,7 +107,7 @@ class Tank extends GameObject {
 
 	// Casus:
 	interpriterState: InterpriterState;
-	casusCode: CasusBlock;
+	casusCode: ContainerBlock;
 
 	constructor(
 		position: Vec, 
@@ -121,7 +122,7 @@ class Tank extends GameObject {
 		itemOne: TankPart,
 		itemTwo: TankPart,
 		itemThree: TankPart,
-		casusCode: CasusBlock,
+		casusCode: ContainerBlock,
 		tankName: string,
 		_id: string,
 		userId: string,

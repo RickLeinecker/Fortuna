@@ -107,7 +107,7 @@ function cloneTank(tank: Tank): Tank {
 	return toReturn;
 }
 
-function getEmptyCasusCode(): CasusBlock {
+function getEmptyCasusCode(): ContainerBlock {
 	const childrenBlocks: Array<CasusBlock> = [];
 	const container: ContainerBlock = new ContainerBlock(childrenBlocks);
 	return container;

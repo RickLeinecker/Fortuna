@@ -12,6 +12,7 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
+import CopyCasusCodePopup from './CopyCasusCodePopup';
 import { ToastContainer, toast } from 'react-toastify';
 // Functions
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
@@ -346,7 +347,13 @@ class Armory extends React.Component<Props, State> {
 							<DeleteTankPopup
 								tank={selectedTank}
 							/>
-						}
+						}&emsp;
+						{selectedTank==null?<div></div>:
+							<CopyCasusCodePopup
+								selectedTank={selectedTank}
+								usersTanks={this.state.allTanks}
+							/>
+						}&emsp;
 					</div>
 					<br/><br/>
 					<SetWagerPopup
