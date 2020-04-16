@@ -99,11 +99,6 @@ class CasusEditor extends React.Component<Props, State> {
 	onUndoRedoButtonClicked(undo: boolean): void {
 		const newCasusStateIndex=this.state.currentCasusState+(undo?-1:1);
 		const newState=casusBlockDeepCloneAsContainer(this.state.casusStates[newCasusStateIndex]);	
-		if (!undo) {
-			console.log('redo clicked');
-			console.log(newCasusStateIndex);
-			console.log(this.state.casusStates);
-		}
 		this.setState({
 			currentCasusState: newCasusStateIndex,
 			containerBlock: newState,
@@ -121,10 +116,6 @@ class CasusEditor extends React.Component<Props, State> {
 		if (JSON.stringify(toAdd) === JSON.stringify(oldState)) {
 			return;
 		}
-		else {
-			console.log(toAdd);
-			console.log(oldState);
-		}
 		let newStates=this.state.casusStates.slice(0, this.state.currentCasusState+1);
 		newStates.push(toAdd);
 		let curIndex=this.state.currentCasusState+1;
@@ -136,8 +127,6 @@ class CasusEditor extends React.Component<Props, State> {
 			currentCasusState: curIndex,
 			casusStates: newStates,
 		});
-		console.log('New index: '+curIndex);
-		console.log(newStates);
 	}
 
 	render(): React.Node {
@@ -206,7 +195,6 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	onMouseDown(e: MouseEvent) {
-		console.log(e);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const boundingBox: ClientRect = canvas.getBoundingClientRect();
 
