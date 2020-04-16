@@ -16,6 +16,7 @@ import './CasusEditor.css';
 import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
 import casusBlockDeepClone from './casusBlockDeepClone.js';
+import {casusBlockDeepCloneAsContainer} from './casusBlockDeepClone.js';
 
 import type {DataType} from './blocks/DataType.js';
 
@@ -31,6 +32,8 @@ type State = {|
 	mouseY: number,
 	mouseOnScreen: boolean,
 	variableBlockToRename: GetVariableBlock | SetVariableBlock | DefineFunctionBlock | CallFunctionBlock | null,
+	casusStates: Array<ContainerBlock>;
+	currentCasusState: number;
 |};
 
 type MouseEvent = {
@@ -44,6 +47,7 @@ type CanPreventDefaultEvent = {
 }
 
 const RIGHT_BUTTON_CODE=2;
+const MAX_UNDOS=50;
 
 class CasusEditor extends React.Component<Props, State> {
 	
@@ -55,6 +59,8 @@ class CasusEditor extends React.Component<Props, State> {
 			casusBlock => {
 				this.setState({
 					containerBlock: casusBlock,
+					casusStates: [casusBlockDeepCloneAsContainer(casusBlock)],
+					currentCasusState: 0,
 				});
 				this._rerender();
 			}
@@ -66,6 +72,8 @@ class CasusEditor extends React.Component<Props, State> {
 			mouseY: 0,
 			mouseOnScreen: false,
 			variableBlockToRename: null,
+			casusStates: [],
+			currentCasusState: 0,
 		}
 	}
 
@@ -88,9 +96,69 @@ class CasusEditor extends React.Component<Props, State> {
 
 	onResize = () => this._rerender();
 
+	onUndoRedoButtonClicked(undo: boolean): void {
+		const newCasusStateIndex=this.state.currentCasusState+(undo?-1:1);
+		const newState=casusBlockDeepCloneAsContainer(this.state.casusStates[newCasusStateIndex]);	
+		if (!undo) {
+			console.log('redo clicked');
+			console.log(newCasusStateIndex);
+			console.log(this.state.casusStates);
+		}
+		this.setState({
+			currentCasusState: newCasusStateIndex,
+			containerBlock: newState,
+		}, this.onUndoRedoClicked);
+	}
+
+	onUndoRedoClicked(): void {
+		this._rerender();
+		this._saveCasus();
+	}
+
+	onStateAdded(): void {
+		const oldState=this.state.casusStates[this.state.currentCasusState];
+		const toAdd=casusBlockDeepCloneAsContainer(this.state.containerBlock)
+		if (JSON.stringify(toAdd) === JSON.stringify(oldState)) {
+			return;
+		}
+		else {
+			console.log(toAdd);
+			console.log(oldState);
+		}
+		let newStates=this.state.casusStates.slice(0, this.state.currentCasusState+1);
+		newStates.push(toAdd);
+		let curIndex=this.state.currentCasusState+1;
+		while (curIndex>MAX_UNDOS) {
+			curIndex--;
+			newStates.splice(0, 1);
+		}
+		this.setState({
+			currentCasusState: curIndex,
+			casusStates: newStates,
+		});
+		console.log('New index: '+curIndex);
+		console.log(newStates);
+	}
+
 	render(): React.Node {
 		return (
 			<div className="casusEditorContainingDiv">
+				<div className="undoBtnArea">
+					<button 
+						className="undoBtn" 
+						onClick={(() => this.onUndoRedoButtonClicked(true))}
+						disabled={this.state.currentCasusState<=0}
+					>
+						Undo
+					</button>
+					<button 
+						className="undoBtn" 
+						onClick={(() => this.onUndoRedoButtonClicked(false))}
+						disabled={this.state.currentCasusState>=this.state.casusStates.length-1}
+					>
+						Redo
+					</button>
+				</div>
 				<canvas 
 					className="casusEditorCanvas"
 					ref="canvas" 
@@ -133,10 +201,12 @@ class CasusEditor extends React.Component<Props, State> {
 
 		this.props.onDraggedBlocksReleased();
 		this._rerender();
+		this.onStateAdded();
 		this._saveCasus();
 	}
 
 	onMouseDown(e: MouseEvent) {
+		console.log(e);
 		const canvas: HTMLCanvasElement = this.refs.canvas;
 		const boundingBox: ClientRect = canvas.getBoundingClientRect();
 
@@ -166,6 +236,7 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 
 		this._rerender();
+		this.onStateAdded();
 		this._saveCasus();
 	}
 
@@ -186,6 +257,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this.onStateAdded();
 		this._saveCasus();
 	}
 
@@ -203,6 +275,7 @@ class CasusEditor extends React.Component<Props, State> {
 		this.setState({variableBlockToRename: null});
 
 		this._rerender();
+		this.onStateAdded();
 		this._saveCasus();
 	}
 
