@@ -161,8 +161,11 @@ exports.login = async (req: Request, res: Response) => {
 		// See if User exists - might change this to const
 		const user = await User.findOne({ userName: userName });
 
+		// Internal password constant
+		const passCheck = user?.password ?? '';
+
 		// Checks if the plaintext password matches the hashed pass form db
-		const isMatch = await bcrypt.compare(password, user.password);
+		const isMatch = await bcrypt.compare(password, passCheck);
 
 		// If the credentials don't match it will return a boolean false
 		if (!isMatch || user == null) {
