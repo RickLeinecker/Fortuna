@@ -2,6 +2,8 @@
 
 const jwt = require('jsonwebtoken');
 
+const User = require('../../models/userModel');
+
 const jwtSecret = process.env.JWT_SECRET;
 
 import type {
@@ -13,7 +15,7 @@ import type {
 // req: parsed as JSON
 // res: JSON or error message
 // next: JSON(?)
-function auth (req: Request, res: Response, next: NextFunction){
+async function auth (req: Request, res: Response, next: NextFunction){
 	// Get token from header
 	const token = req.header('x-auth-token');
 
@@ -28,6 +30,13 @@ function auth (req: Request, res: Response, next: NextFunction){
 	try {
 		const decoded = jwt.verify(token, jwtSecret);
 
+		const thisUser = await User.findById(decoded.user.id, 'lastLogin');
+		if	(decoded.user.issued < thisUser.lastLogin)	{
+			console.log('Cant sign into two places at once!');
+			return res
+				.status(400)
+				.json({ msg: 'Token is not valid'});
+		}
 		req.user = decoded.user;
 		next();
 	} catch(err) {
