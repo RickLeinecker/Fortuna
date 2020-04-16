@@ -50,11 +50,11 @@ class SearchPlayers extends React.Component<Props, State> {
 		});
 	}
 
-	componentDidUpdate(): void {
+	componentWillReceiveProps(newProps: Props): void {
 		// Update the search players when the battleType changes.
 		const myUsername=new Cookie().get('username');
 		getAllUsersAPICall(allUsers => {
-			if (this.props.battleType === '1 vs 1') {
+			if (newProps.battleType === '1 vs 1') {
 				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
 			}
 			else {
