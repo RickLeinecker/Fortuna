@@ -14,7 +14,8 @@ type Props = {|
 
 type State = {|
 	queryString: string,
-	playerList: Array<User>,
+	player1v1List: Array<User>,
+	player3v3List: Array<User>
 |};
 
 // Search Players Component. Takes an array of all players.
@@ -33,7 +34,8 @@ class SearchPlayers extends React.Component<Props, State> {
 
 		this.state = {
 			queryString: '',
-			playerList: [],
+			player1v1List: [],
+			player3v3List: []
 		}
 	}
 
@@ -41,25 +43,10 @@ class SearchPlayers extends React.Component<Props, State> {
 		//set by navbar
 		const myUsername=new Cookie().get('username');
 		getAllUsersAPICall(allUsers => {
-			if (this.props.battleType === '1 vs 1') {
-				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
-			}
-			else {
-				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager3v3 > 0)});
-			}
-		});
-	}
-
-	componentDidUpdate(): void {
-		// Update the search players when the battleType changes.
-		const myUsername=new Cookie().get('username');
-		getAllUsersAPICall(allUsers => {
-			if (this.props.battleType === '1 vs 1') {
-				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager > 0)});
-			}
-			else {
-				this.setState({playerList: allUsers.filter(user => user.username !== myUsername && user.wager3v3 > 0)});
-			}
+			this.setState({
+				player1v1List: allUsers.filter(user => user.username !== myUsername && user.wager > 0),
+				player3v3List: allUsers.filter(user => user.username !== myUsername && user.wager3v3 > 0)
+			});
 		});
 	}
 
@@ -68,8 +55,9 @@ class SearchPlayers extends React.Component<Props, State> {
 	}
 
 	render(): React.Node {
-		const playersToRender = this.state.playerList.filter(
-			user => user.username.includes(this.state.queryString)
+		const playersToRender = (this.props.battleType === '1 vs 1' ? 
+			this.state.player1v1List.filter(user => user.username.includes(this.state.queryString)) :
+			this.state.player3v3List.filter(user => user.username.includes(this.state.queryString))
 		);
 		return (
 			<div className="searchPlayers">
