@@ -91,6 +91,9 @@ class CasusEditor extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="casusEditorContainingDiv">
+				<div className="undoBtnArea">
+					<button className="undoBtn">Undo</button>
+				</div>
 				<canvas 
 					className="casusEditorCanvas"
 					ref="canvas" 
