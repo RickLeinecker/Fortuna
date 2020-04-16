@@ -27,6 +27,7 @@ import {
 	createSmokeCloud
 } from '../battleground/gameobjects/Particle.js';
 import Bullet from '../battleground/gameobjects/Bullet.js';
+import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -53,7 +54,7 @@ import {
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 import type Battleground from '../battleground/Battleground.js';
-import ContainerBlock from '../casus/blocks/ContainerBlock.js';
+
 
 const NITRO_REPAIR_LENGTH=30*3;
 const ORIG_MOVE_SPEED=0.7;

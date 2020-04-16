@@ -4,7 +4,7 @@ import * as React from 'react';
 import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { ToastContainer , toast } from 'react-toastify';
-import { updateCasusCode } from '../globalComponents/apiCalls/tankAPIIntegration';
+import saveCasus from '../casus/saveCasus.js';
 
 type Props = {|
 	selectedTank: Tank,
@@ -28,18 +28,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 	}
 
 	setTankBeingCopiedFrom(tankBeingUsedId: string): void {
-		let indexOfTankBeingUsed = -1;
-		for(let i = 0; i < this.props.usersTanks.length; i++) {
-			if(this.props.usersTanks[i]._id === tankBeingUsedId) {
-				indexOfTankBeingUsed = i;
-				i = this.props.usersTanks.length;
-			}
-		}
-		if(indexOfTankBeingUsed === -1) {
-			this.setState({tankBeingCopiedFrom: null});
-			return;
-		}
-		this.setState({tankBeingCopiedFrom: this.props.usersTanks[indexOfTankBeingUsed]});
+		this.setState({tankBeingCopiedFrom: this.props.usersTanks.find(tank => tank._id == tankBeingUsedId)});
 	}
 
 	copyCasusCode(): void {
@@ -49,8 +38,9 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		}
 		const selectedTank = this.props.selectedTank;
 		const selectedCasusCode = this.state.tankBeingCopiedFrom.casusCode;
-		console.log(selectedCasusCode);
-		updateCasusCode(selectedTank._id, selectedCasusCode);		
+		saveCasus(selectedCasusCode, selectedTank._id, () => {
+			toast.success("Copied Casus");
+		});		
 	}
 
 	render(): React.Node {
@@ -65,28 +55,26 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 				<button className="smallbtn" onClick={() => this.setState({popupOpen: true})}>
 					Copy Casus Code
 				</button>
-				<div className="CopyCasusPopup">
-					<Popup
-						open={this.state.popupOpen}
-						onClose={() => this.setState({popupOpen: false})}
-					>
-						<div className="popup">
-							<br/>
-							<h3>Copy Casus Code From</h3>
-							<select 
-								className="dropdownMenu" 
-								onChange={e => this.setTankBeingCopiedFrom(e.target.value)}
-							>
-								<option>Select A Tank To Copy From</option>
-								{this.props.usersTanks.map(tank => 
-									<option key = {tank._id} value = {tank._id}>{tank.tankName}</option>
-								)}
-							</select>
-							{copyButton}{cancelButton}
-						</div>
-					</Popup>
-					<ToastContainer />
-				</div>
+				<Popup
+					open={this.state.popupOpen}
+					onClose={() => this.setState({popupOpen: false})}
+				>
+					<div className="popup">
+						<br/>
+						<h3>Copy Casus Code From</h3>
+						<select 
+							className="dropdownMenu" 
+							onChange={e => this.setTankBeingCopiedFrom(e.target.value)}
+						>
+							<option>Select A Tank To Copy From</option>
+							{this.props.usersTanks.map(tank => 
+								<option key = {tank._id} value = {tank._id}>{tank.tankName}</option>
+							)}
+						</select>
+						{copyButton}{cancelButton}
+					</div>
+				</Popup>
+				<ToastContainer />
 			</div>
 		);
 	}

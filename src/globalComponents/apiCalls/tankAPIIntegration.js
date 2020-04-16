@@ -339,40 +339,6 @@ function getTanksById(tankIds: Array<string>, onLoad:(tanks: Array<Tank>) => voi
 	)
 }
 
-function updateCasusCode(tankId: string, casusCode: ContainerBlock): void {
-	if (casusCode.children.length===0) {
-		console.log('Tried to save empty, so we will ignore that...');
-		return;
-	}
-
-	fetch('/api/tank/casusUpdate/'+tankId, {
-		method: 'PUT',
-		headers: {
-			'Access-Control-Allow-Origin': '*',
-			'Content-Type': 'application/json',
-			'Access-Control-Allow-Credentials': 'true',
-			'x-auth-token': getLoginToken()
-		},
-		body: JSON.stringify({
-			casusCode: casusCode
-		})
-	})
-	.then(res => {
-		if (res.status !== 200) {
-			console.log('Got unexpected status response when saving casus!');
-			console.log(res);
-			toast.error("Couldn't save Casus code");
-		}
-		else {
-			toast.success("Casus Code Successfully Copied");
-		}
-	})
-	.catch(e => {
-		console.log('error saving casus!');
-		toast.error("Couldn't save Casus code");
-		console.log(e);
-	});
-}
 
 export {
 	getFavoriteTank,
@@ -385,7 +351,6 @@ export {
 	getAllUsersTanks,
 	createTank,
 	deleteTank,
-	getTanksById,
-	updateCasusCode
+	getTanksById
 }
 
