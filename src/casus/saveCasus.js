@@ -5,8 +5,9 @@ import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import { toast } from 'react-toastify';
 
-function saveCasus(casusCode: ContainerBlock, tankToEditID: ?string, onLoad:() => void): void {
+function saveCasus(casusCode: ContainerBlock, tankID: ?string, onLoad:() => void): void {
 	
+	let tankToEditID: ?string = tankID;
 	if(tankToEditID == null) {
 		tankToEditID = getTankForCasus();
 	}
@@ -35,9 +36,7 @@ function saveCasus(casusCode: ContainerBlock, tankToEditID: ?string, onLoad:() =
 			toast.error("Couldn't save Casus code");
 		}
 		else {
-			if(onLoad != null) {
-				onLoad();
-			}
+			onLoad();
 		}
 	})
 	.catch(e => {

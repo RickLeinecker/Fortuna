@@ -345,7 +345,7 @@ class CasusEditor extends React.Component<Props, State> {
 	}
 
 	_saveCasus(): void {
-		saveCasus(this.state.containerBlock);
+		saveCasus(this.state.containerBlock, null, () => {});
 	}
 
 }
