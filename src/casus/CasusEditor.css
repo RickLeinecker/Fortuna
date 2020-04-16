@@ -13,7 +13,10 @@
 	background-color: #000921;
 	color: #04CCFF;
 	border: 1px solid #04CCFF;
+	margin: 5px;
 	padding: 5px;
+	margin-top: 10px;
+	width: 70px;
 }
 
 .undoBtn:hover {

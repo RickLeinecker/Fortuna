@@ -48,6 +48,10 @@ class CasusContainer extends React.Component<Props, State> {
 					onBlocksDragged={this.onBlocksDragged} 
 					onDraggedBlocksReleased={this.onDraggedBlocksReleased}
 				/>
+				<div className="undoBtnArea">
+					<button className="undoBtn">Undo</button>
+					<button className="undoBtn" disabled={true}>Redo</button>
+				</div>
 				<CasusEditor 
 					draggedBlocks={this.state.draggedBlocks}
 					onBlocksDragged={this.onBlocksDragged} 
