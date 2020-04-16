@@ -136,8 +136,9 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			else {
 				cards.push(
-					<div className="card mb-2" key={i}>
+					<div className={this.state.itemsForSale[i].sellerId === '5e93b1d0d1125f22ecd469b7' ? "masterCard mb-2" : "card mb-2"} key={i}>
 						<div className="card-body">
+							{this.state.itemsForSale[i].sellerId === '5e93b1d0d1125f22ecd469b7' ? <h6>Master Listing: Unlimited Quantity</h6> : null}
 							<h5 className="card-title">{toTitleCase(this.state.itemsForSale[i].name)}</h5>
 							<h5 className="card-title">Price: ${this.state.itemsForSale[i].price}</h5>
 							<h5 className="card-title">Quantity: {this.state.itemsForSale[i].amount}</h5>
