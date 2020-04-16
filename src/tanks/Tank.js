@@ -7,7 +7,6 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import { getImage } from '../battleground/ImageLoader.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import { getInterpriterState, setInterpriterState } from '../casus/interpreter/InterpriterState.js';
-import CasusBlock from '../casus/blocks/CasusBlock.js';
 import { verifyDouble, verifyBoolean } from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
