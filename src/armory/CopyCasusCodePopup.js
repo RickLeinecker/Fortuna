@@ -14,6 +14,7 @@ type Props = {|
 type State = {|
 	popupOpen: boolean,
 	tankBeingCopiedFrom: ?Tank,
+	confirmed: boolean,
 |};
 
 class CopyCasusCodePopup extends React.Component<Props, State> {
@@ -24,6 +25,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		this.state = {
 			popupOpen: false,
 			tankBeingCopiedFrom : null,
+			confirmed: false,
 		}
 	}
 
@@ -36,11 +38,24 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 			toast.error("Couldn't find this tank");
 			return;
 		}
+		if(this.state.confirmed === false) {
+			toast.error("Please confirm you understand that you are rewriting code");
+			return;
+		}
 		const selectedTank = this.props.selectedTank;
 		const selectedCasusCode = this.state.tankBeingCopiedFrom.casusCode;
 		saveCasus(selectedCasusCode, selectedTank._id, () => {
 			toast.success("Copied Casus");
 		});		
+	}
+
+	changeConfirmed(): void {
+		if(this.state.confirmed) {
+			this.setState({confirmed: false});
+		}
+		else {
+			this.setState({confirmed: true});
+		}
 	}
 
 	render(): React.Node {
@@ -50,10 +65,20 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		const copyButton = (
 			<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>
 		);
+		const checkBoxField = (
+			<label>
+				<input
+					className = "customCheckBox"
+					type="checkbox"
+					checked={this.state.confirmed}
+					onChange={() => this.changeConfirmed()} />
+				 I understand I am rewritting {this.props.selectedTank.tankName}'s Casus Code 
+			</label>
+		)
 		return(
 			<div>
-				<button className="smallbtn" onClick={() => this.setState({popupOpen: true})}>
-					Copy Casus Code
+				<button className="primarybtn" onClick={() => this.setState({popupOpen: true})}>
+					Copy Code
 				</button>
 				<Popup
 					open={this.state.popupOpen}
@@ -71,6 +96,8 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 								<option key = {tank._id} value = {tank._id}>{tank.tankName}</option>
 							)}
 						</select>
+						{checkBoxField}
+						<br/>
 						{copyButton}{cancelButton}
 					</div>
 				</Popup>
