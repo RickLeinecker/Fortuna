@@ -46,6 +46,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		const selectedCasusCode = this.state.tankBeingCopiedFrom.casusCode;
 		saveCasus(selectedCasusCode, selectedTank._id, () => {
 			toast.success("Copied Casus");
+			this.setState({popupOpen: false});
 		});		
 	}
 
