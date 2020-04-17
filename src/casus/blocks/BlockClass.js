@@ -45,6 +45,7 @@ type BlockClass =
 	'MathAcosBlock' |
 	'MathAsinBlock' |
 	'MathAtanBlock' |
+	'MathAtan2Block' |
 	'MathCosBlock' |
 	'MathPowBlock' |
 	'MathSinBlock' |

@@ -164,6 +164,32 @@ body {
 	border: 2px solid #04CCFF;
 }
 
+.popupbtnPink {
+	color: #04213F;
+	background: #ff00cb;
+	border: 2px solid #ff00cb;
+	border-radius: 3px;
+	margin-top: 20px;
+}
+.popupbtnPink:hover {
+	color: #ff00cb;
+	background: #500030;
+	border: 2px solid #ff00cb;
+}
+
+.popupbtnGray {
+	color: #04213F;
+	background: #aaaaaa;
+	border: 2px solid #aaaaaa;
+	border-radius: 3px;
+	margin-top: 20px;
+}
+.popupbtnGray:hover {
+	color: #aaaaaa;
+	background: #111122;
+	border: 2px solid #aaaaaa;
+}
+
 .closebtn {
 	color: #04213F;
 	background: #04CCFF;
@@ -357,8 +383,6 @@ select {
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-
-
 
 /* Miscellaneous. */
 .inline {

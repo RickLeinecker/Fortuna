@@ -81,7 +81,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		damage: 6,
 	},
 	SHOTGUN_BULLET: {
-		speed: 4,
+		speed: 3,
 		width: 13,
 		lifetime: 10,
 		damage: 2,
@@ -121,14 +121,14 @@ class Bullet extends GameObject {
 		if (bulletType === 'SHOTGUN_BULLET') {
 			//CAREFUL: this has to be 100% determistic and be the same on all clients!
 			//no Math.random() allowed!
-			const randomNumber=(rseed*1235.58717 + 
+			const randomNumber=Math.abs(rseed*1235.58717 + 
 				this.rotation*862.6206 + 
 				this.position.x*511.1626+
 				this.position.y*86.3634636);
 			const angleOffset=randomNumber%.6-0.3;
 			const speedOffset=randomNumber%2-1;
 			this.rotation+=angleOffset;
-			this.velocity=this.velocity.add(new Vec(speedOffset, 0));
+			this.velocity=this.velocity.add(new Vec(speedOffset, 0).rotate(this.rotation));
 		}
 	}
 

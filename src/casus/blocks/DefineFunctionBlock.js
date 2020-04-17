@@ -106,7 +106,7 @@ class DefineFunctionBlock extends CasusBlock {
 	}
 
 	getExistingVariableNames(dataType: DataType): Array<string> {
-		const existing=this.contents.getExistingVariableNames(dataType);
+		const existing=this.expanded?this.contents.getExistingVariableNames(dataType):[];
 		if (dataType === 'VOID' && !isDefaultVariableName(this.functionName)) {
 			if (!existing.includes(this.functionName)) {
 				existing.push(this.functionName);

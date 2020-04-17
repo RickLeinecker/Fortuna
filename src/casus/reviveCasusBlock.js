@@ -44,6 +44,7 @@ import ListSizeBlock from './blocks/ListSizeBlock.js';
 import MathAcosBlock from './blocks/MathAcosBlock.js';
 import MathAsinBlock from './blocks/MathAsinBlock.js';
 import MathAtanBlock from './blocks/MathAtanBlock.js';
+import MathAtan2Block from './blocks/MathAtan2Block.js';
 import MathCosBlock from './blocks/MathCosBlock.js';
 import MathSinBlock from './blocks/MathSinBlock.js';
 import MathSqrtBlock from './blocks/MathSqrtBlock.js';
@@ -357,12 +358,18 @@ function reviveCasusBlock(orig: SomeBlockFromServer): CasusBlock {
 			toReturn=new MathAtanBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
+		case 'MathAtan2Block':
+			toReturn=new MathAtan2Block();
+			toReturn.lChild=reviveCasusBlock(orig.lChild);
+			toReturn.rChild=reviveCasusBlock(orig.rChild);
+			return toReturn;
 		case 'MathCosBlock':
 			toReturn=new MathCosBlock();
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'MathPowBlock':
 			toReturn=new MathPowBlock();
+			toReturn.lChild=reviveCasusBlock(orig.lChild);
 			toReturn.rChild=reviveCasusBlock(orig.rChild);
 			return toReturn;
 		case 'MathSinBlock':

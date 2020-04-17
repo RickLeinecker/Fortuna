@@ -8,6 +8,7 @@ import Navbar from '../globalComponents/Navbar.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import {ToastContainer} from 'react-toastify';
 
 type Props = {||};
 
@@ -52,6 +53,7 @@ class CasusContainer extends React.Component<Props, State> {
 					onBlocksDragged={this.onBlocksDragged} 
 					onDraggedBlocksReleased={this.onDraggedBlocksReleased}
 				/>
+				<ToastContainer />
 			</div>
 		);
 	}

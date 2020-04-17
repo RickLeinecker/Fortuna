@@ -21,12 +21,15 @@ const TARGET_DIRECTION_VAR_NAME: string = 'targetDirection';
 const TURRET_DIRECTION_VAR_NAME: string = 'turretDirection';
 const TANK_X_VAR_NAME: string = 'tankX';
 const TANK_Y_VAR_NAME: string = 'tankY';
+const TANK_HEALTH_VAR_NAME: string = 'tankHealth';
 
 //double lists
 const ENEMY_TANK_XS_VAR_NAME: string = 'enemyTankXs';
 const ENEMY_TANK_YS_VAR_NAME: string = 'enemyTankYs';
+const ENEMY_TANK_HEALTH_VAR_NAME: string = 'enemyTanksHealth';
 const TEAM_TANK_XS_VAR_NAME: string = 'friendlyTankXs';
 const TEAM_TANK_YS_VAR_NAME: string = 'friendlyTankYs';
+const TEAM_TANK_HEALTH_VAR_NAME: string = 'friendlyTanksHealth';
 const EXPLOSIVE_XS_VAR_NAME: string = 'explosiveXs';
 const EXPLOSIVE_YS_VAR_NAME: string = 'explosiveYs';
 const WALL_XS_VAR_NAME: string = 'wallXs';
@@ -53,13 +56,16 @@ const builtInDoubleVariables: Array<string> = [
 	TURRET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
+	TANK_HEALTH_VAR_NAME,
 ];
 
 const builtInDoubleListVariables: Array<string> = [
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	ENEMY_TANK_HEALTH_VAR_NAME,
 	TEAM_TANK_XS_VAR_NAME,
 	TEAM_TANK_YS_VAR_NAME,
+	TEAM_TANK_HEALTH_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,
@@ -82,11 +88,14 @@ export {
 	TURRET_DIRECTION_VAR_NAME,
 	TANK_X_VAR_NAME,
 	TANK_Y_VAR_NAME,
+	TANK_HEALTH_VAR_NAME,
 
 	ENEMY_TANK_XS_VAR_NAME,
 	ENEMY_TANK_YS_VAR_NAME,
+	ENEMY_TANK_HEALTH_VAR_NAME,
 	TEAM_TANK_XS_VAR_NAME,
 	TEAM_TANK_YS_VAR_NAME,
+	TEAM_TANK_HEALTH_VAR_NAME,
 	EXPLOSIVE_XS_VAR_NAME,
 	EXPLOSIVE_YS_VAR_NAME,
 	WALL_XS_VAR_NAME,

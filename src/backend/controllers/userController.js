@@ -160,21 +160,18 @@ exports.login = async (req: Request, res: Response) => {
 	try{
 		// See if User exists - might change this to const
 		const user = await User.findOne({ userName: userName });
-		if(user == null){
-			return res
-				.status(401)
-				.json({ msg: 'The user name ' + userName + 
-					' is not associated with any account. Double-check your user name and try again.' });
-		}
+
+		// Internal password constant
+		const passCheck = user?.password ?? '';
 
 		// Checks if the plaintext password matches the hashed pass form db
-		const isMatch = await bcrypt.compare(password, user.password);
+		const isMatch = await bcrypt.compare(password, passCheck);
 
 		// If the credentials don't match it will return a boolean false
-		if (!isMatch) {
+		if (!isMatch || user == null) {
 			return res
 				.status(401)
-				.json({ msg: 'Invalid Password. Please try again.' });
+				.json({ msg: 'Incorrect username or password' });
 		}
 
 		// Checks if the user's email has been verified
@@ -182,8 +179,7 @@ exports.login = async (req: Request, res: Response) => {
 			return res
 				.status(401)
 				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' + 
-					'Check your email for your verification token. ' +
-					'If your token has expired, request a new one.' });
+					'Check your email to verify your account, or request a new one.' });
 		}
 
 		// Login successful. Check if this is the user's very
@@ -277,9 +273,9 @@ exports.confirmToken = async (req: Request, res: Response) => {
 			return res
 				.status(400)
 				.json({ type: 'not-verified',
-					msg: 'The token you are using is not a valid token. ' +
-					'Check your confirmation email and try again. ' + 
-					'Otherwise, your token may have expired.' });
+					msg: 'The token you are using is not valid. ' +
+					'Check your confirmation email and try again, ' + 
+					'or request a new confirmation email at the Login page.' });
 		}
 
 		// If token was found, find the user associated with it

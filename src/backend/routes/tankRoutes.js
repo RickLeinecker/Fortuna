@@ -112,12 +112,13 @@ router.delete('/deleteTank/:tankId', [
 // Returns the array of bot tanks
 router.get('/getBotTanks', tankController.getBotTanks);
 
-// Retrieve a tank object
+// Retrieve tank objects
 // Route call: /getTankById/<tankId>
 // Body: N/A
-// returns the tank object
-router.get('/getTankById/:tankId', [
-	check('tankId', 'a valid MongoId is required.').isMongoId()
-], tankController.getTankById);
+// Takes an array of tank ids
+// returns the tank objects
+router.get('/getTanksById', [
+	check('array', 'A JSON array of MongoIds is required.').isJSON()
+], tankController.getTanksById);
 
 module.exports = router;
