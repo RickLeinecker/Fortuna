@@ -60,7 +60,7 @@ class Marketplace extends React.Component<Props, State> {
 				partView = (<ListingsView sellerType='item' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'tank':
-				partView = (<ListingsView sellerType='tanks' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='tank' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
 			case 'casusBlock':
 				partView = (<ListingsView sellerType='casus' onItemBought={this.onMoneyChanged}></ListingsView>);

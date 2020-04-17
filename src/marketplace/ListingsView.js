@@ -14,7 +14,6 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 
 type Props = {|
-	// This is the type of item we are buying
 	sellerType: SellingType,
 	onItemBought: () => void,
 |};
@@ -28,7 +27,6 @@ type State = {|
 	jammersForSale: Array<SaleObject>,
 	treadsForSale: Array<SaleObject>,
 	itemsForSale: Array<SaleObject>,
-	// This is used to hold all of the tanks for sale. Will be null when the sellerType is not tank
 	tanksForSale: Array<SaleObject>,
 	tanks: Array<Tank>,
 	cards: Array<React.Element<'div'>>
@@ -49,11 +47,11 @@ class ListingsView extends React.Component<Props, State> {
 			itemsForSale: [],
 			tanksForSale: [],
 			tanks: [],
-			cards: [<div><h5>Loading Sales...</h5></div>]
+			cards: [<div key={0}><h5>Loading Sales...</h5></div>]
 		}
 	}
 
-	// Once mounted, get the user's ID.
+	// Once mounted, get the user's ID and set the sales.
 	componentDidMount(): void {
 		getUserAPICall(user => {
 			this.setState({userId: user.userId});
@@ -61,6 +59,7 @@ class ListingsView extends React.Component<Props, State> {
 		});
 	}
 
+	// When updating, update the cards according to the new seller type.
 	componentDidUpdate(prevProps: Props, prevState: State): void {
 		if (prevProps !== this.props) {
 			switch (this.props.sellerType) {
@@ -97,14 +96,13 @@ class ListingsView extends React.Component<Props, State> {
 	getSales(): void {
 		// Get the market sale tanks and make cards for them.
 		getMarketTanks(this.state.userId, sales => {
-			console.log(sales);
-			this.setState({tanksForSale: sales.filter(sale => !(allComponents.includes(sale.name)))});
+			this.setState({tanksForSale: sales});
+			// Get the tanks to display them in the marketplace cards.
 			this.convertSalesToTanks(sales);
 		});
 
 		// Get the market sale components and make cards for them.
 		getMarketSales(this.state.userId, sales => {
-			console.log(sales);
 			this.setState({
 				chassisForSale: sales.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === 'chassis'),
 				weaponsForSale: sales.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === 'weapon'),
@@ -114,11 +112,43 @@ class ListingsView extends React.Component<Props, State> {
 				treadsForSale: sales.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === 'treads'),
 				itemsForSale: sales.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === 'item')
 			});
+
+			// After getting the sales, reset the cards according to the sellerType.
+			switch (this.props.sellerType) {
+				case 'chassis':
+					this.setState({cards: this.createCards(this.state.chassisForSale, 'chassis')});
+					break;
+				case 'weapon':
+					this.setState({cards: this.createCards(this.state.weaponsForSale, 'weapon')});
+					break;
+				case 'scanner':
+					this.setState({cards: this.createCards(this.state.scannersForSale, 'scanner')});
+					break;
+				case 'scannerAddon':
+					this.setState({cards: this.createCards(this.state.scannerAddonsForSale, 'scannerAddon')});
+					break;
+				case 'jammer':
+					this.setState({cards: this.createCards(this.state.jammersForSale, 'jammer')});
+					break;
+				case 'treads':
+					this.setState({cards: this.createCards(this.state.treadsForSale, 'treads')});
+					break;
+				case 'item':
+					this.setState({cards: this.createCards(this.state.itemsForSale, 'item')});
+					break;
+				default:
+					break;
+			}
 		});
 	}
 
-	//This function uses tanks id from the state , creates those tanks , and adds them to the array of tanks
-	convertSalesToTanks(saleTanks: Array<SaleObject>): void { 
+	// Converts SaleObject to Tank.
+	convertSalesToTanks(saleTanks: Array<SaleObject>): void {
+		// Do not convert if there are no tanks to convert.
+		if (saleTanks.length === 0) {
+			return;
+		}
+		// Find the tank Ids from the Array of SaleObject.
 		const tankIds: Array<string> = [];
 		for(let i = 0; i < saleTanks.length; i++) {
 			if(saleTanks[i].tankId == null) {
@@ -126,24 +156,29 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			tankIds.push(saleTanks[i].tankId);
 		}
+
+		// Get all of the tanks by Id.
 		getTanksById(tankIds, tanksReturned => {
-			this.setState({
-				tanks: tanksReturned
-			});
+			this.setState({tanks: tanksReturned});
+
+			// Setup the cards once the tanks have been received.
+			if (this.props.sellerType === 'tank') {
+				this.setState({cards: this.createCards(this.state.tanksForSale, 'tank')});
+			}
 		});
 	}
 
-	// This creates a card for every sale
 	createCards = (itemsForSale: Array<SaleObject>, saleType: MarketplaceViewType): Array<React.Element<'div'>> => {
+		console.log(itemsForSale);
 		const cards: Array<React.Element<'div'>> = []
-		//Check for no sales
+		// Check if there are no sales.
 		if (itemsForSale.length === 0) {
-			return [<div><h5>No Sales Availiable At This Time</h5></div>];
+			return [<div key={0}><h5>No Sales Availiable At This Time</h5></div>];
 		}
-		// Outer loop to create parent
+		
+		// Create cards.
 		for (let i = 0; i < itemsForSale.length; i++) {
-			// Handle tank and components different to display tank 
-			// Have to make sure that the tanks are being ready to be shown
+			// Handle tank and components different to display tank.
 			if(saleType === 'tank') {
 				const tankObject = this.state.tanks[i];
 				cards.push(
@@ -153,7 +188,7 @@ class ListingsView extends React.Component<Props, State> {
 							<h5 className="card-title">{toTitleCase(itemsForSale[i].name)}</h5>
 							<h5 className="card-title">Price: ${itemsForSale[i].price}</h5>
 							<h5 className="card-title">Quantity: {itemsForSale[i].amount}</h5>
-							<TankDisplay tankToDisplay={tankObject} smallTank={false} />
+							{tankObject == null ? <div></div> : <TankDisplay tankToDisplay={tankObject} smallTank={false} />}
 							<button className="btn btn-success mt-2" onClick={() => this.buyItem(itemsForSale[i].sellerId, itemsForSale[i].saleId)}>Buy</button>
 						</div>
 					</div>
@@ -173,15 +208,15 @@ class ListingsView extends React.Component<Props, State> {
 				);
 			}
 		}
-
 		return cards;
 	}
 
-	// Handles purchases.
+	// When an item is purchased, update the sale listings.
 	buyItem (sellerId: string, saleId: string): void {
 		marketSale(this.state.userId, sellerId, saleId, success => {
 			toast.success("Item Purchased.");
 			this.props.onItemBought();
+			this.getSales();
 		});
 	}
 
