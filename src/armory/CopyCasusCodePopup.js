@@ -39,7 +39,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 			return;
 		}
 		if(this.state.confirmed === false) {
-			toast.error("Please confirm you understand that you are rewriting code");
+			toast.error("Please confirm you understand that you are overwriting code");
 			return;
 		}
 		const selectedTank = this.props.selectedTank;
@@ -63,9 +63,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		const cancelButton = (
 			<button className="cancelbtn" onClick={() => this.setState({popupOpen: false})}>Cancel</button>
 		);
-		const copyButton = (
-			<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>
-		);
+		const copyButton = this.state.confirmed===false?(<button className="smallbtn" disabled>Copy</button>):(<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>);
 		const checkBoxField = (
 			<label>
 				<input
@@ -73,12 +71,12 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 					type="checkbox"
 					checked={this.state.confirmed}
 					onChange={() => this.changeConfirmed()} />
-				 I understand I am rewritting {this.props.selectedTank.tankName}'s Casus Code 
+				 I understand I am overwriting {this.props.selectedTank.tankName}'s Casus Code 
 			</label>
 		)
 		return(
 			<div>
-				<button className="primarybtn" onClick={() => this.setState({popupOpen: true})}>
+				<button className="btn" onClick={() => this.setState({popupOpen: true})}>
 					Copy Code
 				</button>
 				<Popup
