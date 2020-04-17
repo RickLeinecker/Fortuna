@@ -447,26 +447,51 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 					.status(500)
 					.json({ msg: 'Could not update buyer' });
 			}
-			await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
-			// Update tank ownership
-			await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } }, (err: Error) => {
-				if (err) {
-					console.error(err.message);
-					return res
-						.status(500)
-						.json({ msg: 'Could not update tank ownership.' });
-				}
-			});
+			// If owner of tank is not master account, continue transaction as normal
+			if (sellerId !== String(MASTER_ID)) {
+				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
+				// Update tank ownership
+				await Tank.findByIdAndUpdate(sale.itemId, { $set: { userId: buyerId } }, (err: Error) => {
+					if (err) {
+						console.error(err.message);
+						return res
+							.status(500)
+							.json({ msg: 'Could not update tank ownership.' });
+					}
+				});				
+			} else { // Otherwise this is a Casus Code Library sold by master account
+				const codeLib = new Tank({
+					tankName: tank.tankName,
+					userId: buyerId,
+					components: tank.components,
+					casusCode: tank.casusCode
+				});
 
-			// Remove the sale from database
-			await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
-				if (err) {
-					console.error(err.message);
-					return res
-						.status(500)
-						.json({ msg: 'Could not delete sale from database.' });
-				}
-			});
+				// Save Tank Code Library To User
+				await codeLib.save((err: Error) => {
+					if (err) {
+						console.error(err.message);
+						return res
+							.status(500)
+							.json({ msg: 'Could not give tank code library to user.' });
+					}
+				});
+			}
+
+			// Remove the sale from database if it does not belong to master account
+			if (sellerId !== String(MASTER_ID)) {
+				console.log('Sale belongs to a user. Deleting.');
+				await MarketSale.deleteOne({ _id: saleId }, (err: Error) => {
+					if (err) {
+						console.error(err.message);
+						return res
+							.status(500)
+							.json({ msg: 'Could not delete market sale.' });
+					}
+				});
+			} else {
+				console.log('Sale belongs to master account. Not deleting.')
+			}
 
 			// Return current buyer
 			console.log('Successfully Bought Tank.');
