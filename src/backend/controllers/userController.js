@@ -20,7 +20,7 @@ const MarketSale = require('../../models/marketSaleModel');
 // JWT Secret
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
-const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
+const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : FORTUNA_URL;
 const MASTER_ID = process.env.MASTER_SELLER;
 
 exports.register = async (req: Request, res: Response) => {
