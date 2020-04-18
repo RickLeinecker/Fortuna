@@ -11,6 +11,9 @@ import { check } from 'express-validator';
 // Market Sale Controller
 import marketController from '../controllers/marketController';
 
+// JWT authentication middleware
+const auth = require('../middleware/auth');
+
 // Router Constant
 const router = express.Router();
 
@@ -25,7 +28,7 @@ router.post('/addMarketSale', [
 	check('itemId', 'Enter an itemId').isString(),
 	check('itemType', 'Enter an itemType').isString(),
 	check('amount', 'Enter an item amount').isNumeric()
-], marketController.addMarketSale);
+], auth, marketController.addMarketSale);
 
 // Get the list of all Market Sales this user has that are active
 // Route call: getUsersMarketSales
@@ -33,7 +36,7 @@ router.post('/addMarketSale', [
 // Returns list of all Market Sales belonging to the user that are active or an error
 router.get('/getUsersMarketSales/:userId', [
 	check('userId', 'A valid MongoId is required.').isMongoId()
-], marketController.getUsersMarketSales);
+], auth, marketController.getUsersMarketSales);
 
 // Get the list of all Market Sales
 // Route call: getMarketSales
@@ -42,7 +45,7 @@ router.get('/getUsersMarketSales/:userId', [
 // Check messages can be edited
 router.get('/getMarketSales/:userId', [
 	check('userId', 'A valid MongoId is required.').isMongoId()
-], marketController.getMarketSales);
+], auth, marketController.getMarketSales);
 
 // Get the list of all Market Sales
 // Route call: getTankMarketSales
@@ -51,13 +54,13 @@ router.get('/getMarketSales/:userId', [
 // Check messages can be edited
 router.get('/getTankMarketSales/:userId', [
 	check('userId', 'A valid MongoId is required.').isMongoId()
-], marketController.getTankMarketSales);
+], auth, marketController.getTankMarketSales);
 
 // Get a single market sale by ID
 // Route call: getMarketSale
 // Req needs saleId in body
 // Returns the Marketplace Sale with that ID or an error
-router.get('/getMarketsale', marketController.getMarketSale);
+router.get('/getMarketsale', auth, marketController.getMarketSale);
 
 // Market Transaction
 // Route call: marketTransaction
@@ -67,7 +70,7 @@ router.put('/marketTransaction', [
 	check('buyerId', 'A valid MongoId is required.').isMongoId(),
 	check('sellerId', 'A valid MongoId is required.').isMongoId(),
 	check('saleId', 'A valid MongoId is required.').isMongoId()
-], marketController.marketTransaction);
+], auth, marketController.marketTransaction);
 
 // Remove A Sale
 // Route call: removeAMarketSale
@@ -75,6 +78,6 @@ router.put('/marketTransaction', [
 // Returns the status
 router.delete('/removeAMarketSale', [
     check('saleId', 'A valid MongoId is required.').isMongoId()
-], marketController.removeAMarketSale);
+], auth, marketController.removeAMarketSale);
 
 module.exports = router;

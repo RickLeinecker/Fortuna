@@ -18,6 +18,6 @@ const auth = require('../middleware/auth');
 // Req must include the user jwt in the header: x-auth-token
 // the body should specify which 'block' is being updated and the 'value' it should be set to
 // Returns a json object of the user with updated counts
-router.patch('/update', casusController.update);
+router.patch('/update', auth, casusController.update);
 
 module.exports = router;

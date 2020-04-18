@@ -104,13 +104,13 @@ router.put('/casusUpdate/:tankId', [
 // Returns confirmation message that tank was deleted.
 router.delete('/deleteTank/:tankId', [
 	check('tankId', 'A valid MongoId is required.').isMongoId()
-], tankController.deleteTank);
+], auth, tankController.deleteTank);
 
 // Retrieve array of bot tanks
 // Route call: /getBotTanks
 // Body: N/A
 // Returns the array of bot tanks
-router.get('/getBotTanks', tankController.getBotTanks);
+router.get('/getBotTanks', auth, tankController.getBotTanks);
 
 // Retrieve tank objects
 // Route call: /getTankById/<tankId>
@@ -119,6 +119,6 @@ router.get('/getBotTanks', tankController.getBotTanks);
 // returns the tank objects
 router.get('/getTanksById', [
 	check('array', 'A JSON array of MongoIds is required.').isJSON()
-], tankController.getTanksById);
+], auth, tankController.getTanksById);
 
 module.exports = router;
