@@ -186,7 +186,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 	);
 }
 
-function removeASale(saleId: string): void {
+function removeASale(saleId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/removeAMarketSale/', {
 		method: 'delete',
 		headers: {
@@ -200,11 +200,12 @@ function removeASale(saleId: string): void {
 		response => response.json().then(data => {
 			if (response.status !== 201) {
 				console.log(response.status);
-				toast.error(data.msg);
 				console.log(data);
+				toast.error(data.msg);
 			}
 			else {
 				toast.success(data.msg);
+				onLoad();
 			}
 			
 		})
