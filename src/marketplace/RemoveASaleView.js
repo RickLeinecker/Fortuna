@@ -6,12 +6,11 @@ import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { getUsersCurrentSales, removeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 
-type Props = {|
-|}; 
+type Props = {||}; 
 
 type State = {|
 	userId: string,
-	itemsUserHasForSale: Array<SaleObject>
+	itemsForSale: Array<SaleObject>
 |};
 
 class RemoveASaleView extends React.Component<Props, State> {
@@ -20,58 +19,51 @@ class RemoveASaleView extends React.Component<Props, State> {
 		super();
 		this.state={
 			userId: '',
-			itemsUserHasForSale: [],
+			itemsForSale: []
 		}
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		//This gets the user's id and then gets the users current sales
 		getUserAPICall(user => {
-			this.setState({userId: user.userId});
-			this.getUsersCurrentSales();
+			this.setState({userId: user.userId}, this.getUsersCurrentSales);
 		});
 	}
 
 	//This gets the users current sales
 	getUsersCurrentSales() : void {
 		getUsersCurrentSales(this.state.userId, data => {
-			this.setState({itemsUserHasForSale:data})
+			this.setState({itemsForSale: data});
 		});
 	};
-
-	//This creates a card for every sale the user has
-	createCards = () => {
-		const cards = [];
-		for (let i = 0; i < this.state.itemsUserHasForSale.length; i++) {
-			cards.push(
-				<div className="card mb-2" key={i}>
-					<div className="card-body">
-						<h5 className="card-title">Item Being Sold: {toTitleCase(this.state.itemsUserHasForSale[i].name)}</h5>
-						<h5 className="card-title">Price: ${this.state.itemsUserHasForSale[i].price}</h5>
-						<h5 className="card-title">Quantity: {this.state.itemsUserHasForSale[i].amount}</h5>
-						<button className="btn btn-danger mt-2" onClick={() => this.removeSale(this.state.itemsUserHasForSale[i].saleId)}>Remove</button>
-					</div>
-				</div>
-			)	
-		}
-		if(cards.length === 0) {
-			cards.push(
-				<h1 key="0">No Active Sales!</h1>
-			)	
-		}
-		return cards;
-	}
 	
 	//This is the function to remove the tank sale from the marketplace
 	removeSale (saleId: string): void {
-		removeASale(saleId);
-		this.getUsersCurrentSales();
+		removeASale(saleId, () => {
+			this.getUsersCurrentSales();
+		});
 	};
 
 	render(): React.Node  { 
 		return (
-			<div id="Parent">
-				{this.createCards()}
+			<div>
+				{this.state.itemsForSale !== 0 ?
+					<div>
+						{this.state.itemsForSale.map((sale, index) =>
+							<div className="card mb-2" key={index}>
+								<div className="card-body">
+									<h5 className="card-title">{toTitleCase(sale.name)}</h5>
+									<h5 className="card-title">Price: ${sale.price}</h5>
+									<h5 className="card-title">Quantity: {sale.amount}</h5>
+									<button className="btn btn-danger mt-2" onClick={() => this.removeSale(sale.saleId)}>Remove</button>
+								</div>
+							</div>
+						)}
+					</div> :
+					<div>
+						<h5>No items up for sale</h5>
+					</div>
+				}
 				<ToastContainer />
 			</div>
 		);
