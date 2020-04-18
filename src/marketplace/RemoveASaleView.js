@@ -44,10 +44,14 @@ class RemoveASaleView extends React.Component<Props, State> {
 		});
 	};
 
-	render(): React.Node  { 
+	render(): React.Node { 
+		console.log(this.state.itemsForSale);
 		return (
 			<div>
-				{this.state.itemsForSale !== 0 ?
+				{this.state.itemsForSale.length === 0 ?
+					<div>
+						<h5>No active sales</h5>
+					</div> :
 					<div>
 						{this.state.itemsForSale.map((sale, index) =>
 							<div className="card mb-2" key={index}>
@@ -59,9 +63,6 @@ class RemoveASaleView extends React.Component<Props, State> {
 								</div>
 							</div>
 						)}
-					</div> :
-					<div>
-						<h5>No items up for sale</h5>
 					</div>
 				}
 				<ToastContainer />
