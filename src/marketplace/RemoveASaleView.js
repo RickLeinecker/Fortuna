@@ -45,7 +45,6 @@ class RemoveASaleView extends React.Component<Props, State> {
 	};
 
 	render(): React.Node { 
-		console.log(this.state.itemsForSale);
 		return (
 			<div>
 				{this.state.itemsForSale.length === 0 ?
