@@ -38,18 +38,26 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
 		getUserAPICall(user => {
-			this.setState({itemsToSell: user.inventory, userId: user.userId, itemID: user.inventory[0].componentName});
+			this.setState({
+				itemsToSell: user.inventory,
+				userId: user.userId,
+				itemID: user.inventory.length === 0 ? '' : user.inventory[0].componentName});
 		});
 	}
 
 	makeASaleOfAComponent = (): void => {
+		// If the user has no components to sell, exit function.
+		if (this.state.itemID === '') {
+			toast.error("No components to sell");
+			return;
+		}
 		makeASale(
 			this.state.userId, 
 			this.state.salePrice, 
 			this.state.itemID, 
 			"component", 
 			this.state.itemAmount,
-			success => {
+			() => {
 				toast.success("Item Placed in Market.");
 				this.setState({salePrice: 0, itemAmount: 0});
 				this.getUserInventory();
@@ -66,13 +74,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return responseString;
 	}
 
-	render(): React.Node  { 
+	render(): React.Node {
 		return (
 			<div id="Parent">
 				<label>Select an Item to Sell</label>
 				<select className="dropdownMenu" onChange={e => this.setState({itemID: e.target.value})}>
 					{this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
-							<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
+						<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
 					)}
 				</select>
 				<br/>
