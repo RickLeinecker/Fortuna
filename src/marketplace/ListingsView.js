@@ -44,8 +44,10 @@ class ListingsView extends React.Component<Props, State> {
 	getSales(): void {
 		// Get the market sale tanks and make cards for them.
 		getMarketTanks(this.state.userId, sales => {
-			// Convert the tanks sales to tanks.
-			this.convertSalesToTanks(sales);
+			// If there are tanks to convert, then change them from SaleObject to Tank.
+			if (sales.length !== 0) {
+				this.convertSalesToTanks(sales);
+			}
 		});
 
 		// Get the market sale components and make cards for them.
@@ -56,10 +58,6 @@ class ListingsView extends React.Component<Props, State> {
 
 	// Converts SaleObject to Tank.
 	convertSalesToTanks(saleTanks: Array<SaleObject>): void {
-		// Do not convert if there are no tanks to convert.
-		if (saleTanks.length === 0) {
-			return;
-		}
 		// Find the tank Ids from the Array of SaleObject.
 		const tankIds: Array<string> = [];
 		for(let i = 0; i < saleTanks.length; i++) {
