@@ -59,6 +59,16 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		}
 	}
 
+	removeSelectedTankFromList(): Array<Tank> {
+		const listOfTanksWithoutCurrentTank = [];
+		for(let i = 0; i < this.props.usersTanks.length; i++) {
+			if(this.props.usersTanks[i]._id !== this.props.selectedTank._id) {
+				listOfTanksWithoutCurrentTank.push(this.props.usersTanks[i]);
+			}
+		}
+		return listOfTanksWithoutCurrentTank;
+	}
+
 	render(): React.Node {
 		const cancelButton = (
 			<button className="cancelbtn" onClick={() => this.setState({popupOpen: false})}>Cancel</button>
@@ -74,6 +84,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 				 I understand I am overwriting {this.props.selectedTank.tankName}'s Casus Code 
 			</label>
 		)
+		const listOfTanksWithoutCurrentTank = this.removeSelectedTankFromList();
 		return(
 			<div>
 				<button className="btn" onClick={() => this.setState({popupOpen: true})}>
@@ -91,7 +102,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 							onChange={e => this.setTankBeingCopiedFrom(e.target.value)}
 						>
 							<option>Select A Tank To Copy From</option>
-							{this.props.usersTanks.map(tank => 
+							{listOfTanksWithoutCurrentTank.map(tank => 
 								<option key = {tank._id} value = {tank._id}>{tank.tankName}</option>
 							)}
 						</select>
