@@ -37,7 +37,7 @@
 .undoBtnArea {
 	text-align: right;
 	position: fixed;
-	top: 100;
+	top: 1;
 	right: 0;
 	z-index: 100;
 }
