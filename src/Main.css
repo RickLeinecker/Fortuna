@@ -384,6 +384,23 @@ select {
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+/* Large checkboxes */
+.customCheckBox{
+	height:15px;
+	width: 15px;
+	margin-right: 5px;
+}
+
+.customCheckBox[type="checkbox"]:before{
+	width: 15px;
+	height: 15px;
+}
+.customCheckBox[type="checkbox"]:after{
+	top: -20px;
+	width: 15px;
+	height: 15px;
+}
+
 /* Miscellaneous. */
 .inline {
 	display: inline-block;
@@ -406,3 +423,4 @@ select {
 	height: 510px;
 	overflow-y: auto;
 }
+

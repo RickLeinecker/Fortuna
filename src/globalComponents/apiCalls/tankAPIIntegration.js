@@ -7,6 +7,7 @@ import { getTank } from '../../tanks/TankLoader.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
 
+
 // This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/getFavorite/', {
@@ -336,6 +337,7 @@ function getTanksById(tankIds: Array<string>, onLoad:(tanks: Array<Tank>) => voi
 		})
 	)
 }
+
 
 export {
 	getFavoriteTank,

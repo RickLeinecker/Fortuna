@@ -5,9 +5,9 @@ import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import { toast } from 'react-toastify';
 
-function saveCasus(casusCode: ContainerBlock): void {
+function saveCasus(casusCode: ContainerBlock, tankID: ?string, onLoad:() => void): void {
 	
-	const tankToEditID: string = getTankForCasus();
+	const tankToEditID = tankID ?? getTankForCasus();
 	const token=getLoginToken();
 	if (casusCode.children.length===0) {
 		console.log('Tried to save empty, so we will ignore that...');
@@ -31,6 +31,9 @@ function saveCasus(casusCode: ContainerBlock): void {
 			console.log('Got unexpected status response when saving casus!');
 			console.log(res);
 			toast.error("Couldn't save Casus code");
+		}
+		else {
+			onLoad();
 		}
 	})
 	.catch(e => {

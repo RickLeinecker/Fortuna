@@ -12,6 +12,7 @@ import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import SetWagerPopup from './SetWagerPopup.js';
 import RenameTankPopup from './RenameTankPopup.js';
+import CopyCasusCodePopup from './CopyCasusCodePopup';
 import { ToastContainer, toast } from 'react-toastify';
 // Functions
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
@@ -324,10 +325,18 @@ class Armory extends React.Component<Props, State> {
 						/>
 					}
 					<br/><br/>
+					<label>Edit Code</label>
+					<br/>
 					<Link to={verifyLink("/Casus")}>
 						<button className="primarybtn">Casus</button>
 					</Link>
-					<label>&emsp;Edit Code</label>
+					<br/><br/>
+					{selectedTank==null?<div></div>:
+						<CopyCasusCodePopup
+							selectedTank={selectedTank}
+							usersTanks={this.state.allTanks}
+						/>
+					}
 					<br/><br/><br/>
 					<h5>Tank Options</h5>
 					<div className="row rowPadding">

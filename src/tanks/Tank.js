@@ -7,7 +7,6 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import { getImage } from '../battleground/ImageLoader.js';
 import InterpriterState from '../casus/interpreter/InterpriterState.js';
 import { getInterpriterState, setInterpriterState } from '../casus/interpreter/InterpriterState.js';
-import CasusBlock from '../casus/blocks/CasusBlock.js';
 import { verifyDouble, verifyBoolean } from '../casus/interpreter/Value.js';
 import Seg from '../geometry/Seg.js';
 import Scanner from './Scanner.js';
@@ -28,6 +27,7 @@ import {
 	createSmokeCloud
 } from '../battleground/gameobjects/Particle.js';
 import Bullet from '../battleground/gameobjects/Bullet.js';
+import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 
 import {
 	RAN_INTO_WALL_VAR_NAME,
@@ -57,6 +57,7 @@ import {
 } from '../casus/userInteraction/CasusSpecialVariables.js';
 
 import type Battleground from '../battleground/Battleground.js';
+
 
 const NITRO_REPAIR_LENGTH=30*3;
 const ORIG_MOVE_SPEED=0.7;
@@ -109,7 +110,7 @@ class Tank extends GameObject {
 
 	// Casus:
 	interpriterState: InterpriterState;
-	casusCode: CasusBlock;
+	casusCode: ContainerBlock;
 
 	constructor(
 		position: Vec, 
@@ -124,7 +125,7 @@ class Tank extends GameObject {
 		itemOne: TankPart,
 		itemTwo: TankPart,
 		itemThree: TankPart,
-		casusCode: CasusBlock,
+		casusCode: ContainerBlock,
 		tankName: string,
 		_id: string,
 		userId: string,
