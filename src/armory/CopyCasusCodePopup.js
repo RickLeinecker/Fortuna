@@ -73,7 +73,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		const cancelButton = (
 			<button className="cancelbtn" onClick={() => this.setState({popupOpen: false})}>Cancel</button>
 		);
-		const copyButton = this.state.confirmed===false?(<button className="smallbtn" disabled>Copy</button>):(<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>);
+		const copyButton = (this.state.confirmed === false || this.state.tankBeingCopiedFrom == null)?(<button className="smallbtn" disabled>Copy</button>):(<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>);
 		const checkBoxField = (
 			<label>
 				<input

@@ -7,10 +7,7 @@ import { toast } from 'react-toastify';
 
 function saveCasus(casusCode: ContainerBlock, tankID: ?string, onLoad:() => void): void {
 	
-	let tankToEditID: ?string = tankID;
-	if(tankToEditID == null) {
-		tankToEditID = getTankForCasus();
-	}
+	const tankToEditID = tankID ?? getTankForCasus();
 	const token=getLoginToken();
 	if (casusCode.children.length===0) {
 		console.log('Tried to save empty, so we will ignore that...');

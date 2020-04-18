@@ -332,10 +332,10 @@ class Armory extends React.Component<Props, State> {
 					</Link>
 					<br/><br/>
 					{selectedTank==null?<div></div>:
-							<CopyCasusCodePopup
-								selectedTank={selectedTank}
-								usersTanks={this.state.allTanks}
-							/>
+						<CopyCasusCodePopup
+							selectedTank={selectedTank}
+							usersTanks={this.state.allTanks}
+						/>
 					}
 					<br/><br/><br/>
 					<h5>Tank Options</h5>
