@@ -5,6 +5,7 @@ import User from '../typesAndClasses/User.js';
 import { getInventory } from '../GetInventoryInfo.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import { logoutUser } from '../logoutUser.js';
 
 //gets the user when passed a token stored as the login token
 function getUserAPICall(onLoad:(user: User) => void): void {
@@ -19,7 +20,10 @@ function getUserAPICall(onLoad:(user: User) => void): void {
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));

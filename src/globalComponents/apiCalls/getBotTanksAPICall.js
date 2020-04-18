@@ -5,6 +5,7 @@ import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import { logoutUser } from '../logoutUser.js';
 
 function getBotTanksAPICall(onLoad: (botTanks: Array<Tank>)=> void): void {
 	const token=getLoginToken();
@@ -19,7 +20,10 @@ function getBotTanksAPICall(onLoad: (botTanks: Array<Tank>)=> void): void {
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));

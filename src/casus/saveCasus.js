@@ -4,6 +4,7 @@ import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from '../casus/blocks/ContainerBlock.js';
 import { toast } from 'react-toastify';
+import { logoutUser } from '../globalComponents/logoutUser.js';
 
 function saveCasus(casusCode: ContainerBlock): void {
 	
@@ -27,7 +28,10 @@ function saveCasus(casusCode: ContainerBlock): void {
 		})
 	})
 	.then(res => {
-		if (res.status !== 200) {
+		if (res.status === 400) {
+			logoutUser("Authentication issue. Please login again");
+		}
+		else if (res.status !== 200) {
 			console.log('Got unexpected status response when saving casus!');
 			console.log(res);
 			toast.error("Couldn't save Casus code");

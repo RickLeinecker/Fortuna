@@ -3,6 +3,8 @@
 import SaleObject from '../typesAndClasses/SaleObject.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import { logoutUser } from '../logoutUser.js';
+import getLoginToken from '../getLoginToken.js';
 
 /*
 	This function takes the following input
@@ -27,12 +29,16 @@ function makeASale(
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 		body: JSON.stringify({ sellerId: userId, salePrice: sellingPrice, itemId: itemId, itemType: itemType, amount: amountOfSellingItems}),
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 201) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -51,11 +57,16 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			console.log(response);
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -85,11 +96,15 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -119,12 +134,16 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 		body: JSON.stringify({ buyerId: userId, sellerId: sellerId, saleId: saleId}),
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 201) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -143,11 +162,15 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data.msg);
 				console.log(data);
@@ -193,12 +216,16 @@ function removeASale(saleId: string): void {
 			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/json',
 			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
 		},
 		body: JSON.stringify({ saleId:saleId }),
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 201) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 201) {
 				console.log(response.status);
 				toast.error(data.msg);
 				console.log(data);

@@ -6,6 +6,7 @@ import getLoginToken from '../getLoginToken.js';
 import { getTank } from '../../tanks/TankLoader.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import { logoutUser } from '../logoutUser.js';
 
 // This function gets the id of the users favorite tank
 function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
@@ -20,7 +21,10 @@ function getFavoriteTank(onLoad:(tank: ?Tank) => void): void {
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -58,7 +62,10 @@ function getFavoriteTankTeam(onLoad:(tanks: Array<?Tank>) => void): void {
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -104,7 +111,10 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	});
 	responsePromise.then (
 		response => response.text().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(data);
@@ -129,7 +139,10 @@ function setFavoriteTankTeamIds(tankIds: Array<?string>, onLoad:() => void): voi
 	});
 	responsePromise.then (
 		response => response.text().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(data);
@@ -153,7 +166,10 @@ function removeFavoriteTankId(onLoad:() => void): void {
 	});
 	responsePromise.then (
 		response => response.text().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(data);
@@ -177,7 +193,10 @@ function removeFavoriteTankTeamIds(onLoad:() => void): void {
 	});
 	responsePromise.then (
 		response => response.text().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(data);
@@ -208,7 +227,10 @@ function updateTank(tank: Tank, onLoad:() => void): void {
 		});
 		responsePromise.then(
 			response => response.json().then(data => {
-				if(response.status !== 200) {
+				if (response.status === 400) {
+					logoutUser("Authentication issue. Please login again");
+				}
+				else if(response.status !== 200) {
 					console.log(response.status);
 					console.log(data);
 					toast.error(getErrorFromObject(data));
@@ -233,7 +255,10 @@ function getAllUsersTanks(onLoad: (allTanks: Array<Tank>) => void): void {
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -262,7 +287,10 @@ function createTank(tank: Tank, onLoad:() => void): void {
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -286,14 +314,17 @@ function deleteTank(tankId: string, onLoad:() => void): void {
 		});
 		responsePromise.then(
 			response => response.json().then(data => {
-				if (response.status !== 200) {
-				console.log(response.status);
-				console.log(data);
-				toast.error(getErrorFromObject(data));
-			}
-			else {
-				onLoad();
-			}
+				if (response.status === 400) {
+					logoutUser("Authentication issue. Please login again");
+				}
+				else if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data);
+					toast.error(getErrorFromObject(data));
+				}
+				else {
+					onLoad();
+				}
 		})
 	);
 }
@@ -313,7 +344,10 @@ function getTanksById(tankIds: Array<string>, onLoad:(tanks: Array<Tank>) => voi
 	});
 	responsePromise.then(
 		response => response.json().then(data => {
-			if (response.status !== 200) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));

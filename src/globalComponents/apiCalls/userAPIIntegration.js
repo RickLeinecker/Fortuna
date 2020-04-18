@@ -4,6 +4,7 @@ import getLoginToken from '../getLoginToken.js';
 import User from '../typesAndClasses/User.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
+import { logoutUser } from '../logoutUser.js';
 
 // Sets the user's wager according to the number passed to it.
 // Returns a boolean indicating the stipend was added.
@@ -20,7 +21,10 @@ function setWager(wager: number, onLoad:(stipendApplied: boolean) => void): void
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200 && response.status !== 201) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200 && response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));
@@ -48,7 +52,10 @@ function setWager3v3(wager: number, onLoad:(stipendApplied: boolean) => void): v
 	});
 	responsePromise.then (
 		response => response.json().then(data => {
-			if (response.status !== 200 && response.status !== 201) {
+			if (response.status === 400) {
+				logoutUser("Authentication issue. Please login again");
+			}
+			else if (response.status !== 200 && response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
 				toast.error(getErrorFromObject(data));

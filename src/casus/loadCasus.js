@@ -4,6 +4,7 @@ import getLoginToken from '../globalComponents/getLoginToken.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import ContainerBlock from './blocks/ContainerBlock.js';
 import {reviveAsContainer} from './reviveCasusBlock.js';
+import { logoutUser } from '../globalComponents/logoutUser.js';
 
 function loadCasus(
 	onBlocksLoaded: (casusBlock: ContainerBlock) => void, 
@@ -24,7 +25,11 @@ function loadCasus(
 		}
 	})
 	.then((res: Response) => {
-		if (res.status !== 200) {
+		console.log(res);
+		if (res.status === 400) {
+			logoutUser("Authentication issue. Please login again");
+		}
+		else if (res.status !== 200) {
 			console.log('Got unexpected status response when saving casus!');
 			console.log(res);
 		}
