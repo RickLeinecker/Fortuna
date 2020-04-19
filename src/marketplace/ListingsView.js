@@ -105,7 +105,7 @@ class ListingsView extends React.Component<Props, State> {
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === MASTER_ACCOUNT_ID;
 			const secondFactory = b.sellerId === MASTER_ACCOUNT_ID;
-			if (firstFactory ^ secondFactory) {
+			if (firstFactory !== secondFactory) {
 				return firstFactory?1:-1;
 			}
 			return a.price/a.amount-b.price/b.amount;
