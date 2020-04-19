@@ -24,7 +24,7 @@ router.post('/addMarketSale', [
 	check('salePrice', 'Enter a whole number price greater than 0.').isInt({ min: 0 }),
 	check('itemId', 'Enter an itemId').isString(),
 	check('itemType', 'Enter an itemType').isString(),
-	check('amount', 'Enter a whole number amount greater than 1.').isInt({ min: 1 })
+	check('amount', 'Enter a whole number amount of at least 1.').isInt({ min: 1 })
 ], marketController.addMarketSale);
 
 // Get the list of all Market Sales this user has that are active
