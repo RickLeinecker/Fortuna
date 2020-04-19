@@ -10,7 +10,7 @@ import User from '../../models/userModel';
 import Tank from '../../models/tankModel';
 
 // Master Seller Account
-const MASTER_ID = process.env.MASTER_SELLER;
+const MASTER_ID = process.env.REACT_APP_MASTER_ACCOUNT;
 
 // Adds a Marketplace Sale
 // Different branches depending the itemType
