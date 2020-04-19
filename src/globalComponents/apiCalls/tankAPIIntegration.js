@@ -109,7 +109,7 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(data);
+				toast.error(getErrorFromObject(data));
 			}
 			else {
 				onLoad();
