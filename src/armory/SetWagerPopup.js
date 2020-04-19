@@ -112,11 +112,18 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 	// Set the user's wager and favorite tank.
 	handleWagerClick(): void {
+		// Error handling.
+		if (this.state.newWager < 50) {
+			toast.error('Wager cannot be less than 50!');
+			return;
+		}
+
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
 			setWager(this.state.newWager, stipendApplied => {
 				if (this.state.newWager1v1Tank._id === '') {
 					toast.error('Tank not loaded yet, select it again.');
+					return;
 				}
 				if (stipendApplied) {
 					toast.success('$100 added for setting your daily wager!');
@@ -142,7 +149,13 @@ class SetWagerPopup extends React.Component<Props, State> {
 				// Update user currency in the navbar.
 				this.props.onWagerUpdate();
 			});
-			setFavoriteTankTeamIds(this.state.newWager3v3Tanks.map(tank => tank == null ? null : tank._id), () => {
+
+			// Create an array of tank ids to be sent to the backend.
+			const favoriteTankTeamIds: Array<?string> = [];
+			for(let i: number = 0; i < 3; i++) {
+				favoriteTankTeamIds.push(this.state.newWager3v3Tanks[i] == null ? null : this.state.newWager3v3Tanks[i]._id);
+			}
+			setFavoriteTankTeamIds(favoriteTankTeamIds, () => {
 				this.setState({setWagerOpen: false, userWager3v3Tanks: this.state.newWager3v3Tanks});
 			});
 		}
@@ -166,8 +179,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 	}
 
 	// Updates newWager3v3Tanks when changing a tank.
-	update3v3Tanks(newTankName: string, tankIndex: number): void {
-		const newTank: Tank = this.state.allTanks[this.state.allTanks.findIndex(tank => tank.tankName === newTankName)];
+	update3v3Tanks(newTankId: string, tankIndex: number): void {
+		const newTank: Tank = this.state.allTanks[this.state.allTanks.findIndex(tank => tank._id === newTankId)];
 		let newWager3v3Tanks: Array<?Tank> = this.state.newWager3v3Tanks;
 		newWager3v3Tanks[tankIndex] = newTank;
 		this.setState({newWager3v3Tanks: newWager3v3Tanks});
@@ -267,11 +280,11 @@ class SetWagerPopup extends React.Component<Props, State> {
 								<div>
 									<select 
 										className="dropdownMenu"
-										onChange={(e) => this.setState({newWager1v1Tank: this.state.allTanks[this.state.allTanks.findIndex(tank => tank.tankName === e.target.value)]})}
+										onChange={(e) => this.setState({newWager1v1Tank: this.state.allTanks[this.state.allTanks.findIndex(tank => tank._id === e.target.value)]})}
 									>
-										{this.state.allTanks.map(tank => tank.tankName).map((tankName, index) => 
-											<option key={index}>
-												{tankName}
+										{this.state.allTanks.map((tank, index) => 
+											<option key={index} value={tank._id}>
+												{tank.tankName}
 											</option>
 										)}
 									</select>
@@ -284,10 +297,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 										<option value={null}>No Tank</option>
 										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[1] && tank !== this.state.newWager3v3Tanks[2])
-											.map(tank => tank.tankName)
-											.map((tankName, index) => 
-												<option key={index}>
-													{tankName}
+											.map((tank, index) => 
+												<option key={index} value={tank._id}>
+													{tank.tankName}
 												</option>
 											)
 										}
@@ -300,10 +312,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 										<option value={null}>No Tank</option>
 										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[2])
-											.map(tank => tank.tankName)
-											.map((tankName, index) => 
-												<option key={index}>
-													{tankName}
+											.map((tank, index) => 
+												<option key={index} value={tank._id}>
+													{tank.tankName}
 												</option>
 											)
 										}
@@ -316,10 +327,9 @@ class SetWagerPopup extends React.Component<Props, State> {
 										<option value={null}>No Tank</option>
 										{this.state.allTanks
 											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[1])
-											.map(tank => tank.tankName)
-											.map((tankName, index) => 
-												<option key={index}>
-													{tankName}
+											.map((tank, index) => 
+												<option key={index} value={tank._id}>
+													{tank.tankName}
 												</option>
 											)
 										}

@@ -229,7 +229,7 @@ exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
 	}
 
 	// Find the user and set favoriteTank to null.
-	const user = await User.findById(req.user.id, 'wager money favoriteTanks');
+	const user = await User.findById(req.user.id, 'wager3v3 money favoriteTanks');
 
 	// Check if found.
 	if (user == null) {
@@ -239,7 +239,7 @@ exports.unfavoriteTankTeam = async (req: Request, res: Response) => {
 			.json({ msg: 'Could not find user in db'});
 	}
 
-	const addBack = user.money + user.wager;
+	const addBack = user.money + user.wager3v3;
 	user.money = addBack;
 	user.favoriteTanks = [null, null, null];
 	user.wager3v3 = 0;

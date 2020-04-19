@@ -92,6 +92,7 @@ function getFavoriteTankTeam(onLoad:(tanks: Array<?Tank>) => void): void {
 	)
 }
 
+// Set the user's favorite tank via ID.
 function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/favoriteTank/', {
 		method: 'PATCH',
@@ -117,6 +118,7 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 	);
 }
 
+// Set the user's favorite tank team via ID.
 function setFavoriteTankTeamIds(tankIds: Array<?string>, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/setFavoriteTankTeam/', {
 		method: 'PATCH',
