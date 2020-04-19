@@ -151,7 +151,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			});
 
 			// Create an array of tank ids to be sent to the backend.
-			const favoriteTankTeamIds: Array<string> = [];
+			const favoriteTankTeamIds: Array<?string> = [];
 			for(let i: number = 0; i < 3; i++) {
 				favoriteTankTeamIds.push(this.state.newWager3v3Tanks[i] == null ? null : this.state.newWager3v3Tanks[i]._id);
 			}

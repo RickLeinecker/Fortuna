@@ -109,7 +109,7 @@ function setFavoriteTankId(tankId: string, onLoad:() => void): void {
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(data));
+				toast.error(data);
 			}
 			else {
 				onLoad();
@@ -135,7 +135,7 @@ function setFavoriteTankTeamIds(tankIds: Array<?string>, onLoad:() => void): voi
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(data);
-				toast.error(getErrorFromObject(data));
+				toast.error(data);
 			}
 			else {
 				onLoad();
