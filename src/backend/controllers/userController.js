@@ -21,7 +21,7 @@ const MarketSale = require('../../models/marketSaleModel');
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
 const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
-const MASTER_ID = process.env.MASTER_SELLER;
+const MASTER_ID = process.env.REACT_APP_MASTER_ACCOUNT;
 
 exports.register = async (req: Request, res: Response) => {
 	// Creates a place where errors that fail validation can accrue.
