@@ -42,7 +42,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 7,
 		width: 40,
 		lifetime: 100,
-		damage: 3,
+		damage: 1.5,
 	},
 	GRENADE_BULLET: {
 		speed: 2,
@@ -60,7 +60,7 @@ const STATS_FOR_BULLET: {[BulletType]: BulletStats} = {
 		speed: 6,
 		width: 20,
 		lifetime: 100,
-		damage: 3,
+		damage: 1.5,
 	},
 	MISSILE: {
 		speed: 1.4,
