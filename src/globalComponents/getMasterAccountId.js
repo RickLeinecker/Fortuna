@@ -1,6 +1,6 @@
 //@flow strict
 
-const MASTER_ACCOUNT_ID = '5e7ff4a9c6c3700959497009';
+const MASTER_ACCOUNT_ID = '5e93b1d0d1125f22ecd469b7';
 
 function getMasterAccountId(): string {
 	return MASTER_ACCOUNT_ID;
