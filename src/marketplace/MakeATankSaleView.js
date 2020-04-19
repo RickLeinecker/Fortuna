@@ -1,7 +1,7 @@
 //@flow strict
 import * as React from 'react';
 import Tank from '../tanks/Tank.js';
-import { getAllUsersTanks, getFavoriteTank } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { getAllUsersTanks, getFavoriteTank, getFavoriteTankTeam } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import { makeASale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -16,24 +16,26 @@ type State = {|
 	tankBeingSoldId: string,
 	itemAmount: number,
 	tanksToSell: Array<Tank>,
-	favTankId: string
+	favTankId: string,
+	favTankTeamIds: Array<string>
 |};
 
 class MakeATankSaleView extends React.Component<Props, State> {
 
 	constructor() {
 		super();
-		this.state={
+		this.state = {
 			userId: '',
 			salePrice: 0,
 			tankBeingSoldId: '',
 			itemAmount: 0,
 			tanksToSell: [],
-			favTankId: ''
+			favTankId: '',
+			favTankTeamIds: ['', '', '']
 		}
 	}
 
-	// Once mounted, get the userId and favorite tank id.
+	// Once mounted, get the userId, favorite tank id, and favorite tank team ids.
 	componentDidMount(): void {
 		getUserAPICall(user => {
 			this.setState({userId: user.userId});
@@ -45,6 +47,16 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				this.setState({ favTankId: tank._id});
 			}
 		});
+
+		getFavoriteTankTeam(tanks => {
+			const favTankIds: Array<string> = ['', '', ''];
+			for (let i: number = 0; i < 3; i++) {
+				if (tanks[i] != null) {
+					favTankIds[i] = tanks[i]._id;
+				}
+			}
+			this.setState({favTankTeamIds: favTankIds});
+		})
 	}
 
 	// Get all of a user's tanks, besides the favorite tank.
@@ -55,8 +67,16 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				if (index > -1) {
 					allTanks.splice(index, 1);
 				}
+
+				// FInd the favorite tank team and remove them if they exist.
+				for (let i: number = 0; i < 3; i++) {
+					const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankTeamIds[i]);
+					if (index > -1) {
+						allTanks.splice(index, 1);
+					}
+				}
 			
-				this.setState({tanksToSell: allTanks});
+				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id});
 		});
 	};
 
