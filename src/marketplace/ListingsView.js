@@ -11,8 +11,7 @@ import { allComponents } from '../globalComponents/typesAndClasses/TankComponent
 import Tank from '../tanks/Tank.js';
 import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
 import TankDisplay from '../tanks/TankDisplay.js';
-
-const MASTER_ACCOUNT_ID = '5e7ff4a9c6c3700959497009';
+import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 
 type Props = {|
 	sellerType: SellingType,
@@ -103,17 +102,17 @@ class ListingsView extends React.Component<Props, State> {
 
 	render() { 
 		this.state.itemsForSale.sort((a, b) => {
-			const firstFactory = a.sellerId === MASTER_ACCOUNT_ID;
-			const secondFactory = b.sellerId === MASTER_ACCOUNT_ID;
+			const firstFactory = a.sellerId === getMasterAccountId();
+			const secondFactory = b.sellerId === getMasterAccountId();
 			if (firstFactory !== secondFactory) {
 				return firstFactory?1:-1;
 			}
 			return a.price/a.amount-b.price/b.amount;
 		});
 		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => 
-			<div className={sale.sellerId === MASTER_ACCOUNT_ID ? "masterCard mb-2" : "card mb-2"} key={index}>
+			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
-					{sale.sellerId === MASTER_ACCOUNT_ID ? <h6>Purchase from Factory</h6> : null}
+					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 					{this.state.tanksForSale[index] == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{this.state.tanksForSale[index].tankName}</h5>}
 					<h5 className="card-title">Price: ${sale.price}</h5>
 					<h5 className="card-title">Quantity: {sale.amount}</h5>
@@ -123,9 +122,9 @@ class ListingsView extends React.Component<Props, State> {
 			</div>
 		);
 		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
-			<div className={sale.sellerId === MASTER_ACCOUNT_ID ? "masterCard mb-2" : "card mb-2"} key={index}>
+			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
-					{sale.sellerId === MASTER_ACCOUNT_ID ? <h6>Purchase from Factory</h6> : null}
+					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 					<h5 className="card-title">{toTitleCase(sale.name)}</h5>
 					<h5 className="card-title">Price: ${sale.price}</h5>
 					<h5 className="card-title">Quantity: {sale.amount}</h5>
