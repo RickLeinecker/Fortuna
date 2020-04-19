@@ -60,6 +60,7 @@ import type Battleground from '../battleground/Battleground.js';
 
 
 const NITRO_REPAIR_LENGTH=30*3;
+const NITRO_REPAIR_HEALTH_BONUS=50;
 const ORIG_MOVE_SPEED=0.7;
 const NITRO_MOVE_SPEED=1.5;
 const ORIG_TURN_DIVIDER=2;
