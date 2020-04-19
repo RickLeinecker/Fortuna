@@ -21,10 +21,10 @@ const router = express.Router();
 // Check messages can be edited
 router.post('/addMarketSale', [
 	check('sellerId', 'A valid MongoId is required.').isMongoId(),
-	check('salePrice', 'Enter a salePrice').isNumeric(),
+	check('salePrice', 'Enter a whole number price greater than 0.').isInt({ min: 0 }),
 	check('itemId', 'Enter an itemId').isString(),
 	check('itemType', 'Enter an itemType').isString(),
-	check('amount', 'Enter an item amount').isNumeric()
+	check('amount', 'Enter a whole number amount of at least 1.').isInt({ min: 1 })
 ], marketController.addMarketSale);
 
 // Get the list of all Market Sales this user has that are active
