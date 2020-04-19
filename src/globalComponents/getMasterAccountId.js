@@ -2,10 +2,11 @@
 
 require('dotenv');
 
-const MASTER_ACCOUNT_ID: string = process.env.REACT_APP_MASTER_SELLER;
+// Runtime check to pass Flow
+if (process.env.REACT_APP_MASTER_ACCOUNT == null) throw new Error('Master Account Env Variable Missing');
+const MASTER_ACCOUNT_ID: string = process.env.REACT_APP_MASTER_ACCOUNT;
 
 function getMasterAccountId(): string {
-	console.log(MASTER_ACCOUNT_ID);
 	return MASTER_ACCOUNT_ID;
 }
 
