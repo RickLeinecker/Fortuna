@@ -16,8 +16,7 @@ import {
 } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { ToastContainer , toast } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
-import { getEmptyCasusCode, getTank } from '../tanks/TankLoader.js';
-import BackendTank from '../tanks/BackendTank.js';
+import SelectTank from '../globalComponents/SelectTank.js';
 
 type Props = {|
 	onWagerUpdate: () => void
@@ -32,7 +31,7 @@ type State = {|
 	userWager3v3Tanks: Array<?Tank>,
 	userWager1v1Tank: ?Tank,
 	newWager3v3Tanks: Array<?Tank>,
-	newWager1v1Tank: Tank,
+	newWager1v1Tank: ?Tank,
 	setWagerOpen: boolean,
 	removeWagerOpen: boolean,
 	battleType: BattleType
@@ -41,16 +40,6 @@ type State = {|
 class SetWagerPopup extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-
-		// Create a blank tank as a placeholder until tanks are pulled.
-		const blankTank: BackendTank = new BackendTank(
-			'',
-			['empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',],
-			getEmptyCasusCode(),
-			false,
-			'',
-			''
-		);
 
 		this.state = {
 			allTanks: [],
@@ -61,7 +50,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 			userWager3v3Tanks: [null, null, null],
 			userWager1v1Tank: null,
 			newWager3v3Tanks: [],
-			newWager1v1Tank: getTank(blankTank),
+			newWager1v1Tank: null,
 			setWagerOpen: false,
 			removeWagerOpen: false,
 			battleType: '1 vs 1'
@@ -120,11 +109,12 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
+			const tankToWager=this.state.newWager1v1Tank;
+			if (tankToWager == null) {
+				toast.error('No set wager tank!');
+				return;
+			}
 			setWager(this.state.newWager, stipendApplied => {
-				if (this.state.newWager1v1Tank._id === '') {
-					toast.error('Tank not loaded yet, select it again.');
-					return;
-				}
 				if (stipendApplied) {
 					toast.success('$100 added for setting your daily wager!');
 				}
@@ -132,7 +122,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				// Update user currency in the navbar.
 				this.props.onWagerUpdate();
 			});
-			setFavoriteTankId(this.state.newWager1v1Tank._id, () => {
+			setFavoriteTankId(tankToWager._id, () => {
 				this.setState({setWagerOpen: false, userWager1v1Tank: this.state.newWager1v1Tank});
 			});
 		}
@@ -179,11 +169,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 	}
 
 	// Updates newWager3v3Tanks when changing a tank.
-	update3v3Tanks(newTankId: string, tankIndex: number): void {
-		const newTank: Tank = this.state.allTanks[this.state.allTanks.findIndex(tank => tank._id === newTankId)];
-		let newWager3v3Tanks: Array<?Tank> = this.state.newWager3v3Tanks;
-		newWager3v3Tanks[tankIndex] = newTank;
-		this.setState({newWager3v3Tanks: newWager3v3Tanks});
+	update3v3Tanks(newTank: ?Tank, tankIndex: number): void {
+		let newWagerTanks: Array<?Tank> = this.state.newWager3v3Tanks;
+		newWagerTanks[tankIndex] = newTank;
+		this.setState({newWager3v3Tanks: newWagerTanks});
 	}
 
 	render(): React.Node {
@@ -278,62 +267,38 @@ class SetWagerPopup extends React.Component<Props, State> {
 							<h5>Select Tank{this.state.battleType === '1 vs 1' ? '' : 's'}</h5>
 							{this.state.battleType === '1 vs 1' ?
 								<div>
-									<select 
-										className="dropdownMenu"
-										onChange={(e) => this.setState({newWager1v1Tank: this.state.allTanks[this.state.allTanks.findIndex(tank => tank._id === e.target.value)]})}
-									>
-										{this.state.allTanks.map((tank, index) => 
-											<option key={index} value={tank._id}>
-												{tank.tankName}
-											</option>
-										)}
-									</select>
+									<SelectTank
+										allTanks={this.state.allTanks}
+										propogateChangesToCasus={false}
+										changeSelectedTank={(tank) => this.setState({newWager1v1Tank: tank})}
+										selectedTank={this.state.newWager1v1Tank}
+										allowRemoveTank={false}
+									/>
 								</div> : 
 								<div>
-									<select 
-										className="dropdownMenu"
-										onChange={(e) => this.update3v3Tanks(e.target.value, 0)}
-									>
-										<option value={null}>No Tank</option>
-										{this.state.allTanks
-											.filter(tank => tank !== this.state.newWager3v3Tanks[1] && tank !== this.state.newWager3v3Tanks[2])
-											.map((tank, index) => 
-												<option key={index} value={tank._id}>
-													{tank.tankName}
-												</option>
-											)
-										}
-									</select>
+									<SelectTank
+										allTanks={this.state.allTanks.filter(tank => tank !== this.state.newWager3v3Tanks[1] && tank !== this.state.newWager3v3Tanks[2])}
+										propogateChangesToCasus={false}
+										changeSelectedTank={(tank) => this.update3v3Tanks(tank, 0)}
+										selectedTank={this.state.newWager3v3Tanks[0]}
+										allowRemoveTank={true}
+									/>
 									<br/>
-									<select 
-										className="dropdownMenu"
-										onChange={(e) => this.update3v3Tanks(e.target.value, 1)}
-									>
-										<option value={null}>No Tank</option>
-										{this.state.allTanks
-											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[2])
-											.map((tank, index) => 
-												<option key={index} value={tank._id}>
-													{tank.tankName}
-												</option>
-											)
-										}
-									</select>
+									<SelectTank
+										allTanks={this.state.allTanks.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[2])}
+										propogateChangesToCasus={false}
+										changeSelectedTank={(tank) => this.update3v3Tanks(tank, 1)}
+										selectedTank={this.state.newWager3v3Tanks[1]}
+										allowRemoveTank={true}
+									/>
 									<br/>
-									<select 
-										className="dropdownMenu"
-										onChange={(e) => this.update3v3Tanks(e.target.value, 2)}
-									>
-										<option value={null}>No Tank</option>
-										{this.state.allTanks
-											.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[1])
-											.map((tank, index) => 
-												<option key={index} value={tank._id}>
-													{tank.tankName}
-												</option>
-											)
-										}
-									</select>
+									<SelectTank
+										allTanks={this.state.allTanks.filter(tank => tank !== this.state.newWager3v3Tanks[0] && tank !== this.state.newWager3v3Tanks[1])}
+										propogateChangesToCasus={false}
+										changeSelectedTank={(tank) => this.update3v3Tanks(tank, 2)}
+										selectedTank={this.state.newWager3v3Tanks[2]}
+										allowRemoveTank={true}
+									/>
 								</div>
 							}
 							<br/>

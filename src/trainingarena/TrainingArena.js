@@ -136,6 +136,7 @@ class TrainingArena extends React.Component<Props, State> {
 								allTanks={this.state.allTanks}
 								changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
 								propogateChangesToCasus={true}
+								allowRemoveTank={false}
 							/>
 							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
 						</div> :
@@ -149,6 +150,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankThree)}
 												changeSelectedTank={(tank) => this.setState({selectedTankTwo: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 										<th>
@@ -157,6 +159,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankThree && tank !== this.state.selectedTankTwo)}
 												changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 										<th>
@@ -165,6 +168,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankTwo)}
 												changeSelectedTank={(tank) => this.setState({selectedTankThree: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 									</tr>
@@ -242,6 +246,7 @@ class TrainingArena extends React.Component<Props, State> {
 								allTanks={this.state.botTanks}
 								changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
 								propogateChangesToCasus={false}
+								allowRemoveTank={false}
 							/>
 							{this.state.botTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={false} />}
 						</div> :
@@ -255,6 +260,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankTwo: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 										<th>
@@ -263,6 +269,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 										<th>
@@ -271,6 +278,7 @@ class TrainingArena extends React.Component<Props, State> {
 												allTanks={this.state.botTanks}
 												changeSelectedTank={(tank) => this.setState({botTankThree: tank})}
 												propogateChangesToCasus={false}
+												allowRemoveTank={true}
 											/>
 										</th>
 									</tr>
