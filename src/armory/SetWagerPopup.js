@@ -109,7 +109,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		// Set the new wager and favorite tank depending on the battleType.
 		if (this.state.battleType === '1 vs 1') {
-			if (this.state.newWager1v1Tank == null) {
+			const tankToWager=this.state.newWager1v1Tank;
+			if (tankToWager == null) {
 				toast.error('No set wager tank!');
 				return;
 			}
@@ -121,7 +122,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 				// Update user currency in the navbar.
 				this.props.onWagerUpdate();
 			});
-			setFavoriteTankId(this.state.newWager1v1Tank._id, () => {
+			setFavoriteTankId(tankToWager._id, () => {
 				this.setState({setWagerOpen: false, userWager1v1Tank: this.state.newWager1v1Tank});
 			});
 		}
