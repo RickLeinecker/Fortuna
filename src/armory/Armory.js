@@ -322,6 +322,7 @@ class Armory extends React.Component<Props, State> {
 							allTanks={this.state.allTanks}
 							changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
 							propogateChangesToCasus={true}
+							allowRemoveTank={false}
 						/>
 					}
 					<br/><br/>

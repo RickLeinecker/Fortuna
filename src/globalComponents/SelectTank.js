@@ -9,6 +9,7 @@ type Props = {|
 	changeSelectedTank: (?Tank) => void,
 	selectedTank: ?Tank,
 	propogateChangesToCasus: boolean,
+	allowRemoveTank: boolean
 |};
 
 type State = {|
@@ -71,10 +72,11 @@ class SelectTank extends React.Component<Props, State> {
 									<br/>
 								</div>
 							)}
-							{window.location.pathname === '/Armory' ? <div></div> :
+							{this.props.allowRemoveTank ?
 								<button className="removeTankBtn" onClick={() => this.onChangeSelectedTank(null)}>
 									Remove Tank
-								</button>
+								</button> :
+								<div></div>
 							}
 						</div> :
 						<div></div>
