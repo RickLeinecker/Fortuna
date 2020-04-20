@@ -100,7 +100,17 @@ class ListingsView extends React.Component<Props, State> {
 		return formattedTitle;
 	}
 
-	render() { 
+	//This function finds the tank that we are looking for based on the id that is passed in 
+	findTank(id: string): ?Tank {
+		for (let i = 0; i < this.state.tanksForSale.length; i++) {
+			if (this.state.tanksForSale[i]._id === id) {
+				return this.state.tanksForSale[i];
+			}
+		}
+	}
+	  
+
+	render(): React.Node  { 
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
 			const secondFactory = b.sellerId === getMasterAccountId();
@@ -109,18 +119,21 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			return a.price/a.amount-b.price/b.amount;
 		});
-		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => 
-			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
-				<div className="card-body">
-					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
-					{this.state.tanksForSale[index] == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{this.state.tanksForSale[index].tankName}</h5>}
-					<h5 className="card-title">Price: ${sale.price}</h5>
-					<h5 className="card-title">Quantity: {sale.amount}</h5>
-					{this.state.tanksForSale[index] == null ? <div></div> : <TankDisplay tankToDisplay={this.state.tanksForSale[index]} smallTank={true} />}
-					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
+			const tankToUse = this.findTank(sale.name);
+			return (
+				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
+					<div className="card-body">
+						{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
+						{tankToUse == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{tankToUse.tankName}</h5>}
+						<h5 className="card-title">Price: ${sale.price}</h5>
+						<h5 className="card-title">Quantity: {sale.amount}</h5>
+						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
+						<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		});
 		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
 			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
