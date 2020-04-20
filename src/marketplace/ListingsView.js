@@ -102,15 +102,15 @@ class ListingsView extends React.Component<Props, State> {
 
 	//This function finds the tank that we are looking for based on the id that is passed in 
 	findTank(id: string): ?Tank {
-		for(let i = 0; i < this.state.tanksForSale.length; i++) {
-			if(this.state.tanksForSale[i]._id === id) {
+		for (let i = 0; i < this.state.tanksForSale.length; i++) {
+			if (this.state.tanksForSale[i]._id === id) {
 				return this.state.tanksForSale[i];
 			}
 		}
-	  };
+	}
 	  
 
-	render() { 
+	render(): React.Node  { 
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
 			const secondFactory = b.sellerId === getMasterAccountId();
