@@ -5,7 +5,7 @@
   "dependencies": {
     "a": "^2.1.2",
     "app": "^0.1.0",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.4.1",
     "browser": "^0.2.6",
     "cors": "^2.8.5",
