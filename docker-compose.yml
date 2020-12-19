@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    image: fortuna-server
+    container_name: Fortuna-node-server
+    command: /usr/src/app/node_modules/.bin/nodemon server.js
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    env_file: .env
+    #environment:
+    #  - NODE_ENV=development
+    networks:
+      - fortuna-network
+  mongo:
+    image: mongo
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - fortuna-network
+  client:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    image: fortuna-client
+    container_name: fortuna-react-client
+    command: npm start
+    volumes:
+      - ./src/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - fortuna-network
+
+networks:
+  fortuna-network:
+    driver: bridge
+
+volumes:
+  data-volume:
+  node_modules:
+  web-root:
+    driver: local
