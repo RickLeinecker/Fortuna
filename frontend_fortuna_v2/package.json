@@ -5,6 +5,7 @@
   "dependencies": {
     "a": "^2.1.2",
     "app": "^0.1.0",
+    "babel-node": "0.0.1-security",
     "bcrypt": "^5.0.0",
     "bootstrap": "^4.4.1",
     "browser": "^0.2.6",

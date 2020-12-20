@@ -26,7 +26,9 @@ exports.verify = async (req: Request, res: Response) => {
 
 		return res
 			.status(401)
-			.json({ msg: 'Token is not valid' });
+      .json({ msg: 'Token is not valid' });
+      
+      
 	}
 
 }

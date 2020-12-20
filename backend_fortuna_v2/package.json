@@ -1,0 +1,68 @@
+{
+  "name": "fortuna",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "a": "^2.1.2",
+    "app": "^0.1.0",
+    "bcrypt": "^5.0.0",
+    "bootstrap": "^4.4.1",
+    "browser": "^0.2.6",
+    "cors": "^2.8.5",
+    "dotenv-flow": "^3.1.0",
+    "elo-js": "^1.0.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.1",
+    "for": "^0.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.11",
+    "nodemailer": "^6.4.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.3.1",
+    "react-toastify": "^5.5.0",
+    "reactjs-popup": "^1.5.0",
+    "regenerator-runtime": "^0.13.3",
+    "universal-cookie": "^4.0.3"
+  },
+  "scripts": {
+    "start": "NODE_ENV=development nodemon --exec babel-node src/backend/server.js",
+    "build": "babel src/ -d lib/",
+    "deploy": "react-scripts build",
+    "cycles": "madge --circular lib/index.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "flow": "flow",
+    "devserver": "nodemon ./lib/backend/server.js"
+  },
+  "proxy": "http://localhost:3001",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.12.6",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-flow": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
+    "@types/mongoose": "^5.7.3",
+    "file-loader": "^5.0.2",
+    "flow-bin": "^0.109.0",
+    "madge": "^3.8.0",
+    "nodemon": "^2.0.6"
+  }
+}
