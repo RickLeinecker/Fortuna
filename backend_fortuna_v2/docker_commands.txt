@@ -1,0 +1,5 @@
+docker image build -t fortunabackend:latest .
+
+docker container run -it --rm --name fortunabackend -p 3001:3001 fortunabackend
+
+docker network create --driver bridge fortunalocalnetwork
