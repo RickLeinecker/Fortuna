@@ -107,7 +107,7 @@ class BattleArena extends React.Component<Props, State> {
 		return (
 		<div id="Parent">
 			<Navbar
-				returnName="Back to Main Menu" 
+				returnName="Back to Main Menu!!!!!!!!!!" 
 				pageName="Battle Arena" 
 				linkName="/MainMenu"
 				youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
