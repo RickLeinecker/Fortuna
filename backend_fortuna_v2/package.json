@@ -27,14 +27,18 @@
     "universal-cookie": "^4.0.3"
   },
   "scripts": {
-    "start": "NODE_ENV=development nodemon --exec babel-node src/backend/server.js",
+    "start": "NODE_ENV=development node --use_strict ./lib/backend/server.js",
     "build": "babel src/ -d lib/",
+    "build:watch": "babel src/ -d lib/ -w",
     "deploy": "react-scripts build",
     "cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "nodemon ./lib/backend/server.js"
+    "dev": "npx concurrently \"npm run build\" \"npm run dev:run\"",
+    "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
+    "dev:run": "npx nodemon lib/backend/server.js",
+    "devserver": "nodemon --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {

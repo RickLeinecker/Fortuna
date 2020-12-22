@@ -1,5 +1,14 @@
 docker image build -t fortunabackend:latest .
 
-docker container run -it --rm --name fortunabackend --net fortunalocalnetwork -p 3001:3001 fortunabackend
+docker container run -it --rm --name fortunabackend --net fortunalocalnetwork -p 3001:3001 -v nodemodules:/src/node_modules -v $PWD/src:/app/src fortunabackend
 
 docker network create --driver bridge fortunalocalnetwork
+
+below is devserver command to have reloading with nodemon (not automatically rs is needed)
+devserver: nodemon --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/
+start: NODE_ENV=development node --use_strict ./lib/backend/server.js
+
+in .dockerignore for backend add the below:
+
+node_modules/
+lib/

@@ -1,12 +1,12 @@
 FROM node:12.2.0-alpine
 
-WORKDIR /app/src/backend
+WORKDIR /app
 
-COPY ./package*.json /app/
+ADD package*.json /app
 
-COPY . .
+RUN npm i --silent
 
-RUN npm install
+ADD . /app
 
 RUN npm run build
 
