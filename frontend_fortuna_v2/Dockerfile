@@ -2,9 +2,11 @@ FROM node:12.2.0-alpine
 
 WORKDIR /app
 
+ENV CHOKIDAR_USEPOLLING="true"
+
 COPY ./package*.json /app/
 
-RUN npm install
+RUN npm i --silent
 
 COPY . .
 
