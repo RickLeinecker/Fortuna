@@ -28,6 +28,6 @@ mongoose.connect(process.env.DB_URL, options)
 
 // Server Listener
 app.listen(API_PORT, () => {
-	console.log(`Express server listening on port!!! ${API_PORT}...`);
+	console.log(`Express server listening on port ${API_PORT}...`);
 });
 
