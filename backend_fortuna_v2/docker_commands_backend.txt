@@ -12,25 +12,3 @@ in .dockerignore for backend add the below:
 
 node_modules/
 lib/
-
-
-    volumes:
-      - "./backend_fortuna_v2/nodemodules:/src/node_modules"
-      - "./backend_fortuna_v2/src:/app/src"
-
-
-    volumes:
-      - "./frontend_fortuna_v2/nodemodules:/app/node_modules"
-      - "./frontend_fortuna_v2:/app"
-
-
-  server:
-    build:
-      context: ./backend_fortuna_v2/
-      dockerfile: Dockerfile
-    container_name: fortunabackend
-    ports:
-      - "3001:3001"
-    volumes:
-      - "./backend_fortuna_v2/nodemodules:/src/node_modules"
-      - "./backend_fortuna_v2/src:/app/src"
