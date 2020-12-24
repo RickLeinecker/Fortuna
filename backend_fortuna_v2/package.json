@@ -38,7 +38,7 @@
     "dev": "npx concurrently \"npm run build\" \"npm run dev:run\"",
     "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
     "dev:run": "npx nodemon lib/backend/server.js",
-    "devserver": "nodemon --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/"
+    "devserver": "nodemon -L --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
