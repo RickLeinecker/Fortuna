@@ -27,14 +27,18 @@
     "universal-cookie": "^4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "NODE_ENV=development node --use_strict ./lib/backend/server.js",
     "build": "babel src/ -d lib/",
+    "build:watch": "babel src/ -d lib/ -w",
     "deploy": "react-scripts build",
     "cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow",
-    "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js"
+    "dev": "npx concurrently \"npm run build\" \"npm run dev:run\"",
+    "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
+    "dev:run": "npx nodemon lib/backend/server.js",
+    "devserver": "nodemon -L --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
@@ -55,6 +59,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
+    "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-flow": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
@@ -62,6 +67,6 @@
     "file-loader": "^5.0.2",
     "flow-bin": "^0.109.0",
     "madge": "^3.8.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.6"
   }
 }

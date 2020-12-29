@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./backend_fortuna_v2/
+      dockerfile: Dockerfile
+    container_name: fortunabackend
+    ports:
+      - "3001:3001"
+    volumes:
+      - "./backend_fortuna_v2/nodemodules:/src/node_modules"
+      - "./backend_fortuna_v2/src:/app/src"
+  client:
+    stdin_open: true
+    build:
+      context: ./frontend_fortuna_v2/
+      dockerfile: Dockerfile
+    container_name: fortunafrontend
+    ports:
+        - "3000:3000"
+    volumes:
+      - "nodemodules:/app/node_modules"
+      - "./frontend_fortuna_v2:/app"
+    depends_on:
+      - server
+volumes:
+  nodemodules:
+networks:
+  fortunalocalnetwork:
