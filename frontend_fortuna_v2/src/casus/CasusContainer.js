@@ -37,33 +37,36 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<Container fluid>
+      <>
         <Navbar
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
 					youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
 				/>
-        <Row>
-          <Col>
-            <CasusEditor 
+        <Container fluid>
+          <Row className="mt-12">
+            <Col>
+              <CasusEditor 
+                draggedBlocks={this.state.draggedBlocks}
+                onBlocksDragged={this.onBlocksDragged} 
+                onDraggedBlocksReleased={this.onDraggedBlocksReleased}
+              />
+            </Col>
+          </Row>
+          <br></br>
+          <Row>
+            <Col>
+              <BlockBank 
               draggedBlocks={this.state.draggedBlocks}
               onBlocksDragged={this.onBlocksDragged} 
               onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <BlockBank 
-            draggedBlocks={this.state.draggedBlocks}
-            onBlocksDragged={this.onBlocksDragged} 
-            onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-            />
-          </Col>
-        </Row>
-				<ToastContainer />
-			</Container>
+              />
+            </Col>
+          </Row>
+          <ToastContainer />
+        </Container>
+      </>
 		);
 	}
 

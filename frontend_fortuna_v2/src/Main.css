@@ -3,9 +3,10 @@
 }
 
 body {
-	background-image: linear-gradient(to right, #04213F, #000921, #000921, #04213F);
 	color: #04CCFF; 
-	height:100%;
+  height: 100%;
+  width: 100%;
+  background-image: url('/landing_gif.gif');
 }
 
 .haveScorebarIfSmall {
