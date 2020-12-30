@@ -9,6 +9,7 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import {ToastContainer} from 'react-toastify';
+import { Container, Row, Col } from 'react-bootstrap'
 
 type Props = {||};
 
@@ -36,25 +37,33 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="haveScorebarIfSmall">
-				<Navbar
+			<Container fluid>
+        <Navbar
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
 					youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
 				/>
-				<BlockBank 
-					draggedBlocks={this.state.draggedBlocks}
-					onBlocksDragged={this.onBlocksDragged} 
-					onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-				/>
-				<CasusEditor 
-					draggedBlocks={this.state.draggedBlocks}
-					onBlocksDragged={this.onBlocksDragged} 
-					onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-				/>
+        <Row>
+          <Col>
+            <CasusEditor 
+              draggedBlocks={this.state.draggedBlocks}
+              onBlocksDragged={this.onBlocksDragged} 
+              onDraggedBlocksReleased={this.onDraggedBlocksReleased}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <BlockBank 
+            draggedBlocks={this.state.draggedBlocks}
+            onBlocksDragged={this.onBlocksDragged} 
+            onDraggedBlocksReleased={this.onDraggedBlocksReleased}
+            />
+          </Col>
+        </Row>
 				<ToastContainer />
-			</div>
+			</Container>
 		);
 	}
 

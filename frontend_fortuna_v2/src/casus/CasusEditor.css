@@ -1,12 +1,12 @@
 .casusEditorContainerDiv {
-	background-color: #ffffaa;
-	justifyContent: center;
+  position: absolute;
+  bottom: 10px;
 }
 
 .casusEditorCanvas {
 	background-color: #ffffff;
 	height: 350px;
-	width: 100%;
+  width: 100%;
 }
 
 .undoBtn {

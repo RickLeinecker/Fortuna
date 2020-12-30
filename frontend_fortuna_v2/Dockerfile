@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV CHOKIDAR_USEPOLLING="true"
 
-COPY ./package*.json /app/
+COPY package.json .
 
 RUN npm i --silent
 

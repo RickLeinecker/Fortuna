@@ -16,3 +16,5 @@
 ## 6. To stop containers from running, press ctrl+c in terminal.
 ##    If this does not work, open a new terminal and type the following
 ###           docker-compose stop
+## 7. When installing new npm packages, you will need to type the following
+###     docker-compose down -v
