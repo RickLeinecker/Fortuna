@@ -1,14 +1,17 @@
 .paddedButton {
 	margin: 5px;
 	width: 120px;
+	border-radius: 25px;
 }
 
 .blockBankTypeSelectorDiv {
 	background-color: #000921;
 	height: 100%;
 	width: 400px;
+	border-radius: 25px;
 }
 
 .testCodeBtn {
 	margin-left: 2%;
+	border-radius: 25px;
 }

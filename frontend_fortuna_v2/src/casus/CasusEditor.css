@@ -6,33 +6,38 @@
 .casusEditorCanvas {
 	background-color: #ffffff;
 	height: 350px;
-  width: 100%;
-  margin-top: 100px;
+	width: 100%;
+	margin-top: 100px;
+	border-radius: 25px;
 }
 
 .undoBtn {
 	background-color: #000921;
-	color: #04CCFF;
+	color: rgb(245, 59, 229);
 	border: 1px solid #04CCFF;
 	margin: 5px;
 	padding: 5px;
 	margin-top: 10px;
 	width: 70px;
+	border-radius: 25px;
 }
 
 .undoBtn:hover {
-	color: rgb(245, 59, 229);
-	border: 1px solid rgb(130, 22, 145);
+	color: #04CCFF;
+	border: 1px solid #04CCFF;;
+	border-radius: 25px;
 }
 
 .undoBtn:disabled {
 	cursor: default;
 	background-color: gray;
+	border-radius: 25px;
 }
 
 .undoBtn:disabled:hover {
-	color: #04CCFF;
+	color: gray;
 	border: 1px solid #04CCFF;
+	border-radius: 25px;
 }
 
 .undoBtnArea {
@@ -41,4 +46,5 @@
 	top: 1;
 	right: 0;
 	z-index: 100;
+	border-radius: 25px;
 }
