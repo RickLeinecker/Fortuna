@@ -6,6 +6,7 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import { imageLoaderInit, addCallbackWhenImageLoaded } from '../battleground/ImageLoader.js';
 import './TankDisplay.css';
+import $ from 'jquery'
 
 type Props = {|
 	tankToDisplay: Tank,
@@ -41,9 +42,11 @@ class TankDisplay extends React.Component<Props> {
 	onResize = () => this._rerender();
 
 	componentDidMount(): void {
+    $(document).ready(() => {
+      this._rerender();
+    })
 		this.alive=true;
     setTimeout(() => this._gameLoop(), 1000/20);
-		this._rerender();
 	}
 
 	componentWillUnmount() {
