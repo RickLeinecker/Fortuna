@@ -41,9 +41,9 @@ class TankDisplay extends React.Component<Props> {
 	onResize = () => this._rerender();
 
 	componentDidMount(): void {
-		this._rerender();
 		this.alive=true;
-		setTimeout(() => this._gameLoop(), 1000/20);
+    setTimeout(() => this._gameLoop(), 1000/20);
+		this._rerender();
 	}
 
 	componentWillUnmount() {
