@@ -42,9 +42,7 @@ class TankDisplay extends React.Component<Props> {
 	onResize = () => this._rerender();
 
 	componentDidMount(): void {
-    $(document).ready(() => {
-      this._rerender();
-    })
+    this._rerender();
 		this.alive=true;
     setTimeout(() => this._gameLoop(), 1000/20);
 	}
@@ -95,24 +93,30 @@ class TankDisplay extends React.Component<Props> {
 	}
 
 	_rerender(): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		ctx.fillStyle = '#000921';
-		ctx.clearRect(0, 0, 1e9, 1e9);
-		const drawer=new ImageDrawer(ctx, () => 400, () => 400);
-		drawer.setZoomScale(8);
-		this.props.tankToDisplay.position=new Vec(0, 0);
-		this.props.tankToDisplay.render(drawer);
+    $(document).ready(() => {
+      const canvas: HTMLCanvasElement = this.refs.canvas;
+      const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+      ctx.fillStyle = '#000921';
+      ctx.clearRect(0, 0, 1e9, 1e9);
+      const drawer=new ImageDrawer(ctx, () => 400, () => 400);
+      drawer.setZoomScale(8);
+      this.props.tankToDisplay.position=new Vec(0, 0);
+      this.props.tankToDisplay.render(drawer);
+    })
+
 	}
 
 	_resizeCanvas(): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const targetWidth=canvas.clientWidth;
-		const targetHeight=targetWidth*8/16;
-		if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
-			canvas.width = targetWidth;
-			canvas.height = targetHeight;
-		}
+    $(document).ready(() => {
+      const canvas: HTMLCanvasElement = this.refs.canvas;
+      const targetWidth=canvas.clientWidth;
+      const targetHeight=targetWidth*8/16;
+      if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+      }
+    })
+
 	}
 
 	_lerp(a: number, b: number, time: number): number {
