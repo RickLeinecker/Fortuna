@@ -6,7 +6,6 @@ import ImageDrawer from '../battleground/ImageDrawer.js';
 import Vec from '../casus/blocks/Vec.js';
 import { imageLoaderInit, addCallbackWhenImageLoaded } from '../battleground/ImageLoader.js';
 import './TankDisplay.css';
-import $ from 'jquery'
 
 type Props = {|
 	tankToDisplay: Tank,

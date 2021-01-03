@@ -9,7 +9,7 @@
 
 ###       docker-compose up --build
 
-###       once it appears, ctrl+click localhost:3000 in the terminal
+###       once it appears go to localhost:3000 in the browser
 
 ###       make sure that you can log in with your local account
 
