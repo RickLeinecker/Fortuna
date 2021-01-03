@@ -9,7 +9,8 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import {ToastContainer} from 'react-toastify';
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 type Props = {||};
 
@@ -65,6 +66,13 @@ class CasusContainer extends React.Component<Props, State> {
             </Col>
           </Row>
           <ToastContainer />
+        </Container>
+        <Container>
+          <Row>
+              <Col>
+                <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
+              </Col>
+            </Row>
         </Container>
       </>
 		);

@@ -17,6 +17,8 @@ import saveCasus from './saveCasus.js';
 import loadCasus from './loadCasus.js';
 import casusBlockDeepClone from './casusBlockDeepClone.js';
 import {casusBlockDeepCloneAsContainer} from './casusBlockDeepClone.js';
+import { Link } from 'react-router-dom';
+import { Button, Card, Container, Row, Col, Figure } from 'react-bootstrap'
 
 import type {DataType} from './blocks/DataType.js';
 
@@ -132,26 +134,34 @@ class CasusEditor extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="casusEditorContainingDiv">
-				<div className="undoBtnArea">
-					<button 
-						className="undoBtn" 
-						onClick={(() => this.onUndoRedoButtonClicked(true))}
-						disabled={this.state.currentCasusState<=0}
-					>
-						Undo
-					</button>
-					<button 
-						className="undoBtn" 
-						onClick={(() => this.onUndoRedoButtonClicked(false))}
-						disabled={this.state.currentCasusState>=this.state.casusStates.length-1}
-					>
-						Redo
-					</button>
-				</div>
-				<canvas 
-					className="casusEditorCanvas"
-					ref="canvas" 
-				/>
+        <Container>
+          <div className="undoBtnArea">
+            <button 
+              className="undoBtn" 
+              onClick={(() => this.onUndoRedoButtonClicked(true))}
+              disabled={this.state.currentCasusState<=0}
+            >
+              Undo
+            </button>
+            <button 
+              className="undoBtn" 
+              onClick={(() => this.onUndoRedoButtonClicked(false))}
+              disabled={this.state.currentCasusState>=this.state.casusStates.length-1}
+            >
+              Redo
+            </button>
+          </div>
+        </Container>
+        <Container fluid>
+          <Row>
+            <Col>
+              <canvas 
+              className="casusEditorCanvas"
+              ref="canvas" 
+            />
+            </Col>
+          </Row>
+        </Container>
 				<SelectVariablePopup 
 					variableBlockToRename={this.state.variableBlockToRename}
 					onCancelClicked={() => this.onCancelClicked()}
@@ -315,7 +325,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 	_clearBackground(ctx: CanvasRenderingContext2D): void {
 		//fill background
-		ctx.fillStyle = '#B10DC9';
+		ctx.fillStyle = '#04CCFF';
 		ctx.fillRect(0, 0, 100000, 100000);
 	}
 

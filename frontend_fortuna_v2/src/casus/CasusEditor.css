@@ -7,7 +7,7 @@
 	background-color: #ffffff;
 	height: 350px;
 	width: 100%;
-	margin-top: 100px;
+	margin-top: 75px;
 	border-radius: 25px;
 }
 
@@ -18,8 +18,9 @@
 	margin: 5px;
 	padding: 5px;
 	margin-top: 10px;
-	width: 70px;
-	border-radius: 25px;
+	width: 90px;
+  border-radius: 25px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .undoBtn:hover {
@@ -30,12 +31,13 @@
 
 .undoBtn:disabled {
 	cursor: default;
-	background-color: gray;
+  background-color: gray;
+  color: white;
 	border-radius: 25px;
 }
 
 .undoBtn:disabled:hover {
-	color: gray;
+	color: white;
 	border: 1px solid #04CCFF;
 	border-radius: 25px;
 }
@@ -47,4 +49,12 @@
 	right: 0;
 	z-index: 100;
 	border-radius: 25px;
+}
+
+.testCode {
+  margin-top: 75px;
+  margin-left: 200px;
+  width: 500px;
+  height: 100px;
+  font-family: 'Press Start 2P', cursive;
 }

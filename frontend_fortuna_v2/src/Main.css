@@ -261,8 +261,8 @@ body {
 }
 
 .btn:hover {
-	color: #04CCFF;
-	background: #000921;
+  color:black;
+	background:#3EFF15;
 	border: 2px solid #04CCFF;
 }
 
