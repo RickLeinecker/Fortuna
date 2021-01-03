@@ -93,7 +93,8 @@ class TankDisplay extends React.Component<Props> {
 	}
 
 	_rerender(): void {
-    $(document).ready(() => {
+    
+    document.addEventListener("DOMContentLoaded", function(event) {
       const canvas: HTMLCanvasElement = this.refs.canvas;
       const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
       ctx.fillStyle = '#000921';
@@ -103,11 +104,10 @@ class TankDisplay extends React.Component<Props> {
       this.props.tankToDisplay.position=new Vec(0, 0);
       this.props.tankToDisplay.render(drawer);
     })
-
 	}
 
 	_resizeCanvas(): void {
-    $(document).ready(() => {
+    document.addEventListener("DOMContentLoaded", function(event) {
       const canvas: HTMLCanvasElement = this.refs.canvas;
       const targetWidth=canvas.clientWidth;
       const targetHeight=targetWidth*8/16;
@@ -116,7 +116,6 @@ class TankDisplay extends React.Component<Props> {
         canvas.height = targetHeight;
       }
     })
-
 	}
 
 	_lerp(a: number, b: number, time: number): number {
