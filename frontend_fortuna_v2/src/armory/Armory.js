@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 // CSS
 import './Armory.css';
 // Components
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import CreateNewTankPopup from './CreateNewTankPopup.js';
 import DeleteTankPopup from './DeleteTankPopup.js';
 import SelectTank from '../globalComponents/SelectTank.js';
@@ -304,7 +304,7 @@ class Armory extends React.Component<Props, State> {
 		const selectedTank=this.state.selectedTank;
 		return (
 			<div id="Parent">
-				<Navbar 
+				<MainNavbar 
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Armory"

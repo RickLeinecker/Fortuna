@@ -4,7 +4,7 @@ import * as React from 'react';
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
@@ -39,7 +39,7 @@ class CasusContainer extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
       <>
-        <Navbar
+        <MainNavbar
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}

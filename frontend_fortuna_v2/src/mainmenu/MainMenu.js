@@ -3,7 +3,7 @@
 import './MainMenu.css';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
@@ -18,7 +18,7 @@ class MainMenu extends React.Component<{||}> {
 	render(): React.Node {
 		return (
 			<div id="Parent">
-				<Navbar 
+				<MainNavbar 
 					linkName="/Login" 
 					returnName="Logout" 
 					pageName="Main Menu" 

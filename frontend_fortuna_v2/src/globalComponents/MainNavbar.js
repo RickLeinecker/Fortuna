@@ -8,6 +8,8 @@ import { verifyLink } from './verifyLink.js';
 import getUserAPICall from './apiCalls/getUserAPICall.js';
 import YoutubeVideoPopup from './YoutubeVideoPopup.js';
 
+import { Navbar, Form, Nav, NavDropdown, Button, FormControl } from 'react-bootstrap'
+
 type Props = {
 	linkName: LinkType,
 	returnName?: string,
@@ -37,7 +39,7 @@ type State = {
 //
 // EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" />
 
-class Navbar extends React.Component<Props, State> {
+class MainNavbar extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
@@ -101,22 +103,18 @@ class Navbar extends React.Component<Props, State> {
 		); 
 
 		return (
-			<div className="navbar">
-				<div className="navleft">
-					<div className="row rowPadding">
-						{link}&emsp;
-						{youtubeLinks}
-					</div>
-				</div>
-				<div className="navmiddle">
-					<h4>{this.props.pageName}</h4>
-				</div>
-				<div className="navright">
-					<h5>{this.state.username} | ${this.state.userCurrency}</h5>
-				</div>
-			</div>
+      <Navbar bg="#04213F" expand="lg">
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 		)
 	}
 }
 
-export default Navbar;
+export default MainNavbar;
