@@ -24,6 +24,24 @@ services:
       - "./frontend_fortuna_v2:/app"
     depends_on:
       - server
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+      - "./nginx:/etc/nginx/conf.d"
+      - "./nginx/conf:/etc/letsencrypt"
+      - "./nginx/certbot/www:/var/www/certbot"
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    volumes:
+    - "./nginx/conf:/etc/letsencrypt"
+    - "./nginx/cert/www:/var/www/certbot"
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
 volumes:
   nodemodules:
 networks:
