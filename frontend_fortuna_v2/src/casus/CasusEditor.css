@@ -1,3 +1,10 @@
+
+body {
+	color: #04CCFF; 
+  height: 100%;
+  width: 100%;
+}
+
 .casusEditorContainerDiv {
   position: absolute;
   bottom: 10px;
@@ -58,3 +65,16 @@
   height: 100px;
   font-family: 'Press Start 2P', cursive;
 }
+
+.footer {
+  margin-top: 50px;  
+  border: 1px solid black;
+  float: left;
+  width:99%;
+  height: 10%;
+  position: fixed;
+  clear: both;
+  margin-top: 900px;
+}
+
+

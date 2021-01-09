@@ -8,6 +8,9 @@ body {
   width: 100%;
   background-image: url('/landing_gif.gif');
 }
+ h6 {
+  font-family: 'Press Start 2P', cursive;
+ }
 
 .haveScorebarIfSmall {
 	min-width: 1530px;
@@ -245,7 +248,8 @@ body {
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 8px;
-	width: 175px;
+  width: 175px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .btn:disabled {
@@ -271,7 +275,8 @@ body {
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 3px;
-	width: 100px; 
+  width: 150px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .smallbtn:disabled {
@@ -295,7 +300,8 @@ body {
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 3px;
-	width: 60px; 
+  width: 60px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .reallySmallBtn:disabled {
@@ -317,7 +323,8 @@ body {
 .clearbtn {
 	color: #04CCFF;
 	border: none;
-	background: none;
+  background: none;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .clearbtn:hover {
@@ -331,7 +338,8 @@ body {
 	text-transform: uppercase;
 	text-decoration: none;
 	border: 0.2em solid #04CCFF;
-	padding: 0.5em 1em;
+  padding: 0.5em 1em;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .primarybtn::before {
@@ -425,3 +433,13 @@ select {
 	overflow-y: auto;
 }
 
+.footer {
+  margin-top: 50px;  
+  border: 1px solid black;
+  float: left;
+  width:99%;
+  height: 10%;
+  position: fixed;
+  clear: both;
+  margin-top: 900px;
+}

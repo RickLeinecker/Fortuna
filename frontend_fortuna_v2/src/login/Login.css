@@ -39,3 +39,10 @@
 	margin-left: 10%;
 	margin-right: 10%;
 }
+
+body {
+	color: #04CCFF; 
+  height: 100%;
+  width: 100%;
+  background-image: url('/login_background.gif');
+}

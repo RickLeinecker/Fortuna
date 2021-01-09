@@ -14,12 +14,17 @@ class Login extends React.Component<{||}> {
 
 	constructor() {
 		super();
-		verifyLogin();
+    verifyLogin();
 	}
 
 	onEmailRegistered(registeredUsername: string, registeredPassword: string): void {
 		this.refs.loginPopup.onEmailRegistered(registeredUsername, registeredPassword);
-	}
+  }
+  
+  componentDidMount() {
+    document.body.style.backgroundImage = "url('/login_background.gif')"
+    document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
+  }
 
 	render(): React.Node {
 		return (

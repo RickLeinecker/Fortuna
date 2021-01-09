@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import './CasusEditor.css'
 import BlockBank from './blockBank/BlockBank.js';
 import CasusEditor from './CasusEditor.js';
 import CasusBlock from './blocks/CasusBlock.js';
@@ -74,6 +75,9 @@ class CasusContainer extends React.Component<Props, State> {
               </Col>
             </Row>
         </Container>
+        <div class="footer">
+          <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
+        </div>
       </>
 		);
 	}

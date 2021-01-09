@@ -11,7 +11,12 @@ class App extends React.Component<{||}> {
 	
 	render(): React.Node {
 		return (
-			<Login />
+      <>
+			  <Login />
+        <div class="footer">
+          <p>Photo credit: <a href="https://www.artstation.com/artwork/GXwZgz">ArtStation</a></p>
+        </div>
+      </>
 		);
 	}
 }

@@ -103,16 +103,30 @@ class MainNavbar extends React.Component<Props, State> {
 		); 
 
 		return (
-      <Navbar bg="#04213F" expand="lg">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      // <Navbar bg="#04213F" expand="lg">
+      //   <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+      //   <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      //   <Navbar.Collapse id="basic-navbar-nav">
+      //     <Nav className="mr-auto">
+      //       <Nav.Link href="#home">Home</Nav.Link>
+      //       <Nav.Link href="#link">Link</Nav.Link>
+      //     </Nav>
+      //   </Navbar.Collapse>
+      // </Navbar>
+      <div className="navbar">
+      <div className="navleft">
+        <div className="row rowPadding">
+          {link}&emsp;
+          {youtubeLinks}
+        </div>
+      </div>
+      <div className="navmiddle">
+        <h4>{this.props.pageName}</h4>
+      </div>
+      <div className="navright">
+        <h5>{this.state.username} | ${this.state.userCurrency}</h5>
+      </div>
+    </div>
 		)
 	}
 }

@@ -79,6 +79,7 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
+    document.body.style.backgroundImage = "url('/casus_background.gif')"
 		// Functions to get all user tanks and user inventory.
 		this.getTanks();
 		this.getUserInventory();
@@ -315,7 +316,7 @@ class Armory extends React.Component<Props, State> {
 					]}
 				/>
 				<div className="column armoryleft">
-					<h4>Selected Tank</h4>
+					<h4 className="font">Selected Tank</h4>
 					{selectedTank==null?<div></div>:
 						<SelectTank
 							selectedTank={selectedTank}
@@ -326,7 +327,7 @@ class Armory extends React.Component<Props, State> {
 						/>
 					}
 					<br/><br/>
-					<label>Edit Code</label>
+					<label className="font">Edit Code</label>
 					<br/>
 					<Link to={verifyLink("/Casus")}>
 						<button className="primarybtn">Casus</button>
@@ -339,7 +340,7 @@ class Armory extends React.Component<Props, State> {
 						/>
 					}
 					<br/><br/><br/>
-					<h5>Tank Options</h5>
+					<h5 className="font">Tank Options</h5>
 					<div className="row rowPadding">
 						{selectedTank==null?<div></div>:
 							<RenameTankPopup
@@ -365,21 +366,21 @@ class Armory extends React.Component<Props, State> {
 					/>
 				</div>
 				<div className="column armorymiddle">
-					<h1>{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+					<h1 className="font">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
 					{selectedTank==null?<div></div>:
 						<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 					}
 					{(this.state.currentPartIndex === -1) ?
 						<div></div> :
 						<div>
-							<h4>Component Menu</h4>
+							<h4 className="font">Component Menu</h4>
 							<div className="componentMenu">
 								<table>
 									<thead>
 										<tr>
-											<th>Component Name</th>
-											<th>Number Owned</th>
-											<th>Point Value</th>
+											<th className="font">Component Name</th>
+											<th className="font">Number Owned</th>
+											<th className="font">Point Value</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -403,7 +404,7 @@ class Armory extends React.Component<Props, State> {
 											<tr>
 												<td align="left">
 													<button 
-														className="componentMenuBtn"
+														className="componentMenuBtn font"
 														onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
 													>
 														Empty
@@ -421,10 +422,10 @@ class Armory extends React.Component<Props, State> {
 
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright">
-						<h5>{this.state.points}/10 Points Used</h5>
-						<label>Chassis: </label>
+						<h5 className="font">{this.state.points}/10 Points Used</h5>
+						<label className="font">Chassis: </label>
 						<button 
-							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"} 
+							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
 							onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
 						>
 							{toTitleCase(selectedTank.chassis.name)}
@@ -432,17 +433,17 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 						<br/>
 
-						<label>Main Gun: </label>
+						<label className="font">Main Gun: </label>
 						<button 
-							className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
 						<br/>
-						<label>Secondary Gun: </label>
+						<label className="font">Secondary Gun: </label>
 						<button 
-							className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
 						>
 							{toTitleCase(selectedTank.secondaryGun.name)}
@@ -450,26 +451,26 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 						<br/>
 
-						<label>Scanners: </label>
+						<label className="font">Scanners: </label>
 						<button 
-							className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
 						>
 							{toTitleCase(selectedTank.scanner.name)}
 						</button>
 						<br/>
-						<label>Scanner Addon: </label>
+						<label className="font">Scanner Addon: </label>
 						<button 
-							className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
 						>
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
 						<br/>
-						<label>Scanner Addon: </label>
+						<label className="font">Scanner Addon: </label>
 						<button 
-							className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
 						>
@@ -478,9 +479,9 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 						<br/>
 
-						<label>Jammers: </label>
+						<label className="font">Jammers: </label>
 						<button 
-							className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
 						>
 							{toTitleCase(selectedTank.jammer.name)}
@@ -488,9 +489,9 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 						<br/>
 
-						<label>Treads: </label>
+						<label className="font">Treads: </label>
 						<button 
-							className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
 						>
 							{toTitleCase(selectedTank.treads.name)}
@@ -498,25 +499,25 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 						<br/>
 
-						<label>Item: </label>
+						<label className="font">Item: </label>
 						<button 
-							className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
 						>
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
 						<br/>
-						<label>Item: </label>
+						<label className="font">Item: </label>
 						<button 
-							className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
 						>
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
 						<br/>
-						<label>Item: </label>
+						<label className="font">Item: </label>
 						<button 
-							className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent" : "componentMenuBtn"}
+							className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
 						>
 							{toTitleCase(selectedTank.itemThree.name)}
