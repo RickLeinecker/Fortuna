@@ -88,7 +88,7 @@ class CasusEditor extends React.Component<Props, State> {
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
 		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();};
 		canvas.style.height = '360px';
-
+    
 		this._rerender();
 	}
 

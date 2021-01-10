@@ -42,6 +42,7 @@ class TankDisplay extends React.Component<Props> {
 
 	componentDidMount(): void {
     this._rerender();
+
 		this.alive=true;
     setTimeout(() => this._gameLoop(), 1000/20);
 	}
@@ -69,8 +70,11 @@ class TankDisplay extends React.Component<Props> {
 			//stop updating
 			return;
 		}
-		this._update();
-		this._rerender();
+    this._update();
+    
+    document.addEventListener("DOMContentLoaded", function(event) {
+		  this._rerender();
+    })
 		setTimeout(() => this._gameLoop(), 1000/FPS);
 	}
 
@@ -92,17 +96,15 @@ class TankDisplay extends React.Component<Props> {
 	}
 
 	_rerender(): void {
-    
-    document.addEventListener("DOMContentLoaded", function(event) {
-      const canvas: HTMLCanvasElement = this.refs.canvas;
-      const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-      ctx.fillStyle = '#000921';
-      ctx.clearRect(0, 0, 1e9, 1e9);
-      const drawer=new ImageDrawer(ctx, () => 400, () => 400);
-      drawer.setZoomScale(8);
-      this.props.tankToDisplay.position=new Vec(0, 0);
-      this.props.tankToDisplay.render(drawer);
-    })
+    const canvas: HTMLCanvasElement = this.refs.canvas;
+    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+    ctx.fillStyle = '#000921';
+    ctx.clearRect(0, 0, 1e9, 1e9);
+    const drawer=new ImageDrawer(ctx, () => 400, () => 400);
+    drawer.setZoomScale(8);
+    this.props.tankToDisplay.position=new Vec(0, 0);
+    this.props.tankToDisplay.render(drawer);
+
 	}
 
 	_resizeCanvas(): void {
