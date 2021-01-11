@@ -13,7 +13,12 @@ class MainMenu extends React.Component<{||}> {
 	constructor() {
 		super();
 		verifyLogin();
-	}
+  }
+  
+  componentDidMount() {
+    document.body.style.backgroundImage = "url('/login_background.gif')"
+    document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
+  }
 
 	render(): React.Node {
 		return (
