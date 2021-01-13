@@ -79,7 +79,7 @@ class Armory extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-    document.body.style.backgroundImage = "url('/casus_background.gif')"
+    document.body.style.backgroundImage = "url('/armory_image_revised.png')"
 		// Functions to get all user tanks and user inventory.
 		this.getTanks();
 		this.getUserInventory();
