@@ -2,7 +2,7 @@
 
 import './BattleArena.css';
 import * as React from 'react';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
@@ -106,7 +106,7 @@ class BattleArena extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 		<div id="Parent">
-			<Navbar
+			<MainNavbar
 				returnName="Back to Main Menu"
 				pageName="Battle Arena" 
 				linkName="/MainMenu"

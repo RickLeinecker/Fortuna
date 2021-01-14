@@ -1,37 +1,52 @@
+
+body {
+	color: #04CCFF; 
+  height: 100%;
+  width: 100%;
+}
+
 .casusEditorContainerDiv {
-	background-color: #ffffaa;
-	justifyContent: center;
+  position: absolute;
+  bottom: 10px;
 }
 
 .casusEditorCanvas {
 	background-color: #ffffff;
 	height: 350px;
 	width: 100%;
+	margin-top: 75px;
+	border-radius: 25px;
 }
 
 .undoBtn {
 	background-color: #000921;
-	color: #04CCFF;
+	color: rgb(245, 59, 229);
 	border: 1px solid #04CCFF;
 	margin: 5px;
 	padding: 5px;
 	margin-top: 10px;
-	width: 70px;
+	width: 90px;
+  border-radius: 25px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .undoBtn:hover {
-	color: rgb(0, 114, 143);
-	border: 1px solid rgb(0, 114, 143);
+	color: #04CCFF;
+	border: 1px solid #04CCFF;;
+	border-radius: 25px;
 }
 
 .undoBtn:disabled {
 	cursor: default;
-	background-color: gray;
+  background-color: gray;
+  color: white;
+	border-radius: 25px;
 }
 
 .undoBtn:disabled:hover {
-	color: #04CCFF;
+	color: white;
 	border: 1px solid #04CCFF;
+	border-radius: 25px;
 }
 
 .undoBtnArea {
@@ -40,4 +55,26 @@
 	top: 1;
 	right: 0;
 	z-index: 100;
+	border-radius: 25px;
 }
+
+.testCode {
+  margin-top: 75px;
+  margin-left: 200px;
+  width: 500px;
+  height: 100px;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.footer {
+  margin-top: 50px;  
+  border: 1px solid black;
+  float: left;
+  width:99%;
+  height: 10%;
+  position: fixed;
+  clear: both;
+  margin-top: 900px;
+}
+
+

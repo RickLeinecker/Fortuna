@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+h1 {
+  border-color: black;
+}
+
 .menuright {
     width: 25%;
     margin-top: 10%;
@@ -28,10 +32,11 @@
 	color: #000921;
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
-    border-radius: 8px;
-    padding: 15px;
-    width: 250px;
-    font-size: 20px;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  font-size: 20px;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .mainMenuBtn:disabled {
