@@ -26,8 +26,12 @@ class TankDisplay extends React.Component<Props> {
 	constructor(props: Props) {
 		super();
 		window.addEventListener('resize', this.onResize);
-		imageLoaderInit();
-		addCallbackWhenImageLoaded(()=>this._rerender());
+    imageLoaderInit();
+    // maybe add eventlistener here - BS
+
+    document.addEventListener('DOMContentLoaded', () => {
+      addCallbackWhenImageLoaded(()=>this._rerender());
+    })
 		this.mainGunAngle=0;
 		this.targetGunAngle=0;
 		this.moveGunCounter=0;
@@ -41,9 +45,9 @@ class TankDisplay extends React.Component<Props> {
 	onResize = () => this._rerender();
 
 	componentDidMount(): void {
-		this._rerender();
+    this._rerender();
 		this.alive=true;
-		setTimeout(() => this._gameLoop(), 1000/20);
+    setTimeout(() => this._gameLoop(), 1000/20);
 	}
 
 	componentWillUnmount() {
@@ -69,8 +73,10 @@ class TankDisplay extends React.Component<Props> {
 			//stop updating
 			return;
 		}
-		this._update();
-		this._rerender();
+    this._update();
+    
+    this._rerender();
+
 		setTimeout(() => this._gameLoop(), 1000/FPS);
 	}
 
@@ -92,24 +98,25 @@ class TankDisplay extends React.Component<Props> {
 	}
 
 	_rerender(): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
-		ctx.fillStyle = '#000921';
-		ctx.clearRect(0, 0, 1e9, 1e9);
-		const drawer=new ImageDrawer(ctx, () => 400, () => 400);
-		drawer.setZoomScale(8);
-		this.props.tankToDisplay.position=new Vec(0, 0);
-		this.props.tankToDisplay.render(drawer);
-	}
+    const canvas: HTMLCanvasElement = this.refs.canvas;
+    const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+    ctx.fillStyle = '#000921';
+    ctx.clearRect(0, 0, 1e9, 1e9);
+    const drawer=new ImageDrawer(ctx, () => 400, () => 400);
+    drawer.setZoomScale(8);
+    this.props.tankToDisplay.position=new Vec(0, 0);
+    this.props.tankToDisplay.render(drawer);
+
+}
 
 	_resizeCanvas(): void {
-		const canvas: HTMLCanvasElement = this.refs.canvas;
-		const targetWidth=canvas.clientWidth;
-		const targetHeight=targetWidth*8/16;
-		if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
-			canvas.width = targetWidth;
-			canvas.height = targetHeight;
-		}
+    const canvas: HTMLCanvasElement = this.refs.canvas;
+    const targetWidth=canvas.clientWidth;
+    const targetHeight=targetWidth*8/16;
+    if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+    }
 	}
 
 	_lerp(a: number, b: number, time: number): number {

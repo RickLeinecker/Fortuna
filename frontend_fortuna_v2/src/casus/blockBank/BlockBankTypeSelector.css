@@ -1,14 +1,25 @@
 .paddedButton {
 	margin: 5px;
 	width: 120px;
+	border-radius: 25px;
 }
 
 .blockBankTypeSelectorDiv {
 	background-color: #000921;
 	height: 100%;
 	width: 400px;
+	border-radius: 25px;
 }
 
-.testCodeBtn {
-	margin-left: 2%;
+/* .testCodeBtn {
+  margin-left: 2%;
+  border-radius: 25px;
+} */
+
+.spacing {
+  margin: 10px;
+  margin-right: 100px;
+  border: 1px solid black;
+  background-color: #ff6ec7;
+  font-family: 'Press Start 2P', cursive;
 }

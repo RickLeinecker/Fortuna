@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Battleground from './Battleground.js';
 import HealthBar from './HealthBar.js';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import Tank from '../tanks/Tank.js';
 import DebugLog from './DebugLog.js';
 import getReturnToFromBattlegroundLink from './getReturnToFromBattlegroundLink.js';
@@ -48,7 +48,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		const haveDebug=this.state.debugLines.length!==0;
 		return (
 			<div>
-				<Navbar
+				<MainNavbar
 					linkName={returnTo}
 					returnName='Exit Early'
 					pageName='Battleground'

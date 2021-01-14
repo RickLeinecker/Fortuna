@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import './Marketplace.css';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
@@ -81,7 +81,7 @@ class Marketplace extends React.Component<Props, State> {
 		
 		return (
 			<div id="Parent">
-				<Navbar 
+				<MainNavbar 
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Marketplace"

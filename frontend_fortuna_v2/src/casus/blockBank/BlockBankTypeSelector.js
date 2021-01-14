@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BlockBankTypeSelector.css';
+import { Container, Row, Col, Button } from 'react-bootstrap'
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -15,8 +16,8 @@ class BlockBankTypeSelector extends React.Component<Props> {
 
 	showSection(section: BlockBankType):void {
 		this.props.onSectionClicked(section);
-	}
-
+  }
+  
 	render():React.Node {
 
 		//sections:
@@ -26,51 +27,27 @@ class BlockBankTypeSelector extends React.Component<Props> {
 		//	- Logic (and / or / xor)
 		//	- Lists
 		return (
-			<div className="blockBankTypeSelectorDiv">
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('CONTROL_FLOW')}>
-						Control Flow
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('VARIABLES')}>
-						Variables
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('MATH')}>
-						Math
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('INTS')}>
-						Ints
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('DOUBLES')}>
-						Doubles
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('LOGIC')}>
-						Logic
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('LISTS')}>
-						Lists
-				</button>
-				<button 
-					className="btn paddedButton" 
-					onClick={() => this.showSection('DEBUG')}>
-						Debug
-				</button>
-				<Link to="TrainingArena">
-					<button className="primarybtn testCodeBtn">Test Code</button>
-				</Link>
-			</div>
+      <>
+          <Container fluid>
+          <Row>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('MATH')}>Math</Button></Col>
+          </Row>
+          <Row>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('DOUBLES')}>Doubles</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('LOGIC')}>Logic</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('INTS')}>Integers</Button></Col>
+          </Row>
+          <Row>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('LISTS')}>Lists</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('DEBUG')}>Debug</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => console.log("help goes here")}>Help</Button></Col>
+          </Row>
+        </Container>
+      </>
+
+
 		);
 	}
 

@@ -2,7 +2,7 @@
 
 import './TrainingArena.css';
 import * as React from 'react';
-import Navbar from '../globalComponents/Navbar.js';
+import MainNavbar from '../globalComponents/MainNavbar.js';
 import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
@@ -120,7 +120,7 @@ class TrainingArena extends React.Component<Props, State> {
 		const preferredArena=getPreferredArena(this.state.battleType);
 		return (
 			<div id="Parent">
-				<Navbar 
+				<MainNavbar 
 					linkName="/MainMenu" 
 					returnName="Back to Main Menu" 
 					pageName="Training Arena" 

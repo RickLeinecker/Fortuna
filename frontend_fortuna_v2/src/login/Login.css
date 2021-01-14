@@ -16,17 +16,22 @@
 	width: 40%;
 	text-align: center;
 	border-right: #04CCFF;
-	border-left: #04CCFF;
+  border-left: #04CCFF;
+  border-color: black;
 }
 
 .loginmiddle h1 {
-	color: #04CCFF;
+	color: white;
 	text-shadow:
 		-2px -2px 0 #04213F,
 		2px -2px 0 #04213F,
 		-2px 2px 0 #04213F,
 		2px 2px 0 #04213F;
 	margin-top: 40%;
+}
+
+.loginmiddle h6 {
+  border-color: black;
 }
 
 .fixedHeight {
@@ -38,4 +43,11 @@
 	margin-top: 10%;
 	margin-left: 10%;
 	margin-right: 10%;
+}
+
+body {
+	color: #04CCFF; 
+  height: 100%;
+  width: 100%;
+  background-image: url('/login_background.gif');
 }

@@ -8,6 +8,10 @@ import './BlockBank.css';
 
 import type {BlockBankType} from './BlockBankType.js';
 
+import { Button, Container, Row, Col } from 'react-bootstrap'
+
+import { Link } from 'react-router-dom'
+
 type Props = {|
 	draggedBlocks: ?Array<CasusBlock>,
 	onBlocksDragged: (Array<CasusBlock>) => void,

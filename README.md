@@ -9,10 +9,12 @@
 
 ###       docker-compose up --build
 
-###       once it appears, ctrl+click localhost:3000 in the terminal
+###       once it appears go to localhost:3000 in the browser
 
 ###       make sure that you can log in with your local account
 
 ## 6. To stop containers from running, press ctrl+c in terminal.
 ##    If this does not work, open a new terminal and type the following
 ###           docker-compose stop
+## 7. When installing new npm packages, you will need to type the following
+###     docker-compose down -v

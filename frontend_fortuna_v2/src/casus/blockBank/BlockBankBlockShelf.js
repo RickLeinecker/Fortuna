@@ -60,6 +60,8 @@ import MathAtan2Block from '../blocks/MathAtan2Block.js';
 import MathSqrtBlock from '../blocks/MathSqrtBlock.js';
 import MathPowBlock from '../blocks/MathPowBlock.js';
 
+import { Container } from 'react-bootstrap'
+
 import ContainerBlock from '../blocks/ContainerBlock.js';
 import Vec from '../blocks/Vec.js';
 import './BlockBankBlockShelf.css';
@@ -151,10 +153,12 @@ class BlockBankBlockShelf extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<canvas
-				className="blockBankBlockShelfCanvas"
-				ref="canvas"
-			/>
+      <Container>
+        <canvas
+          className="blockBankBlockShelfCanvas"
+          ref="canvas"
+        />
+      </Container>
 		);
 	}
 
