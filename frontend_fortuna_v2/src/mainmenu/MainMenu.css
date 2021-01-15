@@ -5,6 +5,12 @@
     padding-left: 20px;
     text-align: center;
 }
+.menuleftbottom {
+    width: 25%;
+    margin-top: 60%;
+    padding-left: 20px;
+    text-align: left;
+}
 
 h1 {
   border-color: black;
