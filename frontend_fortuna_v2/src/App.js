@@ -19,7 +19,10 @@ class App extends React.Component<{||}> {
 		return (
       <BrowserRouter>
         <Route path="/" exact component={Login} />
-        <Route path="/MainMenu" exact component={MainMenu} />
+        <Route path="/MainMenu" exact>
+          {({ match }) => <MainMenu show={match !== null} />}
+        </Route>
+        {/* <Route path="/MainMenu" exact component={MainMenu} /> */}
         <Route path="/Marketplace" exact component={Marketplace} />
         <Route path="/BattleArena" exact component={BattleArena} />
         <Route path="/TrainingArena" exact component={TrainingArena} />
