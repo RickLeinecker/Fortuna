@@ -21,6 +21,7 @@ function MainMenu() {
 
 
   useEffect(() => {
+    verifyLogin();
     TweenMax.to(
       mp,
       0.8,
