@@ -6,7 +6,7 @@ import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
-|}; 
+|};
 
 type State = {|
 	userName: string,
@@ -45,9 +45,9 @@ class SignupPopup extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ 
-				userName: this.state.userName, 
-				email: this.state.email, 
+			body: JSON.stringify({
+				userName: this.state.userName,
+				email: this.state.email,
 				password:this.state.password }),
 		});
 		responsePromise.then(
@@ -79,9 +79,11 @@ class SignupPopup extends React.Component<Props, State> {
 		return (
 			<div>
 				<button type="button" className="clearbtn" onClick={() => this.setState({signupDialogOpen: true})}>
-					Signup
+					<div className="logintext">
+						Signup
+					</div>
 				</button>
-				<Popup 
+				<Popup
 					open={this.state.signupDialogOpen}
 					onClose={() => this.handleCancelClick()}
 				>
@@ -90,9 +92,9 @@ class SignupPopup extends React.Component<Props, State> {
 						<div className="row col-md-12">
 							<label>Email</label>
 							<div className="input-group">
-								<input 
-									type="text" 
-									className="inputText" 
+								<input
+									type="text"
+									className="inputText"
 									onChange={e => this.setState({ email: e.target.value})}
 								/>
 							</div>
@@ -100,19 +102,19 @@ class SignupPopup extends React.Component<Props, State> {
 						<div className="row col-md-12">
 							<label>Username</label>
 							<div className="input-group">
-								<input 
-									type="text" 
-									className="inputText" 
-									onChange={e => this.setState({ userName: e.target.value})} 
+								<input
+									type="text"
+									className="inputText"
+									onChange={e => this.setState({ userName: e.target.value})}
 								/>
 							</div>
 						</div>
 						<div className="row col-md-12">
 							<label>Password</label>
 							<div className="input-group">
-								<input 
-									type="password" 
-									className="inputText" 
+								<input
+									type="password"
+									className="inputText"
 									onChange={e => this.setState({ password: e.target.value})}
 								/>
 							</div>
@@ -120,8 +122,8 @@ class SignupPopup extends React.Component<Props, State> {
 						<div className="row col-md-12">
 							<label>Confirm Password</label>
 							<div className="input-group">
-								<input 
-									type="password" 
+								<input
+									type="password"
 									className="inputText"
 									onChange={e => this.setState({confirmPassword: e.target.value})}
 								/>

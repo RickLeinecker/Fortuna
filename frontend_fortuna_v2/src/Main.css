@@ -3,7 +3,7 @@
 }
 
 body {
-	color: #04CCFF; 
+	color: #04CCFF;
   height: 100%;
   width: 100%;
   background-image: url('/landing_gif.gif');
@@ -120,8 +120,9 @@ body {
 
 /* Popup Styling */
 .popup {
-	padding: 5px 50px 20px 50px;
-	background-color: #04213F;
+	font-family: 'Press Start 2P', cursive;
+	padding: 20px 20px 20px 20px;
+	background-color: #00103a;
 }
 
 .popup p {
@@ -240,6 +241,10 @@ body {
 	border-left: none;
 	border-right: none;
 	padding: 5px 25px 0px 0px;
+}
+
+.name {
+	color: #a80b4b;
 }
 
 /* Button Styling */
@@ -416,10 +421,6 @@ select {
 	display: inline-block;
 }
 
-.name {
-	color: #a80b4b;
-}
-
 .vcenter{
 	margin-top: 15%;
 }
@@ -435,7 +436,7 @@ select {
 }
 
 .footer {
-  margin-top: 50px;  
+  margin-top: 50px;
   border: 1px solid black;
   float: left;
   width:99%;
