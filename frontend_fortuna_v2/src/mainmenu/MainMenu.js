@@ -27,7 +27,7 @@ function MainMenu() {
       0.8,
       {
         opacity: 1,
-        y: -70,
+        x: 100,
         ease: Power3.easeOut
       }
     )
@@ -47,7 +47,7 @@ function MainMenu() {
       0.8,
       {
         opacity: 1,
-        y: -70,
+        x: -100,
         ease: Power3.easeOut
       }
     )
