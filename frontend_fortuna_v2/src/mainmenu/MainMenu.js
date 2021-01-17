@@ -18,6 +18,7 @@ function MainMenu() {
   let ba = useRef(null);
   let ta = useRef(null);
   let arm = useRef(null);
+  let hr = useRef(null);
 
 
   useEffect(() => {
@@ -51,6 +52,16 @@ function MainMenu() {
         ease: Power3.easeOut
       }
     )
+
+    TweenMax.to(
+      hr,
+      0.8,
+      {
+        opacity: 1,
+        y: 100,
+        ease: Power3.easeOut
+      }
+    )
     
   }, [])
 
@@ -59,9 +70,9 @@ function MainMenu() {
       <MainNavbar 
         linkName="/Login" 
         returnName="Logout" 
-        pageName="Main Menu" 
+        pageName="Main Menu"
       />
-      <h1 className="menuheader">Where to Commander?</h1>
+      <h1 ref={headerref => {hr = headerref}} className="menuheader">Where to Commander?</h1>
       <div ref={mpref => {mp = mpref}} className="column menuleft">
         <Link to={verifyLink("/Marketplace")}>
           <button className="mainMenuBtn">Marketplace</button>
