@@ -12,6 +12,7 @@ import Tank from '../tanks/Tank.js';
 import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
 import TankDisplay from '../tanks/TankDisplay.js';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
+import {Container, Row, Col} from 'react-bootstrap';
 
 type Props = {|
 	sellerType: SellingType,
@@ -146,18 +147,26 @@ class ListingsView extends React.Component<Props, State> {
 			</div>
 		);
 		return (
-			<div>
+			<Container fluid>
 				<h1>{this.formatTitle(this.props.sellerType)}</h1>
 				{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-					<div>
+					<Row>
 						{this.props.sellerType === 'tank' ? 
-							<div>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</div> : 
-							<div>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</div>
+							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
+							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
 						}
-					</div>
+						{this.props.sellerType === 'tank' ? 
+							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
+							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
+						}
+						{this.props.sellerType === 'tank' ? 
+							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
+							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
+						}
+					</Row>
 				}
 				<ToastContainer />
-			</div>
+			</Container>
 		);
 	}
 }
