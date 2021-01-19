@@ -9,6 +9,7 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import Replays from "../battlearena/Replays";
 import Leaderboard from "../globalComponents/Leaderboard";
 import SelectTank from "../globalComponents/SelectTank";
+import User from '../globalComponents/typesAndClasses/User.js';
 import TankDisplay from "../tanks/TankDisplay";
 import {getAllUsersTanks} from "../globalComponents/apiCalls/tankAPIIntegration";
 import getPreferredSelectedTank from "../globalComponents/getPreferredSelectedTank";
@@ -40,21 +41,23 @@ class MainMenu extends React.Component<Props, State> {
 			allTanks: [],
 			userElo: 0,
 			battleType: '1 vs 1'
-		};
-  }
-  
-  componentDidMount(): void {
 
-    document.body.style.backgroundImage = "url('/login_background.gif')"
-    document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
-	  getAllUsersTanks(allTanks => {
-		  this.setState({
-			  allTanks: allTanks,
-			  selectedTankOne: getPreferredSelectedTank(allTanks)
-		  });
-	  });
-	  getReplayListAPICall(() => {});
-  }
+		};
+	}
+
+	componentDidMount(): void {
+
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
+		getAllUsersTanks(allTanks => {
+			this.setState({
+				allTanks: allTanks,
+				selectedTankOne: getPreferredSelectedTank(allTanks)
+			});
+		});
+		getReplayListAPICall(() => {
+		});
+	}
 
 	render(): React.Node {
 		return (
@@ -66,7 +69,7 @@ class MainMenu extends React.Component<Props, State> {
 				/>
 				<h1 className="menuheader">Where to Commander?</h1>
 				<div className="column menuleft">
-					<Replays />
+					<Replays/>
 					<br/>
 					<Link to={verifyLink("/TrainingArena")}>
 						<button className="mainMenuBtn">Training</button>
@@ -82,7 +85,8 @@ class MainMenu extends React.Component<Props, State> {
 								propogateChangesToCasus={true}
 								allowRemoveTank={false}
 							/>
-							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
+							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> :
+								<TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false}/>}
 						</div> :
 						<div className="threeTankDisplay">
 							<table>
@@ -120,14 +124,18 @@ class MainMenu extends React.Component<Props, State> {
 								<tbody>
 								<tr>
 									<td>
-										{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true} />}
+										{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> :
+											<TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true}/>}
 
 									</td>
 									<td>
-										{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true} />}
+										{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> :
+											<TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true}/>}
 									</td>
 									<td>
-										{this.state.selectedTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankThree} smallTank={true} />}
+										{this.state.selectedTankThree == null ? <div className="emptyTankSmall"></div> :
+											<TankDisplay tankToDisplay={this.state.selectedTankThree}
+														 smallTank={true}/>}
 									</td>
 								</tr>
 								</tbody>
@@ -141,10 +149,7 @@ class MainMenu extends React.Component<Props, State> {
 					<br/>
 					<br/>
 					<br/>
-					<br/>
-					<br/>
-					<br/>
-					<br/>
+
 					<Link to={verifyLink("/BattleArena")}>
 						<button className="mainMenuBtn">Play</button>
 					</Link>
@@ -157,7 +162,7 @@ class MainMenu extends React.Component<Props, State> {
 					</Link>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
