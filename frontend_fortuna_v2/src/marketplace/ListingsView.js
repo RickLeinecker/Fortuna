@@ -52,19 +52,19 @@ const ListingsView = (props) => {
 	const [postsPerPage, setPostsPerPage] = useState(10);
 
 	useEffect(() => {
-		const fetchPosts = async () => {
-			setLoading(true);
-			const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-			setPostsPerPage(res.data);
-			setLoading(false);
-		}
+		// const fetchPosts = async () => {
+		// 	setLoading(true);
+		// 	const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+		// 	setPostsPerPage(res.data);
+		// 	setLoading(false);
+		// }
 
 		getUserAPICall(user => {
 			setUserId(user);
 			getSales(); // TODO(might break)
 		})
 
-		fetchPosts();
+		// fetchPosts();
 	}, []);
 
 	// Once mounted, get the user's ID and set the sales.
@@ -74,7 +74,7 @@ const ListingsView = (props) => {
 	// 	});
 	// }
 
-	// getSales(): void {
+	// //getSales(): void {
 	// 	// Get the market sale tanks and make cards for them.
 	// 	getMarketTanks(this.state.userId, sales => {
 	// 		// If there are tanks to convert, then change them from SaleObject to Tank.
@@ -89,12 +89,16 @@ const ListingsView = (props) => {
 	// 	});
 	// }
 
-	const getSales = (userId, sales) => {
-		if (sales.length !== 0) {
-			convertSalesToTanks(sales);
-		}
-		getMarketSales(userId, sales => {
-			setItemsForSale(sales);
+	const getSales = () => {
+
+      getMarketTanks(userId, sales => {
+        if (sales.length !== 0) {
+          convertSalesToTanks(sales);
+        }
+    
+      getMarketSales(userId, sales => {
+        setItemsForSale(sales);
+      })
 		});
 	}
 
