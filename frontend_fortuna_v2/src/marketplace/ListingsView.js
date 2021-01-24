@@ -42,10 +42,11 @@ type Props = {|
 
 // 	}
 
+
 const ListingsView = (props) => {
 	const [userId, setUserId] = useState('');
 	const [itemsForSale, setItemsForSale] = useState([]);
-	const [tanksForSale, setTanksForSale] = useStates([]);
+	const [tanksForSale, setTanksForSale] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [postsPerPage, setPostsPerPage] = useState(10);
@@ -54,7 +55,7 @@ const ListingsView = (props) => {
 		const fetchPosts = async () => {
 			setLoading(true);
 			const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-			setPosts(res.data);
+			setPostsPerPage(res.data);
 			setLoading(false);
 		}
 
@@ -65,9 +66,6 @@ const ListingsView = (props) => {
 
 		fetchPosts();
 	}, []);
-
-
-}
 
 	// Once mounted, get the user's ID and set the sales.
 	// componentDidMount(): void {
@@ -93,7 +91,7 @@ const ListingsView = (props) => {
 
 	const getSales = (userId, sales) => {
 		if (sales.length !== 0) {
-			this.convertSalesToTanks(sales);
+			convertSalesToTanks(sales);
 		}
 		getMarketSales(userId, sales => {
 			setItemsForSale(sales);
@@ -147,7 +145,7 @@ const ListingsView = (props) => {
 	const buyItem = (sellerId: string, saleId: string) => {
 		marketSale(userId, sellerId, saleId, success => {
 			toast.success("Item Purchased.");
-			this.props.onItemBought();
+			props.onItemBought();
 			getSales();
 		});
 	}
@@ -171,16 +169,13 @@ const ListingsView = (props) => {
 
 	//This function finds the tank that we are looking for based on the id that is passed in 
 	const findTank = (id: string): ? Tank => {
-		for (let i = 0; i < this.state.tanksForSale.length; i++) {
+		for (let i = 0; i < tanksForSale.length; i++) {
 			if (tanksForSale[i]._id === id) {
 				return tanksForSale[i];
 			}
 		}
 	}
 	
-
-
-	render(): React.Node  { 
 		const PaginationMark2 = ({ postsPerPage, totalPosts }) => {
 			const pageNumbers = [];
 
@@ -204,7 +199,7 @@ const ListingsView = (props) => {
 			)
 		}
 
-		this.state.itemsForSale.sort((a, b) => {
+		  itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
 			const secondFactory = b.sellerId === getMasterAccountId();
 			if (firstFactory !== secondFactory) {
@@ -212,8 +207,8 @@ const ListingsView = (props) => {
 			}
 			return a.price/a.amount-b.price/b.amount;
 		});
-		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
-			const tankToUse = this.findTank(sale.name);
+		const tankCards = itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
+			const tankToUse = findTank(sale.name);
 			return (
 				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 					<div className="card-body">
@@ -222,28 +217,28 @@ const ListingsView = (props) => {
 						<h5 className="card-title">Price: ${sale.price}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
 						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
-						<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+						<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 					</div>
 				</div>
 			);
 		});
-		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
+		const itemCards = itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === props.sellerType).map((sale, index) =>
 			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
 					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 					<h5 className="card-title">{toTitleCase(sale.name)}</h5>
 					<h5 className="card-title">Price: ${sale.price}</h5>
 					<h5 className="card-title">Quantity: {sale.amount}</h5>
-					<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+					<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 				</div>
 			</div>
 		);
 		return (
 			<Container fluid>
-				<h1>{this.formatTitle(this.props.sellerType)}</h1>
-				{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
+				<h1>{formatTitle(props.sellerType)}</h1>
+				{itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
 					<div>
-						{this.props.sellerType === 'tank' ? 
+						{props.sellerType === 'tank' ? 
 							<div sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</div> : 
 							<div sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</div>
 						}
@@ -252,7 +247,6 @@ const ListingsView = (props) => {
 				<ToastContainer />
 			</Container>
 		);
-	}
 }
 
 export default ListingsView;
