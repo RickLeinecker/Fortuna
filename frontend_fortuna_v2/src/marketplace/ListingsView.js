@@ -12,54 +12,113 @@ import Tank from '../tanks/Tank.js';
 import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
 import TankDisplay from '../tanks/TankDisplay.js';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
-import {Container, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col, Pagination} from 'react-bootstrap';
+import {useState, useEffect, Fragment} from 'react';
+import axios from 'axios';
 
 type Props = {|
 	sellerType: SellingType,
 	onItemBought: () => void,
 |};
 
-type State = {|
-	userId: string,
-	itemsForSale: Array<SaleObject>,
-	tanksForSale: Array<Tank>
-|};
+// type State = {|
+// 	userId: string,
+// 	itemsForSale: Array<SaleObject>,
+// 	tanksForSale: Array<Tank>
+// |};
 
+// const indexOfLastPost = currentPage * postsPerPage;
+// const indexOfFirstPost = indexOfLastPost - postsPerPage;
+// const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-class ListingsView extends React.Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
-		this.state = {
-			userId: '',
-			itemsForSale: [],
-			tanksForSale: []
+// class ListingsView extends React.Component<Props, State> {
+// 	constructor(props: Props) {
+// 		super(props);
+// 		this.state = {
+// 			userId: '',
+// 			itemsForSale: [],
+// 			tanksForSale: []
+// 		}
+
+// 	}
+
+const ListingsView = (props) => {
+	const [userId, setUserId] = useState('');
+	const [itemsForSale, setItemsForSale] = useState([]);
+	const [tanksForSale, setTanksForSale] = useStates([]);
+	const [loading, setLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [postsPerPage, setPostsPerPage] = useState(10);
+
+	useEffect(() => {
+		const fetchPosts = async () => {
+			setLoading(true);
+			const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+			setPosts(res.data);
+			setLoading(false);
 		}
-	}
+
+		getUserAPICall(user => {
+			setUserId(user);
+			getSales(); // TODO(might break)
+		})
+
+		fetchPosts();
+	}, []);
+
+
+}
 
 	// Once mounted, get the user's ID and set the sales.
-	componentDidMount(): void {
-		getUserAPICall(user => {
-			this.setState({userId: user.userId}, this.getSales);
+	// componentDidMount(): void {
+	// 	getUserAPICall(user => {
+	// 		this.setState({userId: user.userId}, this.getSales);
+	// 	});
+	// }
+
+	// getSales(): void {
+	// 	// Get the market sale tanks and make cards for them.
+	// 	getMarketTanks(this.state.userId, sales => {
+	// 		// If there are tanks to convert, then change them from SaleObject to Tank.
+	// 		if (sales.length !== 0) {
+	// 			this.convertSalesToTanks(sales);
+	// 		}
+	// 	});
+
+	// 	// Get the market sale components and make cards for them.
+	// 	getMarketSales(this.state.userId, sales => {
+	// 		this.setState({itemsForSale: sales});
+	// 	});
+	// }
+
+	const getSales = (userId, sales) => {
+		if (sales.length !== 0) {
+			this.convertSalesToTanks(sales);
+		}
+		getMarketSales(userId, sales => {
+			setItemsForSale(sales);
 		});
 	}
 
-	getSales(): void {
-		// Get the market sale tanks and make cards for them.
-		getMarketTanks(this.state.userId, sales => {
-			// If there are tanks to convert, then change them from SaleObject to Tank.
-			if (sales.length !== 0) {
-				this.convertSalesToTanks(sales);
-			}
-		});
+	// // Converts SaleObject to Tank.
+	// convertSalesToTanks(saleTanks: Array<SaleObject>): void {
+	// 	// Find the tank Ids from the Array of SaleObject.
+	// 	const tankIds: Array<string> = [];
+	// 	for(let i = 0; i < saleTanks.length; i++) {
+	// 		if(saleTanks[i].tankId == null) {
+	// 			throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
+	// 		}
+	// 		tankIds.push(saleTanks[i].tankId);
+	// 	}
 
-		// Get the market sale components and make cards for them.
-		getMarketSales(this.state.userId, sales => {
-			this.setState({itemsForSale: sales});
-		});
-	}
+	// 	// Get all of the tanks by Id.
+	// 	getTanksById(tankIds, tanksReturned => {
+	// 		this.setState({tanksForSale: tanksReturned});
+	// 	});
+	// }
 
 	// Converts SaleObject to Tank.
-	convertSalesToTanks(saleTanks: Array<SaleObject>): void {
+	const convertSalesToTanks = (saleTanks: Array<SaleObject>) => {
 		// Find the tank Ids from the Array of SaleObject.
 		const tankIds: Array<string> = [];
 		for(let i = 0; i < saleTanks.length; i++) {
@@ -71,21 +130,30 @@ class ListingsView extends React.Component<Props, State> {
 
 		// Get all of the tanks by Id.
 		getTanksById(tankIds, tanksReturned => {
-			this.setState({tanksForSale: tanksReturned});
+			setTanksForSale(tanksReturned);
 		});
 	}
 
+	// // When an item is purchased, update the sale listings.
+	// buyItem (sellerId: string, saleId: string): void {
+	// 	marketSale(this.state.userId, sellerId, saleId, success => {
+	// 		toast.success("Item Purchased.");
+	// 		this.props.onItemBought();
+	// 		this.getSales();
+	// 	});
+	// }
+
 	// When an item is purchased, update the sale listings.
-	buyItem (sellerId: string, saleId: string): void {
-		marketSale(this.state.userId, sellerId, saleId, success => {
+	const buyItem = (sellerId: string, saleId: string) => {
+		marketSale(userId, sellerId, saleId, success => {
 			toast.success("Item Purchased.");
 			this.props.onItemBought();
-			this.getSales();
+			getSales();
 		});
 	}
 
 	//This formats the title of the listing views
-	formatTitle(title:string) {
+	const formatTitle = (title:string) => {
 		// Did this because title is a const and I need to reassign the title
 		let formattedTitle = title;
 		// Capitalizes the first letter
@@ -102,16 +170,40 @@ class ListingsView extends React.Component<Props, State> {
 	}
 
 	//This function finds the tank that we are looking for based on the id that is passed in 
-	findTank(id: string): ?Tank {
+	const findTank = (id: string): ? Tank => {
 		for (let i = 0; i < this.state.tanksForSale.length; i++) {
-			if (this.state.tanksForSale[i]._id === id) {
-				return this.state.tanksForSale[i];
+			if (tanksForSale[i]._id === id) {
+				return tanksForSale[i];
 			}
 		}
 	}
-	  
+	
+
 
 	render(): React.Node  { 
+		const PaginationMark2 = ({ postsPerPage, totalPosts }) => {
+			const pageNumbers = [];
+
+			for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+				pageNumbers.push(i);
+			}
+			
+			return (
+				<nav>
+					<ul className="pagination">
+						{pageNumbers.map(number=> (
+							<li key={number} className="page-item">
+								<a href="!#" className='page-link'>
+									{number}
+								</a>
+							</li>
+						))}
+
+					</ul>
+				</nav>
+			)
+		}
+
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
 			const secondFactory = b.sellerId === getMasterAccountId();
@@ -130,7 +222,7 @@ class ListingsView extends React.Component<Props, State> {
 						<h5 className="card-title">Price: ${sale.price}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
 						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
-						<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+						<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 					</div>
 				</div>
 			);
@@ -142,7 +234,7 @@ class ListingsView extends React.Component<Props, State> {
 					<h5 className="card-title">{toTitleCase(sale.name)}</h5>
 					<h5 className="card-title">Price: ${sale.price}</h5>
 					<h5 className="card-title">Quantity: {sale.amount}</h5>
-					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+					<button className="btn btn-success mt-2" style = {{height: '40px', width : '120px'}} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 				</div>
 			</div>
 		);
@@ -150,20 +242,12 @@ class ListingsView extends React.Component<Props, State> {
 			<Container fluid>
 				<h1>{this.formatTitle(this.props.sellerType)}</h1>
 				{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-					<Row>
+					<div>
 						{this.props.sellerType === 'tank' ? 
-							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
-							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
+							<div sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</div> : 
+							<div sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</div>
 						}
-						{this.props.sellerType === 'tank' ? 
-							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
-							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
-						}
-						{this.props.sellerType === 'tank' ? 
-							<Col sm={4}>{tankCards.length === 0 ? <h5>No Tanks for Sale</h5> : tankCards}</Col> : 
-							<Col sm={4}>{itemCards.length === 0 ? <h5>No Active Sales</h5> : itemCards}</Col>
-						}
-					</Row>
+					</div>
 				}
 				<ToastContainer />
 			</Container>

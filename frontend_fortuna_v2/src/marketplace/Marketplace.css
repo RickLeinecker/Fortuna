@@ -23,3 +23,8 @@
 	background-color: #04213F;
 	color: #04CCFF;
 }
+
+.btn btn-success mt-2 {
+	width: "100px";
+	height: "100px";
+}
