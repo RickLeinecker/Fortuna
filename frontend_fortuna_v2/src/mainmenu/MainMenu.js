@@ -51,12 +51,12 @@ const MainMenu  = () => {
             "THIS IS HOW YOU USE STUFF"
         },
         {
-          target: ".credits",
-          content: "HI AGAIN"
-        },
-        {
           target: ".train",
           content: "TRAIN!!!!"
+        },
+        {
+          target: '.threeTankDisplay',
+          content: "The tank"
         }
       ])
 
@@ -176,7 +176,7 @@ const MainMenu  = () => {
           <Leaderboard/>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn credits">Credits</button>
+            <button className="mainMenuBtn">Credits</button>
           </Link>
         </div>
       </div>
