@@ -348,6 +348,50 @@ body {
   font-family: 'Press Start 2P', cursive;
 }
 
+.loginprimarybtn {
+	position: relative;
+	background: none;
+	color: #04CCFF;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: 0.2em solid #04CCFF;
+	padding: 0.5em 1em;
+	font-family: 'Press Start 2P', cursive;
+}
+.loginprimarybtn::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 10%;
+	background: #000921;
+	height: 0.3em;
+	right: 20%;
+	top: -0.21em;
+	transform: skewX(-45deg);
+	-webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+	transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+}
+.loginprimarybtn::after {
+	 content: "";
+	 display: block;
+	 position: absolute;
+	 width: 10%;
+	 background: #000921;
+	 height: 0.3em;
+	 left: 20%;
+	 bottom: -0.25em;
+	 transform: skewX(45deg);
+	 -webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
+	 transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+ }
+.loginprimarybtn:hover::before {
+	right: 80%;
+}
+
+.loginprimarybtn:hover::after {
+	left: 80%;
+}
+
 .primarybtn::before {
 	content: "";
 	display: block;
