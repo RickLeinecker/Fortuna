@@ -1,11 +1,12 @@
 //@flow strict
 
 import * as React from 'react';
+import './Login.css';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { ToastContainer , toast } from 'react-toastify';
 
-type Props = {||}; 
+type Props = {||};
 
 type State = {|
 	email: string,
@@ -66,13 +67,15 @@ class ResendEmailPopup extends React.Component<Props, State> {
 		const cancelButton = (
 			<button className="cancelbtn" onClick={() => this.handleCancelClick()}>Cancel</button>
 		);
-		
+
 		return (
 			<div>
 				<button type="button" className="clearbtn" onClick={() => this.setState({popupOpen: true})}>
-					Resend Confirmation Email
+					<div className="logintext">
+						Resend Confirmation Email
+					</div>
 				</button>
-				<Popup 
+				<Popup
 					open={this.state.popupOpen}
 					onClose={() => this.handleCancelClick()}
 				>
@@ -80,12 +83,12 @@ class ResendEmailPopup extends React.Component<Props, State> {
 						<div className="row col-md-12">
 							<label>Email</label>
 							<div className="input-group">
-								<input 
-									type="text" 
-									className="inputText" 
-									name="email" 
-									value={this.state.email} 
-									onChange={e => this.setState({ email: e.target.value})} 
+								<input
+									type="text"
+									className="inputText"
+									name="email"
+									value={this.state.email}
+									onChange={e => this.setState({ email: e.target.value})}
 								/>
 							</div>
 						</div>
