@@ -45,6 +45,8 @@ class SignupPopup extends React.Component<Props, State> {
 			toast.error('Passwords do not match!');
 			return;
 		}
+
+		// Age verification
 		const birthDate = new Date(this.state.birthYear, (+this.state.birthMonth-1), this.state.birthDay)
 		const today = new Date(Date.now());
 		const isValidDate = (Boolean(+birthDate) && this.state.birthYear > (today.getFullYear() - 150) && this.state.birthYear <= today.getFullYear() && birthDate.getDate() == this.state.birthDay && birthDate.getMonth() == (this.state.birthMonth-1));
