@@ -36,7 +36,7 @@ class Leaderboard extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="leaderboard">
+			<div className='leaderboard'>
 				<h4>Top Commanders</h4>
 				<table>
 					<tbody>

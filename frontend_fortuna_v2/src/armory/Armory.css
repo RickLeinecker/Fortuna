@@ -88,9 +88,12 @@
 }
 
 .tankListBtn {
+
     color: #0062ff;
     border: none;
     background: none;
+    background-color: #04213F;
+    border: 4px solid black;
 }
 
 .removeTankBtn {
