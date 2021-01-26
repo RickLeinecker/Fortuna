@@ -243,6 +243,10 @@ body {
 	padding: 5px 25px 0px 0px;
 }
 
+.leaderboard #name {
+	color: #a80b4b;
+}
+
 .name {
 	color: #a80b4b;
 }

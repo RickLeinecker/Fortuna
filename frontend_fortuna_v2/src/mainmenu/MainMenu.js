@@ -150,7 +150,9 @@ const MainMenu  = () => {
 				</Link>
 			</div>
 			<div className="column menuright">
-				<Leaderboard/>
+				<div className="leaderboard">
+					<Leaderboard/>
+				</div>
 				<br/>
 				<Link to={verifyLink("/Credits")}>
 					<button className="mainMenuBtn">Credits</button>
