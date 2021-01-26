@@ -28,7 +28,7 @@ class BlockBankTypeSelector extends React.Component<Props> {
 		//	- Lists
 		return (
       <>
-          <Container fluid>
+        <Container className="blockTypeSelect" fluid>
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables</Button></Col>

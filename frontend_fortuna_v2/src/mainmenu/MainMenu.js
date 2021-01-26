@@ -55,8 +55,8 @@ const MainMenu  = () => {
           content: "TRAIN!!!!"
         },
         {
-          target: '.threeTankDisplay',
-          content: "The tank"
+          target: '.tankSelect',
+          content: "The navbar"
         }
       ])
 
@@ -80,11 +80,13 @@ const MainMenu  = () => {
 	return (
     <>
       <div id="Parent">
-        <MainNavbar
-          linkName="/Login"
-          returnName="Logout"
-          pageName="Main Menu"
-        />
+        <div className="tankSelect">
+          <MainNavbar
+            linkName="/Login"
+            returnName="Logout"
+            pageName="Main Menu"
+          />
+        </div>
         <h1 className="menuheader">Where to Commander?</h1>
         <div className="column menuleft">
           <Replays/>
@@ -189,8 +191,8 @@ const MainMenu  = () => {
               arrowColor: '#e3ffeb',
               backgroundColor: 'rgb(245, 59, 229)',
               overlayColor: 'rgba(79, 26, 0, 0.4)',
-              primaryColor: 'black',
-              textColor: 'white',
+              primaryColor: 'mediumaquamarine',
+              textColor: '#333',
               width: 200,
               zIndex: 1000,
             }

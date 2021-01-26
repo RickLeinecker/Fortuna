@@ -10,8 +10,9 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import {ToastContainer} from 'react-toastify';
-import { Container, Row, Col, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import JoyRide from 'react-joyride';
 
 type Props = {||};
 
@@ -27,7 +28,26 @@ class CasusContainer extends React.Component<Props, State> {
 		verifyLogin();
 		this.state = {
 			draggedBlocks: null,
-			tankName: 'loading tank...'
+      tankName: 'loading tank...',
+      tour_steps: [
+        {
+          target: ".mt-12",
+          content: "code canvas",
+        },
+        {
+          target: ".blockTypeSelect",
+          content: "choose module type"
+        },
+        {
+          target: ".blockShelf",
+          content: "choose a module for a type"
+        },
+        {
+          target: ".testCode",
+          content: "test code here"
+        }
+      ],
+      run: true
 		};
 
 		const tankId=getTankForCasus();
@@ -48,7 +68,7 @@ class CasusContainer extends React.Component<Props, State> {
 				/>
         <Container fluid>
           <Row className="mt-12">
-            <Col>
+            <Col className="editor">
               <CasusEditor 
                 draggedBlocks={this.state.draggedBlocks}
                 onBlocksDragged={this.onBlocksDragged} 
@@ -57,16 +77,11 @@ class CasusContainer extends React.Component<Props, State> {
             </Col>
           </Row>
           <br></br>
-          <Row>
-            <Col>
-              <BlockBank 
-              draggedBlocks={this.state.draggedBlocks}
-              onBlocksDragged={this.onBlocksDragged} 
-              onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-              />
-            </Col>
-          </Row>
-          <ToastContainer />
+          <BlockBank 
+            draggedBlocks={this.state.draggedBlocks}
+            onBlocksDragged={this.onBlocksDragged} 
+            onDraggedBlocksReleased={this.onDraggedBlocksReleased}
+          />
         </Container>
         <Container>
           <Row>
@@ -78,6 +93,18 @@ class CasusContainer extends React.Component<Props, State> {
         <div class="footer">
           <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
         </div>
+        <ToastContainer />
+        <JoyRide 
+          steps={this.state.tour_steps}
+          run={this.state.run}
+          continuous={true} 
+          styles={{
+            options: {
+              zIndex: 1000,
+              spotlightShadow: 'blue'
+            }
+          }}
+      />
       </>
 		);
 	}
