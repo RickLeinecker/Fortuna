@@ -9,7 +9,7 @@
 	width: 30%;
 	padding-right: 2%;
 	text-align: center;
-	margin-top: 25%;
+	margin-top: 21.25%;
 }
 
 .loginmiddle {
@@ -19,6 +19,10 @@
   border-left: #04CCFF;
   border-color: black;
 
+}
+
+.loginmiddle #DOBlabel{
+	text-align: left;
 }
 
 .loginmiddle h1 {
@@ -35,6 +39,53 @@
   border-color: black;
 }
 
+.loginbtn {
+	position: relative;
+	background: none;
+	color: #FFFFFF;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: 0.2em solid #FFFFFF;
+  padding: 0.5em 1em;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.loginbtn::before {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 10%;
+	background: #000921;
+	height: 0.3em;
+	right: 20%;
+	top: -0.21em;
+	transform: skewX(-45deg);
+	-webkit-transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+	transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.loginbtn::after {
+	content: "";
+	display: block;
+	position: absolute;
+	width: 10%;
+	background: #000921;
+	height: 0.3em;
+	left: 20%;
+	bottom: -0.25em;
+	transform: skewX(45deg);
+	-webkit-transition: all 0.45 cubic-bezier(0.86, 0, 0.07, 1);
+	transition: all 0.45s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.loginbtn:hover::before {
+	right: 80%;
+}
+
+.loginbtn:hover::after {
+	left: 80%;
+}
+
 .middlecolumn {
 	display: inline-block;
 }
@@ -49,7 +100,13 @@
 }
 
 .infotext {
-	color: #20ffff;
+	/*color: #20ffff;*/
+	color: #ffffff;
+	text-shadow:
+		-2px -2px 0 #04213F,
+		2px -2px 0 #04213F,
+		-2px 2px 0 #04213F,
+		2px 2px 0 #04213F;
 }
 
 .fixedHeight {
@@ -94,6 +151,20 @@
 
 .loginleader #title {
 	color: #20ffff;
+}
+
+.input-group input#day {
+    width: 3em;
+    margin-right: 15px
+}
+
+.input-group input#month {
+    width: 5em;
+    margin-right: 15px
+}
+
+.input-group input#year {
+    width: 5em;
 }
 
 body {

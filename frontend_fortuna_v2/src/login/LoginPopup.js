@@ -136,7 +136,7 @@ class LoginPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<button type="button" className="primarybtn" onClick={() => this.setState({loginDialogOpen: true})}>
+				<button type="button" className="loginbtn" onClick={() => this.setState({loginDialogOpen: true})}>
 					Login
 				</button>
 				<Popup

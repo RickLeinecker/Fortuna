@@ -1,8 +1,10 @@
 //@flow strict
 import * as React from 'react';
+import './Login.css';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { ToastContainer , toast } from 'react-toastify';
+// import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, DropdownButton } from 'reactstrap';
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
@@ -14,6 +16,7 @@ type State = {|
 	password: string,
 	confirmPassword: string,
 	email: string,
+	dob: boolean,
 	signupDialogOpen: boolean
 |};
 
@@ -29,6 +32,10 @@ class SignupPopup extends React.Component<Props, State> {
 			email: '',
 			password: '',
 			confirmPassword: '',
+			dateofbirth: '',
+			birthMonth: '',
+			birthDay: '',
+			birthYear: '',
 			signupDialogOpen: false
 		}
 	}
@@ -38,6 +45,28 @@ class SignupPopup extends React.Component<Props, State> {
 			toast.error('Passwords do not match!');
 			return;
 		}
+		const birthDate = new Date(this.state.birthYear, (+this.state.birthMonth-1), this.state.birthDay)
+		const today = new Date(Date.now());
+		const isValidDate = (Boolean(+birthDate) && this.state.birthYear > (today.getFullYear() - 150) && this.state.birthYear <= today.getFullYear() && birthDate.getDate() == this.state.birthDay && birthDate.getMonth() == (this.state.birthMonth-1));
+
+		if (!isValidDate) {
+			toast.error('Invalid Birthday');
+			return;
+		}
+
+		const ageMs = today - birthDate;
+		const ageDate = new Date(ageMs);
+		const age = ageDate.getUTCFullYear() - 1970;
+
+		if(age < 0) {
+			toast.error('No time-travellers allowed');
+			return;
+		}
+		else if (age < 13) {
+			toast.error('You must be 13 years or older to play Fortuna');
+			return;
+		}
+
 		const responsePromise: Promise<Response> = fetch('/api/user/registerUser', {
 			method: 'POST',
 			headers: {
@@ -127,6 +156,35 @@ class SignupPopup extends React.Component<Props, State> {
 									className="inputText"
 									onChange={e => this.setState({confirmPassword: e.target.value})}
 								/>
+							</div>
+						</div>
+						<div className="row col-md-12">
+							<label id="DOBlabel">Date of Birth <br /> Month  Day  Year</label>
+							<div className="input-group">
+						     <input id="month"
+							     type="text"
+								className="inputText"
+								placeholder="MM"
+							     name="month"
+							     maxLength="2"
+							     onChange={e => this.setState({ birthMonth: e.target.value})}
+						     />
+						     <input id="day"
+							     type="text"
+								className="inputText"
+								placeholder="DD"
+							     name="day"
+							     maxLength="2"
+							     onChange={e => this.setState({ birthDay: e.target.value})}
+						     />
+          					<input id="year"
+							     type="text"
+								className="inputText"
+								placeholder="YYYY"
+						          name="year"
+						          maxLength="4"
+						          onChange={e => this.setState({ birthYear: e.target.value})}
+					     	/>
 							</div>
 						</div>
 						<br/>
