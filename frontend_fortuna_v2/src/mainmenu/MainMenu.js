@@ -57,6 +57,18 @@ const MainMenu  = () => {
         {
           target: '.tankSelect',
           content: "The navbar"
+        },
+        {
+          target: ".battleRecord",
+          content: "See battle records here"
+        },
+        {
+          target: ".creditsButton",
+          content: "Check out the creators"
+        },
+        {
+          target: ".leaderboardTut",
+          content: "See Leaderboard"
         }
       ])
 
@@ -88,7 +100,7 @@ const MainMenu  = () => {
           />
         </div>
         <h1 className="menuheader">Where to Commander?</h1>
-        <div className="column menuleft">
+        <div className="column menuleft battleRecord">
           <Replays/>
           <br/>
           <Link to={verifyLink("/TrainingArena")}>
@@ -174,11 +186,11 @@ const MainMenu  = () => {
             <button className="mainMenuBtn play">Play</button>
           </Link>
         </div>
-        <div className="column menuright">
+        <div className="column menuright leaderboardTut">
           <Leaderboard/>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn">Credits</button>
+            <button className="mainMenuBtn creditsButton">Credits</button>
           </Link>
         </div>
       </div>
@@ -188,13 +200,8 @@ const MainMenu  = () => {
           continuous={true} 
           styles={{
             options: {
-              arrowColor: '#e3ffeb',
-              backgroundColor: 'rgb(245, 59, 229)',
-              overlayColor: 'rgba(79, 26, 0, 0.4)',
-              primaryColor: 'mediumaquamarine',
-              textColor: '#333',
-              width: 200,
               zIndex: 1000,
+              spotlightShadow: 'blue'
             }
           }}
       />
