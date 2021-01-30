@@ -39,7 +39,7 @@ class BlockBank extends React.Component<Props, State> {
 				<div>
 					<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
 				</div>
-				<div className="flexRight">
+				<div className="flexRight blockShelf">
 					<BlockBankBlockShelf
 						selectedSection={this.state.selectedSection} 
 						{...this.props}
