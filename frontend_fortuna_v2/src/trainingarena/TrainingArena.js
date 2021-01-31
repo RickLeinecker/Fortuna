@@ -22,6 +22,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
+import JoyRide from 'react-joyride'
 
 type Props = {||};
 
@@ -51,7 +52,34 @@ class TrainingArena extends React.Component<Props, State> {
 			botTankTwo: null,
 			botTankThree: null,
 			botTanks: [],
-			battleType: getPreferredBattleType(),
+      battleType: getPreferredBattleType(),
+      tour_steps: [
+        {
+          target: ".taright",
+          content: "Choose training opponent",
+        },
+        {
+          target: ".leftTank",
+          content: "Choose your tank for training here"
+        },
+        {
+          target: ".changeType",
+          content: "Change battle type here"
+        },
+        {
+          target: ".startTrain",
+          content: "Start training battle here"
+        },
+        {
+          target: ".chooseArena",
+          content: "Choose Arena Type here"
+        },
+        {
+          target: ".casusLink",
+          content: "Back to Casus Here"
+        }
+      ],
+      run: true
 		};
 	}
 
@@ -130,7 +158,7 @@ class TrainingArena extends React.Component<Props, State> {
 					<h5>Choose your Tank, Commander</h5>
 					<br/>
 					{(this.state.battleType === '1 vs 1') ?
-						<div>
+						<div className="leftTank">
 							<SelectTank
 								selectedTank={this.state.selectedTankOne}
 								allTanks={this.state.allTanks}
@@ -194,7 +222,7 @@ class TrainingArena extends React.Component<Props, State> {
 				<div className="column tamiddle">
 					<h5>Current Battle Type: {this.state.battleType}</h5>
 					<button 
-						className="primarybtn" 
+						className="primarybtn changeType" 
 						onClick={() => this.onChangeBattleTypeClicked()}
 					>
 						Change Battle Type
@@ -203,7 +231,7 @@ class TrainingArena extends React.Component<Props, State> {
 					<h5>Arena</h5>
 					{ this.state.battleType === '1 vs 1' ? 
 						<select 
-							className="dropdownMenu" 
+							className="dropdownMenu chooseArena" 
 							ref="arenaSelect" 
 							defaultValue={preferredArena} 
 							onChange={() => this.onChange()}
@@ -213,7 +241,7 @@ class TrainingArena extends React.Component<Props, State> {
 						</select>
 					:
 						<select 
-							className="dropdownMenu" 
+							className="dropdownMenu chooseArena" 
 							ref="arenaSelect" 
 							defaultValue={preferredArena} 
 							onChange={() => this.onChange()}
@@ -226,14 +254,14 @@ class TrainingArena extends React.Component<Props, State> {
 					<br/><br/><br/>
 					<button 
 						type="button" 
-						className="primarybtn" 
+						className="primarybtn startTrain" 
 						onClick={() => this.onClickStartBattle()}
 					>
 						Start Battle
 					</button>
 					<br/><br/>
 					<Link to={verifyLink("/Casus")}>
-						<button className="smallbtn">Casus</button>
+						<button className="smallbtn casusLink">Casus</button>
 					</Link>
 				</div>
 				<div className="column taright">
@@ -302,6 +330,17 @@ class TrainingArena extends React.Component<Props, State> {
 					}
 				</div>
 				<ToastContainer />
+        <JoyRide 
+          steps={this.state.tour_steps}
+          run={this.state.run}
+          continuous={true} 
+          styles={{
+            options: {
+              zIndex: 1000,
+              spotlightShadow: 'blue'
+            }
+          }}
+      />
 			</div>
 		)
 	}

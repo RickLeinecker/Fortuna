@@ -7,28 +7,33 @@ import Popup from 'reactjs-popup';
 class InfoPopup extends React.Component<{||}> {
 	render(): React.Node {
 		return (
-			<Popup 
+			<Popup
 				trigger = {
 					<button className="clearbtn">
-						<h5>&#60; Fortuna Briefing &#62;</h5>
+						<div className="infotext">
+							<h5>&#60;Fortuna Briefing&#62;</h5>
+						</div>
 					</button>
 				} modal>
 				{close => (
 					<div className="popup">
-						<h2>Fortuna Version 1.0</h2>
+						<h2>Fortuna Version 2.0</h2>
 						<p>
 							Fortuna is a tank simulation game available online for free.
 							Players can build and customize their tanks and instead of manually
 							controlling their tank, they will build an AI to control it.
 							<br />
 							<br />
-							Fortuna is meant to teach players simple AI and simple programming.
+							Fortuna's goal is to teach players simple AI and simple programming.
 							<br />
 							<br />
-							Creators: Adam Blair, Emil Dolorfino, Jorge Vidal, Baylor Maloney, David Harmeyer
+							v2 Team: William Bechtel, John Cordero, Sarinda Samarasinghe, Brittanie Staton
+							<br />
+							v1 Team: Adam Blair, Emil Dolorfino, David Harmeyer, Baylor Maloney, Jorge Vidal
 							<br />
 							Sponsor: Richard Leinecker
 						</p>
+						<br />
 						<button className="closebtn" onClick={() => { close(); }}>Close</button>
 					</div>
 				)}

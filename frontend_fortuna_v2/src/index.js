@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+
 import ReactDOM from 'react-dom';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import App from './App.js';
@@ -14,12 +15,14 @@ import TrainingArena from './trainingarena/TrainingArena.js';
 import BattlegroundContainer from './battleground/BattlegroundContainer.js';
 import ConfirmEmail from './login/ConfirmEmail.js';
 import ResetPassword from './login/ResetPassword.js';
+import {Fragment} from "react";
 
 // The routing const holds the paths to other react components.
 const routing = (
 	<Router>
 		<div>
 			<Switch>
+				<Fragment>
 				<Route exact path="/" component={App} />
 				<Route path="/Login" component={Login} />
 				<Route path="/MainMenu" component={MainMenu} />
@@ -31,6 +34,7 @@ const routing = (
 				<Route path="/Battleground" component={BattlegroundContainer} />
 				<Route path = '/ConfirmEmail/:token/:email' component= {ConfirmEmail}/>
 				<Route path='/ResetPassword/:token/:email' component={ResetPassword}/>
+				</Fragment>
 			</Switch>
 		</div>
 	</Router>
