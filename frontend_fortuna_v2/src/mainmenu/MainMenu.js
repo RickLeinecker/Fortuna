@@ -1,9 +1,8 @@
 //@flow strict
 
 import './MainMenu.css';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {Fragment, useState, useEffect} from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
@@ -178,16 +177,13 @@ const MainMenu  = () => {
           <Link to={verifyLink("/Casus")}>
             <button className="mainMenuBtn editTank">Edit Tank Code</button>
           </Link>
-          <br/>
-          <br/>
-          <br/>
-
+          <div className="divider" />
           <Link to={verifyLink("/BattleArena")}>
             <button className="mainMenuBtn play">Play</button>
           </Link>
         </div>
-        <div className="column menuright leaderboardTut">
-          <Leaderboard/>
+        <div className="column menuright">
+          <Leaderboard className="leaderboardTut"/>
           <br/>
           <Link to={verifyLink("/Credits")}>
             <button className="mainMenuBtn creditsButton">Credits</button>
