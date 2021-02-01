@@ -35,6 +35,7 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
+import { TweenMax, Power3 } from 'gsap'
 
 function Armory() {
 
@@ -51,8 +52,12 @@ function Armory() {
 	const [componentList, setComponentList] = useState([]);
 	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
 	const [points, setPoints] = useState(0);
-	const SetWagerPopupRef = useRef(null);
-	const navbarRef = useRef(null);
+	let SetWagerPopupRef = useRef(null);
+	let navbarRef = useRef(null);
+
+	let armleft = useRef(null);
+	let armMid = useRef(null);
+	let armright = useRef(null);
 
 	useEffect(() => {
 		verifyLogin();
@@ -60,6 +65,11 @@ function Armory() {
 		// Functions to get all user tanks and user inventory.
 		getTanks();
 		getUserInventory();
+
+		 TweenMax.from(armleft, 1.5, {opacity: 0, x: -200, ease: Power3.easeInOut});
+		 TweenMax.from(armMid, 1.5, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
+		 TweenMax.from(armright, 1.5, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+
 	}, [])
 
 	useEffect(() => {
@@ -286,6 +296,7 @@ function Armory() {
 		const navbar = navbarRef;
 		navbar.reloadNavbar();
 	}
+
 	
 	return (
 		<div id="Parent">
@@ -299,7 +310,7 @@ function Armory() {
 					'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				]}
 			/>
-			<div className="column armoryleft">
+			<div className="column armoryleft" ref={el => armleft = el}>
 				<h4 className="font">Selected Tank</h4>
 				{selectedTank==null?<div></div>:
 					<SelectTank
@@ -348,7 +359,7 @@ function Armory() {
 					onWagerUpdate={onWagerUpdate}
 				/>
 			</div>
-			<div className="column armorymiddle">
+			<div className="column armorymiddle" ref={el => armMid = el}>
 				<h1 className="font">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
@@ -402,111 +413,113 @@ function Armory() {
 					</div>
 				}
 			</div>
+			<div ref={el => armright = el}>
+				{selectedTank==null?<div></div>:
+					<div className="column armoryright">
+						<h5 className="font">{points}/10 Points Used</h5>
+						<label className="font">Chassis: </label>
+						<button 
+							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
+							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
+						>
+							{toTitleCase(selectedTank.chassis.name)}
+						</button>
+						<br/>
+						<br/>
 
-			{selectedTank==null?<div></div>:
-				<div className="column armoryright">
-					<h5 className="font">{points}/10 Points Used</h5>
-					<label className="font">Chassis: </label>
-					<button 
-						className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
-						onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
-					>
-						{toTitleCase(selectedTank.chassis.name)}
-					</button>
-					<br/>
-					<br/>
+						<label className="font">Main Gun: </label>
+						<button 
+							className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1)}}
+						>
+							{toTitleCase(selectedTank.mainGun.name)}
+						</button>
+						<br/>
+						<label className="font">Secondary Gun: </label>
+						<button 
+							className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2)}}
+						>
+							{toTitleCase(selectedTank.secondaryGun.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label className="font">Main Gun: </label>
-					<button 
-						className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(weapons); setCurrentPartIndex(1)}}
-					>
-						{toTitleCase(selectedTank.mainGun.name)}
-					</button>
-					<br/>
-					<label className="font">Secondary Gun: </label>
-					<button 
-						className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(weapons); setCurrentPartIndex(2)}}
-					>
-						{toTitleCase(selectedTank.secondaryGun.name)}
-					</button>
-					<br/>
-					<br/>
+						<label className="font">Scanners: </label>
+						<button 
+							className={(currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scanners); setCurrentPartIndex(3)}}
+						>
+							{toTitleCase(selectedTank.scanner.name)}
+						</button>
+						<br/>
+						<label className="font">Scanner Addon: </label>
+						<button 
+							className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4)}}
+							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
+						>
+							{toTitleCase(selectedTank.scannerAddonOne.name)}
+						</button>
+						<br/>
+						<label className="font">Scanner Addon: </label>
+						<button 
+							className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5)}}
+							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
+						>
+							{toTitleCase(selectedTank.scannerAddonTwo.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label className="font">Scanners: </label>
-					<button 
-						className={(currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(scanners); setCurrentPartIndex(3)}}
-					>
-						{toTitleCase(selectedTank.scanner.name)}
-					</button>
-					<br/>
-					<label className="font">Scanner Addon: </label>
-					<button 
-						className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4)}}
-						disabled={(selectedTank.scanner.name === 'empty') ? true : false}
-					>
-						{toTitleCase(selectedTank.scannerAddonOne.name)}
-					</button>
-					<br/>
-					<label className="font">Scanner Addon: </label>
-					<button 
-						className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5)}}
-						disabled={(selectedTank.scanner.name === 'empty') ? true : false}
-					>
-						{toTitleCase(selectedTank.scannerAddonTwo.name)}
-					</button>
-					<br/>
-					<br/>
+						<label className="font">Jammers: </label>
+						<button 
+							className={(currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(jammers); setCurrentPartIndex(6)}}
+						>
+							{toTitleCase(selectedTank.jammer.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label className="font">Jammers: </label>
-					<button 
-						className={(currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(jammers); setCurrentPartIndex(6)}}
-					>
-						{toTitleCase(selectedTank.jammer.name)}
-					</button>
-					<br/>
-					<br/>
+						<label className="font">Treads: </label>
+						<button 
+							className={(currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(treads); setCurrentPartIndex(7)}}
+						>
+							{toTitleCase(selectedTank.treads.name)}
+						</button>
+						<br/>
+						<br/>
 
-					<label className="font">Treads: </label>
-					<button 
-						className={(currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(treads); setCurrentPartIndex(7)}}
-					>
-						{toTitleCase(selectedTank.treads.name)}
-					</button>
-					<br/>
-					<br/>
-
-					<label className="font">Item: </label>
-					<button 
-						className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(items); setCurrentPartIndex(8)}}
-					>
-						{toTitleCase(selectedTank.itemOne.name)}
-					</button>
-					<br/>
-					<label className="font">Item: </label>
-					<button 
-						className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(items); setCurrentPartIndex(9)}}
-					>
-						{toTitleCase(selectedTank.itemTwo.name)}
-					</button>
-					<br/>
-					<label className="font">Item: </label>
-					<button 
-						className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-						onClick={() => {setComponentList(items); setCurrentPartIndex(10)}}
-					>
-						{toTitleCase(selectedTank.itemThree.name)}
-					</button>
-				</div>
-			}
+						<label className="font">Item: </label>
+						<button 
+							className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(8)}}
+						>
+							{toTitleCase(selectedTank.itemOne.name)}
+						</button>
+						<br/>
+						<label className="font">Item: </label>
+						<button 
+							className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(9)}}
+						>
+							{toTitleCase(selectedTank.itemTwo.name)}
+						</button>
+						<br/>
+						<label className="font">Item: </label>
+						<button 
+							className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(10)}}
+						>
+							{toTitleCase(selectedTank.itemThree.name)}
+						</button>
+					</div>
+				}
+			</div>
+	
 			<ToastContainer />
 		</div>
 	);
