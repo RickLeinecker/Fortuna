@@ -77,7 +77,8 @@ body {
 
 /* Navbar Styling */
 .navbar {
-	background-color: #3E5A6F;
+	font-family: "Press Start 2P";
+	background-color: #000018;
 	border-bottom: 3px solid #04213F;
 	overflow: hidden;
 	display: flex;
@@ -109,6 +110,8 @@ body {
 	background: #3E5A6F;
 	border: 2px solid #04CCFF;
 	border-radius: 8px;
+	margin-left: 5px;
+	margin-right: 10px;
 	width: auto;
 }
 
