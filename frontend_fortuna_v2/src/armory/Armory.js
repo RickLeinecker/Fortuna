@@ -35,7 +35,7 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import { TweenMax, Power3 } from 'gsap'
+import { TweenMax, Power3, TweenLite } from 'gsap'
 
 function Armory() {
 
@@ -66,9 +66,9 @@ function Armory() {
 		getTanks();
 		getUserInventory();
 
-		 TweenMax.from(armleft, 1.5, {opacity: 0, x: -200, ease: Power3.easeInOut});
-		 TweenMax.from(armMid, 1.5, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
-		 TweenMax.from(armright, 1.5, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+		 TweenLite.from(armleft, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
+		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
 
 	}, [])
 

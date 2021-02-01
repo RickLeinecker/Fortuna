@@ -17,7 +17,7 @@ import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPIC
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import JoyRide from 'react-joyride'
-import { TweenMax, Power3 } from 'gsap'
+import { TweenMax, TweenLite, Power3 } from 'gsap'
 
 // type Props = {||};
 
@@ -92,9 +92,9 @@ const MainMenu  = () => {
 		getReplayListAPICall(() => {
 		});
 
-    TweenMax.from(left, 1.5, {opacity: 0, x: -200, ease: Power3.easeInOut});
-    TweenMax.from(mid, 1.5, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
-    TweenMax.from(right, 1.5, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+    TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
+    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
 
 	}, [])
 
