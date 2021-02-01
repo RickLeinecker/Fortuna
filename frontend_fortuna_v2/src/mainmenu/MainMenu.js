@@ -17,6 +17,7 @@ import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPIC
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import JoyRide from 'react-joyride'
+import { TweenMax, Power3 } from 'gsap'
 
 // type Props = {||};
 
@@ -73,6 +74,10 @@ const MainMenu  = () => {
 
   const [run, setRun] = useState(true);
 
+  let left = useRef(null);
+  let mid = useRef(null);
+  let right = useRef(null);
+
 
 	useEffect(() => {
 
@@ -86,6 +91,11 @@ const MainMenu  = () => {
 		});
 		getReplayListAPICall(() => {
 		});
+
+    TweenMax.from(left, 1.5, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenMax.from(mid, 1.5, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
+    TweenMax.from(right, 1.5, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+
 	}, [])
 
 	return (
@@ -99,14 +109,14 @@ const MainMenu  = () => {
           />
         </div>
         <h1 className="menuheader">Where to Commander?</h1>
-        <div className="column menuleft battleRecord">
+        <div className="column menuleft battleRecord" ref={el => left = el}>
           <Replays/>
           <br/>
           <Link to={verifyLink("/TrainingArena")}>
             <button className="mainMenuBtn train">Training</button>
           </Link>
         </div>
-        <div className="column menumiddle">
+        <div className="column menumiddle" ref={el => mid = el}>
           {(battleType === '1 vs 1') ?
             <div>
               <SelectTank
@@ -182,7 +192,7 @@ const MainMenu  = () => {
             <button className="mainMenuBtn play">Play</button>
           </Link>
         </div>
-        <div className="column menuright">
+        <div className="column menuright" ref={el => right = el}>
           <Leaderboard className="leaderboardTut"/>
           <br/>
           <Link to={verifyLink("/Credits")}>
