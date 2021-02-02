@@ -51,6 +51,8 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+		
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,

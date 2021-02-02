@@ -10,7 +10,7 @@ import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
-type Props = {||}; 
+type Props = {||};
 
 type State = {|
 	marketplaceViewClicked: ?MarketplaceViewType,
@@ -19,6 +19,10 @@ type State = {|
 
 // Marketplace component.
 class Marketplace extends React.Component<Props, State> {
+
+	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+	}
 
 	constructor() {
 		super();
@@ -78,12 +82,12 @@ class Marketplace extends React.Component<Props, State> {
 				partView = (<h2>Select a type on the left</h2>);
 				break;
 		}
-		
+
 		return (
 			<div id="Parent">
-				<MainNavbar 
-					linkName="/MainMenu" 
-					returnName="Back to Main Menu" 
+				<MainNavbar
+					linkName="/MainMenu"
+					returnName="Back to Main Menu"
 					pageName="Marketplace"
 					ref="navbar"
 					youtubeLinks={['https://www.youtube.com/watch?v=hnmnJLNz2vk']}

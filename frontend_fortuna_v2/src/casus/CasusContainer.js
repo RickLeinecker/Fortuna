@@ -23,6 +23,10 @@ type State = {
 
 class CasusContainer extends React.Component<Props, State> {
 
+	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+	}
+
 	constructor(props: Props) {
 		super(props);
 		verifyLogin();
@@ -69,17 +73,17 @@ class CasusContainer extends React.Component<Props, State> {
         <Container fluid>
           <Row className="mt-12">
             <Col className="editor">
-              <CasusEditor 
+              <CasusEditor
                 draggedBlocks={this.state.draggedBlocks}
-                onBlocksDragged={this.onBlocksDragged} 
+                onBlocksDragged={this.onBlocksDragged}
                 onDraggedBlocksReleased={this.onDraggedBlocksReleased}
               />
             </Col>
           </Row>
           <br></br>
-          <BlockBank 
+          <BlockBank
             draggedBlocks={this.state.draggedBlocks}
-            onBlocksDragged={this.onBlocksDragged} 
+            onBlocksDragged={this.onBlocksDragged}
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
         </Container>
@@ -94,10 +98,10 @@ class CasusContainer extends React.Component<Props, State> {
           <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
         </div>
         <ToastContainer />
-        <JoyRide 
+        <JoyRide
           steps={this.state.tour_steps}
           run={this.state.run}
-          continuous={true} 
+          continuous={true}
           styles={{
             options: {
               zIndex: 1000,

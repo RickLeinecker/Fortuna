@@ -84,6 +84,7 @@ class TrainingArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
@@ -135,7 +136,7 @@ class TrainingArena extends React.Component<Props, State> {
 		setPreferredBattleType(newBattleType);
 		this.setState({battleType: newBattleType});
 	}
-	
+
 	onChange(): void {
 		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
 		const selected = arenaSelector.value;
@@ -148,10 +149,10 @@ class TrainingArena extends React.Component<Props, State> {
 		const preferredArena=getPreferredArena(this.state.battleType);
 		return (
 			<div id="Parent">
-				<MainNavbar 
-					linkName="/MainMenu" 
-					returnName="Back to Main Menu" 
-					pageName="Training Arena" 
+				<MainNavbar
+					linkName="/MainMenu"
+					returnName="Back to Main Menu"
+					pageName="Training Arena"
 					youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
 				/>
 				<div className="column taleft">
@@ -205,7 +206,7 @@ class TrainingArena extends React.Component<Props, State> {
 									<tr>
 										<td>
 											{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true} />}
-											
+
 										</td>
 										<td>
 											{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true} />}
@@ -221,29 +222,29 @@ class TrainingArena extends React.Component<Props, State> {
 				</div>
 				<div className="column tamiddle">
 					<h5>Current Battle Type: {this.state.battleType}</h5>
-					<button 
-						className="primarybtn changeType" 
+					<button
+						className="primarybtn changeType"
 						onClick={() => this.onChangeBattleTypeClicked()}
 					>
 						Change Battle Type
 					</button>
 					<br/><br/><br/>
 					<h5>Arena</h5>
-					{ this.state.battleType === '1 vs 1' ? 
-						<select 
-							className="dropdownMenu chooseArena" 
-							ref="arenaSelect" 
-							defaultValue={preferredArena} 
+					{ this.state.battleType === '1 vs 1' ?
+						<select
+							className="dropdownMenu chooseArena"
+							ref="arenaSelect"
+							defaultValue={preferredArena}
 							onChange={() => this.onChange()}
 						>
 							<option value="DIRT">Classic</option>
 							<option value="HEX">Hex</option>
 						</select>
 					:
-						<select 
-							className="dropdownMenu chooseArena" 
-							ref="arenaSelect" 
-							defaultValue={preferredArena} 
+						<select
+							className="dropdownMenu chooseArena"
+							ref="arenaSelect"
+							defaultValue={preferredArena}
 							onChange={() => this.onChange()}
 						>
 							<option value="CANDEN">Canden</option>
@@ -252,9 +253,9 @@ class TrainingArena extends React.Component<Props, State> {
 
 					}
 					<br/><br/><br/>
-					<button 
-						type="button" 
-						className="primarybtn startTrain" 
+					<button
+						type="button"
+						className="primarybtn startTrain"
 						onClick={() => this.onClickStartBattle()}
 					>
 						Start Battle
@@ -315,7 +316,7 @@ class TrainingArena extends React.Component<Props, State> {
 									<tr>
 										<td>
 											{this.state.botTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankTwo} smallTank={true} />}
-											
+
 										</td>
 										<td>
 											{this.state.botTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={true} />}
@@ -330,10 +331,10 @@ class TrainingArena extends React.Component<Props, State> {
 					}
 				</div>
 				<ToastContainer />
-        <JoyRide 
+        <JoyRide
           steps={this.state.tour_steps}
           run={this.state.run}
-          continuous={true} 
+          continuous={true}
           styles={{
             options: {
               zIndex: 1000,

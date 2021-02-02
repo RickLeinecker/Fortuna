@@ -77,6 +77,7 @@ body {
 
 /* Navbar Styling */
 .navbar {
+	color: #04CCFF;
 	font-family: "Press Start 2P";
 	background-color: #000018;
 	border-bottom: 3px solid #04213F;
