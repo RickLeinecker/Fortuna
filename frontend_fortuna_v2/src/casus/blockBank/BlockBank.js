@@ -1,6 +1,6 @@
 //@flow strict
 
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import BlockBankTypeSelector from './BlockBankTypeSelector.js';
 import BlockBankBlockShelf from './BlockBankBlockShelf.js';
 import CasusBlock from '../blocks/CasusBlock.js';
@@ -18,37 +18,90 @@ type Props = {|
 	onDraggedBlocksReleased: () => void
 |};
 
-type State = {|
-	selectedSection: BlockBankType	
-|};
+function BlockBank(props) {
 
-class BlockBank extends React.Component<Props, State> {
+  const [selectedSection, setSelectedSection] = useState('CONTROL_FLOW');
 
-	constructor(props: Props) {
-		super(props);
-		this.state = {selectedSection: 'CONTROL_FLOW'};
-	}
+  useEffect(() => {
 
-	onSectionClicked = (section: BlockBankType) => {
-		this.setState({selectedSection: section});
-	}
+  })
 
-	render(): React.Node {
-		return (
-			<div className="stickyPosition"> 
-				<div>
-					<BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
-				</div>
-				<div className="flexRight blockShelf">
-					<BlockBankBlockShelf
-						selectedSection={this.state.selectedSection} 
-						{...this.props}
-					/>
-				</div>
-			</div>
-		);
-	}
+  const onSectionClicked = (section: BlockBankType) => {
+    setSelectedSection(section);
+  }
 
+  /* ADD HELP MODAL */
+
+  const showHelp = () => {
+    console.log("help!");
+  }
+
+  return (
+    <>
+      <div className="stickyPosition"> 
+        <div>
+          <BlockBankTypeSelector onSectionClicked={onSectionClicked} />
+        </div>
+        <div className="flexRight blockShelf">
+          <BlockBankBlockShelf
+            selectedSection={selectedSection} 
+            {...props}
+          />
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <button className="helpButton" onClick={() => showHelp()}>Help</button>
+    </>
+  );
 }
 
-export default BlockBank;
+export default BlockBank
+
+
+
+// type State = {|
+// 	selectedSection: BlockBankType	
+// |};
+
+// class BlockBank extends React.Component<Props, State> {
+
+// 	constructor(props: Props) {
+// 		super(props);
+// 		this.state = {selectedSection: 'CONTROL_FLOW'};
+// 	}
+
+// 	onSectionClicked = (section: BlockBankType) => {
+// 		this.setState({selectedSection: section});
+// 	}
+
+//   showHelp() {
+//     console.log("Help!")
+//   }
+
+// 	render(): React.Node {
+// 		return (
+//       <>
+//       	<div className="stickyPosition"> 
+//           <div>
+//             <BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
+//           </div>
+//           <div className="flexRight blockShelf">
+//             <BlockBankBlockShelf
+//               selectedSection={this.state.selectedSection} 
+//               {...this.props}
+//             />
+//           </div>
+//         </div>
+//         <br/>
+//         <br/>
+//         <br/>
+//         <button className="helpButton" onClick={() => this.showHelp()}>Help</button>
+//       </>
+// 		);
+// 	}
+
+// }
+
+// export default BlockBank;
