@@ -83,7 +83,7 @@ class CasusContainer extends React.Component<Props, State> {
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
         </Container>
-        <Container>
+        <Container fluid>
           <Row>
               <Col>
                 <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>

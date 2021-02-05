@@ -134,7 +134,7 @@ class CasusEditor extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="casusEditorContainingDiv">
-        <Container>
+        <Container fluid>
           <div className="undoBtnArea">
             <button 
               className="undoBtn" 

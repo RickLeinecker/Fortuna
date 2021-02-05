@@ -30,4 +30,10 @@
   border: 1px solid black;
   background-color: #ff6ec7;
   font-family: 'Press Start 2P', cursive;
+  position: relative;
+  left: 430px;
+  top: -90px;
+  width: 160px;
+  border-radius: 5px;
+  height: 40px;
 }
