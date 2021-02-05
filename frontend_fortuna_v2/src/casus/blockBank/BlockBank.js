@@ -5,6 +5,7 @@ import BlockBankTypeSelector from './BlockBankTypeSelector.js';
 import BlockBankBlockShelf from './BlockBankBlockShelf.js';
 import CasusBlock from '../blocks/CasusBlock.js';
 import './BlockBank.css';
+import Modal from 'react-modal';
 
 import type {BlockBankType} from './BlockBankType.js';
 
@@ -22,18 +23,25 @@ function BlockBank(props) {
 
   const [selectedSection, setSelectedSection] = useState('CONTROL_FLOW');
 
-  useEffect(() => {
-
-  })
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onSectionClicked = (section: BlockBankType) => {
     setSelectedSection(section);
   }
 
   /* ADD HELP MODAL */
+  /* using react model
+    inside of modal set a component that can change state as
+    new help options are selected
+  */
+  const openModal = () => {
+    setModalIsOpen(true);
+    console.log("open");
+  }
 
-  const showHelp = () => {
-    console.log("help!");
+  const closeModal = () => {
+    setModalIsOpen(false);
+    console.log("closed")
   }
 
   return (
@@ -52,7 +60,14 @@ function BlockBank(props) {
       <br/>
       <br/>
       <br/>
-      <button className="helpButton" onClick={() => showHelp()}>Help</button>
+      <button className="helpButton" onClick={openModal}>Help</button>
+      <Modal
+        isOpen={modalIsOpen}
+        contentLabel="Example Modal"
+      >
+      <p>Test</p>
+      <button className="helpButton" onClick={closeModal}>Close</button>
+      </Modal>
     </>
   );
 }

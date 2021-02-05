@@ -47,7 +47,7 @@ class CasusContainer extends React.Component<Props, State> {
           content: "test code here"
         }
       ],
-      run: true
+      run: false
 		};
 
 		const tankId=getTankForCasus();
