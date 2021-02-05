@@ -60,7 +60,7 @@ class SelectTank extends React.Component<Props, State> {
 				<div>
 					{(this.state.showTanks) ?
 						<div className="tankList">
-							<h6>Select a Tank</h6>
+							<h6 style={{textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"}}>Select a Tank</h6>
 							{this.props.allTanks.map(tank => 
 								<div key={tank._id}>
 									<button 
