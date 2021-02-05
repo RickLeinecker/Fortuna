@@ -86,11 +86,13 @@ class Marketplace extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<MainNavbar
-					linkName="/MainMenu"
-					returnName="Back to Main Menu"
+					linkName="/Login"
+					returnName="Logout"
+					// linkName="/MainMenu"
+					// returnName="Back to Main Menu"
 					pageName="Marketplace"
 					ref="navbar"
-					youtubeLinks={['https://www.youtube.com/watch?v=hnmnJLNz2vk']}
+					// youtubeLinks={['https://www.youtube.com/watch?v=hnmnJLNz2vk']}
 				/>
 				<div className="row mt-5">
 					<div className="col-md-4">

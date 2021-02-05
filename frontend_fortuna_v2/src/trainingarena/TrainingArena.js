@@ -150,10 +150,12 @@ class TrainingArena extends React.Component<Props, State> {
 		return (
 			<div id="Parent">
 				<MainNavbar
-					linkName="/MainMenu"
-					returnName="Back to Main Menu"
+					linkName="/Login"
+					returnName="Logout"
+					// linkName="/MainMenu"
+					// returnName="Back to Main Menu"
 					pageName="Training Arena"
-					youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
+					// youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
 				/>
 				<div className="column taleft">
 					<h5>Choose your Tank, Commander</h5>

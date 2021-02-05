@@ -94,7 +94,7 @@ class Armory extends React.Component<Props, State> {
 			setPreferredSelectedTank(newSelectedTank);
 			// Update the state, and then run initPoints after the state has been set.
 			this.setState({
-					allTanks: allTanks, 
+					allTanks: allTanks,
 					selectedTank: newSelectedTank,
 				},
 				this.initPoints
@@ -238,7 +238,7 @@ class Armory extends React.Component<Props, State> {
 				break;
 			case 3:
 				newComponent = new Scanner(
-					component, 
+					component,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -280,7 +280,7 @@ class Armory extends React.Component<Props, State> {
 		if (partIndex===4 || partIndex===5) {
 			const scannerType=this.state.selectedTank.scanner.name;
 			const newScanner=new Scanner(
-					scannerType, 
+					scannerType,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -305,15 +305,17 @@ class Armory extends React.Component<Props, State> {
 		const selectedTank=this.state.selectedTank;
 		return (
 			<div id="Parent">
-				<MainNavbar 
-					linkName="/MainMenu" 
-					returnName="Back to Main Menu" 
+				<MainNavbar
+					linkName="/Login"
+					returnName="Logout"
+					// linkName="/MainMenu"
+					// returnName="Back to Main Menu"
 					pageName="Armory"
 					ref="navbar"
-					youtubeLinks={[
-						'https://www.youtube.com/watch?v=kEClhrMWogY', 
-						'https://www.youtube.com/watch?v=1nnY9wlLOYU'
-					]}
+					// youtubeLinks={[
+					//	'https://www.youtube.com/watch?v=kEClhrMWogY',
+					//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+					// ]}
 				/>
 				<div className="column armoryleft">
 					<h4 className="font">Selected Tank</h4>
@@ -348,8 +350,8 @@ class Armory extends React.Component<Props, State> {
 								renameTank={this.renameTank}
 							/>
 						}&emsp;
-						<CreateNewTankPopup 
-							ref="CreateNewTankPopup" 
+						<CreateNewTankPopup
+							ref="CreateNewTankPopup"
 							chassis={this.state.chassis}
 							treads={this.state.treads}
 						/>&emsp;
@@ -387,7 +389,7 @@ class Armory extends React.Component<Props, State> {
 										{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
 											<tr key={index}>
 												<td align="left">
-													<button 
+													<button
 														className="componentMenuBtn"
 														onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
 														disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
@@ -403,7 +405,7 @@ class Armory extends React.Component<Props, State> {
 											<tr></tr> :
 											<tr>
 												<td align="left">
-													<button 
+													<button
 														className="componentMenuBtn font"
 														onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
 													>
@@ -424,8 +426,8 @@ class Armory extends React.Component<Props, State> {
 					<div className="column armoryright">
 						<h5 className="font">{this.state.points}/10 Points Used</h5>
 						<label className="font">Chassis: </label>
-						<button 
-							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
+						<button
+							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
 						>
 							{toTitleCase(selectedTank.chassis.name)}
@@ -434,7 +436,7 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Main Gun: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
 						>
@@ -442,7 +444,7 @@ class Armory extends React.Component<Props, State> {
 						</button>
 						<br/>
 						<label className="font">Secondary Gun: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
 						>
@@ -452,7 +454,7 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Scanners: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
 						>
@@ -460,7 +462,7 @@ class Armory extends React.Component<Props, State> {
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
@@ -469,7 +471,7 @@ class Armory extends React.Component<Props, State> {
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
@@ -480,7 +482,7 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Jammers: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
 						>
@@ -490,7 +492,7 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Treads: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
 						>
@@ -500,7 +502,7 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
 						>
@@ -508,7 +510,7 @@ class Armory extends React.Component<Props, State> {
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
 						>
@@ -516,7 +518,7 @@ class Armory extends React.Component<Props, State> {
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
 						>

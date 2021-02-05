@@ -68,7 +68,7 @@ class CasusContainer extends React.Component<Props, State> {
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
-					youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
+					// youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
 				/>
         <Container fluid>
           <Row className="mt-12">

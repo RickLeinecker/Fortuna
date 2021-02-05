@@ -125,11 +125,11 @@ class MainNavbar extends React.Component<Props, State> {
 	   <Link to={verifyLink("/MainMenu")}>
 	     <button className="navbtn">Home</button>
 	   </Link>
+	   <Link to={verifyLink("/BattleArena")}>
+	     <button className="navbtn">Play</button>
+	   </Link>
 	   <Link to={verifyLink("/Armory")}>
 	     <button className="navbtn">Loadout</button>
-	   </Link>
-	   <Link to={verifyLink("/Casus")}>
-	     <button className="navbtn">Code</button>
 	   </Link>
 	   <Link to={verifyLink("/TrainingArena")}>
 	     <button className="navbtn">Training</button>
