@@ -67,8 +67,8 @@ function Armory() {
 		getUserInventory();
 
 		 TweenLite.from(armleft, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
-		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
 

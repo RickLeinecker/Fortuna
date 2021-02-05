@@ -93,8 +93,8 @@ const MainMenu  = () => {
 		});
 
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut, delay: .4});
-    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut, delay: .8});
+    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
 
