@@ -96,21 +96,21 @@ function Help() {
 
   const customStyles = {
     content : {
-      top                   : '50%',
-      left                  : '50%',
-      right                 : 'auto',
-      bottom                : 'auto',
-      marginRight           : '-50%',
-      transform             : 'translate(-50%, -50%)'
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
     }
   }
 
   return (
     <div>
       <Container fluid>
-        <p>What would you like more information on?</p>
+        <p style={{color: "white", textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"}}>What would you like more information on?</p>
         <Row>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.CONTROL_FLOW)}>Control Flow</Button>
             <Modal
               isOpen={controlModalIsOpen}
@@ -121,7 +121,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.CONTROL_FLOW)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.VARIABLES)}>Variables</Button>
             <Modal
               isOpen={variablesModalIsOpen}
@@ -132,7 +132,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.VARIABLES)}>Close</Button>
             </Modal>
           </Col>
-          <Col  md={2}>
+          <Col  md={4}>
             <Button onClick={() => openModals(choices.MATH)}>Math</Button>
             <Modal
               isOpen={mathModalIsOpen}
@@ -143,11 +143,11 @@ function Help() {
               <Button onClick={() => closeModals(choices.MATH)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={6}/>
+          {/* <Col md={6}/> */}
         </Row>
         <div className="divider"/>
         <Row>
-          <Col md={2}>
+          <Col md={4}>
           <Button onClick={() => openModals(choices.DOUBLES)}>Doubles</Button>
             <Modal
               isOpen={doublesModalIsOpen}
@@ -158,7 +158,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.DOUBLES)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.LOGIC)}>Logic</Button>
             <Modal
               isOpen={logicModalIsOpen}
@@ -169,7 +169,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.LOGIC)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.INTEGERS)}>Integers</Button>
             <Modal
               isOpen={integerModalIsOpen}
@@ -180,11 +180,11 @@ function Help() {
               <Button onClick={() => closeModals(choices.INTEGERS)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={6}/>
+          {/* <Col md={6}/> */}
         </Row>
         <div className="divider"/>
         <Row>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.LISTS)}>Lists</Button>
             <Modal
               isOpen={listsModalIsOpen}
@@ -195,7 +195,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={2}>
+          <Col md={4}>
             <Button onClick={() => openModals(choices.LISTS)}>Lists</Button>
             <Modal
               isOpen={listsModalIsOpen}
@@ -206,7 +206,7 @@ function Help() {
               <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
             </Modal>
           </Col>
-          <Col md={8}/>
+          {/* <Col md={8}/> */}
         </Row>
       </Container>
     </div>
