@@ -86,7 +86,7 @@ function BlockBank(props) {
         contentLabel="Help Modal"
       >
         <Help />
-        <button className="helpButton" onClick={closeModal}>Close</button>
+        <Button className="helpButton parent" onClick={closeModal}>Close</Button>
       </Modal>
     </>
   );
