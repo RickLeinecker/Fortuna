@@ -68,7 +68,7 @@ class CasusContainer extends React.Component<Props, State> {
 				/>
         <Container fluid>
           <Row className="mt-12">
-            <Col className="editor">
+            <Col md={12} className="editor">
               <CasusEditor 
                 draggedBlocks={this.state.draggedBlocks}
                 onBlocksDragged={this.onBlocksDragged} 
@@ -82,29 +82,27 @@ class CasusContainer extends React.Component<Props, State> {
             onBlocksDragged={this.onBlocksDragged} 
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
-        </Container>
-        <Container fluid>
           <Row>
-              <Col>
-                <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
-              </Col>
-            </Row>
+            <Col>
+              <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
+            </Col>
+          </Row>
+          <ToastContainer />
+          <JoyRide 
+            steps={this.state.tour_steps}
+            run={this.state.run}
+            continuous={true} 
+            styles={{
+              options: {
+                zIndex: 1000,
+                spotlightShadow: 'blue'
+              }
+            }}
+          />
+          <div class="footer">
+              <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
+          </div>
         </Container>
-        <div class="footer">
-          <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
-        </div>
-        <ToastContainer />
-        <JoyRide 
-          steps={this.state.tour_steps}
-          run={this.state.run}
-          continuous={true} 
-          styles={{
-            options: {
-              zIndex: 1000,
-              spotlightShadow: 'blue'
-            }
-          }}
-      />
       </>
 		);
 	}
