@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import BlockBankTypeSelector from './BlockBankTypeSelector.js';
 import BlockBankBlockShelf from './BlockBankBlockShelf.js';
 import CasusBlock from '../blocks/CasusBlock.js';
+import Help from './Help';
 import './BlockBank.css';
 import Modal from 'react-modal';
 
@@ -24,6 +25,11 @@ function BlockBank(props) {
   const [selectedSection, setSelectedSection] = useState('CONTROL_FLOW');
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  useEffect(() => {
+    Modal.setAppElement('body');
+  })
+
 
   const onSectionClicked = (section: BlockBankType) => {
     setSelectedSection(section);
@@ -63,10 +69,10 @@ function BlockBank(props) {
       <button className="helpButton" onClick={openModal}>Help</button>
       <Modal
         isOpen={modalIsOpen}
-        contentLabel="Example Modal"
+        contentLabel="Help Modal"
       >
-      <p>Test</p>
-      <button className="helpButton" onClick={closeModal}>Close</button>
+        <Help />
+        <button className="helpButton" onClick={closeModal}>Close</button>
       </Modal>
     </>
   );
