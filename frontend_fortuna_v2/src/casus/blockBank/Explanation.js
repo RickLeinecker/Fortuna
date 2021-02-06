@@ -11,7 +11,8 @@ function Explanation({ choice }) {
     LOGIC: 'LOGIC',
     INTEGERS: 'INTEGERS',
     LISTS: 'LISTS',
-    DEBUG: 'DEBUG'
+    DEBUG: 'DEBUG',
+    FUNCTIONS: 'FUNCTIONS'
   }
 
   const pstyle = {
@@ -104,6 +105,17 @@ function Explanation({ choice }) {
         <img style={imgStyle} src="" alt="image"/>
       </div>
     )
+  }
+  else if (choice === choices.FUNCTIONS)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on Functions</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    ) 
   }
   else
   {

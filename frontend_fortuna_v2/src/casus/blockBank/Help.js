@@ -14,6 +14,7 @@ function Help() {
   
   const [listsModalIsOpen, setListsModalIsOpen] = useState(false);
   const [debugModalIsOpen, setDebugModalIsOpen] = useState(false);
+  const [functionsModalIsOpen, setFunctionsModalIsOpen] = useState(false);
 
   useEffect(() => {
     Modal.setAppElement('body');
@@ -27,7 +28,8 @@ function Help() {
     LOGIC: 'LOGIC',
     INTEGERS: 'INTEGERS',
     LISTS: 'LISTS',
-    DEBUG: 'DEBUG'
+    DEBUG: 'DEBUG',
+    FUNCTIONS: 'FUNCTIONS'
   }
 
   const openModals = (choice) => {
@@ -57,6 +59,8 @@ function Help() {
       case choices.DEBUG:
         setDebugModalIsOpen(true);
         break;
+      case choices.FUNCTIONS:
+        setFunctionsModalIsOpen(true);
       default:
         break;
     }
@@ -88,6 +92,9 @@ function Help() {
         break;
       case choices.DEBUG:
         setDebugModalIsOpen(false);
+        break;
+      case choices.FUNCTIONS:
+        setFunctionsModalIsOpen(false);
         break;
       default:
         break;
@@ -216,7 +223,17 @@ function Help() {
               <Button onClick={() => closeModals(choices.DEBUG)}>Close</Button>
             </Modal>
           </Col>
-          {/* <Col md={8}/> */}
+          <Col md={4}>
+            <Button onClick={() => openModals(choices.FUNCTIONS)}>Functions</Button>
+            <Modal
+              isOpen={functionsModalIsOpen}
+              style={customStyles}
+              contentLabel="Function Modal"
+            >
+              <Explanation choice={choices.FUNCTIONS} />
+              <Button onClick={() => closeModals(choices.FUNCTIONS)}>Close</Button>
+            </Modal>
+          </Col>
         </Row>
       </Container>
     </div>
