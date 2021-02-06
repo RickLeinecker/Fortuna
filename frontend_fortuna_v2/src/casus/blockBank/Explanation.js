@@ -41,7 +41,73 @@ function Explanation({ choice }) {
   }
   else if (choice === choices.VARIABLES)
   {
-
+    return (
+      <div>
+        <p style={pstyle}>Info on Variables</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="/help/variables.png" alt="image"/>
+      </div>
+    )
+  }
+  else if (choice === choices.MATH)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on Math (idk what to put here yet)</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    )
+  }
+  else if (choice === choices.DOUBLES || choice === choices.INTEGERS)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on separating operations with doubles and integers</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    )
+  }
+  else if (choice === choices.LOGIC)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on Logic operations</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    ) 
+  }
+  else if (choice === choices.LISTS)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on Lists</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    )  
+  }
+  else if (choice === choices.DEBUG)
+  {
+    return (
+      <div>
+        <p style={pstyle}>Info on Debugging</p>
+        <br/>
+        <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
+        <img style={imgStyle} src="" alt="image"/>
+      </div>
+    )
+  }
+  else
+  {
+    return (<div>Error</div>)
   }
 
 }

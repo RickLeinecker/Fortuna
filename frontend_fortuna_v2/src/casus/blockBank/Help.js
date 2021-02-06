@@ -13,7 +13,7 @@ function Help() {
   const [integerModalIsOpen, setIntegerModalIsOpen] = useState(false);
   
   const [listsModalIsOpen, setListsModalIsOpen] = useState(false);
-  const [debugModalIsOpen, setDebugsModalIsOpen] = useState(false);
+  const [debugModalIsOpen, setDebugModalIsOpen] = useState(false);
 
   useEffect(() => {
     Modal.setAppElement('body');
@@ -55,7 +55,7 @@ function Help() {
         setListsModalIsOpen(true);
         break;
       case choices.DEBUG:
-        setDebugsModalIsOpen(true);
+        setDebugModalIsOpen(true);
         break;
       default:
         break;
@@ -87,7 +87,7 @@ function Help() {
         setListsModalIsOpen(false);
         break;
       case choices.DEBUG:
-        setDebugsModalIsOpen(false);
+        setDebugModalIsOpen(false);
         break;
       default:
         break;
@@ -138,7 +138,7 @@ function Help() {
               style={customStyles}
               contentLabel="Variables Modal"
             >
-              <p>Info on Variables</p>
+              <Explanation choice={choices.VARIABLES} />
               <Button onClick={() => closeModals(choices.VARIABLES)}>Close</Button>
             </Modal>
           </Col>
@@ -149,7 +149,7 @@ function Help() {
               style={customStyles}
               contentLabel="Math Modal"
             >
-              <p>Info on Math</p>
+              <Explanation choice={choices.MATH} />
               <Button onClick={() => closeModals(choices.MATH)}>Close</Button>
             </Modal>
           </Col>
@@ -164,7 +164,7 @@ function Help() {
               style={customStyles}
               contentLabel="Doubles Modal"
             >
-              <p>Info on Doubles</p>
+              <Explanation choice={choices.DOUBLES} />
               <Button onClick={() => closeModals(choices.DOUBLES)}>Close</Button>
             </Modal>
           </Col>
@@ -175,7 +175,7 @@ function Help() {
               style={customStyles}
               contentLabel="Logic Modal"
             >
-              <p>Info on Logic</p>
+              <Explanation choice={choices.LOGIC} />
               <Button onClick={() => closeModals(choices.LOGIC)}>Close</Button>
             </Modal>
           </Col>
@@ -186,7 +186,7 @@ function Help() {
               style={customStyles}
               contentLabel="Integers Modal"
             >
-              <p>Info on Integers</p>
+              <Explanation choice={choices.INTEGERS} />
               <Button onClick={() => closeModals(choices.INTEGERS)}>Close</Button>
             </Modal>
           </Col>
@@ -201,19 +201,19 @@ function Help() {
               style={customStyles}
               contentLabel="Lists Modal"
             >
-              <p>Info on Lists</p>
+              <Explanation choice={choices.LISTS} />
               <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.LISTS)}>Lists</Button>
+            <Button onClick={() => openModals(choices.DEBUG)}>Debug</Button>
             <Modal
-              isOpen={listsModalIsOpen}
+              isOpen={debugModalIsOpen}
               style={customStyles}
-              contentLabel="Lists Modal"
+              contentLabel="Debug Modal"
             >
-              <p>Info on Lists</p>
-              <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
+              <Explanation choice={choices.DEBUG} />
+              <Button onClick={() => closeModals(choices.DEBUG)}>Close</Button>
             </Modal>
           </Col>
           {/* <Col md={8}/> */}
