@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import Modal from 'react-modal'
+import Explanation from './Explanation'
 
 function Help() {
   const [controlModalIsOpen, setControlModalIsOpen] = useState(false);
@@ -19,7 +20,7 @@ function Help() {
   })
 
   const choices = {
-    CONTROL_FLOW: 'CONTROL FLOW',
+    CONTROL_FLOW: 'CONTROL_FLOW',
     VARIABLES: 'VARIABLES',
     MATH: 'MATH',
     DOUBLES: 'DOUBLES',
@@ -102,7 +103,15 @@ function Help() {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid"
     }
+  }
+
+  const pstyle = {
+    color: 'white',
+    textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
   }
 
   return (
@@ -117,7 +126,8 @@ function Help() {
               style={customStyles}
               contentLabel="Control Modal"
             >
-              <p>Info on Control Flow</p>
+              <Explanation choice={choices.CONTROL_FLOW} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.CONTROL_FLOW)}>Close</Button>
             </Modal>
           </Col>
