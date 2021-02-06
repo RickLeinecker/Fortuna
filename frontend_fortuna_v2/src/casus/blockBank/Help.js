@@ -124,7 +124,7 @@ function Help() {
   return (
     <div>
       <Container fluid>
-        <p style={{color: "white", textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"}}>What would you like more information on?</p>
+        <p style={pstyle}>What would you like more information on?</p>
         <Row>
           <Col md={4}>
             <Button onClick={() => openModals(choices.CONTROL_FLOW)}>Control Flow</Button>
