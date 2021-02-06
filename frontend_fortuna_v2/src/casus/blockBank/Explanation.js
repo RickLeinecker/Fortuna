@@ -91,7 +91,7 @@ function Explanation({ choice }) {
         <p style={pstyle}>Info on Lists</p>
         <br/>
         <p style={pstyle}>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut, quaerat dignissimos? Eos nisi cumque modi non. Molestiae iure accusantium voluptatibus enim ipsa, velit necessitatibus, aperiam amet, facere eum omnis temporibus.</p>
-        <img style={imgStyle} src="" alt="image"/>
+        <img style={imgStyle} src="/help/lists.png" alt="image"/>
       </div>
     )  
   }
