@@ -22,25 +22,18 @@ import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
-import JoyRide from 'react-joyride'
+import JoyRide from 'react-joyride';
+import { TweenLite, Power3 } from 'gsap';
 
-// type Props = {||};
-
-// type State = {|
-// 	selectedTankOne: ?Tank,
-// 	selectedTankTwo: ?Tank,
-// 	selectedTankThree: ?Tank,
-// 	allTanks: Array<Tank>,
-// 	botTankOne: ?Tank,
-// 	botTankTwo: ?Tank,
-// 	botTankThree: ?Tank,
-// 	botTanks: Array<Tank>,
-// 	battleType: BattleType
-// |};
 
 function TrainingArena() {
 
   const arenaSelect = useRef(null);
+
+  // for gsap
+  let leftT = useRef(null);
+  let midT = useRef(null);
+  let rightT = useRef(null);
 
   const [selectedTankOne, setSelectedTankOne] = useState(null);
   const [selectedTankTwo, setSelectedTankTwo] = useState(null);
@@ -55,14 +48,15 @@ function TrainingArena() {
   const [battleType, setBattleType] = useState(getPreferredBattleType());
 
   // for react joyride
+  const [run, setRun] = useState(true);
   const [tourSteps, setTourSteps] = useState([
-    {
-      target: ".taright",
-      content: "Choose training opponent",
-    },
     {
       target: ".leftTank",
       content: "Choose your tank for training here"
+    },
+    {
+      target: ".taright",
+      content: "Choose training opponent",
     },
     {
       target: ".changeType",
@@ -82,7 +76,6 @@ function TrainingArena() {
     }
   ]);
 
-  const [run, setRun] = useState(true);
 
   useEffect(() => {
     verifyLogin();
@@ -95,7 +88,11 @@ function TrainingArena() {
       setbotTankOne(botTanks[0]);
       setBotTanks(botTanks);
     })
-  });
+
+    TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+  }, []);
 
   const onClickStartBattle: void = () => {
 		const myTankOne: ?Tank = selectedTankOne;
@@ -163,7 +160,7 @@ function TrainingArena() {
         pageName="Training Arena" 
         youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
-      <div className="column taleft">
+      <div className="column taleft" ref={el => leftT = el}>
         <h5>Choose your Tank, Commander</h5>
         <br/>
         {(battleType === '1 vs 1') ?
@@ -228,7 +225,7 @@ function TrainingArena() {
           </div>
         }
       </div>
-      <div className="column tamiddle">
+      <div className="column tamiddle" ref={el => midT = el}>
         <h5>Current Battle Type: {battleType}</h5>
         <button 
           className="primarybtn changeType" 
@@ -273,7 +270,7 @@ function TrainingArena() {
           <button className="smallbtn casusLink">Casus</button>
         </Link>
       </div>
-      <div className="column taright">
+      <div className="column taright" ref={el => rightT = el}>
         <h5>Choose a Training Bot</h5>
         <br/>
         {(battleType === '1 vs 1') ?
