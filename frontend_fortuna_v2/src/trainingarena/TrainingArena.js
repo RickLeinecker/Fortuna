@@ -1,7 +1,7 @@
 //@flow strict
 
 import './TrainingArena.css';
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
 import { Link } from 'react-router-dom';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -22,101 +22,107 @@ import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
-import JoyRide from 'react-joyride'
+import JoyRide from 'react-joyride';
+import { TweenLite, Power3 } from 'gsap';
 
-type Props = {||};
 
-type State = {|
-	selectedTankOne: ?Tank,
-	selectedTankTwo: ?Tank,
-	selectedTankThree: ?Tank,
-	allTanks: Array<Tank>,
-	botTankOne: ?Tank,
-	botTankTwo: ?Tank,
-	botTankThree: ?Tank,
-	botTanks: Array<Tank>,
-	battleType: BattleType
-|};
+function TrainingArena() {
 
-class TrainingArena extends React.Component<Props, State> {
+  const arenaSelect = useRef(null);
 
-	constructor() {
-		super();
-		verifyLogin();
-		this.state = {
-			selectedTankOne: null,
-			selectedTankTwo: null,
-			selectedTankThree: null,
-			allTanks: [],
-			botTankOne: null,
-			botTankTwo: null,
-			botTankThree: null,
-			botTanks: [],
-      battleType: getPreferredBattleType(),
-      tour_steps: [
-        {
-          target: ".taright",
-          content: "Choose training opponent",
-        },
-        {
-          target: ".leftTank",
-          content: "Choose your tank for training here"
-        },
-        {
-          target: ".changeType",
-          content: "Change battle type here"
-        },
-        {
-          target: ".startTrain",
-          content: "Start training battle here"
-        },
-        {
-          target: ".chooseArena",
-          content: "Choose Arena Type here"
-        },
-        {
-          target: ".casusLink",
-          content: "Back to Casus Here"
-        }
-      ],
-      run: true
-		};
-	}
+  // for gsap
+  let leftT = useRef(null);
+  let midT = useRef(null);
+  let rightT = useRef(null);
 
-	componentDidMount(): void {
-		getAllUsersTanks(allTanks => {
-			this.setState({
-				allTanks: allTanks,
-				selectedTankOne: getPreferredSelectedTank(allTanks)
-			});
-		});
-		getBotTanksAPICall(botTanks => this.setState({botTankOne: botTanks[0], botTanks: botTanks}));
-	}
+  const [selectedTankOne, setSelectedTankOne] = useState(null);
+  const [selectedTankTwo, setSelectedTankTwo] = useState(null);
+  const [selectedTankThree, setSelectedTankThree] = useState(null);
 
-	onClickStartBattle(): void {
-		const myTankOne: ?Tank = this.state.selectedTankOne;
-		const myTankTwo: ?Tank = this.state.selectedTankTwo;
-		const myTankThree: ?Tank = this.state.selectedTankThree;
-		const botTankOne: ?Tank = this.state.botTankOne;
-		const botTankTwo: ?Tank = this.state.botTankTwo;
-		const botTankThree: ?Tank = this.state.botTankThree;
-		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
-		if (myTankOne == null && myTankTwo == null && myTankThree == null) {
+  const [allTanks, setAllTanks] = useState([]);
+
+  const [botTankOne, setbotTankOne] = useState(null);
+  const [botTankTwo, setBotTankTwo] = useState(null);
+  const [botTankThree, setBotTankThree] = useState(null);
+  const [botTanks, setBotTanks] = useState([]);
+  const [battleType, setBattleType] = useState(getPreferredBattleType());
+
+  // for react joyride
+  const [run, setRun] = useState(true);
+  const [tourSteps, setTourSteps] = useState([
+    {
+      target: ".leftTank",
+      content: "Choose your tank for training here"
+    },
+    {
+      target: ".taright",
+      content: "Choose training opponent",
+    },
+    {
+      target: ".changeType",
+      content: "Change battle type here"
+    },
+    {
+      target: ".startTrain",
+      content: "Start training battle here"
+    },
+    {
+      target: ".chooseArena",
+      content: "Choose Arena Type here"
+    },
+    {
+      target: ".casusLink",
+      content: "Back to Casus Here"
+    }
+  ]);
+
+
+  useEffect(() => {
+    verifyLogin();
+    getAllUsersTanks(allTanks => {
+      setAllTanks(allTanks);
+      setSelectedTankOne(getPreferredSelectedTank(allTanks));
+    })
+
+    getBotTanksAPICall(botTanks => {
+      setbotTankOne(botTanks[0]);
+      setBotTanks(botTanks);
+    })
+
+    TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+  }, []);
+
+  const onClickStartBattle: void = () => {
+		const myTankOne: ?Tank = selectedTankOne;
+		const myTankTwo: ?Tank = selectedTankTwo;
+		const myTankThree: ?Tank = selectedTankThree;
+		const botTankOne: ?Tank = botTankOne;
+		const botTankTwo: ?Tank = botTankTwo;
+		const botTankThree: ?Tank = botTankThree;
+		const arenaSelector: HTMLSelectElement=arenaSelect.current;
+		
+    if (myTankOne == null && myTankTwo == null && myTankThree == null) {
 			toast.error('One of your tanks must be selected!');
 			return;
 		}
-		if (botTankOne == null && botTankTwo == null && botTankThree == null) {
+		
+    if (botTankOne == null && botTankTwo == null && botTankThree == null) {
 			toast.error('One bot tank must be selected!');
 			return;
 		}
-		const selected = arenaSelector.value;
-		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
+		
+    const selected = arenaSelector.value;
+		
+    if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
 			setBattlegroundArena(selected);
 		}
 
 		setReturnToFromBattlegroundLink('/TrainingArena');
+
 		// NEED TO UPDATE SET 3v3 TANKS TO FIGHT IN BATTLEGROUND
-		if (this.state.battleType === '1 vs 1') {
+		if (battleType === '1 vs 1') {
 			if (myTankOne == null || botTankOne == null) {
 				toast.error('One bot tank and one of your tanks must be selected!');
 				return;
@@ -128,222 +134,221 @@ class TrainingArena extends React.Component<Props, State> {
 		}
 
 		window.location.href=verifyLink('/Battleground');
-	}
+  }
 
-	onChangeBattleTypeClicked(): void {
-		const newBattleType = this.state.battleType === '1 vs 1'?'3 vs 3':'1 vs 1';
+  const onChangeBattleTypeClicked: void = () => {
+		const newBattleType = battleType === '1 vs 1'?'3 vs 3':'1 vs 1';
 		setPreferredBattleType(newBattleType);
-		this.setState({battleType: newBattleType});
-	}
-	
-	onChange(): void {
-		const arenaSelector: HTMLSelectElement=this.refs.arenaSelect;
+    setBattleType(newBattleType);
+  }
+
+  const onChange: void = () => {
+    const arenaSelector: HTMLSelectElement=arenaSelect.current;
 		const selected = arenaSelector.value;
 		if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
 			setPreferredArena(selected);
 		}
-	}
+  }
 
-	render(): React.Node {
-		const preferredArena=getPreferredArena(this.state.battleType);
-		return (
-			<div id="Parent">
-				<MainNavbar 
-					linkName="/MainMenu" 
-					returnName="Back to Main Menu" 
-					pageName="Training Arena" 
-					youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
-				/>
-				<div className="column taleft">
-					<h5>Choose your Tank, Commander</h5>
-					<br/>
-					{(this.state.battleType === '1 vs 1') ?
-						<div className="leftTank">
-							<SelectTank
-								selectedTank={this.state.selectedTankOne}
-								allTanks={this.state.allTanks}
-								changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
-								propogateChangesToCasus={true}
-								allowRemoveTank={false}
-							/>
-							{this.state.selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={false} />}
-						</div> :
-						<div className="threeTankDisplay">
-							<table>
-								<thead>
-									<tr>
-										<th>
-											<SelectTank
-												selectedTank={this.state.selectedTankTwo}
-												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankThree)}
-												changeSelectedTank={(tank) => this.setState({selectedTankTwo: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-										<th>
-											<SelectTank
-												selectedTank={this.state.selectedTankOne}
-												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankThree && tank !== this.state.selectedTankTwo)}
-												changeSelectedTank={(tank) => this.setState({selectedTankOne: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-										<th>
-											<SelectTank
-												selectedTank={this.state.selectedTankThree}
-												allTanks={this.state.allTanks.filter(tank => tank !== this.state.selectedTankOne && tank !== this.state.selectedTankTwo)}
-												changeSelectedTank={(tank) => this.setState({selectedTankThree: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true} />}
-											
-										</td>
-										<td>
-											{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true} />}
-										</td>
-										<td>
-											{this.state.selectedTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankThree} smallTank={true} />}
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					}
-				</div>
-				<div className="column tamiddle">
-					<h5>Current Battle Type: {this.state.battleType}</h5>
-					<button 
-						className="primarybtn changeType" 
-						onClick={() => this.onChangeBattleTypeClicked()}
-					>
-						Change Battle Type
-					</button>
-					<br/><br/><br/>
-					<h5>Arena</h5>
-					{ this.state.battleType === '1 vs 1' ? 
-						<select 
-							className="dropdownMenu chooseArena" 
-							ref="arenaSelect" 
-							defaultValue={preferredArena} 
-							onChange={() => this.onChange()}
-						>
-							<option value="DIRT">Classic</option>
-							<option value="HEX">Hex</option>
-						</select>
-					:
-						<select 
-							className="dropdownMenu chooseArena" 
-							ref="arenaSelect" 
-							defaultValue={preferredArena} 
-							onChange={() => this.onChange()}
-						>
-							<option value="CANDEN">Canden</option>
-							<option value="LUNAR">Lunar</option>
-						</select>
+  const preferredArena=getPreferredArena(battleType);
 
-					}
-					<br/><br/><br/>
-					<button 
-						type="button" 
-						className="primarybtn startTrain" 
-						onClick={() => this.onClickStartBattle()}
-					>
-						Start Battle
-					</button>
-					<br/><br/>
-					<Link to={verifyLink("/Casus")}>
-						<button className="smallbtn casusLink">Casus</button>
-					</Link>
-				</div>
-				<div className="column taright">
-					<h5>Choose a Training Bot</h5>
-					<br/>
-					{(this.state.battleType === '1 vs 1') ?
-						<div>
-							<SelectTank
-								selectedTank={this.state.botTankOne}
-								allTanks={this.state.botTanks}
-								changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
-								propogateChangesToCasus={false}
-								allowRemoveTank={false}
-							/>
-							{this.state.botTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={false} />}
-						</div> :
-						<div className="threeTankDisplay">
-							<table>
-								<thead>
-									<tr>
-										<th>
-											<SelectTank
-												selectedTank={this.state.botTankTwo}
-												allTanks={this.state.botTanks}
-												changeSelectedTank={(tank) => this.setState({botTankTwo: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-										<th>
-											<SelectTank
-												selectedTank={this.state.botTankOne}
-												allTanks={this.state.botTanks}
-												changeSelectedTank={(tank) => this.setState({botTankOne: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-										<th>
-											<SelectTank
-												selectedTank={this.state.botTankThree}
-												allTanks={this.state.botTanks}
-												changeSelectedTank={(tank) => this.setState({botTankThree: tank})}
-												propogateChangesToCasus={false}
-												allowRemoveTank={true}
-											/>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											{this.state.botTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankTwo} smallTank={true} />}
-											
-										</td>
-										<td>
-											{this.state.botTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankOne} smallTank={true} />}
-										</td>
-										<td>
-											{this.state.botTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.botTankThree} smallTank={true} />}
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					}
-				</div>
-				<ToastContainer />
-        <JoyRide 
-          steps={this.state.tour_steps}
-          run={this.state.run}
-          continuous={true} 
-          styles={{
-            options: {
-              zIndex: 1000,
-              spotlightShadow: 'blue'
-            }
-          }}
+  return (
+    <div id="Parent">
+      <MainNavbar 
+        linkName="/MainMenu" 
+        returnName="Back to Main Menu" 
+        pageName="Training Arena" 
+        youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
-			</div>
-		)
-	}
+      <div className="column taleft" ref={el => leftT = el}>
+        <h5>Choose your Tank, Commander</h5>
+        <br/>
+        {(battleType === '1 vs 1') ?
+          <div className="leftTank">
+            <SelectTank
+              selectedTank={selectedTankOne}
+              allTanks={allTanks}
+              changeSelectedTank={(tank) => setSelectedTankOne(tank)}
+              propogateChangesToCasus={true}
+              allowRemoveTank={false}
+            />
+            {selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={selectedTankOne} smallTank={false} />}
+          </div> :
+          <div className="threeTankDisplay">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankTwo}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankThree)}
+                      changeSelectedTank={(tank) => setSelectedTankTwo(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankOne}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankThree && tank !== selectedTankTwo)}
+                      changeSelectedTank={(tank) => setSelectedTankOne(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankThree}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankTwo)}
+                      changeSelectedTank={(tank) => setSelectedTankThree(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={selectedTankTwo} smallTank={true} />}
+                    
+                  </td>
+                  <td>
+                    {selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={selectedTankOne} smallTank={true} />}
+                  </td>
+                  <td>
+                    {selectedTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={selectedTankThree} smallTank={true} />}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+      <div className="column tamiddle" ref={el => midT = el}>
+        <h5>Current Battle Type: {battleType}</h5>
+        <button 
+          className="primarybtn changeType" 
+          onClick={() => onChangeBattleTypeClicked()}
+        >
+          Change Battle Type
+        </button>
+        <br/><br/><br/>
+        <h5>Arena</h5>
+        { battleType === '1 vs 1' ? 
+          <select 
+            className="dropdownMenu chooseArena" 
+            ref={arenaSelect} 
+            defaultValue={preferredArena} 
+            onChange={() => onChange()}
+          >
+            <option value="DIRT">Classic</option>
+            <option value="HEX">Hex</option>
+          </select>
+        :
+          <select 
+            className="dropdownMenu chooseArena" 
+            ref={arenaSelect} 
+            defaultValue={preferredArena} 
+            onChange={() => onChange()}
+          >
+            <option value="CANDEN">Canden</option>
+            <option value="LUNAR">Lunar</option>
+          </select>
+
+        }
+        <br/><br/><br/>
+        <button 
+          type="button" 
+          className="primarybtn startTrain" 
+          onClick={() => onClickStartBattle()}
+        >
+          Start Battle
+        </button>
+        <br/><br/>
+        <Link to={verifyLink("/Casus")}>
+          <button className="smallbtn casusLink">Casus</button>
+        </Link>
+      </div>
+      <div className="column taright" ref={el => rightT = el}>
+        <h5>Choose a Training Bot</h5>
+        <br/>
+        {(battleType === '1 vs 1') ?
+          <div>
+            <SelectTank
+              selectedTank={botTankOne}
+              allTanks={botTanks}
+              changeSelectedTank={(tank) => setbotTankOne(tank)}
+              propogateChangesToCasus={false}
+              allowRemoveTank={false}
+            />
+            {botTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={botTankOne} smallTank={false} />}
+          </div> :
+          <div className="threeTankDisplay">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    <SelectTank
+                      selectedTank={botTankTwo}
+                      allTanks={botTanks}
+                      changeSelectedTank={(tank) => setBotTankTwo(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={botTankOne}
+                      allTanks={botTanks}
+                      changeSelectedTank={(tank) => setbotTankOne(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={botTankThree}
+                      allTanks={botTanks}
+                      changeSelectedTank={(tank) => setBotTankThree(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {botTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={botTankTwo} smallTank={true} />}
+                    
+                  </td>
+                  <td>
+                    {botTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={botTankOne} smallTank={true} />}
+                  </td>
+                  <td>
+                    {botTankThree == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={botTankThree} smallTank={true} />}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+      <ToastContainer />
+      <JoyRide 
+        steps={tourSteps}
+        run={run}
+        continuous={true}
+        styles={{
+          options: {
+            zIndex: 1000,
+            spotlightShadow: 'blue'
+          }
+        }}
+    />
+    </div>
+  )
 }
 
-export default TrainingArena;
+export default TrainingArena

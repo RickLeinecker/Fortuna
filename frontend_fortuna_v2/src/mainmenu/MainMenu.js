@@ -1,9 +1,8 @@
 //@flow strict
 
 import './MainMenu.css';
-import * as React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {Fragment, useState, useEffect} from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
@@ -18,6 +17,7 @@ import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPIC
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import JoyRide from 'react-joyride'
+import { TweenMax, TweenLite, Power3 } from 'gsap'
 
 // type Props = {||};
 
@@ -33,7 +33,7 @@ import JoyRide from 'react-joyride'
 // Main Menu component.
 const MainMenu  = () => {
 
-
+        // test
 	const [selectedTankOne, setSelectedTankOne] = useState(null);
 	const [selectedTankTwo, setSelectedTankTwo] = useState(null);
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
@@ -74,6 +74,10 @@ const MainMenu  = () => {
 
   const [run, setRun] = useState(true);
 
+  let left = useRef(null);
+  let mid = useRef(null);
+  let right = useRef(null);
+
 
 	useEffect(() => {
 
@@ -87,6 +91,11 @@ const MainMenu  = () => {
 		});
 		getReplayListAPICall(() => {
 		});
+
+    TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+
 	}, [])
 
 	return (
@@ -100,14 +109,14 @@ const MainMenu  = () => {
           />
         </div>
         <h1 className="menuheader">Where to Commander?</h1>
-        <div className="column menuleft battleRecord">
+        <div className="column menuleft battleRecord" ref={el => left = el}>
           <Replays/>
           <br/>
           <Link to={verifyLink("/TrainingArena")}>
             <button className="mainMenuBtn train">Training</button>
           </Link>
         </div>
-        <div className="column menumiddle">
+        <div className="column menumiddle" ref={el => mid = el}>
           {(battleType === '1 vs 1') ?
             <div>
               <SelectTank
@@ -178,16 +187,13 @@ const MainMenu  = () => {
           <Link to={verifyLink("/Casus")}>
             <button className="mainMenuBtn editTank">Edit Tank Code</button>
           </Link>
-          <br/>
-          <br/>
-          <br/>
-
+          <div className="divider" />
           <Link to={verifyLink("/BattleArena")}>
             <button className="mainMenuBtn play">Play</button>
           </Link>
         </div>
-        <div className="column menuright leaderboardTut">
-          <Leaderboard/>
+        <div className="column menuright" ref={el => right = el}>
+          <Leaderboard className="leaderboardTut"/>
           <br/>
           <Link to={verifyLink("/Credits")}>
             <button className="mainMenuBtn creditsButton">Credits</button>
