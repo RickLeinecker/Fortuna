@@ -22,10 +22,6 @@ function BlockBank(props) {
 
   const [selectedSection, setSelectedSection] = useState('CONTROL_FLOW');
 
-  useEffect(() => {
-
-  })
-
   const onSectionClicked = (section: BlockBankType) => {
     setSelectedSection(section);
   }
@@ -58,50 +54,3 @@ function BlockBank(props) {
 }
 
 export default BlockBank
-
-
-
-// type State = {|
-// 	selectedSection: BlockBankType	
-// |};
-
-// class BlockBank extends React.Component<Props, State> {
-
-// 	constructor(props: Props) {
-// 		super(props);
-// 		this.state = {selectedSection: 'CONTROL_FLOW'};
-// 	}
-
-// 	onSectionClicked = (section: BlockBankType) => {
-// 		this.setState({selectedSection: section});
-// 	}
-
-//   showHelp() {
-//     console.log("Help!")
-//   }
-
-// 	render(): React.Node {
-// 		return (
-//       <>
-//       	<div className="stickyPosition"> 
-//           <div>
-//             <BlockBankTypeSelector onSectionClicked={this.onSectionClicked} />
-//           </div>
-//           <div className="flexRight blockShelf">
-//             <BlockBankBlockShelf
-//               selectedSection={this.state.selectedSection} 
-//               {...this.props}
-//             />
-//           </div>
-//         </div>
-//         <br/>
-//         <br/>
-//         <br/>
-//         <button className="helpButton" onClick={() => this.showHelp()}>Help</button>
-//       </>
-// 		);
-// 	}
-
-// }
-
-// export default BlockBank;
