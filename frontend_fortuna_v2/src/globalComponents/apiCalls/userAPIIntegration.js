@@ -35,6 +35,7 @@ function setWager(wager: number, onLoad:(stipendApplied: boolean) => void): void
 	);
 }
 
+
 function setWager3v3(wager: number, onLoad:(stipendApplied: boolean) => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/user/setWager3v3/', {
 		method: 'PATCH',

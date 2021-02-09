@@ -15,8 +15,13 @@ import TankDisplay from "../tanks/TankDisplay";
 import {getAllUsersTanks} from "../globalComponents/apiCalls/tankAPIIntegration";
 import getPreferredSelectedTank from "../globalComponents/getPreferredSelectedTank";
 import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPICall";
+import getFirstTimeAPICall from "../globalComponents/apiCalls/getFirstTimeAPICall";
+import setFirstTimeAPICall from "../globalComponents/apiCalls/setFirstTimeAPICall";
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
+import {toast} from "react-toastify";
+import getErrorFromObject from "../globalComponents/getErrorFromObject";
+import setLoginToken from "../globalComponents/setLoginToken";
 
 // type Props = {||};
 
@@ -33,6 +38,7 @@ import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 const MainMenu  = () => {
 
 
+
 	const [selectedTankOne, setSelectedTankOne] = useState(null);
 	const [selectedTankTwo, setSelectedTankTwo] = useState(null);
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
@@ -41,8 +47,8 @@ const MainMenu  = () => {
 	const [battleType, setBattleType] = useState('1 vs 1')
 
 
-	useEffect(() => {
 
+	useEffect(() => {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
 		getAllUsersTanks(allTanks => {
@@ -53,6 +59,12 @@ const MainMenu  = () => {
 		});
 		getReplayListAPICall(() => {
 		});
+		getFirstTimeAPICall(() => {
+
+		});
+		setFirstTimeAPICall(() => {
+
+		})
 	}, [])
 
 	return (
