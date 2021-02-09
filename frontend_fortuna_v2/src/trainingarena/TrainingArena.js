@@ -98,9 +98,9 @@ function TrainingArena() {
 		const myTankOne: ?Tank = selectedTankOne;
 		const myTankTwo: ?Tank = selectedTankTwo;
 		const myTankThree: ?Tank = selectedTankThree;
-		const botTankOne: ?Tank = botTankOne;
-		const botTankTwo: ?Tank = botTankTwo;
-		const botTankThree: ?Tank = botTankThree;
+		const _botTankOne: ?Tank = botTankOne;
+		const _botTankTwo: ?Tank = botTankTwo;
+		const _botTankThree: ?Tank = botTankThree;
 		const arenaSelector: HTMLSelectElement=arenaSelect.current;
 		
     if (myTankOne == null && myTankTwo == null && myTankThree == null) {
@@ -108,7 +108,7 @@ function TrainingArena() {
 			return;
 		}
 		
-    if (botTankOne == null && botTankTwo == null && botTankThree == null) {
+    if (_botTankOne == null && _botTankTwo == null && _botTankThree == null) {
 			toast.error('One bot tank must be selected!');
 			return;
 		}
@@ -123,14 +123,14 @@ function TrainingArena() {
 
 		// NEED TO UPDATE SET 3v3 TANKS TO FIGHT IN BATTLEGROUND
 		if (battleType === '1 vs 1') {
-			if (myTankOne == null || botTankOne == null) {
+			if (myTankOne == null || _botTankOne == null) {
 				toast.error('One bot tank and one of your tanks must be selected!');
 				return;
 			}
-			setTanksToFightInBattleground(myTankOne._id, botTankOne._id);
+			setTanksToFightInBattleground(myTankOne._id, _botTankOne._id);
 		}
 		else {
-			setTanksToFightInBattleground3v3(myTankOne, myTankTwo, myTankThree, botTankOne, botTankTwo, botTankThree);
+			setTanksToFightInBattleground3v3(myTankOne, myTankTwo, myTankThree, _botTankOne, _botTankTwo, _botTankThree);
 		}
 
 		window.location.href=verifyLink('/Battleground');

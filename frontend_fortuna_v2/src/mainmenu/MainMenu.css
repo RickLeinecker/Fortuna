@@ -84,3 +84,10 @@ h1 {
     height:auto;
     display:inline-block;
 }
+
+.topCommand {
+  border: 4px solid black;
+  background-color: #04213F;
+  display: block;
+  width: 450px;
+}
