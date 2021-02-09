@@ -28,6 +28,7 @@ import { TweenLite, Power3 } from 'gsap';
 
 function TrainingArena() {
 
+
   const arenaSelect = useRef(null);
 
   // for gsap
@@ -77,11 +78,13 @@ function TrainingArena() {
   ]);
 
 
+
   useEffect(() => {
     verifyLogin();
     getAllUsersTanks(allTanks => {
       setAllTanks(allTanks);
       setSelectedTankOne(getPreferredSelectedTank(allTanks));
+	 document.body.style.backgroundImage = "url('/login_background.gif')"
     })
 
     getBotTanksAPICall(botTanks => {
@@ -102,19 +105,19 @@ function TrainingArena() {
 		const botTankTwo: ?Tank = botTankTwo;
 		const botTankThree: ?Tank = botTankThree;
 		const arenaSelector: HTMLSelectElement=arenaSelect.current;
-		
+
     if (myTankOne == null && myTankTwo == null && myTankThree == null) {
 			toast.error('One of your tanks must be selected!');
 			return;
 		}
-		
+
     if (botTankOne == null && botTankTwo == null && botTankThree == null) {
 			toast.error('One bot tank must be selected!');
 			return;
 		}
-		
+
     const selected = arenaSelector.value;
-		
+
     if (selected === 'DIRT' || selected === 'HEX' || selected === 'CANDEN' || selected === 'LUNAR') {
 			setBattlegroundArena(selected);
 		}
@@ -154,11 +157,11 @@ function TrainingArena() {
 
   return (
     <div id="Parent">
-      <MainNavbar 
-        linkName="/MainMenu" 
-        returnName="Back to Main Menu" 
-        pageName="Training Arena" 
-        youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
+      <MainNavbar
+        linkName="/Login"
+        returnName="Logout"
+        pageName="Training Arena"
+        //youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
       <div className="column taleft" ref={el => leftT = el}>
         <h5>Choose your Tank, Commander</h5>
@@ -211,7 +214,7 @@ function TrainingArena() {
                 <tr>
                   <td>
                     {selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={selectedTankTwo} smallTank={true} />}
-                    
+
                   </td>
                   <td>
                     {selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={selectedTankOne} smallTank={true} />}
@@ -227,29 +230,29 @@ function TrainingArena() {
       </div>
       <div className="column tamiddle" ref={el => midT = el}>
         <h5>Current Battle Type: {battleType}</h5>
-        <button 
-          className="primarybtn changeType" 
+        <button
+          className="primarybtn changeType"
           onClick={() => onChangeBattleTypeClicked()}
         >
           Change Battle Type
         </button>
         <br/><br/><br/>
         <h5>Arena</h5>
-        { battleType === '1 vs 1' ? 
-          <select 
-            className="dropdownMenu chooseArena" 
-            ref={arenaSelect} 
-            defaultValue={preferredArena} 
+        { battleType === '1 vs 1' ?
+          <select
+            className="dropdownMenu chooseArena"
+            ref={arenaSelect}
+            defaultValue={preferredArena}
             onChange={() => onChange()}
           >
             <option value="DIRT">Classic</option>
             <option value="HEX">Hex</option>
           </select>
         :
-          <select 
-            className="dropdownMenu chooseArena" 
-            ref={arenaSelect} 
-            defaultValue={preferredArena} 
+          <select
+            className="dropdownMenu chooseArena"
+            ref={arenaSelect}
+            defaultValue={preferredArena}
             onChange={() => onChange()}
           >
             <option value="CANDEN">Canden</option>
@@ -258,9 +261,9 @@ function TrainingArena() {
 
         }
         <br/><br/><br/>
-        <button 
-          type="button" 
-          className="primarybtn startTrain" 
+        <button
+          type="button"
+          className="primarybtn startTrain"
           onClick={() => onClickStartBattle()}
         >
           Start Battle
@@ -321,7 +324,7 @@ function TrainingArena() {
                 <tr>
                   <td>
                     {botTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={botTankTwo} smallTank={true} />}
-                    
+
                   </td>
                   <td>
                     {botTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={botTankOne} smallTank={true} />}
@@ -336,7 +339,7 @@ function TrainingArena() {
         }
       </div>
       <ToastContainer />
-      <JoyRide 
+      <JoyRide
         steps={tourSteps}
         run={run}
         continuous={true}
