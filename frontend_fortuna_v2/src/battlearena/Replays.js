@@ -29,6 +29,9 @@ class Replays extends React.Component<Props, State> {
 		getReplayListAPICall(replays => {
 			this.setState({replays: replays});
 		});
+
+    // may need to try adding api call to get username instead of cookies
+    // to prevent race condition
 	}
 
 	getMatchResult(replay: Replay): string {
@@ -58,7 +61,7 @@ class Replays extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="replayTable">
-				<h4>{this.state.myUsername}'s Battle Record</h4>
+				{this.state.myUsername != null ? <h4>{this.state.myUsername}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
 						<tr>
