@@ -89,8 +89,10 @@ body {
 
 /* Navbar Styling */
 .navbar {
-	background-color: #3E5A6F;
-	border-bottom: 3px solid #04213F;
+	color: white/*#04CCFF*/;
+	font-family: "Press Start 2P";
+	background-color: "transparent";
+	/*border-bottom: 3px solid #04213F;*/
 	overflow: hidden;
 	display: flex;
 	flex-direction: row;
@@ -117,17 +119,19 @@ body {
 }
 
 .navbtn {
-	color: #04CCFF;
-	background: #3E5A6F;
-	border: 2px solid #04CCFF;
+	color: #ff47ff/*#04CCFF*/;
+	background: black;
+	border: 2px solid #ff47ff;
 	border-radius: 8px;
+	margin-left: 5px;
+	margin-right: 10px;
 	width: auto;
 }
 
 .navbtn:hover {
-	color: #3E5A6F;
-	background: #04CCFF;
-	border: 2px solid #04CCFF;
+	color: black;
+	background: #ff47ff;
+	border: 2px solid #ff47ff;
 }
 
 /* Popup Styling */

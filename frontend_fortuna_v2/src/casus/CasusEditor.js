@@ -52,7 +52,7 @@ const RIGHT_BUTTON_CODE=2;
 const MAX_UNDOS=50;
 
 class CasusEditor extends React.Component<Props, State> {
-	
+
 	constructor(props: Props) {
 		super(props);
 		const containerBlock: ContainerBlock = new ContainerBlock([]);
@@ -88,7 +88,7 @@ class CasusEditor extends React.Component<Props, State> {
 		canvas.onmousedown = (e: MouseEvent) => this.onMouseDown(e);
 		canvas.oncontextmenu = (e: CanPreventDefaultEvent) => {e.preventDefault();};
 		canvas.style.height = '360px';
-    
+
 		this._rerender();
 	}
 
@@ -100,7 +100,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 	onUndoRedoButtonClicked(undo: boolean): void {
 		const newCasusStateIndex=this.state.currentCasusState+(undo?-1:1);
-		const newState=casusBlockDeepCloneAsContainer(this.state.casusStates[newCasusStateIndex]);	
+		const newState=casusBlockDeepCloneAsContainer(this.state.casusStates[newCasusStateIndex]);
 		this.setState({
 			currentCasusState: newCasusStateIndex,
 			containerBlock: newState,
@@ -136,15 +136,15 @@ class CasusEditor extends React.Component<Props, State> {
 			<div className="casusEditorContainingDiv">
         <Container fluid>
           <div className="undoBtnArea">
-            <button 
-              className="undoBtn" 
+            <button
+              className="undoBtn"
               onClick={(() => this.onUndoRedoButtonClicked(true))}
               disabled={this.state.currentCasusState<=0}
             >
               Undo
             </button>
-            <button 
-              className="undoBtn" 
+            <button
+              className="undoBtn"
               onClick={(() => this.onUndoRedoButtonClicked(false))}
               disabled={this.state.currentCasusState>=this.state.casusStates.length-1}
             >
@@ -155,14 +155,14 @@ class CasusEditor extends React.Component<Props, State> {
         <Container fluid>
           <Row>
             <Col>
-              <canvas 
+              <canvas
               className="casusEditorCanvas"
-              ref="canvas" 
+              ref="canvas"
             />
             </Col>
           </Row>
         </Container>
-				<SelectVariablePopup 
+				<SelectVariablePopup
 					variableBlockToRename={this.state.variableBlockToRename}
 					onCancelClicked={() => this.onCancelClicked()}
 					onVariableCreated={(created: string) => this.onVariableCreated(created)}
@@ -210,7 +210,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 		const eventPos=new Vec(e.clientX - boundingBox.left, e.clientY - boundingBox.top);
 		const rightButton = e.button === RIGHT_BUTTON_CODE;
-		
+
 		let toSelect: Array<CasusBlock> = [];
 		if (rightButton) {
 			const wouldHaveRemoved = this.state.containerBlock.removeBlockAt(eventPos, false, true);
@@ -303,7 +303,7 @@ class CasusEditor extends React.Component<Props, State> {
 		if (this.state.mouseOnScreen && this.props.draggedBlocks != null) {
 			const oldAlpha=ctx.globalAlpha;
 			ctx.globalAlpha=0.5;
-	
+
 			const containerBlock=new ContainerBlock(this.props.draggedBlocks);
 			containerBlock.precompBounds();
 			containerBlock.precompXY(this.state.mouseX, this.state.mouseY);
@@ -311,7 +311,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 			ctx.globalAlpha=oldAlpha;
 		}
-	
+
 
 		//extend canvas if I need to
 		const heightString=canvas.style.height;
@@ -356,7 +356,7 @@ class CasusEditor extends React.Component<Props, State> {
 	_tryToPlace(ctx: ?CanvasRenderingContext2D):void {
 		if (this.props.draggedBlocks != null) {
 			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
-			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
+			const blockToTryPlace = this.props.draggedBlocks.length === 1 ?
 				this.props.draggedBlocks[0] :
 				new ContainerBlock(this.props.draggedBlocks);
 			blockToTryPlace.precompBounds();
@@ -369,7 +369,7 @@ class CasusEditor extends React.Component<Props, State> {
 	_tryToPlaceInContainerBlock(ctx: ?CanvasRenderingContext2D): void {
 		if (this.props.draggedBlocks != null) {
 			const mousePos = new Vec(this.state.mouseX, this.state.mouseY);
-			const blockToTryPlace = this.props.draggedBlocks.length === 1 ? 
+			const blockToTryPlace = this.props.draggedBlocks.length === 1 ?
 				this.props.draggedBlocks[0] :
 				new ContainerBlock(this.props.draggedBlocks);
 			if (blockToTryPlace.getReturnType() !== 'VOID') {
@@ -378,7 +378,7 @@ class CasusEditor extends React.Component<Props, State> {
 
 			blockToTryPlace.precompBounds();
 
-			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx, true);	
+			this.state.containerBlock.tryToPlaceInContainer(mousePos, blockToTryPlace, ctx, true);
 		}
 	}
 
@@ -398,7 +398,7 @@ class CasusEditor extends React.Component<Props, State> {
 		}
 		const released=this.props.draggedBlocks[0];
 		if (
-			released instanceof GetVariableBlock || 
+			released instanceof GetVariableBlock ||
 			released instanceof SetVariableBlock
 		) {
 			if (isDefaultVariableName(released.variableName)) {
@@ -406,7 +406,7 @@ class CasusEditor extends React.Component<Props, State> {
 			}
 		}
 		else if (
-			released instanceof DefineFunctionBlock || 
+			released instanceof DefineFunctionBlock ||
 			released instanceof CallFunctionBlock
 		) {
 			if (isDefaultVariableName(released.functionName)) {
@@ -422,4 +422,3 @@ class CasusEditor extends React.Component<Props, State> {
 }
 
 export default CasusEditor;
-

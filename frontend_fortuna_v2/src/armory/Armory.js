@@ -77,7 +77,7 @@ function Armory() {
 		const initPoints: void = () => {
 			if (selectedTank == null)
 				return;
-			
+
 			const tank: Tank = selectedTank;
 			let newPoints: number = 0;
 
@@ -99,7 +99,7 @@ function Armory() {
 			setPreferredSelectedTank(newSelectedTank);
 			// Update the state, and then run initPoints after the state has been set.
 			setAllTanks(allTanks);
-			setSelectedTank(newSelectedTank);		
+			setSelectedTank(newSelectedTank);
 		})
 	}
 
@@ -209,7 +209,7 @@ function Armory() {
 	const updateComponent: void = (component: TankComponent, partIndex: number) => {
 		if (selectedTank == null)
 			return;
-		
+
 		// Setup a new tank that will be updated and set to the selected tank.
 		const updatedTank: Tank = selectedTank;
 		// Find the component's type and setup new component accordingly.
@@ -230,7 +230,7 @@ function Armory() {
 				break;
 			case 3:
 				newComponent = new Scanner(
-					component, 
+					component,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -273,7 +273,7 @@ function Armory() {
 		{
 			const scannerType = selectedTank.scanner.name;
 			const newScanner=new Scanner(
-					scannerType, 
+					scannerType,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -288,7 +288,7 @@ function Armory() {
 		setComponentList([]);
 		setCurrentPartIndex(-1);
 		// Save the tank.
-		saveTank();	
+		saveTank();
 
 	}
 
@@ -299,15 +299,15 @@ function Armory() {
 	
 	return (
 		<div id="Parent">
-			<MainNavbar 
-				linkName="/MainMenu" 
-				returnName="Back to Main Menu" 
+			<MainNavbar
+				linkName="/Login"
+				returnName="Logout"
 				pageName="Armory"
 				ref={navbarRef}
-				youtubeLinks={[
-					'https://www.youtube.com/watch?v=kEClhrMWogY', 
-					'https://www.youtube.com/watch?v=1nnY9wlLOYU'
-				]}
+				//youtubeLinks={[
+				//	'https://www.youtube.com/watch?v=kEClhrMWogY',
+				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+				//]}
 			/>
 			<div className="column armoryleft" ref={el => armleft = el}>
 				<h4 className="font">Selected Tank</h4>
@@ -342,7 +342,7 @@ function Armory() {
 							renameTank={renameTank}
 						/>
 					}&emsp;
-					<CreateNewTankPopup 
+					<CreateNewTankPopup
 						chassis={chassis}
 						treads={treads}
 					/>&emsp;
@@ -380,7 +380,7 @@ function Armory() {
 									{(componentList == null) ? <tr></tr> : componentList.map(({componentName, numberOwned}, index) => (
 										<tr key={index}>
 											<td align="left">
-												<button 
+												<button
 													className="componentMenuBtn"
 													onClick={() => updateComponent(componentName, currentPartIndex)}
 													disabled={checkPoints(componentName, currentPartIndex)}
@@ -396,7 +396,7 @@ function Armory() {
 										<tr></tr> :
 										<tr>
 											<td align="left">
-												<button 
+												<button
 													className="componentMenuBtn font"
 													onClick={() => updateComponent('empty', currentPartIndex)}
 												>
@@ -417,8 +417,8 @@ function Armory() {
 					<div className="column armoryright">
 						<h5 className="font">{points}/10 Points Used</h5>
 						<label className="font">Chassis: </label>
-						<button 
-							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
+						<button
+							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
 						>
 							{toTitleCase(selectedTank.chassis.name)}
@@ -427,7 +427,7 @@ function Armory() {
 						<br/>
 
 						<label className="font">Main Gun: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1)}}
 						>
@@ -435,7 +435,7 @@ function Armory() {
 						</button>
 						<br/>
 						<label className="font">Secondary Gun: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2)}}
 						>
@@ -445,7 +445,7 @@ function Armory() {
 						<br/>
 
 						<label className="font">Scanners: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(scanners); setCurrentPartIndex(3)}}
 						>
@@ -453,7 +453,7 @@ function Armory() {
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
@@ -462,7 +462,7 @@ function Armory() {
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
@@ -473,7 +473,7 @@ function Armory() {
 						<br/>
 
 						<label className="font">Jammers: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(jammers); setCurrentPartIndex(6)}}
 						>
@@ -483,7 +483,7 @@ function Armory() {
 						<br/>
 
 						<label className="font">Treads: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(treads); setCurrentPartIndex(7)}}
 						>
@@ -493,7 +493,7 @@ function Armory() {
 						<br/>
 
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(items); setCurrentPartIndex(8)}}
 						>
@@ -501,7 +501,7 @@ function Armory() {
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(items); setCurrentPartIndex(9)}}
 						>
@@ -509,7 +509,7 @@ function Armory() {
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
+						<button
 							className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
 							onClick={() => {setComponentList(items); setCurrentPartIndex(10)}}
 						>
@@ -518,7 +518,7 @@ function Armory() {
 					</div>
 				}
 			</div>
-	
+
 			<ToastContainer />
 		</div>
 	);

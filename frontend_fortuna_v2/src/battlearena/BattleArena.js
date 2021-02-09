@@ -51,6 +51,8 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
@@ -107,10 +109,11 @@ class BattleArena extends React.Component<Props, State> {
 		return (
 		<div id="Parent">
 			<MainNavbar
-				returnName="Back to Main Menu"
+				linkName="/Login"
+				returnName="Logout"
 				pageName="Battle Arena"
-				linkName="/MainMenu"
-				youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
+				// linkName="/MainMenu"
+				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column baleft">
 				<h5>Challenge a Player</h5>

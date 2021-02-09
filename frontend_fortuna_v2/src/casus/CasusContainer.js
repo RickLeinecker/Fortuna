@@ -23,6 +23,10 @@ type State = {
 
 class CasusContainer extends React.Component<Props, State> {
 
+	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+	}
+
 	constructor(props: Props) {
 		super(props);
 		verifyLogin();
@@ -64,22 +68,22 @@ class CasusContainer extends React.Component<Props, State> {
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
-					youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
+					// youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
 				/>
         <Container fluid>
           <Row className="mt-12">
             <Col md={12} className="editor">
               <CasusEditor 
                 draggedBlocks={this.state.draggedBlocks}
-                onBlocksDragged={this.onBlocksDragged} 
+                onBlocksDragged={this.onBlocksDragged}
                 onDraggedBlocksReleased={this.onDraggedBlocksReleased}
               />
             </Col>
           </Row>
           <br></br>
-          <BlockBank 
+          <BlockBank
             draggedBlocks={this.state.draggedBlocks}
-            onBlocksDragged={this.onBlocksDragged} 
+            onBlocksDragged={this.onBlocksDragged}
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
           <Row>
