@@ -193,7 +193,7 @@ const MainMenu  = () => {
           </Link>
         </div>
         <div className="column menuright" ref={el => right = el}>
-          <div className="topCommand">
+          <div>
             <Leaderboard className="leaderboardTut"/>
           </div>
           <br/>

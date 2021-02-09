@@ -44,7 +44,7 @@ class Leaderboard extends React.Component<Props, State> {
 			<div style={this.divStyle}>
 				<h4 id = "title">Top Commanders</h4>
 				<table>
-					<tbody style={{paddingLeft: "150px"}}>
+					<tbody>
 						{this.state.leaders.map(({username, elo}, index) =>
 							<tr key={index}>
 								<td id="index">{index + 1}.</td>
