@@ -23,3 +23,11 @@
   background-color: #ff6ec7;
   font-family: 'Press Start 2P', cursive;
 }
+
+.helpButton {
+  margin: 20px;
+  margin-right: 1000px;
+  border: 1px solid black;
+  background-color: #ff6ec7;
+  font-family: 'Press Start 2P', cursive;
+}

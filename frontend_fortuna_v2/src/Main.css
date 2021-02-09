@@ -2,6 +2,12 @@
 	margin-top:20px;
 }
 
+.divider{
+  width: 100px;
+  height:auto;
+  display:inline-block;
+}
+
 body {
 	color: #04CCFF;
   height: 100%;

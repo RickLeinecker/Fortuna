@@ -18,3 +18,7 @@
 ###           docker-compose stop
 ## 7. When installing new npm packages, you will need to type the following
 ###     docker-compose down -v
+
+###     Note: It will probably be best that you do docker-compose down -v after 
+###     pulling from the master branch just in case someone forgets to mention
+###     that a new package was installed
