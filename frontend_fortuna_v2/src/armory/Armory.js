@@ -301,14 +301,14 @@ function Armory() {
 	return (
 		<div id="Parent">
 			<MainNavbar
-				linkName="/MainMenu"
-				returnName="Back to Main Menu"
+				linkName="/Login"
+				returnName="Logout"
 				pageName="Armory"
 				ref={navbarRef}
-				youtubeLinks={[
-					'https://www.youtube.com/watch?v=kEClhrMWogY',
-					'https://www.youtube.com/watch?v=1nnY9wlLOYU'
-				]}
+				//youtubeLinks={[
+				//	'https://www.youtube.com/watch?v=kEClhrMWogY',
+				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+				//]}
 			/>
 			<div className="column armoryleft" ref={el => armleft = el}>
 				<h4 className="font">Selected Tank</h4>

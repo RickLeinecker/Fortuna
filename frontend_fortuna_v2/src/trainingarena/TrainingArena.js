@@ -28,6 +28,7 @@ import { TweenLite, Power3 } from 'gsap';
 
 function TrainingArena() {
 
+
   const arenaSelect = useRef(null);
 
   // for gsap
@@ -77,11 +78,13 @@ function TrainingArena() {
   ]);
 
 
+
   useEffect(() => {
     verifyLogin();
     getAllUsersTanks(allTanks => {
       setAllTanks(allTanks);
       setSelectedTankOne(getPreferredSelectedTank(allTanks));
+	 document.body.style.backgroundImage = "url('/login_background.gif')"
     })
 
     getBotTanksAPICall(botTanks => {
@@ -155,10 +158,10 @@ function TrainingArena() {
   return (
     <div id="Parent">
       <MainNavbar
-        linkName="/MainMenu"
-        returnName="Back to Main Menu"
+        linkName="/Login"
+        returnName="Logout"
         pageName="Training Arena"
-        youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
+        //youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
       <div className="column taleft" ref={el => leftT = el}>
         <h5>Choose your Tank, Commander</h5>
