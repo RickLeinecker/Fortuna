@@ -296,8 +296,7 @@ function Armory() {
 		const navbar = navbarRef;
 		navbar.reloadNavbar();
 	}
-
-
+	
 	return (
 		<div id="Parent">
 			<MainNavbar

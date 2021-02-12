@@ -14,7 +14,7 @@ body {
 	background-color: #ffffff;
 	height: 350px;
 	width: 100%;
-	margin-top: 75px;
+	margin-top: 30px;
 	border-radius: 25px;
 }
 
@@ -51,7 +51,6 @@ body {
 
 .undoBtnArea {
 	text-align: right;
-	position: fixed;
 	top: 1;
 	right: 0;
 	z-index: 100;
@@ -61,8 +60,11 @@ body {
 .testCode {
   margin-top: 75px;
   margin-left: 200px;
-  width: 500px;
+  width: 200px;
   height: 100px;
+  position: relative;
+  top: -140px;
+  left: 500px;
   font-family: 'Press Start 2P', cursive;
 }
 
@@ -72,7 +74,6 @@ body {
   float: left;
   width:99%;
   height: 10%;
-  position: fixed;
   clear: both;
   margin-top: 900px;
 }

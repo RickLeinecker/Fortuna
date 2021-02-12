@@ -193,7 +193,9 @@ const MainMenu  = () => {
           </Link>
         </div>
         <div className="column menuright" ref={el => right = el}>
-          <Leaderboard className="leaderboardTut"/>
+          <div>
+            <Leaderboard className="leaderboardTut"/>
+          </div>
           <br/>
           <Link to={verifyLink("/Credits")}>
             <button className="mainMenuBtn creditsButton">Credits</button>
