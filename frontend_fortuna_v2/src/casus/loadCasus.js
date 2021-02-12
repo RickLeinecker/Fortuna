@@ -32,7 +32,7 @@ function loadCasus(
 			res.json().then(data => {
 				const tank=data.find(cand => cand._id === targetTankId);
 				if (tank == null) {
-					console.log('Couldnt find selected tank. Perhaps it was sold or deleted?');
+					console.log('Could not find selected tank. Perhaps it was sold or deleted?');
 					console.log(data);
 					console.log(targetTankId);
 					return;

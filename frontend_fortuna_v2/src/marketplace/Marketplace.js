@@ -6,11 +6,12 @@ import MainNavbar from '../globalComponents/MainNavbar.js';
 import ListingsView from './ListingsView.js';
 import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
+import MakeCasusCodeSaleView from './MakeCasusCodeSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 
-type Props = {||}; 
+type Props = {||};
 
 type State = {|
 	marketplaceViewClicked: ?MarketplaceViewType,
@@ -59,6 +60,9 @@ class Marketplace extends React.Component<Props, State> {
 			case 'item':
 				partView = (<ListingsView sellerType='item' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
+			case 'casusCode':
+				partView = (<ListingsView sellerType='casusCode' onItemBought={this.onMoneyChanged}></ListingsView>);
+				break;
 			case 'tank':
 				partView = (<ListingsView sellerType='tank' onItemBought={this.onMoneyChanged}></ListingsView>);
 				break;
@@ -67,6 +71,9 @@ class Marketplace extends React.Component<Props, State> {
 				break;
 			case 'makeAComponentSale':
 				partView = (<MakeAComponentSaleView onItemSold={this.onMoneyChanged}></MakeAComponentSaleView>);
+				break;
+			case 'makeCasusCodeSale':
+				partView = (<MakeCasusCodeSaleView onItemSold={this.onMoneyChanged}></MakeCasusCodeSaleView>);
 				break;
 			case 'makeATankSale':
 				partView = (<MakeATankSaleView onItemSold={this.onMoneyChanged}></MakeATankSaleView>);
@@ -99,10 +106,12 @@ class Marketplace extends React.Component<Props, State> {
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button>
+							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button>
 							<br/>
 							<h4>Sell</h4>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button>
+							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button>
 					 	</div>

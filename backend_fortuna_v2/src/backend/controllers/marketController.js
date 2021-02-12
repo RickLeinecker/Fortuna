@@ -107,6 +107,44 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 			console.error(err.message);
 			return res.status(500).json({ msg: 'Unable to add Market Sale.' });
 		}
+	} else if (itemType === 'casus') {
+		try {
+			// Check if tank is actually owned by user
+			// Also acts as a way to check if user is real
+			let tank = await Tank.findOne({ _id: itemId, userId: sellerId });
+			if (!tank) {
+				return res
+					.status(400)
+					.json({ msg: 'Tank does not exist under this user.' });
+			}
+
+			// Make a new Marketplace Sale
+			// if tank exists
+			const sale = new MarketSale({
+				sellerId,
+				salePrice,
+				itemId,
+				itemType,
+				amount
+			});
+
+			// Save the sale to DB
+			await sale.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Failed to save Marketplace Sale.' });
+				}
+			});
+
+			// Send back success confirmation
+			return res.status(201).json({ msg: 'Successfully created Casus Code Market Sale.' });
+
+		} catch (err) {
+			console.error(err.message);
+			return res.status(500).json({ msg: 'Unable to add Market Sale.' });
+		}
 	} else { // If the item is a component or casus block
 		try {
 			// Check if user exists
@@ -177,7 +215,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 				}
 
 				// If field is valid, check if the user has the right number
-				// of items to sell                
+				// of items to sell
 				if (userItem < amount) {
 					return res
 						.status(400)
@@ -252,8 +290,9 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
 
 		// Get list of sales from DB that belong to logged in user
 		const salesListOfTanks = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
+		const salesListOfCasusCode = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'casus' }}).populate('itemId', 'tankName');;
 		const salesListOfComponents = await MarketSale.find({ sellerId: userId , itemType: { $eq: 'component' }});
-		const salesList = salesListOfTanks.concat(salesListOfComponents);
+		const salesList = salesListOfTanks.concat(salesListOfComponents).concat(salesListOfCasusCode);
 		if (!salesList) {
 			return res
 				.status(400)
@@ -296,7 +335,7 @@ exports.getMarketSales = async (req: Request, res: Response) => {
 		}
 
 		// Get list of sales from DB that do not belong to logged in user
-		const salesList = await MarketSale.find({ sellerId: { $ne: userId } });
+		const salesList = await MarketSale.find({ sellerId: { $ne: userId }});
 		if (!salesList) {
 			return res
 				.status(400)
@@ -355,6 +394,50 @@ exports.getTankMarketSales = async (req: Request, res: Response) => {
 	catch (err) {
 		console.error(err.message);
 		return res.status(500).json({ msg: 'Unable to find list of Tank Sales.' });
+	}
+}
+
+// Gets all Casus Code Marketplace Sales not belonging to the user
+exports.getCasusCodeMarketSales = async (req: Request, res: Response) => {
+	// Validation
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct userId from parameter
+	const { userId } = req.params;
+
+	try {
+		// Check if valid user
+		const user = await User.findById(userId);
+		if (!user) {
+			return res
+				.status(400)
+				.json({ msg: 'User does not exist' });
+		}
+
+		// Get list of casus code sales from DB that do not belong to logged in user
+		const salesList = await MarketSale.find({ sellerId: { $ne: userId }, itemType: { $eq: 'casus' } })
+		.populate('itemId', 'tankName');
+		if (!salesList) {
+			return res
+				.status(400)
+				.json({ msg: 'Unable to get list of Casus Code Market Sales.' });
+		}
+
+		// Return list of sales
+		console.log('Retrieved Casus Code Market Sale List.');
+		return res.status(200).json(salesList);
+
+	}
+	catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Unable to find list of Casus Code Sales.' });
 	}
 }
 
@@ -652,6 +735,17 @@ exports.removeAMarketSale = async (req: Request, res: Response) => {
 				.json({ msg: 'Failed to reassign tank' });
 		}
 	}
+	else if (sale.itemType === 'casus') {
+		// Check if tank still exists
+		let tank = await Tank.findById(sale.itemId);
+		if (!tank) {
+			console.error('Tank is not in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Tank is not in DB' });
+		}
+	}
+
 	// else the post had components or casus blocks
 	else {
 		if (sale.itemType === 'component') {

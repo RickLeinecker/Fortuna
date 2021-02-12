@@ -20,7 +20,7 @@ type State = {|
 	favTankTeamIds: Array<string>
 |};
 
-class MakeATankSaleView extends React.Component<Props, State> {
+class MakeCasusCodeSaleView extends React.Component<Props, State> {
 
 	constructor() {
 		super();
@@ -28,7 +28,6 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			userId: '',
 			salePrice: 0,
 			tankBeingSoldId: '',
-			tankCasusCode: [],
 			itemAmount: 0,
 			tanksToSell: [],
 			favTankId: '',
@@ -69,34 +68,20 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					allTanks.splice(index, 1);
 				}
 
-				// FInd the favorite tank team and remove them if they exist.
-				for (let i: number = 0; i < 3; i++) {
-					const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankTeamIds[i]);
-					if (index > -1) {
-						allTanks.splice(index, 1);
-					}
-				}
-
-				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCode});
+				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCodeId});
 		});
 	};
 
-	//This will make a sale for a tank
-	makeASaleOfATank = (): void => {
-		//Check for if last tank can't allow them to sell tank
-		if(this.state.tanksToSell.length === 1) {
-			toast.error("Can't sell last tank");
-			return;
-		}
-
+	//This will make a sale for a tank's casus code
+	makeASaleOfCasusCode = (): void => {
 		makeASale(
 			this.state.userId,
 			this.state.salePrice,
 			this.state.tankBeingSoldId,
-			"tank",
+			"casus",
 			1,
 			() => {
-				toast.success("Tank Placed in Market.");
+				toast.success("Casus Code Placed in Market.");
 				this.getAllUsersTanksForSell();
 				this.setState({salePrice: 0});
 				this.props.onItemSold();
@@ -107,7 +92,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 	render(): React.Node  {
 		return (
 			<div id="Parent">
-				<label>Select a tank to Sell</label>
+				<label>Select a tank's casus code to Sell</label>
 				<select
 					className="dropdownMenu"
 					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
@@ -125,11 +110,11 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					onChange={e => this.setState({salePrice: e.target.value})}
 				></input>
 				<br/><br/>
-				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
+				<button className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
 				<ToastContainer />
 			</div>
 		);
 	}
 }
 
-export default MakeATankSaleView;
+export default MakeCasusCodeSaleView;

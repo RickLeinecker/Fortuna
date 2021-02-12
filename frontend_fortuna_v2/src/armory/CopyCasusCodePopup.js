@@ -18,7 +18,7 @@ type State = {|
 |};
 
 class CopyCasusCodePopup extends React.Component<Props, State> {
-	
+
 	constructor(props: Props) {
 		super(props);
 
