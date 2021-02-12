@@ -30,4 +30,24 @@
   border: 1px solid black;
   background-color: #ff6ec7;
   font-family: 'Press Start 2P', cursive;
+  position: relative;
+  left: 430px;
+  top: -95px;
+  width: 160px;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.helpButton.parent {
+  margin: 20px;
+  margin-right: 1000px;
+  border: 1px solid black;
+  background-color: #ff6ec7;
+  font-family: 'Press Start 2P', cursive;
+  position: relative;
+  left: 1000px;
+  top: 5px;
+  width: 160px;
+  border-radius: 5px;
+  height: 40px;
 }
