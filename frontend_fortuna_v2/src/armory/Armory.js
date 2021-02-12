@@ -1,7 +1,7 @@
 //@flow strict
 
 // React
-import * as React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 // CSS
 import './Armory.css';
@@ -35,194 +35,186 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
+import { TweenMax, Power3, TweenLite } from 'gsap'
 
-type Props = {||};
+function Armory() {
 
-type State = {|
-	selectedTank: ?Tank,
-	allTanks: Array<Tank>,
-	inventory: Array<Component>,
-	chassis: Array<Component>,
-	weapons: Array<Component>,
-	scanners: Array<Component>,
-	scannerAddons: Array<Component>,
-	jammers: Array<Component>,
-	treads: Array<Component>,
-	items: Array<Component>,
-	componentList: Array<Component>,
-	currentPartIndex: number,
-	points: number,
-|};
+	const [selectedTank, setSelectedTank] = useState(null);
+	const [allTanks, setAllTanks] = useState([]);
+	const [inventory, setInventory] = useState([]);
+	const [chassis, setChassis] = useState([]);
+	const [weapons, setWeapons] = useState([]);
+	const [scanners, setScanners] = useState([]);
+	const [scannerAddons, setScannerAddons] = useState([]);
+	const [jammers, setJammers] = useState([]);
+	const [treads, setTreads] = useState([]);
+	const [items, setItems] = useState([]);
+	const [componentList, setComponentList] = useState([]);
+	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
+	const [points, setPoints] = useState(0);
+	let SetWagerPopupRef = useRef(null);
+	let navbarRef = useRef(null);
 
-// Armory page. Showcases player's tanks and components. Links to Casus.
-class Armory extends React.Component<Props, State> {
+	let armleft = useRef(null);
+	let armMid = useRef(null);
+	let armright = useRef(null);
 
-	constructor() {
-		super();
+	useEffect(() => {
 		verifyLogin();
-
-		this.state = {
-			selectedTank: null,
-			allTanks: [],
-			inventory: [],
-			chassis: [],
-			weapons: [],
-			scanners: [],
-			scannerAddons: [],
-			jammers: [],
-			treads: [],
-			items: [],
-			componentList: [],
-			currentPartIndex: -1,
-			points: 0,
-		}
-	}
-
-	componentDidMount(): void {
-    document.body.style.backgroundImage = "url('/armory_image_revised.png')"
+		document.body.style.backgroundImage = "url('/armory_image_revised.png')"
 		// Functions to get all user tanks and user inventory.
-		this.getTanks();
-		this.getUserInventory();
-	}
+		getTanks();
+		getUserInventory();
+
+		 TweenLite.from(armleft, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+
+	}, [])
+
+	useEffect(() => {
+			// Handles initializing points when the page is first loaded or when a new tank is selected.
+		const initPoints: void = () => {
+			if (selectedTank == null)
+				return;
+
+			const tank: Tank = selectedTank;
+			let newPoints: number = 0;
+
+			for (let i = 0; i < 11; i++)
+			{
+				newPoints = newPoints + getComponentPoints(tank.parts[i].name);
+			}
+
+			setPoints(newPoints);
+		}
+	}, [allTanks, selectedTank])
 
 	// Gets all user tanks and sets them to the state.
-	getTanks(): void {
+	const getTanks = () => {
 		getAllUsersTanks(allTanks => {
 			// Always set the default selected tank to the newest tank.
 			const newSelectedTank = getPreferredSelectedTank(allTanks);
 			setTankForCasus(newSelectedTank._id);
 			setPreferredSelectedTank(newSelectedTank);
 			// Update the state, and then run initPoints after the state has been set.
-			this.setState({
-					allTanks: allTanks, 
-					selectedTank: newSelectedTank,
-				},
-				this.initPoints
-			);
-		});
+			setAllTanks(allTanks);
+			setSelectedTank(newSelectedTank);
+		})
 	}
 
 	// Gets all of the user's inventory.
-	getUserInventory(): void {
+	const getUserInventory: void = () => {
 		getUserAPICall(user => {
-			this.setState({
-				inventory: user.inventory,
-				chassis: user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'),
-				weapons: user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'),
-				scanners: user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'),
-				scannerAddons: user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'),
-				jammers: user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'),
-				treads: user.inventory.filter(component => getComponentType(component.componentName) === 'treads'),
-				items: user.inventory.filter(component => getComponentType(component.componentName) === 'item'),
-			});
-		});
+			setInventory(user.inventory);
+			setChassis(user.inventory.filter(component => getComponentType(component.componentName) === 'chassis'))
+			setWeapons(user.inventory.filter(component => getComponentType(component.componentName) === 'weapon'))
+			setScanners(user.inventory.filter(component => getComponentType(component.componentName) === 'scanner'))
+			setScannerAddons(user.inventory.filter(component => getComponentType(component.componentName) === 'scannerAddon'))
+			setJammers(user.inventory.filter(component => getComponentType(component.componentName) === 'jammer'))
+			setTreads(user.inventory.filter(component => getComponentType(component.componentName) === 'treads'))
+			setItems(user.inventory.filter(component => getComponentType(component.componentName) === 'item'))
+		})
 	}
 
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
-	changeSelectedTank(newTank: ?Tank): void {
-		if (newTank == null) {
-			toast.error('New tank does not exist!');
+	const changeSelectedTank: void = (newTank: ?Tank) => {
+		if (newTank = null)
+		{
+			toast.error('New Tank does not exist!')
 			return;
 		}
-		this.setState(
-			{selectedTank: newTank},
-			this.initPoints
-		);
+
+		setSelectedTank(newTank);
 		setTankForCasus(newTank._id);
 	}
 
 	// Function that will save the selectedTank and update the user's inventory.
-	saveTank(): void {
-		if (this.state.selectedTank == null) {
+	const saveTank: void = () => {
+		if (selectedTank == null)
 			throw new Error('Tried to save selected tank null!');
-		}
-		updateTank(this.state.selectedTank, () => {
-			this.getUserInventory();
-		});
+
+		updateTank(selectedTank, () => {
+			getUserInventory();
+		})
 	}
 
 	// When RenameTankPopup renames a tank, update the selected tank.
 	// Also, if the tank is the favorited tank, update the the favorited tank too.
-	renameTank = (tank: Tank): void => {
-		this.setState({selectedTank: tank});
+	const renameTank: void = (tank: Tank) => {
+		setSelectedTank(tank);
 
 		getFavoriteTank(favTank => {
 			if (favTank != null && tank._id === favTank._id) {
-				this.refs.SetWagerPopup.updateWagerTankName(tank.tankName);
+				SetWagerPopupRef.updateWagerTankName(tank.tankName);
 			}
-		});
+		})
 	}
 
 	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
-	checkItems(newComponent: TankComponent): boolean {
+	const checkItems: boolean = (newComponent: TankComponent) => {
 		// Check if the new component is already in other slots, and that it is not a mine.
-		if (this.state.selectedTank == null) {
+		if (selectedTank == null)
 			return false;
-		}
+
 		if (
-			((newComponent === this.state.selectedTank.parts[10].name) ||
-			(newComponent === this.state.selectedTank.parts[9].name) ||
-			(newComponent === this.state.selectedTank.parts[8].name)) &&
+			((newComponent === selectedTank.parts[10].name) ||
+			(newComponent === selectedTank.parts[9].name) ||
+			(newComponent === selectedTank.parts[8].name)) &&
 			newComponent !== 'mine'
-		) {
-			return true;
-		}
-		else {
-			return false;
-		}
+			) {
+				return true;
+			}
+			else {
+				return false;
+			}
 	}
 
-	// Handles initializing points when the page is first loaded or when a new tank is selected.
-	initPoints(): void {
-		if (this.state.selectedTank == null) {
-			return;
-		}
-		const tank: Tank = this.state.selectedTank;
-		let newPoints: number = 0;
-		for(let i = 0; i < 11; i++) {
-			newPoints = newPoints + getComponentPoints(tank.parts[i].name);
-		}
-		this.setState({ points: newPoints });
-	}
+
+
 
 	// Ensure that the new point value doesn't go over the limit.
-	checkPoints(newComponent: TankComponent, oldPartIndex: number): boolean {
-		const tank=this.state.selectedTank;
-		if (tank == null) {
+	const checkPoints: boolean = (newComponent: TankComponent, oldPartIndex: number) => {
+		const tank = selectedTank;
+
+		if (tank == null)
 			return false;
-		}
 		// Check the items to ensure that you don't have duplicate items (besides mine).
-		if (this.checkItems(newComponent)) {
+		if (checkItems(newComponent))
 			return true;
-		}
-		return (this.state.points + getComponentPoints(newComponent) - getComponentPoints(tank.parts[oldPartIndex].name) > 10) ? true : false;
+
+		return (points + getComponentPoints(newComponent) - getComponentPoints(tank.parts[oldPartIndex].name) > 10) ? true : false;
 	}
 
 	// Update the points in the state.
 	// Since the options that are too many points are disabled, no range checking is necessary.
-	updatePoints(newComponent: TankComponent, oldComponent?: TankComponent): void {
+	const updatePoints: void = (newComponent: TankComponent, oldComponent?: TankComponent) => {
 		// Check if there is an old component that is being removed.
 		let newPoints: number = 0;
-		if(oldComponent == null) {
-			newPoints = this.state.points + getComponentPoints(newComponent);
+
+		if (oldComponent == null)
+		{
+			newPoints = points + getComponentPoints(newComponent);
 		}
-		else {
-			newPoints = this.state.points + getComponentPoints(newComponent) - getComponentPoints(oldComponent);
+		else
+		{
+			newPoints = points + getComponentPoints(newComponent) - getComponentPoints(oldComponent);
 		}
 
-		this.setState({points: newPoints});
+		setPoints(newPoints);
 	}
 
 	// Updates the selected tank's components and their inventory.
-	updateComponent(component: TankComponent, partIndex: number): void {
-		if (this.state.selectedTank == null) {
+	const updateComponent: void = (component: TankComponent, partIndex: number) => {
+		if (selectedTank == null)
 			return;
-		}
+
 		// Setup a new tank that will be updated and set to the selected tank.
-		const updatedTank: Tank = this.state.selectedTank;
+		const updatedTank: Tank = selectedTank;
 		// Find the component's type and setup new component accordingly.
 		let newComponent: TankPart = new TankPart(component);
+
 		switch(partIndex) {
 			case 0:
 				newComponent = new Chassis(component);
@@ -238,7 +230,7 @@ class Armory extends React.Component<Props, State> {
 				break;
 			case 3:
 				newComponent = new Scanner(
-					component, 
+					component,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -277,10 +269,11 @@ class Armory extends React.Component<Props, State> {
 		}
 
 		//if the part index was a scanner add-on, we have to rebuild the scanner
-		if (partIndex===4 || partIndex===5) {
-			const scannerType=this.state.selectedTank.scanner.name;
+		if (partIndex === 4 || partIndex === 5)
+		{
+			const scannerType = selectedTank.scanner.name;
 			const newScanner=new Scanner(
-					scannerType, 
+					scannerType,
 					(updatedTank.scannerAddonOne.name === 'itemScanner' || updatedTank.scannerAddonTwo.name === 'itemScanner') ? true : false,
 					(updatedTank.scannerAddonOne.name === 'antiJammerScanner' || updatedTank.scannerAddonTwo.name === 'antiJammerScanner') ? true : false,
 				);
@@ -288,145 +281,146 @@ class Armory extends React.Component<Props, State> {
 		}
 
 		// Update the component, points, and parts array.
-		this.updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
+		updatePoints(newComponent.name, updatedTank.parts[partIndex].name);
 		updatedTank.parts[partIndex] = newComponent;
 		// Reset component list to provide user feedback.
-		this.setState({selectedTank: updatedTank, componentList: [], currentPartIndex: -1});
+		setSelectedTank(updatedTank);
+		setComponentList([]);
+		setCurrentPartIndex(-1);
 		// Save the tank.
-		this.saveTank();
+		saveTank();
+
 	}
 
-	onWagerUpdate = (): void => {
-		const navbar = this.refs.navbar;
+	const onWagerUpdate: void = () => {
+		const navbar = navbarRef;
 		navbar.reloadNavbar();
 	}
 
-	render(): React.Node {
-		const selectedTank=this.state.selectedTank;
-		return (
-			<div id="Parent">
-				<MainNavbar 
-					linkName="/MainMenu" 
-					returnName="Back to Main Menu" 
-					pageName="Armory"
-					ref="navbar"
-					youtubeLinks={[
-						'https://www.youtube.com/watch?v=kEClhrMWogY', 
-						'https://www.youtube.com/watch?v=1nnY9wlLOYU'
-					]}
-				/>
-				<div className="column armoryleft">
-					<h4 className="font">Selected Tank</h4>
-					{selectedTank==null?<div></div>:
-						<SelectTank
-							selectedTank={selectedTank}
-							allTanks={this.state.allTanks}
-							changeSelectedTank={(tank) => this.changeSelectedTank(tank)}
-							propogateChangesToCasus={true}
-							allowRemoveTank={false}
-						/>
-					}
-					<br/><br/>
-					<label className="font">Edit Code</label>
-					<br/>
-					<Link to={verifyLink("/Casus")}>
-						<button className="primarybtn">Casus</button>
-					</Link>
-					<br/><br/>
-					{selectedTank==null?<div></div>:
-						<CopyCasusCodePopup
-							selectedTank={selectedTank}
-							usersTanks={this.state.allTanks}
-						/>
-					}
-					<br/><br/><br/>
-					<h5 className="font">Tank Options</h5>
-					<div className="row rowPadding">
-						{selectedTank==null?<div></div>:
-							<RenameTankPopup
-								tank={selectedTank}
-								renameTank={this.renameTank}
-							/>
-						}&emsp;
-						<CreateNewTankPopup 
-							ref="CreateNewTankPopup" 
-							chassis={this.state.chassis}
-							treads={this.state.treads}
-						/>&emsp;
-						{selectedTank==null?<div></div>:
-							<DeleteTankPopup
-								tank={selectedTank}
-							/>
-						}
-					</div>
-					<br/><br/>
-					<SetWagerPopup
-						ref="SetWagerPopup"
-						onWagerUpdate={this.onWagerUpdate}
-					/>
-				</div>
-				<div className="column armorymiddle">
-					<h1 className="font">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
-					{selectedTank==null?<div></div>:
-						<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
-					}
-					{(this.state.currentPartIndex === -1) ?
-						<div></div> :
-						<div>
-							<h4 className="font">Component Menu</h4>
-							<div className="componentMenu">
-								<table>
-									<thead>
-										<tr>
-											<th className="font">Component Name</th>
-											<th className="font">Number Owned</th>
-											<th className="font">Point Value</th>
-										</tr>
-									</thead>
-									<tbody>
-										{(this.state.componentList == null) ? <tr></tr> : this.state.componentList.map(({componentName, numberOwned}, index) => (
-											<tr key={index}>
-												<td align="left">
-													<button 
-														className="componentMenuBtn"
-														onClick={() => this.updateComponent(componentName, this.state.currentPartIndex)}
-														disabled={this.checkPoints(componentName, this.state.currentPartIndex)}
-													>
-														{toTitleCase(componentName)}
-													</button>
-												</td>
-												<td>{numberOwned}</td>
-												<td>{getComponentPoints(componentName)}</td>
-											</tr>
-										))}
-										{(this.state.currentPartIndex === 0 || this.state.currentPartIndex === 7) ?
-											<tr></tr> :
-											<tr>
-												<td align="left">
-													<button 
-														className="componentMenuBtn font"
-														onClick={() => this.updateComponent('empty', this.state.currentPartIndex)}
-													>
-														Empty
-													</button>
-												</td>
-												<td></td><td></td>
-											</tr>
-										}
-									</tbody>
-								</table>
-							</div>
-						</div>
-					}
-				</div>
 
+	return (
+		<div id="Parent">
+			<MainNavbar
+				linkName="/Login"
+				returnName="Logout"
+				pageName="Armory"
+				ref={navbarRef}
+				//youtubeLinks={[
+				//	'https://www.youtube.com/watch?v=kEClhrMWogY',
+				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+				//]}
+			/>
+			<div className="column armoryleft" ref={el => armleft = el}>
+				<h4 className="font">Selected Tank</h4>
+				{selectedTank==null?<div></div>:
+					<SelectTank
+						selectedTank={selectedTank}
+						allTanks={allTanks}
+						changeSelectedTank={(tank) => changeSelectedTank(tank)}
+						propogateChangesToCasus={true}
+						allowRemoveTank={false}
+					/>
+				}
+				<br/><br/>
+				<label className="font">Edit Code</label>
+				<br/>
+				<Link to={verifyLink("/Casus")}>
+					<button className="primarybtn">Casus</button>
+				</Link>
+				<br/><br/>
+				{selectedTank==null?<div></div>:
+					<CopyCasusCodePopup
+						selectedTank={selectedTank}
+						usersTanks={allTanks}
+					/>
+				}
+				<br/><br/><br/>
+				<h5 className="font">Tank Options</h5>
+				<div className="row rowPadding">
+					{selectedTank==null?<div></div>:
+						<RenameTankPopup
+							tank={selectedTank}
+							renameTank={renameTank}
+						/>
+					}&emsp;
+					<CreateNewTankPopup
+						chassis={chassis}
+						treads={treads}
+					/>&emsp;
+					{selectedTank==null?<div></div>:
+						<DeleteTankPopup
+							tank={selectedTank}
+						/>
+					}
+				</div>
+				<br/><br/>
+				<SetWagerPopup
+					ref={SetWagerPopupRef}
+					onWagerUpdate={onWagerUpdate}
+				/>
+			</div>
+			<div className="column armorymiddle" ref={el => armMid = el}>
+				<h1 className="font">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+				{selectedTank==null?<div></div>:
+					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
+				}
+				{(currentPartIndex === -1) ?
+					<div></div> :
+					<div>
+						<h4 className="font">Component Menu</h4>
+						<div className="componentMenu">
+							<table>
+								<thead>
+									<tr>
+										<th className="font">Component Name</th>
+										<th className="font">Number Owned</th>
+										<th className="font">Point Value</th>
+									</tr>
+								</thead>
+								<tbody>
+									{(componentList == null) ? <tr></tr> : componentList.map(({componentName, numberOwned}, index) => (
+										<tr key={index}>
+											<td align="left">
+												<button
+													className="componentMenuBtn"
+													onClick={() => updateComponent(componentName, currentPartIndex)}
+													disabled={checkPoints(componentName, currentPartIndex)}
+												>
+													{toTitleCase(componentName)}
+												</button>
+											</td>
+											<td>{numberOwned}</td>
+											<td>{getComponentPoints(componentName)}</td>
+										</tr>
+									))}
+									{(currentPartIndex === 0 || currentPartIndex === 7) ?
+										<tr></tr> :
+										<tr>
+											<td align="left">
+												<button
+													className="componentMenuBtn font"
+													onClick={() => updateComponent('empty', currentPartIndex)}
+												>
+													Empty
+												</button>
+											</td>
+											<td></td><td></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				}
+			</div>
+			<div ref={el => armright = el}>
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright">
-						<h5 className="font">{this.state.points}/10 Points Used</h5>
+						<h5 className="font">{points}/10 Points Used</h5>
 						<label className="font">Chassis: </label>
-						<button 
-							className={(this.state.currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"} 
-							onClick={() => this.setState({componentList: this.state.chassis, currentPartIndex: 0})}
+						<button
+							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
 						>
 							{toTitleCase(selectedTank.chassis.name)}
 						</button>
@@ -434,17 +428,17 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Main Gun: </label>
-						<button 
-							className={(this.state.currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 1})}
+						<button
+							className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1)}}
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
 						<br/>
 						<label className="font">Secondary Gun: </label>
-						<button 
-							className={(this.state.currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.weapons, currentPartIndex: 2})}
+						<button
+							className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2)}}
 						>
 							{toTitleCase(selectedTank.secondaryGun.name)}
 						</button>
@@ -452,26 +446,26 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Scanners: </label>
-						<button 
-							className={(this.state.currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.scanners, currentPartIndex: 3})}
+						<button
+							className={(currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scanners); setCurrentPartIndex(3)}}
 						>
 							{toTitleCase(selectedTank.scanner.name)}
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
-							className={(this.state.currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 4})}
+						<button
+							className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
 						>
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
 						<br/>
 						<label className="font">Scanner Addon: </label>
-						<button 
-							className={(this.state.currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.scannerAddons, currentPartIndex: 5})}
+						<button
+							className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
 						>
 							{toTitleCase(selectedTank.scannerAddonTwo.name)}
@@ -480,9 +474,9 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Jammers: </label>
-						<button 
-							className={(this.state.currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.jammers, currentPartIndex: 6})}
+						<button
+							className={(currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(jammers); setCurrentPartIndex(6)}}
 						>
 							{toTitleCase(selectedTank.jammer.name)}
 						</button>
@@ -490,9 +484,9 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Treads: </label>
-						<button 
-							className={(this.state.currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.treads, currentPartIndex: 7})}
+						<button
+							className={(currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(treads); setCurrentPartIndex(7)}}
 						>
 							{toTitleCase(selectedTank.treads.name)}
 						</button>
@@ -500,34 +494,35 @@ class Armory extends React.Component<Props, State> {
 						<br/>
 
 						<label className="font">Item: </label>
-						<button 
-							className={(this.state.currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 8})}
+						<button
+							className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(8)}}
 						>
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
-							className={(this.state.currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 9})}
+						<button
+							className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(9)}}
 						>
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
 						<br/>
 						<label className="font">Item: </label>
-						<button 
-							className={(this.state.currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => this.setState({componentList: this.state.items, currentPartIndex: 10})}
+						<button
+							className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(10)}}
 						>
 							{toTitleCase(selectedTank.itemThree.name)}
 						</button>
 					</div>
 				}
-				<ToastContainer />
 			</div>
-		);
-	}
+
+			<ToastContainer />
+		</div>
+	);
 }
 
-export default Armory;
+export default Armory

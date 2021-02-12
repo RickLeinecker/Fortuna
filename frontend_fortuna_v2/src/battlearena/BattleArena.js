@@ -51,6 +51,8 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
@@ -107,19 +109,20 @@ class BattleArena extends React.Component<Props, State> {
 		return (
 		<div id="Parent">
 			<MainNavbar
-				returnName="Back to Main Menu"
-				pageName="Battle Arena" 
-				linkName="/MainMenu"
-				youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
+				linkName="/Login"
+				returnName="Logout"
+				pageName="Battle Arena"
+				// linkName="/MainMenu"
+				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column baleft">
 				<h5>Challenge a Player</h5>
-				<ChallengePlayerPopup 
+				<ChallengePlayerPopup
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
 					playerChallenged={null}
 					battleType={this.state.battleType}
 				/>
-				<SearchPlayers 
+				<SearchPlayers
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
 					battleType={this.state.battleType}
 				/>
@@ -175,7 +178,7 @@ class BattleArena extends React.Component<Props, State> {
 								<tr>
 									<td>
 										{this.state.selectedTankTwo == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankTwo} smallTank={true} />}
-										
+
 									</td>
 									<td>
 										{this.state.selectedTankOne == null ? <div className="emptyTankSmall"></div> : <TankDisplay tankToDisplay={this.state.selectedTankOne} smallTank={true} />}
@@ -189,15 +192,17 @@ class BattleArena extends React.Component<Props, State> {
 					</div>
 				}
 				<h5>Current Battle Type: {this.state.battleType}</h5>
-				<button 
-					className="primarybtn" 
+				<button
+					className="primarybtn"
 					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
 				>
 					Change Battle Type
 				</button>
 			</div>
 			<div className="column baright">
-				<Leaderboard />
+				<div className="leaderboard">
+					<Leaderboard />
+				</div>
 				<br/><br/>
 				<Replays />
 			</div>

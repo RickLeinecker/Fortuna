@@ -202,6 +202,7 @@ class ListingsView extends React.Component<Props, State> {
 						{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 						{tankToUse == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{tankToUse.tankName}</h5>}
 						<h5 className="card-title">Price: ${sale.price}</h5>
+						<h5 className="card-title">Name of Part: ${console.log(tankToUse)}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
 						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
 						<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>

@@ -20,7 +20,7 @@ class Login extends React.Component<{||}> {
 	onEmailRegistered(registeredUsername: string, registeredPassword: string): void {
 		this.refs.loginPopup.onEmailRegistered(registeredUsername, registeredPassword);
   }
-  
+
   componentDidMount() {
     document.body.style.backgroundImage = "url('/login_background.gif')"
     document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
@@ -30,25 +30,34 @@ class Login extends React.Component<{||}> {
 		return (
 			<div>
 				<div className="column loginleft align-middle">
-					<Leaderboard />
+					<div className= "loginleader">
+						<Leaderboard />
+					</div>
 				</div>
 				<div className="column loginmiddle">
 					<h1>FORTUNA</h1>
-					<h6>Welcome Commander</h6>
-					<div className="inline">
-					<LoginPopup ref="loginPopup" />
-					<br/>
-					<SignupPopup 
-						onEmailRegisteredCallback={(email: string, password: string) => this.onEmailRegistered(email, password)}
-					/>
+					{/*<h6>Welcome Commander</h6>*/}
+					<br />
+					<br />
+					<br />
+					<br />
+
+					<div className="middlecolumn">
+						<LoginPopup ref="loginPopup" />
+						<br/>
+						<SignupPopup
+							onEmailRegisteredCallback={(email: string, password: string) => this.onEmailRegistered(email, password)}
+						/>
+						<br/>
+						<ResendEmailPopup/>
 					</div>
-					<br/>
-					<br/>
-					<ResendEmailPopup/>
 				</div>
 				<div className="column loginright">
 					<InfoPopup />
 				</div>
+        <div class="footer">
+          <p>Photo credit: <a href="https://www.artstation.com/artwork/GXwZgz">ArtStation</a></p>
+        </div>
 			</div>
 		);
 	}

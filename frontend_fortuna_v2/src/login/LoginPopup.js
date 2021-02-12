@@ -1,13 +1,14 @@
 //@flow strict
 
 import * as React from 'react';
+import './Login.css';
 import Popup from 'reactjs-popup';
 import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { ToastContainer , toast } from 'react-toastify';
 
-type Props = {||}; 
+type Props = {||};
 
 type State = {|
 	userName: string,
@@ -74,7 +75,7 @@ class LoginPopup extends React.Component<Props, State> {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Credentials': 'true'
 			},
-			body: JSON.stringify({ email: this.state.email })			
+			body: JSON.stringify({ email: this.state.email })
 		});
 		responsePromise.then(
 			response => response.json().then(data => {
@@ -132,13 +133,13 @@ class LoginPopup extends React.Component<Props, State> {
 				Cancel
 			</button>
 		);
-		
+
 		return (
 			<div>
-				<button type="button" className="primarybtn" onClick={() => this.setState({loginDialogOpen: true})}>
+				<button type="button" className="loginbtn" onClick={() => this.setState({loginDialogOpen: true})}>
 					Login
 				</button>
-				<Popup 
+				<Popup
 					open={this.state.loginDialogOpen}
 					onClose={() => this.handleCancelClick()}
 				>
@@ -147,32 +148,32 @@ class LoginPopup extends React.Component<Props, State> {
 						<div className="row col-md-12">
 							<label>Username</label>
 							<div className="input-group">
-								<input 
-									type="text" 
-									className="inputText" 
-									name="loginUserName" 
-									value={this.state.userName} 
-									onChange={e => this.setState({ userName: e.target.value})} 
+								<input
+									type="text"
+									className="inputText"
+									name="loginUserName"
+									value={this.state.userName}
+									onChange={e => this.setState({ userName: e.target.value})}
 								/>
 							</div>
 						</div>
 						<div className="row col-md-12">
 							<label>Password</label>
 							<div className="input-group">
-								<input 
-									type="password" 
-									name="loginPassword" 
-									className="inputText" 
-									value={this.state.password} 
-									onChange={e => this.setState({ password: e.target.value})} 
+								<input
+									type="password"
+									name="loginPassword"
+									className="inputText"
+									value={this.state.password}
+									onChange={e => this.setState({ password: e.target.value})}
 								/>
 							</div>
 							<div className="help-block with-errors text-danger"></div>
 						</div>
 						<div className="row col-md-12">
-							<button 
+							<button
 								type="button"
-								style={{ paddingLeft: 0, marginTop: 20 }} 
+								style={{ paddingLeft: 0, marginTop: 20 }}
 								className="clearbtn"
 								onClick={() => this.setState({ resetPasswordOpen: true })}
 							>

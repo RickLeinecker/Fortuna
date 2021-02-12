@@ -17,6 +17,8 @@ class BlockBankTypeSelector extends React.Component<Props> {
 	showSection(section: BlockBankType):void {
 		this.props.onSectionClicked(section);
   }
+
+
   
 	render():React.Node {
 
@@ -28,7 +30,7 @@ class BlockBankTypeSelector extends React.Component<Props> {
 		//	- Lists
 		return (
       <>
-          <Container fluid>
+        <Container className="blockTypeSelect" fluid>
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables</Button></Col>
@@ -42,7 +44,7 @@ class BlockBankTypeSelector extends React.Component<Props> {
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('LISTS')}>Lists</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('DEBUG')}>Debug</Button></Col>
-            <Col md={4}><Button className="spacing" onClick={() => console.log("help goes here")}>Help</Button></Col>
+            {/* <Col md={4}><button className="spacing" onClick={() => this.showHelp()}>Help</button></Col> */}
           </Row>
         </Container>
       </>

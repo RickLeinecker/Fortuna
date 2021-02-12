@@ -14,7 +14,7 @@
 
 # misc
 .DS_Store
-.env
+frontend_fortuna_v2/.env
 .env.local
 .env.development.local
 .env.test.local
@@ -27,3 +27,5 @@ yarn-error.log*
 #temperarily ignore until we have packages finalized to reduce merge conflicts
 #and make code reviewing easier
 package-lock.json
+
+*.icloud
