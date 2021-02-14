@@ -68,7 +68,10 @@ function Explanation({ choice }) {
         <p style={pstyle}>Info on Variables</p>
         <br/>
         <p style={pstyle}>
-          Varibles, like in math, are names that represent values in code for easy reference. Variables can represent different types of values. In Casus, the three types of variables are integers (int), numbers with decimals (doubles), and true/false values (booleans)
+          Varibles, like in math, are names that represent values 
+          in code for easy reference. Variables can represent different 
+          types of values. In Casus, the three types of variables are 
+          integers (int), numbers with decimals (doubles), and true/false values (booleans)
         </p>
         <img style={imgStyle} src="/help/variables.png" alt="image"/>
       </div>
@@ -114,7 +117,10 @@ function Explanation({ choice }) {
         <p style={pstyle}>Info on Lists</p>
         <br/>
         <p style={pstyle}>
-          Lists are used to group and organize values. Lists collect values sequentially, and keep track of each values' position in the list. Values in the list can be created, modified, and deleted from any position in the list.
+          Lists are used to group and organize values. 
+          Lists collect values sequentially, and keep track 
+          of each values' position in the list. Values in the 
+          list can be created, modified, and deleted from any position in the list.
         </p>
         <img style={imgStyle} src="/help/lists.png" alt="image"/>
       </div>
@@ -138,7 +144,11 @@ function Explanation({ choice }) {
         <p style={pstyle}>Info on Functions</p>
         <br/>
         <p style={pstyle}>
-          Functions are named groups of code lines for easy reference. Functions have 0 or more input parameters, which are values that are given to the function and used when executing its corresponding codelines. Functions also have a return value, which is the output of the function, if any.
+          Functions are named groups of code lines for easy reference. 
+          Functions have 0 or more input parameters, which are values 
+          that are given to the function and used when executing its 
+          corresponding codelines. Functions also have a return value, 
+          which is the output of the function, if any.
         </p>
         <img style={imgStyle} src="/help/functions.png" alt="image"/>
       </div>
