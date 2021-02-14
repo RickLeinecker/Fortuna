@@ -12,3 +12,5 @@ in .dockerignore for backend add the below:
 
 node_modules/
 lib/
+
+cleanup dangling images: docker rmi $(docker images -f "dangling=true" -q)
