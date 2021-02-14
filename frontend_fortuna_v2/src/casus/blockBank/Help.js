@@ -61,6 +61,7 @@ function Help() {
         break;
       case choices.FUNCTIONS:
         setFunctionsModalIsOpen(true);
+        break;
       default:
         break;
     }
