@@ -19,7 +19,7 @@ body {
   height: 100%;
   width: 100%;
   background-image: url('/landing_gif.gif');
-  background-repeat:round;
+  /* background-repeat:round; */
   /* box-shadow: 0 0 8px 8px #04CCFF inset; */
 }
  h6,h1 {

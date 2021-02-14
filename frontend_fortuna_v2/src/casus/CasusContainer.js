@@ -25,6 +25,7 @@ class CasusContainer extends React.Component<Props, State> {
 
 	componentDidMount(): void {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
+    document.body.style.backgroundRepeat = "round"
 	}
 
 	constructor(props: Props) {
