@@ -17,7 +17,7 @@ function Explanation({ choice }) {
 
   const pstyle = {
     color: 'white',
-    textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+    textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
   }
 
   const imgStyle = {
@@ -32,15 +32,30 @@ function Explanation({ choice }) {
         <p style={pstyle}>Info on Control Flow</p>
         <br/>
         <p style={pstyle}>
-          If statements are used to execute different lines of code, depending on the existing conditions. An if statement is paired with a conditional statement, and specifies a group of code lines that is only executed when the given condition is true. An else statement afterwards specifies another group of code lines that is only executed with the condition is false.
+          If statements are used to execute different lines of code, 
+          depending on the existing conditions. An if statement is paired 
+          with a conditional statement, and specifies a group of code lines 
+          that is only executed when the given condition is true. An else statement 
+          afterwards specifies another group of code lines that is only executed with the condition is false.
         </p>
         <img style={imgStyle} src="/help/if_statement.png" alt="image"/>
         <p style={pstyle}>
-          A for loop is used to repeat lines of code when you are uncertain exactly how many times they should be repeated. A while loop is paired with a conditional statement, and specifies a group of code lines that is executed repeatedly while the given condition is true. The given condition is re-evaluated before each execution of the group of code lines.
+          A for loop is used to repeat lines of code when you are 
+          uncertain exactly how many times they should be repeated. 
+          A while loop is paired with a conditional statement, and 
+          specifies a group of code lines that is executed repeatedly while 
+          the given condition is true. The given condition is re-evaluated before 
+          each execution of the group of code lines.
         </p>
         <img style={imgStyle} src="/help/while_loop.png" alt="image" width="600" height="300" />
         <p style={pstyle}>
-          A for loop is used to repeat lines of code when you know how many times you want to repeat them. The for loop uses a counter variables, usually denoted by 'i', to keep track of how many times the loop has repeated. The for loop consists of: a counter variable with an initial value, an inequality that contains the counter variable, and a statement that modifies the value of the counter variable at the end of each loop. The for loop also specifies a group of code lines that should be executed repeatedly while the counter inequality is true. 
+          A for loop is used to repeat lines of code when you know how many 
+          times you want to repeat them. The for loop uses a counter variables, 
+          usually denoted by 'i', to keep track of how many times the loop has repeated. 
+          The for loop consists of: a counter variable with an initial value, an inequality 
+          that contains the counter variable, and a statement that modifies the value of the 
+          counter variable at the end of each loop. The for loop also specifies a group of code 
+          lines that should be executed repeatedly while the counter inequality is true. 
         </p>
         <img style={imgStyle} src="/help/for_loop.png" alt="image"/>
       </div>
