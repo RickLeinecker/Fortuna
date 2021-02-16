@@ -277,6 +277,7 @@ class Battleground extends React.Component<Props> {
 			gameObject.update(this);
 		}
 	}
+  
 
 	_rerender(): void {
 		this._resizeCanvas();
