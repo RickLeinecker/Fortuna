@@ -156,6 +156,11 @@ class Tank extends GameObject {
 		this.nitroRepairTimerLeft = 0;
 		this.overdriveTimerLeft = 0;
 		this.health = this._getArmorOffset();
+		
+		// astar stuff
+		let g = 0;
+		let f = 0;
+		let h = 0;
 
 
 		//process onetimeitems from items passed into constructor
@@ -181,6 +186,31 @@ class Tank extends GameObject {
 				this.haveMissileTracker = true;
 			}
 		}
+
+	}
+
+	astar(battleground: Battleground): boolean {
+
+		let goal = ; // enemy position
+		let start = ; // current position
+	
+		const findNeighbor = () => {
+
+		}
+
+		const addNeighbors = () => {
+
+		}
+
+		const createPath = () => {
+
+		}
+
+		// start?
+		const solveMap = () => {
+
+		}
+
 
 	}
 
