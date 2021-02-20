@@ -11,8 +11,12 @@ import { createStaticParticle } from '../battleground/gameobjects/Particle.js';
 
 import type { Range } from './Range.js';
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
-import type Battleground from '../battleground/Battleground.js';
+import Battleground from '../battleground/Battleground.js';
 import type Tank from './Tank.js';
+
+import { calculateCoords } from '../tanks/grid.js'
+
+import { wallsForArena } from '../battleground/Battleground.js'
 
 //  const walls = {
 // 	DIRT: [
@@ -49,176 +53,190 @@ import type Tank from './Tank.js';
 
 function _aStar() {
 
-    var open = [], closed = [], start = position, goal = enemyTank, neighbors, path;
+    // var open = [], closed = [], start = position, goal = enemyTank, neighbors, path;
 
     // // for 2d array just array.push([val1, val2])
     // // but it is instantiated as 1d array
     // let grid = [];
 
+
+
     let y = Battleground.H;
     let x = Battleground.W;
 
-    let grid = new Array(x).fill(0).map(() => new Array(y).fill(0));
+    // let grid = new Array(x).fill(1).map(() => new Array(y).fill(1));
 
-    const fillGrid = () => {
-      for (let i = 0; i < x; i++)
-      {
-        for (let j = 0; j <y; j++)
-        { 
+    // let grid = [];
+
+    // for (let i = 0; i < y; i++)
+    // {
+    //   grid[i] = new Array(x).fill(1);
+    // }
+
+    let test = calculateCoords('DIRT')
+    
+
+    // const fillGrid = () => {
+    //   for (let i = 0; i < x; i++)
+    //   {
+    //     for (let j = 0; j <y; j++)
+    //     { 
            
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
 
-    var astar = {
-        init: function(grid) {
-            for(var x = 0, xl = grid.length; x < xl; x++) {
-                for(var y = 0, yl = grid[x].length; y < yl; y++) {
-                    var node = grid[x][y];
-                    node.f = 0;
-                    node.g = 0;
-                    node.h = 0;
-                    node.cost = 1;
-                    node.visited = false;
-                    node.closed = false;
-                    node.parent = null;
-                }
-            }
-        },
-        heap: function() {
-            return new BinaryHeap(function(node) {
-                return node.f;
-            });
-        },
-        search: function(grid, start, end, diagonal, heuristic) {
-            astar.init(grid);
-            heuristic = heuristic || astar.manhattan;
-            diagonal = !!diagonal;
+    // var astar = {
+    //     init: function(grid) {
+    //         for(var x = 0, xl = grid.length; x < xl; x++) {
+    //             for(var y = 0, yl = grid[x].length; y < yl; y++) {
+    //                 var node = grid[x][y];
+    //                 node.f = 0;
+    //                 node.g = 0;
+    //                 node.h = 0;
+    //                 node.cost = 1;
+    //                 node.visited = false;
+    //                 node.closed = false;
+    //                 node.parent = null;
+    //             }
+    //         }
+    //     },
+    //     heap: function() {
+    //         return new BinaryHeap(function(node) {
+    //             return node.f;
+    //         });
+    //     },
+    //     search: function(grid, start, end, diagonal, heuristic) {
+    //         astar.init(grid);
+    //         heuristic = heuristic || astar.manhattan;
+    //         diagonal = !!diagonal;
 
-            var openHeap = astar.heap();
+    //         var openHeap = astar.heap();
 
-            openHeap.push(start);
+    //         openHeap.push(start);
 
-            while(openHeap.size() > 0) {
+    //         while(openHeap.size() > 0) {
 
-                // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
-                var currentNode = openHeap.pop();
+    //             // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
+    //             var currentNode = openHeap.pop();
 
-                // End case -- result has been found, return the traced path.
-                if(currentNode === end) {
-                    var curr = currentNode;
-                    var ret = [];
-                    while(curr.parent) {
-                        ret.push(curr);
-                        curr = curr.parent;
-                    }
-                    return ret.reverse();
-                }
+    //             // End case -- result has been found, return the traced path.
+    //             if(currentNode === end) {
+    //                 var curr = currentNode;
+    //                 var ret = [];
+    //                 while(curr.parent) {
+    //                     ret.push(curr);
+    //                     curr = curr.parent;
+    //                 }
+    //                 return ret.reverse();
+    //             }
 
-                // Normal case -- move currentNode from open to closed, process each of its neighbors.
-                currentNode.closed = true;
+    //             // Normal case -- move currentNode from open to closed, process each of its neighbors.
+    //             currentNode.closed = true;
 
-                // Find all neighbors for the current node. Optionally find diagonal neighbors as well (false by default).
-                var neighbors = astar.neighbors(grid, currentNode, diagonal);
+    //             // Find all neighbors for the current node. Optionally find diagonal neighbors as well (false by default).
+    //             var neighbors = astar.neighbors(grid, currentNode, diagonal);
 
-                for(var i=0, il = neighbors.length; i < il; i++) {
-                    var neighbor = neighbors[i];
+    //             for(var i=0, il = neighbors.length; i < il; i++) {
+    //                 var neighbor = neighbors[i];
 
-                    if(neighbor.closed || neighbor.isWall()) {
-                        // Not a valid node to process, skip to next neighbor.
-                        continue;
-                    }
+    //                 if(neighbor.closed || neighbor.isWall()) {
+    //                     // Not a valid node to process, skip to next neighbor.
+    //                     continue;
+    //                 }
 
-                    // The g score is the shortest distance from start to current node.
-                    // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
-                    var gScore = currentNode.g + neighbor.cost;
-                    var beenVisited = neighbor.visited;
+    //                 // The g score is the shortest distance from start to current node.
+    //                 // We need to check if the path we have arrived at this neighbor is the shortest one we have seen yet.
+    //                 var gScore = currentNode.g + neighbor.cost;
+    //                 var beenVisited = neighbor.visited;
 
-                    if(!beenVisited || gScore < neighbor.g) {
+    //                 if(!beenVisited || gScore < neighbor.g) {
 
-                        // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
-                        neighbor.visited = true;
-                        neighbor.parent = currentNode;
-                        neighbor.h = neighbor.h || heuristic(neighbor.pos, end.pos);
-                        neighbor.g = gScore;
-                        neighbor.f = neighbor.g + neighbor.h;
+    //                     // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
+    //                     neighbor.visited = true;
+    //                     neighbor.parent = currentNode;
+    //                     neighbor.h = neighbor.h || heuristic(neighbor.pos, end.pos);
+    //                     neighbor.g = gScore;
+    //                     neighbor.f = neighbor.g + neighbor.h;
 
-                        if (!beenVisited) {
-                            // Pushing to heap will put it in proper place based on the 'f' value.
-                            openHeap.push(neighbor);
-                        }
-                        else {
-                            // Already seen the node, but since it has been rescored we need to reorder it in the heap
-                            openHeap.rescoreElement(neighbor);
-                        }
-                    }
-                }
-            }
+    //                     if (!beenVisited) {
+    //                         // Pushing to heap will put it in proper place based on the 'f' value.
+    //                         openHeap.push(neighbor);
+    //                     }
+    //                     else {
+    //                         // Already seen the node, but since it has been rescored we need to reorder it in the heap
+    //                         openHeap.rescoreElement(neighbor);
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-            // No result was found - empty array signifies failure to find path.
-            return [];
-        },
-        manhattan: function(pos0, pos1) {
-            // See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+    //         // No result was found - empty array signifies failure to find path.
+    //         return [];
+    //     },
+    //     manhattan: function(pos0, pos1) {
+    //         // See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
 
-            var d1 = Math.abs (pos1.x - pos0.x);
-            var d2 = Math.abs (pos1.y - pos0.y);
-            return d1 + d2;
-        },
-        neighbors: function(grid, node, diagonals) {
-            var ret = [];
-            var x = node.x;
-            var y = node.y;
+    //         var d1 = Math.abs (pos1.x - pos0.x);
+    //         var d2 = Math.abs (pos1.y - pos0.y);
+    //         return d1 + d2;
+    //     },
+    //     neighbors: function(grid, node, diagonals) {
+    //         var ret = [];
+    //         var x = node.x;
+    //         var y = node.y;
 
-            // West
-            if(grid[x-1] && grid[x-1][y]) {
-                ret.push(grid[x-1][y]);
-            }
+    //         // West
+    //         if(grid[x-1] && grid[x-1][y]) {
+    //             ret.push(grid[x-1][y]);
+    //         }
 
-            // East
-            if(grid[x+1] && grid[x+1][y]) {
-                ret.push(grid[x+1][y]);
-            }
+    //         // East
+    //         if(grid[x+1] && grid[x+1][y]) {
+    //             ret.push(grid[x+1][y]);
+    //         }
 
-            // South
-            if(grid[x] && grid[x][y-1]) {
-                ret.push(grid[x][y-1]);
-            }
+    //         // South
+    //         if(grid[x] && grid[x][y-1]) {
+    //             ret.push(grid[x][y-1]);
+    //         }
 
-            // North
-            if(grid[x] && grid[x][y+1]) {
-                ret.push(grid[x][y+1]);
-            }
+    //         // North
+    //         if(grid[x] && grid[x][y+1]) {
+    //             ret.push(grid[x][y+1]);
+    //         }
 
-            if (diagonals) {
+    //         if (diagonals) {
 
-                // Southwest
-                if(grid[x-1] && grid[x-1][y-1]) {
-                    ret.push(grid[x-1][y-1]);
-                }
+    //             // Southwest
+    //             if(grid[x-1] && grid[x-1][y-1]) {
+    //                 ret.push(grid[x-1][y-1]);
+    //             }
 
-                // Southeast
-                if(grid[x+1] && grid[x+1][y-1]) {
-                    ret.push(grid[x+1][y-1]);
-                }
+    //             // Southeast
+    //             if(grid[x+1] && grid[x+1][y-1]) {
+    //                 ret.push(grid[x+1][y-1]);
+    //             }
 
-                // Northwest
-                if(grid[x-1] && grid[x-1][y+1]) {
-                    ret.push(grid[x-1][y+1]);
-                }
+    //             // Northwest
+    //             if(grid[x-1] && grid[x-1][y+1]) {
+    //                 ret.push(grid[x-1][y+1]);
+    //             }
 
-                // Northeast
-                if(grid[x+1] && grid[x+1][y+1]) {
-                    ret.push(grid[x+1][y+1]);
-                }
+    //             // Northeast
+    //             if(grid[x+1] && grid[x+1][y+1]) {
+    //                 ret.push(grid[x+1][y+1]);
+    //             }
 
-            }
+    //         }
             
 
-        }
-    };
+    //     }
+    // };
 
-    console.log("W " + Battleground.W + " H " + Battleground.H);
+    // console.log("W " + Battleground.W + " H " + Battleground.H);
+    // console.log("test in astar: ", wallsForArena.DIRT[0].length);
+    console.log("TEST: ", test);
     // return ret;
 }
 

@@ -25,11 +25,22 @@ class Wall extends GameObject {
 		this.drawWidth=big?BIG_DRAW_WIDTH:SMALL_DRAW_WIDTH;
 		this.width=WALL_WIDTH;
 		this.length=WALL_LENGTH;
+    this.position = position;
 		if (big) {
 			this.width*=BIG_DRAW_WIDTH/SMALL_DRAW_WIDTH;
 			this.length*=BIG_DRAW_WIDTH/SMALL_DRAW_WIDTH;
 		}
 	}
+
+  getWallCoords()
+  {
+    return {
+      POSITION: this.position, 
+      ANGLE: this.angle, 
+      WIDTH: this.width, 
+      LENGTH: this.length
+    }
+  }
 	
 	render(drawer: ImageDrawer): void {
 		drawer.draw(getImage(this.big?'WALL_BIG':'WALL'), this.getPosition(), this.drawWidth, this.angle-Math.PI/2);

@@ -61,7 +61,7 @@ const matchLengthForArena: {[ArenaType]: number} = {
 	CANDEN: INTRO_LENGTH+ 30*100,
 }
 
-const wallsForArena: {[ArenaType]: Array<Wall>} = {
+export const wallsForArena: {[ArenaType]: Array<Wall>} = {
 	DIRT: [
 		new Wall(new Vec(10, 0), 0, false),
 		new Wall(new Vec(60, 0), Math.PI/2, false),
@@ -145,8 +145,7 @@ class Battleground extends React.Component<Props> {
 	matchIdToReport: ?string;
 	arena: ArenaType;
 
-  static W = null;
-  static H = null;
+
 
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
@@ -184,8 +183,8 @@ class Battleground extends React.Component<Props> {
 		this.lifetimeCounter = 0;
 		this.maxMatchLength = matchLengthForArena[arena];
 		const walls = wallsForArena[arena];
-		this.W = arenaWidth[arena]/2;
-		this.H = this.W / 200*120;
+		const W = arenaWidth[arena]/2;
+		const H = W / 200*120;
 		this.collisionSegs = [
 			new Seg(new Vec(-this.W, this.H), new Vec(this.W, this.H)),
 			new Seg(new Vec(-this.W, -this.H), new Vec(this.W, -this.H)),

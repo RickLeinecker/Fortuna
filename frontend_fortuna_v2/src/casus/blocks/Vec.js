@@ -9,6 +9,13 @@ class Vec {
 		this.y=y;
 	}
 
+  getPoints() {
+    return {
+      X: this.x,
+      Y: this.y
+    }
+  }
+
 	add(o: Vec): Vec {
 		return new Vec(this.x+o.x, this.y+o.y);
 	}
