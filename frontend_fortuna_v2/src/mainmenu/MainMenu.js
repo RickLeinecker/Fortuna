@@ -18,6 +18,7 @@ import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import JoyRide from 'react-joyride'
 import { TweenMax, TweenLite, Power3 } from 'gsap'
+import _aStar from '../tanks/aStar'
 
 // type Props = {||};
 
@@ -198,7 +199,7 @@ const MainMenu  = () => {
           </div>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn creditsButton">Credits</button>
+            <button className="mainMenuBtn creditsButton" onClick={() => {_aStar()}}>Credits</button>
           </Link>
         </div>
       </div>

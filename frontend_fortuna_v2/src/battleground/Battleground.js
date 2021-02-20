@@ -145,6 +145,9 @@ class Battleground extends React.Component<Props> {
 	matchIdToReport: ?string;
 	arena: ArenaType;
 
+  static W = null;
+  static H = null;
+
 	//objects that should be added in next frame
 	newObjects: Array<GameObject>;
 	objectsToDelete: Array<GameObject>;
@@ -170,6 +173,7 @@ class Battleground extends React.Component<Props> {
 		this.setUpForArena(this.arena);
 	}
 
+
 	setUpForArena(arena: ArenaType) {
 		console.log('setting up arena: '+arena);
 		this.arena=arena;
@@ -180,13 +184,13 @@ class Battleground extends React.Component<Props> {
 		this.lifetimeCounter = 0;
 		this.maxMatchLength = matchLengthForArena[arena];
 		const walls = wallsForArena[arena];
-		const W=arenaWidth[arena]/2;
-		const H=W/200*120;
+		this.W = arenaWidth[arena]/2;
+		this.H = this.W / 200*120;
 		this.collisionSegs = [
-			new Seg(new Vec(-W, H), new Vec(W, H)),
-			new Seg(new Vec(-W, -H), new Vec(W, -H)),
-			new Seg(new Vec(-W, H), new Vec(-W, -H)),
-			new Seg(new Vec(W, H), new Vec(W, -H))
+			new Seg(new Vec(-this.W, this.H), new Vec(this.W, this.H)),
+			new Seg(new Vec(-this.W, -this.H), new Vec(this.W, -this.H)),
+			new Seg(new Vec(-this.W, this.H), new Vec(-this.W, -this.H)),
+			new Seg(new Vec(this.W, this.H), new Vec(this.W, -this.H))
 		];
 		for (const w: Wall of walls) {
 			this.collisionSegs.push(w.getCollisionWall());

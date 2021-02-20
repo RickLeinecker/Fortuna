@@ -189,30 +189,30 @@ class Tank extends GameObject {
 
 	}
 
-	astar(battleground: Battleground): boolean {
+	// astar(battleground: Battleground): boolean {
 
-		let goal = ; // enemy position
-		let start = ; // current position
+	// 	let goal = ; // enemy position
+	// 	let start = ; // current position
 	
-		const findNeighbor = () => {
+	// 	const findNeighbor = () => {
 
-		}
+	// 	}
 
-		const addNeighbors = () => {
+	// 	const addNeighbors = () => {
 
-		}
+	// 	}
 
-		const createPath = () => {
+	// 	const createPath = () => {
 
-		}
+	// 	}
 
-		// start?
-		const solveMap = () => {
+	// 	// start?
+	// 	const solveMap = () => {
 
-		}
+	// 	}
 
 
-	}
+	// }
 
 	update(battleground: Battleground): void {
 		if (this.getHealth()<=0) {

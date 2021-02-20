@@ -128,6 +128,8 @@ class Scanner extends TankPart {
 		}
 	}
 
+  is
+
 	isJammed(): boolean {
 		return this.jamTimer>0;
 	}

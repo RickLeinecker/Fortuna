@@ -1,6 +1,20 @@
 import React from 'react'
+import TankPart from './TankPart.js';
+import { getImage } from '../battleground/ImageLoader.js';
+import ImageDrawer from '../battleground/ImageDrawer.js';
+import Vec from '../casus/blocks/Vec.js';
+import Mine from '../battleground/gameobjects/Mine.js';
+import C4 from '../battleground/gameobjects/C4.js';
+import InterpriterState from '../casus/interpreter/InterpriterState.js';
+import GameObject from '../battleground/GameObject.js';
+import { createStaticParticle } from '../battleground/gameobjects/Particle.js';
 
-// const wallsForArena: {[ArenaType]: Array<Wall>} = {
+import type { Range } from './Range.js';
+import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
+import type Battleground from '../battleground/Battleground.js';
+import type Tank from './Tank.js';
+
+//  const walls = {
 // 	DIRT: [
 // 		new Wall(new Vec(10, 0), 0, false),
 // 		new Wall(new Vec(60, 0), Math.PI/2, false),
@@ -33,20 +47,37 @@ import React from 'react'
 // 	],
 // }
 
-function _aStar(mapWidth, mapHeight, position, arenaType) {
+function _aStar() {
 
     var open = [], closed = [], start = position, goal = enemyTank, neighbors, path;
 
-    let grid = ;
-    
+    // // for 2d array just array.push([val1, val2])
+    // // but it is instantiated as 1d array
+    // let grid = [];
+
+    let y = Battleground.H;
+    let x = Battleground.W;
+
+    let grid = new Array(x).fill(0).map(() => new Array(y).fill(0));
+
+    const fillGrid = () => {
+      for (let i = 0; i < x; i++)
+      {
+        for (let j = 0; j <y; j++)
+        { 
+           
+        }
+      }
+    }
+
     var astar = {
         init: function(grid) {
-            for(var x = , xl = grid.length; x < xl; x++) {
-                for(var y = , yl = grid[x].length; y < yl; y++) {
+            for(var x = 0, xl = grid.length; x < xl; x++) {
+                for(var y = 0, yl = grid[x].length; y < yl; y++) {
                     var node = grid[x][y];
-                    node.f = ;
-                    node.g = ;
-                    node.h = ;
+                    node.f = 0;
+                    node.g = 0;
+                    node.h = 0;
                     node.cost = 1;
                     node.visited = false;
                     node.closed = false;
@@ -68,7 +99,7 @@ function _aStar(mapWidth, mapHeight, position, arenaType) {
 
             openHeap.push(start);
 
-            while(openHeap.size() > ) {
+            while(openHeap.size() > 0) {
 
                 // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
                 var currentNode = openHeap.pop();
@@ -90,7 +121,7 @@ function _aStar(mapWidth, mapHeight, position, arenaType) {
                 // Find all neighbors for the current node. Optionally find diagonal neighbors as well (false by default).
                 var neighbors = astar.neighbors(grid, currentNode, diagonal);
 
-                for(var i=, il = neighbors.length; i < il; i++) {
+                for(var i=0, il = neighbors.length; i < il; i++) {
                     var neighbor = neighbors[i];
 
                     if(neighbor.closed || neighbor.isWall()) {
@@ -182,10 +213,13 @@ function _aStar(mapWidth, mapHeight, position, arenaType) {
                 }
 
             }
+            
 
-            return ret;
         }
     };
+
+    console.log("W " + Battleground.W + " H " + Battleground.H);
+    // return ret;
 }
 
-export default aStar
+export default _aStar
