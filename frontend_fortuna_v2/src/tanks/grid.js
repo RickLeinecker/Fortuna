@@ -56,7 +56,7 @@ import Vec from '../casus/blocks/Vec.js';
 export function calculateCoords(arena) {
 
   // this is an object
-  var test = wallsForArena.DIRT[0].getWallCoords();
+  var test = wallsForArena.DIRT[1].getWallCoords();
 
   // var test = { 
   //   POSITION: new Vec(10, 0),
@@ -64,6 +64,14 @@ export function calculateCoords(arena) {
   //   WIDTH: 3, 
   //   LENGTH: 17
   // }
+
+  /* MID POINT FORMULA
+      M = ( ((x1 + y2) / 2), ((y1 + y2) / 2) )
+
+      we may need to use angle and width to get at least one point
+      and then use the midpoint formula to get the other end point
+
+  */
 
   // calculating endpoints
 
