@@ -56,26 +56,27 @@ import Vec from '../casus/blocks/Vec.js';
 export function calculateCoords(arena) {
 
   // this is an object
-  // var test = wallsForArena.DIRT[0].getWallCoords();
+  var test = wallsForArena.DIRT[0].getWallCoords();
 
-  var test = { 
-    POSITION: new Vec(10, 0),
-    ANGLE: 0, 
-    WIDTH: 3, 
-    LENGTH: 17
-  }
+  // var test = { 
+  //   POSITION: new Vec(10, 0),
+  //   ANGLE: 0, 
+  //   WIDTH: 3, 
+  //   LENGTH: 17
+  // }
 
   // calculating endpoints
 
   // A[0]
-  let topX = test.POSITION.X + ((test.LENGTH / 2) * Math.cos(test.ANGLE));
+  let topX = test.POSITION.x + ((test.LENGTH / 2) * Math.cos(test.ANGLE));
   // A[1]
-  let topY = test.POSITION.Y + ((test.LENGTH / 2) * Math.sin(test.ANGLE));
+  let topY = test.POSITION.y + ((test.LENGTH / 2) * Math.sin(test.ANGLE));
 
   // B[0]
-  let bottomX = test.POSITION.X - ((test.LENGTH / 2) * Math.cos(test.ANGLE));
+  let bottomX = test.POSITION.x - ((test.LENGTH / 2) * Math.cos(test.ANGLE));
   // B[1]
-  let bottomY = test.POSITION.Y - ((test.LENGTH / 2) * Math.sin(test.ANGLE));
+  let bottomY = test.POSITION.y - ((test.LENGTH / 2) * Math.sin(test.ANGLE));
+
 
   const sign = (n) => {
     if (n > 0)
@@ -143,7 +144,7 @@ export function calculateCoords(arena) {
       traversed.push({x: gridTopX, y: gridTopY});
     }
 
-    return traversed;
+    return 0;
 
 }
 

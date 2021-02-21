@@ -61,6 +61,7 @@ const matchLengthForArena: {[ArenaType]: number} = {
 	CANDEN: INTRO_LENGTH+ 30*100,
 }
 
+
 export const wallsForArena: {[ArenaType]: Array<Wall>} = {
 	DIRT: [
 		new Wall(new Vec(10, 0), 0, false),
