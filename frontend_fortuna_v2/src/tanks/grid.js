@@ -102,8 +102,8 @@ export function calculateCoords(arena) {
   }
 
   // funky stuff
-  let dx = (topX-bottomX);
-  let dy = (topY-bottomY);
+  let dx = (bottomX-topX);
+  let dy = (bottomY-topY);
 
   let sx = sign(dx);
   let sy = sign(dy);
@@ -131,8 +131,9 @@ export function calculateCoords(arena) {
   else
     tIy = Number.POSITIVE_INFINITY;
 
-  
-    while(gridTopX != gridBotX && gridTopY != gridBotY)
+  console.log(`sx: ${sx} sy: ${sy}`)
+    
+    while(gridTopX != gridBotX || gridTopY != gridBotY)
     {
       let movX = (tIx <= tIy);
       let movY = (tIy <= tIx);
@@ -149,10 +150,11 @@ export function calculateCoords(arena) {
         tIy = dx * (gridTopY + sy - topY);
       }
 
-      traversed.push({x: gridTopX, y: gridTopY});
+      console.log(`gridTopY: ${gridTopY} gridTopX: ${gridTopX}`);
+      // traversed.push({x: gridTopX, y: gridTopY});
     }
 
-    return 0;
+    return traversed;
 
 }
 
