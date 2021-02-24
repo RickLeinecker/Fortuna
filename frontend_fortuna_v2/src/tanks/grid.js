@@ -53,7 +53,7 @@ import Vec from '../casus/blocks/Vec.js';
 // WIDTH: this.width, 
 // LENGTH: this.length }
 
-export function calculateCoords(arena) {
+export function calculateCoords(wallCoords) {
 
   // this is an object
   var test = wallsForArena.DIRT[1].getWallCoords();
@@ -150,8 +150,7 @@ export function calculateCoords(arena) {
         tIy = dx * (gridTopY + sy - topY);
       }
 
-      console.log(`gridTopY: ${gridTopY} gridTopX: ${gridTopX}`);
-      // traversed.push({x: gridTopX, y: gridTopY});
+      traversed.push({x: gridTopX, y: gridTopY});
     }
 
     return traversed;
