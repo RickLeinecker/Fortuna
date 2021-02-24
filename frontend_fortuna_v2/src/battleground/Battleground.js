@@ -187,10 +187,10 @@ class Battleground extends React.Component<Props> {
 		const W = arenaWidth[arena]/2;
 		const H = W / 200*120;
 		this.collisionSegs = [
-			new Seg(new Vec(-this.W, this.H), new Vec(this.W, this.H)),
-			new Seg(new Vec(-this.W, -this.H), new Vec(this.W, -this.H)),
-			new Seg(new Vec(-this.W, this.H), new Vec(-this.W, -this.H)),
-			new Seg(new Vec(this.W, this.H), new Vec(this.W, -this.H))
+			new Seg(new Vec(-W, H), new Vec(W, H)),
+			new Seg(new Vec(-W, -H), new Vec(W, -H)),
+			new Seg(new Vec(-W, H), new Vec(-W, -H)),
+			new Seg(new Vec(W, H), new Vec(W, -H))
 		];
 		for (const w: Wall of walls) {
 			this.collisionSegs.push(w.getCollisionWall());
