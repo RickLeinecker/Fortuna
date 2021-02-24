@@ -531,7 +531,7 @@ exports.setFirstTime = async (req: Request, res: Response) => {
 		// Find user using auth token and check their first time status
 		console.log(user)
 		if(user.firstTime == null) {
-			console.log('User not found in DB, cannot set');
+			console.log('asdfasdfasdfasdf');
 			return res
 				.status(404)
 				.json({ msg: 'User not found in DB, cannot set'});
