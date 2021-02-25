@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //@flow strict
 import * as React from 'react';
 import { getComponentType, verifyComponent } from '../globalComponents/GetInventoryInfo.js';
