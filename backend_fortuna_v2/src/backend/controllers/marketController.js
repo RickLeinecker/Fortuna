@@ -642,16 +642,16 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 						.json({ msg: 'Could not update buyer' });
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
-				// Add items to buyer
-				buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
-				await buyer.save((err: Error) => {
-					if (err) {
-						console.error(err.message);
-						return res
-							.status(500)
-							.json({ msg: 'Could not update buyer inventory.' });
-					}
-				});
+				// // Add items to buyer
+				// buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
+				// await buyer.save((err: Error) => {
+				// 	if (err) {
+				// 		console.error(err.message);
+				// 		return res
+				// 			.status(500)
+				// 			.json({ msg: 'Could not update buyer inventory.' });
+				// 	}
+				// });
 
 				// Remove the sale from database if it does not belong to master account
 				if (sellerId !== String(MASTER_ID)) {

@@ -57,8 +57,7 @@ class RemoveASaleView extends React.Component<Props, State> {
 						{this.state.itemsForSale.map((sale, index) =>
 							<div className="card mb-2" key={index}>
 								<div className="card-body">
-									{this.props.sellerType === 'casusCode'} ?
-									<h5 className="card-title">{toTitleCase(sale.name)}'s Casus Code</h5>
+									{this.props.sellerType === 'casusCode' ? <h5 className="card-title">{toTitleCase(sale.name)}'s Casus Code</h5> : <h5 className="card-title">{toTitleCase(sale.name)}</h5> }
 									<h5 className="card-title">Price: ${sale.price}</h5>
 									<h5 className="card-title">Quantity: {sale.amount}</h5>
 									<button className="btn btn-danger mt-2" onClick={() => this.removeSale(sale.saleId)}>Remove</button>

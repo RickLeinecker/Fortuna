@@ -16,7 +16,8 @@ import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 import {Container, Row, Col} from 'react-bootstrap';
 import Pagination from './Pagination.js'
 import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
-import CopyCasusCodePopup from '../armory/CopyCasusCodePopup';
+import PurchaseCasusCode from './PurchaseCasusCode.js';
+import scroll from './scroll.png'
 
 
 type Props = {|
@@ -136,15 +137,6 @@ class ListingsView extends React.Component<Props, State> {
 		});
 	}
 
-	// When an item is purchased, update the sale listings.
-	buyCasusCodeItem (sellerId: string, saleId: string): void {
-		marketSale(this.state.userId, sellerId, saleId, success => {
-			toast.success("Item Purchased.");
-			this.props.onItemBought();
-			this.getSales();
-		});
-	}
-
 	//This formats the title of the listing views
 	formatTitle(title:string) {
 		// Did this because title is a const and I need to reassign the title
@@ -213,6 +205,7 @@ class ListingsView extends React.Component<Props, State> {
 		// Render casus code sales
 		const casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
 			const casusToUse = this.findCasus(sale.tankId);
+			console.log("casusCodeToUse: ", casusToUse);
 			return (
 				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 					<div className="card-body">
@@ -220,9 +213,9 @@ class ListingsView extends React.Component<Props, State> {
 						{<h5 className="card-title">{sale.name} Casus Code</h5>}
 						<h5 className="card-title">Price: ${sale.price}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
-						{casusToUse == null ? <div>casusToUse is null</div> : <TankDisplay tankToDisplay={casusToUse} smallTank={true} />}
-						<button className="btn btn-success mt-2" onClick={() => this.buyCasusCodeItem(sale.sellerId, sale.saleId)}>Buy</button>
-						<CopyCasusCodePopup selectedTank={casusToUse} usersTanks={this.state.userTanks} />
+						{casusToUse == null ? <div></div> : <img className='scroll-picture' src={scroll} />}
+						{/* <button className="btn btn-success mt-2" onClick={() => this.buyCasusCodeItem(sale.sellerId, sale.saleId)}>Buy</button> */}
+						{ casusToUse == null ? <div>Loading Casus Code...</div> : <PurchaseCasusCode selectedTank={casusToUse} usersTanks={this.state.userTanks} sellerId={sale.sellerId} saleId={sale.saleId} userId={this.state.userId} onItemBought={this.props.onItemBought}  />}
 					</div>
 				</div>
 			);

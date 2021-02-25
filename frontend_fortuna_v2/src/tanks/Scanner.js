@@ -122,7 +122,7 @@ class Scanner extends TankPart {
 			case 'MEDIUM':
 				return 140;
 			case 'LARGE':
-				return 200;
+				return 999;
 			default:
 				throw new Error('UNEXPECTED RANGE TYPE: '+this.range);
 		}

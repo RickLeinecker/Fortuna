@@ -26,7 +26,7 @@
 }
 
 .card {
-	background-color: #3E5A6F;
+	background-color: #354c5e;
 }
 
 .masterCard {
@@ -67,4 +67,8 @@ ul > li {
 .center {
 	text-align: center;
 	margin: center;
+}
+
+.card-title {
+	/* padding: 8px 8px; */
 }

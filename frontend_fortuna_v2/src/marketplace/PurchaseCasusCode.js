@@ -5,19 +5,26 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { ToastContainer , toast } from 'react-toastify';
 import saveCasus from '../casus/saveCasus.js';
+import { getMarketSales, marketSale, getMarketTanks, getMarketCasusCode } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
+import ListingView from './ListingsView.js'
 
 type Props = {|
 	selectedTank: Tank,
 	usersTanks: Array<Tank>,
+    sellerId: String,
+    saleId: String,
+    userId: String,
+    onItemBought: () => void,
 |};
 
 type State = {|
 	popupOpen: boolean,
 	tankBeingCopiedFrom: ?Tank,
 	confirmed: boolean,
+	casusCodeForSale: Array<SaleObject>,
 |};
 
-class CopyCasusCodePopup extends React.Component<Props, State> {
+class PurchaseCasusCode extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
@@ -26,11 +33,35 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 			popupOpen: false,
 			tankBeingCopiedFrom : null,
 			confirmed: false,
+            sellerId: this.props.sellerId,
+            saleId: this.props.saleId,
+            userId: this.props.userId,
+			saleSuccess: false,
 		}
 	}
 
 	setTankBeingCopiedFrom(tankBeingUsedId: string): void {
 		this.setState({tankBeingCopiedFrom: this.props.usersTanks.find(tank => tank._id === tankBeingUsedId)});
+	}
+
+	getSales(): void {
+		// Get Casus Code market sales.
+		getMarketCasusCode(this.state.userId, sales => {
+			this.setState({casusCodeForSale: sales});
+			this.convertSalesToCasusCode(sales);
+		});
+	}
+
+	// Converts SaleObject to Tank.
+	convertSalesToCasusCode(saleTanks: Array<SaleObject>): void {
+		// Find the tank Ids from the Array of SaleObject.
+		const casusIds: Array<string> = [];
+		for(let i = 0; i < saleTanks.length; i++) {
+			if(saleTanks[i].tankId == null) {
+				throw new Error("Trying to get tanks when the items for sale have tank id equal to null");
+			}
+			casusIds.push(saleTanks[i].tankId);
+		}
 	}
 
 	copyCasusCode(): void {
@@ -42,12 +73,27 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 			toast.error("Please confirm you understand that you are overwriting code");
 			return;
 		}
-		const selectedTank = this.props.selectedTank;
-		const selectedCasusCode = this.state.tankBeingCopiedFrom.casusCode;
+
+		let saleSuccess = false;
+
+        marketSale(this.props.userId, this.props.sellerId, this.props.saleId, success => {
+			toast.success("Item Purchased.");
+			saleSuccess = true;
+			this.props.onItemBought();
+			this.getSales();
+		});
+
+		if (saleSuccess === false) {
+			return;
+		}
+
+		const selectedTank = this.state.tankBeingCopiedFrom;
+		const selectedCasusCode = this.props.selectedTank.casusCode;
 		saveCasus(selectedCasusCode, selectedTank._id, () => {
 			toast.success("Copied Casus");
 			this.setState({popupOpen: false});
 		});
+
 	}
 
 	changeConfirmed(): void {
@@ -81,14 +127,14 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 					type="checkbox"
 					checked={this.state.confirmed}
 					onChange={() => this.changeConfirmed()} />
-				 I understand I am overwriting {this.props.selectedTank.tankName}'s Casus Code 
+				 I understand I am overwriting this tank's Casus Code
 			</label>
 		)
 		const listOfTanksWithoutCurrentTank = this.removeSelectedTankFromList();
 		return(
 			<div>
 				<button className="btn" onClick={() => this.setState({popupOpen: true})}>
-					Copy Code
+					Buy
 				</button>
 				<Popup
 					open={this.state.popupOpen}
@@ -96,12 +142,12 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<br/>
-						<h3>Copy Casus Code From</h3>
+						<h3>Copy Casus Code To</h3>
 						<select 
 							className="dropdownMenu" 
 							onChange={e => this.setTankBeingCopiedFrom(e.target.value)}
 						>
-							<option>Select A Tank To Copy From</option>
+							<option>Select A Tank To Store New Casus Code</option>
 							{listOfTanksWithoutCurrentTank.map(tank => 
 								<option key = {tank._id} value = {tank._id}>{tank.tankName}</option>
 							)}
@@ -117,4 +163,4 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 	}
 }
 
-export default CopyCasusCodePopup;
+export default PurchaseCasusCode;
