@@ -485,21 +485,17 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 
 	try {
 		// Find user using auth token and check their first time status
-		console.log(user)
+		// console.log(user)
 
 		if (user.firstTime == true) {
 			console.log('user has NOT been here before')
 
 			return res
-				.status(200)
-				.send(true);
 		}
     else if (user.firstTime == false) {
 			console.log('user HAS been here before')
 
 			return res
-				.status(200)
-				.send(false);
 		}
     else
     {
@@ -516,47 +512,19 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 
 exports.setFirstTime = async (req: Request, res: Response) => {
 
+  let _firstTime = req.body.firstTime;
 
-	const user = await User.findById(req.user.id);
-	if(!user) {
-		return res
-			.status(400)
-			.json({msg: 'Cannot find user, cannot set'})
-	}
-
-	try {
-		// Find user using auth token and check their first time status
-		console.log(user)
-		if(user.firstTime == null) {
-			console.log('asdfasdfasdfasdf');
-			return res
-				.status(404)
-				.json({ msg: 'User not found in DB, cannot set'});
-		}
-
-		if (user.firstTime === false) {
-			console.log('user has NOT been here before, setting first time to true')
-			user.firstTime = true
-			return res
-				.status(200)
-				.send(user);
-		}
-
-		if (user.firstTime === true) {
-			console.log('user HAS been here before, nothing to change')
-			user.firstTime = true
-			return res
-				.status(200)
-				.send(user);
-		}
-
-	} catch (err) {
-		console.error(err.message);
-		return res
-			.status(500)
-			.json({ msg: 'Could not check if Main Page was visited for the first time'});
-	}
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+    {
+      firstTime: _firstTime
+    }, function (err, docs) {
+      if (err)
+        res.json(err)
+      else
+        console.log("Welcome!");
+    })
 }
+
 exports.allUsers = async (req: Request, res: Response) => {
 	await User.find({}, '-password', function(err: Error, users: Array<User>){
 		if(err){

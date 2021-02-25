@@ -18,11 +18,12 @@ function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
         },
         body: JSON.stringify(
             {
-            firstTime: true
+              firstTime: false
             })
     });
     responsePromise.then(
         response => response.json().then(data => {
+            console.log("DATA: ", data)
             if (response.status !== 200) {
                 console.log(response.status);
                 console.log(data);
@@ -36,7 +37,6 @@ function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
 
                 console.log('set first time status: ');
                 console.log(firstTimeStatus);
-                onLoad();
                 console.log('success ');
 
             }

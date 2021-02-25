@@ -83,8 +83,6 @@ const MainMenu  = () => {
   let mid = useRef(null);
   let right = useRef(null);
 
-
-
 	useEffect(() => {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
@@ -103,8 +101,7 @@ const MainMenu  = () => {
       setRun(res);
 		})
 
-		setFirstTimeAPICall(() => {
-		})
+		setFirstTimeAPICall();
     
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});

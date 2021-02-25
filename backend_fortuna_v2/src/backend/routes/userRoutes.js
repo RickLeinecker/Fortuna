@@ -120,7 +120,7 @@ router.get('/getFirstTime', auth, userController.getFirstTime);
 // Route call: /firstTimeVisit
 // Req must include user id in the <userId> field of the route
 // Returns true if a user has visited the page before, false if not
-router.put('/setFirstTime', auth, userController.setFirstTime);
+router.patch('/setFirstTime', auth, userController.setFirstTime);
 
 // Reset a user's password
 // Route call: resetPassword
