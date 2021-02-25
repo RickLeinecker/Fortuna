@@ -487,14 +487,14 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 		// Find user using auth token and check their first time status
 		console.log(user)
 		if(user.firstTime == null) {
-			console.log('User not found in DB');
+			console.log('User not found in DB'); // i feel like this isn't needed since the above already checks this
 			return res
 				.status(404)
 				.json({ msg: 'User not found in DB'});
 		}
 
 		if (user.firstTime == false) {
-			console.log('user has NOT been here before')
+			console.log('user has NOT been here before') // this and the log below should be switched. firstTime being false means its not their first time so they have been here
 
 			return res
 				.status(200)

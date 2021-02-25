@@ -59,11 +59,13 @@ const MainMenu  = () => {
 		});
 		getReplayListAPICall(() => {
 		});
-		getFirstTimeAPICall(() => {
 
+    // we shouldn't need two of these i think. One should do both operations (i think)
+		getFirstTimeAPICall((res) => {
+      // this callback needs to be referenced in the backend i think
+      console.log("RES: ", res);
 		});
 		setFirstTimeAPICall(() => {
-
 		})
 	}, [])
 
