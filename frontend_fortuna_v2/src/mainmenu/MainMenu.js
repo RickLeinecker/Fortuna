@@ -95,7 +95,7 @@ const MainMenu  = () => {
 		getReplayListAPICall(() => {
 		});
 
-    // we shouldn't need two of these i think. One should do both operations (i think)
+
 		getFirstTimeAPICall((res) => {
       console.log("RES: ", res);
       setRun(res);

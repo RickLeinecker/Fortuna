@@ -490,12 +490,12 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 		if (user.firstTime == true) {
 			console.log('user has NOT been here before')
 
-			return res
+			return res.status(200).send(user.firstTime);
 		}
     else if (user.firstTime == false) {
 			console.log('user HAS been here before')
 
-			return res
+			return res.status(200).send(user.firstTime)
 		}
     else
     {
