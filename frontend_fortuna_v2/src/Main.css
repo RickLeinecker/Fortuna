@@ -2,8 +2,20 @@
 	margin-top:20px;
 }
 
+.divider{
+  width: 100px;
+  height:auto;
+  display:inline-block;
+}
+
+.divider-top {
+  height: 40px;
+  width:auto;
+  display:inline-block;
+}
+
 body {
-	color: #04CCFF; 
+	color: #04CCFF;
   height: 100%;
   width: 100%;
   background-image: url('/landing_gif.gif');
@@ -77,8 +89,10 @@ body {
 
 /* Navbar Styling */
 .navbar {
-	background-color: #3E5A6F;
-	border-bottom: 3px solid #04213F;
+	color: white/*#04CCFF*/;
+	font-family: "Press Start 2P";
+	background-color: "transparent";
+	/*border-bottom: 3px solid #04213F;*/
 	overflow: hidden;
 	display: flex;
 	flex-direction: row;
@@ -105,23 +119,26 @@ body {
 }
 
 .navbtn {
-	color: #04CCFF;
-	background: #3E5A6F;
-	border: 2px solid #04CCFF;
+	color: #ff47ff/*#04CCFF*/;
+	background: black;
+	border: 2px solid #ff47ff;
 	border-radius: 8px;
+	margin-left: 5px;
+	margin-right: 10px;
 	width: auto;
 }
 
 .navbtn:hover {
-	color: #3E5A6F;
-	background: #04CCFF;
-	border: 2px solid #04CCFF;
+	color: black;
+	background: #ff47ff;
+	border: 2px solid #ff47ff;
 }
 
 /* Popup Styling */
 .popup {
-	padding: 5px 50px 20px 50px;
-	background-color: #04213F;
+	font-family: 'Press Start 2P', cursive;
+	padding: 20px 20px 20px 20px;
+	background-color: #00103a;
 }
 
 .popup p {
@@ -241,6 +258,12 @@ body {
 	border-right: none;
 	padding: 5px 25px 0px 0px;
 }
+
+/* default leaderboard styling*/
+.leaderboard #name {
+	color: #a80b4b;
+}
+
 
 /* Button Styling */
 
@@ -460,10 +483,6 @@ select {
 	display: inline-block;
 }
 
-.name {
-	color: #a80b4b;
-}
-
 .vcenter{
 	margin-top: 15%;
 }
@@ -479,7 +498,7 @@ select {
 }
 
 .footer {
-  margin-top: 50px;  
+  margin-top: 50px;
   border: 1px solid black;
   float: left;
   width:99%;

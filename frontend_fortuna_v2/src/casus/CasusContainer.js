@@ -10,8 +10,9 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import getTankForCasus from '../globalComponents/getTankForCasus.js';
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import {ToastContainer} from 'react-toastify';
-import { Container, Row, Col, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import JoyRide from 'react-joyride';
 
 type Props = {||};
 
@@ -22,12 +23,35 @@ type State = {
 
 class CasusContainer extends React.Component<Props, State> {
 
+	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+	}
+
 	constructor(props: Props) {
 		super(props);
 		verifyLogin();
 		this.state = {
 			draggedBlocks: null,
-			tankName: 'loading tank...'
+      tankName: 'loading tank...',
+      tour_steps: [
+        {
+          target: ".mt-12",
+          content: "code canvas",
+        },
+        {
+          target: ".blockTypeSelect",
+          content: "choose module type"
+        },
+        {
+          target: ".blockShelf",
+          content: "choose a module for a type"
+        },
+        {
+          target: ".testCode",
+          content: "test code here"
+        }
+      ],
+      run: false
 		};
 
 		const tankId=getTankForCasus();
@@ -44,40 +68,45 @@ class CasusContainer extends React.Component<Props, State> {
 					linkName='/Armory'
 					returnName='Back to Armory'
 					pageName={'Casus for '+this.state.tankName}
-					youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
+					// youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
 				/>
         <Container fluid>
           <Row className="mt-12">
-            <Col>
+            <Col md={12} className="editor">
               <CasusEditor 
                 draggedBlocks={this.state.draggedBlocks}
-                onBlocksDragged={this.onBlocksDragged} 
+                onBlocksDragged={this.onBlocksDragged}
                 onDraggedBlocksReleased={this.onDraggedBlocksReleased}
               />
             </Col>
           </Row>
           <br></br>
+          <BlockBank
+            draggedBlocks={this.state.draggedBlocks}
+            onBlocksDragged={this.onBlocksDragged}
+            onDraggedBlocksReleased={this.onDraggedBlocksReleased}
+          />
           <Row>
             <Col>
-              <BlockBank 
-              draggedBlocks={this.state.draggedBlocks}
-              onBlocksDragged={this.onBlocksDragged} 
-              onDraggedBlocksReleased={this.onDraggedBlocksReleased}
-              />
+              <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
             </Col>
           </Row>
           <ToastContainer />
+          <JoyRide 
+            steps={this.state.tour_steps}
+            run={this.state.run}
+            continuous={true} 
+            styles={{
+              options: {
+                zIndex: 1000,
+                spotlightShadow: 'blue'
+              }
+            }}
+          />
+          <div class="footer">
+              <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
+          </div>
         </Container>
-        <Container>
-          <Row>
-              <Col>
-                <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
-              </Col>
-            </Row>
-        </Container>
-        <div class="footer">
-          <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
-        </div>
       </>
 		);
 	}
