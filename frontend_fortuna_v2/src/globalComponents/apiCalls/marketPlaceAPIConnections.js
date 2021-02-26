@@ -63,14 +63,28 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 			else {
 				const itemsForSale: Array<SaleObject> = [];
 				for(const sale of data) {
-					itemsForSale.push(new SaleObject(
-						sale.itemId,
-						sale.salePrice,
-						sale.amount,
-						sale.sellerId,
-						sale._id,
-						null
-					));
+					if (sale.itemType === 'casus') {
+						itemsForSale.push(new SaleObject(
+							sale.itemId,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id,
+							true,
+							null
+						));
+					}
+					else {
+						itemsForSale.push(new SaleObject(
+							sale.itemId,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id,
+							false,
+							null
+						));
+					}
 				}
 				onLoad(itemsForSale);
 			}
@@ -103,9 +117,45 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 						sale.amount,
 						sale.sellerId,
 						sale._id,
+						false,
 						sale.itemId._id
 					));
-				} 
+				}
+				onLoad(itemsForSale);
+			}
+		})
+	);
+}
+
+function getMarketCasusCode(userId: string, onLoad:(codes: Array<SaleObject>) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/marketplace/getCasusCodeMarketSales/' + userId, {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+		},
+	});
+	responsePromise.then(
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				const itemsForSale: Array<SaleObject> = [];
+				for (const sale of data) {
+					itemsForSale.push(new SaleObject(
+						sale.itemId.tankName,
+						sale.salePrice,
+						sale.amount,
+						sale.sellerId,
+						sale._id,
+						true,
+						sale.itemId._id
+					));
+				}
 				onLoad(itemsForSale);
 			}
 		})
@@ -161,7 +211,8 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id
+							sale._id,
+							false
 						));
 					}
 					else if(sale.itemType === "tank") {
@@ -170,11 +221,22 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id
+							sale._id,
+							false
 						));
 					}
-					
-				} 
+					else {
+						currentListings.push(new SaleObject(
+							sale.itemId.tankName,
+							sale.salePrice,
+							sale.amount,
+							sale.sellerId,
+							sale._id,
+							true
+						));
+					}
+
+				}
 				onLoad(currentListings);
 			}
 		})
@@ -207,7 +269,7 @@ function removeASale(saleId: string, onLoad:() => void): void {
 				toast.success(data.msg);
 				onLoad();
 			}
-			
+
 		})
 	).catch(
 		error => {
@@ -221,6 +283,7 @@ export {
 	makeASale,
 	getMarketSales,
 	getMarketTanks,
+	getMarketCasusCode,
 	marketSale,
 	getUsersCurrentSales,
 	removeASale
