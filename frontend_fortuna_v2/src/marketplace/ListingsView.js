@@ -67,7 +67,6 @@ class ListingsView extends React.Component<Props, State> {
 		// Get Casus Code market sales.
 		getMarketCasusCode(this.state.userId, sales => {
 			this.setState({casusCodeForSale: sales});
-			console.log("casus code for sale: ", this.state.casusCodeForSale);
 			this.convertSalesToCasusCode(sales);
 		});
 
@@ -164,18 +163,15 @@ class ListingsView extends React.Component<Props, State> {
 		for (let i = 0; i < this.state.tanksForSale.length; i++) {
 			if (this.state.tanksForSale[i]._id === id) {
 				return this.state.tanksForSale[i];
-				console.log("tank found: ",this.state.tanksForSale[i]);
 			}
 		}
 	}
 
 	//This function finds the casus that we are looking for based on the id that is passed in
 	findCasus(id: string): ?Tank {
-		console.log(this.state.casusCodeTanks)
 		for (let i = 0; i < this.state.casusCodeTanks.length; i++) {
 			if (this.state.casusCodeTanks[i]._id === id) {
 				return this.state.casusCodeTanks[i];
-				console.log("tank found: ",this.state.casusCodeTanks[i]);
 			}
 		}
 	}
@@ -196,14 +192,12 @@ class ListingsView extends React.Component<Props, State> {
 		// Render tank sales
 		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
 			const tankToUse = this.findTank(sale.name);
-			console.log("tankToUse: ", tankToUse);
 			return (
 				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 					<div className="card-body">
 						{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 						{tankToUse == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{tankToUse.tankName}</h5>}
 						<h5 className="card-title">Price: ${sale.price}</h5>
-						<h5 className="card-title">Name of Part: ${console.log(tankToUse)}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
 						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
 						<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
@@ -214,7 +208,6 @@ class ListingsView extends React.Component<Props, State> {
 		// Render casus code sales
 		const casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
 			const casusToUse = this.findCasus(sale.tankId);
-			console.log("casusCodeToUse: ", casusToUse);
 			return (
 				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 					<div className="card-body">
@@ -235,7 +228,6 @@ class ListingsView extends React.Component<Props, State> {
 				<div className="card-body">
 					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 					<h5 className="card-name">{toTitleCase(sale.name)}</h5>
-					<h5>{sale.name}</h5>
 					<h5 className="card-body">Description: <DisplayDescription saleName={sale.name}/></h5>
 					<h5 className="card-title">Price: ${sale.price} Quantity: {sale.amount}</h5>
 					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>

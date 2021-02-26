@@ -63,7 +63,6 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 	makeASale(): void {
 		marketSale(this.props.userId, this.props.sellerId, this.props.saleId, success => {
 			toast.success("Item Purchased.");
-			console.log("saleSuccess = ", saleSuccess);
 			this.props.onItemBought();
 			this.copyCasusCode();
 		});
