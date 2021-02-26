@@ -34,7 +34,6 @@
 	color: #04CCFF;
 }
 
-<<<<<<< HEAD
 .pagination {
 	display: block;
 	/* margin-left: 33%; */
@@ -70,6 +69,12 @@ ul > li {
 	margin: center;
 }
 
+.card-name {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 18px;
+}
+
 .card-title {
-	/* padding: 8px 8px; */
+	font-family: 'Press Start 2P', cursive;
+	font-size: 12px;
 }

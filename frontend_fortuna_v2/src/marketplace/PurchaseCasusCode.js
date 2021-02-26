@@ -14,7 +14,8 @@ type Props = {|
     sellerId: String,
     saleId: String,
     userId: String,
-    onItemBought: () => void,
+    setLoading: () => void,
+	onItemBought: () => void,
 |};
 
 type State = {|
@@ -23,6 +24,8 @@ type State = {|
 	confirmed: boolean,
 	casusCodeForSale: Array<SaleObject>,
 |};
+
+var saleSuccess = false;
 
 class PurchaseCasusCode extends React.Component<Props, State> {
 
@@ -44,14 +47,6 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 		this.setState({tankBeingCopiedFrom: this.props.usersTanks.find(tank => tank._id === tankBeingUsedId)});
 	}
 
-	getSales(): void {
-		// Get Casus Code market sales.
-		getMarketCasusCode(this.state.userId, sales => {
-			this.setState({casusCodeForSale: sales});
-			this.convertSalesToCasusCode(sales);
-		});
-	}
-
 	// Converts SaleObject to Tank.
 	convertSalesToCasusCode(saleTanks: Array<SaleObject>): void {
 		// Find the tank Ids from the Array of SaleObject.
@@ -64,6 +59,16 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 		}
 	}
 
+	// API call to validate marketplace purchase
+	makeASale(): void {
+		marketSale(this.props.userId, this.props.sellerId, this.props.saleId, success => {
+			toast.success("Item Purchased.");
+			console.log("saleSuccess = ", saleSuccess);
+			this.props.onItemBought();
+			this.copyCasusCode();
+		});
+	}
+
 	copyCasusCode(): void {
 		if(this.state.tankBeingCopiedFrom == null) {
 			toast.error("Couldn't find this tank");
@@ -74,19 +79,6 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 			return;
 		}
 
-		let saleSuccess = false;
-
-        marketSale(this.props.userId, this.props.sellerId, this.props.saleId, success => {
-			toast.success("Item Purchased.");
-			saleSuccess = true;
-			this.props.onItemBought();
-			this.getSales();
-		});
-
-		if (saleSuccess === false) {
-			return;
-		}
-
 		const selectedTank = this.state.tankBeingCopiedFrom;
 		const selectedCasusCode = this.props.selectedTank.casusCode;
 		saveCasus(selectedCasusCode, selectedTank._id, () => {
@@ -94,6 +86,7 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 			this.setState({popupOpen: false});
 		});
 
+		this.props.getSales();
 	}
 
 	changeConfirmed(): void {
@@ -119,7 +112,7 @@ class PurchaseCasusCode extends React.Component<Props, State> {
 		const cancelButton = (
 			<button className="cancelbtn" onClick={() => this.setState({popupOpen: false})}>Cancel</button>
 		);
-		const copyButton = (this.state.confirmed === false || this.state.tankBeingCopiedFrom == null)?(<button className="smallbtn" disabled>Copy</button>):(<button className="smallbtn" onClick={() => this.copyCasusCode()}>Copy</button>);
+		const copyButton = (this.state.confirmed === false || this.state.tankBeingCopiedFrom == null)?(<button className="smallbtn" disabled>Copy</button>):(<button className="smallbtn" onClick={() => this.makeASale()}>Copy</button>);
 		const checkBoxField = (
 			<label>
 				<input

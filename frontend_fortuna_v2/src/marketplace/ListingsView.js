@@ -17,7 +17,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import Pagination from './Pagination.js'
 import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
 import PurchaseCasusCode from './PurchaseCasusCode.js';
-import scroll from './scroll.png'
+import DisplayDescription from './DisplayDescription.js'
 
 
 type Props = {|
@@ -46,9 +46,13 @@ class ListingsView extends React.Component<Props, State> {
 			casusCodeTanks: [],
 			currentPage: 1,
 			postsPerPage: 3,
+			postsPerPageCasus: 2,
 			totalPosts: 0,
-			userTanks: []
+			userTanks: [],
+			loading: false,
 		}
+
+		this.getSales = this.getSales.bind(this);
 	}
 
 	// Once mounted, get the user's ID and set the sales.
@@ -85,6 +89,7 @@ class ListingsView extends React.Component<Props, State> {
 			this.setState({itemsForSale: salesList});
 		});
 
+		this.setState({loading: false});
 	}
 
 	// Get user's tanks to copy casus code if purchased.
@@ -175,6 +180,10 @@ class ListingsView extends React.Component<Props, State> {
 		}
 	}
 
+	setLoading(): void {
+		this.setState({loading: true});
+	}
+
 	render(): React.Node  {
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
@@ -213,9 +222,9 @@ class ListingsView extends React.Component<Props, State> {
 						{<h5 className="card-title">{sale.name} Casus Code</h5>}
 						<h5 className="card-title">Price: ${sale.price}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
-						{casusToUse == null ? <div></div> : <img className='scroll-picture' src={scroll} />}
+						{casusToUse == null ? <div></div> : <img src="/scroll.png" />}
 						{/* <button className="btn btn-success mt-2" onClick={() => this.buyCasusCodeItem(sale.sellerId, sale.saleId)}>Buy</button> */}
-						{ casusToUse == null ? <div>Loading Casus Code...</div> : <PurchaseCasusCode selectedTank={casusToUse} usersTanks={this.state.userTanks} sellerId={sale.sellerId} saleId={sale.saleId} userId={this.state.userId} onItemBought={this.props.onItemBought}  />}
+						{ casusToUse == null ? <div>Loading Casus Code...</div> : <PurchaseCasusCode selectedTank={casusToUse} usersTanks={this.state.userTanks} sellerId={sale.sellerId} saleId={sale.saleId} userId={this.state.userId} setLoading={this.setLoading} getSales={this.getSales} onItemBought={this.props.onItemBought} />}
 					</div>
 				</div>
 			);
@@ -225,9 +234,10 @@ class ListingsView extends React.Component<Props, State> {
 			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
 					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
-					<h5 className="card-title">{toTitleCase(sale.name)}</h5>
-					<h5 className="card-title">Price: ${sale.price}</h5>
-					<h5 className="card-title">Quantity: {sale.amount}</h5>
+					<h5 className="card-name">{toTitleCase(sale.name)}</h5>
+					<h5>{sale.name}</h5>
+					<h5 className="card-body">Description: <DisplayDescription saleName={sale.name}/></h5>
+					<h5 className="card-title">Price: ${sale.price} Quantity: {sale.amount}</h5>
 					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 				</div>
 			</div>
@@ -238,31 +248,38 @@ class ListingsView extends React.Component<Props, State> {
 		const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
 		const currentItemPosts = itemCards.slice(indexOfFirstPost, indexOfLastPost);
 		const currentTankPosts = tankCards.slice(indexOfFirstPost, indexOfLastPost);
-		const currentCasusCodePosts = casusCodeCards.slice(indexOfFirstPost, indexOfLastPost);
+
+		const indexOfLastPostCasus = this.state.currentPage * this.state.postsPerPageCasus;
+		const indexOfFirstPostCasus = indexOfLastPostCasus - this.state.postsPerPageCasus;
+		const currentCasusCodePosts = casusCodeCards.slice(indexOfFirstPostCasus, indexOfLastPostCasus);
 
 		// Change page
 		const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
 
 		// Actual return for the render
-		return (
-			<Container fluid>
-				<h1>{this.formatTitle(this.props.sellerType)}</h1>
-				{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-					<Row>
-						{this.props.sellerType === 'tank' ?
-							<Col>{tankCards.length === 0 ? <h5>No Active Sales</h5> : currentTankPosts}
-							<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={tankCards.length} paginate={paginate} /> </Col> :
-							this.props.sellerType === 'casusCode' ?
-							<Col>{casusCodeCards.length === 0 ? <h5>No Active Sales</h5> : currentCasusCodePosts}
-							<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={casusCodeCards.length} paginate={paginate} /> </Col> :
-							<Col>{itemCards.length === 0 ? <h5>No Active Sales</h5> : currentItemPosts}
-							<div className="text-center"><Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={itemCards.length} paginate={paginate} /> </div></Col>
-						}
-					</Row>
-				}
-				<ToastContainer />
-			</Container>
-		);
+		if (this.state.loading === true) {
+			return <img src="/spinner.gif" alt="image" width="600" height="300" />
+		} else {
+			return (
+				<Container fluid>
+					<h1>{this.formatTitle(this.props.sellerType)}</h1>
+					{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
+						<Row>
+							{this.props.sellerType === 'tank' ?
+								<Col>{tankCards.length === 0 ? <h5>No Active Sales</h5> : currentTankPosts}
+								<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={tankCards.length} paginate={paginate} /> </Col> :
+								this.props.sellerType === 'casusCode' ?
+								<Col>{casusCodeCards.length === 0 ? <h5>No Active Sales</h5> : currentCasusCodePosts}
+								<Pagination className="pagination" postsPerPage={this.state.postsPerPageCasus} totalPosts={casusCodeCards.length} paginate={paginate} /> </Col> :
+								<Col>{itemCards.length === 0 ? <h5>No Active Sales</h5> : currentItemPosts}
+								<div className="text-center"><Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={itemCards.length} paginate={paginate} /> </div></Col>
+							}
+						</Row>
+					}
+					<ToastContainer />
+				</Container>
+			);
+		}
 	}
 }
 
