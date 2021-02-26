@@ -18,7 +18,7 @@ type State = {|
 |};
 
 class CopyCasusCodePopup extends React.Component<Props, State> {
-	
+
 	constructor(props: Props) {
 		super(props);
 
@@ -47,7 +47,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		saveCasus(selectedCasusCode, selectedTank._id, () => {
 			toast.success("Copied Casus");
 			this.setState({popupOpen: false});
-		});		
+		});
 	}
 
 	changeConfirmed(): void {
