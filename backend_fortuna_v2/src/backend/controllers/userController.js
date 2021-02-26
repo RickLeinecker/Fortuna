@@ -472,6 +472,59 @@ exports.getLeaders = async (req: Request, res: Response) => {
 	});
 }
 
+
+exports.getFirstTime = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTime == true) {
+			console.log('user has NOT been here before')
+
+			return res.status(200).send(user.firstTime);
+		}
+    else if (user.firstTime == false) {
+			console.log('user HAS been here before')
+
+			return res.status(200).send(user.firstTime)
+		}
+    else
+    {
+      return res.status(400).json({msg: "Error"})
+    }
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Main Page was visited for the first time'});
+	}
+}
+
+exports.setFirstTime = async (req: Request, res: Response) => {
+
+  let _firstTime = req.body.firstTime;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+    {
+      firstTime: _firstTime
+    }, function (err, docs) {
+      if (err)
+        res.json(err)
+      else
+        console.log("Welcome!");
+    })
+}
+
 exports.allUsers = async (req: Request, res: Response) => {
 	await User.find({}, '-password', function(err: Error, users: Array<User>){
 		if(err){

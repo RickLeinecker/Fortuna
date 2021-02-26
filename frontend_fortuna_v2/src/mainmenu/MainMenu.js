@@ -14,8 +14,13 @@ import TankDisplay from "../tanks/TankDisplay";
 import {getAllUsersTanks} from "../globalComponents/apiCalls/tankAPIIntegration";
 import getPreferredSelectedTank from "../globalComponents/getPreferredSelectedTank";
 import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPICall";
+import getFirstTimeAPICall from "../globalComponents/apiCalls/getFirstTimeAPICall";
+import setFirstTimeAPICall from "../globalComponents/apiCalls/setFirstTimeAPICall";
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
+import {toast} from "react-toastify";
+import getErrorFromObject from "../globalComponents/getErrorFromObject";
+import setLoginToken from "../globalComponents/setLoginToken";
 import JoyRide from 'react-joyride'
 import { TweenMax, TweenLite, Power3 } from 'gsap'
 
@@ -78,9 +83,7 @@ const MainMenu  = () => {
   let mid = useRef(null);
   let right = useRef(null);
 
-
 	useEffect(() => {
-
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
 		getAllUsersTanks(allTanks => {
@@ -92,11 +95,23 @@ const MainMenu  = () => {
 		getReplayListAPICall(() => {
 		});
 
+
+		getFirstTimeAPICall((res) => {
+      console.log("RES: ", res);
+      setRun(res);
+		})
+
+		setFirstTimeAPICall();
+    
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
+
+  useEffect(() => {
+    console.log("run: ", run);
+  }, [run])
 
 	return (
     <>

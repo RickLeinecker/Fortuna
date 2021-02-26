@@ -67,7 +67,7 @@ router.get('/allUsers', userController.allUsers);
 router.get('/getUser', auth, userController.getUser);
 
 // Retrieve a single user using the userId rather than the auth token
-// routecall: /userNoAuth/<userId>
+// Route call: /userNoAuth/<userId>
 // Req must include the user id in the <userId> field of the route
 // Returns a JSON object with all the user's info except the pass
 router.get('/retrieveUser/:userId', userController.retrieveUser);
@@ -106,6 +106,21 @@ router.post('/passwordResetReq', [
 	check('email', 'Please enter a valid email')
 		.isEmail()
 ], userController.passwordResetReq);
+
+
+// Retrieve info to determine if a User has visited a page
+// Route call: /firstTimeVisit
+// Req must include user id in the <userId> field of the route
+// Returns true if a user has visited the page before, false if not
+router.get('/getFirstTime', auth, userController.getFirstTime);
+
+
+
+// Retrieve info to determine if a User has visited a page
+// Route call: /firstTimeVisit
+// Req must include user id in the <userId> field of the route
+// Returns true if a user has visited the page before, false if not
+router.patch('/setFirstTime', auth, userController.setFirstTime);
 
 // Reset a user's password
 // Route call: resetPassword
