@@ -51,18 +51,132 @@ import { wallsForArena } from '../battleground/Battleground.js'
 // 	],
 // }
 
-function _aStar() {
+export function rayTrace(wall) {
+  // var test = wallsForArena.DIRT[1].getWallCoords();
+
+  // calculating endpoints
+
+  // A[0]
+  let topX = (wall.POSITION.x + ((wall.LENGTH / 2) * Math.cos(wall.ANGLE)));
+  // A[1]
+  let topY = (wall.POSITION.y + ((wall.LENGTH / 2) * Math.sin(wall.ANGLE)));
+
+  // B[0]
+  let bottomX = (wall.POSITION.x - ((wall.LENGTH / 2) * Math.cos(wall.ANGLE)))
+  // B[1]
+  let bottomY = (wall.POSITION.y - ((wall.LENGTH / 2) * Math.sin(wall.ANGLE)))
+  
+
+
+  const sign = (n) => {
+    if (n > 0)
+    {
+      return 1;
+    }
+    else if (n < 0)
+    {
+      return -1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+
+  // funky stuff
+  let dx = (bottomX-topX);
+  let dy = (bottomY-topY);
+
+  let sx = sign(dx);
+  let sy = sign(dy);
+
+  // x
+  let gridTopX = (Math.floor(topX))
+  // y
+  let gridTopY = (Math.floor(topY))
+
+  let gridBotX = (Math.floor(bottomX))
+  let gridBotY = (Math.floor(bottomY))
+
+  let traversed = [{x: gridTopX, y: gridTopY}]
+
+  let tIx = 0;
+  let tIy = 0;
+
+  if (dx != 0)
+    tIx = parseFloat(parseFloat(dy * (gridTopX + sx - topX)).toPrecision(20));
+  else
+    tIx = Number.POSITIVE_INFINITY;
+
+  if (dy != 0)
+    tIy = parseFloat(parseFloat(dx * (gridTopY + sy - topY)).toPrecision(20));
+  else
+    tIy = Number.POSITIVE_INFINITY;
+
+  while(gridTopX != gridBotX || gridTopY != gridBotY)
+  {
+    let movX = (tIx <= tIy);
+    let movY = (tIy <= tIx);
+
+    if (movX)
+    {
+      gridTopX += sx;
+      tIx = parseFloat(parseFloat(dy * (gridTopX + sx - topX)).toPrecision(20));
+    }
+
+    if (movY)
+    {
+      gridTopY += sy;
+      tIy = parseFloat(parseFloat(dx * (gridTopY + sy - topY)).toPrecision(20));
+    }
+
+    traversed.push({x: gridTopX, y: gridTopY});
+  }
+
+    return traversed;
+}
+
+export function fillGrid (walls) {
+  
+  // console.log("WALLS: ", walls[0].getWallCoords());
+
+  let arrayOfCoords = [];
+
+  console.log("length: ", walls.length)
+  console.log("walls array: ", walls)
+
+  // for (let i = 0; i < walls.length; i++)
+  // {
+  //   console.log("WALLS: ", walls[i].getWallCoords());
+  //   let coords = rayTrace(walls[i].getWallCoords());
+  //   arrayOfCoords.push(coords);
+  // }
+
+  // for hex[1] with the negative angle, we want to add pi/2 to the negative to make it positive
+
+  arrayOfCoords.push(rayTrace(walls[0].getWallCoords()))
+
+  return arrayOfCoords;
+}
+
+export function _aStar(wallsFromArena) {
+
+
+    var gridArray = fillGrid(wallsForArena[wallsFromArena]);
+
+    console.log("TESTING LOOP: ", gridArray);
 
     // var open = [], closed = [], start = position, goal = enemyTank, neighbors, path;
 
     // // for 2d array just array.push([val1, val2])
     // // but it is instantiated as 1d array
     // let grid = [];
+    
+    // console.log("test: ---> ", wallsForArena[testing])
 
 
-
-    let y = Battleground.H;
-    let x = Battleground.W;
+    // let y = Battleground.H;
+    // let x = Battleground.W;
 
     // let grid = new Array(x).fill(1).map(() => new Array(y).fill(1));
 
@@ -73,7 +187,7 @@ function _aStar() {
     //   grid[i] = new Array(x).fill(1);
     // }
 
-    let test = calculateCoords('DIRT')
+    // let test = calculateCoords('DIRT')
     
 
     // const fillGrid = () => {
@@ -236,7 +350,7 @@ function _aStar() {
 
     // console.log("W " + Battleground.W + " H " + Battleground.H);
     // console.log("test in astar: ", wallsForArena.DIRT[0].length);
-    console.log("TEST: ", test);
+    // console.log("TEST: ", test);
     // return ret;
 }
 

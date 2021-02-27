@@ -74,6 +74,7 @@ const MainMenu  = () => {
       ])
 
   const [run, setRun] = useState(true);
+  // const [arena, setArena] = useState('DIRT');
 
   let left = useRef(null);
   let mid = useRef(null);
@@ -199,7 +200,7 @@ const MainMenu  = () => {
           </div>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn creditsButton" onClick={() => {_aStar()}}>Credits</button>
+            <button className="mainMenuBtn creditsButton" onClick={() => {_aStar('HEX')}}>Credits</button>
           </Link>
         </div>
       </div>
