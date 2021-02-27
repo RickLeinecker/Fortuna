@@ -56,84 +56,62 @@ export function rayTrace(wall) {
 
   // calculating endpoints
 
+  const xAngle = Math.cos(wall.ANGLE);
+  const yAngle = Math.sin(wall.ANGLE);
+
   // A[0]
-  let topX = (wall.POSITION.x + ((wall.LENGTH / 2) * Math.cos(wall.ANGLE)));
+  let topX = (wall.POSITION.x + ((wall.LENGTH / 2) * xAngle));
   // A[1]
-  let topY = (wall.POSITION.y + ((wall.LENGTH / 2) * Math.sin(wall.ANGLE)));
+  let topY = (wall.POSITION.y + ((wall.LENGTH / 2) * yAngle));
 
   // B[0]
-  let bottomX = (wall.POSITION.x - ((wall.LENGTH / 2) * Math.cos(wall.ANGLE)))
+  let bottomX = (wall.POSITION.x - ((wall.LENGTH / 2) * xAngle))
   // B[1]
-  let bottomY = (wall.POSITION.y - ((wall.LENGTH / 2) * Math.sin(wall.ANGLE)))
-  
+  let bottomY = (wall.POSITION.y - ((wall.LENGTH / 2) * yAngle))
+
+  let a = {x: topX, y: topY};
+  let b = {x: bottomX, y: bottomY};
 
 
-  const sign = (n) => {
-    if (n > 0)
-    {
-      return 1;
-    }
-    else if (n < 0)
-    {
-      return -1;
-    }
-    else
-    {
-      return 0;
-    }
+
+  // RAY TRACE ALGORITHM BY DOMINIK: https://codepen.io/dominik-lach/pen/eYYBOXw
+  let dx = b.x - a.x;
+  let dy = b.y - a.y;
+
+  let directionX = Math.sign(dx);
+  let directionY = Math.sign(dy);
+  let directionModifierX = directionX < 0 ? 0 : directionX;
+  let directionModifierY = directionY < 0 ? 0 : directionY;
+
+  let currentCell = {x: Math.floor(a.x), y: Math.floor(a.y)};
+  let targetCell = {x: Math.floor(b.x), y: Math.floor(b.y)};
+
+  let traversed = [{x: currentCell.x, y: currentCell.y}];
+
+  let calcIntersectionDistanceX = () => Math.abs(dy * (currentCell.x + directionModifierX - a.x));
+  let calcIntersectionDistanceY = () => Math.abs(dx * (currentCell.y + directionModifierY - a.y));
+
+  let intersectionDistanceX = dx === 0 ? Infinity : calcIntersectionDistanceX();
+  let intersectionDistanceY = dy === 0 ? Infinity : calcIntersectionDistanceY();
+
+  while (targetCell.x !== currentCell.x || targetCell.y !== currentCell.y) {
+      let xMove = intersectionDistanceX <= intersectionDistanceY;
+      let yMove = intersectionDistanceY <= intersectionDistanceX;
+
+      if (xMove) {
+          currentCell.x += directionX;
+          intersectionDistanceX = calcIntersectionDistanceX();
+      }
+
+      if (yMove) {
+          currentCell.y += directionY;
+          intersectionDistanceY = calcIntersectionDistanceY();
+      }
+
+      traversed.push({x: currentCell.x, y: currentCell.y});
   }
 
-  // funky stuff
-  let dx = (bottomX-topX);
-  let dy = (bottomY-topY);
-
-  let sx = sign(dx);
-  let sy = sign(dy);
-
-  // x
-  let gridTopX = (Math.floor(topX))
-  // y
-  let gridTopY = (Math.floor(topY))
-
-  let gridBotX = (Math.floor(bottomX))
-  let gridBotY = (Math.floor(bottomY))
-
-  let traversed = [{x: gridTopX, y: gridTopY}]
-
-  let tIx = 0;
-  let tIy = 0;
-
-  if (dx != 0)
-    tIx = parseFloat(parseFloat(dy * (gridTopX + sx - topX)).toPrecision(20));
-  else
-    tIx = Number.POSITIVE_INFINITY;
-
-  if (dy != 0)
-    tIy = parseFloat(parseFloat(dx * (gridTopY + sy - topY)).toPrecision(20));
-  else
-    tIy = Number.POSITIVE_INFINITY;
-
-  while(gridTopX != gridBotX || gridTopY != gridBotY)
-  {
-    let movX = (tIx <= tIy);
-    let movY = (tIy <= tIx);
-
-    if (movX)
-    {
-      gridTopX += sx;
-      tIx = parseFloat(parseFloat(dy * (gridTopX + sx - topX)).toPrecision(20));
-    }
-
-    if (movY)
-    {
-      gridTopY += sy;
-      tIy = parseFloat(parseFloat(dx * (gridTopY + sy - topY)).toPrecision(20));
-    }
-
-    traversed.push({x: gridTopX, y: gridTopY});
-  }
-
-    return traversed;
+  return traversed;
 }
 
 export function fillGrid (walls) {
@@ -145,16 +123,16 @@ export function fillGrid (walls) {
   console.log("length: ", walls.length)
   console.log("walls array: ", walls)
 
-  // for (let i = 0; i < walls.length; i++)
-  // {
-  //   console.log("WALLS: ", walls[i].getWallCoords());
-  //   let coords = rayTrace(walls[i].getWallCoords());
-  //   arrayOfCoords.push(coords);
-  // }
+  for (let i = 0; i < walls.length; i++)
+  {
+    console.log("WALLS: ", walls[i].getWallCoords());
+    let coords = rayTrace(walls[i].getWallCoords());
+    arrayOfCoords.push(coords);
+  }
 
   // for hex[1] with the negative angle, we want to add pi/2 to the negative to make it positive
 
-  arrayOfCoords.push(rayTrace(walls[0].getWallCoords()))
+  // arrayOfCoords.push(rayTrace(walls[2].getWallCoords()))
 
   return arrayOfCoords;
 }
@@ -165,6 +143,18 @@ export function _aStar(wallsFromArena) {
     var gridArray = fillGrid(wallsForArena[wallsFromArena]);
 
     console.log("TESTING LOOP: ", gridArray);
+
+    // areans have different sizes. Grid area needs to be dynamic
+    // const arenaWidth: {[ArenaType]: number} = {
+    //   DIRT: 200,
+    //   HEX: 200,
+    //   LUNAR: 300,
+    //   CANDEN: 300,
+    // }
+    // const W = arenaWidth[arena]/2;
+    // const H = W / 200*120;
+
+    /*-------------------------------------------------------------------------------*/
 
     // var open = [], closed = [], start = position, goal = enemyTank, neighbors, path;
 
