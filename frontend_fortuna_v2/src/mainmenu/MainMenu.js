@@ -200,7 +200,7 @@ const MainMenu  = () => {
           </div>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn creditsButton" onClick={() => {_aStar('CANDEN')}}>Credits</button>
+            <button className="mainMenuBtn creditsButton" onClick={() => {_aStar('DIRT')}}>Credits</button>
           </Link>
         </div>
       </div>

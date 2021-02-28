@@ -47,7 +47,7 @@ const backgroundForArena: {[ArenaType]: ImageName} = {
 	CANDEN: 'CANDEN_BACKGROUND',
 }
 
-const arenaWidth: {[ArenaType]: number} = {
+export const arenaWidth: {[ArenaType]: number} = {
 	DIRT: 200,
 	HEX: 200,
 	LUNAR: 300,

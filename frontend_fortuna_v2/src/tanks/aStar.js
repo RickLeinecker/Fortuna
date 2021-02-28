@@ -16,7 +16,7 @@ import type Tank from './Tank.js';
 
 import { calculateCoords } from '../tanks/grid.js'
 
-import { wallsForArena } from '../battleground/Battleground.js'
+import { wallsForArena, arenaWidth } from '../battleground/Battleground.js'
 
 //  const walls = {
 // 	DIRT: [
@@ -130,19 +130,42 @@ export function fillGrid (walls) {
     arrayOfCoords.push(coords);
   }
 
-  // for hex[1] with the negative angle, we want to add pi/2 to the negative to make it positive
 
-  // arrayOfCoords.push(rayTrace(walls[2].getWallCoords()))
-
+  console.log('COORDS', arrayOfCoords)
   return arrayOfCoords;
 }
 
-export function _aStar(wallsFromArena) {
+function createGrid(arena, wallArrayCoords) {
+
+  const W = (arenaWidth[arena]/2);
+  const H = (W / 200*120);
+
+  console.log(`Width: ${W} Height: ${H}`)
+
+  let grid = new Array(H*2+1).fill(1).map(() => new Array(W*2+1).fill(1));
+
+  for (let i = 0; i < wallArrayCoords.length; i++)
+  {
+    for (let j = 0; j < wallArrayCoords[i].length; j++)
+    {
+      let xCoord = wallArrayCoords[i][j].x + W;
+      let yCoord = wallArrayCoords[i][j].y + H;
+
+      grid[yCoord][xCoord] = -1;
+    }
+  }
+
+  return grid;
+}
+
+export function _aStar(arena) {
 
 
-    var gridArray = fillGrid(wallsForArena[wallsFromArena]);
+    var wallArrayCoords = fillGrid(wallsForArena[arena]);
 
-    console.log("TESTING LOOP: ", gridArray);
+    var grid = createGrid(arena, wallArrayCoords)
+
+    console.log("TESTING GRID: ", grid);
 
     // areans have different sizes. Grid area needs to be dynamic
     // const arenaWidth: {[ArenaType]: number} = {
