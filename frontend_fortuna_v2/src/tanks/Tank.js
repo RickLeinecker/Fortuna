@@ -215,8 +215,8 @@ class Tank extends GameObject {
   // every frame, if (usingAstar == true)
   //     overwrite TANK_X_VAR_NAME/TANK_Y_VAR with position.x in astar path
 	setCasusVariables(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
-		this._setDouble(TANK_X_VAR_NAME, 0);
-		this._setDouble(TANK_Y_VAR_NAME, 0);
+		this._setDouble(TANK_X_VAR_NAME, this.position.x);
+		this._setDouble(TANK_Y_VAR_NAME, this.position.y);
 		this._setDouble(TANK_HEALTH_VAR_NAME, this.health);
 
 		//set generic casus lists
@@ -258,9 +258,12 @@ class Tank extends GameObject {
 	executePhysics(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
 		//movement stuff
 		const otherTanks = tanks.filter(otherTank => otherTank !== this);
-		const forwardMovementUnclamped = this._getDouble(FORWARD_MOVEMENT_VAR_NAME);
+		const forwardMovementUnclamped = this._getDouble(FORWARD_MOVEMENT_VAR_NAME); // settign this to 0.0 makes both tanks not move (FORWARD_MOVEMENT_VAR_NAME)
+    console.log("FORWARD MOVEMENT UNCLAMPED: ", forwardMovementUnclamped)
 		let forwardMovement = Math.max(-1, Math.min(1, forwardMovementUnclamped));
+    console.log("FORWARD MOVEMENT: ", forwardMovement);
 		const targetDirection = this._getDouble(TARGET_DIRECTION_VAR_NAME);
+    console.log("TARGET DIRECTION: ", targetDirection);
 
 		const unit=new Vec(1, 0);
 		const targetVec=unit.rotate(targetDirection);
@@ -276,6 +279,7 @@ class Tank extends GameObject {
 			}
 		}
 		const totalMovement=Math.abs(forwardMovement)+2*Math.abs(dAngle);
+    console.log("TOTAL MOVEMENT: ", totalMovement);
 		forwardMovement/=Math.max(1, totalMovement)*1;
 		const turnSpeed=this.nitroRepairTimerLeft>0 ? NITRO_TURN_DIVIDER : ORIG_TURN_DIVIDER;
 		dAngle/=Math.max(1, totalMovement)*turnSpeed;
@@ -285,7 +289,8 @@ class Tank extends GameObject {
 		const oldPosition=this.position;
 		const moveSpeed=this.nitroRepairTimerLeft>0 ? NITRO_MOVE_SPEED : ORIG_MOVE_SPEED;
 		const speedMultiplier = this._getMoveSpeedMultiplier();
-		this.position=this.position.add(unit.rotate(this.rotation).scale(moveSpeed*forwardMovement*speedMultiplier));
+		this.position= new Vec(0,0); // this.position.add(unit.rotate(this.rotation).scale(moveSpeed*forwardMovement*speedMultiplier));
+    console.log("POSITION: ", this.position)
 		let ranIntoWall=false;
 		if (this.intersectingTankOrWall(walls, otherTanks)) {
 			this.position=oldPosition;
