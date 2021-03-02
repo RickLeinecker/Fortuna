@@ -189,31 +189,6 @@ class Tank extends GameObject {
 
 	}
 
-	// astar(battleground: Battleground): boolean {
-
-	// 	let goal = ; // enemy position
-	// 	let start = ; // current position
-	
-	// 	const findNeighbor = () => {
-
-	// 	}
-
-	// 	const addNeighbors = () => {
-
-	// 	}
-
-	// 	const createPath = () => {
-
-	// 	}
-
-	// 	// start?
-	// 	const solveMap = () => {
-
-	// 	}
-
-
-	// }
-
 	update(battleground: Battleground): void {
 		if (this.getHealth()<=0) {
 			createSmokeCloud(this.getPosition(), battleground);
@@ -237,9 +212,11 @@ class Tank extends GameObject {
 		}
 	}
 
+  // every frame, if (usingAstar == true)
+  //     overwrite TANK_X_VAR_NAME/TANK_Y_VAR with position.x in astar path
 	setCasusVariables(walls: Array<Seg>, tanks: Array<Tank>, battleground: Battleground): void {
-		this._setDouble(TANK_X_VAR_NAME, this.position.x);
-		this._setDouble(TANK_Y_VAR_NAME, this.position.y);
+		this._setDouble(TANK_X_VAR_NAME, 0);
+		this._setDouble(TANK_Y_VAR_NAME, 0);
 		this._setDouble(TANK_HEALTH_VAR_NAME, this.health);
 
 		//set generic casus lists

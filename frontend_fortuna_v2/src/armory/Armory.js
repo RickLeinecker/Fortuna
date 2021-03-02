@@ -78,7 +78,7 @@ function Armory() {
 	useEffect(() => {
 			// Handles initializing points when the page is first loaded or when a new tank is selected.
 		const initPoints: void = () => {
-			if (selectedTank == null)
+			if (selectedTank === null)
 				return;
 
 			const tank: Tank = selectedTank;
@@ -123,16 +123,14 @@ function Armory() {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	const changeSelectedTank: void = (newTank: ?Tank) => {
-		if (newTank = null)
+		if (newTank === null)
 		{
 			toast.error('New Tank does not exist!')
 			return;
 		}
 
 		setSelectedTank(newTank);
-    setLoading(true);
 		setTankForCasus(newTank._id);
-    setLoading(false);
 	}
 
 	// Function that will save the selectedTank and update the user's inventory.
