@@ -2,12 +2,12 @@
 
 type MarketplaceViewType = 
 	// Component Types
-	'chassis' | 'weapon' | 'scanner' | 'scannerAddon' | 'jammer' | 'treads' | 'item' | 
+	'chassis' | 'weapon' | 'scanner' | 'scannerAddon' | 'jammer' | 'treads' | 'item'
 	
 	// Tank and casus block
-	'tank' | 'casusBlock' | 
+	'tank' | 'casusBlock' | 'casusCode'
 	
 	// Sale item
-	'makeAComponentSale' | 'makeATankSale' | 'removeASale';
+	'makeAComponentSale' | 'makeATankSale' | 'removeASale' | 'makeCasusCodeSale';
 
 export type { MarketplaceViewType };

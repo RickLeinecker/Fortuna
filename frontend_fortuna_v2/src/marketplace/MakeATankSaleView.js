@@ -8,7 +8,7 @@ import { ToastContainer , toast } from 'react-toastify';
 
 type Props = {|
 	onItemSold: () => void,
-|}; 
+|};
 
 type State = {|
 	userId: string,
@@ -28,6 +28,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			userId: '',
 			salePrice: 0,
 			tankBeingSoldId: '',
+			tankCasusCode: [],
 			itemAmount: 0,
 			tanksToSell: [],
 			favTankId: '',
@@ -75,8 +76,8 @@ class MakeATankSaleView extends React.Component<Props, State> {
 						allTanks.splice(index, 1);
 					}
 				}
-			
-				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id});
+
+				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCode});
 		});
 	};
 
@@ -89,10 +90,10 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		}
 
 		makeASale(
-			this.state.userId, 
-			this.state.salePrice, 
-			this.state.tankBeingSoldId, 
-			"tank", 
+			this.state.userId,
+			this.state.salePrice,
+			this.state.tankBeingSoldId,
+			"tank",
 			1,
 			() => {
 				toast.success("Tank Placed in Market.");
@@ -102,25 +103,25 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			}
 		);
 	}
-	
-	render(): React.Node  { 
+
+	render(): React.Node  {
 		return (
 			<div id="Parent">
 				<label>Select a tank to Sell</label>
-				<select 
-					className="dropdownMenu" 
+				<select
+					className="dropdownMenu"
 					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
 				>
-					{this.state.tanksToSell.map(({ tankName, _id }, index) => 
+					{this.state.tanksToSell.map(({ tankName, _id }, index) =>
 						<option key={index}  value={_id}>{tankName}</option>
 					)}
 				</select>
 				<br/>
 				<label>Selling Price</label>
-				<input 
-					type="number" 
-					value={this.state.salePrice} 
-					className="inputText" 
+				<input
+					type="number"
+					value={this.state.salePrice}
+					className="inputText"
 					onChange={e => this.setState({salePrice: e.target.value})}
 				></input>
 				<br/><br/>

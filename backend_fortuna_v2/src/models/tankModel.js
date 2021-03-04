@@ -27,7 +27,7 @@ const Tank = new Mongoose.model('Tank', new Mongoose.Schema ({
     // Casus code in the form of a JSON object. Default Empty Bounding Box on creation.
     casusCode: {
         type: Object,
-        default: { 
+        default: {
 			boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
 			highlighted: false, 
 			blockClass: "ContainerBlock", 
