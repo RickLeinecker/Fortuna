@@ -4,7 +4,10 @@ import './Login.css';
 import Popup from 'reactjs-popup';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { ToastContainer , toast } from 'react-toastify';
-// import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, DropdownButton } from 'reactstrap';
+import GoogleLogin from 'react-google-login';
+import setLoginToken from '../globalComponents/setLoginToken.js';
+import { verifyLink } from '../globalComponents/verifyLink.js';
+
 
 type Props = {|
 	onEmailRegisteredCallback: (string, string) => void
@@ -106,6 +109,51 @@ class SignupPopup extends React.Component<Props, State> {
 		this.setState({signupDialogOpen: false});
 	}
 
+  // put user email in db
+  responseSuccessGoogle = (res) => {
+
+    this.setState({ userName:  res.profileObj.givenName, email: res.profileObj.email, password: res.googleId });
+    
+    const responsePromise: Promise<Response> = fetch('/api/user/googlelogin', {
+			method: 'POST',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Credentials': 'true'
+			},
+			body: JSON.stringify({
+				userName: this.state.userName,
+				email: this.state.email,
+				password:this.state.password,
+        tokenId: res.tokenId
+       }),
+		});
+		responsePromise.then(
+			response => response.json().then(data => {
+				if (response.status !== 200) {
+					console.log(response.status);
+					console.log(data);
+					toast.error(getErrorFromObject(data));
+				}
+				else {
+					console.log(data);
+					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password, true);
+          setLoginToken(data.token);
+					window.location=verifyLink('/MainMenu');
+				}
+			})
+		).catch(
+			(error) => {
+				toast.error('error');
+				console.log(error);
+			}
+		);
+  }
+
+  responseErrorGoogle = (response) => {
+    toast.error('Error signing in with Google')
+  }
+
 	render(): React.Node {
 		return (
 			<div>
@@ -200,6 +248,18 @@ class SignupPopup extends React.Component<Props, State> {
 						</div>
 					</div>
 				</Popup>
+        <br/>
+        <br/>
+        <GoogleLogin
+          clientId="670405012008-c48tglusfd73a6qthu0uhf2skj97s5a9.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={this.responseSuccessGoogle}
+          onFailure={this.responseErrorGoogle}
+          cookiePolicy={'single_host_origin'}
+          render={renderProps => (
+            <button type="button" className="clearbtn logintext" style={{color: "white"}} onClick={renderProps.onClick}>Login With Google</button>
+          )}
+        />
 				<ToastContainer />
 			</div>
 		);

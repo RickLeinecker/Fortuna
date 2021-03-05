@@ -105,13 +105,19 @@ class LoginPopup extends React.Component<Props, State> {
 		this.setState({resetPasswordOpen: false});
 	}
 
-	onEmailRegistered(registeredUsername: string, registeredPassword: string) {
+	onEmailRegistered(registeredUsername: string, registeredPassword: string, isGoogle = true) {
+
+    let dialog = isGoogle ? false : true;
+
 		this.setState({
 			userName: registeredUsername,
 			password: registeredPassword,
-			loginDialogOpen: true
+			loginDialogOpen: dialog
 		});
-		toast.success('Please click the link we sent to your email to verify your account.');
+		
+    (registeredPassword == " ") ? 
+      toast.success('Welcome to Fortuna!') 
+      : toast.success('Please click the link we sent to your email to verify your account.');
 	}
 
 	render(): React.Node {

@@ -43,32 +43,31 @@ const MainMenu  = () => {
   const [tourSteps, setTourSteps] = useState([
         {
           target: ".editTank",
-          content: "HEY GUYS"
+          content: "Step 1"
         },
         {
           target: ".play",
-          content:
-            "THIS IS HOW YOU USE STUFF"
+          content: "Step 2"
         },
         {
           target: ".train",
-          content: "TRAIN!!!!"
+          content: "Step 3"
         },
         {
           target: '.tankSelect',
-          content: "The navbar"
+          content: "Step 4"
         },
         {
           target: ".battleRecord",
-          content: "See battle records here"
+          content: "Step 5"
         },
         {
           target: ".creditsButton",
-          content: "Check out the creators"
+          content: "Step 6"
         },
         {
           target: ".leaderboardTut",
-          content: "See Leaderboard"
+          content: "Step 7"
         }
       ])
 
