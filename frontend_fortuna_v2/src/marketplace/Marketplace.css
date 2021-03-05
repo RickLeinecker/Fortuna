@@ -26,7 +26,7 @@
 }
 
 .card {
-	background-color: #354c5e;
+	background-color: #22303b;
 }
 
 .masterCard {
@@ -37,7 +37,7 @@
 .pagination {
 	display: block;
 	/* margin-left: 33%; */
-	font-family: 'Press Start 2P', cursive;
+	font-family: 'Press Start 2P';
 }
 
 .pagination a {
@@ -77,4 +77,9 @@ ul > li {
 .card-title {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 12px;
+}
+
+.card-body {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 14px;
 }

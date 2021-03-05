@@ -31,6 +31,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 	// the string identifier of the component/Casus block equivalent
 	// to the property in the User Model.
 	const { sellerId, salePrice, itemId, itemType, amount } = req.body;
+	let itemDesc = '';
 
 	if (salePrice % 1 !== 0 || amount % 1 !== 0) {
 		return res
@@ -76,6 +77,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 				salePrice,
 				itemId,
 				itemType,
+				itemDesc,
 				amount
 			});
 
@@ -125,6 +127,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 				salePrice,
 				itemId,
 				itemType,
+				itemDesc,
 				amount
 			});
 
@@ -172,6 +175,108 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 						.json({ msg: 'User does not have enough of this item to sell' });
 				}
 
+				// Retrieve Item Description
+				switch (itemId) {
+					case 'moddableLight':
+						itemDesc = 'Sacrifices armor for extra speed; allows for more customizable options.'
+						break;
+					case 'light':
+						itemDesc = 'Fast with extra armor to its moddable light counterpart.'
+						break;
+					case 'moddable':
+						itemDesc = 'A balance between armor and speed; provides extra customizable options.'
+						break;
+					case 'heavy':
+						itemDesc = 'The most heavily armored tank in Fortuna.'
+						break;
+					case 'moddableHeavy':
+						itemDesc = 'Heavily armored with an extra point for customization.'
+						break;
+					case 'machineGun':
+						itemDesc = 'Standard weapon with low damage but has above average fire rate.'
+						break;
+					case 'grenadeLauncher':
+						itemDesc = 'An explosive close-range option; good damage and average fire rate.'
+						break;
+					case 'missile':
+						itemDesc = 'Powerful damage and range but slow fire rate; requires accurate precision.'
+						break;
+					case 'shotgun':
+						itemDesc = 'High damage and fire rate, but limited range.'
+						break;
+					case 'vulcanCannon':
+						itemDesc = 'Highest fire rate of any kinetic weapon; low damage is its only drawback.'
+						break;
+					case 'laser':
+						itemDesc = 'Good uptime and range with average cooldown.'
+						break;
+					case 'plasma':
+						itemDesc = 'High damage with average range; low uptime and cooldown.'
+						break;
+						case 'pulseLaser':
+						itemDesc = 'A 360 degree range, hitting everything around it at the cost of low damage and range.'
+						break;
+					case 'lancer':
+						itemDesc = 'close range heat weapon; high damage with low range and uptime.'
+						break;
+					case 'deathRay':
+						itemDesc = 'Devastating long range weapon with high cooldown and low uptime.'
+						break;
+					case 'shortRangeScanner':
+						itemDesc = 'Low range and cost; better than default.'
+						break;
+					case 'mediumRangeScanner':
+						itemDesc = 'Average range with higher cost.'
+						break;
+					case 'longRangeScanner':
+						itemDesc = 'Highest range scanner with highest cost.'
+						break;
+					case 'itemScanner':
+						itemDesc = 'Used to detect mines and c4.'
+						break;
+					case 'antiJammerScanner':
+						itemDesc = 'Prevents jammers from affecting the tank scanner.'
+						break;
+					case 'shortRangeJammer':
+						itemDesc = 'Strongest jam time but smallest range.'
+						break;
+					case 'mediumRangeJammer':
+						itemDesc = 'Average jam time and range.'
+						break;
+					case 'longRangeJammer':
+						itemDesc = 'Smallest jam time but largest range.'
+						break;
+					case 'advancedTreads':
+						itemDesc = 'Fastest treads in Fortuna, but the highest point cost.'
+						break;
+					case 'fastTreads':
+						itemDesc = 'Gives extra speed, not as fast as Advanced Treads.'
+						break;
+					case 'armoredTreads':
+						itemDesc = 'Adds extra armor at the cost of speed.'
+						break;
+					case 'heavilyArmoredTreads':
+						itemDesc = 'Adds a lot of armor with heavy loss to speed; extra point cost.'
+						break;
+					case 'mine':
+						itemDesc = 'Sets a trap for the enemy tank.'
+						break;
+					case 'c4':
+						itemDesc = 'Similar to mines but requires remote detonation.'
+						break;
+					case 'nitroRepair':
+						itemDesc = 'Repairs tank and gives a speed boost.'
+						break;
+					case 'overdrive':
+						itemDesc = 'Removes speed penalty for weapons and increases their damage for a short period.'
+						break;
+					case 'missileTrackingBeacon':
+						itemDesc = 'Shots a homing beacon for missiles to follow.'
+						break;
+					default:
+						itemDesc = '';
+				}
+
 				// If they have enough to sell
 				// make new Marketplace sale
 				const sale = new MarketSale({
@@ -179,6 +284,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 					salePrice,
 					itemId,
 					itemType,
+					itemDesc,
 					amount
 				});
 
@@ -229,6 +335,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 					salePrice,
 					itemId,
 					itemType,
+					itemDesc,
 					amount
 				});
 

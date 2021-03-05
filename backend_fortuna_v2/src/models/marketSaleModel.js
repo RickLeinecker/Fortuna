@@ -37,6 +37,10 @@ const MarketSale = new Mongoose.model('MarketplaceSale', new Mongoose.Schema({
         enum: ['component', 'tank', 'casus'],
         required: true
     },
+    itemDesc: {
+        type: String,
+        default: ''
+    },
     amount: {
         type: Number,
         required: true
