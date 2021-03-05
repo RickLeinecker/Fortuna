@@ -59,7 +59,7 @@ class Login extends React.Component<{||}> {
 				<div className="column loginright">
 					<InfoPopup />
 				</div>
-        <div class="footer">
+        <div className="footer">
           <p>Photo credit: <a href="https://www.artstation.com/artwork/GXwZgz">ArtStation</a></p>
         </div>
 			</div>
