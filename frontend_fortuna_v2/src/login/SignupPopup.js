@@ -151,7 +151,7 @@ class SignupPopup extends React.Component<Props, State> {
   }
 
   responseErrorGoogle = (response) => {
-    console.log("test")
+    toast.error('Error signing in with Google')
   }
 
 	render(): React.Node {
