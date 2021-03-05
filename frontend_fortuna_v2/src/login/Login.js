@@ -27,6 +27,10 @@ class Login extends React.Component<{||}> {
   }
 
 	render(): React.Node {
+
+
+
+
 		return (
 			<div>
 				<div className="column loginleft align-middle">
@@ -55,7 +59,7 @@ class Login extends React.Component<{||}> {
 				<div className="column loginright">
 					<InfoPopup />
 				</div>
-        <div class="footer">
+        <div className="footer">
           <p>Photo credit: <a href="https://www.artstation.com/artwork/GXwZgz">ArtStation</a></p>
         </div>
 			</div>

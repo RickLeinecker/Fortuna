@@ -61,6 +61,7 @@ function Help() {
         break;
       case choices.FUNCTIONS:
         setFunctionsModalIsOpen(true);
+        break;
       default:
         break;
     }
@@ -112,7 +113,8 @@ function Help() {
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
       backgroundColor: "#012074",
-      borderStyle: "solid"
+      borderStyle: "solid",
+      maxHeight: "100vh"
     }
   }
 
@@ -146,6 +148,7 @@ function Help() {
               contentLabel="Variables Modal"
             >
               <Explanation choice={choices.VARIABLES} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.VARIABLES)}>Close</Button>
             </Modal>
           </Col>
@@ -157,6 +160,7 @@ function Help() {
               contentLabel="Math Modal"
             >
               <Explanation choice={choices.MATH} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.MATH)}>Close</Button>
             </Modal>
           </Col>
@@ -172,6 +176,7 @@ function Help() {
               contentLabel="Doubles Modal"
             >
               <Explanation choice={choices.DOUBLES} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.DOUBLES)}>Close</Button>
             </Modal>
           </Col>
@@ -183,6 +188,7 @@ function Help() {
               contentLabel="Logic Modal"
             >
               <Explanation choice={choices.LOGIC} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.LOGIC)}>Close</Button>
             </Modal>
           </Col>
@@ -194,6 +200,7 @@ function Help() {
               contentLabel="Integers Modal"
             >
               <Explanation choice={choices.INTEGERS} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.INTEGERS)}>Close</Button>
             </Modal>
           </Col>
@@ -209,6 +216,7 @@ function Help() {
               contentLabel="Lists Modal"
             >
               <Explanation choice={choices.LISTS} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
             </Modal>
           </Col>
@@ -220,6 +228,7 @@ function Help() {
               contentLabel="Debug Modal"
             >
               <Explanation choice={choices.DEBUG} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.DEBUG)}>Close</Button>
             </Modal>
           </Col>
@@ -231,6 +240,7 @@ function Help() {
               contentLabel="Function Modal"
             >
               <Explanation choice={choices.FUNCTIONS} />
+              <div className="divider-top" />
               <Button onClick={() => closeModals(choices.FUNCTIONS)}>Close</Button>
             </Modal>
           </Col>

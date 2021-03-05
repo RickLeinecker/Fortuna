@@ -26,6 +26,7 @@ router.post('/registerUser', [
 		.isEmail()
 ], userController.register);
 
+router.post('/googlelogin', userController.googleLogin);
 // Login a User
 // Route call: /login
 // Req must include userName and password in body

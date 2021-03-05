@@ -3,3 +3,7 @@ docker image build -t fortunafrontend:latest .
 docker container run -it --rm --name fortunafrontend --net fortunalocalnetwork -v nodemodules:/app/node_modules -v $PWD:/app -p 3000:3000 fortunafrontend
 
 docker network create --driver bridge fortunalocalnetwork
+
+cleanup dangling images: docker rmi $(docker images -f "dangling=true" -q)
+
+ docker run -d -p 8000:80 -v /frontend_fortuna_v2/public:/usr/share/nginx/html --name my-nginx nginx
