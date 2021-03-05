@@ -256,6 +256,9 @@ class SignupPopup extends React.Component<Props, State> {
           onSuccess={this.responseSuccessGoogle}
           onFailure={this.responseErrorGoogle}
           cookiePolicy={'single_host_origin'}
+          render={renderProps => (
+            <button type="button" className="clearbtn logintext" style={{color: "white"}} onClick={renderProps.onClick}>Login With Google</button>
+          )}
         />
 				<ToastContainer />
 			</div>
