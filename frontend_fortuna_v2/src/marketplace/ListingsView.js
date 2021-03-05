@@ -49,7 +49,6 @@ class ListingsView extends React.Component<Props, State> {
 			postsPerPageCasus: 2,
 			totalPosts: 0,
 			userTanks: [],
-			loading: false,
 		}
 
 		this.getSales = this.getSales.bind(this);
@@ -87,8 +86,6 @@ class ListingsView extends React.Component<Props, State> {
 			let salesList = sales.filter(sale => sale.isCasusSale === false);
 			this.setState({itemsForSale: salesList});
 		});
-
-		this.setState({loading: false});
 	}
 
 	// Get user's tanks to copy casus code if purchased.
@@ -216,7 +213,6 @@ class ListingsView extends React.Component<Props, State> {
 						<h5 className="card-title">Price: ${sale.price}</h5>
 						<h5 className="card-title">Quantity: {sale.amount}</h5>
 						{casusToUse == null ? <div></div> : <img src="/scroll.png" />}
-						{/* <button className="btn btn-success mt-2" onClick={() => this.buyCasusCodeItem(sale.sellerId, sale.saleId)}>Buy</button> */}
 						{ casusToUse == null ? <div>Loading Casus Code...</div> : <PurchaseCasusCode selectedTank={casusToUse} usersTanks={this.state.userTanks} sellerId={sale.sellerId} saleId={sale.saleId} userId={this.state.userId} setLoading={this.setLoading} getSales={this.getSales} onItemBought={this.props.onItemBought} />}
 					</div>
 				</div>
@@ -228,7 +224,7 @@ class ListingsView extends React.Component<Props, State> {
 				<div className="card-body">
 					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
 					<h5 className="card-name">{toTitleCase(sale.name)}</h5>
-					<h5 className="card-body">Description: <DisplayDescription saleName={sale.name}/></h5>
+					<h5 className="card-body">{sale.itemDesc} </h5>
 					<h5 className="card-title">Price: ${sale.price} Quantity: {sale.amount}</h5>
 					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 				</div>

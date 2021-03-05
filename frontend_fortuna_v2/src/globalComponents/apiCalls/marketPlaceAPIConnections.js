@@ -71,6 +71,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 							sale.sellerId,
 							sale._id,
 							true,
+							sale.itemDesc,
 							null
 						));
 					}
@@ -82,6 +83,7 @@ function getMarketSales(userId: string, onLoad:(sales: Array<SaleObject>) => voi
 							sale.sellerId,
 							sale._id,
 							false,
+							sale.itemDesc,
 							null
 						));
 					}
@@ -117,6 +119,7 @@ function getMarketTanks(userId: string, onLoad:(tanks: Array<SaleObject>) => voi
 						sale.amount,
 						sale.sellerId,
 						sale._id,
+						sale.itemDesc,
 						false,
 						sale.itemId._id
 					));
@@ -152,6 +155,7 @@ function getMarketCasusCode(userId: string, onLoad:(codes: Array<SaleObject>) =>
 						sale.amount,
 						sale.sellerId,
 						sale._id,
+						sale.itemDesc,
 						true,
 						sale.itemId._id
 					));
@@ -212,6 +216,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.amount,
 							sale.sellerId,
 							sale._id,
+							sale.itemDesc,
 							false
 						));
 					}
@@ -222,6 +227,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.amount,
 							sale.sellerId,
 							sale._id,
+							sale.itemDesc,
 							false
 						));
 					}
@@ -232,6 +238,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.amount,
 							sale.sellerId,
 							sale._id,
+							sale.itemDesc,
 							true
 						));
 					}
