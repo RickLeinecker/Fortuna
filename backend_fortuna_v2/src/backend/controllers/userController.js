@@ -46,22 +46,6 @@ exports.googleLogin = async (req, response) => {
         else {
           if (user) {
 
-            console.log("User", user)
-            // Save user
-            // await user.save((err: Error) => {
-            //   if (err) {
-            //     console.error(err.message);
-            //     return res
-            //       .status(500)
-            //       .json({ msg: 'Could not update user login time.' });
-            //   }
-            //   else {
-            //     console.log("User: ", user)
-            //     user.lastLogin = Date.now();
-            //     return res.status(201).json({msg: 'Welcome'})
-            //   }
-            // });
-
             user.lastLogin = Date.now();
 
             const done = await user.save();
@@ -89,8 +73,7 @@ exports.googleLogin = async (req, response) => {
                 console.error(err.message);
                 return res.status(500).json({ msg: 'Failed to create or sign JWT' })
               }
-              console.log('Login Successful.');
-              console.log('RES: ', response);
+
              return response.status(200).json({ token });
             });
 
