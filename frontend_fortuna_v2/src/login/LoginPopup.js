@@ -105,11 +105,14 @@ class LoginPopup extends React.Component<Props, State> {
 		this.setState({resetPasswordOpen: false});
 	}
 
-	onEmailRegistered(registeredUsername: string, registeredPassword: string) {
+	onEmailRegistered(registeredUsername: string, registeredPassword: string, isGoogle = true) {
+
+    let dialog = isGoogle ? false : true;
+
 		this.setState({
 			userName: registeredUsername,
 			password: registeredPassword,
-			loginDialogOpen: true
+			loginDialogOpen: dialog
 		});
 		
     (registeredPassword == " ") ? 

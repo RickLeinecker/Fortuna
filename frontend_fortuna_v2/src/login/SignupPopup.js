@@ -137,14 +137,14 @@ class SignupPopup extends React.Component<Props, State> {
 				}
 				else {
 					console.log(data);
-					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password);
+					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password, true);
           setLoginToken(data.token);
 					window.location=verifyLink('/MainMenu');
 				}
 			})
 		).catch(
 			(error) => {
-				toast.error('TEST!!!!');
+				toast.error('error');
 				console.log(error);
 			}
 		);
