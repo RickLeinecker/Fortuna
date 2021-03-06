@@ -16,7 +16,7 @@ type State = {|
 |};
 
 class Replays extends React.Component<Props, State> {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			replays: [],
@@ -60,7 +60,7 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable">
+			<div className="replayTable" style={this.props.styling}>
 				{this.state.myUsername != null ? <h4>{this.state.myUsername}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
