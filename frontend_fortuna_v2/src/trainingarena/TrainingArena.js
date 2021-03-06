@@ -153,6 +153,11 @@ function TrainingArena() {
 		}
   }
 
+  const divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
   const preferredArena=getPreferredArena(battleType);
 
   return (
@@ -164,7 +169,7 @@ function TrainingArena() {
         //youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
       <div className="column taleft" ref={el => leftT = el}>
-        <h5>Choose your Tank, Commander</h5>
+        <h5 style={divStyle}>Choose your Tank, Commander</h5>
         <br/>
         {(battleType === '1 vs 1') ?
           <div className="leftTank">
@@ -229,15 +234,16 @@ function TrainingArena() {
         }
       </div>
       <div className="column tamiddle" ref={el => midT = el}>
-        <h5>Current Battle Type: {battleType}</h5>
+        <h5 style={divStyle}>Current Battle Type: {battleType}</h5>
         <button
           className="primarybtn changeType"
           onClick={() => onChangeBattleTypeClicked()}
+          style={divStyle}
         >
           Change Battle Type
         </button>
         <br/><br/><br/>
-        <h5>Arena</h5>
+        <h5 style={divStyle}>Arena</h5>
         { battleType === '1 vs 1' ?
           <select
             className="dropdownMenu chooseArena"
@@ -265,16 +271,17 @@ function TrainingArena() {
           type="button"
           className="primarybtn startTrain"
           onClick={() => onClickStartBattle()}
+          style={divStyle}
         >
           Start Battle
         </button>
         <br/><br/>
         <Link to={verifyLink("/Casus")}>
-          <button className="smallbtn casusLink">Casus</button>
+          <button className="primarybtn casusLink" style={divStyle}>Casus</button>
         </Link>
       </div>
       <div className="column taright" ref={el => rightT = el}>
-        <h5>Choose a Training Bot</h5>
+        <h5 style={divStyle}>Choose a Training Bot</h5>
         <br/>
         {(battleType === '1 vs 1') ?
           <div>

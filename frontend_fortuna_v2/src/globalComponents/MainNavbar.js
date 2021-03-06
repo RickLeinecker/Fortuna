@@ -88,6 +88,11 @@ class MainNavbar extends React.Component<Props, State> {
 		return 'https://www.youtube.com/embed/' + link.slice(link.indexOf('=')+1);
 	}
 
+  divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
 	render(): React.Node {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
@@ -139,7 +144,7 @@ class MainNavbar extends React.Component<Props, State> {
 	   </Link>
       </div>
       <div className="navright">
-        <h5>{this.state.username} | ${this.state.userCurrency}</h5>
+        <h5 style={this.divStyle}>{this.state.username} | ${this.state.userCurrency}</h5>
       </div>
     </div>
 		)
