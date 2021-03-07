@@ -125,7 +125,7 @@ class SignupPopup extends React.Component<Props, State> {
 				userName: this.state.userName,
 				email: this.state.email,
 				password:this.state.password,
-        tokenId: res.tokenId
+        		tokenId: res.tokenId
        }),
 		});
 		responsePromise.then(
@@ -138,7 +138,7 @@ class SignupPopup extends React.Component<Props, State> {
 				else {
 					console.log(data);
 					this.props.onEmailRegisteredCallback(this.state.userName, this.state.password, true);
-          setLoginToken(data.token);
+          			setLoginToken(data.token);
 					window.location=verifyLink('/MainMenu');
 				}
 			})
