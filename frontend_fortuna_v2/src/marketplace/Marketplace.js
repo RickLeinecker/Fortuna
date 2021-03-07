@@ -10,6 +10,7 @@ import MakeCasusCodeSaleView from './MakeCasusCodeSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
+import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 type Props = {||};
 
@@ -38,6 +39,19 @@ class Marketplace extends React.Component<Props, State> {
 		const navbar = this.refs.navbar;
 		navbar.reloadNavbar();
 	}
+
+  
+  rowStyle = {
+    
+  }
+
+  divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    textAlign: "center",
+    right: "70px",
+    position: "relative"
+  }
 
 	render(): React.Node {
 		// Partview stores the current listings that are shown.
@@ -90,6 +104,45 @@ class Marketplace extends React.Component<Props, State> {
 				break;
 		}
 
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button>
+
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button>
+    // <br/>
+    // <h4>Sell</h4>
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button>
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button>
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button>
+    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button>
+
+  //   <div className="row mt-5">
+  //   <div className="col-md-4">
+  //     <div className="list-group col-md-6">
+  //       <h4>Buy</h4>
+
+  //      </div>
+  //   </div>
+  //   <div className="col-md-4">
+  //     <div className="text-center">
+  //       {partView}
+  //     </div>
+  //   </div>
+  // </div>
+
+
 		return (
 			<div id="Parent">
 				<MainNavbar
@@ -101,33 +154,44 @@ class Marketplace extends React.Component<Props, State> {
 					ref="navbar"
 					// youtubeLinks={['https://www.youtube.com/watch?v=hnmnJLNz2vk']}
 				/>
-				<div className="row mt-5">
-					<div className="col-md-4">
-						<div className="list-group col-md-6">
-							<h4>Buy</h4>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button>
-							<br/>
-							<h4>Sell</h4>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button>
-							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button>
-					 	</div>
-					</div>
-					<div className="col-md-4">
-						<div className="text-center">
-							{partView}
-						</div>
-					</div>
-				</div>
+        <br/>
+        <br/>
+        <br/>
+        <Container>
+          <h1 style={this.divStyle}>Buy</h1>
+          <br/>
+          <Row fluid>
+            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button></Col>
+            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button></Col>
+            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button></Col>
+          </Row>
+          <br/>
+          <br/>
+          <Row fluid>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button></Col>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button></Col>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button></Col>
+          </Row>
+          <br/>
+          <br/>
+          <Row fluid>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button></Col>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button></Col>
+            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button></Col>
+          </Row>
+        </Container>
+        <br/>
+        <br/>
+        <Container>
+          <h1 style={this.divStyle}>Sell</h1>
+          <br/>
+          <Row fluid>
+            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button></Col>
+            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button></Col>
+            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button></Col>
+            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button></Col>
+          </Row>
+        </Container>
 			</div>
 		);
 	}
