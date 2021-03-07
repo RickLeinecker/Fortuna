@@ -59,6 +59,11 @@ class MainNavbar extends React.Component<Props, State> {
 
 	// Check if the back button will logout the user.
 	handleLogout(): void {
+    
+    if (this.props.resetMpPageView)
+    {
+      this.props.resetMpPageView();
+    }
 
 		// If the user isn't logging out, leave this function.
 		if(this.props.returnName !== 'Logout') {

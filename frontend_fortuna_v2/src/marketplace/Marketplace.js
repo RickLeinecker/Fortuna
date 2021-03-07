@@ -32,6 +32,8 @@ class Marketplace extends React.Component<Props, State> {
 		this.state = {
 			marketplaceViewClicked: null
 		}
+
+    this.resetPageView = this.resetPageView.bind(this);
 	}
 
 	// When a transaction takes place, update the navbar currency.
@@ -41,8 +43,8 @@ class Marketplace extends React.Component<Props, State> {
 	}
 
   
-  rowStyle = {
-    
+  resetPageView = () => {
+    this.setState({ marketplaceViewClicked: null });
   }
 
   divStyle = {
@@ -141,60 +143,74 @@ class Marketplace extends React.Component<Props, State> {
   //     </div>
   //   </div>
   // </div>
+  
+    if (this.state.marketplaceViewClicked)
+    {
+      return (
+        <>
+          <MainNavbar
+            linkName="/Marketplace"
+            returnName="Back to MarketPlace"
+            pageName="Marketplace"
+            ref="navbar"
+            resetMpPageView={this.resetPageView}
+          />
+          {partView}
+        </>
+      )
+    }
+    else {
+        return (
+          <div id="Parent">
+            <MainNavbar
+              linkName="/Login"
+              returnName="Logout"
+              pageName="Marketplace"
+              ref="navbar"
+            />
+            <br/>
+            <br/>
+            <br/>
+            <Container>
+              <h1 style={this.divStyle}>Buy</h1>
+              <br/>
+              <Row fluid>
+                <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button></Col>
+                <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button></Col>
+                <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button></Col>
+              </Row>
+              <br/>
+              <br/>
+              <Row fluid>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button></Col>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button></Col>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button></Col>
+              </Row>
+              <br/>
+              <br/>
+              <Row fluid>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button></Col>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button></Col>
+                <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button></Col>
+              </Row>
+            </Container>
+            <br/>
+            <br/>
+            <Container>
+              <h1 style={this.divStyle}>Sell</h1>
+              <br/>
+              <Row fluid>
+                <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button></Col>
+                <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button></Col>
+                <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button></Col>
+                <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button></Col>
+              </Row>
+            </Container>
+          </div>
+        );
+      }
+    }
 
-
-		return (
-			<div id="Parent">
-				<MainNavbar
-					linkName="/Login"
-					returnName="Logout"
-					// linkName="/MainMenu"
-					// returnName="Back to Main Menu"
-					pageName="Marketplace"
-					ref="navbar"
-					// youtubeLinks={['https://www.youtube.com/watch?v=hnmnJLNz2vk']}
-				/>
-        <br/>
-        <br/>
-        <br/>
-        <Container>
-          <h1 style={this.divStyle}>Buy</h1>
-          <br/>
-          <Row fluid>
-            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button></Col>
-            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button></Col>
-            <Col md={4}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button></Col>
-          </Row>
-          <br/>
-          <br/>
-          <Row fluid>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button></Col>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button></Col>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button></Col>
-          </Row>
-          <br/>
-          <br/>
-          <Row fluid>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button></Col>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button></Col>
-            <Col><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button></Col>
-          </Row>
-        </Container>
-        <br/>
-        <br/>
-        <Container>
-          <h1 style={this.divStyle}>Sell</h1>
-          <br/>
-          <Row fluid>
-            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button></Col>
-            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button></Col>
-            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button></Col>
-            <Col md={3}><button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button></Col>
-          </Row>
-        </Container>
-			</div>
-		);
-	}
 }
 
 export default Marketplace;
