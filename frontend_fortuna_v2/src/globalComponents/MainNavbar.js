@@ -108,45 +108,35 @@ class MainNavbar extends React.Component<Props, State> {
 		);
 
 		return (
-      // <Navbar bg="#04213F" expand="lg">
-      //   <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-      //   <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      //   <Navbar.Collapse id="basic-navbar-nav">
-      //     <Nav className="mr-auto">
-      //       <Nav.Link href="#home">Home</Nav.Link>
-      //       <Nav.Link href="#link">Link</Nav.Link>
-      //     </Nav>
-      //   </Navbar.Collapse>
-      // </Navbar>
-      <div className="navbar">
-      <div className="navleft">
-        <div className="row rowPadding">
-          {link}&emsp;
-          {youtubeLinks}
-        </div>
-      </div>
-      <div className="navmiddle">
-	   <h4>{this.props.pageName}</h4>
-	   <Link to={verifyLink("/MainMenu")}>
-	     <button className="navbtn">Home</button>
-	   </Link>
-	   <Link to={verifyLink("/BattleArena")}>
-	     <button className="navbtn">Play</button>
-	   </Link>
-	   <Link to={verifyLink("/Armory")}>
-	     <button className="navbtn">Loadout</button>
-	   </Link>
-	   <Link to={verifyLink("/TrainingArena")}>
-	     <button className="navbtn">Training</button>
-	   </Link>
-	   <Link to={verifyLink("/Marketplace")}>
-	     <button className="navbtn">Marketplace</button>
-	   </Link>
-      </div>
-      <div className="navright">
-        <h5 style={this.divStyle}>{this.state.username} | ${this.state.userCurrency}</h5>
-      </div>
-    </div>
+			<div className="navbar">
+				<div className="navleft">
+					<div className="row rowPadding">
+					{link}&emsp;
+					{youtubeLinks}
+					</div>
+				</div>
+				<div className="navmiddle">
+				<h4>{this.props.pageName}</h4>
+				<Link to={verifyLink("/MainMenu")}>
+					<button className="navbtn">Home</button>
+				</Link>
+				<Link to={verifyLink("/BattleArena")}>
+					<button className="navbtn">Play</button>
+				</Link>
+				<Link to={verifyLink("/Armory")}>
+					<button className="navbtn">Loadout</button>
+				</Link>
+				<Link to={verifyLink("/TrainingArena")}>
+					<button className="navbtn">Training</button>
+				</Link>
+				<Link to={verifyLink("/Marketplace")}>
+					<button className="navbtn">Marketplace</button>
+				</Link>
+				</div>
+				<div className="navright">
+					<h5 style={this.divStyle}>{this.state.username} | ${this.state.userCurrency}</h5>
+				</div>
+			</div>
 		)
 	}
 }
