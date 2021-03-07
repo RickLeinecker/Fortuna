@@ -55,7 +55,7 @@ class Marketplace extends React.Component<Props, State> {
 
 	render(): React.Node {
 		// Partview stores the current listings that are shown.
-		let partView = (<div></div>);
+		let partView = null;
 		switch(this.state.marketplaceViewClicked) {
 			case 'chassis':
 				partView = (<ListingsView sellerType='chassis' onItemBought={this.onMoneyChanged}></ListingsView>);
