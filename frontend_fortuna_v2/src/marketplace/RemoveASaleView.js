@@ -54,6 +54,11 @@ class RemoveASaleView extends React.Component<Props, State> {
 		});
 	};
 
+  divStyle = {
+    textAlign: "center",
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
 
 	render(): React.Node {
 
@@ -78,7 +83,9 @@ class RemoveASaleView extends React.Component<Props, State> {
 
     return (
       <Container fluid>
-        <h1>Sales Available for remove</h1>
+        <br/><br/>
+        <h1 style={this.divStyle}>Available Sales to Remove</h1>
+        <br/><br/>
         {
           this.state.itemsForSale.length === 0 ?
             <div>
@@ -87,6 +94,7 @@ class RemoveASaleView extends React.Component<Props, State> {
             <Row>
               <Col>
                 {removeSales.length === 0 ? <h5>No Active Sales</h5> : currentRemovePosts}
+                <br/>
                 <Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={removeSales.length} paginate={paginate} />  
               </Col>
             </Row>
