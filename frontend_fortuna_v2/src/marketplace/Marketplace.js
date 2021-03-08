@@ -105,44 +105,6 @@ class Marketplace extends React.Component<Props, State> {
 				partView = (<h2>Select a type on the left</h2>);
 				break;
 		}
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'weapon'})}>Weapons</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scanner'})}>Scanners</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'scannerAddon'})}>Scanner Add-Ons</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'chassis'})}>Chassis</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'jammer'})}>Jammers</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'treads'})}>Treads</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'casusCode'})}>Casus Code</button>
-
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button>
-    // <br/>
-    // <h4>Sell</h4>
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button>
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeCasusCodeSale'})}>Sell Casus Code</button>
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button>
-    // <button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'removeASale'})}>Remove a Sale</button>
-
-  //   <div className="row mt-5">
-  //   <div className="col-md-4">
-  //     <div className="list-group col-md-6">
-  //       <h4>Buy</h4>
-
-  //      </div>
-  //   </div>
-  //   <div className="col-md-4">
-  //     <div className="text-center">
-  //       {partView}
-  //     </div>
-  //   </div>
-  // </div>
   
     if (this.state.marketplaceViewClicked)
     {
