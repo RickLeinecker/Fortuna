@@ -53,7 +53,7 @@ class CasusContainer extends React.Component<Props, State> {
           content: "test code here"
         }
       ],
-      run: false
+      run: true
 		};
 
 		const tankId=getTankForCasus();
@@ -67,7 +67,7 @@ class CasusContainer extends React.Component<Props, State> {
         document.body.style.backgroundImage = "url('/login_background.gif')"
         getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
-            this.state.run = res;
+            this.setState({run:res});
         })
 
         setFirstTimeCasusAPICall();

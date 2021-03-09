@@ -46,7 +46,7 @@ class Marketplace extends React.Component<Props, State> {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		getFirstTimeMarketplaceAPICall((res) => {
 			console.log("RES: ", res);
-			this.state.run = res;
+			this.setState({run:res});
 		})
 
 		setFirstTimeMarketplaceAPICall();
