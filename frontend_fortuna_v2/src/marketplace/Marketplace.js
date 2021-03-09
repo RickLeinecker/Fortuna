@@ -60,49 +60,49 @@ class Marketplace extends React.Component<Props, State> {
 		let partView = null;
 		switch(this.state.marketplaceViewClicked) {
 			case 'chassis':
-				partView = (<ListingsView sellerType='chassis' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='chassis' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'weapon':
-				partView = (<ListingsView sellerType='weapon' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='weapon' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'scanner':
-				partView = (<ListingsView sellerType='scanner' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='scanner' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'scannerAddon':
-				partView = (<ListingsView sellerType='scannerAddon' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='scannerAddon' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'jammer':
-				partView = (<ListingsView sellerType='jammer' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='jammer' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'treads':
-				partView = (<ListingsView sellerType='treads' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='treads' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'item':
-				partView = (<ListingsView sellerType='item' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='item' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'casusCode':
-				partView = (<ListingsView sellerType='casusCode' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='casusCode' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'tank':
-				partView = (<ListingsView sellerType='tank' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='tank' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'casusBlock':
-				partView = (<ListingsView sellerType='casus' onItemBought={this.onMoneyChanged}></ListingsView>);
+				partView = (<ListingsView sellerType='casus' onItemBought={this.onMoneyChanged} />);
 				break;
 			case 'makeAComponentSale':
-				partView = (<MakeAComponentSaleView onItemSold={this.onMoneyChanged}></MakeAComponentSaleView>);
+				partView = (<MakeAComponentSaleView onItemSold={this.onMoneyChanged} />);
 				break;
 			case 'makeCasusCodeSale':
-				partView = (<MakeCasusCodeSaleView onItemSold={this.onMoneyChanged}></MakeCasusCodeSaleView>);
+				partView = (<MakeCasusCodeSaleView onItemSold={this.onMoneyChanged} />);
 				break;
 			case 'makeATankSale':
-				partView = (<MakeATankSaleView onItemSold={this.onMoneyChanged}></MakeATankSaleView>);
+				partView = (<MakeATankSaleView onItemSold={this.onMoneyChanged} />);
 				break;
 			case 'removeASale':
-				partView = (<RemoveASaleView></RemoveASaleView>);
+				partView = (<RemoveASaleView />);
 				break;
 			default:
-				partView = (<h2>Select a type on the left</h2>);
+				partView = (<h2>Select a type</h2>);
 				break;
 		}
   
