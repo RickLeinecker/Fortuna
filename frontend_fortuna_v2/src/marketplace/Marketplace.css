@@ -3,6 +3,12 @@
 	background-color: #04CCFF;
 	border: 1px solid #000921;
 	padding: 7px 7px 7px 7px;
+	border-radius: 8px;
+	padding: 10px;
+	width: 250px;
+	font-size: 13px;
+	font-family: 'Press Start 2P', cursive;
+	margin: auto;
 }
 
 .marketBtn:hover {
@@ -12,14 +18,75 @@
 }
 
 .list-group h4 {
-	margin-left: 5%;
+	margin: auto;
+	font-size: 15px;
+	padding: 7px 7px 7px 7px;
+	color: white;
+	font-family: 'Press Start 2P', cursive;
 }
 
 .card {
-	background-color: #3E5A6F;
+	background-color: #04213F;
+	color: #04CCFF;
+  width: 25%;
+  left: 700px;
+  position: relative;
 }
 
 .masterCard {
 	background-color: #04213F;
 	color: #04CCFF;
+  width: 25%;
+  left: 700px;
+  position: relative;
+}
+
+.pagination {
+	display: block;
+	/* margin-left: 33%; */
+	font-family: 'Press Start 2P';
+}
+
+.pagination a {
+	color: #04213F;
+	background-color: #04CCFF;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+}
+
+ul > li {
+	display: inline-block;
+	zoom:1;
+	*display: inline;
+}
+
+.pagination a.active {
+	color: #04CCFF;
+	background-color: #04213F;
+}
+
+.pagination a:hover:not(.active) {
+	color: #04CCFF;
+	background-color: #04213F;
+}
+
+.center {
+	text-align: center;
+	margin: center;
+}
+
+.card-name {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 18px;
+}
+
+.card-title {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 12px;
+}
+
+.card-body {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 14px;
 }

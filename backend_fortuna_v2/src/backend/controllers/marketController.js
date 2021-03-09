@@ -31,6 +31,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 	// the string identifier of the component/Casus block equivalent
 	// to the property in the User Model.
 	const { sellerId, salePrice, itemId, itemType, amount } = req.body;
+	let itemDesc = '';
 
 	if (salePrice % 1 !== 0 || amount % 1 !== 0) {
 		return res
@@ -76,6 +77,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 				salePrice,
 				itemId,
 				itemType,
+				itemDesc,
 				amount
 			});
 
@@ -102,6 +104,45 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 
 			// Send back success confirmation
 			return res.status(201).json({ msg: 'Successfully created Tank Market Sale.' });
+
+		} catch (err) {
+			console.error(err.message);
+			return res.status(500).json({ msg: 'Unable to add Market Sale.' });
+		}
+	} else if (itemType === 'casus') {
+		try {
+			// Check if tank is actually owned by user
+			// Also acts as a way to check if user is real
+			let tank = await Tank.findOne({ _id: itemId, userId: sellerId });
+			if (!tank) {
+				return res
+					.status(400)
+					.json({ msg: 'Tank does not exist under this user.' });
+			}
+
+			// Make a new Marketplace Sale
+			// if tank exists
+			const sale = new MarketSale({
+				sellerId,
+				salePrice,
+				itemId,
+				itemType,
+				itemDesc,
+				amount
+			});
+
+			// Save the sale to DB
+			await sale.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Failed to save Marketplace Sale.' });
+				}
+			});
+
+			// Send back success confirmation
+			return res.status(201).json({ msg: 'Successfully created Casus Code Market Sale.' });
 
 		} catch (err) {
 			console.error(err.message);
@@ -134,6 +175,108 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 						.json({ msg: 'User does not have enough of this item to sell' });
 				}
 
+				// Retrieve Item Description
+				switch (itemId) {
+					case 'moddableLight':
+						itemDesc = 'Sacrifices armor for extra speed; allows for more customizable options.'
+						break;
+					case 'light':
+						itemDesc = 'Fast with extra armor to its moddable light counterpart.'
+						break;
+					case 'moddable':
+						itemDesc = 'A balance between armor and speed; provides extra customizable options.'
+						break;
+					case 'heavy':
+						itemDesc = 'The most heavily armored tank in Fortuna.'
+						break;
+					case 'moddableHeavy':
+						itemDesc = 'Heavily armored with an extra point for customization.'
+						break;
+					case 'machineGun':
+						itemDesc = 'Standard weapon with low damage but has above average fire rate.'
+						break;
+					case 'grenadeLauncher':
+						itemDesc = 'An explosive close-range option; good damage and average fire rate.'
+						break;
+					case 'missile':
+						itemDesc = 'Powerful damage and range but slow fire rate; requires accurate precision.'
+						break;
+					case 'shotgun':
+						itemDesc = 'High damage and fire rate, but limited range.'
+						break;
+					case 'vulcanCannon':
+						itemDesc = 'Highest fire rate of any kinetic weapon; low damage is its only drawback.'
+						break;
+					case 'laser':
+						itemDesc = 'Good uptime and range with average cooldown.'
+						break;
+					case 'plasma':
+						itemDesc = 'High damage with average range; low uptime and cooldown.'
+						break;
+						case 'pulseLaser':
+						itemDesc = 'A 360 degree range, hitting everything around it at the cost of low damage and range.'
+						break;
+					case 'lancer':
+						itemDesc = 'close range heat weapon; high damage with low range and uptime.'
+						break;
+					case 'deathRay':
+						itemDesc = 'Devastating long range weapon with high cooldown and low uptime.'
+						break;
+					case 'shortRangeScanner':
+						itemDesc = 'Low range and cost; better than default.'
+						break;
+					case 'mediumRangeScanner':
+						itemDesc = 'Average range with higher cost.'
+						break;
+					case 'longRangeScanner':
+						itemDesc = 'Highest range scanner with highest cost.'
+						break;
+					case 'itemScanner':
+						itemDesc = 'Used to detect mines and c4.'
+						break;
+					case 'antiJammerScanner':
+						itemDesc = 'Prevents jammers from affecting the tank scanner.'
+						break;
+					case 'shortRangeJammer':
+						itemDesc = 'Strongest jam time but smallest range.'
+						break;
+					case 'mediumRangeJammer':
+						itemDesc = 'Average jam time and range.'
+						break;
+					case 'longRangeJammer':
+						itemDesc = 'Smallest jam time but largest range.'
+						break;
+					case 'advancedTreads':
+						itemDesc = 'Fastest treads in Fortuna, but the highest point cost.'
+						break;
+					case 'fastTreads':
+						itemDesc = 'Gives extra speed, not as fast as Advanced Treads.'
+						break;
+					case 'armoredTreads':
+						itemDesc = 'Adds extra armor at the cost of speed.'
+						break;
+					case 'heavilyArmoredTreads':
+						itemDesc = 'Adds a lot of armor with heavy loss to speed; extra point cost.'
+						break;
+					case 'mine':
+						itemDesc = 'Sets a trap for the enemy tank.'
+						break;
+					case 'c4':
+						itemDesc = 'Similar to mines but requires remote detonation.'
+						break;
+					case 'nitroRepair':
+						itemDesc = 'Repairs tank and gives a speed boost.'
+						break;
+					case 'overdrive':
+						itemDesc = 'Removes speed penalty for weapons and increases their damage for a short period.'
+						break;
+					case 'missileTrackingBeacon':
+						itemDesc = 'Shots a homing beacon for missiles to follow.'
+						break;
+					default:
+						itemDesc = '';
+				}
+
 				// If they have enough to sell
 				// make new Marketplace sale
 				const sale = new MarketSale({
@@ -141,6 +284,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 					salePrice,
 					itemId,
 					itemType,
+					itemDesc,
 					amount
 				});
 
@@ -177,7 +321,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 				}
 
 				// If field is valid, check if the user has the right number
-				// of items to sell                
+				// of items to sell
 				if (userItem < amount) {
 					return res
 						.status(400)
@@ -191,6 +335,7 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 					salePrice,
 					itemId,
 					itemType,
+					itemDesc,
 					amount
 				});
 
@@ -252,8 +397,9 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
 
 		// Get list of sales from DB that belong to logged in user
 		const salesListOfTanks = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'tank' }}).populate('itemId', 'tankName');
+		const salesListOfCasusCode = await MarketSale.find({ sellerId: userId, itemType: { $eq: 'casus' }}).populate('itemId', 'tankName');;
 		const salesListOfComponents = await MarketSale.find({ sellerId: userId , itemType: { $eq: 'component' }});
-		const salesList = salesListOfTanks.concat(salesListOfComponents);
+		const salesList = salesListOfTanks.concat(salesListOfComponents).concat(salesListOfCasusCode);
 		if (!salesList) {
 			return res
 				.status(400)
@@ -296,7 +442,7 @@ exports.getMarketSales = async (req: Request, res: Response) => {
 		}
 
 		// Get list of sales from DB that do not belong to logged in user
-		const salesList = await MarketSale.find({ sellerId: { $ne: userId } });
+		const salesList = await MarketSale.find({ sellerId: { $ne: userId }});
 		if (!salesList) {
 			return res
 				.status(400)
@@ -355,6 +501,50 @@ exports.getTankMarketSales = async (req: Request, res: Response) => {
 	catch (err) {
 		console.error(err.message);
 		return res.status(500).json({ msg: 'Unable to find list of Tank Sales.' });
+	}
+}
+
+// Gets all Casus Code Marketplace Sales not belonging to the user
+exports.getCasusCodeMarketSales = async (req: Request, res: Response) => {
+	// Validation
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+
+	// Deconstruct userId from parameter
+	const { userId } = req.params;
+
+	try {
+		// Check if valid user
+		const user = await User.findById(userId);
+		if (!user) {
+			return res
+				.status(400)
+				.json({ msg: 'User does not exist' });
+		}
+
+		// Get list of casus code sales from DB that do not belong to logged in user
+		const salesList = await MarketSale.find({ sellerId: { $ne: userId }, itemType: { $eq: 'casus' } })
+		.populate('itemId', 'tankName');
+		if (!salesList) {
+			return res
+				.status(400)
+				.json({ msg: 'Unable to get list of Casus Code Market Sales.' });
+		}
+
+		// Return list of sales
+		console.log('Retrieved Casus Code Market Sale List.');
+		return res.status(200).json(salesList);
+
+	}
+	catch (err) {
+		console.error(err.message);
+		return res.status(500).json({ msg: 'Unable to find list of Casus Code Sales.' });
 	}
 }
 
@@ -559,16 +749,16 @@ exports.marketTransaction = async (req: Request, res: Response) => {
 						.json({ msg: 'Could not update buyer' });
 				}
 				await User.findByIdAndUpdate(sellerId, { $inc: { money: sale.salePrice } });
-				// Add items to buyer
-				buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
-				await buyer.save((err: Error) => {
-					if (err) {
-						console.error(err.message);
-						return res
-							.status(500)
-							.json({ msg: 'Could not update buyer inventory.' });
-					}
-				});
+				// // Add items to buyer
+				// buyer.inventory.casusBlocks[sale.itemId] += sale.amount;
+				// await buyer.save((err: Error) => {
+				// 	if (err) {
+				// 		console.error(err.message);
+				// 		return res
+				// 			.status(500)
+				// 			.json({ msg: 'Could not update buyer inventory.' });
+				// 	}
+				// });
 
 				// Remove the sale from database if it does not belong to master account
 				if (sellerId !== String(MASTER_ID)) {
@@ -652,6 +842,17 @@ exports.removeAMarketSale = async (req: Request, res: Response) => {
 				.json({ msg: 'Failed to reassign tank' });
 		}
 	}
+	else if (sale.itemType === 'casus') {
+		// Check if tank still exists
+		let tank = await Tank.findById(sale.itemId);
+		if (!tank) {
+			console.error('Tank is not in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Tank is not in DB' });
+		}
+	}
+
 	// else the post had components or casus blocks
 	else {
 		if (sale.itemType === 'component') {

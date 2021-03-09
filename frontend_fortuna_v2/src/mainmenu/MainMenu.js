@@ -7,7 +7,7 @@ import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import Replays from "../battlearena/Replays";
-import Leaderboard from "../globalComponents/Leaderboard";
+import LeaderboardMainMenu from "./LeaderboardMainMenu";
 import SelectTank from "../globalComponents/SelectTank";
 import User from '../globalComponents/typesAndClasses/User.js';
 import TankDisplay from "../tanks/TankDisplay";
@@ -49,33 +49,31 @@ const MainMenu  = () => {
     const [tourSteps, setTourSteps] = useState([
         {
           target: ".editTank",
-          content: "HEY GUYS",
-
+          content: "HEY GUYS"
         },
         {
           target: ".play",
-          content:
-            "THIS IS HOW YOU USE STUFF"
+          content: "Step 2"
         },
         {
           target: ".train",
-          content: "TRAIN!!!!"
+          content: "Step 3"
         },
         {
           target: '.tankSelect',
-          content: "The navbar"
+          content: "Step 4"
         },
         {
           target: ".battleRecord",
-          content: "See battle records here"
+          content: "Step 5"
         },
         {
           target: ".creditsButton",
-          content: "Check out the creators"
+          content: "Step 6"
         },
         {
           target: ".leaderboardTut",
-          content: "See Leaderboard"
+          content: "Step 7"
         }
       ])
 
@@ -85,7 +83,9 @@ const MainMenu  = () => {
     let mid = useRef(null);
     let right = useRef(null);
 
+
 	useEffect(() => {
+
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
 		getAllUsersTanks(allTanks => {
@@ -104,16 +104,12 @@ const MainMenu  = () => {
 		})
 
 		setFirstTimeHomeAPICall();
-    
+
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
-
-  useEffect(() => {
-    console.log("run: ", run);
-  }, [run])
 
 	return (
     <>
@@ -211,7 +207,7 @@ const MainMenu  = () => {
         </div>
         <div className="column menuright" ref={el => right = el}>
           <div>
-            <Leaderboard className="leaderboardTut"/>
+            <LeaderboardMainMenu className="leaderboardTut"/>
           </div>
           <br/>
           <Link to={verifyLink("/Credits")}>

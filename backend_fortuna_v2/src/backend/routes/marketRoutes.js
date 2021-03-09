@@ -53,6 +53,15 @@ router.get('/getTankMarketSales/:userId', [
 	check('userId', 'A valid MongoId is required.').isMongoId()
 ], marketController.getTankMarketSales);
 
+// Get the list of all Casus Code Market Sales
+// Route call: getCasusCodeMarketSales
+// Req needs userId
+// Returns list of all Casus Code Market Sales not belonging to the user or an error
+// Check messages can be edited
+router.get('/getCasusCodeMarketSales/:userId', [
+	check('userId', 'A valid MongoId is required.').isMongoId()
+], marketController.getCasusCodeMarketSales);
+
 // Get a single market sale by ID
 // Route call: getMarketSale
 // Req needs saleId in body

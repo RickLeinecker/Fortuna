@@ -19,6 +19,8 @@ body {
   height: 100%;
   width: 100%;
   background-image: url('/landing_gif.gif');
+  /* background-repeat:round; */
+  /* box-shadow: 0 0 8px 8px #04CCFF inset; */
 }
  h6,h1 {
   font-family: 'Press Start 2P', cursive;
@@ -74,6 +76,16 @@ body {
 .dropdownMenu {
 	cursor: pointer;
 	width: 100%;
+	padding: 7px 7px 7px 7px;
+	border-radius: 2px;
+	border-color: #04CCFF;
+	background-color: #04CCFF;
+	color: #000921;
+}
+
+.dropdownMenu option {
+	cursor: pointer;
+	width: 30%;
 	padding: 7px 7px 7px 7px;
 	border-radius: 2px;
 	border-color: #04CCFF;
