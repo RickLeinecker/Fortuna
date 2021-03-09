@@ -14,8 +14,8 @@ import TankDisplay from "../tanks/TankDisplay";
 import {getAllUsersTanks} from "../globalComponents/apiCalls/tankAPIIntegration";
 import getPreferredSelectedTank from "../globalComponents/getPreferredSelectedTank";
 import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPICall";
-import getFirstTimeAPICall from "../globalComponents/apiCalls/getFirstTimeAPICall";
-import setFirstTimeAPICall from "../globalComponents/apiCalls/setFirstTimeAPICall";
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import {toast} from "react-toastify";
@@ -44,11 +44,13 @@ const MainMenu  = () => {
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
-  const [battleType, setBattleType] = useState('1 vs 1')
-  const [tourSteps, setTourSteps] = useState([
+    const [battleType, setBattleType] = useState('1 vs 1')
+    const [run, setRun] = useState(true);
+    const [tourSteps, setTourSteps] = useState([
         {
           target: ".editTank",
-          content: "HEY GUYS"
+          content: "HEY GUYS",
+
         },
         {
           target: ".play",
@@ -77,11 +79,11 @@ const MainMenu  = () => {
         }
       ])
 
-  const [run, setRun] = useState(true);
 
-  let left = useRef(null);
-  let mid = useRef(null);
-  let right = useRef(null);
+
+    let left = useRef(null);
+    let mid = useRef(null);
+    let right = useRef(null);
 
 	useEffect(() => {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
@@ -96,12 +98,12 @@ const MainMenu  = () => {
 		});
 
 
-		getFirstTimeAPICall((res) => {
+		getFirstTimeHomeAPICall((res) => {
       console.log("RES: ", res);
       setRun(res);
 		})
 
-		setFirstTimeAPICall();
+		setFirstTimeHomeAPICall();
     
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});

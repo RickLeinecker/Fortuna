@@ -9,6 +9,9 @@ import MakeATankSaleView from './MakeATankSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
+import JoyRide from "react-joyride";
+import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
+import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 
 type Props = {||};
 
@@ -20,18 +23,34 @@ type State = {|
 // Marketplace component.
 class Marketplace extends React.Component<Props, State> {
 
-	componentDidMount(): void {
-		document.body.style.backgroundImage = "url('/login_background.gif')"
-	}
+
 
 	constructor() {
 		super();
 		verifyLogin();
 		this.state = {
-			marketplaceViewClicked: null
-		}
-	}
 
+			marketplaceViewClicked: null,
+			tour_steps: [
+				{
+					target: ".col-md-4",
+					content: "This section is where you can buy and sell equipment for your tanks"
+				},
+			],
+			run: true
+		};
+
+
+	}
+	componentDidMount(): void {
+		document.body.style.backgroundImage = "url('/login_background.gif')"
+		getFirstTimeMarketplaceAPICall((res) => {
+			console.log("RES: ", res);
+			this.state.run = res;
+		})
+
+		setFirstTimeMarketplaceAPICall();
+	}
 	// When a transaction takes place, update the navbar currency.
 	onMoneyChanged = (): void => {
 		const navbar = this.refs.navbar;
@@ -107,6 +126,8 @@ class Marketplace extends React.Component<Props, State> {
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'item'})}>Items</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'tank'})}>Tanks</button>
 							<br/>
+						</div>
+						<div className="list-group col-md-6">
 							<h4>Sell</h4>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeAComponentSale'})}>Sell a Component</button>
 							<button className="marketBtn" onClick={() => this.setState({marketplaceViewClicked:'makeATankSale'})}>Sell a Tank</button>
@@ -118,7 +139,19 @@ class Marketplace extends React.Component<Props, State> {
 							{partView}
 						</div>
 					</div>
+
 				</div>
+				<JoyRide
+					steps={this.state.tour_steps}
+					run={this.state.run}
+					continuous={true}
+					styles={{
+						options: {
+							zIndex: 1000,
+							spotlightShadow: 'blue'
+						}
+					}}
+				/>
 			</div>
 		);
 	}

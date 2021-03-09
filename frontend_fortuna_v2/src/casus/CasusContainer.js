@@ -13,6 +13,10 @@ import {ToastContainer} from 'react-toastify';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import JoyRide from 'react-joyride';
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
+import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
+import getFirstTimeCasusAPICall from "../globalComponents/apiCalls/getFirstTimeCasusAPICall";
 
 type Props = {||};
 
@@ -23,9 +27,7 @@ type State = {
 
 class CasusContainer extends React.Component<Props, State> {
 
-	componentDidMount(): void {
-		document.body.style.backgroundImage = "url('/login_background.gif')"
-	}
+
 
 	constructor(props: Props) {
 		super(props);
@@ -51,7 +53,7 @@ class CasusContainer extends React.Component<Props, State> {
           content: "test code here"
         }
       ],
-      run: true
+      run: false
 		};
 
 		const tankId=getTankForCasus();
@@ -59,8 +61,17 @@ class CasusContainer extends React.Component<Props, State> {
 			const tankEditing = allTanks.find(t => t._id === tankId);
 			this.setState({tankName: tankEditing?.tankName ?? ''});
 		});
-	}
 
+	}
+    componentDidMount(): void {
+        document.body.style.backgroundImage = "url('/login_background.gif')"
+        getFirstTimeCasusAPICall((res) => {
+            console.log("RES: ", res);
+            this.state.run = res;
+        })
+
+        setFirstTimeCasusAPICall();
+    }
 	render(): React.Node {
 		return (
       <>

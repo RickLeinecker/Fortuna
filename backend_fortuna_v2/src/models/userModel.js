@@ -28,33 +28,29 @@ const User = new Mongoose.model('User', new Mongoose.Schema ({
         default: false
     },
     // Booleans used to determine whether first time React Joyride event occurs on a given page
-    firstTime:{
+    firstTimeHome:{
         type: Boolean,
-        default: false
+        default: true
     },
-    firstTimeCasus:{
+    firstTimePlay:{
         type: Boolean,
-        default: false
+        default: true
     },
-    firstTimeMarketplace:{
+    firstTimeLoadout:{
         type: Boolean,
-        default: false
-    },
-    firstTimeArmory:{
-        type: Boolean,
-        default: false
-    },
-    firstTimeBattleArena:{
-        type: Boolean,
-        default: false
-    },
-    firstTimeBattleGround:{
-        type: Boolean,
-        default: false
+        default: true
     },
     firstTimeTraining:{
         type: Boolean,
-        default: false
+        default: true
+    },
+    firstTimeMarketplace:{
+        type: Boolean,
+        default: true
+    },
+    firstTimeCasus:{
+        type: Boolean,
+        default: true
     },
     // User starts with 1000 money by default. This can be changed as needed
     money: {

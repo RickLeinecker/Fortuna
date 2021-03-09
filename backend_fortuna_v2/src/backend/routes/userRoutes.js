@@ -112,7 +112,12 @@ router.post('/passwordResetReq', [
 // Route call: /firstTimeVisit
 // Req must include user id in the <userId> field of the route
 // Returns true if a user has visited the page before, false if not
-router.get('/getFirstTime', auth, userController.getFirstTime);
+router.get('/getFirstTimeHome', auth, userController.getFirstTimeHome);
+router.get('/getFirstTimePlay', auth, userController.getFirstTimePlay);
+router.get('/getFirstTimeLoadout', auth, userController.getFirstTimeLoadout);
+router.get('/getFirstTimeTraining', auth, userController.getFirstTimeTraining);
+router.get('/getFirstTimeMarketplace', auth, userController.getFirstTimeMarketplace);
+router.get('/getFirstTimeCasus', auth, userController.getFirstTimeCasus);
 
 
 
@@ -120,8 +125,12 @@ router.get('/getFirstTime', auth, userController.getFirstTime);
 // Route call: /firstTimeVisit
 // Req must include user id in the <userId> field of the route
 // Returns true if a user has visited the page before, false if not
-router.patch('/setFirstTime', auth, userController.setFirstTime);
-
+router.patch('/setFirstTimeHome', auth, userController.setFirstTimeHome);
+router.patch('/setFirstTimePlay', auth, userController.setFirstTimePlay);
+router.patch('/setFirstTimeLoadout', auth, userController.setFirstTimeLoadout);
+router.patch('/setFirstTimeTraining', auth, userController.setFirstTimeTraining);
+router.patch('/setFirstTimeMarketplace', auth, userController.setFirstTimeMarketplace);
+router.patch('/setFirstTimeCasus', auth, userController.setFirstTimeCasus);
 // Reset a user's password
 // Route call: resetPassword
 // Req must include email in body provided by user

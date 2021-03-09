@@ -472,8 +472,8 @@ exports.getLeaders = async (req: Request, res: Response) => {
 	});
 }
 
-
-exports.getFirstTime = async (req: Request, res: Response) => {
+//checks if user has visited the Home page before and returns a boolean
+exports.getFirstTimeHome = async (req: Request, res: Response) => {
 
 
 	const user = await User.findById(req.user.id);
@@ -487,15 +487,15 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 		// Find user using auth token and check their first time status
 		// console.log(user)
 
-		if (user.firstTime == true) {
-			console.log('user has NOT been here before')
+		if (user.firstTimeHome == true) {
+			console.log('user has NOT been to the Home page before')
 
-			return res.status(200).send(user.firstTime);
+			return res.status(200).send(user.firstTimeHome);
 		}
-    else if (user.firstTime == false) {
-			console.log('user HAS been here before')
+    else if (user.firstTimeHome == false) {
+			console.log('user HAS been to the Home page before')
 
-			return res.status(200).send(user.firstTime)
+			return res.status(200).send(user.firstTimeHome)
 		}
     else
     {
@@ -506,24 +506,292 @@ exports.getFirstTime = async (req: Request, res: Response) => {
 		console.error(err.message);
 		return res
 			.status(500)
+			.json({ msg: 'Could not check if Home page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Play page before and returns a boolean
+exports.getFirstTimePlay = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimePlay == true) {
+			console.log('user has NOT been to the Play page before')
+
+			return res.status(200).send(user.firstTimePlay);
+		}
+		else if (user.firstTimePlay == false) {
+			console.log('user HAS been to the Play page before')
+
+			return res.status(200).send(user.firstTimePlay)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Play page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Loadout page before and returns a boolean
+exports.getFirstTimeLoadout = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeLoadout == true) {
+			console.log('user has NOT been to the Loadout page before')
+
+			return res.status(200).send(user.firstTimeLoadout);
+		}
+		else if (user.firstTimeLoadout == false) {
+			console.log('user HAS been to the Loadout page before')
+
+			return res.status(200).send(user.firstTimeLoadout)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Loadout Page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Training page before and returns a boolean
+exports.getFirstTimeTraining = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeTraining == true) {
+			console.log('user has NOT been here before')
+
+			return res.status(200).send(user.firstTime);
+		}
+		else if (user.firstTimeTraining == false) {
+			console.log('user HAS been here before')
+
+			return res.status(200).send(user.firstTime)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
 			.json({ msg: 'Could not check if Main Page was visited for the first time'});
 	}
 }
 
-exports.setFirstTime = async (req: Request, res: Response) => {
+//checks if user has visited the Marketplace page before and returns a boolean
+exports.getFirstTimeMarketplace = async (req: Request, res: Response) => {
 
-  let _firstTime = req.body.firstTime;
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeMarketplace == true) {
+			console.log('user has NOT been to the Marketplace page before')
+
+			return res.status(200).send(user.firstTimeMarketplace);
+		}
+		else if (user.firstTimeMarketplace == false) {
+			console.log('user HAS been to the Marketplace page before')
+
+			return res.status(200).send(user.firstTimeMarketplace)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Marketplace page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Casus page before and returns a boolean
+exports.getFirstTimeCasus = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeCasus == true) {
+			console.log('user has NOT been here before')
+
+			return res.status(200).send(user.firstTimeCasus);
+		}
+		else if (user.firstTimeCasus == false) {
+			console.log('user HAS been here before')
+
+			return res.status(200).send(user.firstTimeCasus)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Casus page was visited for the first time'});
+	}
+}
+
+//sets the firstTimeHome variable for a User to false once they visit a page for the first time,
+//does nothing if they have already visited it
+exports.setFirstTimeHome = async (req: Request, res: Response) => {
+
+  let _firstTimeHome = req.body.firstTimeHome;
 
 	const user = await User.findByIdAndUpdate({_id: req.user.id},
     {
-      firstTime: _firstTime
+      firstTimeHome: _firstTimeHome
     }, function (err, docs) {
       if (err)
         res.json(err)
       else
-        console.log("Welcome!");
+        console.log("Changing firstTimeHome to false!");
     })
 }
+
+exports.setFirstTimePlay = async (req: Request, res: Response) => {
+
+	let _firstTimePlay = req.body.firstTimePlay;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimePlay: _firstTimePlay
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimePlay to false!");
+		})
+}
+
+exports.setFirstTimeLoadout = async (req: Request, res: Response) => {
+
+	let _firstTimeLoadout = req.body.firstTimeLoadout;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeLoadout: _firstTimeLoadout
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeLoadout to false!");
+		})
+}
+
+exports.setFirstTimeTraining = async (req: Request, res: Response) => {
+
+	let _firstTimeTraining = req.body.firstTimeTraining;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeTraining: _firstTimeTraining
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeTraining to false!");
+		})
+}
+
+exports.setFirstTimeMarketplace = async (req: Request, res: Response) => {
+
+	let _firstTimeMarketplace = req.body.firstTimeMarketplace;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeMarketplace: _firstTimeMarketplace
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeMarketplace to false!");
+		})
+}
+
+exports.setFirstTimeCasus = async (req: Request, res: Response) => {
+
+	let _firstTimeCasus = req.body.firstTimeCasus;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeCasus: _firstTimeCasus
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeCasus to false!");
+		})
+}
+
 
 exports.allUsers = async (req: Request, res: Response) => {
 	await User.find({}, '-password', function(err: Error, users: Array<User>){

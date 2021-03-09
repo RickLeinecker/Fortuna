@@ -21,6 +21,8 @@ import { getAllUsersTanks, getFavoriteTank, updateTank } from '../globalComponen
 import { toTitleCase } from '../globalComponents/Utility.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 import setPreferredSelectedTank from '../globalComponents/setPreferredSelectedTank.js';
+import getFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/getFirstTimeLoadoutAPICall";
+import setFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/setFirstTimeLoadoutAPICall";
 // Types and Classes
 import type { TankComponent } from '../globalComponents/typesAndClasses/TankComponent.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -36,6 +38,9 @@ import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import { TweenMax, Power3, TweenLite } from 'gsap'
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
+import JoyRide from "react-joyride";
 
 function Armory() {
 
@@ -52,8 +57,21 @@ function Armory() {
 	const [componentList, setComponentList] = useState([]);
 	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
 	const [points, setPoints] = useState(0);
+	const [run, setRun] = useState(true);
 	let SetWagerPopupRef = useRef(null);
 	let navbarRef = useRef(null);
+	const [tourSteps, setTourSteps] = useState([
+		{
+			target: ".armoryleft",
+			content: "Options to create and manage new tanks or wager a tank",
+
+		},
+		{
+			target: ".armoryright",
+			content:
+				"This is all the parts that you own"
+		}
+	])
 
 	let armleft = useRef(null);
 	let armMid = useRef(null);
@@ -70,6 +88,13 @@ function Armory() {
 		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
 		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
+
+		getFirstTimeLoadoutAPICall((res) => {
+			console.log("RES: ", res);
+			setRun(res);
+		})
+
+		setFirstTimeLoadoutAPICall();
 	}, [])
 
 	useEffect(() => {
@@ -120,7 +145,7 @@ function Armory() {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	const changeSelectedTank: void = (newTank: ?Tank) => {
-		if (newTank = null)
+		if (newTank === null)
 		{
 			toast.error('New Tank does not exist!')
 			return;
@@ -520,6 +545,17 @@ function Armory() {
 			</div>
 
 			<ToastContainer />
+			<JoyRide
+				steps={tourSteps}
+				run={run}
+				continuous={true}
+				styles={{
+					options: {
+						zIndex: 1000,
+						spotlightShadow: 'blue'
+					}
+				}}
+			/>
 		</div>
 	);
 }

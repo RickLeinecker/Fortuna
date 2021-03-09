@@ -4,11 +4,12 @@ import getLoginToken from '../getLoginToken.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
 
-//sets the users first time value to true if page hasnt been visited
-function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
+//sets the users first time value to false if page hasnt been visited
+
+function setFirstTimeLoadoutAPICall(onLoad:(firstTimeLoadout: boolean) => void) {
     const token=getLoginToken();
-    console.log('checking if this is the first time the user has visited this site...');
-    const responsePromise: Promise<Response> = fetch('/api/user/setFirstTime', {
+    console.log('changing firstTimeLoadout to false...');
+    const responsePromise: Promise<Response> = fetch('/api/user/setFirstTimeLoadout', {
         method: 'PATCH',
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -18,7 +19,7 @@ function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
         },
         body: JSON.stringify(
             {
-              firstTime: false
+                firstTimeLoadout: false
             })
     });
     responsePromise.then(
@@ -33,9 +34,9 @@ function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
             }
             else {
 
-                const firstTimeStatus = data.firstTime
+                const firstTimeStatus = data.firstTimeLoadout
 
-                console.log('set first time status: ');
+                console.log('set first time status for Loadout page: ');
                 console.log(firstTimeStatus);
                 console.log('success ');
 
@@ -44,5 +45,4 @@ function setFirstTimeAPICall(onLoad:(firstTime: boolean) => void) {
     );
 }
 
-
-export default setFirstTimeAPICall;
+export default setFirstTimeLoadoutAPICall;

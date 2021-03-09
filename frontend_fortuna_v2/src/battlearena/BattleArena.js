@@ -23,6 +23,13 @@ import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
+import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
+import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
+import JoyRide from "react-joyride";
+import getFirstTimeCasusAPICall from "../globalComponents/apiCalls/getFirstTimeCasusAPICall";
+import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
 
 type Props = {||};
 
@@ -46,8 +53,30 @@ class BattleArena extends React.Component<Props, State> {
 			selectedTankThree: null,
 			allTanks: [],
 			userElo: 0,
-			battleType: '1 vs 1'
+			battleType: '1 vs 1',
+			tour_steps: [
+				{
+					target: ".challenge",
+					content: "Search a Players name to challenge",
+				},
+				{
+					target: ".battletype",
+					content: "Here you can change your battle type"
+				},
+				{
+					target: ".info",
+					content: "This is the leaderboard"
+				}
+			],
+			run: true
 		};
+		getReplayListAPICall(() => {});
+		getFirstTimePlayAPICall((res) => {
+			console.log("RES: ", res);
+			this.state.run = res;
+		})
+
+		setFirstTimePlayAPICall();
 	}
 
 	componentDidMount(): void {
@@ -60,7 +89,11 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		});
 		getReplayListAPICall(() => {});
+
+
+
 	}
+
 
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
@@ -115,7 +148,7 @@ class BattleArena extends React.Component<Props, State> {
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
-			<div className="column baleft">
+			<div className="column challenge">
 				<h5>Challenge a Player</h5>
 				<ChallengePlayerPopup
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
@@ -127,7 +160,7 @@ class BattleArena extends React.Component<Props, State> {
 					battleType={this.state.battleType}
 				/>
 			</div>
-			<div className="column bamiddle">
+			<div className="column battletype">
 				<h5>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(this.state.battleType === '1 vs 1') ?
@@ -199,7 +232,7 @@ class BattleArena extends React.Component<Props, State> {
 					Change Battle Type
 				</button>
 			</div>
-			<div className="column baright">
+			<div className="column info">
 				<div className="leaderboard">
 					<Leaderboard />
 				</div>
@@ -207,6 +240,17 @@ class BattleArena extends React.Component<Props, State> {
 				<Replays />
 			</div>
 			<ToastContainer />
+			<JoyRide
+				steps={this.state.tour_steps}
+				run={this.state.run}
+				continuous={true}
+				styles={{
+					options: {
+						zIndex: 1000,
+						spotlightShadow: 'blue'
+					}
+				}}
+			/>
 		</div>
 		);
 	}

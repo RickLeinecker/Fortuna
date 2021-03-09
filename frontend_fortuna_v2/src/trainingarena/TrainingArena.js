@@ -24,6 +24,10 @@ import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
 import JoyRide from 'react-joyride';
 import { TweenLite, Power3 } from 'gsap';
+import getFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/getFirstTimeLoadoutAPICall";
+import setFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/setFirstTimeLoadoutAPICall";
+import setFirstTimeTrainingAPICall from "../globalComponents/apiCalls/setFirstTimeTrainingAPICall";
+import getFirstTimeTrainingAPICall from "../globalComponents/apiCalls/getFirstTimeTrainingAPICall";
 
 
 function TrainingArena() {
@@ -91,7 +95,12 @@ function TrainingArena() {
       setbotTankOne(botTanks[0]);
       setBotTanks(botTanks);
     })
+      getFirstTimeTrainingAPICall((res) => {
+          console.log("RES: ", res);
+          setRun(res);
+      })
 
+      setFirstTimeTrainingAPICall();
     TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
