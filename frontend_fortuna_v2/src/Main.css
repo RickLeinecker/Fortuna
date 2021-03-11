@@ -83,6 +83,16 @@ body {
 	color: #000921;
 }
 
+.dropdownMenu option {
+	cursor: pointer;
+	width: 30%;
+	padding: 7px 7px 7px 7px;
+	border-radius: 2px;
+	border-color: #04CCFF;
+	background-color: #04CCFF;
+	color: #000921;
+}
+
 /* Column Styling */
 .column {
 	float: left;

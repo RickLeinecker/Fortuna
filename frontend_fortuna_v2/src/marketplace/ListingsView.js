@@ -245,9 +245,6 @@ class ListingsView extends React.Component<Props, State> {
 		const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
 
 		// Actual return for the render
-		if (this.state.loading === true) {
-			return <img src="/spinner.gif" alt="image" width="600" height="300" />
-		} else {
 			return (
 				<Container fluid>
 					<h1>{this.formatTitle(this.props.sellerType)}</h1>
@@ -267,7 +264,6 @@ class ListingsView extends React.Component<Props, State> {
 					<ToastContainer />
 				</Container>
 			);
-		}
 	}
 }
 
