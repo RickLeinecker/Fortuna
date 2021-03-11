@@ -28,4 +28,4 @@ yarn-error.log*
 #and make code reviewing easier
 package-lock.json
 
-/.vscode
+.vscode
