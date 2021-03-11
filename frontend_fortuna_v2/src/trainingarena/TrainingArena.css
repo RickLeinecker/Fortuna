@@ -21,7 +21,11 @@
 .tamiddle select {
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 30%;
+}
+
+.tamiddle select option {
+  text-align: center;
 }
 
 .taright {

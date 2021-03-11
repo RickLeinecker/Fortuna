@@ -204,7 +204,7 @@ class BattleArena extends React.Component<Props, State> {
 					<Leaderboard />
 				</div>
 				<br/><br/>
-				<Replays />
+				<Replays styling={{width: "82%"}} />
 			</div>
 			<ToastContainer />
 		</div>

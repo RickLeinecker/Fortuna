@@ -16,7 +16,7 @@ type State = {|
 |};
 
 class Replays extends React.Component<Props, State> {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			replays: [],
@@ -60,7 +60,7 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable">
+			<div className="replayTable" style={this.props.styling}>
 				{this.state.myUsername != null ? <h4>{this.state.myUsername}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
@@ -78,7 +78,7 @@ class Replays extends React.Component<Props, State> {
 							<tr key={replay.replayId}>
 								<td className="name">{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td>{this.getMatchResult(replay)}</td>
-								<td><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
+								<td><button className="reallySmallBtn" style={{fontSize: "x-small"}} onClick={() => this.watchReplay(replay)}>View</button></td>
 								<td>{this.getMatchResult(replay) === 'Win' ? '+' + replay.prizeMoney : '-' + replay.prizeMoney}</td>
 								<td>{this.getMatchResult(replay) === 'Win' ? '+' + replay.eloExchanged : '-' + replay.eloExchanged}</td>
 								<td>{replay.tankOneName == null ? '3v3' : '1v1'}</td>

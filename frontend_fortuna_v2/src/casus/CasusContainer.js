@@ -26,6 +26,7 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
 		document.body.style.backgroundImage = "url('/login_background.gif')"
     document.body.style.backgroundRepeat = "round"
+    const ref = this.refs.navbarRef
 	}
 
 	constructor(props: Props) {
@@ -66,11 +67,15 @@ class CasusContainer extends React.Component<Props, State> {
 		return (
       <>
         <MainNavbar
-					linkName='/Armory'
-					returnName='Back to Armory'
-					pageName={'Casus for '+this.state.tankName}
-					// youtubeLinks={['https://www.youtube.com/watch?v=-qkt0ciiLfE']}
-				/>
+          linkName="/Login"
+          returnName="Logout"
+          pageName="Armory"
+          ref="navbarRef"
+          //youtubeLinks={[
+          //	'https://www.youtube.com/watch?v=kEClhrMWogY',
+          //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
+          //]}
+        />
         <Container fluid>
           <Row className="mt-12">
             <Col md={12} className="editor">

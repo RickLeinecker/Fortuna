@@ -175,6 +175,11 @@ class SetWagerPopup extends React.Component<Props, State> {
 		this.setState({newWager3v3Tanks: newWagerTanks});
 	}
 
+  divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
 	render(): React.Node {
 		const wagerButton = (
 			<button className="popupbtn" onClick={() => this.handleWagerClick()}>
@@ -205,7 +210,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<h5>Wager a Tank</h5>
+				<h5 style={this.divStyle}>Wager a Tank</h5>
 				<div className="row rowPadding">
 					<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
 						Setup

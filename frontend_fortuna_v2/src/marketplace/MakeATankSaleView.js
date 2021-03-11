@@ -104,28 +104,69 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		);
 	}
 
+  selectStyle = {
+    cursor: "pointer",
+    width: "50%",
+    padding: "7px 7px 7px 7px",
+    borderRadius: "2px",
+    borderColor: "#04CCFF",
+    backgroundColor: "#04CCFF",
+    color: "#000921",
+    left: "500px",
+    position: "relative"
+  }
+
+  inputStyle = {
+    cursor: "pointer",
+    width: "5%",
+    padding: "7px 7px 7px 7px",
+    borderRadius: "2px",
+    borderColor: "#04CCFF",
+    backgroundColor: "#04CCFF",
+    color: "#000921",
+    left: "850px",
+    position: "relative"
+  }
+
+  labelStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    left: "850px",
+    position: "relative"
+  }
+
+  buttonStyle = {
+    left: "850px",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
+  }
+
 	render(): React.Node  {
 		return (
 			<div id="Parent">
-				<label>Select a tank to Sell</label>
+        <br/><br/><br/>
+				<label style={this.labelStyle}>Select a tank to Sell</label>
+        <br/>
 				<select
 					className="dropdownMenu"
 					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
+          style={this.selectStyle}
 				>
 					{this.state.tanksToSell.map(({ tankName, _id }, index) =>
 						<option key={index}  value={_id}>{tankName}</option>
 					)}
 				</select>
-				<br/>
-				<label>Selling Price</label>
+				<br/><br/>
+				<label style={this.labelStyle}>Selling Price</label>
+        <br/>
 				<input
 					type="number"
 					value={this.state.salePrice}
 					className="inputText"
 					onChange={e => this.setState({salePrice: e.target.value})}
+          style={this.inputStyle}
 				></input>
 				<br/><br/>
-				<button className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
+				<button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
 				<ToastContainer />
 			</div>
 		);

@@ -7,7 +7,7 @@ import MainNavbar from '../globalComponents/MainNavbar.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import Replays from "../battlearena/Replays";
-import Leaderboard from "../globalComponents/Leaderboard";
+import LeaderboardMainMenu from "./LeaderboardMainMenu";
 import SelectTank from "../globalComponents/SelectTank";
 import User from '../globalComponents/typesAndClasses/User.js';
 import TankDisplay from "../tanks/TankDisplay";
@@ -193,7 +193,7 @@ const MainMenu  = () => {
         </div>
         <div className="column menuright" ref={el => right = el}>
           <div>
-            <Leaderboard className="leaderboardTut"/>
+            <LeaderboardMainMenu className="leaderboardTut"/>
           </div>
           <br/>
           <Link to={verifyLink("/Credits")}>

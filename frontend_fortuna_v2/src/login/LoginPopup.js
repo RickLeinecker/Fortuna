@@ -115,7 +115,7 @@ class LoginPopup extends React.Component<Props, State> {
 			loginDialogOpen: dialog
 		});
 		
-    (registeredPassword == " ") ? 
+    (registeredPassword === " ") ? 
       toast.success('Welcome to Fortuna!') 
       : toast.success('Please click the link we sent to your email to verify your account.');
 	}
