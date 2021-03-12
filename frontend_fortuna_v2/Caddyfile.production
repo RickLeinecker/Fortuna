@@ -1,0 +1,9 @@
+https://fortunacombat.com:443 {
+    tls rick@jsventures.com
+    root * /srv
+    route {
+        reverse_proxy /api* fortuna_server:5000
+        try_files {path} {path}/ /index.html
+        file_server
+    }
+}

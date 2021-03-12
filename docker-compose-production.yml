@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  server:
+    image: fortuna_server:latest
+    restart: unless-stopped
+    container_name: fortunabackend
+    env_file: ./backend_fortuna_v2/.env
+    ports:
+      - "5000:5000"
+  client:
+    image: fortuna_client:production
+    restart: unless-stopped
+    container_name: fortunafrontend
+    env_file: ./frontend_fortuna_v2/.env
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - server
+volumes:
+  nodemodules:
+  caddy-data:
+    driver: local
+  caddy-config:
+    driver: local
+networks:
+  fortunalocalnetwork:

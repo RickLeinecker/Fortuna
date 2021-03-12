@@ -1,0 +1,29 @@
+### first stage
+FROM node:12.2.0-alpine AS builder
+
+WORKDIR /app
+
+ENV CHOKIDAR_USEPOLLING="true"
+
+COPY package.json .
+
+RUN npm i --silent
+
+COPY . .
+
+ARG DB_URL
+ENV REACT_APP_BASE_URL=${DB_URL}
+
+RUN npm start
+
+### second stage
+FROM caddy:2.1.1-alpine
+
+ARG CADDYFILE
+COPY ${CADDYFILE} /etc/caddy/Caddyfile
+
+COPY --from=builder /app/ /srv
+
+EXPOSE 80
+
+EXPOSE 443
