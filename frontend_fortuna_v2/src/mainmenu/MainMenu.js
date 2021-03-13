@@ -8,6 +8,7 @@ import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import Replays from "../battlearena/Replays";
 import LeaderboardMainMenu from "./LeaderboardMainMenu";
+import Leaderboard from '../globalComponents/Leaderboard.js';
 import SelectTank from "../globalComponents/SelectTank";
 import User from '../globalComponents/typesAndClasses/User.js';
 import TankDisplay from "../tanks/TankDisplay";
@@ -96,6 +97,11 @@ const MainMenu  = () => {
     TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
+
+  const style = {
+    position: "relative",
+    left: "50px"
+  }
 
 	return (
     <>
@@ -192,9 +198,9 @@ const MainMenu  = () => {
           </Link>
         </div>
         <div className="column menuright" ref={el => right = el}>
-          <div>
-            <LeaderboardMainMenu className="leaderboardTut"/>
-          </div>
+          <div className= "loginleader" style={style}>
+						<Leaderboard />
+					</div>
           <br/>
           <Link to={verifyLink("/Credits")}>
             <button className="mainMenuBtn creditsButton">Credits</button>
