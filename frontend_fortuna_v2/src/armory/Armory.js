@@ -120,7 +120,7 @@ function Armory() {
 	// Find the tank via its id and set it to the selectedTank and its id in a Cookie for Casus.
 	// Also initializes the points for the new tank.
 	const changeSelectedTank: void = (newTank: ?Tank) => {
-		if (newTank = null)
+		if (newTank === null)
 		{
 			toast.error('New Tank does not exist!')
 			return;
@@ -132,7 +132,7 @@ function Armory() {
 
 	// Function that will save the selectedTank and update the user's inventory.
 	const saveTank: void = () => {
-		if (selectedTank == null)
+		if (selectedTank === null)
 			throw new Error('Tried to save selected tank null!');
 
 		updateTank(selectedTank, () => {
