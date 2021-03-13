@@ -83,19 +83,24 @@
 }
 
 /* Tank List Styling */
+.selectedTank {
+  border: 0.2em solid #0062ff;
+  color: green;
+}
+
 .tankList {
-    height: 100px;
+    height: 150px;
     overflow: hidden;
     overflow-y: scroll;
 }
 
 .tankListBtn {
 
-    color: #0062ff;
+    color: #ff47ff;
     border: none;
     background: none;
-    background-color: #04213F;
-    border: 4px solid black;
+    background-color: #012074;
+    border: 4px solid #1969e5;
 }
 
 .removeTankBtn {
@@ -110,10 +115,7 @@
     background: none;
 }
 
-.selectedTank {
-    border: 0.2em solid #0062ff;
-    color: #0062ff;
-}
+
 
 .tankList h6 {
     margin-top: 10px;
