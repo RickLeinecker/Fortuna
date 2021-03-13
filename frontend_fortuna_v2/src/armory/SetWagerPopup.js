@@ -230,14 +230,14 @@ class SetWagerPopup extends React.Component<Props, State> {
 				<br/>
 				<h6>Current 1v1 Wager:</h6>
 				<label>{this.state.userWager1v1Tank == null || this.state.userWager===0 ?
-					<div>No set 1v1 wager tank<br/><br/></div> : 
+					<div style={this.divStyle}>No set 1v1 wager tank<br/><br/></div> : 
 					<label>
 						<div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> for {this.state.userWager}
 					</label>
 				}</label>
 				<br/>
-				<h6>Current 3v3 Wager:</h6>
-				<label>{(this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) || this.state.userWager3v3===0?
+				<h6 style={this.divStyle}>Current 3v3 Wager:</h6>
+				<label style={this.divStyle}>{(this.state.userWager3v3Tanks[0] == null && this.state.userWager3v3Tanks[1] == null && this.state.userWager3v3Tanks[2] == null) || this.state.userWager3v3===0?
 					'No set 3v3 wager tanks' : 
 					<label>
 						{this.state.userWager3v3Tanks[0] == null ? <div>No Tank</div> : <div className="wagerTank">{this.state.userWager3v3Tanks[0].tankName}</div>}

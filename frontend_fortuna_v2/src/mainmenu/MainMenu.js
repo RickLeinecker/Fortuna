@@ -118,7 +118,7 @@ const MainMenu  = () => {
           <Replays/>
           <br/>
           <Link to={verifyLink("/TrainingArena")}>
-            <button className="mainMenuBtn train">Training</button>
+            <button className="marketBtn train">Training</button>
           </Link>
         </div>
         <div className="column menumiddle" ref={el => mid = el}>
@@ -190,11 +190,11 @@ const MainMenu  = () => {
           }
           <br/>
           <Link to={verifyLink("/Casus")}>
-            <button className="mainMenuBtn editTank">Edit Tank Code</button>
+            <button className="marketBtn editTank">Edit Tank Code</button>
           </Link>
           <div className="divider" />
           <Link to={verifyLink("/BattleArena")}>
-            <button className="mainMenuBtn play">Play</button>
+            <button className="marketBtn play">Play</button>
           </Link>
         </div>
         <div className="column menuright" ref={el => right = el}>
@@ -203,7 +203,7 @@ const MainMenu  = () => {
 					</div>
           <br/>
           <Link to={verifyLink("/Credits")}>
-            <button className="mainMenuBtn creditsButton">Credits</button>
+            <button className="marketBtn creditsButton">Credits</button>
           </Link>
         </div>
       </div>
