@@ -17,7 +17,8 @@ import {Container, Row, Col} from 'react-bootstrap';
 import Pagination from './Pagination.js'
 import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
 import PurchaseCasusCode from './PurchaseCasusCode.js';
-import DisplayDescription from './DisplayDescription.js'
+import DisplayDescription from './DisplayDescription.js';
+import Cards from './Cards.js'
 
 
 type Props = {|
@@ -52,6 +53,7 @@ class ListingsView extends React.Component<Props, State> {
 		}
 
 		this.getSales = this.getSales.bind(this);
+		this.buyItem = this.buyItem.bind(this);
 	}
 
 	// Once mounted, get the user's ID and set the sales.
@@ -177,6 +179,26 @@ class ListingsView extends React.Component<Props, State> {
 		this.setState({loading: true});
 	}
 
+  buttonStyle = {
+    position: "relative",
+    left: "80px"
+  }
+  
+  centerStyle = {
+    position: "relative",
+    left: "100px"
+  }
+
+  descStyle = {
+    position: "relative",
+    left: "20px"
+  }
+
+  factoryStyle = {
+    position: "relative",
+    left: "60px"
+  }
+
 	render(): React.Node  {
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
@@ -222,49 +244,73 @@ class ListingsView extends React.Component<Props, State> {
 		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
 			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
 				<div className="card-body">
-					{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
-					<h5 className="card-name">{toTitleCase(sale.name)}</h5>
-					<h5 className="card-body">{sale.itemDesc} </h5>
-					<h5 className="card-title">Price: ${sale.price} Quantity: {sale.amount}</h5>
-					<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
+					{sale.sellerId === getMasterAccountId() ? <h6 style={this.factoryStyle}>Purchase from Factory</h6> : null}
+					<h5 className="card-name" style={this.centerStyle}>{toTitleCase(sale.name)}</h5>
+					<h5 className="card-body" style={this.descStyle} >{sale.itemDesc} </h5>
+					<h5 className="card-title" style={this.centerStyle}>Price: ${sale.price} Quantity: {sale.amount}</h5>
+					<button className="marketBtn" style={this.buttonStyle} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
 				</div>
 			</div>
 		);
 
+    const testItemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType);
+
+    console.log("ITEM CARDS: ", testItemCards)
+
 		// Get current posts
 		const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
 		const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-		const currentItemPosts = itemCards.slice(indexOfFirstPost, indexOfLastPost);
-		const currentTankPosts = tankCards.slice(indexOfFirstPost, indexOfLastPost);
+
+		const currentItemPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
+		const currentTankPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
 
 		const indexOfLastPostCasus = this.state.currentPage * this.state.postsPerPageCasus;
 		const indexOfFirstPostCasus = indexOfLastPostCasus - this.state.postsPerPageCasus;
 		const currentCasusCodePosts = casusCodeCards.slice(indexOfFirstPostCasus, indexOfLastPostCasus);
 
-		// Change page
-		const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+    let debug = false;
 
+		// Change page
+		// const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+    
+
+    if (debug)
+    {
+      return (
+        <Cards items={testItemCards} buyItem={this.buyItem} />
+      )
+    }
+    else {
 		// Actual return for the render
 			return (
 				<Container fluid>
-					<h1>{this.formatTitle(this.props.sellerType)}</h1>
+          <br/><br/>
+					<h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
+          <br/><br/><br/><br/>
 					{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-						<Row>
-							{this.props.sellerType === 'tank' ?
-								<Col>{tankCards.length === 0 ? <h5>No Active Sales</h5> : currentTankPosts}
-								<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={tankCards.length} paginate={paginate} /> </Col> :
-								this.props.sellerType === 'casusCode' ?
-								<Col>{casusCodeCards.length === 0 ? <h5>No Active Sales</h5> : currentCasusCodePosts}
-								<Pagination className="pagination" postsPerPage={this.state.postsPerPageCasus} totalPosts={casusCodeCards.length} paginate={paginate} /> </Col> :
-								<Col>{itemCards.length === 0 ? <h5>No Active Sales</h5> : currentItemPosts}
-								<div className="text-center"><Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={itemCards.length} paginate={paginate} /> </div></Col>
-							}
-						</Row>
+            // <Row>
+						// 	{/* {this.props.sellerType === 'tank' ?
+						// 		<Col>{tankCards.length === 0 ? <h5>No Active Sales</h5> : currentTankPosts}
+						// 		<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={tankCards.length} paginate={paginate} /> </Col> :
+						// 		this.props.sellerType === 'casusCode' ?
+						// 		<Col>{casusCodeCards.length === 0 ? <h5>No Active Sales</h5> : currentCasusCodePosts}
+						// 		<Pagination className="pagination" postsPerPage={this.state.postsPerPageCasus} totalPosts={casusCodeCards.length} paginate={paginate} /> </Col> :
+						// 		<Col>{itemCards.length === 0 ? <h5>No Active Sales</h5> : currentItemPosts}
+						// 		<div className="text-center"><Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={itemCards.length} paginate={paginate} /> </div></Col>
+						// 	} */}
+
+						// </Row>
+
+            <Cards items={testItemCards} buyItem={this.buyItem} postsPerPage={this.state.postsPerPage} totalPosts={this.state.totalPosts} />
+
 					}
 					<ToastContainer />
 				</Container>
 			);
 	}
+
+  }
+
 }
 
 export default ListingsView;

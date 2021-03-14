@@ -25,7 +25,7 @@
 	font-family: 'Press Start 2P', cursive;
 }
 
-.card {
+/* .card {
 	background-color: #04213F;
 	color: #04CCFF;
   width: 25%;
@@ -39,7 +39,7 @@
   width: 25%;
   left: 700px;
   position: relative;
-}
+} */
 
 .pagination {
 	display: block;
@@ -75,7 +75,7 @@ ul > li {
 	text-align: center;
 	margin: center;
 }
-
+/* 
 .card-name {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 18px;
@@ -89,4 +89,4 @@ ul > li {
 .card-body {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 14px;
-}
+} */
