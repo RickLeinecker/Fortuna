@@ -18,7 +18,9 @@ import Pagination from './Pagination.js'
 import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
 import PurchaseCasusCode from './PurchaseCasusCode.js';
 import DisplayDescription from './DisplayDescription.js';
-import Cards from './Cards.js'
+import Cards from './ItemCards.js'
+import TankCards from './TankCards.js'
+import CasusCards from './CasusCards.js';
 
 
 type Props = {|
@@ -56,6 +58,7 @@ class ListingsView extends React.Component<Props, State> {
     this.buyItem = this.buyItem.bind(this);
     this.findCasus = this.findCasus.bind(this);
     this.findTank = this.findTank.bind(this);
+    this.isMaster = this.isMaster.bind(this);
 	}
 
 	// Once mounted, get the user's ID and set the sales.
@@ -179,7 +182,14 @@ class ListingsView extends React.Component<Props, State> {
 
 	setLoading(): void {
 		this.setState({loading: true});
-	}
+  }
+  
+  isMaster = (sellerId) => {
+    if (sellerId === getMasterAccountId())
+    {
+      return "Purchase From Factory";
+    }
+  }
 
   buttonStyle = {
     position: "relative",
@@ -309,16 +319,39 @@ class ListingsView extends React.Component<Props, State> {
 
 						// </Row>
 
-            <Cards 
+            // <Cards 
+            //   sellerType={sellerType} 
+            //   items={cardsToDisplay} 
+            //   buyItem={this.buyItem} 
+            //   postsPerPage={this.state.postsPerPage} 
+            //   postsPerPageCasus={this.state.postsPerPageCasus} 
+            //   totalPosts={this.state.totalPosts}
+            //   findCasus={this.findCasus}
+            //   findTank={this.findTank}
+            //   usersTanks={thi}
+            // />
+            <TankCards 
               sellerType={sellerType} 
-              items={cardsToDisplay} 
+              tanks={_tankCards}
               buyItem={this.buyItem} 
               postsPerPage={this.state.postsPerPage} 
-              postsPerPageCasus={this.state.postsPerPageCasus} 
               totalPosts={this.state.totalPosts}
-              findCasus={this.findCasus}
               findTank={this.findTank}
+              isMaster={this.isMaster}
             />
+
+            // <CasusCards 
+            //   sellerType={sellerType} 
+            //   tanks={_tankCards}
+            //   buyItem={this.buyItem} 
+            //   postsPerPage={this.state.postsPerPage} 
+            //   totalPosts={this.state.totalPosts}
+            //   findTank={this.findTank}
+            //   usersTanks={this.state.userTanks}
+            //   userId={this.state.userId}
+            //   getSales={this.getSales}
+            //   onItemBought={this.props.onItemBought}
+            // />
 
 					}
 					<ToastContainer />
