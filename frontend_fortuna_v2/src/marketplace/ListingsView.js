@@ -18,7 +18,8 @@ import Pagination from './Pagination.js'
 import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
 import PurchaseCasusCode from './PurchaseCasusCode.js';
 import DisplayDescription from './DisplayDescription.js';
-import Cards from './ItemCards.js'
+
+import ItemCards from './ItemCards.js'
 import TankCards from './TankCards.js'
 import CasusCards from './CasusCards.js';
 
@@ -49,7 +50,7 @@ class ListingsView extends React.Component<Props, State> {
 			casusCodeTanks: [],
 			currentPage: 1,
 			postsPerPage: 3,
-			postsPerPageCasus: 2,
+			postsPerPageCasus: 3,
 			totalPosts: 0,
 			userTanks: [],
 		}
@@ -293,6 +294,18 @@ class ListingsView extends React.Component<Props, State> {
     
     let cardsToDisplay = (sellerType === 'tank' ? _tankCards : (sellerType === 'casusCode' ? _casusCodeCards : _itemCards))
     
+    if (sellerType === 'tank')
+    {
+
+    }
+    else if (sellerType === 'casusCode')
+    {
+
+    }
+    else
+    {
+      
+    }
 
     if (debug)
     {
@@ -306,51 +319,38 @@ class ListingsView extends React.Component<Props, State> {
 					<h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
           <br/><br/><br/><br/>
 					{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-            // <Row>
-						// 	{/* {this.props.sellerType === 'tank' ?
-						// 		<Col>{tankCards.length === 0 ? <h5>No Active Sales</h5> : currentTankPosts}
-						// 		<Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={tankCards.length} paginate={paginate} /> </Col> :
-						// 		this.props.sellerType === 'casusCode' ?
-						// 		<Col>{casusCodeCards.length === 0 ? <h5>No Active Sales</h5> : currentCasusCodePosts}
-						// 		<Pagination className="pagination" postsPerPage={this.state.postsPerPageCasus} totalPosts={casusCodeCards.length} paginate={paginate} /> </Col> :
-						// 		<Col>{itemCards.length === 0 ? <h5>No Active Sales</h5> : currentItemPosts}
-						// 		<div className="text-center"><Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={itemCards.length} paginate={paginate} /> </div></Col>
-						// 	} */}
 
-						// </Row>
-
-            // <Cards 
-            //   sellerType={sellerType} 
-            //   items={cardsToDisplay} 
-            //   buyItem={this.buyItem} 
-            //   postsPerPage={this.state.postsPerPage} 
-            //   postsPerPageCasus={this.state.postsPerPageCasus} 
-            //   totalPosts={this.state.totalPosts}
-            //   findCasus={this.findCasus}
-            //   findTank={this.findTank}
-            //   usersTanks={thi}
-            // />
-            <TankCards 
+            <ItemCards 
               sellerType={sellerType} 
-              tanks={_tankCards}
+              items={_itemCards} 
               buyItem={this.buyItem} 
               postsPerPage={this.state.postsPerPage} 
               totalPosts={this.state.totalPosts}
-              findTank={this.findTank}
               isMaster={this.isMaster}
             />
 
-            // <CasusCards 
+            // <TankCards 
             //   sellerType={sellerType} 
             //   tanks={_tankCards}
             //   buyItem={this.buyItem} 
             //   postsPerPage={this.state.postsPerPage} 
             //   totalPosts={this.state.totalPosts}
             //   findTank={this.findTank}
-            //   usersTanks={this.state.userTanks}
+            //   isMaster={this.isMaster}
+            // />
+
+            // <CasusCards 
+            //   sellerType={sellerType} 
+            //   casusCode={_casusCodeCards}
+            //   buyItem={this.buyItem} 
+            //   postsPerPage={this.state.postsPerPageCasus} 
+            //   totalPosts={this.state.totalPosts}
+            //   findCasus={this.findCasus}
+            //   userTanks={this.state.userTanks}
             //   userId={this.state.userId}
             //   getSales={this.getSales}
             //   onItemBought={this.props.onItemBought}
+            //   isMaster={this.isMaster}
             // />
 
 					}
