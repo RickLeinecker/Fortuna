@@ -88,7 +88,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		return(
 			<div>
 				<button className="btn" onClick={() => this.setState({popupOpen: true})}>
-					Copy Code
+					Import Code
 				</button>
 				<Popup
 					open={this.state.popupOpen}

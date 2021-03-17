@@ -57,27 +57,15 @@ function TrainingArena() {
   const [tourSteps, setTourSteps] = useState([
     {
       target: ".leftTank",
-      content: "Choose your tank for training here"
+      content: "Choose YOUR tank for training here"
     },
     {
       target: ".taright",
-      content: "Choose training opponent",
-    },
-    {
-      target: ".changeType",
-      content: "Change battle type here"
-    },
-    {
-      target: ".startTrain",
-      content: "Start training battle here"
+      content: "Choose enemy tank",
     },
     {
       target: ".chooseArena",
-      content: "Choose Arena Type here"
-    },
-    {
-      target: ".casusLink",
-      content: "Back to Casus Here"
+      content: "Change Arenas for different map layouts"
     }
   ]);
 
@@ -276,6 +264,10 @@ function TrainingArena() {
 
         }
         <br/><br/><br/>
+          <Link to={verifyLink("/Casus")}>
+              <button className="primarybtn casusLink" style={divStyle}>Edit Tank Code</button>
+          </Link>
+          <br/><br/>
         <button
           type="button"
           className="primarybtn startTrain"
@@ -284,10 +276,8 @@ function TrainingArena() {
         >
           Start Battle
         </button>
-        <br/><br/>
-        <Link to={verifyLink("/Casus")}>
-          <button className="primarybtn casusLink" style={divStyle}>Casus</button>
-        </Link>
+
+
       </div>
       <div className="column taright" ref={el => rightT = el}>
         <h5 style={divStyle}>Choose a Training Bot</h5>

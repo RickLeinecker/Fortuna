@@ -63,13 +63,13 @@ function Armory() {
 	const [tourSteps, setTourSteps] = useState([
 		{
 			target: ".armoryleft",
-			content: "Options to create and manage new tanks or wager a tank",
+			content: "Options to create and manage tanks",
 
 		},
 		{
 			target: ".armoryright",
 			content:
-				"This is all the parts that you own"
+				"Equip and customize your tanked with equipment from the Marketplace"
 		}
 	])
 
@@ -89,10 +89,10 @@ function Armory() {
 		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 
-		getFirstTimeLoadoutAPICall((res) => {
-			console.log("RES: ", res);
-			setRun(res);
-		})
+		//getFirstTimeLoadoutAPICall((res) => {
+		//	console.log("RES: ", res);
+		//	setRun(res);
+		//})
 
 		setFirstTimeLoadoutAPICall();
 	}, [])
@@ -317,10 +317,7 @@ function Armory() {
 
 	}
 
-	const onWagerUpdate: void = () => {
-		const navbar = navbarRef;
-		navbar.reloadNavbar();
-	}
+
 
   const divStyle = {
     color: "white",
@@ -361,10 +358,10 @@ function Armory() {
 					/>
 				}
 				<br/><br/>
-				<label className="font" style={divStyle}>Edit Code</label>
+				<label className="font" style={divStyle}>Casus</label>
 				<br/>
 				<Link to={verifyLink("/Casus")}>
-					<button className="primarybtn" style={divStyle3}>Casus</button>
+					<button className="primarybtn" style={divStyle3}>Edit Tank Code</button>
 				</Link>
 				<br/><br/>
 				{selectedTank==null?<div></div>:
@@ -373,7 +370,7 @@ function Armory() {
 						usersTanks={allTanks}
 					/>
 				}
-				<br/><br/><br/>
+				<br/><br/>
 				<h5 className="font" style={divStyle}>Tank Options</h5>
 				<div className="row rowPadding">
 					{selectedTank==null?<div></div>:
@@ -382,21 +379,21 @@ function Armory() {
 							renameTank={renameTank}
 						/>
 					}&emsp;
+
 					<CreateNewTankPopup
 						chassis={chassis}
 						treads={treads}
-					/>&emsp;
+					/><br/>&emsp;
+
 					{selectedTank==null?<div></div>:
+
 						<DeleteTankPopup
 							tank={selectedTank}
 						/>
 					}
 				</div>
 				<br/><br/>
-				<SetWagerPopup
-					ref={SetWagerPopupRef}
-					onWagerUpdate={onWagerUpdate}
-				/>
+
 			</div>
 			<div className="column armorymiddle" ref={el => armMid = el}>
 				<h1 className="font" style={divStyle}>{selectedTank?.tankName ?? 'Loading tanks...'}</h1>

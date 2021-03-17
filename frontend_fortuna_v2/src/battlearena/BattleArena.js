@@ -4,6 +4,7 @@ import './BattleArena.css';
 import * as React from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
+
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -30,6 +31,7 @@ import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePl
 import JoyRide from "react-joyride";
 import getFirstTimeCasusAPICall from "../globalComponents/apiCalls/getFirstTimeCasusAPICall";
 import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
+import SetWagerPopup from "../armory/SetWagerPopup";
 
 type Props = {||};
 
@@ -56,25 +58,29 @@ class BattleArena extends React.Component<Props, State> {
 			battleType: '1 vs 1',
 			tour_steps: [
 				{
-					target: ".challenge",
-					content: "Search a Players name to challenge",
-				},
-				{
 					target: ".battletype",
-					content: "Here you can change your battle type"
+					content: "Change between 1 v 1, or 3 v 3",
 				},
 				{
-					target: ".info",
-					content: "This is the leaderboard"
+					target: ".search",
+					content: "Search for a specific player and challenge any tanks they are wagering"
+				},
+				{
+					target: ".wager",
+					content: "Don't forget to wager a tank to be able to have other people battle with you!"
+				},
+				{
+					target: ".quickplay",
+					content: "Quickly find a match with someone wagered tank in your ELO rank"
 				}
 			],
 			run: true
 		};
 		getReplayListAPICall(() => {});
-		getFirstTimePlayAPICall((res) => {
-			console.log("RES: ", res);
-			this.state.run = res;
-		})
+		//getFirstTimePlayAPICall((res) => {
+		//	console.log("RES: ", res);
+		//	this.state.run = res;
+		//})
 
 		setFirstTimePlayAPICall();
 	}
@@ -136,7 +142,10 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		}
 	}
-
+	onWagerUpdate = (): void => {
+		const navbar = this.refs.navbar;
+		navbar.reloadNavbar();
+	}
 
 	render(): React.Node {
 		return (
@@ -144,21 +153,19 @@ class BattleArena extends React.Component<Props, State> {
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
+				ref="navbar"
 				pageName="Battle Arena"
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column challenge">
-				<h5>Challenge a Player</h5>
-				<ChallengePlayerPopup
-					onChallengePlayer={(user) => this.onChallengePlayer(user)}
-					playerChallenged={null}
-					battleType={this.state.battleType}
-				/>
+
+				<div className="search">
 				<SearchPlayers
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
 					battleType={this.state.battleType}
 				/>
+				</div>
 			</div>
 			<div className="column battletype">
 				<h5>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
@@ -233,11 +240,23 @@ class BattleArena extends React.Component<Props, State> {
 				</button>
 			</div>
 			<div className="column info">
-				<div className="leaderboard">
-					<Leaderboard />
+				<h5>Challenge a Player</h5>
+				<div className="wager">
+					<SetWagerPopup
+						ref="SetWagerPopup"
+						onWagerUpdate={this.onWagerUpdate}
+					/>
 				</div>
-				<br/><br/>
-				<Replays styling={{width: "82%"}} />
+				<br/>
+				<div className="quickplay">
+					<ChallengePlayerPopup
+						onChallengePlayer={(user) => this.onChallengePlayer(user)}
+						playerChallenged={null}
+						battleType={this.state.battleType}
+					/>
+				</div>
+				<br/>
+
 			</div>
 			<ToastContainer />
 			<JoyRide
