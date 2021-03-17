@@ -53,7 +53,9 @@ class ListingsView extends React.Component<Props, State> {
 		}
 
 		this.getSales = this.getSales.bind(this);
-		this.buyItem = this.buyItem.bind(this);
+    this.buyItem = this.buyItem.bind(this);
+    this.findCasus = this.findCasus.bind(this);
+    this.findTank = this.findTank.bind(this);
 	}
 
 	// Once mounted, get the user's ID and set the sales.
@@ -207,7 +209,10 @@ class ListingsView extends React.Component<Props, State> {
 				return firstFactory?1:-1;
 			}
 			return a.price/a.amount-b.price/b.amount;
-		});
+    });
+    
+    const {sellerType} = this.props;
+
 		// Render tank sales
 		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
 			const tankToUse = this.findTank(sale.name);
@@ -239,7 +244,8 @@ class ListingsView extends React.Component<Props, State> {
 					</div>
 				</div>
 			);
-		});
+    });
+    
 		// render item component sales
 		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
 			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
@@ -253,16 +259,18 @@ class ListingsView extends React.Component<Props, State> {
 			</div>
 		);
 
-    const testItemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType);
-
-    console.log("ITEM CARDS: ", testItemCards)
+    const _itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType);
+    const _casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name)));
+		const _tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name)))
+    
+    // console.log("ITEM CARDS: ", testItemCards)
 
 		// Get current posts
 		const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
 		const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
 
-		const currentItemPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
-		const currentTankPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
+		// const currentItemPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
+		// const currentTankPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
 
 		const indexOfLastPostCasus = this.state.currentPage * this.state.postsPerPageCasus;
 		const indexOfFirstPostCasus = indexOfLastPostCasus - this.state.postsPerPageCasus;
@@ -271,14 +279,14 @@ class ListingsView extends React.Component<Props, State> {
     let debug = false;
 
 		// Change page
-		// const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+    // const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+    
+    let cardsToDisplay = (sellerType === 'tank' ? _tankCards : (sellerType === 'casusCode' ? _casusCodeCards : _itemCards))
     
 
     if (debug)
     {
-      return (
-        <Cards items={testItemCards} buyItem={this.buyItem} />
-      )
+      return null;
     }
     else {
 		// Actual return for the render
@@ -301,7 +309,16 @@ class ListingsView extends React.Component<Props, State> {
 
 						// </Row>
 
-            <Cards items={testItemCards} buyItem={this.buyItem} postsPerPage={this.state.postsPerPage} totalPosts={this.state.totalPosts} />
+            <Cards 
+              sellerType={sellerType} 
+              items={cardsToDisplay} 
+              buyItem={this.buyItem} 
+              postsPerPage={this.state.postsPerPage} 
+              postsPerPageCasus={this.state.postsPerPageCasus} 
+              totalPosts={this.state.totalPosts}
+              findCasus={this.findCasus}
+              findTank={this.findTank}
+            />
 
 					}
 					<ToastContainer />
