@@ -60,6 +60,7 @@ class ListingsView extends React.Component<Props, State> {
     this.findCasus = this.findCasus.bind(this);
     this.findTank = this.findTank.bind(this);
     this.isMaster = this.isMaster.bind(this);
+    this.getSalesBySellerType = this.getSalesBySellerType.bind(this);
 	}
 
 	// Once mounted, get the user's ID and set the sales.
@@ -212,6 +213,65 @@ class ListingsView extends React.Component<Props, State> {
     left: "60px"
   }
 
+  getSalesBySellerType() {
+
+    const {sellerType} = this.props;
+
+    
+    if (sellerType === 'tank')
+    {
+      const _tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name)))
+
+      return (
+        <TankCards 
+          sellerType={sellerType} 
+          tanks={_tankCards}
+          buyItem={this.buyItem} 
+          postsPerPage={this.state.postsPerPage} 
+          totalPosts={this.state.totalPosts}
+          findTank={this.findTank}
+          isMaster={this.isMaster}
+        />
+      )
+    }
+    else if (sellerType === 'casusCode')
+    {
+      const _casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name)));
+
+      return (
+        <CasusCards 
+          sellerType={sellerType} 
+          casusCode={_casusCodeCards}
+          buyItem={this.buyItem} 
+          postsPerPage={this.state.postsPerPageCasus} 
+          totalPosts={this.state.totalPosts}
+          findCasus={this.findCasus}
+          userTanks={this.state.userTanks}
+          userId={this.state.userId}
+          getSales={this.getSales}
+          onItemBought={this.props.onItemBought}
+          isMaster={this.isMaster}
+        />
+      )
+    }
+    else
+    {
+
+      const _itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === sellerType);
+
+      return (
+        <ItemCards 
+          sellerType={sellerType} 
+          items={_itemCards} 
+          buyItem={this.buyItem} 
+          postsPerPage={this.state.postsPerPage} 
+          totalPosts={this.state.totalPosts}
+          isMaster={this.isMaster}
+        />
+      )
+    }
+  }
+
 	render(): React.Node  {
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
@@ -221,143 +281,16 @@ class ListingsView extends React.Component<Props, State> {
 			}
 			return a.price/a.amount-b.price/b.amount;
     });
-    
-    const {sellerType} = this.props;
 
-		// Render tank sales
-		const tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
-			const tankToUse = this.findTank(sale.name);
-			return (
-				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
-					<div className="card-body">
-						{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
-						{tankToUse == null ? <h5>Loading Tank...</h5> : <h5 className="card-title">{tankToUse.tankName}</h5>}
-						<h5 className="card-title">Price: ${sale.price}</h5>
-						<h5 className="card-title">Quantity: {sale.amount}</h5>
-						{tankToUse== null ? <div></div> : <TankDisplay tankToDisplay={tankToUse} smallTank={true} />}
-						<button className="btn btn-success mt-2" onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
-					</div>
-				</div>
-			);
-		});
-		// Render casus code sales
-		const casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name))).map((sale, index) => {
-			const casusToUse = this.findCasus(sale.tankId);
-			return (
-				<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
-					<div className="card-body">
-						{sale.sellerId === getMasterAccountId() ? <h6>Purchase from Factory</h6> : null}
-						{<h5 className="card-title">{sale.name} Casus Code</h5>}
-						<h5 className="card-title">Price: ${sale.price}</h5>
-						<h5 className="card-title">Quantity: {sale.amount}</h5>
-						{casusToUse == null ? <div></div> : <img src="/scroll.png" />}
-						{ casusToUse == null ? <div>Loading Casus Code...</div> : <PurchaseCasusCode selectedTank={casusToUse} usersTanks={this.state.userTanks} sellerId={sale.sellerId} saleId={sale.saleId} userId={this.state.userId} setLoading={this.setLoading} getSales={this.getSales} onItemBought={this.props.onItemBought} />}
-					</div>
-				</div>
-			);
-    });
-    
-		// render item component sales
-		const itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType).map((sale, index) =>
-			<div className={sale.sellerId === getMasterAccountId() ? "masterCard mb-2" : "card mb-2"} key={index}>
-				<div className="card-body">
-					{sale.sellerId === getMasterAccountId() ? <h6 style={this.factoryStyle}>Purchase from Factory</h6> : null}
-					<h5 className="card-name" style={this.centerStyle}>{toTitleCase(sale.name)}</h5>
-					<h5 className="card-body" style={this.descStyle} >{sale.itemDesc} </h5>
-					<h5 className="card-title" style={this.centerStyle}>Price: ${sale.price} Quantity: {sale.amount}</h5>
-					<button className="marketBtn" style={this.buttonStyle} onClick={() => this.buyItem(sale.sellerId, sale.saleId)}>Buy</button>
-				</div>
-			</div>
-		);
-
-    const _itemCards = this.state.itemsForSale.filter(sale => allComponents.includes(sale.name) && getComponentType(verifyComponent(sale.name)) === this.props.sellerType);
-    const _casusCodeCards = this.state.casusCodeForSale.filter(sale => !(allComponents.includes(sale.name)));
-		const _tankCards = this.state.itemsForSale.filter(sale => !(allComponents.includes(sale.name)))
-    
-    // console.log("ITEM CARDS: ", testItemCards)
-
-		// Get current posts
-		const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
-		const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-
-		// const currentItemPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
-		// const currentTankPosts = testItemCards.slice(indexOfFirstPost, indexOfLastPost);
-
-		const indexOfLastPostCasus = this.state.currentPage * this.state.postsPerPageCasus;
-		const indexOfFirstPostCasus = indexOfLastPostCasus - this.state.postsPerPageCasus;
-		const currentCasusCodePosts = casusCodeCards.slice(indexOfFirstPostCasus, indexOfLastPostCasus);
-
-    let debug = false;
-
-		// Change page
-    // const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
-    
-    let cardsToDisplay = (sellerType === 'tank' ? _tankCards : (sellerType === 'casusCode' ? _casusCodeCards : _itemCards))
-    
-    if (sellerType === 'tank')
-    {
-
-    }
-    else if (sellerType === 'casusCode')
-    {
-
-    }
-    else
-    {
-      
-    }
-
-    if (debug)
-    {
-      return null;
-    }
-    else {
-		// Actual return for the render
-			return (
-				<Container fluid>
-          <br/><br/>
-					<h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
-          <br/><br/><br/><br/>
-					{this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> :
-
-            <ItemCards 
-              sellerType={sellerType} 
-              items={_itemCards} 
-              buyItem={this.buyItem} 
-              postsPerPage={this.state.postsPerPage} 
-              totalPosts={this.state.totalPosts}
-              isMaster={this.isMaster}
-            />
-
-            // <TankCards 
-            //   sellerType={sellerType} 
-            //   tanks={_tankCards}
-            //   buyItem={this.buyItem} 
-            //   postsPerPage={this.state.postsPerPage} 
-            //   totalPosts={this.state.totalPosts}
-            //   findTank={this.findTank}
-            //   isMaster={this.isMaster}
-            // />
-
-            // <CasusCards 
-            //   sellerType={sellerType} 
-            //   casusCode={_casusCodeCards}
-            //   buyItem={this.buyItem} 
-            //   postsPerPage={this.state.postsPerPageCasus} 
-            //   totalPosts={this.state.totalPosts}
-            //   findCasus={this.findCasus}
-            //   userTanks={this.state.userTanks}
-            //   userId={this.state.userId}
-            //   getSales={this.getSales}
-            //   onItemBought={this.props.onItemBought}
-            //   isMaster={this.isMaster}
-            // />
-
-					}
-					<ToastContainer />
-				</Container>
-			);
-	}
+    return (
+      <Container fluid>
+        <br/><br/>
+        <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
+        <br/><br/><br/><br/>
+        {this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> : this.getSalesBySellerType()}
+        <ToastContainer />
+      </Container>
+    );
 
   }
 
