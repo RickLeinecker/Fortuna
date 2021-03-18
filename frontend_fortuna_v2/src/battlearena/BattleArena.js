@@ -104,6 +104,22 @@ class BattleArena extends React.Component<Props, State> {
 		}
 	}
 
+  divStyle = {
+    color: "white",
+    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+  }
+
+  buttonDivStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
+  style = {
+    position: "relative",
+    left: "50px"
+  }
+
+
 
 	render(): React.Node {
 		return (
@@ -116,7 +132,8 @@ class BattleArena extends React.Component<Props, State> {
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column baleft">
-				<h5>Challenge a Player</h5>
+        <br/><br/><br/><br/><br/><br/>
+				<h5 style={this.divStyle}>Challenge a Player</h5>
 				<ChallengePlayerPopup
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
 					playerChallenged={null}
@@ -128,7 +145,7 @@ class BattleArena extends React.Component<Props, State> {
 				/>
 			</div>
 			<div className="column bamiddle">
-				<h5>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
+				<h5 style={this.divStyle}>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(this.state.battleType === '1 vs 1') ?
 					<div>
@@ -191,16 +208,17 @@ class BattleArena extends React.Component<Props, State> {
 						</table>
 					</div>
 				}
-				<h5>Current Battle Type: {this.state.battleType}</h5>
+				<h5 style={this.divStyle}>Current Battle Type: {this.state.battleType}</h5>
 				<button
 					className="primarybtn"
 					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+          style={this.buttonDivStyle}
 				>
 					Change Battle Type
 				</button>
 			</div>
 			<div className="column baright">
-				<div className="leaderboard">
+				<div className="loginleader" style={this.style}>
 					<Leaderboard />
 				</div>
 				<br/><br/>

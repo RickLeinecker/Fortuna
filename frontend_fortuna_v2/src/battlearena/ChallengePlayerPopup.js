@@ -96,6 +96,16 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		}
 	}
 
+  divStyle = {
+    color: "white",
+    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+  }
+
+  buttonDivStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
 	render(): React.Node {
 		const challengeButton = (
 			<button 
@@ -119,6 +129,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				<button 
 					onClick={(this.props.playerChallenged == null) ? () => this.quickplay() : () => this.setState({challengePlayerOpen: true})} 
 					className={(this.props.playerChallenged == null) ? "primarybtn" : "clearbtn"}
+          style={this.divStyle}
 				>
 					{this.props.playerChallenged?.username  ?? "Quickplay"}
 				</button>
