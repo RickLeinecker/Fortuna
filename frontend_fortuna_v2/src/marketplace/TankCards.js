@@ -49,7 +49,6 @@ function TankCards({sellerType, tanks, buyItem, postsPerPage, totalPosts, findTa
 
   const tankList = tanks.map((sale, index) => {
     tankToUse = findTank(sale.name);
-    console.log("tank: ", tankToUse)
     return createCardTank(index, sale.sellerId, sale.price, sale.amount, sale.saleId, buyItem, tankToUse);
   });
 
