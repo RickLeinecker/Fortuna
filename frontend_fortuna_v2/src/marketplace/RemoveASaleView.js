@@ -19,8 +19,10 @@ function RemoveASaleView() {
   const [postsPerPage, setPostsPerPage] = useState(3);
   const [totalPosts, setTotalPosts] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [render, setRender] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     getUserAPICall(user => {
       setUserId(user.userId);
     })
@@ -32,6 +34,10 @@ function RemoveASaleView() {
       _getUsersCurrentSales();
     }
   }, [userId])
+
+  useEffect(() => {
+    setRender(prevState => !prevState);
+  }, [currentPage])
 
   const _getUsersCurrentSales = () => {
     setLoading(true);
@@ -78,6 +84,8 @@ function RemoveASaleView() {
       `${toTitleCase(saleName)}`
   }
 
+
+
   const removeSaleItem = (index, saleName, price, amount, saleId, isCasusSale) => {
     return (
       <Col md="auto" style={colStyle} key={index}>
@@ -102,7 +110,7 @@ function RemoveASaleView() {
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
     const currentRemovePosts = salesRemoved.slice(indexOfFirstPost, indexOfLastPost);
 
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     if (loading)
     {
@@ -118,7 +126,7 @@ function RemoveASaleView() {
       return (
         <>
           <br/><br/>
-          <h1 style={divStyle}>No Sales to Remove</h1>
+          <h1 style={divStyle}>You have no sales on the market!</h1>
         </>
       )
     }
@@ -135,11 +143,11 @@ function RemoveASaleView() {
           </Row>
           <br/><br/><br/><br/>
           <div className="text-center">
-              <Pagination 
-                className="pagination" 
-                postsPerPage={postsPerPage} 
-                totalPosts={itemsForSale.length} 
-                paginate={paginate} /> 
+            <Pagination 
+              className="pagination" 
+              postsPerPage={postsPerPage}
+              totalPosts={salesRemoved.length} 
+              paginate={paginate} /> 
           </div>
         </>
       )

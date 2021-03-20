@@ -28,6 +28,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			itemID: '',
 			itemAmount: 0,
 			itemsToSell: [],
+      loading: false
 		}
 	}
 
@@ -37,11 +38,14 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
+    this.setState({ loading: true });
 		getUserAPICall(user => {
 			this.setState({
 				itemsToSell: user.inventory,
 				userId: user.userId,
-				itemID: user.inventory.length === 0 ? '' : user.inventory[0].componentName});
+				itemID: user.inventory.length === 0 ? '' : user.inventory[0].componentName,
+        loading: false
+      });
 		});
 	}
 
@@ -98,11 +102,6 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     position: "relative"
   }
 
-  // divStyle = {
-  //   color: "white",
-  //   textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-  // }
-
   labelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -115,30 +114,50 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
+  spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
 	render(): React.Node {
-		return (
-			<div id="Parent">
-        <br/><br/><br/>
-				<label style={this.labelStyle}>Select an Item to Sell</label>
-        <br/>
-				<select className="dropdownMenu" style={this.selectStyle} onChange={e => this.setState({itemID: e.target.value})}>
-					{this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
-						<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
-					)}
-				</select>
-				<br/><br/><br/>
-				<label style={this.labelStyle}>Selling Price</label>
-        <br/>
-				<input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
-				<br/><br/><br/>
-				<label style={this.labelStyle}>Amount to Sell</label>
-        <br/>
-				<input style={this.inputStyle} type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
-				<br/><br/>
-				<button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
-				<ToastContainer />
-			</div>
-		);
+
+    if (this.state.loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else {
+      return (
+        <div id="Parent">
+          <br/><br/><br/>
+          <label style={this.labelStyle}>Select an Item to Sell</label>
+          <br/>
+          <select className="dropdownMenu" style={this.selectStyle} onChange={e => this.setState({itemID: e.target.value})}>
+            {this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
+              <option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
+            )}
+          </select>
+          <br/><br/><br/>
+          <label style={this.labelStyle}>Selling Price</label>
+          <br/>
+          <input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
+          <br/><br/><br/>
+          <label style={this.labelStyle}>Amount to Sell</label>
+          <br/>
+          <input style={this.inputStyle} type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
+          <br/><br/>
+          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
+          <ToastContainer />
+        </div>
+      );
+    }
+
 	}
 }
 

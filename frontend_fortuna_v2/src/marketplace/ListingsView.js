@@ -65,6 +65,7 @@ class ListingsView extends React.Component<Props, State> {
 
 	// Once mounted, get the user's ID and set the sales.
 	componentDidMount(): void {
+		this.setState({loading: true});
 		getUserAPICall(user => {
 			this.setState({userId: user.userId},this.getSales);
 			this.getAllUsersTanksForSell();
@@ -100,7 +101,7 @@ class ListingsView extends React.Component<Props, State> {
 	// Get user's tanks to copy casus code if purchased.
 	getAllUsersTanksForSell() : void {
 		getAllUsersTanks(allTanks => {
-				this.setState({userTanks: allTanks, tankCasusCode: allTanks[0]._id.casusCode});
+				this.setState({userTanks: allTanks, tankCasusCode: allTanks[0]._id.casusCode, loading: false});
 		});
 	};
 
@@ -181,10 +182,6 @@ class ListingsView extends React.Component<Props, State> {
 			}
 		}
 	}
-
-	setLoading(): void {
-		this.setState({loading: true});
-  }
   
   isMaster = (sellerId) => {
     if (sellerId === getMasterAccountId())
@@ -272,6 +269,13 @@ class ListingsView extends React.Component<Props, State> {
     }
   }
 
+  spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
 	render(): React.Node  {
 		this.state.itemsForSale.sort((a, b) => {
 			const firstFactory = a.sellerId === getMasterAccountId();
@@ -282,15 +286,27 @@ class ListingsView extends React.Component<Props, State> {
 			return a.price/a.amount-b.price/b.amount;
     });
 
-    return (
-      <Container fluid>
-        <br/><br/>
-        <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
-        <br/><br/><br/><br/>
-        {this.state.itemsForSale.length === 0 ? <h5>Loading sales...</h5> : this.getSalesBySellerType()}
-        <ToastContainer />
-      </Container>
-    );
+    if (this.state.loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else {
+      return (
+        <Container fluid>
+          <br/><br/>
+          <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
+          <br/><br/><br/><br/>
+          {this.state.itemsForSale.length === 0 ? <h5>No sales to load</h5> : this.getSalesBySellerType()}
+          <ToastContainer />
+        </Container>
+      );
+    }
+
 
   }
 

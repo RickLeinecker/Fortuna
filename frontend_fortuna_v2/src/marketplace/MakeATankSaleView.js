@@ -32,12 +32,14 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			itemAmount: 0,
 			tanksToSell: [],
 			favTankId: '',
-			favTankTeamIds: ['', '', '']
+			favTankTeamIds: ['', '', ''],
+      loading: false
 		}
 	}
 
 	// Once mounted, get the userId, favorite tank id, and favorite tank team ids.
 	componentDidMount(): void {
+    this.setState({ loading: true });
 		getUserAPICall(user => {
 			this.setState({userId: user.userId});
 			this.getAllUsersTanksForSell();
@@ -77,7 +79,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					}
 				}
 
-				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCode});
+				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCode, loading: false});
 		});
 	};
 
@@ -140,36 +142,55 @@ class MakeATankSaleView extends React.Component<Props, State> {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
+  spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
 	render(): React.Node  {
-		return (
-			<div id="Parent">
-        <br/><br/><br/>
-				<label style={this.labelStyle}>Select a tank to Sell</label>
-        <br/>
-				<select
-					className="dropdownMenu"
-					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
-          style={this.selectStyle}
-				>
-					{this.state.tanksToSell.map(({ tankName, _id }, index) =>
-						<option key={index}  value={_id}>{tankName}</option>
-					)}
-				</select>
-				<br/><br/>
-				<label style={this.labelStyle}>Selling Price</label>
-        <br/>
-				<input
-					type="number"
-					value={this.state.salePrice}
-					className="inputText"
-					onChange={e => this.setState({salePrice: e.target.value})}
-          style={this.inputStyle}
-				></input>
-				<br/><br/>
-				<button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
-				<ToastContainer />
-			</div>
-		);
+
+    if (this.state.loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else {
+      return (
+        <div id="Parent">
+          <br/><br/><br/>
+          <label style={this.labelStyle}>Select a tank to Sell</label>
+          <br/>
+          <select
+            className="dropdownMenu"
+            onChange={e => this.setState({tankBeingSoldId: e.target.value})}
+            style={this.selectStyle}
+          >
+            {this.state.tanksToSell.map(({ tankName, _id }, index) =>
+              <option key={index}  value={_id}>{tankName}</option>
+            )}
+          </select>
+          <br/><br/>
+          <label style={this.labelStyle}>Selling Price</label>
+          <br/>
+          <input
+            type="number"
+            value={this.state.salePrice}
+            className="inputText"
+            onChange={e => this.setState({salePrice: e.target.value})}
+            style={this.inputStyle}
+          ></input>
+          <br/><br/>
+          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
+          <ToastContainer />
+        </div>
+      );
+    }
 	}
 }
 
