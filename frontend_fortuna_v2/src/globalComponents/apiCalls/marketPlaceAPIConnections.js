@@ -207,7 +207,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 				console.log(data);
 			}
 			else {
-				const currentListings: Array<SaleObject> = [];
+        const currentListings: Array<SaleObject> = [];
 				for (const sale of data) {
 					if(sale.itemType === "component") {
 						currentListings.push(new SaleObject(
