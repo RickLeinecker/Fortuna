@@ -215,9 +215,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							false
+              sale._id,
+							false,
+							sale.itemDesc
 						));
 					}
 					else if(sale.itemType === "tank") {
@@ -226,9 +226,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							false
+              sale._id,
+							false,
+							sale.itemDesc
 						));
 					}
 					else {
@@ -237,9 +237,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							true
+              sale._id,
+              true,
+							sale.itemDesc
 						));
 					}
 

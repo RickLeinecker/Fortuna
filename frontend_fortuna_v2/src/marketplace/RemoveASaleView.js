@@ -1,5 +1,5 @@
 //@flow strict
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
@@ -8,19 +8,123 @@ import { getUsersCurrentSales, removeASale } from '../globalComponents/apiCalls/
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
 import Pagination from './Pagination.js';
 import { getComponentType, verifyComponent } from '../globalComponents/GetInventoryInfo.js';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 
 type Props = {|
 	sellerType: SellingType,
 	|}; 
 
-type State = {|
-	userId: string,
-	itemsForSale: Array<SaleObject>
-|};
+// type State = {|
+// 	userId: string,
+// 	itemsForSale: Array<SaleObject>
+// |};
 
-class RemoveASaleView extends React.Component<Props, State> {
+
+function RemoveASaleView() {
+
+  const [userId, setUserId] = useState('');
+  const [itemsForSale, setItemsForSale] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [totalPosts, setTotalPosts] = useState(0);
+
+  useEffect(() => {
+    getUserAPICall(user => {
+      setUserId(user.userId);
+    })
+  }, []);
+
+  useEffect(() => {
+    _getUsersCurrentSales();
+  }, [userId]);
+
+  const _getUsersCurrentSales = () => {
+    getUsersCurrentSales(userId, data => {
+      setItemsForSale(data);
+    })
+  }
+
+  const removeSale = (saleId) => {
+    removeASale(saleId, () => {
+      _getUsersCurrentSales();
+    })
+  }
+
+  const divStyle = {
+    textAlign: "center",
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
+  }
+
+  const style = {
+    width: "fit-content",
+    backgroundColor: "#012074",
+    border: "4px solid #1969e5",
+    padding: "10px",
+  }
+
+  const colStyle = {
+    padding: "5px",
+    margin: "5px"
+  }
+
+  const isCasus = (isCasusSale, saleName) => {
+    return isCasusSale ? 
+      `${toTitleCase(saleName)}'s Casus Code` :
+      `${toTitleCase(saleName)}`
+  }
+
+  const removeSaleItem = (index, saleName, price, amount, saleId, isCasusSale) => {
+    return (
+      <Col md="auto" style={colStyle} key={index}>
+        <Card style={style}>
+          <Card.Body>
+            <Card.Title>{isCasus(isCasusSale, saleName)}</Card.Title>
+            <Card.Title>Price: ${price}</Card.Title>
+            <Card.Title>Quantity: {amount}</Card.Title>
+            <Button variant="primary" onClick={() => removeSale(saleId)}>Remove</Button>
+          </Card.Body>
+        </Card>
+      </Col>
+    )
+  }
+
+  const salesRemoved = itemsForSale.filter(sale => sale).map((sale, index) => {
+    console.log("sale: ", sale);
+    return removeSaleItem(index, sale.name, sale.price, sale.amount, sale.saleId, sale.isCasusSale)
+  })
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentRemovePosts = salesRemoved.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+
+  return (
+    <>
+      <Row>
+        <Col>
+          {currentRemovePosts}
+        </Col>
+      </Row>
+      <br/><br/><br/><br/>
+      <div className="text-center">
+          <Pagination 
+            className="pagination" 
+            postsPerPage={postsPerPage} 
+            totalPosts={itemsForSale.length} 
+            paginate={paginate} /> 
+      </div>
+    </>
+  )
+}
+
+export default RemoveASaleView
+
+
+{/* class RemoveASaleView extends React.Component<Props, State> {
 
 	constructor() {
 		super();
@@ -60,17 +164,19 @@ class RemoveASaleView extends React.Component<Props, State> {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
+  // sale.isCasusSale === true
+
 	render(): React.Node {
 
-    const removeSales = this.state.itemsForSale.filter(sale => sale).map((sale, index) =>
-      <div className="card mb-2" key={index}>
+    const removeSales = this.state.itemsForSale.filter(sale => sale).map((sale, index) => {
+      return <div className="card mb-2" key={index}>
         <div className="card-body">
           {this.props.sellerType === 'casusCode' ? <h5 className="card-title">{toTitleCase(sale.name)}'s Casus Code</h5> : <h5 className="card-title">{toTitleCase(sale.name)}</h5> }
           <h5 className="card-title">Price: ${sale.price}</h5>
           <h5 className="card-title">Quantity: {sale.amount}</h5>
           <button className="btn btn-danger mt-2" onClick={() => this.removeSale(sale.saleId)}>Remove</button>
         </div>
-      </div>
+      </div>}
     );
 
 		// Get current posts
@@ -118,4 +224,4 @@ class RemoveASaleView extends React.Component<Props, State> {
 	}
 }
 
-export default RemoveASaleView;
+export default RemoveASaleView; */}
