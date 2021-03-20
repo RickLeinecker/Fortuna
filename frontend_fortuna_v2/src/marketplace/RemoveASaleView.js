@@ -11,16 +11,6 @@ import { getComponentType, verifyComponent } from '../globalComponents/GetInvent
 import { Spinner, Card, Container, Row, Col, Button } from 'react-bootstrap';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 
-type Props = {|
-	sellerType: SellingType,
-	|}; 
-
-// type State = {|
-// 	userId: string,
-// 	itemsForSale: Array<SaleObject>
-// |};
-
-
 function RemoveASaleView() {
 
   const [userId, setUserId] = useState('');
