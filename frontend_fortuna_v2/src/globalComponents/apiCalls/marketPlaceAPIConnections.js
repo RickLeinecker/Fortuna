@@ -19,7 +19,8 @@ function makeASale(
 	itemId: string, 
 	itemType: string, 
 	amountOfSellingItems: number, 
-	onLoad:() => void
+	onLoad:() => void,
+  onErrorLoad: () => void
 ): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/addMarketSale/', {
 		method: 'POST',
@@ -35,6 +36,7 @@ function makeASale(
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
+        onErrorLoad();
 				toast.error(getErrorFromObject(data));
 			}
 			else {

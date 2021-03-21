@@ -26,7 +26,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		super();
 		this.state = {
 			userId: '',
-			salePrice: 0,
+			salePrice: 1,
 			tankBeingSoldId: '',
 			tankCasusCode: [],
 			itemAmount: 0,
@@ -110,13 +110,13 @@ class MakeATankSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "fit-content",
+    width: "20%",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "820px",
+    left: "720px",
     position: "relative"
   }
 
@@ -136,7 +136,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
   tankLabelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "825px",
+    left: "830px",
     position: "relative"
   }
 
@@ -193,6 +193,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
             value={this.state.salePrice}
             className="inputText"
             onChange={e => this.setState({salePrice: e.target.value})}
+            min="1"
             style={this.inputStyle}
           ></input>
           <br/><br/><br/><br/>

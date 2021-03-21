@@ -24,9 +24,9 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		super();
 		this.state={
 			userId: '',
-			salePrice: 0,
+			salePrice: 1,
 			itemID: '',
-			itemAmount: 0,
+			itemAmount: 1,
 			itemsToSell: [],
       loading: false
 		}
@@ -69,7 +69,10 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 				this.setState({salePrice: 0, itemAmount: 0, loading: false});
 				this.getUserInventory();
 				this.props.onItemSold();
-			}
+			},
+      () => {
+        this.setState({ loading: false })
+      }
 		);
 	}
 	
@@ -83,13 +86,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "fit-content",
+    width: "20%",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "790px",
+    left: "730px",
     position: "relative"
   }
 
@@ -156,11 +159,11 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
           <br/><br/><br/>
           <label style={this.sellLabelStyle}>Selling Price</label>
           <br/>
-          <input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
+          <input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} min="1" onChange={e => this.setState({salePrice: e.target.value})}></input>
           <br/><br/><br/>
           <label style={this.sellLabelStyle}>Amount to Sell</label>
           <br/>
-          <input style={this.inputStyle} type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
+          <input style={this.inputStyle} min="1" type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
           <br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
           <ToastContainer />

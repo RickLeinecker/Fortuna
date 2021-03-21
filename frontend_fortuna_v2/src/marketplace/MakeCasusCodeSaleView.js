@@ -26,7 +26,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 		super();
 		this.state = {
 			userId: '',
-			salePrice: 0,
+			salePrice: 1,
 			tankBeingSoldId: '',
 			itemAmount: 0,
 			tanksToSell: [],
@@ -94,13 +94,13 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "fit-content",
+    width: "20%",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "830px",
+    left: "745px",
     position: "relative"
   }
 
@@ -175,6 +175,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
             type="number"
             value={this.state.salePrice}
             className="inputText"
+            min="1"
             onChange={e => this.setState({salePrice: e.target.value})}
             style={this.inputStyle}
           ></input>
