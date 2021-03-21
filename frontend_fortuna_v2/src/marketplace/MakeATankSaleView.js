@@ -104,7 +104,10 @@ class MakeATankSaleView extends React.Component<Props, State> {
 				this.getAllUsersTanksForSell();
 				this.setState({salePrice: 0, loading: false});
 				this.props.onItemSold();
-			}
+			},
+      () => {
+        this.setState({ loading: false })
+      }
 		);
 	}
 
