@@ -19,7 +19,6 @@ function RemoveASaleView() {
   const [postsPerPage, setPostsPerPage] = useState(3);
   const [totalPosts, setTotalPosts] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [render, setRender] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -33,11 +32,7 @@ function RemoveASaleView() {
     {
       _getUsersCurrentSales();
     }
-  }, [userId])
-
-  useEffect(() => {
-    setRender(prevState => !prevState);
-  }, [currentPage])
+  }, [userId]);
 
   const _getUsersCurrentSales = () => {
     setLoading(true);
