@@ -16,8 +16,8 @@ import { TweenMax, Power3, TweenLite } from 'gsap'
 function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
-  const navbarRef = useRef(null);
-
+  
+  let navbarRef = useRef(null);
   let buyDown = useRef(null);
   let sellUp = useRef(null);
   
@@ -39,7 +39,7 @@ function Marketplace() {
   }
 
   const onMoneyChanged = () => {
-    const navbar = navbarRef;
+    const navbar = navbarRef.current;
     navbar.reloadNavbar();
   }
 

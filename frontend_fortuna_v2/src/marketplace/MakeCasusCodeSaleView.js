@@ -94,13 +94,13 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "50%",
+    width: "fit-content",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "500px",
+    left: "820px",
     position: "relative"
   }
 
@@ -116,7 +116,14 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
     position: "relative"
   }
 
-  labelStyle = {
+  tankLabelStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    left: "800px",
+    position: "relative"
+  }
+
+  sellLabelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     left: "850px",
@@ -150,7 +157,8 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
       return (
         <div id="Parent">
           <br/><br/><br/>
-          <label style={this.labelStyle}>Select a tank's casus code to Sell</label>
+          <label style={this.tankLabelStyle}>Select a tank's casus code to Sell</label>
+          <br/><br/>
           <select
             className="dropdownMenu"
             onChange={e => this.setState({tankBeingSoldId: e.target.value})}
@@ -160,9 +168,9 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
               <option key={index}  value={_id}>{tankName}</option>
             )}
           </select>
+          <br/><br/><br/>
+          <label style={this.sellLabelStyle}>Selling Price</label>
           <br/><br/>
-          <label style={this.labelStyle}>Selling Price</label>
-          <br/>
           <input
             type="number"
             value={this.state.salePrice}
@@ -170,7 +178,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
             onChange={e => this.setState({salePrice: e.target.value})}
             style={this.inputStyle}
           ></input>
-          <br/><br/>
+          <br/><br/><br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
           <ToastContainer />
         </div>
