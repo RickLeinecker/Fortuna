@@ -51,7 +51,10 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	makeASaleOfAComponent = (): void => {
 		// If the user has no components to sell, exit function.
+    this.setState({ loading: true });
+
 		if (this.state.itemID === '') {
+      this.setState({ loading: false })
 			toast.error("No components to sell");
 			return;
 		}
@@ -63,7 +66,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			this.state.itemAmount,
 			() => {
 				toast.success("Item Placed in Market.");
-				this.setState({salePrice: 0, itemAmount: 0});
+				this.setState({salePrice: 0, itemAmount: 0, loading: false});
 				this.getUserInventory();
 				this.props.onItemSold();
 			}

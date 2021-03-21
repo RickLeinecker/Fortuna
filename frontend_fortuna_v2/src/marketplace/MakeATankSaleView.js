@@ -85,8 +85,10 @@ class MakeATankSaleView extends React.Component<Props, State> {
 
 	//This will make a sale for a tank
 	makeASaleOfATank = (): void => {
+    this.setState({ loading: true })
 		//Check for if last tank can't allow them to sell tank
 		if(this.state.tanksToSell.length === 1) {
+      this.setState({ loading: false })
 			toast.error("Can't sell last tank");
 			return;
 		}
@@ -100,7 +102,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			() => {
 				toast.success("Tank Placed in Market.");
 				this.getAllUsersTanksForSell();
-				this.setState({salePrice: 0});
+				this.setState({salePrice: 0, loading: false});
 				this.props.onItemSold();
 			}
 		);

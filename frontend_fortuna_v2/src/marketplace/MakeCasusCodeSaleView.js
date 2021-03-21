@@ -76,6 +76,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 
 	//This will make a sale for a tank's casus code
 	makeASaleOfCasusCode = (): void => {
+    this.setState({ loading: true })
 		makeASale(
 			this.state.userId,
 			this.state.salePrice,
@@ -85,7 +86,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 			() => {
 				toast.success("Casus Code Placed in Market.");
 				this.getAllUsersTanksForSell();
-				this.setState({salePrice: 0});
+				this.setState({salePrice: 0, loading: false});
 				this.props.onItemSold();
 			}
 		);
