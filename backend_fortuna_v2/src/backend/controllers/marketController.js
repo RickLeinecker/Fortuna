@@ -406,7 +406,6 @@ exports.getUsersMarketSales = async (req: Request, res: Response) => {
 				.json({ msg: 'Unable to get list of Market Sales.' });
 		}
 
-    console.log("SALES LIST: ", salesList)
 		// Return list of sales
 		console.log("Retrieved User's Market Sales List.");
 		return res.status(200).json(salesList);
