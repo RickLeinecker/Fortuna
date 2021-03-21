@@ -83,13 +83,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "50%",
+    width: "fit-content",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "500px",
+    left: "790px",
     position: "relative"
   }
 
@@ -105,7 +105,14 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     position: "relative"
   }
 
-  labelStyle = {
+  tankLabelStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    left: "825px",
+    position: "relative"
+  }
+
+  sellLabelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     left: "850px",
@@ -139,7 +146,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
       return (
         <div id="Parent">
           <br/><br/><br/>
-          <label style={this.labelStyle}>Select an Item to Sell</label>
+          <label style={this.tankLabelStyle}>Select an Item to Sell</label>
           <br/>
           <select className="dropdownMenu" style={this.selectStyle} onChange={e => this.setState({itemID: e.target.value})}>
             {this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
@@ -147,11 +154,11 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
             )}
           </select>
           <br/><br/><br/>
-          <label style={this.labelStyle}>Selling Price</label>
+          <label style={this.sellLabelStyle}>Selling Price</label>
           <br/>
           <input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
           <br/><br/><br/>
-          <label style={this.labelStyle}>Amount to Sell</label>
+          <label style={this.sellLabelStyle}>Amount to Sell</label>
           <br/>
           <input style={this.inputStyle} type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
           <br/><br/>

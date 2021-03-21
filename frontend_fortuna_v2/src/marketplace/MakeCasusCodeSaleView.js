@@ -100,7 +100,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "820px",
+    left: "830px",
     position: "relative"
   }
 
