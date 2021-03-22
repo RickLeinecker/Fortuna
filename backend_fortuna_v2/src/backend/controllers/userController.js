@@ -82,8 +82,9 @@ exports.googleLogin = async (req, response) => {
             let favoriteTanks = [null, null, null];
             let lastLogin = Date.now();
             let isVerified = true;
+            let expirationDate = null;
 
-            let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified});
+            let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified, expirationDate});
 
             // // Create initial tank for user
             let tank = new Tank();
