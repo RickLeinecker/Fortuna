@@ -139,3 +139,11 @@
 .wagerTank label {
     color: #04CCFF;
 }
+
+.background-image-armory {
+    background: url('/armory_image_revised.png');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
