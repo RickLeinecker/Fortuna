@@ -97,8 +97,6 @@ const MainMenu  = () => {
 
 
 	useEffect(() => {
-
-		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
 		getAllUsersTanks(allTanks => {
 			{
@@ -125,7 +123,7 @@ const MainMenu  = () => {
 
     return (
         <>
-            <div id="Parent">
+            <div id="Parent" className='background-image'>
                 <div className="tankSelect">
                     <MainNavbar
                         linkName="/Login"

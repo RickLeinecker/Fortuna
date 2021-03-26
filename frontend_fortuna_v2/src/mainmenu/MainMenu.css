@@ -91,3 +91,11 @@ h1 {
   display: block;
   width: 450px;
 }
+
+.background-image {
+	background: url('/login_background.gif');
+	height: 100vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+  }

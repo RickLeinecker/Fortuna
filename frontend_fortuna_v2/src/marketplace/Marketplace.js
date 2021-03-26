@@ -26,7 +26,6 @@ type State = {|
 class Marketplace extends React.Component<Props, State> {
 
 	componentDidMount(): void {
-		document.body.style.backgroundImage = "url('/login_background.gif')"
 		//getFirstTimeMarketplaceAPICall((res) => {
 		//	console.log("RES: ", res);
 		//	this.setState({run:res});
@@ -184,7 +183,7 @@ class Marketplace extends React.Component<Props, State> {
     if (this.state.marketplaceViewClicked)
     {
       return (
-        <>
+        <div className='background-image'>
           <MainNavbar
             linkName="/Marketplace"
             returnName="Back to MarketPlace"
@@ -193,12 +192,12 @@ class Marketplace extends React.Component<Props, State> {
             resetMpPageView={this.resetPageView}
           />
           {partView}
-        </>
+        </div>
       )
     }
     else {
         return (
-          <div id="Parent">
+          <div id="Parent" className='background-image'>
             <MainNavbar
               linkName="/Login"
               returnName="Logout"

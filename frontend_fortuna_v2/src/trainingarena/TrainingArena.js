@@ -76,7 +76,6 @@ function TrainingArena() {
     getAllUsersTanks(allTanks => {
       setAllTanks(allTanks);
       setSelectedTankOne(getPreferredSelectedTank(allTanks));
-	 document.body.style.backgroundImage = "url('/login_background.gif')"
     })
 
     getBotTanksAPICall(botTanks => {
@@ -158,7 +157,7 @@ function TrainingArena() {
   const preferredArena=getPreferredArena(battleType);
 
   return (
-    <div id="Parent">
+    <div id="Parent" className='background-image'>
       <MainNavbar
         linkName="/Login"
         returnName="Logout"
