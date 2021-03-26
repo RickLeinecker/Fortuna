@@ -341,6 +341,7 @@ exports.reportResults = async (req: Request, res: Response) => {
 			await userOne.save();
 			await userTwo.save();
 			await battle.save();
+
 		}
 		else if (winner === 1) { // userOne victory
 
@@ -413,6 +414,8 @@ exports.reportResults = async (req: Request, res: Response) => {
 
 			battle.eloExchanged = eloExchanged;
 			battle.winner = winner;
+
+			userOne.money = userOne.money + battle.prizeMoney;
 
 			// Save elo updates
 			await battle.save();
@@ -498,11 +501,13 @@ exports.reportResults = async (req: Request, res: Response) => {
 			battle.eloExchanged = eloExchanged;
 			battle.winner = winner;
 
+			userTwo.money = userTwo.money + battle.prizeMoney;
+
 			// Save elo updates
 			await battle.save();
 			await userOne.save();
 			await userTwo.save();
-			
+
 			// Check if the logged in user got their first win.
 			if (bonusAdded > 0 && req.user.id === userTwo.id) {
 				console.log('Battlerecord complete');
