@@ -65,8 +65,8 @@
 
 .replayTable table {
     width: 80%;
-    border: 4px solid black;
-    background-color: #04213F;
+    background-color: #012074;
+    border: 4px solid #1969e5;
 }
 
 .replayTable thead {
@@ -86,8 +86,8 @@
 
 .replayTable h4 {
     text-align: center;
-    border: 4px solid black;
-    background-color: #04213F;
+    background-color: #012074;
+    border: 4px solid #1969e5;
 
 
 }
@@ -105,6 +105,26 @@
     border-right: none;
     border-top: 1px solid #04CCFF;
     border-bottom: 1px solid #04CCFF;
+}
+
+.replayTable #opponent {
+	color: #04CCFF;
+}
+
+.replayTable #result {
+  color: #ff47ff;
+}
+
+.replayTable #prize {
+  color: #ff47ff;
+}
+
+.replayTable #elo {
+  color: #ff47ff;
+}
+
+.replayTable #type {
+  color: #20ffff;
 }
 
 /* Tank Display Styling */

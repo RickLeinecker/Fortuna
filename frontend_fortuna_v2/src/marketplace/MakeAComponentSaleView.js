@@ -24,10 +24,11 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		super();
 		this.state={
 			userId: '',
-			salePrice: 0,
+			salePrice: 1,
 			itemID: '',
-			itemAmount: 0,
+			itemAmount: 1,
 			itemsToSell: [],
+      loading: false
 		}
 	}
 
@@ -37,17 +38,23 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
 	// Gets all of the user's inventory.
 	getUserInventory(): void {
+    this.setState({ loading: true });
 		getUserAPICall(user => {
 			this.setState({
 				itemsToSell: user.inventory,
 				userId: user.userId,
-				itemID: user.inventory.length === 0 ? '' : user.inventory[0].componentName});
+				itemID: user.inventory.length === 0 ? '' : user.inventory[0].componentName,
+        loading: false
+      });
 		});
 	}
 
 	makeASaleOfAComponent = (): void => {
 		// If the user has no components to sell, exit function.
+    this.setState({ loading: true });
+
 		if (this.state.itemID === '') {
+      this.setState({ loading: false })
 			toast.error("No components to sell");
 			return;
 		}
@@ -59,10 +66,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 			this.state.itemAmount,
 			() => {
 				toast.success("Item Placed in Market.");
-				this.setState({salePrice: 0, itemAmount: 0});
+				this.setState({salePrice: 0, itemAmount: 0, loading: false});
 				this.getUserInventory();
 				this.props.onItemSold();
-			}
+			},
+      () => {
+        this.setState({ loading: false })
+      }
 		);
 	}
 	
@@ -76,13 +86,13 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 
   selectStyle = {
     cursor: "pointer",
-    width: "50%",
+    width: "20%",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "500px",
+    left: "730px",
     position: "relative"
   }
 
@@ -98,12 +108,14 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     position: "relative"
   }
 
-  // divStyle = {
-  //   color: "white",
-  //   textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-  // }
+  tankLabelStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    left: "825px",
+    position: "relative"
+  }
 
-  labelStyle = {
+  sellLabelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     left: "850px",
@@ -115,30 +127,50 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
+  spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
 	render(): React.Node {
-		return (
-			<div id="Parent">
-        <br/><br/><br/>
-				<label style={this.labelStyle}>Select an Item to Sell</label>
-        <br/>
-				<select className="dropdownMenu" style={this.selectStyle} onChange={e => this.setState({itemID: e.target.value})}>
-					{this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
-						<option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
-					)}
-				</select>
-				<br/><br/><br/>
-				<label style={this.labelStyle}>Selling Price</label>
-        <br/>
-				<input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} onChange={e => this.setState({salePrice: e.target.value})}></input>
-				<br/><br/><br/>
-				<label style={this.labelStyle}>Amount to Sell</label>
-        <br/>
-				<input style={this.inputStyle} type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
-				<br/><br/>
-				<button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
-				<ToastContainer />
-			</div>
-		);
+
+    if (this.state.loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else {
+      return (
+        <div id="Parent">
+          <br/><br/><br/>
+          <label style={this.tankLabelStyle}>Select an Item to Sell</label>
+          <br/>
+          <select className="dropdownMenu" style={this.selectStyle} onChange={e => this.setState({itemID: e.target.value})}>
+            {this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
+              <option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
+            )}
+          </select>
+          <br/><br/><br/>
+          <label style={this.sellLabelStyle}>Selling Price</label>
+          <br/>
+          <input style={this.inputStyle} type="number" className="inputText" value={this.state.salePrice} min="1" onChange={e => this.setState({salePrice: e.target.value})}></input>
+          <br/><br/><br/>
+          <label style={this.sellLabelStyle}>Amount to Sell</label>
+          <br/>
+          <input style={this.inputStyle} min="1" type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
+          <br/><br/>
+          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
+          <ToastContainer />
+        </div>
+      );
+    }
+
 	}
 }
 
