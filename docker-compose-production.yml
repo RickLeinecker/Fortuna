@@ -10,6 +10,9 @@ services:
       - "443:443"
     networks:
       - mern-app
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
     depends_on: 
       - fortunaserver
   fortunaserver:
