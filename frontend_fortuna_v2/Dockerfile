@@ -1,10 +1,11 @@
 FROM node:12.2.0-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 ENV CHOKIDAR_USEPOLLING="true"
 
-COPY package.json .
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
 RUN npm i --silent
 

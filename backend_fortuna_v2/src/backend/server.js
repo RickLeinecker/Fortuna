@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const app = require('./expressApp');
 
 // Port constant
-const API_PORT = process.env.API_PORT || 3001;
+const API_PORT = process.env.API_PORT || 5000;
 
 const options = {
 	useNewUrlParser: true,

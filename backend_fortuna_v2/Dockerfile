@@ -1,15 +1,14 @@
 FROM node:12.2.0-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-ADD package*.json /app/
+COPY ./package.json ./
+COPY ./package-lock.json ./
 
 RUN npm i --silent
 
-ADD . /app/
+COPY . .
 
-RUN npm run build
-
-EXPOSE 3001
+EXPOSE 5000
 
 CMD ["npm", "run", "devserver"]

@@ -1,30 +1,61 @@
 version: '3'
 
 services:
-  server:
-    build:
-      context: ./backend_fortuna_v2/
-      dockerfile: Dockerfile
-    container_name: fortunabackend
-    ports:
-      - "3001:3001"
-    volumes:
-      - "./backend_fortuna_v2/nodemodules:/src/node_modules"
-      - "./backend_fortuna_v2/src:/app/src"
-  client:
+  react-app:
+    image: react-app
+    build: ./frontend_fortuna_v2/
     stdin_open: true
-    build:
-      context: ./frontend_fortuna_v2/
-      dockerfile: Dockerfile
-    container_name: fortunafrontend
     ports:
-        - "3000:3000"
+      - "3000:3000"
+    networks:
+      - mern-app
     volumes:
-      - "nodemodules:/app/node_modules"
-      - "./frontend_fortuna_v2:/app"
-    depends_on:
-      - server
-volumes:
-  nodemodules:
+      - ./frontend_fortuna_v2/:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on: 
+      - api-server
+    
+
+  api-server:
+    image: api-server
+    build: ./backend_fortuna_v2/
+    ports:
+      - "5000:5000"
+    networks:
+      - mern-app
+    volumes:
+      - ./backend_fortuna_v2/:/usr/src/app
+      - /usr/src/app/node_modules
+
 networks:
-  fortunalocalnetwork:
+  mern-app:
+    driver: bridge
+
+# services:
+#   server:
+#     build:
+#       context: ./backend_fortuna_v2/
+#       dockerfile: Dockerfile
+#     container_name: fortunabackend
+#     ports:
+#       - "3001:3001"
+#     volumes:
+#       - "./backend_fortuna_v2/nodemodules:/src/node_modules"
+#       - "./backend_fortuna_v2/src:/app/src"
+#   client:
+#     stdin_open: true
+#     build:
+#       context: ./frontend_fortuna_v2/
+#       dockerfile: Dockerfile
+#     container_name: fortunafrontend
+#     ports:
+#         - "3000:3000"
+#     volumes:
+#       - "nodemodules:/app/node_modules"
+#       - "./frontend_fortuna_v2:/app"
+#     depends_on:
+#       - server
+# volumes:
+#   nodemodules:
+# networks:
+#   fortunalocalnetwork:

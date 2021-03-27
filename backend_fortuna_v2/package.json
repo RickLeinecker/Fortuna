@@ -31,7 +31,7 @@
     "start": "NODE_ENV=development node --use_strict ./lib/backend/server.js",
     "build": "babel src/ -d lib/",
     "build:watch": "babel src/ -d lib/ -w",
-    "deploy": "react-scripts build",
+    "deploy": "node lib/backend/server.js",
     "cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -40,10 +40,6 @@
     "dev:watch": "npx concurrently \"npm run build:watch\" \"npm run dev:run\"",
     "dev:run": "npx nodemon lib/backend/server.js",
     "devserver": "nodemon -L --exec \"npm run build && node lib/backend/server.js\" -e js --ignore lib/"
-  },
-  "proxy": "http://localhost:3001",
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
