@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./backend_fortuna_v2/
+      dockerfile: Dockerfile.prod
+    container_name: fortunabackend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    networks:
+      - fortunalocalnetwork
+  client:
+    stdin_open: true
+    build:
+      context: ./frontend_fortuna_v2/
+      dockerfile: Dockerfile.prod
+    container_name: fortunafrontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    networks:
+      - fortunalocalnetwork
+volumes:
+  nodemodules:
+networks:
+  fortunalocalnetwork:
+    driver: bridge
