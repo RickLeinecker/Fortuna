@@ -1,0 +1,25 @@
+FROM node:12.2.0-alpine AS builder
+
+WORKDIR /usr/src/app
+
+COPY ./package.json ./
+COPY ./package-lock.json ./
+
+RUN npm i --silent
+
+COPY . .
+
+RUN npm run deploy
+
+### copy into caddy stage
+
+FROM caddy:2.1.1-alpine
+
+ARG CADDYFILE
+COPY ${CADDYFILE} /etc/caddy/Caddyfile
+
+COPY --from=builder /usr/src/app/build/ /srv
+
+EXPOSE 80
+
+EXPOSE 443

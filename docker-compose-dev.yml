@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  react-app:
-    image: react-app
+  fortunaclient:
+    image: fortunaclientdev
     build: ./frontend_fortuna_v2/
     stdin_open: true
     ports:
@@ -13,11 +13,11 @@ services:
       - ./frontend_fortuna_v2/:/usr/src/app
       - /usr/src/app/node_modules
     depends_on: 
-      - api-server
+      - fortunaserver
     
 
-  api-server:
-    image: api-server
+  fortunaserver:
+    image: fortunaserverdev
     build: ./backend_fortuna_v2/
     ports:
       - "5000:5000"

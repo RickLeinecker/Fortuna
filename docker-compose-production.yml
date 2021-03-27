@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  fortunaclient:
+    image: fortunaclientprod:${ENV}
+    restart: unless-stopped
+    env_file: ./frontend_fortuna_v2/config/${ENV}.env
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - mern-app
+    depends_on: 
+      - fortunaserver
+  fortunaserver:
+    image: fortunaserver
+    restart: unless-stopped
+    env_file: ./backend_fortuna_v2/config/${ENV}.env
+    ports:
+      - "5000:5000"
+    networks:
+      - mern-app
+networks:
+  mern-app:
+    driver: bridge
