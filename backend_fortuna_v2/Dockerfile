@@ -9,6 +9,8 @@ RUN npm i --silent
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 5000
 
-CMD ["npm", "run", "devserver"]
+CMD ["npm", "run", "deploy"]

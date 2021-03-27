@@ -26,3 +26,8 @@ services:
 networks:
   mern-app:
     driver: bridge
+volumes:
+  caddy-data:
+    driver: local
+  caddy-config:
+    driver: local

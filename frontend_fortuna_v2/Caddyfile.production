@@ -1,5 +1,7 @@
+{
+  email johnc33594@gmail.com
+}
 fortunacombattestgoogle.com:443 {
-  tls johnc33594@gmail.com
   root * /srv
   route {
     reverse_proxy /api* fortunaserver:5000
