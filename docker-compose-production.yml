@@ -4,7 +4,6 @@ services:
   fortunaclient:
     image: fortunaclientprod:${ENV}
     restart: unless-stopped
-    env_file: ./frontend_fortuna_v2/config/${ENV}.env
     ports:
       - "80:80"
       - "443:443"

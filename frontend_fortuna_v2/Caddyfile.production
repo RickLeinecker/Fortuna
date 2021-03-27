@@ -1,7 +1,9 @@
 {
-  email johnc33594@gmail.com
+  email rick@jsventures.com
+  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
-fortunacombattestgoogle.com:443 {
+
+www.fortunacombat.com:443 {
   root * /srv
   route {
     reverse_proxy /api* fortunaserver:5000
