@@ -4,7 +4,6 @@ import './BattleArena.css';
 import * as React from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
 import Leaderboard from '../globalComponents/Leaderboard.js';
-
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -95,11 +94,7 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		});
 		getReplayListAPICall(() => {});
-
-
-
 	}
-
 
 	onChallengePlayer(player: ?User): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
@@ -142,6 +137,23 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		}
 	}
+
+  divStyle = {
+    color: "white",
+    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+  }
+
+  buttonDivStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
+  style = {
+    position: "relative",
+    left: "50px"
+  }
+
+
 	onWagerUpdate = (): void => {
 		const navbar = this.refs.navbar;
 		navbar.reloadNavbar();
@@ -168,7 +180,7 @@ class BattleArena extends React.Component<Props, State> {
 				</div>
 			</div>
 			<div className="column battletype">
-				<h5>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
+				<h5 style={this.divStyle}>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(this.state.battleType === '1 vs 1') ?
 					<div>
@@ -231,10 +243,11 @@ class BattleArena extends React.Component<Props, State> {
 						</table>
 					</div>
 				}
-				<h5>Current Battle Type: {this.state.battleType}</h5>
+				<h5 style={this.divStyle}>Current Battle Type: {this.state.battleType}</h5>
 				<button
 					className="primarybtn"
 					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
+          style={this.buttonDivStyle}
 				>
 					Change Battle Type
 				</button>

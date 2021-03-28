@@ -19,7 +19,8 @@ function makeASale(
 	itemId: string, 
 	itemType: string, 
 	amountOfSellingItems: number, 
-	onLoad:() => void
+	onLoad:() => void,
+  onErrorLoad: () => void
 ): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/addMarketSale/', {
 		method: 'POST',
@@ -35,6 +36,7 @@ function makeASale(
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
+        onErrorLoad();
 				toast.error(getErrorFromObject(data));
 			}
 			else {
@@ -207,7 +209,7 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 				console.log(data);
 			}
 			else {
-				const currentListings: Array<SaleObject> = [];
+        const currentListings: Array<SaleObject> = [];
 				for (const sale of data) {
 					if(sale.itemType === "component") {
 						currentListings.push(new SaleObject(
@@ -215,9 +217,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							false
+              sale._id,
+							false,
+							sale.itemDesc
 						));
 					}
 					else if(sale.itemType === "tank") {
@@ -226,9 +228,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							false
+              sale._id,
+							false,
+							sale.itemDesc
 						));
 					}
 					else {
@@ -237,9 +239,9 @@ function getUsersCurrentSales(userId:string, onLoad:(currentListings: Array<Sale
 							sale.salePrice,
 							sale.amount,
 							sale.sellerId,
-							sale._id,
-							sale.itemDesc,
-							true
+              sale._id,
+              true,
+							sale.itemDesc
 						));
 					}
 

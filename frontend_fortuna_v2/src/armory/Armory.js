@@ -157,7 +157,7 @@ function Armory() {
 
 	// Function that will save the selectedTank and update the user's inventory.
 	const saveTank: void = () => {
-		if (selectedTank == null)
+		if (selectedTank === null)
 			throw new Error('Tried to save selected tank null!');
 
 		updateTank(selectedTank, () => {

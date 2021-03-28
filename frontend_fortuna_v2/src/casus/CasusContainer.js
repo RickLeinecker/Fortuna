@@ -78,8 +78,8 @@ class CasusContainer extends React.Component<Props, State> {
 		return (
       <>
         <MainNavbar
-          linkName="/Login"
-          returnName="Logout"
+          linkName="/Armory"
+          returnName="To Armory"
           pageName="Armory"
           ref="navbarRef"
           //youtubeLinks={[

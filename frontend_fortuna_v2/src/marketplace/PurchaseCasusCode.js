@@ -14,7 +14,6 @@ type Props = {|
     sellerId: String,
     saleId: String,
     userId: String,
-    setLoading: () => void,
 	onItemBought: () => void,
 |};
 

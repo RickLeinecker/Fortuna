@@ -120,40 +120,6 @@
 	margin-right: 10%;
 }
 
-/* login leaderboard */
-.loginleader{
-	font-family: 'Press Start 2P', cursive;
-	/*color: #007efc;*/
-	padding: 10px;
-	background-color: #012074;
-	border: 4px solid #1969e5;
-	/*border-radius: 8px;*/
-	width: 380px;
-}
-/* Leaderboard table*/
-.loginleader td {
-	border-left: none;
-	border-right: none;
-	padding: 5px 25px 0px 0px;
-}
-
-.loginleader #index {
-	color: #04CCFF;
-}
-
-.loginleader #elo {
-	color: #04CCFF;
-}
-
-.loginleader #name {
-	color: #ff47ff;
-}
-
-.loginleader #title {
-	color: #20ffff;
-}
-
-
 /* age verification input boxes*/
 .input-group input#day {
     width: 3em;

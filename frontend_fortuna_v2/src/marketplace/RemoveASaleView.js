@@ -1,5 +1,5 @@
 //@flow strict
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { toTitleCase } from '../globalComponents/Utility.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
@@ -8,114 +8,146 @@ import { getUsersCurrentSales, removeASale } from '../globalComponents/apiCalls/
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
 import Pagination from './Pagination.js';
 import { getComponentType, verifyComponent } from '../globalComponents/GetInventoryInfo.js';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Spinner, Card, Container, Row, Col, Button } from 'react-bootstrap';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 
-type Props = {|
-	sellerType: SellingType,
-	|}; 
+function RemoveASaleView() {
 
-type State = {|
-	userId: string,
-	itemsForSale: Array<SaleObject>
-|};
+  const [userId, setUserId] = useState('');
+  const [itemsForSale, setItemsForSale] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(3);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [loading, setLoading] = useState(false);
 
-class RemoveASaleView extends React.Component<Props, State> {
+  useEffect(() => {
+    setLoading(true);
+    getUserAPICall(user => {
+      setUserId(user.userId);
+    })
+  }, []);
 
-	constructor() {
-		super();
-		this.state={
-			userId: '',
-			itemsForSale: [],
-      currentPage: 1,
-      postsPerPage: 3,
-      totalPosts: 0
-		}
-	}
+  useEffect(() => {
+    if (userId)
+    {
+      _getUsersCurrentSales();
+    }
+  }, [userId]);
 
-	componentDidMount(): void {
-		//This gets the user's id and then gets the users current sales
-		getUserAPICall(user => {
-			this.setState({userId: user.userId}, this.getUsersCurrentSales);
-		});
-	}
-
-	//This gets the users current sales
-	getUsersCurrentSales() : void {
-		getUsersCurrentSales(this.state.userId, data => {
-			this.setState({itemsForSale: data});
-		});
-	};
-	
-	//This is the function to remove the tank sale from the marketplace
-	removeSale (saleId: string): void {
-		removeASale(saleId, () => {
-			this.getUsersCurrentSales();
-		});
-	};
-
-  divStyle = {
-    textAlign: "center",
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  const _getUsersCurrentSales = () => {
+    setLoading(true);
+    getUsersCurrentSales(userId, data => {
+      setItemsForSale(data);
+      setLoading(false);
+    })
   }
 
-	render(): React.Node {
+  const removeSale = (saleId) => {
+    removeASale(saleId, () => {
+      _getUsersCurrentSales();
+    })
+  }
 
-    const removeSales = this.state.itemsForSale.filter(sale => sale).map((sale, index) =>
-      <div className="card mb-2" key={index}>
-        <div className="card-body">
-          {this.props.sellerType === 'casusCode' ? <h5 className="card-title">{toTitleCase(sale.name)}'s Casus Code</h5> : <h5 className="card-title">{toTitleCase(sale.name)}</h5> }
-          <h5 className="card-title">Price: ${sale.price}</h5>
-          <h5 className="card-title">Quantity: {sale.amount}</h5>
-          <button className="btn btn-danger mt-2" onClick={() => this.removeSale(sale.saleId)}>Remove</button>
-        </div>
-      </div>
-    );
+  const divStyle = {
+    textAlign: "center",
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
+  }
 
-		// Get current posts
-		const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
-		const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
-		const currentRemovePosts = removeSales.slice(indexOfFirstPost, indexOfLastPost);
+  const style = {
+    width: "fit-content",
+    backgroundColor: "#012074",
+    border: "4px solid #1969e5",
+    padding: "10px",
+  }
 
-    // Change page
-		const paginate = (pageNumber) => this.setState({currentPage: pageNumber});
+  const colStyle = {
+    padding: "5px",
+    margin: "5px"
+  }
 
+  const spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
+  const isCasus = (isCasusSale, saleName) => {
+    return isCasusSale ? 
+      `${toTitleCase(saleName)}'s Casus Code` :
+      `${toTitleCase(saleName)}`
+  }
+
+
+
+  const removeSaleItem = (index, saleName, price, amount, saleId, isCasusSale) => {
     return (
-      <Container fluid>
-        <br/><br/>
-        <h1 style={this.divStyle}>Available Sales to Remove</h1>
-        <br/><br/>
-        {
-          this.state.itemsForSale.length === 0 ?
-            <div>
-              <h5>No Active Sales</h5>
-            </div> :
-            <Row>
-              <Col>
-                {removeSales.length === 0 ? <h5>No Active Sales</h5> : currentRemovePosts}
-                <br/>
-                <Pagination className="pagination" postsPerPage={this.state.postsPerPage} totalPosts={removeSales.length} paginate={paginate} />  
-              </Col>
-            </Row>
-        }
-      </Container>
+      <Col md="auto" style={colStyle} key={index}>
+        <Card style={style}>
+          <Card.Body>
+            <Card.Title>{isCasus(isCasusSale, saleName)}</Card.Title>
+            <Card.Title>Price: ${price}</Card.Title>
+            <Card.Title>Quantity: {amount}</Card.Title>
+            <Button variant="primary" onClick={() => removeSale(saleId)}>Remove</Button>
+          </Card.Body>
+        </Card>
+      </Col>
     )
+  }
 
-		return (
-			<div>
-				{this.state.itemsForSale.length === 0 ?
-					<div>
-						<h5>No active sales</h5>
-					</div> :
-					<div>
-            
-					</div>
-				}
-				<ToastContainer />
-			</div>
-		);
-	}
+  const salesRemoved = itemsForSale.filter(sale => sale).map((sale, index) => {
+    return removeSaleItem(index, sale.name, sale.price, sale.amount, sale.saleId, sale.isCasusSale)
+  })
+
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentRemovePosts = salesRemoved.slice(indexOfFirstPost, indexOfLastPost);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
+    if (loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else if (salesRemoved.length === 0)
+    {
+      return (
+        <>
+          <br/><br/>
+          <h1 style={divStyle}>You have no sales on the market!</h1>
+        </>
+      )
+    }
+    else {
+      return (
+        <>
+          <br/><br/>
+          <h1 style={divStyle}>Available Sales to Remove</h1>
+          <br/><br/>
+          <Row>
+            <Col/>
+              {currentRemovePosts}
+            <Col/>
+          </Row>
+          <br/><br/><br/><br/>
+          <div className="text-center">
+            <Pagination 
+              className="pagination" 
+              postsPerPage={postsPerPage}
+              totalPosts={salesRemoved.length} 
+              paginate={paginate} /> 
+          </div>
+        </>
+      )
+    }
+
 }
 
-export default RemoveASaleView;
+export default RemoveASaleView

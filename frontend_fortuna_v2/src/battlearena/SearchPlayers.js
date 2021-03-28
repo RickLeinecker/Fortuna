@@ -54,6 +54,11 @@ class SearchPlayers extends React.Component<Props, State> {
 		this.setState({queryString: e.currentTarget.value});
 	}
 
+  divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+  }
+
 	render(): React.Node {
 		const playersToRender = (this.props.battleType === '1 vs 1' ? 
 			this.state.player1v1List.filter(user => user.username.includes(this.state.queryString)) :
@@ -61,7 +66,7 @@ class SearchPlayers extends React.Component<Props, State> {
 		);
 		return (
 			<div className="searchPlayers">
-				<h6>Click the Player to Challenge</h6>
+				<h6 style={this.divStyle}>Click the Player to Challenge</h6>
 				<input 
 					type="text" 
 					className="inputText" 
@@ -69,7 +74,7 @@ class SearchPlayers extends React.Component<Props, State> {
 					onKeyPress={this.handleKeyPress}
 				/>
 				<div className="searchPlayersList">
-					<h6>Press Enter to Search</h6>
+					<h6 style={this.divStyle}>Press Enter to Search</h6>
 					<ul>
 						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>

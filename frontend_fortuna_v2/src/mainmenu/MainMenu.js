@@ -8,6 +8,7 @@ import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import Replays from "../battlearena/Replays";
 import LeaderboardMainMenu from "./LeaderboardMainMenu";
+import Leaderboard from '../globalComponents/Leaderboard.js';
 import SelectTank from "../globalComponents/SelectTank";
 import User from '../globalComponents/typesAndClasses/User.js';
 import TankDisplay from "../tanks/TankDisplay";
@@ -86,9 +87,7 @@ const MainMenu  = () => {
             target: ".play",
             content: "Go ahead an get in a game to get started!"
         }
-
       ])
-
 
 
     let left = useRef(null);
@@ -123,129 +122,129 @@ const MainMenu  = () => {
 
 	}, [])
 
-    return (
-        <>
-            <div id="Parent">
-                <div className="tankSelect">
-                    <MainNavbar
-                        linkName="/Login"
-                        returnName="Logout"
-                        pageName="Main Menu"
+  const style = {
+    position: "relative",
+    left: "50px"
+  }
+
+	return (
+    <>
+      <div id="Parent">
+        <div className="tankSelect">
+          <MainNavbar
+            linkName="/Login"
+            returnName="Logout"
+            pageName="Main Menu"
+          />
+        </div>
+        <h1 className="menuheader">Where to Commander?</h1>
+        <div className="column menuleft battleRecord" ref={el => left = el}>
+          <Replays/>
+          <br/>
+          <Link to={verifyLink("/TrainingArena")}>
+            <button className="marketBtn train">Training</button>
+          </Link>
+        </div>
+        <div className="column menumiddle" ref={el => mid = el}>
+          {(battleType === '1 vs 1') ?
+            <div>
+              <SelectTank
+                selectedTank={selectedTankOne}
+                allTanks={allTanks}
+                changeSelectedTank={(tank) => {setSelectedTankOne(tank)}}
+                propogateChangesToCasus={true}
+                allowRemoveTank={false}
+              />
+              {selectedTankOne == null ? <div className="emptyTankBig"></div> :
+                <TankDisplay tankToDisplay={selectedTankOne} smallTank={false}/>}
+            </div> :
+            <div className="threeTankDisplay">
+              <table>
+                <thead>
+                <tr>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankTwo}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankThree)}
+                      changeSelectedTank={(tank) => selectedTankTwo(tank)}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
                     />
-                </div>
-                <h1 className="menuheader">Where to Commander?</h1>
-                <div className="column menuleft battleRecord" ref={el => left = el}>
-                    <Replays/>
-                    <br/>
-                    <div className="training">
-                    <Link to={verifyLink("/TrainingArena")}>
-                        <button className="mainMenuBtn train">Training</button>
-                    </Link>
-                    </div>
-                </div>
-                <div className="column menumiddle" ref={el => mid = el}>
-                    {(battleType === '1 vs 1') ?
-                        <div className="select">
-                            <SelectTank
-                                selectedTank={selectedTankOne}
-                                allTanks={allTanks}
-                                changeSelectedTank={(tank) => {setSelectedTankOne(tank)}}
-                                propogateChangesToCasus={true}
-                                allowRemoveTank={false}
-                            />
-                            {selectedTankOne == null ? <div className="emptyTankBig"></div> :
-                                <TankDisplay tankToDisplay={selectedTankOne} smallTank={false}/>}
-                        </div> :
-                        <div className="threeTankDisplay">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <SelectTank
-                                            selectedTank={selectedTankTwo}
-                                            allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankThree)}
-                                            changeSelectedTank={(tank) => selectedTankTwo(tank)}
-                                            propogateChangesToCasus={false}
-                                            allowRemoveTank={true}
-                                        />
-                                    </th>
-                                    <th>
-                                        <SelectTank
-                                            selectedTank={selectedTankOne}
-                                            allTanks={allTanks.filter(tank => tank !== selectedTankThree && tank !== selectedTankTwo)}
-                                            changeSelectedTank={(tank) => {setSelectedTankOne(tank)}}
-                                            propogateChangesToCasus={false}
-                                            allowRemoveTank={true}
-                                        />
-                                    </th>
-                                    <th>
-                                        <SelectTank
-                                            selectedTank={selectedTankThree}
-                                            allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankTwo)}
-                                            changeSelectedTank={(tank) => {setSelectedTankThree(tank)}}
-                                            propogateChangesToCasus={false}
-                                            allowRemoveTank={true}
-                                        />
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        {selectedTankTwo == null ? <div className="emptyTankSmall"></div> :
-                                            <TankDisplay tankToDisplay={selectedTankTwo} smallTank={true}/>}
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankOne}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankThree && tank !== selectedTankTwo)}
+                      changeSelectedTank={(tank) => {setSelectedTankOne(tank)}}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                  <th>
+                    <SelectTank
+                      selectedTank={selectedTankThree}
+                      allTanks={allTanks.filter(tank => tank !== selectedTankOne && tank !== selectedTankTwo)}
+                      changeSelectedTank={(tank) => {setSelectedTankThree(tank)}}
+                      propogateChangesToCasus={false}
+                      allowRemoveTank={true}
+                    />
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>
+                    {selectedTankTwo == null ? <div className="emptyTankSmall"></div> :
+                      <TankDisplay tankToDisplay={selectedTankTwo} smallTank={true}/>}
 
-                                    </td>
-                                    <td>
-                                        {selectedTankOne == null ? <div className="emptyTankSmall"></div> :
-                                            <TankDisplay tankToDisplay={selectedTankOne} smallTank={true}/>}
-                                    </td>
-                                    <td>
-                                        {selectedTankThree == null ? <div className="emptyTankSmall"></div> :
-                                            <TankDisplay tankToDisplay={selectedTankThree}
-                                                         smallTank={true}/>}
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    <br/>
-                    <Link to={verifyLink("/Casus")}>
-                        <button className="mainMenuBtn editTank">Edit Tank Code</button>
-                    </Link>
-                    <div/>
-                    <br/>
-                    <Link to={verifyLink("/BattleArena")}>
-                        <button className="mainMenuBtn play">Play</button>
-                    </Link>
-                </div>
-                <div className="column menuright" ref={el => right = el}>
-                    <div>
-                        <LeaderboardMainMenu className="leaderboardTut"/>
-                    </div>
-                    <br/>
-                    <div className="credits">
-                    <Link to={verifyLink("/Credits")}>
-                        <button className="mainMenuBtn creditsButton">Credits</button>
-                    </Link>
-                    </div>
-                </div>
+                  </td>
+                  <td>
+                    {selectedTankOne == null ? <div className="emptyTankSmall"></div> :
+                      <TankDisplay tankToDisplay={selectedTankOne} smallTank={true}/>}
+                  </td>
+                  <td>
+                    {selectedTankThree == null ? <div className="emptyTankSmall"></div> :
+                      <TankDisplay tankToDisplay={selectedTankThree}
+                            smallTank={true}/>}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
             </div>
-            <JoyRide
-                steps={tourSteps}
-                run={run}
-                continuous={true}
-                styles={{
-                    options: {
-                        zIndex: 1000,
-                        spotlightShadow: 'blue'
-                    }
-                }}
-            />
-        </>
+          }
+          <br/>
+          <Link to={verifyLink("/Casus")}>
+            <button className="marketBtn editTank">Edit Tank Code</button>
+          </Link>
+          <div className="divider" />
+          <Link to={verifyLink("/BattleArena")}>
+            <button className="marketBtn play">Play</button>
+          </Link>
+        </div>
+        <div className="column menuright" ref={el => right = el}>
+          <div className= "loginleader" style={style}>
+						<Leaderboard />
+					</div>
+          <br/>
+          <Link to={verifyLink("/Credits")}>
+            <button className="marketBtn creditsButton">Credits</button>
+          </Link>
+        </div>
+      </div>
+      <JoyRide 
+          steps={tourSteps}
+          run={run}
+          continuous={true} 
+          styles={{
+            options: {
+              zIndex: 1000,
+              spotlightShadow: 'blue'
+            }
+          }}
+      />
+    </>
 
-    )
+	)
 }
 
 

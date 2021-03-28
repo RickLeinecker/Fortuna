@@ -26,17 +26,19 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 		super();
 		this.state = {
 			userId: '',
-			salePrice: 0,
+			salePrice: 1,
 			tankBeingSoldId: '',
 			itemAmount: 0,
 			tanksToSell: [],
 			favTankId: '',
-			favTankTeamIds: ['', '', '']
+			favTankTeamIds: ['', '', ''],
+      loading: false
 		}
 	}
 
 	// Once mounted, get the userId, favorite tank id, and favorite tank team ids.
 	componentDidMount(): void {
+    this.setState({ loading: true })
 		getUserAPICall(user => {
 			this.setState({userId: user.userId});
 			this.getAllUsersTanksForSell();
@@ -68,12 +70,13 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 					allTanks.splice(index, 1);
 				}
 
-				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCodeId});
+				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCodeId, loading: false});
 		});
 	};
 
 	//This will make a sale for a tank's casus code
 	makeASaleOfCasusCode = (): void => {
+    this.setState({ loading: true })
 		makeASale(
 			this.state.userId,
 			this.state.salePrice,
@@ -83,21 +86,24 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 			() => {
 				toast.success("Casus Code Placed in Market.");
 				this.getAllUsersTanksForSell();
-				this.setState({salePrice: 0});
+				this.setState({salePrice: 0, loading: false});
 				this.props.onItemSold();
-			}
+			},
+      () => {
+        this.setState({ loading: false })
+      }
 		);
 	}
 
   selectStyle = {
     cursor: "pointer",
-    width: "50%",
+    width: "20%",
     padding: "7px 7px 7px 7px",
     borderRadius: "2px",
     borderColor: "#04CCFF",
     backgroundColor: "#04CCFF",
     color: "#000921",
-    left: "500px",
+    left: "745px",
     position: "relative"
   }
 
@@ -113,7 +119,14 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
     position: "relative"
   }
 
-  labelStyle = {
+  tankLabelStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    left: "800px",
+    position: "relative"
+  }
+
+  sellLabelStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     left: "850px",
@@ -125,35 +138,56 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
+  spinnerStyle = {
+    opacity: "0.5",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto"
+  }
+
 	render(): React.Node  {
-		return (
-			<div id="Parent">
-        <br/><br/><br/>
-				<label style={this.labelStyle}>Select a tank's casus code to Sell</label>
-				<select
-					className="dropdownMenu"
-					onChange={e => this.setState({tankBeingSoldId: e.target.value})}
-          style={this.selectStyle}
-				>
-					{this.state.tanksToSell.map(({ tankName, _id }, index) =>
-						<option key={index}  value={_id}>{tankName}</option>
-					)}
-				</select>
-				<br/><br/>
-				<label style={this.labelStyle}>Selling Price</label>
-        <br/>
-				<input
-					type="number"
-					value={this.state.salePrice}
-					className="inputText"
-					onChange={e => this.setState({salePrice: e.target.value})}
-          style={this.inputStyle}
-				></input>
-				<br/><br/>
-				<button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
-				<ToastContainer />
-			</div>
-		);
+
+    if (this.state.loading)
+    {
+      return (
+        <>
+          <br/><br/><br/><br/>
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+        </>
+      )
+    }
+    else {
+      return (
+        <div id="Parent">
+          <br/><br/><br/>
+          <label style={this.tankLabelStyle}>Select a tank's casus code to Sell</label>
+          <br/><br/>
+          <select
+            className="dropdownMenu"
+            onChange={e => this.setState({tankBeingSoldId: e.target.value})}
+            style={this.selectStyle}
+          >
+            {this.state.tanksToSell.map(({ tankName, _id }, index) =>
+              <option key={index}  value={_id}>{tankName}</option>
+            )}
+          </select>
+          <br/><br/><br/>
+          <label style={this.sellLabelStyle}>Selling Price</label>
+          <br/><br/>
+          <input
+            type="number"
+            value={this.state.salePrice}
+            className="inputText"
+            min="1"
+            onChange={e => this.setState({salePrice: e.target.value})}
+            style={this.inputStyle}
+          ></input>
+          <br/><br/><br/><br/>
+          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
+          <ToastContainer />
+        </div>
+      );
+    }
 	}
 }
 
