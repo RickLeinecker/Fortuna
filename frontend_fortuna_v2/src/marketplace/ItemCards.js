@@ -29,6 +29,7 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
         <Card style={style} key={index}>
           <Card.Header>{isMaster(sellerId)}</Card.Header>
           <Card.Body>
+            <Card.Title> {saleName} </Card.Title>
             <Card.Title>Price: ${price} Quantity: {amount}</Card.Title>
             <Card.Text>
               {description}
