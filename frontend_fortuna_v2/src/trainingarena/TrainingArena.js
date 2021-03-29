@@ -53,7 +53,7 @@ function TrainingArena() {
   const [battleType, setBattleType] = useState(getPreferredBattleType());
 
   // for react joyride
-  const [run, setRun] = useState(true);
+  const [run, setRun] = useState(false);
   const [tourSteps, setTourSteps] = useState([
     {
       target: ".leftTank",

@@ -15,10 +15,13 @@ import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirs
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 import { TweenMax, Power3, TweenLite } from 'gsap'
+import getFirstTimeTrainingAPICall from "../globalComponents/apiCalls/getFirstTimeTrainingAPICall";
+import setFirstTimeTrainingAPICall from "../globalComponents/apiCalls/setFirstTimeTrainingAPICall";
 
 function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
+  const [run, setRun] = useState(false);
   const [tourSteps, setTourSteps] = useState([
 
         {
@@ -47,7 +50,7 @@ function Marketplace() {
         },
         {
             target: ".treads",
-            content: "Treads can add armor or speed to help out a bulky chassis move faster or a speedy chassis get additional armor "
+            content: "Treads can add armor or speed to help out a bulky chassis move faster or a speedy chassis get additional armor"
         },
         {
             target: ".items",
@@ -71,11 +74,11 @@ function Marketplace() {
         },
         {
             target: ".selltank",
-            content: "Sell you any tanks you own with their currently attached equipment and Casus code"
+            content: "Sell any tanks you own with their currently attached equipment and Casus code"
         },
         {
             target: ".remove",
-            content: "And click here to remove any sale you have up on the marketplace"
+            content: "Remove any sale you have up on the marketplace"
         },
 
   ])
@@ -86,7 +89,12 @@ function Marketplace() {
   useEffect(() => {
     verifyLogin();
     document.body.style.backgroundImage = "url('/login_background.gif')"
+      getFirstTimeMarketplaceAPICall((res) => {
+          console.log("RES: ", res);
+          setRun(res);
+      })
 
+      setFirstTimeMarketplaceAPICall();
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
@@ -220,6 +228,17 @@ function Marketplace() {
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
             </Row>
           </Container>
+            <JoyRide
+                steps={tourSteps}
+                run={run}
+                continuous={true}
+                styles={{
+                    options: {
+                        zIndex: 1000,
+                        spotlightShadow: 'blue'
+                    }
+                }}
+            />
         </div>
       );
     }

@@ -73,13 +73,13 @@ class BattleArena extends React.Component<Props, State> {
 					content: "Quickly find a match with someone wagered tank in your ELO rank"
 				}
 			],
-			run: true
+			run: false
 		};
 		getReplayListAPICall(() => {});
-		//getFirstTimePlayAPICall((res) => {
-		//	console.log("RES: ", res);
-		//	this.state.run = res;
-		//})
+		getFirstTimePlayAPICall((res) => {
+			console.log("RES: ", res);
+			this.state.run = res;
+		})
 
 		setFirstTimePlayAPICall();
 	}

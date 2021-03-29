@@ -11,6 +11,8 @@ services:
     volumes:
       - "./backend_fortuna_v2/nodemodules:/src/node_modules"
       - "./backend_fortuna_v2/src:/app/src"
+    networks:
+      - fortunalocalnetwork
   client:
     stdin_open: true
     build:
@@ -24,6 +26,8 @@ services:
       - "./frontend_fortuna_v2:/app"
     depends_on:
       - server
+    networks:
+      - fortunalocalnetwork
 volumes:
   nodemodules:
 networks:

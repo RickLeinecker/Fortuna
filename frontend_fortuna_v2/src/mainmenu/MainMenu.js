@@ -48,7 +48,7 @@ const MainMenu  = () => {
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
     const [battleType, setBattleType] = useState('1 vs 1')
-    const [run, setRun] = useState(true);
+    const [run, setRun] = useState(false);
     const [tourSteps, setTourSteps] = useState([
         {
           target: ".menumiddle",

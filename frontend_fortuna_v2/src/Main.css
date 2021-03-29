@@ -22,9 +22,13 @@ body {
   /* background-repeat:round; */
   /* box-shadow: 0 0 8px 8px #04CCFF inset; */
 }
- h6,h1 {
+ h6,h1,h2,h3,h4 {
   font-family: 'Press Start 2P', cursive;
   color: white;
+ }
+ description {
+	 background-color: #012074;
+	 border: 4px solid #1969e5;
  }
 
 /* login leaderboard */

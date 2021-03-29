@@ -1,7 +1,7 @@
 //@flow strict
 import * as React from 'react';
 import { getComponentType, verifyComponent } from '../globalComponents/GetInventoryInfo.js';
-import type { SellingType } from '../globalComponents/typesAndClasses/SellingType.js';
+import type{ SellingType } from '../globalComponents/typesAndClasses/SellingType.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -26,6 +26,7 @@ import CasusCards from './CasusCards.js';
 
 type Props = {|
 	sellerType: SellingType,
+	sellerDesc: '',
 	onItemBought: () => void,
 |};
 
@@ -54,12 +55,12 @@ class ListingsView extends React.Component<Props, State> {
 			totalPosts: 0,
 			userTanks: [],
 		}
-
-		this.getSales = this.getSales.bind(this);
+	this.getSales = this.getSales.bind(this);
     this.buyItem = this.buyItem.bind(this);
     this.findCasus = this.findCasus.bind(this);
     this.findTank = this.findTank.bind(this);
     this.isMaster = this.isMaster.bind(this);
+    this.getSalesTypeDesc = this.getSalesTypeDesc.bind(this);
     this.getSalesBySellerType = this.getSalesBySellerType.bind(this);
 	}
 
@@ -147,6 +148,8 @@ class ListingsView extends React.Component<Props, State> {
 			this.props.onItemBought();
 			this.getSales();
       this.setState({ loading: false })
+		},() =>{
+			this.setState({loading:false})
 		});
 	}
 
@@ -212,6 +215,8 @@ class ListingsView extends React.Component<Props, State> {
     left: "60px"
   }
 
+	sellerDesc: "";
+
   getSalesBySellerType() {
 
     const {sellerType} = this.props;
@@ -270,7 +275,63 @@ class ListingsView extends React.Component<Props, State> {
       )
     }
   }
-
+  getSalesTypeDesc(salesType){
+	  switch(salesType){
+		  case 'weapon' :
+			  this.sellerDesc = 'Here you can buy different weapons, each with their own advantages and disadvantages versus enemy tanks'
+			  break;
+		  case 'scanner' :
+			  this.sellerDesc = 'Scanners help you detect enemy tanks. Their range is dependent on what tier you purchase, so save up to get a easy advantage!'
+			  break;
+		  case 'scannerAddon' :
+			  this.sellerDesc = 'These are enhancements for your scanner that can be used to scan for traps or prevent your scanner from being jammed'
+			  break;
+		  case 'chassis' :
+			  this.sellerDesc = 'Chassis determine how much armor and speed your tanks have, so try out different chassis for different play styles!'
+			  break;
+		  case 'jammer' :
+			  this.sellerDesc = 'Jammers function similar to scanners, but counter enemy scanners instead of revealing enemy tanks'
+			  break;
+		  case 'treads' :
+			  this.sellerDesc = 'Treads can add armor or speed to help out a bulky chassis move faster or a speedy chassis get additional armor'
+			  break;
+		  case 'item' :
+			  this.sellerDesc = 'Items give some extra versatility and functionality in battle such as speed boosting heal, mines, etc...'
+			  break;
+		  case 'casusCode' :
+			  this.sellerDesc = 'Buy another players Casus code and modify it as your own! Be sure to check the code to make sure you have the necessary equipment to make the code work'
+			  break;
+		  case 'tank' :
+			  this.sellerDesc = 'Have a lot of money but struggling with battles? Purchase another players tank that comes with their coded casus code!'
+			  break;
+		  case 'casusBlock' :
+			  this.sellerDesc = 'Chassis determine how much armor and speed your tanks have, so try out different chassis for different play styles!'
+			  break;
+		  case 'makeAComponentSale' :
+			  this.sellerDesc = 'Sell any component on the marketplace for other players to purchase'
+			  break;
+		  case 'makeCasusCodeSale' :
+			  this.sellerDesc = 'Sell your own Casus code to make some cash just for programming! Just like real life!'
+			  break;
+		  case 'makeATankSale' :
+			  this.sellerDesc = 'Sell you any tanks you own with their currently attached equipment and Casus code'
+			  break;
+		  case 'removeASale' :
+			  this.sellerDesc = 'And click here to remove any sale you have up on the marketplace'
+			  break;
+		  default :
+			  this.sellerDesc = ''
+			  break;
+	  }
+	  return this.sellerDesc
+  }
+	style1 = {
+		width: "fit-content",
+		backgroundColor: "#012074",
+		border: "4px solid #1969e5",
+		padding: "10px",
+		textAlign: "center"
+	}
   spinnerStyle = {
     opacity: "0.5",
     display: "block",
@@ -302,6 +363,10 @@ class ListingsView extends React.Component<Props, State> {
         <Container fluid>
           <br/><br/>
           <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
+			<br/>
+			<div className="description">
+			<h3 style={this.style1}>{this.getSalesTypeDesc(this.props.sellerType)}</h3>
+			</div>
           <br/><br/><br/><br/>
           {this.state.itemsForSale.length === 0 ? <h5>No sales to load</h5> : this.getSalesBySellerType()}
           <ToastContainer />

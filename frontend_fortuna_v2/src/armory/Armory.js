@@ -57,7 +57,7 @@ function Armory() {
 	const [componentList, setComponentList] = useState([]);
 	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
 	const [points, setPoints] = useState(0);
-	const [run, setRun] = useState(true);
+	const [run, setRun] = useState(false);
 	let SetWagerPopupRef = useRef(null);
 	let navbarRef = useRef(null);
 	const [tourSteps, setTourSteps] = useState([
