@@ -25,62 +25,13 @@ function Marketplace() {
   const [tourSteps, setTourSteps] = useState([
 
         {
-            target: ".title",
-            content: "Welcome to the Marketplace!"
+            target: ".buy",
+            content: "Welcome to the Marketplace! Use this section to buy components, items, code and tanks to use in the battlefield!"
         },
         {
-            target: ".weapons",
-            content: "Here you can buy different weapons, each with their own advantages and disadvantages versus enemy tanks"
-        },
-        {
-            target: ".scanners",
-            content: "Scanners help you detect enemy tanks. Their range is dependent on what tier you purchase, so save up to get a easy advantage!"
-        },
-        {
-            target: ".scanneraddons",
-            content: "These are enhancements for your scanner that can be used to scan for traps or prevent your scanner from being jammed"
-        },
-        {
-            target: ".chassis",
-            content: "Chassis determine how much armor and speed your tanks have, so try out different chassis for different play styles!"
-        },
-        {
-            target: ".jammers",
-            content: "Jammers function similar to scanners, but counter enemy scanners instead of revealing enemy tanks"
-        },
-        {
-            target: ".treads",
-            content: "Treads can add armor or speed to help out a bulky chassis move faster or a speedy chassis get additional armor"
-        },
-        {
-            target: ".items",
-            content: "Items give some extra versatility and functionality in battle such as speed boosting heal, mines, etc..."
-        },
-        {
-            target: ".casus",
-            content: "Buy another players Casus code and modify it as your own! Be sure to check the code to make sure you have the necessary equipment to make the code work"
-        },
-        {
-            target: ".tanks",
-            content: "Have a lot of money but struggling with battles? Purchase another players tank that comes with their coded casus code!"
-        },
-        {
-            target: ".sellcomponent",
-            content: "Sell any component on the marketplace for other players to purchase"
-        },
-        {
-            target: ".sellcasus",
-            content: "Sell your own Casus code to make some cash just for programming! Just like real life!"
-        },
-        {
-            target: ".selltank",
-            content: "Sell any tanks you own with their currently attached equipment and Casus code"
-        },
-        {
-            target: ".remove",
-            content: "Remove any sale you have up on the marketplace"
-        },
-
+            target: ".sell",
+            content: "Sell anything you own or create to make some extra cash"
+        }
   ])
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
