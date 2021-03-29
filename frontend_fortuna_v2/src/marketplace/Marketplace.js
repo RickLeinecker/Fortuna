@@ -101,6 +101,7 @@ function Marketplace() {
     return (
       <>
         <MainNavbar
+          className='background-image'
           linkName="/Marketplace"
           returnName="Back to MarketPlace"
           pageName="Marketplace"
@@ -113,7 +114,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent">
+        <div id="Parent" className='background-image'>
           <MainNavbar
             linkName="/Login"
             returnName="Logout"

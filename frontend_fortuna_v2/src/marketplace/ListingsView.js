@@ -164,6 +164,9 @@ class ListingsView extends React.Component<Props, State> {
 		if(title === 'scannerAddon') {
 			formattedTitle = "Scanner Add-Ons";
 		}
+		if (title === 'casusCode') {
+			formattedTitle = 'Casus Codes';
+		}
 		return formattedTitle;
 	}
 
