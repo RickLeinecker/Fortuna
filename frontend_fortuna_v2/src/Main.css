@@ -18,7 +18,7 @@ body {
 	color: #04CCFF;
   height: 100%;
   width: 100%;
-  background-image: url('/landing_gif.gif');
+  background-image: url('/login_background.gif');
   /* background-repeat:round; */
   /* box-shadow: 0 0 8px 8px #04CCFF inset; */
 }
