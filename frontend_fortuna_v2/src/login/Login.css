@@ -139,5 +139,12 @@ body {
 	color: #04CCFF;
   height: 100%;
   width: 100%;
-  background-image: url('/login_background.gif');
 }
+
+.background-image {
+    background: url('/login_background.gif');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

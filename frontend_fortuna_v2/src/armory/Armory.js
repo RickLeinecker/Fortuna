@@ -61,7 +61,6 @@ function Armory() {
 
 	useEffect(() => {
 		verifyLogin();
-		document.body.style.backgroundImage = "url('/armory_image_revised.png')"
 		// Functions to get all user tanks and user inventory.
 		getTanks();
 		getUserInventory();
@@ -313,7 +312,7 @@ function Armory() {
   }
 	
 	return (
-		<div id="Parent">
+		<div id="Parent" className='background-image-armory'>
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
@@ -429,7 +428,7 @@ function Armory() {
 			</div>
 			<div ref={el => armright = el}>
 				{selectedTank==null?<div></div>:
-					<div className="column armoryright" style={{left: "100px", position: "relative"}}>
+					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Points Used</h5>
 						<label className="font" style={divStyle}>Chassis: </label>
 						<button

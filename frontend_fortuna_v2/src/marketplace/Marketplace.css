@@ -75,6 +75,7 @@ ul > li {
 	text-align: center;
 	margin: center;
 }
+
 /* 
 .card-name {
 	font-family: 'Press Start 2P', cursive;
@@ -90,3 +91,11 @@ ul > li {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 14px;
 } */
+
+.background-image {
+    background: url('/login_background.gif');
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

@@ -22,7 +22,6 @@ class Login extends React.Component<{||}> {
   }
 
   componentDidMount() {
-    document.body.style.backgroundImage = "url('/login_background.gif')"
     document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
   }
 
@@ -32,7 +31,7 @@ class Login extends React.Component<{||}> {
 
 
 		return (
-			<div>
+			<div className='background-image'>
 				<div className="column loginleft align-middle">
 					<div className= "loginleader">
 						<Leaderboard />
