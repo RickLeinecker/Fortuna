@@ -72,21 +72,21 @@ function Armory() {
 	}, [])
 
 	useEffect(() => {
-			// Handles initializing points when the page is first loaded or when a new tank is selected.
-		const initPoints: void = () => {
-			if (selectedTank == null)
-				return;
+	// Handles initializing points when the page is first loaded or when a new tank is selected.
+		//const initPoints: void = () => {  //Removed bc it stopped the points from being updated
+		if (selectedTank == null)
+			return;
 
-			const tank: Tank = selectedTank;
-			let newPoints: number = 0;
+		const tank: Tank = selectedTank;
+		let newPoints: number = 0;
 
-			for (let i = 0; i < 11; i++)
-			{
-				newPoints = newPoints + getComponentPoints(tank.parts[i].name);
-			}
-
-			setPoints(newPoints);
+		for (let i = 0; i < 11; i++)
+		{
+			newPoints = newPoints + getComponentPoints(tank.parts[i].name);
 		}
+
+		setPoints(newPoints);
+		//}
 	}, [allTanks, selectedTank])
 
 	// Gets all user tanks and sets them to the state.
@@ -310,7 +310,7 @@ function Armory() {
     color: "#04CCFF",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
-	
+
 	return (
 		<div id="Parent" className='background-image-armory'>
 			<MainNavbar
