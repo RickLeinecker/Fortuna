@@ -20,15 +20,11 @@ class DisplayDescription extends React.Component<Props, State> {
     selectItemDesc(): void {
     }
 
-    textStyle = {
-        wordWrap: "break-word"
-    }
-
     render(): React.Node {
 
         const itemDesc = this.selectItemDesc();
         return (
-            <div style={{}}>{itemDesc}</div>
+            <div>{itemDesc}</div>
         );
     }
 }

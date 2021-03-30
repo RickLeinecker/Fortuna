@@ -39,7 +39,7 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
           <Card.Body>
             <Card.Title> {formatTitle(saleName)} </Card.Title>
             <Card.Title>Price: ${price} Quantity: {amount}</Card.Title>
-            <Card.Text style={{}}>
+            <Card.Text>
               {description}
             </Card.Text>
             <Button variant="primary" onClick={() => buyItem(sellerId, saleId)}>Buy</Button>
