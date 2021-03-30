@@ -10,13 +10,28 @@ import MakeCasusCodeSaleView from './MakeCasusCodeSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
+import JoyRide from "react-joyride";
+import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
+import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 import { TweenMax, Power3, TweenLite } from 'gsap'
 
 function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
-  
+  const [run, setRun] = useState(false);
+  const [tourSteps, setTourSteps] = useState([
+
+        {
+            target: ".buy",
+            disableBeacon: true,
+            content: "Welcome to the Marketplace! Use this section to buy components, items, code and tanks to use in the battlefield!"
+        },
+        {
+            target: ".sell",
+            content: "Sell anything you own or create to make some extra cash"
+        }
+  ])
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
   let sellUp = useRef(null);
@@ -24,6 +39,15 @@ function Marketplace() {
   useEffect(() => {
     verifyLogin();
     document.body.style.backgroundImage = "url('/login_background.gif')"
+      getFirstTimeMarketplaceAPICall((res) => {
+          console.log("RES: ", res);
+          setRun(res);
+      })
+
+      if(run == true)
+      {
+          setFirstTimeMarketplaceAPICall();
+      }
 
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
@@ -99,23 +123,24 @@ function Marketplace() {
   if (marketplaceViewClicked)
   {
     return (
-      <>
+      <div id="Parent" className='background-image'>
         <MainNavbar
           className='background-image'
           linkName="/Marketplace"
-          returnName="Back to MarketPlace"
+          returnName="Back to Marketplace"
           pageName="Marketplace"
           ref={navbarRef}
           resetMpPageView={resetPageView}
         />
         {partView}
-      </>
+      </div>
     )
   }
   else {
       return (
         <div id="Parent" className='background-image'>
           <MainNavbar
+            className='background-image'
             linkName="/Login"
             returnName="Logout"
             pageName="Marketplace"
@@ -159,6 +184,17 @@ function Marketplace() {
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
             </Row>
           </Container>
+            <JoyRide
+                steps={tourSteps}
+                run={run}
+                continuous={true}
+                styles={{
+                    options: {
+                        zIndex: 1000,
+                        spotlightShadow: 'blue'
+                    }
+                }}
+            />
         </div>
       );
     }

@@ -86,28 +86,104 @@ exports.googleLogin = async (req, response) => {
 
             let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified, expirationDate});
 
-            // // Create initial tank for user
-            let tank = new Tank();
-            tank.userId = user.id;
-            tank.tankName = `${userName}'s Tank`;
-            tank.components = ['moddable', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
-            tank.casusCode = { 
-              boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
-              highlighted: false, 
-              blockClass: "ContainerBlock", 
-              children: [{ 
-                boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
-                highlighted: true, 
-                blockClass: "EmptyBlock", 
-                dataType: "VOID" }] 
-            };
+		  // Create initial tanks for user
+		  let tank1 = new Tank();
+		  tank1.userId = user.id;
+		  tank1.tankName = `Default Dan`;
+		  tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+		  tank1.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
+		  let tank2 = new Tank();
+		  tank2.userId = user.id;
+		  tank2.tankName = `Long Range Tank`;
+		  tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+		  tank2.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
+		  let tank3 = new Tank();
+		  tank3.userId = user.id;
+		  tank3.tankName = `Close Range Tank`;
+		  tank3.components = ['heavy', 'shotgun', 'empty', 'empty', 'empty', 'empty', 'empty', 'armoredTreads', 'empty', 'empty', 'empty'];
+		  tank3.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
+		  let tank4 = new Tank();
+		  tank4.userId = user.id;
+		  tank4.tankName = `Mines Tank`;
+		  tank4.components = ['light', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'mine', 'mine', 'mine'];
+		  tank4.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
+		  let tank5 = new Tank();
+		  tank5.userId = user.id;
+		  tank5.tankName = `Sensor Tank`;
+		  tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+		  tank5.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
+		  let tank6 = new Tank();
+		  tank6.userId = user.id;
+		  tank6.tankName = `Jammer Tank`;
+		  tank6.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'mediumRangeJammer', 'advancedTreads', 'empty', 'empty', 'empty'];
+		  tank6.casusCode = {
+			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+			  highlighted: false,
+			  blockClass: "ContainerBlock",
+			  children: [{
+				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				  highlighted: true,
+				  blockClass: "EmptyBlock",
+				  dataType: "VOID" }]
+		  };
+
 
             const salt = await bcrypt.genSalt(10);
 
 
             // bcrypt hash passwords
             user.password = await bcrypt.hash(password, salt);
-            
+
             // Save User to MongoDB
             const done = await user.save();
             if (!done) {
@@ -115,14 +191,14 @@ exports.googleLogin = async (req, response) => {
               return response
                 .status(500)
                 .json({ msg: 'Could not save the user to the DB.' });
-            }		
-        
+            }
+
             // Create a verification token for this user
             let token = new Token({
               _userId: user.id,
               token: crypto.randomBytes(16).toString('hex')
             });
-        
+
             // Save verification token to MongoDB
             await token.save((err: Error) => {
               if (err) {
@@ -133,14 +209,60 @@ exports.googleLogin = async (req, response) => {
               }
             });
 
-            await tank.save((err: Error) => {
+
+		  await tank1.save((err: Error) => {
               if (err) {
                 console.error(err.message);
                 return response
                   .status(500)
-                  .json({ msg: 'Could not save user\'s initial tank.' });
+                  .json({ msg: 'Could not save user\'s 1st initial tank.' });
               }
             });
+
+		  await tank2.save((err: Error) => {
+			  if (err) {
+				  console.error(err.message);
+				  return res
+					  .status(500)
+					  .json({ msg: 'Could not save user\'s 2nd initial tank.' });
+			  }
+		  });
+
+		  await tank3.save((err: Error) => {
+			  if (err) {
+				  console.error(err.message);
+				  return res
+					  .status(500)
+					  .json({ msg: 'Could not save user\'s 3rd initial tank.' });
+			  }
+		  });
+
+		  await tank4.save((err: Error) => {
+			  if (err) {
+				  console.error(err.message);
+				  return res
+					  .status(500)
+					  .json({ msg: 'Could not save user\'s 4th initial tank.' });
+			  }
+		  });
+
+		  await tank5.save((err: Error) => {
+			  if (err) {
+				  console.error(err.message);
+				  return res
+					  .status(500)
+					  .json({ msg: 'Could not save user\'s 5th initial tank.' });
+			  }
+		  });
+
+		  await tank6.save((err: Error) => {
+			  if (err) {
+				  console.error(err.message);
+				  return res
+					  .status(500)
+					  .json({ msg: 'Could not save user\'s 6th initial tank.' });
+			  }
+		  });
 
             // Proceed with JWT Creation
             const payload = {
@@ -226,7 +348,7 @@ exports.register = async (req: Request, res: Response) => {
 			return res
 				.status(500)
 				.json({ msg: 'Could not save the user to the DB.' });
-		}		
+		}
 
 		// Create a verification token for this user
 		let token = new Token({
@@ -327,7 +449,7 @@ exports.login = async (req: Request, res: Response) => {
 		if (!user.isVerified) {
 			return res
 				.status(401)
-				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' + 
+				.json({ type: 'email-not-verified', msg: 'Your account has not been verified. ' +
 					'Check your email to verify your account, or request a new one.' });
 		}
 
@@ -338,30 +460,150 @@ exports.login = async (req: Request, res: Response) => {
 
 			user.lastLogin = Date.now();
 
-			// Create initial tank for user
-			let tank = new Tank();
-			tank.userId = user.id;
-			tank.tankName = `${userName}'s Tank`;
-			tank.components = ['moddable', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
-			tank.casusCode = { 
-				boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
-				highlighted: false, 
-				blockClass: "ContainerBlock", 
-				children: [{ 
-					boundingBox: { x: 0, y: 0, w: 64, h: 23 }, 
-					highlighted: true, 
-					blockClass: "EmptyBlock", 
-					dataType: "VOID" }] 
+			// Create initial tanks for user
+			let tank1 = new Tank();
+			tank1.userId = user.id;
+			tank1.tankName = `Default Dan`;
+			tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+			tank1.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
 			};
 
-			await tank.save((err: Error) => {
+			await tank1.save((err: Error) => {
 				if (err) {
 					console.error(err.message);
 					return res
 						.status(500)
-						.json({ msg: 'Could not save user\'s initial tank.' });
+						.json({ msg: 'Could not save user\'s 1st initial tank.' });
 				}
-			});			
+			});
+
+			let tank2 = new Tank();
+			tank2.userId = user.id;
+			tank2.tankName = `Long Range Tank`;
+			tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+			tank2.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
+			};
+
+			await tank2.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not save user\'s 2nd initial tank.' });
+				}
+			});
+
+			let tank3 = new Tank();
+			tank3.userId = user.id;
+			tank3.tankName = `Close Range Tank`;
+			tank3.components = ['heavy', 'shotgun', 'empty', 'empty', 'empty', 'empty', 'empty', 'armoredTreads', 'empty', 'empty', 'empty'];
+			tank3.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
+			};
+
+			await tank3.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not save user\'s 3rd initial tank.' });
+				}
+			});
+
+			let tank4 = new Tank();
+			tank4.userId = user.id;
+			tank4.tankName = `Mines Tank`;
+			tank4.components = ['light', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'mine', 'mine', 'mine'];
+			tank4.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
+			};
+
+			await tank4.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not save user\'s 4th initial tank.' });
+				}
+			});
+
+			let tank5 = new Tank();
+			tank5.userId = user.id;
+			tank5.tankName = `Sensor Tank`;
+			tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+			tank5.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
+			};
+
+			await tank5.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not save user\'s 5th initial tank.' });
+				}
+			});
+
+			let tank6 = new Tank();
+			tank6.userId = user.id;
+			tank6.tankName = `Jammer Tank`;
+			tank6.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'mediumRangeJammer', 'advancedTreads', 'empty', 'empty', 'empty'];
+			tank6.casusCode = {
+				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+				highlighted: false,
+				blockClass: "ContainerBlock",
+				children: [{
+					boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+					highlighted: true,
+					blockClass: "EmptyBlock",
+					dataType: "VOID" }]
+			};
+
+			await tank6.save((err: Error) => {
+				if (err) {
+					console.error(err.message);
+					return res
+						.status(500)
+						.json({ msg: 'Could not save user\'s 6th initial tank.' });
+				}
+			});
 		}
 		else {
 			user.lastLogin = Date.now();
@@ -424,7 +666,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 				.status(400)
 				.json({ type: 'not-verified',
 					msg: 'The token you are using is not valid. ' +
-					'Check your confirmation email and try again, ' + 
+					'Check your confirmation email and try again, ' +
 					'or request a new confirmation email at the Login page.' });
 		}
 
@@ -441,7 +683,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 		if (user.isVerified) {
 			return res
 				.status(400)
-				.json({ type: 'already-verified', 
+				.json({ type: 'already-verified',
 					msg: 'This user has already been verified.' });
 		}
 
@@ -473,7 +715,7 @@ exports.confirmToken = async (req: Request, res: Response) => {
 
 	} catch (err) {
 		console.error(err.message);
-		return res.status(500).json({msg: 'Server Error'});       
+		return res.status(500).json({msg: 'Server Error'});
 	}
 }
 
@@ -543,7 +785,7 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
 			<p>We recieved word that you needed to reconfirm your email.<br />
 			Please verify your Fortuna account by using the link below:</p>
-			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;		
+			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
 		// Set email options
 		const mailOptions = {
@@ -569,7 +811,7 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 		return res
 			.status(500)
 			.json({msg: 'Server Error'});
-	} 
+	}
 }
 
 exports.getUser = async (req: Request, res: Response) => {
@@ -620,6 +862,327 @@ exports.getLeaders = async (req: Request, res: Response) => {
 		console.log('Retrieved user leaders.');
 	});
 }
+
+//checks if user has visited the Home page before and returns a boolean
+exports.getFirstTimeHome = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeHome == true) {
+			console.log('user has NOT been to the Home page before')
+
+			return res.status(200).send(user.firstTimeHome);
+		}
+    else if (user.firstTimeHome == false) {
+			console.log('user HAS been to the Home page before')
+
+			return res.status(200).send(user.firstTimeHome)
+		}
+    else
+    {
+      return res.status(400).json({msg: "Error"})
+    }
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Home page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Play page before and returns a boolean
+exports.getFirstTimePlay = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimePlay == true) {
+			console.log('user has NOT been to the Play page before')
+
+			return res.status(200).send(user.firstTimePlay);
+		}
+		else if (user.firstTimePlay == false) {
+			console.log('user HAS been to the Play page before')
+
+			return res.status(200).send(user.firstTimePlay)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Play page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Loadout page before and returns a boolean
+exports.getFirstTimeLoadout = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeLoadout == true) {
+			console.log('user has NOT been to the Loadout page before')
+
+			return res.status(200).send(user.firstTimeLoadout);
+		}
+		else if (user.firstTimeLoadout == false) {
+			console.log('user HAS been to the Loadout page before')
+
+			return res.status(200).send(user.firstTimeLoadout)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Loadout Page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Training page before and returns a boolean
+exports.getFirstTimeTraining = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeTraining == true) {
+			console.log('user has NOT been here before')
+
+			return res.status(200).send(user.firstTimeTraining);
+		}
+		else if (user.firstTimeTraining == false) {
+			console.log('user HAS been here before')
+
+			return res.status(200).send(user.firstTimeTraining)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Main Page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Marketplace page before and returns a boolean
+exports.getFirstTimeMarketplace = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeMarketplace == true) {
+			console.log('user has NOT been to the Marketplace page before')
+
+			return res.status(200).send(user.firstTimeMarketplace);
+		}
+		else if (user.firstTimeMarketplace == false) {
+			console.log('user HAS been to the Marketplace page before')
+
+			return res.status(200).send(user.firstTimeMarketplace)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Marketplace page was visited for the first time'});
+	}
+}
+
+//checks if user has visited the Casus page before and returns a boolean
+exports.getFirstTimeCasus = async (req: Request, res: Response) => {
+
+
+	const user = await User.findById(req.user.id);
+	if(!user) {
+		return res
+			.status(400)
+			.json({msg: 'Cannot find user.'})
+	}
+
+	try {
+		// Find user using auth token and check their first time status
+		// console.log(user)
+
+		if (user.firstTimeCasus == true) {
+			console.log('user has NOT been here before')
+
+			return res.status(200).send(user.firstTimeCasus);
+		}
+		else if (user.firstTimeCasus == false) {
+			console.log('user HAS been here before')
+
+			return res.status(200).send(user.firstTimeCasus)
+		}
+		else
+		{
+			return res.status(400).json({msg: "Error"})
+		}
+
+	} catch (err) {
+		console.error(err.message);
+		return res
+			.status(500)
+			.json({ msg: 'Could not check if Casus page was visited for the first time'});
+	}
+}
+
+//sets the firstTimeHome variable for a User to false once they visit a page for the first time,
+//does nothing if they have already visited it
+exports.setFirstTimeHome = async (req: Request, res: Response) => {
+
+  let _firstTimeHome = req.body.firstTimeHome;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+    {
+      firstTimeHome: _firstTimeHome
+    }, function (err, docs) {
+      if (err)
+        res.json(err)
+      else
+        console.log("Changing firstTimeHome to false!");
+    })
+}
+
+exports.setFirstTimePlay = async (req: Request, res: Response) => {
+
+	let _firstTimePlay = req.body.firstTimePlay;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimePlay: _firstTimePlay
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimePlay to false!");
+		})
+}
+
+exports.setFirstTimeLoadout = async (req: Request, res: Response) => {
+
+	let _firstTimeLoadout = req.body.firstTimeLoadout;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeLoadout: _firstTimeLoadout
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeLoadout to false!");
+		})
+}
+
+exports.setFirstTimeTraining = async (req: Request, res: Response) => {
+
+	let _firstTimeTraining = req.body.firstTimeTraining;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeTraining: _firstTimeTraining
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeTraining to false!");
+		})
+}
+
+exports.setFirstTimeMarketplace = async (req: Request, res: Response) => {
+
+	let _firstTimeMarketplace = req.body.firstTimeMarketplace;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeMarketplace: _firstTimeMarketplace
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeMarketplace to false!");
+		})
+}
+
+exports.setFirstTimeCasus = async (req: Request, res: Response) => {
+
+	let _firstTimeCasus = req.body.firstTimeCasus;
+
+	const user = await User.findByIdAndUpdate({_id: req.user.id},
+		{
+			firstTimeCasus: _firstTimeCasus
+		}, function (err, docs) {
+			if (err)
+				res.json(err)
+			else
+				console.log("Changing firstTimeCasus to false!");
+		})
+}
+
 
 exports.allUsers = async (req: Request, res: Response) => {
 	await User.find({}, '-password', function(err: Error, users: Array<User>){
@@ -675,7 +1238,7 @@ exports.setWager = async (req: Request, res: Response) => {
 			console.error('Cannot set a wager lower than $50');
 			return res
 				.status(400)
-				.json({ msg: "Can't wager less than $50"});			
+				.json({ msg: "Can't wager less than $50"});
 		}
 		else {
 			// change wager amount and take that money from their balance
@@ -748,7 +1311,7 @@ exports.setWager3v3 = async (req: Request, res: Response) => {
 			console.error('User cannot have a wager lower than $50');
 			return res
 				.status(400)
-				.json({ msg: "Can't wager less than $50"});			
+				.json({ msg: "Can't wager less than $50"});
 		}
 		else {
 			// change wager amount and take that money from their balance
@@ -789,14 +1352,14 @@ exports.passwordResetReq = async (req: Request, res: Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	
+
 	// Check if user exists based on email
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
 		console.error('Could not find user in DB');
-		return res.status(400).json({ msg: 'Could not find user in DB' });		
+		return res.status(400).json({ msg: 'Could not find user in DB' });
 	}
-	
+
 	// If user is found prepare emailing process
 	// Create a confirmation token
 	let token = new Token({
@@ -836,7 +1399,7 @@ exports.passwordResetReq = async (req: Request, res: Response) => {
 		<p>We recieved word that you needed to reset your password.<br />
 		Please reset your Fortuna account password by using the link below:</p>
 		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>
-		<p>If this request was not made by you, feel free to disregard this email.</p>`;		
+		<p>If this request was not made by you, feel free to disregard this email.</p>`;
 
 	// Set email options
 	const mailOptions = {
@@ -873,7 +1436,7 @@ exports.resetPassword = async (req: Request, res: Response) => {
 			.status(400)
 			.json({ errors: errors.array() });
 	}
-	
+
 	const { email, token, newPassword } = req.body;
 
 	const dbToken = await Token.findOne({ token: token });
@@ -882,7 +1445,7 @@ exports.resetPassword = async (req: Request, res: Response) => {
 		.status(400)
 		.json({ type: 'not-verified',
 			msg: 'The token you are using is not a valid token. ' +
-			'Check your password reset email and try again. ' + 
+			'Check your password reset email and try again. ' +
 			'Otherwise, your token may have expired.' });
 	}
 

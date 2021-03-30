@@ -15,10 +15,17 @@ import TankDisplay from "../tanks/TankDisplay";
 import {getAllUsersTanks} from "../globalComponents/apiCalls/tankAPIIntegration";
 import getPreferredSelectedTank from "../globalComponents/getPreferredSelectedTank";
 import getReplayListAPICall from "../globalComponents/apiCalls/getReplayListAPICall";
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import Tank from "../tanks/Tank";
 import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
+import {toast} from "react-toastify";
+import getErrorFromObject from "../globalComponents/getErrorFromObject";
+import setLoginToken from "../globalComponents/setLoginToken";
 import JoyRide from 'react-joyride'
 import { TweenMax, TweenLite, Power3 } from 'gsap'
+import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
+
 
 // type Props = {||};
 
@@ -40,43 +47,52 @@ const MainMenu  = () => {
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
-  const [battleType, setBattleType] = useState('1 vs 1')
-  const [tourSteps, setTourSteps] = useState([
+    const [battleType, setBattleType] = useState('1 vs 1')
+    const [run, setRun] = useState(false);
+    const [tourSteps, setTourSteps] = useState([
         {
-          target: ".editTank",
-          content: "Step 1"
+          target: ".menumiddle",
+          disableBeacon: true,
+          content: "Welcome to Fortuna! Tutorials like this will auto-trigger your first time visiting important pages. Feel free to exit them at anytime as every page will have a button to restart that pages tutorial in case you forget anything!"
         },
         {
-          target: ".play",
-          content: "Step 2"
-        },
-        {
-          target: ".train",
-          content: "Step 3"
-        },
-        {
-          target: '.tankSelect',
-          content: "Step 4"
+          target: ".tankSelect",
+          content: "This is the Navbar and will serve as your main way to navigate to different menus"
         },
         {
           target: ".battleRecord",
-          content: "Step 5"
+          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes!"
         },
         {
-          target: ".creditsButton",
-          content: "Step 6"
+          target: '.training',
+          content: "The Training Arena is a place to test out your tanks against bots"
         },
         {
-          target: ".leaderboardTut",
-          content: "Step 7"
+          target: ".select",
+          content: "Here is your currently selected tank. You can click on the tank name to change to any other selected tanks"
+        },
+        {
+          target: ".menuright",
+          content: "The Leaderboard shows you the Top 10 Players in Fortuna. Strive to be part of the Elite!"
+        },
+        {
+          target: ".credits",
+          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game!"
+        },
+        {
+            target: ".editTank",
+            content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor"
+        },
+        {
+            target: ".play",
+            content: "Go ahead an get in a game to get started!"
         }
       ])
 
-  const [run, setRun] = useState(true);
 
-  let left = useRef(null);
-  let mid = useRef(null);
-  let right = useRef(null);
+    let left = useRef(null);
+    let mid = useRef(null);
+    let right = useRef(null);
 
 
 	useEffect(() => {
@@ -91,6 +107,19 @@ const MainMenu  = () => {
 		});
 		getReplayListAPICall(() => {
 		});
+
+
+		getFirstTimeHomeAPICall((res) => {
+      console.log("RES: ", res);
+      setRun(res);
+		})
+
+        console.log("THIS IS NOW RUN: " , run)
+        if(run == true)
+        {
+            setFirstTimeHomeAPICall();
+
+        }
 
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});

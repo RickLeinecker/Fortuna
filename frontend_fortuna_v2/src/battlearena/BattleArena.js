@@ -23,6 +23,14 @@ import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
 
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
+import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
+import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
+import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
+import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
+import JoyRide from "react-joyride";
+import getFirstTimeCasusAPICall from "../globalComponents/apiCalls/getFirstTimeCasusAPICall";
+import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
+import SetWagerPopup from "../armory/SetWagerPopup";
 
 type Props = {||};
 
@@ -46,8 +54,30 @@ class BattleArena extends React.Component<Props, State> {
 			selectedTankThree: null,
 			allTanks: [],
 			userElo: 0,
-			battleType: '1 vs 1'
+			battleType: '1 vs 1',
+			tour_steps: [
+				{
+					target: ".battletype",
+					disableBeacon: true,
+					content: "Change between 1 v 1, or 3 v 3",
+				},
+				{
+					target: ".search",
+					content: "Search for a specific player and challenge any tanks they are wagering"
+				},
+				{
+					target: ".wager",
+					content: "Don't forget to wager a tank to be able to have other people battle with you!"
+				},
+				{
+					target: ".quickplay",
+					content: "Quickly find a match with someone wagered tank in your ELO rank"
+				}
+			],
+			run: false
 		};
+		getReplayListAPICall(() => {});
+
 	}
 
 	componentDidMount(): void {
@@ -60,6 +90,18 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		});
 		getReplayListAPICall(() => {});
+		getFirstTimePlayAPICall((res) => {
+			console.log("RES: ", res);
+			this.state.run = res;
+		})
+
+
+		console.log("THIS IS NOW RUN: " , this.state.run)
+		if(this.state.run == true)
+		{
+			setFirstTimePlayAPICall();
+
+		}
 	}
 
 	onChallengePlayer(player: ?User): void {
@@ -120,6 +162,10 @@ class BattleArena extends React.Component<Props, State> {
   }
 
 
+	onWagerUpdate = (): void => {
+		const navbar = this.refs.navbar;
+		navbar.reloadNavbar();
+	}
 
 	render(): React.Node {
 		return (
@@ -127,24 +173,21 @@ class BattleArena extends React.Component<Props, State> {
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
+				ref="navbar"
 				pageName="Battle Arena"
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
-			<div className="column baleft">
-        <br/><br/><br/><br/><br/><br/>
-				<h5 style={this.divStyle}>Challenge a Player</h5>
-				<ChallengePlayerPopup
-					onChallengePlayer={(user) => this.onChallengePlayer(user)}
-					playerChallenged={null}
-					battleType={this.state.battleType}
-				/>
+			<div className="column challenge">
+
+				<div className="search">
 				<SearchPlayers
 					onChallengePlayer={(user) => this.onChallengePlayer(user)}
 					battleType={this.state.battleType}
 				/>
+				</div>
 			</div>
-			<div className="column bamiddle">
+			<div className="column battletype">
 				<h5 style={this.divStyle}>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(this.state.battleType === '1 vs 1') ?
@@ -217,14 +260,37 @@ class BattleArena extends React.Component<Props, State> {
 					Change Battle Type
 				</button>
 			</div>
-			<div className="column baright">
-				<div className="loginleader" style={this.style}>
-					<Leaderboard />
+			<div className="column info">
+				<h5>Challenge a Player</h5>
+				<div className="wager">
+					<SetWagerPopup
+						ref="SetWagerPopup"
+						onWagerUpdate={this.onWagerUpdate}
+					/>
 				</div>
-				<br/><br/>
-				<Replays styling={{width: "82%"}} />
+				<br/>
+				<div className="quickplay">
+					<ChallengePlayerPopup
+						onChallengePlayer={(user) => this.onChallengePlayer(user)}
+						playerChallenged={null}
+						battleType={this.state.battleType}
+					/>
+				</div>
+				<br/>
+
 			</div>
 			<ToastContainer />
+			<JoyRide
+				steps={this.state.tour_steps}
+				run={this.state.run}
+				continuous={true}
+				styles={{
+					options: {
+						zIndex: 1000,
+						spotlightShadow: 'blue'
+					}
+				}}
+			/>
 		</div>
 		);
 	}

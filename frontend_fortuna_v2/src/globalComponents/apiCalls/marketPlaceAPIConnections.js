@@ -168,7 +168,7 @@ function getMarketCasusCode(userId: string, onLoad:(codes: Array<SaleObject>) =>
 	);
 }
 
-function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() => void): void {
+function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() => void,errCallback): void {
 	const responsePromise: Promise<Response> = fetch('/api/marketplace/marketTransaction/', {
 		method: 'put',
 		headers: {
@@ -183,6 +183,7 @@ function marketSale(userId: string, sellerId: string, saleId: string, onLoad:() 
 			if (response.status !== 201) {
 				console.log(response.status);
 				console.log(data);
+				errCallback()
 				toast.error(getErrorFromObject(data));
 			}
 			else {
