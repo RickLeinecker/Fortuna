@@ -47,7 +47,7 @@ class BattlegroundContainer extends React.Component<Props, State> {
 		const returnTo=getReturnToFromBattlegroundLink();
 		const haveDebug=this.state.debugLines.length!==0;
 		return (
-			<div>
+			<div id="Parent" className='background-image'>
 				<MainNavbar
 					linkName={returnTo}
 					returnName='Exit Early'

@@ -7,25 +7,28 @@ import Cookies from 'universal-cookie'
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
+import getUserAPICall from "../globalComponents/apiCalls/getUserAPICall";
 
 type Props = {||};
 
 type State = {|
 	replays: Array<Replay>,
-	myUsername: string
+	username: string
 |};
 
 class Replays extends React.Component<Props, State> {
-	constructor(props) {
-		super();
+	constructor(props: Props) {
+		super(props);
+		const cookies = new Cookies();
 		this.state = {
 			replays: [],
-			myUsername: new Cookies().get('username')
+			username: cookies.get('username')
 		}
 	}
 
 	// Once mounted, get all replays.
 	componentDidMount(): void {
+		this.reloadReplay()
 		getReplayListAPICall(replays => {
 			this.setState({replays: replays});
 		});
@@ -33,13 +36,20 @@ class Replays extends React.Component<Props, State> {
     // may need to try adding api call to get username instead of cookies
     // to prevent race condition
 	}
-
+	reloadReplay(): void {
+		getUserAPICall(user => {
+			const cookies = new Cookies();
+			cookies.set('username', user.username);
+			cookies.set('money', user.money);
+			this.setState({username: user.username, userCurrency: user.money});
+		});
+	}
 	getMatchResult(replay: Replay): string {
 		switch(replay.winner) {
 			case 2:
-				return (replay.playerTwoName === this.state.myUsername) ? 'Win' : 'Loss';
+				return (replay.playerTwoName === this.state.username) ? 'Win' : 'Loss';
 			case 1:
-				return (replay.playerOneName === this.state.myUsername) ? 'Win' : 'Loss';
+				return (replay.playerOneName === this.state.username) ? 'Win' : 'Loss';
 			case 0:
 				return 'tie';
 			case -1:
@@ -61,7 +71,7 @@ class Replays extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="replayTable" style={this.props.styling}>
-				{this.state.myUsername != null ? <h4>{this.state.myUsername}'s Battle Record</h4> : <h4>Battle Record</h4>}
+				{this.state.username != null ? <h4>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
 						<tr>
@@ -76,7 +86,7 @@ class Replays extends React.Component<Props, State> {
 					<tbody>
 						{this.state.replays.slice(0).reverse().map(replay => 
 							<tr key={replay.replayId}>
-								<td id="opponent" className="name">{(this.state.myUsername === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
+								<td id="opponent" className="name">{(this.state.username === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td id="result">{this.getMatchResult(replay)}</td>
 								<td><button className="reallySmallBtn" style={{fontSize: "x-small"}} onClick={() => this.watchReplay(replay)}>View</button></td>
 								<td id="prize">{this.getMatchResult(replay) === 'Win' ? '+' + replay.prizeMoney : '-' + replay.prizeMoney}</td>

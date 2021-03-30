@@ -66,6 +66,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 					&& user.wager > 0
 					&& user.username !== this.state.myUsername
 				);
+
 				if(similarSkilledUsers.length === 0) {
 					toast.error('No users found with similar skill level.');
 					return;
