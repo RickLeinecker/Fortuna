@@ -128,7 +128,7 @@ const MainMenu  = () => {
             setFirstTimeHomeAPICall();
 
         }
-    })
+    },[])
 
   const style = {
     position: "relative",
