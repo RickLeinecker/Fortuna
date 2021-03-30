@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: fortunabackend
     ports:
-      - "3001:3001"
+      - "5000:5000"
     volumes:
       - "./backend_fortuna_v2/nodemodules:/src/node_modules"
       - "./backend_fortuna_v2/src:/app/src"
