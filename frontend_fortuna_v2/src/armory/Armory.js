@@ -70,7 +70,7 @@ function Armory() {
 		{
 			target: ".armoryright",
 			content:
-				"Equip and customize your tanked with equipment from the Marketplace"
+				"Equip and customize your tanked with weapons, equipment, or items that you have purchased from the Marketplace"
 		}
 	])
 
@@ -92,18 +92,22 @@ function Armory() {
 		getFirstTimeLoadoutAPICall((res) => {
 			console.log("RES: ", res);
 			setRun(res);
+			if(res == true)
+			{
+				setFirstTimeLoadoutAPICall();
+
+			}
 		})
 
-		if(run == true)
-		{
-			setFirstTimeLoadoutAPICall();
-		}
+
 
 	}, [])
+
 
 	useEffect(() => {
 	// Handles initializing points when the page is first loaded or when a new tank is selected.
 		//const initPoints: void = () => {  //Removed bc it stopped the points from being updated
+
 		if (selectedTank == null)
 			return;
 
@@ -116,6 +120,8 @@ function Armory() {
 		}
 
 		setPoints(newPoints);
+
+
 		//}
 	}, [allTanks, selectedTank])
 

@@ -27,10 +27,15 @@ function Marketplace() {
             disableBeacon: true,
             content: "Welcome to the Marketplace! Use this section to buy components, items, code and tanks to use in the battlefield!"
         },
+      {
+          target: ".casusCode",
+          content: "Click here to buy some starter code that goes with the default starter tanks!"
+      },
         {
             target: ".sell",
             content: "Sell anything you own or create to make some extra cash"
-        }
+        },
+
   ])
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
@@ -42,17 +47,21 @@ function Marketplace() {
       getFirstTimeMarketplaceAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
+          if(res == true)
+          {
+              setFirstTimeMarketplaceAPICall();
+          }
+
       })
 
-      if(run == true)
-      {
-          setFirstTimeMarketplaceAPICall();
-      }
+
 
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
   }, [])
+
+
 
   const divStyle = {
     color: "white",
@@ -154,23 +163,23 @@ function Marketplace() {
           <Container className="buy" ref={el => buyDown = el}>
             <h1 style={divStyle}>Buy</h1>
             <br/>
-            <Row fluid>
+            <Row >
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('weapon')}>Weapons</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scanner')}>Scanners</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scannerAddon')}>Scanner Add-Ons</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row fluid>
+            <Row >
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('chassis')}>Chassis</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('jammer')}>Jammers</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('treads')}>Treads</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row fluid>
+            <Row >
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('item')}>Items</button></Col>
-              <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('casusCode')}>Casus Code</button></Col>
+              <Col className="casusCode"><button className="marketBtn" onClick={() => setMarketplaceViewClicked('casusCode')}>Casus Code</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('tank')}>Tanks</button></Col>
             </Row>
           </Container>
@@ -179,7 +188,7 @@ function Marketplace() {
           <Container className="sell" ref={el => sellUp = el}>
             <h1 style={divStyle}>Sell</h1>
             <br/>
-            <Row fluid>
+            <Row >
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeAComponentSale')}>Sell a Component</button></Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeCasusCodeSale')}>Sell Casus Code</button></Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeATankSale')}>Sell a Tank</button></Col>

@@ -168,6 +168,7 @@ class Battleground extends React.Component<Props> {
 
 		this.arena=getBattlegroundArena();
 		this.setUpForArena(this.arena);
+
 	}
 
 	setUpForArena(arena: ArenaType) {
@@ -197,6 +198,8 @@ class Battleground extends React.Component<Props> {
 	}
 
 	componentDidMount(): void {
+
+
 		this._rerender();
 		this.alive=true;
 		getTanksToFightOnBattleground(
@@ -217,6 +220,7 @@ class Battleground extends React.Component<Props> {
 
 	render(): React.Node {
 		return (
+
 			<div className="battlegroundCanvasDiv">
 				<canvas
 					className="battlegroundCanvas"
@@ -224,6 +228,7 @@ class Battleground extends React.Component<Props> {
 				/>
 				<ToastContainer />
 			</div>
+
 		);
 	}
 

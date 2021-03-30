@@ -44,7 +44,7 @@ class BlockBankTypeSelector extends React.Component<Props> {
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('LISTS')}>Lists</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('DEBUG')}>Debug</Button></Col>
-            {/* <Col md={4}><button className="spacing" onClick={() => this.showHelp()}>Help</button></Col> */}
+            <Col className="help" md={4}><button className="spacing" onClick={() => this.showHelp()}>Help</button></Col>
           </Row>
         </Container>
       </>
