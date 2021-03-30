@@ -25,7 +25,7 @@ function Marketplace() {
         {
             target: ".buy",
             disableBeacon: true,
-            content: "Welcome to the Marketplace! Use this section to buy components, items, code and tanks to use in the battlefield!"
+            content: "Welcome to the Marketplace! Use this section to buy components, items, code, and tanks to use in the battlefield!"
         },
       {
           target: ".casusCode",
