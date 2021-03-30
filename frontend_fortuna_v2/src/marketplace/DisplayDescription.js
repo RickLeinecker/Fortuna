@@ -21,6 +21,7 @@ class DisplayDescription extends React.Component<Props, State> {
     }
 
     render(): React.Node {
+
         const itemDesc = this.selectItemDesc();
         return (
             <div>{itemDesc}</div>

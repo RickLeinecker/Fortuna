@@ -12,7 +12,7 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const style = {
+  const cardStyle = {
     width: "fit-content",
     backgroundColor: "#012074",
     border: "4px solid #1969e5",
@@ -34,7 +34,7 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
   const createCardItem = (index, sellerId, saleName, description, price, amount, saleId, buyItem) => {
     return (
       <Col md="auto" style={colStyle}>
-        <Card style={style} key={index}>
+        <Card style={cardStyle} key={index}>
           <Card.Header>{isMaster(sellerId)}</Card.Header>
           <Card.Body>
             <Card.Title> {formatTitle(saleName)} </Card.Title>
