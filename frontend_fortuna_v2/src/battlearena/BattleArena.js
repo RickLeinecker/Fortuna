@@ -86,7 +86,7 @@ class BattleArena extends React.Component<Props, State> {
 		getReplayListAPICall(() => {});
 		getFirstTimePlayAPICall((res) => {
 			console.log("RES: ", res);
-			this.setState({run:res});
+			this.state.run = res;
 			if(this.state.run == true)
 			{
 				setFirstTimePlayAPICall();

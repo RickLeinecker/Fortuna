@@ -61,9 +61,7 @@ function Marketplace() {
 
   }, [])
 
-    useEffect(() =>{
 
-    })
 
   const divStyle = {
     color: "white",

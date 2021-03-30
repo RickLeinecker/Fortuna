@@ -87,7 +87,7 @@ class CasusContainer extends React.Component<Props, State> {
         const ref = this.refs.navbarRef
         getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
-            this.setState({run:res});
+            this.state.run = res;
 
             if(this.state.run == true)
             {
