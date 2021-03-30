@@ -22,7 +22,7 @@ body {
   /* background-repeat:round; */
   /* box-shadow: 0 0 8px 8px #04CCFF inset; */
 }
- h6,h1,h2,h3,h4 {
+ h6,h1 {
   font-family: 'Press Start 2P', cursive;
   color: white;
  }

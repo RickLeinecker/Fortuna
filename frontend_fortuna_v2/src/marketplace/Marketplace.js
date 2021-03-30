@@ -127,7 +127,7 @@ function Marketplace() {
         <MainNavbar
           className='background-image'
           linkName="/Marketplace"
-          returnName="Back to MarketPlace"
+          returnName="Back to Marketplace"
           pageName="Marketplace"
           ref={navbarRef}
           resetMpPageView={resetPageView}

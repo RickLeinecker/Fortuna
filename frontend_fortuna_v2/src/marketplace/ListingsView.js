@@ -333,7 +333,8 @@ class ListingsView extends React.Component<Props, State> {
 		backgroundColor: "#012074",
 		border: "4px solid #1969e5",
 		padding: "10px",
-		textAlign: "center"
+		textAlign: "center",
+		justifyContent:'center', alignItems:'center'
 	}
   spinnerStyle = {
     opacity: "0.5",
@@ -370,7 +371,7 @@ class ListingsView extends React.Component<Props, State> {
           <br/><br/>
           <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
 			<br/>
-			<div className="description">
+			<div className="description" align="center">
 			<h3 style={this.style1}>{this.getSalesTypeDesc(this.props.sellerType)}</h3>
 			</div>
           <br/><br/><br/><br/>
