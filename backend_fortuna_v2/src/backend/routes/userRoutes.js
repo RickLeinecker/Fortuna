@@ -68,7 +68,7 @@ router.get('/allUsers', userController.allUsers);
 router.get('/getUser', auth, userController.getUser);
 
 // Retrieve a single user using the userId rather than the auth token
-// routecall: /userNoAuth/<userId>
+// Route call: /userNoAuth/<userId>
 // Req must include the user id in the <userId> field of the route
 // Returns a JSON object with all the user's info except the pass
 router.get('/retrieveUser/:userId', userController.retrieveUser);
@@ -108,6 +108,30 @@ router.post('/passwordResetReq', [
 		.isEmail()
 ], userController.passwordResetReq);
 
+
+// Retrieve info to determine if a User has visited a page
+// Route call: /firstTimeVisit
+// Req must include user id in the <userId> field of the route
+// Returns true if a user has visited the page before, false if not
+router.get('/getFirstTimeHome', auth, userController.getFirstTimeHome);
+router.get('/getFirstTimePlay', auth, userController.getFirstTimePlay);
+router.get('/getFirstTimeLoadout', auth, userController.getFirstTimeLoadout);
+router.get('/getFirstTimeTraining', auth, userController.getFirstTimeTraining);
+router.get('/getFirstTimeMarketplace', auth, userController.getFirstTimeMarketplace);
+router.get('/getFirstTimeCasus', auth, userController.getFirstTimeCasus);
+
+
+
+// Retrieve info to determine if a User has visited a page
+// Route call: /firstTimeVisit
+// Req must include user id in the <userId> field of the route
+// Returns true if a user has visited the page before, false if not
+router.patch('/setFirstTimeHome', auth, userController.setFirstTimeHome);
+router.patch('/setFirstTimePlay', auth, userController.setFirstTimePlay);
+router.patch('/setFirstTimeLoadout', auth, userController.setFirstTimeLoadout);
+router.patch('/setFirstTimeTraining', auth, userController.setFirstTimeTraining);
+router.patch('/setFirstTimeMarketplace', auth, userController.setFirstTimeMarketplace);
+router.patch('/setFirstTimeCasus', auth, userController.setFirstTimeCasus);
 // Reset a user's password
 // Route call: resetPassword
 // Req must include email in body provided by user

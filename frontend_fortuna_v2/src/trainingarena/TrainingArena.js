@@ -24,6 +24,10 @@ import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
 import JoyRide from 'react-joyride';
 import { TweenLite, Power3 } from 'gsap';
+import getFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/getFirstTimeLoadoutAPICall";
+import setFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/setFirstTimeLoadoutAPICall";
+import setFirstTimeTrainingAPICall from "../globalComponents/apiCalls/setFirstTimeTrainingAPICall";
+import getFirstTimeTrainingAPICall from "../globalComponents/apiCalls/getFirstTimeTrainingAPICall";
 
 
 function TrainingArena() {
@@ -49,31 +53,20 @@ function TrainingArena() {
   const [battleType, setBattleType] = useState(getPreferredBattleType());
 
   // for react joyride
-  const [run, setRun] = useState(true);
+  const [run, setRun] = useState(false);
   const [tourSteps, setTourSteps] = useState([
     {
       target: ".leftTank",
-      content: "Choose your tank for training here"
+      disableBeacon: true,
+      content: "Choose YOUR tank for training here"
     },
     {
       target: ".taright",
-      content: "Choose training opponent",
-    },
-    {
-      target: ".changeType",
-      content: "Change battle type here"
-    },
-    {
-      target: ".startTrain",
-      content: "Start training battle here"
+      content: "Choose enemy tank",
     },
     {
       target: ".chooseArena",
-      content: "Choose Arena Type here"
-    },
-    {
-      target: ".casusLink",
-      content: "Back to Casus Here"
+      content: "Change Arenas for different map layouts"
     }
   ]);
 
@@ -92,9 +85,21 @@ function TrainingArena() {
       setBotTanks(botTanks);
     })
 
+
     TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+
+
+      getFirstTimeTrainingAPICall((res) => {
+          console.log("RES: ", res);
+          setRun(res);
+      })
+
+      if(run == true)
+      {
+          setFirstTimeTrainingAPICall();
+      }
   }, []);
 
   const onClickStartBattle: void = () => {
@@ -267,6 +272,10 @@ function TrainingArena() {
 
         }
         <br/><br/><br/>
+          <Link to={verifyLink("/Casus")}>
+              <button className="primarybtn casusLink" style={divStyle}>Edit Tank Code</button>
+          </Link>
+          <br/><br/>
         <button
           type="button"
           className="primarybtn startTrain"
@@ -275,10 +284,8 @@ function TrainingArena() {
         >
           Start Battle
         </button>
-        <br/><br/>
-        <Link to={verifyLink("/Casus")}>
-          <button className="primarybtn casusLink" style={divStyle}>Casus</button>
-        </Link>
+
+
       </div>
       <div className="column taright" ref={el => rightT = el}>
         <h5 style={divStyle}>Choose a Training Bot</h5>
