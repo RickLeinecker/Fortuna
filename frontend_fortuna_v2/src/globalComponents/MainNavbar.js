@@ -102,7 +102,7 @@ class MainNavbar extends React.Component<Props, State> {
 
 		const link = (this.props.linkName==null || this.props.returnName==null) ? null : (
 			<Link to={verifyLink(this.props.linkName)}>
-        <br/><br/>
+        <br/>
 				<button onClick={this.handleLogout.bind(this)} className="navbtn">&#60;&#45; {this.props.returnName}</button>
 			</Link>
 		);
