@@ -30,7 +30,15 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
     document.body.style.backgroundRepeat = "round"
     const ref = this.refs.navbarRef
+        getFirstTimeCasusAPICall((res) => {
+            console.log("RES: ", res);
+            this.setState({run:res});
+        })
 
+        if(this.state.run == true)
+        {
+            setFirstTimeCasusAPICall();
+        }
 
 	}
 
@@ -63,7 +71,7 @@ class CasusContainer extends React.Component<Props, State> {
           content: "Click here to test your code"
         }
       ],
-      run: true
+      run: false
 		};
 
 		const tankId=getTankForCasus();
@@ -72,22 +80,20 @@ class CasusContainer extends React.Component<Props, State> {
 			this.setState({tankName: tankEditing?.tankName ?? ''});
 		});
 
-
-
 	}
 
     componentDidMount(): void {
         document.body.style.backgroundRepeat = "round"
         const ref = this.refs.navbarRef
-        //getFirstTimeCasusAPICall((res) => {
-          //  console.log("RES: ", res);
-          //  this.setState({run:res});
+        getFirstTimeCasusAPICall((res) => {
+            console.log("RES: ", res);
+            this.setState({run:res});
 
-           // if(this.state.run == true)
-          //  {
-           //     setFirstTimeCasusAPICall();
-          //  }
-      //  })
+            if(this.state.run == true)
+            {
+                setFirstTimeCasusAPICall();
+            }
+        })
 
 
     }

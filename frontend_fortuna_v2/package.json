@@ -44,7 +44,7 @@
     "flow": "flow",
     "devserver": "NODE_ENV=development nodemon ./lib/backend/server.js"
   },
-  "proxy": "http://fortunabackend:3001",
+  "proxy": "http://fortunabackend:5000",
   "eslintConfig": {
     "extends": "react-app"
   },

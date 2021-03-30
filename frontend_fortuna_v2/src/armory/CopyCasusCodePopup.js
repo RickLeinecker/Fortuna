@@ -87,7 +87,7 @@ class CopyCasusCodePopup extends React.Component<Props, State> {
 		const listOfTanksWithoutCurrentTank = this.removeSelectedTankFromList();
 		return(
 			<div>
-				<button className="btn" onClick={() => this.setState({popupOpen: true})}>
+				<button className="marketBtn" onClick={() => this.setState({popupOpen: true})}>
 					Import Code
 				</button>
 				<Popup

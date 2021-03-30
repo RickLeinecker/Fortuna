@@ -11,8 +11,29 @@
 	margin: auto;
 }
 
+
+
 .marketBtn:hover {
 	color: #04CCFF;
+	background-color: #04213F;
+	border: 1px solid #04CCFF;
+}
+
+.marketBtnSm {
+  color: #04213F;
+	background-color: #04CCFF;
+	border: 1px solid #000921;
+	padding: 7px 7px 7px 7px;
+	border-radius: 8px;
+	padding: 10px;
+	width: 150px;
+	font-size: 13px;
+	font-family: 'Press Start 2P', cursive;
+	margin: auto;
+}
+
+.marketBtnSm:hover {
+  color: #04CCFF;
 	background-color: #04213F;
 	border: 1px solid #04CCFF;
 }

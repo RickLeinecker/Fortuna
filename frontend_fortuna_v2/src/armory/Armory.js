@@ -346,6 +346,7 @@ function Armory() {
 
 	return (
 		<div id="Parent" className='background-image-armory'>
+      <br/>
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
@@ -371,7 +372,7 @@ function Armory() {
 				<label className="font" style={divStyle}>Casus</label>
 				<br/>
 				<Link to={verifyLink("/Casus")}>
-					<button className="primarybtn" style={divStyle3}>Edit Tank Code</button>
+					<button className="primarybtn" style={divStyle}>Edit Tank Code</button>
 				</Link>
 				<br/><br/>
 				{selectedTank==null?<div></div>:
@@ -380,7 +381,7 @@ function Armory() {
 						usersTanks={allTanks}
 					/>
 				}
-				<br/><br/>
+				<br/><br/><br/><br/>
 				<h5 className="font" style={divStyle}>Tank Options</h5>
 				<div className="row rowPadding">
 					{selectedTank==null?<div></div>:
