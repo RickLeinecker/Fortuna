@@ -357,12 +357,15 @@ class ListingsView extends React.Component<Props, State> {
       return (
         <>
           <br/><br/><br/><br/>
-          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/> 
+
+          <img style={this.spinnerStyle} src="/spinner.gif" alt=""/>
+
         </>
       )
     }
     else {
       return (
+
         <Container fluid>
           <br/><br/>
           <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
@@ -374,6 +377,7 @@ class ListingsView extends React.Component<Props, State> {
           {this.state.itemsForSale.length === 0 ? <h5>No sales to load</h5> : this.getSalesBySellerType()}
           <ToastContainer />
         </Container>
+
       );
     }
 

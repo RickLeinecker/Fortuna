@@ -123,7 +123,7 @@ function Marketplace() {
   if (marketplaceViewClicked)
   {
     return (
-      <>
+      <div id="Parent" className='background-image'>
         <MainNavbar
           className='background-image'
           linkName="/Marketplace"
@@ -133,13 +133,14 @@ function Marketplace() {
           resetMpPageView={resetPageView}
         />
         {partView}
-      </>
+      </div>
     )
   }
   else {
       return (
         <div id="Parent" className='background-image'>
           <MainNavbar
+            className='background-image'
             linkName="/Login"
             returnName="Logout"
             pageName="Marketplace"
