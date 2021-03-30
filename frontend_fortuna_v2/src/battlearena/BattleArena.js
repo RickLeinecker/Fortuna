@@ -170,6 +170,7 @@ class BattleArena extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 		<div id="Parent" className='background-image'>
+      <br/>
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
