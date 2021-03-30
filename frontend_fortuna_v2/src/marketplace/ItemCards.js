@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button, Row, Col, Container } from 'react-bootstrap';
+import { FORWARD_MOVEMENT_VAR_NAME } from '../casus/userInteraction/CasusSpecialVariables.js';
 import Pagination from './Pagination.js'
 
 
@@ -22,13 +23,21 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
     padding: "5px",
     margin: "5px"
   }
-  
+
+  // Format itemCard title names
+  const formatTitle = (title) => {
+    let formattedTitle = title.replace(/([a-z])([A-Z])/g, '$1 $2');
+    formattedTitle = formattedTitle.charAt(0).toUpperCase() + formattedTitle.substring(1);
+    return formattedTitle;
+  }
+
   const createCardItem = (index, sellerId, saleName, description, price, amount, saleId, buyItem) => {
     return (
       <Col md="auto" style={colStyle}>
         <Card style={style} key={index}>
           <Card.Header>{isMaster(sellerId)}</Card.Header>
           <Card.Body>
+            <Card.Title> {formatTitle(saleName)} </Card.Title>
             <Card.Title>Price: ${price} Quantity: {amount}</Card.Title>
             <Card.Text>
               {description}

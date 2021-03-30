@@ -166,7 +166,7 @@ function TrainingArena() {
   const preferredArena=getPreferredArena(battleType);
 
   return (
-    <div id="Parent">
+    <div id="Parent" className='background-image'>
       <MainNavbar
         linkName="/Login"
         returnName="Logout"

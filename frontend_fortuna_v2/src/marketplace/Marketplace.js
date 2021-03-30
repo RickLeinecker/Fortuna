@@ -16,7 +16,6 @@ import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirs
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 import { TweenMax, Power3, TweenLite } from 'gsap'
 
-
 function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
@@ -36,7 +35,7 @@ function Marketplace() {
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
   let sellUp = useRef(null);
-
+  
   useEffect(() => {
     verifyLogin();
     document.body.style.backgroundImage = "url('/login_background.gif')"
@@ -126,6 +125,7 @@ function Marketplace() {
     return (
       <>
         <MainNavbar
+          className='background-image'
           linkName="/Marketplace"
           returnName="Back to MarketPlace"
           pageName="Marketplace"
@@ -138,7 +138,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent">
+        <div id="Parent" className='background-image'>
           <MainNavbar
             linkName="/Login"
             returnName="Logout"
