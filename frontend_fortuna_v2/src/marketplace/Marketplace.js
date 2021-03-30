@@ -15,8 +15,7 @@ import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirs
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 import { TweenMax, Power3, TweenLite } from 'gsap'
-import getFirstTimeTrainingAPICall from "../globalComponents/apiCalls/getFirstTimeTrainingAPICall";
-import setFirstTimeTrainingAPICall from "../globalComponents/apiCalls/setFirstTimeTrainingAPICall";
+
 
 function Marketplace() {
 
@@ -26,6 +25,7 @@ function Marketplace() {
 
         {
             target: ".buy",
+            disableBeacon: true,
             content: "Welcome to the Marketplace! Use this section to buy components, items, code and tanks to use in the battlefield!"
         },
         {
@@ -45,7 +45,11 @@ function Marketplace() {
           setRun(res);
       })
 
-      setFirstTimeMarketplaceAPICall();
+      if(run == true)
+      {
+          setFirstTimeMarketplaceAPICall();
+      }
+
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 

@@ -58,6 +58,7 @@ class BattleArena extends React.Component<Props, State> {
 			tour_steps: [
 				{
 					target: ".battletype",
+					disableBeacon: true,
 					content: "Change between 1 v 1, or 3 v 3",
 				},
 				{
@@ -76,12 +77,7 @@ class BattleArena extends React.Component<Props, State> {
 			run: false
 		};
 		getReplayListAPICall(() => {});
-		getFirstTimePlayAPICall((res) => {
-			console.log("RES: ", res);
-			this.state.run = res;
-		})
 
-		setFirstTimePlayAPICall();
 	}
 
 	componentDidMount(): void {
@@ -94,6 +90,18 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		});
 		getReplayListAPICall(() => {});
+		getFirstTimePlayAPICall((res) => {
+			console.log("RES: ", res);
+			this.state.run = res;
+		})
+
+
+		console.log("THIS IS NOW RUN: " , this.state.run)
+		if(this.state.run == true)
+		{
+			setFirstTimePlayAPICall();
+
+		}
 	}
 
 	onChallengePlayer(player: ?User): void {

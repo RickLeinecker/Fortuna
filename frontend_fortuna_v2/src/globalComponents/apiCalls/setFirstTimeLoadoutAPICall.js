@@ -34,10 +34,10 @@ function setFirstTimeLoadoutAPICall(onLoad:(firstTimeLoadout: boolean) => void) 
             }
             else {
 
-                const firstTimeStatus = data.firstTimeLoadout
+
 
                 console.log('set first time status for Loadout page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success ');
 
             }

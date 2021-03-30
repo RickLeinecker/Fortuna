@@ -34,10 +34,10 @@ function setFirstTimePlayAPICall(onLoad:(firstTimePlay: boolean) => void) {
             }
             else {
 
-                const firstTimeStatus = data.firstTimePlay
+
 
                 console.log('set first time status for Play page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success ');
 
             }

@@ -8,7 +8,6 @@ import getErrorFromObject from '../getErrorFromObject.js';
 
 function setFirstTimeHomeAPICall(onLoad:(firstTimeHome: boolean) => void) {
     const token=getLoginToken();
-    console.log('changing firstTimeHome to false...');
     const responsePromise: Promise<Response> = fetch('/api/user/setFirstTimeHome', {
         method: 'PATCH',
         headers: {
@@ -34,10 +33,8 @@ function setFirstTimeHomeAPICall(onLoad:(firstTimeHome: boolean) => void) {
             }
             else {
 
-                const firstTimeStatus = data.firstTimeHome
-
                 console.log('set first time status for Home page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success');
 
             }

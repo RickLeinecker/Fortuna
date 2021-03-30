@@ -34,10 +34,10 @@ function setFirstTimeTrainingAPICall(onLoad:(firstTimeTraining: boolean) => void
             }
             else {
 
-                const firstTimeStatus = data.firstTimeTraining
+
 
                 console.log('set first time status for Training page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success ');
 
             }

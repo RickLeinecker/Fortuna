@@ -114,7 +114,12 @@ const MainMenu  = () => {
       setRun(res);
 		})
 
-		setFirstTimeHomeAPICall();
+        console.log("THIS IS NOW RUN: " , run)
+        if(run == true)
+        {
+            setFirstTimeHomeAPICall();
+
+        }
 
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});

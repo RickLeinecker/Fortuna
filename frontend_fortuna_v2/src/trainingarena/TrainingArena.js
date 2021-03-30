@@ -57,6 +57,7 @@ function TrainingArena() {
   const [tourSteps, setTourSteps] = useState([
     {
       target: ".leftTank",
+      disableBeacon: true,
       content: "Choose YOUR tank for training here"
     },
     {
@@ -83,15 +84,22 @@ function TrainingArena() {
       setbotTankOne(botTanks[0]);
       setBotTanks(botTanks);
     })
+
+
+    TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+
+
       getFirstTimeTrainingAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
       })
 
-      setFirstTimeTrainingAPICall();
-    TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-    TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+      if(run == true)
+      {
+          setFirstTimeTrainingAPICall();
+      }
   }, []);
 
   const onClickStartBattle: void = () => {

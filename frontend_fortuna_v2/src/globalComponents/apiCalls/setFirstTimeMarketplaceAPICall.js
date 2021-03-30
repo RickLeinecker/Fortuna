@@ -34,10 +34,10 @@ function setFirstTimeMarketplaceAPICall(onLoad:(firstTimeMarketplace: boolean) =
             }
             else {
 
-                const firstTimeStatus = data.firstTimeMarketplace
+
 
                 console.log('set first time status for Marketplace page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success ');
 
             }

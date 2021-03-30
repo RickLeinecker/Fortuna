@@ -36,7 +36,11 @@ class CasusContainer extends React.Component<Props, State> {
             this.setState({run:res});
         })
 
-        setFirstTimeCasusAPICall();
+        if(this.state.run == true)
+        {
+            setFirstTimeCasusAPICall();
+        }
+
 	}
 
 	constructor(props: Props) {
@@ -48,6 +52,7 @@ class CasusContainer extends React.Component<Props, State> {
       tour_steps: [
         {
           target: ".mt-12",
+          disableBeacon: true,
           content: "code canvas",
         },
         {

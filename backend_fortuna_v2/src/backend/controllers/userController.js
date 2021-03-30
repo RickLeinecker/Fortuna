@@ -753,12 +753,12 @@ exports.getFirstTimeTraining = async (req: Request, res: Response) => {
 		if (user.firstTimeTraining == true) {
 			console.log('user has NOT been here before')
 
-			return res.status(200).send(user.firstTime);
+			return res.status(200).send(user.firstTimeTraining);
 		}
 		else if (user.firstTimeTraining == false) {
 			console.log('user HAS been here before')
 
-			return res.status(200).send(user.firstTime)
+			return res.status(200).send(user.firstTimeTraining)
 		}
 		else
 		{

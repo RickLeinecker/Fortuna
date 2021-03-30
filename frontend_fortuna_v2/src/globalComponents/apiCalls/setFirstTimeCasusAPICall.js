@@ -34,10 +34,10 @@ function setFirstTimeCasusAPICall(onLoad:(firstTimeCasus: boolean) => void) {
             }
             else {
 
-                const firstTimeStatus = data.firstTimeCasus
+
 
                 console.log('set first time status for Casus page: ');
-                console.log(firstTimeStatus);
+
                 console.log('success ');
 
             }

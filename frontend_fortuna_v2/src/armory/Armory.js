@@ -63,6 +63,7 @@ function Armory() {
 	const [tourSteps, setTourSteps] = useState([
 		{
 			target: ".armoryleft",
+			disableBeacon: true,
 			content: "Options to create and manage tanks",
 
 		},
@@ -89,12 +90,16 @@ function Armory() {
 		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 
-		//getFirstTimeLoadoutAPICall((res) => {
-		//	console.log("RES: ", res);
-		//	setRun(res);
-		//})
+		getFirstTimeLoadoutAPICall((res) => {
+			console.log("RES: ", res);
+			setRun(res);
+		})
 
-		setFirstTimeLoadoutAPICall();
+		if(run == true)
+		{
+			setFirstTimeLoadoutAPICall();
+		}
+
 	}, [])
 
 	useEffect(() => {
