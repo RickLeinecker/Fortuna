@@ -112,6 +112,11 @@ const MainMenu  = () => {
 		getFirstTimeHomeAPICall((res) => {
             console.log("RES: ", res);
             setRun(res);
+            if(res === true)
+            {
+                setFirstTimeHomeAPICall();
+
+            }
 		})
 
 
@@ -122,13 +127,7 @@ const MainMenu  = () => {
 
 	}, [])
 
-    useEffect(() =>{
-        if(run === true)
-        {
-            setFirstTimeHomeAPICall();
 
-        }
-    },[])
 
   const style = {
     position: "relative",
