@@ -3,7 +3,6 @@
 import './BattleArena.css';
 import * as React from 'react';
 import MainNavbar from '../globalComponents/MainNavbar.js';
-import Leaderboard from '../globalComponents/Leaderboard.js';
 import SearchPlayers from './SearchPlayers.js';
 import ChallengePlayerPopup from './ChallengePlayerPopup.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
@@ -18,18 +17,13 @@ import { prepare3v3APICall, prepare1v1APICall } from '../globalComponents/apiCal
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
-import Replays from './Replays.js';
 import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
-
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
-import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
-import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
 import JoyRide from "react-joyride";
-import getFirstTimeCasusAPICall from "../globalComponents/apiCalls/getFirstTimeCasusAPICall";
-import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
+
 import SetWagerPopup from "../armory/SetWagerPopup";
 
 type Props = {||};
@@ -67,11 +61,11 @@ class BattleArena extends React.Component<Props, State> {
 				},
 				{
 					target: ".wager",
-					content: "Don't forget to wager a tank to be able to have other people battle with you!"
+					content: "The minimum wager is $50 and you need to have a tank wagered for others to battle against you!"
 				},
 				{
 					target: ".quickplay",
-					content: "Quickly find a match with someone wagered tank in your ELO rank"
+					content: "Quickly find a match with someone's wagered tank in your ELO rank"
 				}
 			],
 			run: false
@@ -92,16 +86,17 @@ class BattleArena extends React.Component<Props, State> {
 		getReplayListAPICall(() => {});
 		getFirstTimePlayAPICall((res) => {
 			console.log("RES: ", res);
-			this.state.run = res;
+			this.setState({run:res});
+			if(this.state.run == true)
+			{
+				setFirstTimePlayAPICall();
+
+			}
 		})
 
 
 		console.log("THIS IS NOW RUN: " , this.state.run)
-		if(this.state.run == true)
-		{
-			setFirstTimePlayAPICall();
 
-		}
 	}
 
 	onChallengePlayer(player: ?User): void {

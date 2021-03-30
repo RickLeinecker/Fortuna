@@ -30,15 +30,7 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
     document.body.style.backgroundRepeat = "round"
     const ref = this.refs.navbarRef
-        getFirstTimeCasusAPICall((res) => {
-            console.log("RES: ", res);
-            this.setState({run:res});
-        })
 
-        if(this.state.run == true)
-        {
-            setFirstTimeCasusAPICall();
-        }
 
 	}
 
@@ -52,22 +44,26 @@ class CasusContainer extends React.Component<Props, State> {
         {
           target: ".mt-12",
           disableBeacon: true,
-          content: "code canvas",
-        },
-        {
-          target: ".blockTypeSelect",
-          content: "choose module type"
+          content: "Welcome to Casus, the simplified code editor that allows you to program your tanks movement and actions",
         },
         {
           target: ".blockShelf",
-          content: "choose a module for a type"
+          content: "These code blocks can be dragged into the canvas above to create code. If you're placing code blocks inside of each other, make sure the shapes match!"
         },
         {
+          target: ".blockTypeSelect",
+          content: "Here are different categories for your code blocks to help you find different code types and shapes"
+        },
+          {
+              target: ".help",
+              content: "This section is for help on basic programming concepts and how these code types relate to real world code"
+          },
+        {
           target: ".testCode",
-          content: "test code here"
+          content: "Click here to test your code"
         }
       ],
-      run: false
+      run: true
 		};
 
 		const tankId=getTankForCasus();
@@ -76,11 +72,29 @@ class CasusContainer extends React.Component<Props, State> {
 			this.setState({tankName: tankEditing?.tankName ?? ''});
 		});
 
+
+
 	}
+
+    componentDidMount(): void {
+        document.body.style.backgroundRepeat = "round"
+        const ref = this.refs.navbarRef
+        //getFirstTimeCasusAPICall((res) => {
+          //  console.log("RES: ", res);
+          //  this.setState({run:res});
+
+           // if(this.state.run == true)
+          //  {
+           //     setFirstTimeCasusAPICall();
+          //  }
+      //  })
+
+
+    }
 
 	render(): React.Node {
 		return (
-      <>
+      <div id="Parent" className='background-image'>
         <MainNavbar
           className='background-image'
           linkName="/Armory"
@@ -129,7 +143,7 @@ class CasusContainer extends React.Component<Props, State> {
               <p>Photo credit: <a href="https://i.pinimg.com/originals/2c/91/78/2c91787e2c132a075493760641745b71.gif">walpaperlist</a></p>
           </div>
         </Container>
-      </>
+      </div>
 		);
 	}
 

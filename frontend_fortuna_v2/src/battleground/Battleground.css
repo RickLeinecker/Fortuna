@@ -1,9 +1,18 @@
 .battlegroundCanvas {
 	background-color: #fafafa;
 	width: 1300px;
+
 }
 
 .battlegroundCanvasDiv {
 	width: 80%;	
 	display: inline-block;
+
+}
+.background-image {
+	background: url('/login_background.gif');
+	height: 100vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }

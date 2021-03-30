@@ -58,15 +58,15 @@ function TrainingArena() {
     {
       target: ".leftTank",
       disableBeacon: true,
-      content: "Choose YOUR tank for training here"
+      content: "Select YOUR tank for training in this slot"
     },
     {
       target: ".taright",
-      content: "Choose enemy tank",
+      content: "Then select a separate enemy bot tank",
     },
     {
       target: ".chooseArena",
-      content: "Change Arenas for different map layouts"
+      content: "Different Arenas have different walls and sizes so test them out!"
     }
   ]);
 
@@ -96,12 +96,17 @@ function TrainingArena() {
           setRun(res);
       })
 
+
+
+  }, []);
+
+
+  useEffect(() =>{
       if(run == true)
       {
           setFirstTimeTrainingAPICall();
       }
-  }, []);
-
+  })
   const onClickStartBattle: void = () => {
 		const myTankOne: ?Tank = selectedTankOne;
 		const myTankTwo: ?Tank = selectedTankTwo;

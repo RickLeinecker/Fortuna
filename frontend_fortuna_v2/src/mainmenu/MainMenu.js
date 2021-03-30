@@ -51,17 +51,17 @@ const MainMenu  = () => {
     const [run, setRun] = useState(false);
     const [tourSteps, setTourSteps] = useState([
         {
-          target: ".menumiddle",
+          target: ".menuheader",
           disableBeacon: true,
-          content: "Welcome to Fortuna! Tutorials like this will auto-trigger your first time visiting important pages. Feel free to exit them at anytime as every page will have a button to restart that pages tutorial in case you forget anything!"
+          content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages. Feel free to exit these tutorials at anytime"
         },
         {
           target: ".tankSelect",
-          content: "This is the Navbar and will serve as your main way to navigate to different menus"
+          content: "The navbar and will serve as your main navigation through the Fortuna system"
         },
         {
           target: ".battleRecord",
-          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes!"
+          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
         },
         {
           target: '.training',
@@ -69,15 +69,15 @@ const MainMenu  = () => {
         },
         {
           target: ".select",
-          content: "Here is your currently selected tank. You can click on the tank name to change to any other selected tanks"
+          content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code"
         },
         {
           target: ".menuright",
-          content: "The Leaderboard shows you the Top 10 Players in Fortuna. Strive to be part of the Elite!"
+          content: "This Leaderboard shows you the Top Ten most POWERFUL players in the entire land of Vessint, the world we currently reside in "
         },
         {
           target: ".credits",
-          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game!"
+          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game"
         },
         {
             target: ".editTank",
@@ -85,7 +85,7 @@ const MainMenu  = () => {
         },
         {
             target: ".play",
-            content: "Go ahead an get in a game to get started!"
+            content: "Play against tanks that other players have wagered and programmed. Don't forget to get some starter code from the Marketplace first!"
         }
       ])
 
@@ -110,22 +110,25 @@ const MainMenu  = () => {
 
 
 		getFirstTimeHomeAPICall((res) => {
-      console.log("RES: ", res);
-      setRun(res);
+            console.log("RES: ", res);
+            setRun(res);
 		})
 
-        console.log("THIS IS NOW RUN: " , run)
-        if(run == true)
-        {
-            setFirstTimeHomeAPICall();
 
-        }
 
     TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
+
+    useEffect(() =>{
+        if(run === true)
+        {
+            setFirstTimeHomeAPICall();
+
+        }
+    })
 
   const style = {
     position: "relative",
@@ -142,10 +145,10 @@ const MainMenu  = () => {
             pageName="Main Menu"
           />
         </div>
-        <h1 className="menuheader">Where to Commander?</h1>
+        <h1 className="menuheader">How much you in for today?</h1>
         <div className="column menuleft battleRecord" ref={el => left = el}>
           <Replays/>
-          <br/>
+          <br/><br/><br/>
           <Link to={verifyLink("/TrainingArena")}>
             <button className="marketBtn train">Training</button>
           </Link>
@@ -231,7 +234,7 @@ const MainMenu  = () => {
 						<Leaderboard />
 					</div>
           <br/>
-          <Link to={verifyLink("/Credits")}>
+          <Link  to={verifyLink("/Credits")}>
             <button className="marketBtn creditsButton">Credits</button>
           </Link>
         </div>
