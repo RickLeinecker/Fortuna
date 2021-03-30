@@ -47,6 +47,10 @@ function Marketplace() {
       getFirstTimeMarketplaceAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
+          if(res == true)
+          {
+              setFirstTimeMarketplaceAPICall();
+          }
 
       })
 
@@ -58,10 +62,7 @@ function Marketplace() {
   }, [])
 
     useEffect(() =>{
-        if(run == true)
-        {
-            setFirstTimeMarketplaceAPICall();
-        }
+
     })
 
   const divStyle = {

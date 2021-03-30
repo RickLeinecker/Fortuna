@@ -94,6 +94,10 @@ function TrainingArena() {
       getFirstTimeTrainingAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
+          if(res == true)
+          {
+              setFirstTimeTrainingAPICall();
+          }
       })
 
 
@@ -101,12 +105,7 @@ function TrainingArena() {
   }, []);
 
 
-  useEffect(() =>{
-      if(run == true)
-      {
-          setFirstTimeTrainingAPICall();
-      }
-  })
+
   const onClickStartBattle: void = () => {
 		const myTankOne: ?Tank = selectedTankOne;
 		const myTankTwo: ?Tank = selectedTankTwo;
