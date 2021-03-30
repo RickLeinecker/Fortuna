@@ -30,10 +30,10 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
     document.body.style.backgroundRepeat = "round"
     const ref = this.refs.navbarRef
-        getFirstTimeCasusAPICall((res) => {
+       getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
             this.setState({run:res});
-        })
+       })
 
         if(this.state.run == true)
         {
@@ -62,10 +62,10 @@ class CasusContainer extends React.Component<Props, State> {
           target: ".blockTypeSelect",
           content: "Here are different categories for your code blocks to help you find different code types and shapes"
         },
-          {
-              target: ".help",
-              content: "This section is for help on basic programming concepts and how these code types relate to real world code"
-          },
+        {
+          target: ".helpButton",
+          content: "This section is for help on basic programming concepts and how these code types relate to real world code"
+        },
         {
           target: ".testCode",
           content: "Click here to test your code"

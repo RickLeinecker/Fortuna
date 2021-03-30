@@ -57,7 +57,7 @@ const MainMenu  = () => {
         },
         {
           target: ".tankSelect",
-          content: "The navbar and will serve as your main navigation through the Fortuna system"
+          content: "The navbar will serve as your main navigation through the Fortuna system"
         },
         {
           target: ".battleRecord",
