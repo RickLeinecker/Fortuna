@@ -70,7 +70,7 @@ function Armory() {
 		{
 			target: ".armoryright",
 			content:
-				"Equip and customize your tanked with weapons, equipment, or items that you have purchased from the Marketplace"
+				"Equip and customize your tanks with weapons, equipment, or items that you have purchased from the Marketplace"
 		}
 	])
 

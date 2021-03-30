@@ -40,7 +40,7 @@ function Explanation({ choice }) {
         </p>
         <img style={imgStyle} src="/help/if_statement.png" alt="image"/>
         <p style={pstyle}>
-          A for loop is used to repeat lines of code when you are
+          A while loop is used to repeat lines of code when you are
           uncertain exactly how many times they should be repeated.
           A while loop is paired with a conditional statement, and
           specifies a group of code lines that is executed repeatedly while
