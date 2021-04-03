@@ -22,7 +22,9 @@ function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
   const [run, setRun] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [componentModalOpen, setComponentModalOpen] = useState(false);
+  const [tankModalOpen, setTankModalOpen] = useState(false);
+  const [casusModalOpen, setCasusModalOpen] = useState(false);
   const [tourSteps, setTourSteps] = useState([
       {
           target: ".buy",
@@ -61,16 +63,40 @@ function Marketplace() {
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
-  }, [])
+  }, []);
 
-  const openModal = () => {
-    setModalIsOpen(true);
-    console.log("open");
+  const openModals = (choice) => {
+    switch(choice)
+    {
+      case 'component':
+        setComponentModalOpen(true);
+        break;
+      case 'tank':
+        setTankModalOpen(true);
+        break;
+      case 'casus':
+        setCasusModalOpen(true);
+        break;
+      default:
+        break;
+    }
   }
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    console.log("closed");
+  const closeModals = (choice) => {
+    switch(choice)
+    {
+      case 'component':
+        setComponentModalOpen(false);
+        break;
+      case 'tank':
+        setTankModalOpen(false);
+        break;
+      case 'casus':
+        setCasusModalOpen(false);
+        break;
+      default:
+        break;
+    }
   }
 
 
@@ -218,18 +244,29 @@ function Marketplace() {
             <br/>
             <Row >
               <Col md={3}>
-                <button className="marketBtn" onClick={openModal}>Sell a Component</button>
+                <button className="marketBtn" onClick={() => openModals('component')}>Sell a Component</button>
                 <Modal
-                  isOpen={modalIsOpen}
+                  isOpen={componentModalOpen}
                   style={customStyles}
                   contentLabel="Sell Component"
                 >
                   <MakeAComponentSaleView onItemSold={onMoneyChanged} />
                   <br/><br/>
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={closeModal}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('component')}>Close</button>
                 </Modal>
               </Col>
-              <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeCasusCodeSale')}>Sell Casus Code</button></Col>
+              <Col md={3}>
+                <button className="marketBtn" onClick={() => openModals('casus')}>Sell Casus Code</button>
+                <Modal
+                  isOpen={casusModalOpen}
+                  style={customStyles}
+                  contentLabel="Sell Casus"
+                >
+                  <MakeCasusCodeSaleView onItemSold={onMoneyChanged} />
+                  <br /><br />
+                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
+                </Modal>
+              </Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeATankSale')}>Sell a Tank</button></Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
             </Row>

@@ -84,46 +84,8 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return responseString;
 	}
 
-  selectStyle = {
-    cursor: "pointer",
-    width: "20%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "730px",
-    position: "relative"
-  }
-
-  inputStyle = {
-    cursor: "pointer",
-    width: "5%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "850px",
-    position: "relative"
-  }
-
-  tankLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "825px",
-    position: "relative"
-  }
-
-  sellLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "850px",
-    position: "relative"
-  }
-
   buttonStyle = {
-    left: "850px",
+    left: "110px",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
@@ -165,7 +127,7 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
           <br/>
           <input min="1" type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
           <br/><br/><br/>
-          <button style={{left: "110px"}} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
+          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
         </div>
       );
     }
