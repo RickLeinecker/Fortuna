@@ -14,29 +14,31 @@ import JoyRide from "react-joyride";
 import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
-import { TweenMax, Power3, TweenLite } from 'gsap'
+import { TweenMax, Power3, TweenLite } from 'gsap';
+import Modal from 'react-modal'
+import { ToastContainer , toast } from 'react-toastify';
 
 function Marketplace() {
 
   const [marketplaceViewClicked, setMarketplaceViewClicked] = useState(null);
   const [run, setRun] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [tourSteps, setTourSteps] = useState([
-
-        {
-            target: ".buy",
-            disableBeacon: true,
-            content: "Welcome to the Marketplace! Use this section to buy components, items, code, and tanks to use in the battlefield!"
-        },
       {
-          target: ".casusCode",
-          content: "Click here to buy some starter code that goes with the default starter tanks!"
+          target: ".buy",
+          disableBeacon: true,
+          content: "Welcome to the Marketplace! Use this section to buy components, items, code, and tanks to use in the battlefield!"
       },
-        {
-            target: ".sell",
-            content: "Sell anything you own or create to make some extra cash"
-        },
+    {
+        target: ".casusCode",
+        content: "Click here to buy some starter code that goes with the default starter tanks!"
+    },
+      {
+          target: ".sell",
+          content: "Sell anything you own or create to make some extra cash"
+      }
+  ]);
 
-  ])
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
   let sellUp = useRef(null);
@@ -61,6 +63,16 @@ function Marketplace() {
 
   }, [])
 
+  const openModal = () => {
+    setModalIsOpen(true);
+    console.log("open");
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    console.log("closed");
+  }
+
 
 
   const divStyle = {
@@ -78,6 +90,22 @@ function Marketplace() {
 
   const resetPageView = () => {
     setMarketplaceViewClicked(null);
+  }
+
+  const customStyles = {
+    content : {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '20%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid",
+      maxHeight: "100vh"
+    }
   }
 
   let partView = null;
@@ -189,7 +217,18 @@ function Marketplace() {
             <h1 style={divStyle}>Sell</h1>
             <br/>
             <Row >
-              <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeAComponentSale')}>Sell a Component</button></Col>
+              <Col md={3}>
+                <button className="marketBtn" onClick={openModal}>Sell a Component</button>
+                <Modal
+                  isOpen={modalIsOpen}
+                  style={customStyles}
+                  contentLabel="Sell Component"
+                >
+                  <MakeAComponentSaleView onItemSold={onMoneyChanged} />
+                  <br/><br/>
+                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={closeModal}>Close</button>
+                </Modal>
+              </Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeCasusCodeSale')}>Sell Casus Code</button></Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeATankSale')}>Sell a Tank</button></Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
@@ -206,6 +245,7 @@ function Marketplace() {
                     }
                 }}
             />
+          <ToastContainer />
         </div>
       );
     }

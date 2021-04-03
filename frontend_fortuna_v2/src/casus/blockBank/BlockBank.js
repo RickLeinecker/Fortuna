@@ -81,7 +81,7 @@ function BlockBank(props) {
       <br/>
       <br/>
       <br/>
-      <button className="helpButton" onClick={openModal}>Help</button>
+      <Button className="helpButton" onClick={openModal}>Help</Button>
       <Modal
         isOpen={modalIsOpen}
         style={customStyles}
