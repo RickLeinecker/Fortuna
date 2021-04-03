@@ -59,7 +59,8 @@ function Marketplace() {
       })
 
 
-
+    Modal.setAppElement('body');
+    
     TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
     TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
@@ -267,7 +268,18 @@ function Marketplace() {
                   <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
                 </Modal>
               </Col>
-              <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('makeATankSale')}>Sell a Tank</button></Col>
+              <Col md={3}>
+                <button className="marketBtn" onClick={() => openModals('tank')}>Sell a Tank</button>
+                <Modal
+                  isOpen={tankModalOpen}
+                  style={customStyles}
+                  contentLabel="Sell Tank"
+                >
+                  <MakeATankSaleView onItemSold={onMoneyChanged} />
+                  <br /><br />
+                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('tank')}>Close</button>
+                </Modal>
+              </Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
             </Row>
           </Container>

@@ -182,7 +182,6 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
           ></input>
           <br/><br/><br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
-          <ToastContainer />
         </div>
       );
     }
