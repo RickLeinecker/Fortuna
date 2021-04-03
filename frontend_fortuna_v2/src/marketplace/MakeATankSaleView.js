@@ -110,45 +110,6 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		);
 	}
 
-  selectStyle = {
-    cursor: "pointer",
-    width: "20%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "720px",
-    position: "relative"
-  }
-
-  inputStyle = {
-    cursor: "pointer",
-    width: "5%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "850px",
-    position: "relative"
-  }
-
-
-  tankLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "830px",
-    position: "relative"
-  }
-
-  sellLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "850px",
-    position: "relative"
-  }
-
   buttonStyle = {
     left: "110px",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
