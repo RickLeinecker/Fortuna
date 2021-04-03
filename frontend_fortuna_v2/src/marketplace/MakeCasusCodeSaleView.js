@@ -86,7 +86,7 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 			() => {
 				toast.success("Casus Code Placed in Market.");
 				this.getAllUsersTanksForSell();
-				this.setState({salePrice: 0, loading: false});
+				this.setState({salePrice: 1, loading: false});
 				this.props.onItemSold();
 			},
       () => {
@@ -95,46 +95,8 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 		);
 	}
 
-  selectStyle = {
-    cursor: "pointer",
-    width: "20%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "745px",
-    position: "relative"
-  }
-
-  inputStyle = {
-    cursor: "pointer",
-    width: "5%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "850px",
-    position: "relative"
-  }
-
-  tankLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "800px",
-    position: "relative"
-  }
-
-  sellLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "850px",
-    position: "relative"
-  }
-
   buttonStyle = {
-    left: "850px",
+    left: "110px",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
@@ -160,19 +122,18 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
       return (
         <div id="Parent">
           <br/><br/><br/>
-          <label style={this.tankLabelStyle}>Select a tank's casus code to Sell</label>
+          <label>Select a tank's casus code to Sell</label>
           <br/><br/>
           <select
             className="dropdownMenu"
             onChange={e => this.setState({tankBeingSoldId: e.target.value})}
-            style={this.selectStyle}
           >
             {this.state.tanksToSell.map(({ tankName, _id }, index) =>
               <option key={index}  value={_id}>{tankName}</option>
             )}
           </select>
           <br/><br/><br/>
-          <label style={this.sellLabelStyle}>Selling Price</label>
+          <label>Selling Price</label>
           <br/><br/>
           <input
             type="number"
@@ -180,11 +141,9 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
             className="inputText"
             min="1"
             onChange={e => this.setState({salePrice: e.target.value})}
-            style={this.inputStyle}
           ></input>
           <br/><br/><br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
-          <ToastContainer />
         </div>
       );
     }
