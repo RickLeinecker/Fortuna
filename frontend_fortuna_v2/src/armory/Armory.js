@@ -41,6 +41,7 @@ import { TweenMax, Power3, TweenLite } from 'gsap'
 import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import JoyRide from "react-joyride";
+import Modal from 'react-modal';
 
 function Armory() {
 
@@ -470,7 +471,7 @@ function Armory() {
 							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
               style={divStyle2}
 						>
-							{toTitleCase(selectedTank.chassis.name)}
+							{toTitleCase(selectedTank.chassis.name)} {/*this will be passed as prop*/}
 						</button>
 						<br/>
 						<br/>
@@ -534,6 +535,7 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.jammer.name)}
 						</button>
+
 						<br/>
 						<br/>
 
