@@ -28,7 +28,52 @@ services:
       - server
     networks:
       - fortunalocalnetwork
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
+    depends_on:
+      - client
+    networks:
+      - fortunalocalnetwork
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - webserver
+    command: certonly --webroot --webroot-path=/var/www/html --email johnc33594@gmail.com --agree-tos --no-eff-email --staging -d fortunacombattestgoogle.com  -d www.fortunacombattestgoogle.com
+
 volumes:
   nodemodules:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /root/dhparam/
+      o: bind
+
 networks:
   fortunalocalnetwork:
+    driver: bridge
