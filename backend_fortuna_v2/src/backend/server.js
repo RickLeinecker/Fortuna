@@ -22,7 +22,7 @@ const options = {
 };
 
 // MongoDB Connection
-mongoose.connect(process.env.DB_URL, options)
+mongoose.connect('mongodb+srv://admin:u5DVNpbRIplBgTxW@fortunacluster.muuiv.mongodb.net/fortuna?retryWrites=true&w=majority', options)
 	.then(() => console.log(`Connected to MongoDB...`))
 	.catch(() => console.error('Could not connect to DB'));
 

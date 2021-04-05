@@ -22,7 +22,7 @@ const MarketSale = require('../../models/marketSaleModel');
 const jwtSecret = process.env.JWT_SECRET;
 // Front-End Host Constant
 const FRONTEND = (process.env.NODE_ENV === 'development') ? 'localhost:3000' : 'fortunacombat.com';
-const MASTER_ID = process.env.REACT_APP_MASTER_ACCOUNT;
+const MASTER_ID = '5e93b1d0d1125f22ecd469b7';
 
 const {OAuth2Client} = require('google-auth-library');
 

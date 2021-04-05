@@ -11,4 +11,5 @@ build-production:
 	docker build \
 	-t fortunaclientprod:production \
 	--build-arg CADDYFILE=Caddyfile.production \
+	--build-arg BASE_URL=https://fortunacombattestgoogle.com/api \
 	-f Dockerfile.production .
