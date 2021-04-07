@@ -31,7 +31,7 @@
     "start": "NODE_ENV=development node --use_strict ./lib/backend/server.js",
     "build": "babel src/ -d lib/",
     "build:watch": "babel src/ -d lib/ -w",
-    "deploy": "react-scripts build",
+    "deploy": "node lib/backend/server.js",
     "cycles": "madge --circular lib/index.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
