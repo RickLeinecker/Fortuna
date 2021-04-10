@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { getComponentPoints, getComponentType } from '../globalComponents/GetInventoryInfo.js';
 import { toTitleCase } from '../globalComponents/Utility.js';
 
@@ -7,7 +7,7 @@ import { toTitleCase } from '../globalComponents/Utility.js';
   updatePoints
   updateComponent
 */
-function EquipMenu({ checkPoints, updatePoints, updateComponent, divStyle, componentList, currentPartIndex }) {
+function EquipMenu({ checkPoints, updatePoints, updateComponent, divStyle, componentList, currentPartIndex, part, closeModals }) {
   
   return (
     <div>
@@ -30,7 +30,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, divStyle, compo
 											<td align="left">
 												<button
 													className="componentMenuBtn"
-													onClick={() => updateComponent(componentName, currentPartIndex)}
+													onClick={() => { updateComponent(componentName, currentPartIndex); closeModals(part);}}
 													disabled={checkPoints(componentName, currentPartIndex)}
 												>
 													{toTitleCase(componentName)}

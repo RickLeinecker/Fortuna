@@ -390,8 +390,6 @@ function Armory() {
 
 	}
 
-
-
   const divStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -406,6 +404,23 @@ function Armory() {
     color: "#04CCFF",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
+
+  const customStyles = {
+    content : {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '20%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid",
+      maxHeight: "100vh"
+    }
+  }
+
 
 	return (
 		<div id="Parent" className='background-image-armory'>
@@ -475,14 +490,6 @@ function Armory() {
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
-				<EquipMenu 
-          checkPoints={checkPoints}
-          updatePoints={updatePoints}
-          updateComponent={updateComponent}
-          divStyle={divStyle}
-          componentList={componentList}
-          currentPartIndex={currentPartIndex}
-        />
 			</div>
 			<div ref={el => armright = el}>
 				{selectedTank==null?<div></div>:
@@ -491,11 +498,29 @@ function Armory() {
 						<label className="font" style={divStyle}>Chassis: </label>
 						<button
 							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
+							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0); setOpenChassis(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.chassis.name)} {/*this will be passed as prop*/}
 						</button>
+            <Modal
+              isOpen={openChassis}
+              style={customStyles}
+              contentLabel="Chassis"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='chassis'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('chassis')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
 
@@ -507,6 +532,18 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
+            <Modal>
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+              />
+              <br/><br/>
+              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('chassis')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Secondary Gun: </label>
 						<button
