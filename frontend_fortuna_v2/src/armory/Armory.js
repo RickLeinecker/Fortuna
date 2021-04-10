@@ -508,7 +508,7 @@ function Armory() {
 							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0); setOpenChassis(true)}}
               style={divStyle2}
 						>
-							{toTitleCase(selectedTank.chassis.name)} {/*this will be passed as prop*/}
+							{toTitleCase(selectedTank.chassis.name)}
 						</button>
             <Modal
               isOpen={openChassis}
