@@ -46,7 +46,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, divStyle, compo
 											<td align="left">
 												<button
 													className="componentMenuBtn font"
-													onClick={() => updateComponent('empty', currentPartIndex)}
+													onClick={() => {updateComponent('empty', currentPartIndex); closeModals(part);}}
 												>
 													Empty
 												</button>
