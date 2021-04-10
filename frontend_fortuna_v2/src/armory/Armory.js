@@ -60,6 +60,67 @@ function Armory() {
 	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
 	const [points, setPoints] = useState(0);
 	const [run, setRun] = useState(false);
+  
+	const [openWeapon, setOpenWeapon] = useState(false);
+	const [openChassis, setOpenChassis] = useState(false);
+	const [openScanners, setOpenScanners] = useState(false);
+	const [openJammers, setOpenJammers] = useState(false);
+	const [openTreads, setOpenTreads] = useState(false);
+	const [openItem, setOpenItem] = useState(false);
+
+  const openModals = (choice) => {
+    switch(choice)
+    {
+      case 'weapon':
+        setOpenWeapon(true);
+        break;
+      case 'chassis':
+        setOpenChassis(true);
+        break;
+      case 'scanner':
+        setOpenScanners(true);
+        break;
+      case 'jammer':
+        setOpenJammers(true);
+        break;
+      case 'treads':
+        setOpenTreads(true);
+        break;
+      case 'item':
+        setOpenItem(true);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const closeModals = (choice) => {
+    switch(choice)
+    {
+      case 'weapon':
+        setOpenWeapon(false);
+        break;
+      case 'chassis':
+        setOpenChassis(false);
+        break;
+      case 'scanner':
+        setOpenScanners(false);
+        break;
+      case 'jammer':
+        setOpenJammers(false);
+        break;
+      case 'treads':
+        setOpenTreads(false);
+        break;
+      case 'item':
+        setOpenItem(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+
 	let SetWagerPopupRef = useRef(null);
 	let navbarRef = useRef(null);
 	const [tourSteps, setTourSteps] = useState([
