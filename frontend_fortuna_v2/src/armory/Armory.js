@@ -42,6 +42,7 @@ import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHo
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import JoyRide from "react-joyride";
 import Modal from 'react-modal';
+import EquipMenu from './EquipMenu';
 
 function Armory() {
 
@@ -369,6 +370,7 @@ function Armory() {
 						allowRemoveTank={false}
 					/>
 				}
+
 				<br/><br/>
 				<label className="font" style={divStyle}>Casus</label>
 				<br/>
@@ -412,54 +414,14 @@ function Armory() {
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
-				{(currentPartIndex === -1) ?
-					<div></div> :
-					<div>
-						<h4 className="font" style={divStyle}>Component Menu</h4>
-						<div className="componentMenu">
-							<table>
-								<thead>
-									<tr>
-										<th className="font">Component Name</th>
-										<th className="font">Number Owned</th>
-										<th className="font">Point Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									{(componentList == null) ? <tr></tr> : componentList.map(({componentName, numberOwned}, index) => (
-										<tr key={index}>
-											<td align="left">
-												<button
-													className="componentMenuBtn"
-													onClick={() => updateComponent(componentName, currentPartIndex)}
-													disabled={checkPoints(componentName, currentPartIndex)}
-												>
-													{toTitleCase(componentName)}
-												</button>
-											</td>
-											<td>{numberOwned}</td>
-											<td>{getComponentPoints(componentName)}</td>
-										</tr>
-									))}
-									{(currentPartIndex === 0 || currentPartIndex === 7) ?
-										<tr></tr> :
-										<tr>
-											<td align="left">
-												<button
-													className="componentMenuBtn font"
-													onClick={() => updateComponent('empty', currentPartIndex)}
-												>
-													Empty
-												</button>
-											</td>
-											<td></td><td></td>
-										</tr>
-									}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				}
+				<EquipMenu 
+          checkPoints={checkPoints}
+          updatePoints={updatePoints}
+          updateComponent={updateComponent}
+          divStyle={divStyle}
+          componentList={componentList}
+          currentPartIndex={currentPartIndex}
+        />
 			</div>
 			<div ref={el => armright = el}>
 				{selectedTank==null?<div></div>:
