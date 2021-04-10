@@ -41,6 +41,8 @@ import { TweenMax, Power3, TweenLite } from 'gsap'
 import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import JoyRide from "react-joyride";
+import Modal from 'react-modal';
+import EquipMenu from './EquipMenu';
 
 function Armory() {
 
@@ -58,6 +60,74 @@ function Armory() {
 	const [currentPartIndex, setCurrentPartIndex] = useState(-1);
 	const [points, setPoints] = useState(0);
 	const [run, setRun] = useState(false);
+  
+	const [openWeapon, setOpenWeapon] = useState(false);
+	const [openChassis, setOpenChassis] = useState(false);
+	const [openScanners, setOpenScanners] = useState(false);
+	const [openScannerAddon, setOpenScannerAddon] = useState(false);
+	const [openJammers, setOpenJammers] = useState(false);
+	const [openTreads, setOpenTreads] = useState(false);
+	const [openItem, setOpenItem] = useState(false);
+
+  const openModals = (choice) => {
+    switch(choice)
+    {
+      case 'weapon':
+        setOpenWeapon(true);
+        break;
+      case 'chassis':
+        setOpenChassis(true);
+        break;
+      case 'scanner':
+        setOpenScanners(true);
+        break;
+      case 'scannerAdd':
+        setOpenScannerAddon(true);
+        break;
+      case 'jammer':
+        setOpenJammers(true);
+        break;
+      case 'treads':
+        setOpenTreads(true);
+        break;
+      case 'item':
+        setOpenItem(true);
+        break;
+      default:
+        break;
+    }
+  }
+
+  const closeModals = (choice) => {
+    switch(choice)
+    {
+      case 'weapon':
+        setOpenWeapon(false);
+        break;
+      case 'chassis':
+        setOpenChassis(false);
+        break;
+      case 'scanner':
+        setOpenScanners(false);
+        break;
+      case 'scannerAdd':
+        setOpenScannerAddon(false);
+        break;
+      case 'jammer':
+        setOpenJammers(false);
+        break;
+      case 'treads':
+        setOpenTreads(false);
+        break;
+      case 'item':
+        setOpenItem(false);
+        break;
+      default:
+        break;
+    }
+  }
+
+
 	let SetWagerPopupRef = useRef(null);
 	let navbarRef = useRef(null);
 	const [tourSteps, setTourSteps] = useState([
@@ -327,8 +397,6 @@ function Armory() {
 
 	}
 
-
-
   const divStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -343,6 +411,23 @@ function Armory() {
     color: "#04CCFF",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
+
+  const customStyles = {
+    content : {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '40%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid",
+      maxHeight: "100vh"
+    }
+  }
+
 
 	return (
 		<div id="Parent" className='background-image-armory'>
@@ -368,6 +453,7 @@ function Armory() {
 						allowRemoveTank={false}
 					/>
 				}
+
 				<br/><br/>
 				<label className="font" style={divStyle}>Casus</label>
 				<br/>
@@ -411,54 +497,6 @@ function Armory() {
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
-				{(currentPartIndex === -1) ?
-					<div></div> :
-					<div>
-						<h4 className="font" style={divStyle}>Component Menu</h4>
-						<div className="componentMenu">
-							<table>
-								<thead>
-									<tr>
-										<th className="font">Component Name</th>
-										<th className="font">Number Owned</th>
-										<th className="font">Point Value</th>
-									</tr>
-								</thead>
-								<tbody>
-									{(componentList == null) ? <tr></tr> : componentList.map(({componentName, numberOwned}, index) => (
-										<tr key={index}>
-											<td align="left">
-												<button
-													className="componentMenuBtn"
-													onClick={() => updateComponent(componentName, currentPartIndex)}
-													disabled={checkPoints(componentName, currentPartIndex)}
-												>
-													{toTitleCase(componentName)}
-												</button>
-											</td>
-											<td>{numberOwned}</td>
-											<td>{getComponentPoints(componentName)}</td>
-										</tr>
-									))}
-									{(currentPartIndex === 0 || currentPartIndex === 7) ?
-										<tr></tr> :
-										<tr>
-											<td align="left">
-												<button
-													className="componentMenuBtn font"
-													onClick={() => updateComponent('empty', currentPartIndex)}
-												>
-													Empty
-												</button>
-											</td>
-											<td></td><td></td>
-										</tr>
-									}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				}
 			</div>
 			<div ref={el => armright = el}>
 				{selectedTank==null?<div></div>:
@@ -467,117 +505,313 @@ function Armory() {
 						<label className="font" style={divStyle}>Chassis: </label>
 						<button
 							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0);}}
+							onClick={() => {setComponentList(chassis); setCurrentPartIndex(0); setOpenChassis(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.chassis.name)}
 						</button>
+            <Modal
+              isOpen={openChassis}
+              style={customStyles}
+              contentLabel="chassis"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='chassis'
+                closeModals={closeModals}
+              />
+              <br/><br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('chassis')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
 
 						<label className="font" style={divStyle}>Main Gun: </label>
 						<button
 							className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1)}}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1); setOpenWeapon(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
+            <Modal
+              isOpen={openWeapon}
+              style={customStyles}
+              contentLabel="weapon1"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='weapon'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Secondary Gun: </label>
 						<button
 							className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2)}}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2); setOpenWeapon(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.secondaryGun.name)}
 						</button>
+            <Modal
+              isOpen={openWeapon}
+              style={customStyles}
+              contentLabel="weapon2"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='weapon'
+                closeModals={closeModals}
+              />
+              <br/><br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
 
 						<label className="font" style={divStyle}>Scanners: </label>
 						<button
 							className={(currentPartIndex === 3) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(scanners); setCurrentPartIndex(3)}}
+							onClick={() => {setComponentList(scanners); setCurrentPartIndex(3); setOpenScanners(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.scanner.name)}
 						</button>
+            <Modal
+              isOpen={openScanners}
+              style={customStyles}
+              contentLabel="scanner"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='scanner'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scanner')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Scanner Addon: </label>
 						<button
 							className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4)}}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4); setOpenScannerAddon(true)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
+            <Modal
+              isOpen={openScannerAddon}
+              style={customStyles}
+              contentLabel="scannerAdd1"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='scannerAdd'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Scanner Addon: </label>
 						<button
 							className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5)}}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5); setOpenScannerAddon(true)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.scannerAddonTwo.name)}
 						</button>
+            <Modal
+              isOpen={openScannerAddon}
+              style={customStyles}
+              contentLabel="scannerAdd2"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='scannerAdd'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
-
 						<label className="font" style={divStyle}>Jammers: </label>
 						<button
 							className={(currentPartIndex === 6) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(jammers); setCurrentPartIndex(6)}}
+							onClick={() => {setComponentList(jammers); setCurrentPartIndex(6); setOpenJammers(true);}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.jammer.name)}
 						</button>
+            <Modal
+              isOpen={openJammers}
+              style={customStyles}
+              contentLabel="jammer"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='jammer'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('jammer')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
 
 						<label className="font" style={divStyle}>Treads: </label>
 						<button
 							className={(currentPartIndex === 7) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(treads); setCurrentPartIndex(7)}}
+							onClick={() => {setComponentList(treads); setCurrentPartIndex(7); setOpenTreads(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.treads.name)}
 						</button>
+            <Modal
+              isOpen={openTreads}
+              style={customStyles}
+              contentLabel="treads"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='treads'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('treads')}>Close</button>
+            </Modal>
 						<br/>
 						<br/>
 
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(8)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(8); setOpenItem(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
+            <Modal
+              isOpen={openItem}
+              style={customStyles}
+              contentLabel="item1"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='item'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(9)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(9); setOpenItem(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
+            <Modal
+              isOpen={openItem}
+              style={customStyles}
+              contentLabel="item2"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='item'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+            </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(10)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(10); setOpenItem(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemThree.name)}
 						</button>
+            <Modal
+              isOpen={openItem}
+              style={customStyles}
+              contentLabel="item3"
+            >
+              <EquipMenu 
+                checkPoints={checkPoints}
+                updatePoints={updatePoints}
+                updateComponent={updateComponent}
+                divStyle={divStyle}
+                componentList={componentList}
+                currentPartIndex={currentPartIndex}
+                part='item'
+                closeModals={closeModals}
+              />
+              <br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+            </Modal>
 					</div>
 				}
 			</div>
-
 			<ToastContainer />
 			<JoyRide
 				steps={tourSteps}
