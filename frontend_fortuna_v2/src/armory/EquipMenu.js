@@ -7,8 +7,15 @@ import { toTitleCase } from '../globalComponents/Utility.js';
   updatePoints
   updateComponent
 */
-function EquipMenu({ checkPoints, updatePoints, updateComponent, divStyle, componentList, currentPartIndex, part, closeModals }) {
-  
+function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, currentPartIndex, part, closeModals }) {
+
+  const divStyle = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    position: "relative",
+    left: "25%"
+  }
+
   return (
     <div>
       {(currentPartIndex === -1) ?

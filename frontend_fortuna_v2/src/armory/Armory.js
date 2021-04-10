@@ -418,7 +418,7 @@ function Armory() {
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      width: '20%',
+      width: '40%',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
@@ -525,8 +525,8 @@ function Armory() {
                 part='chassis'
                 closeModals={closeModals}
               />
-              <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('chassis')}>Close</button>
+              <br/><br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('chassis')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -581,8 +581,8 @@ function Armory() {
                 part='weapon'
                 closeModals={closeModals}
               />
-              <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
+              <br/><br/><br/>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -611,7 +611,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('scanner')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scanner')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Scanner Addon: </label>
@@ -639,7 +639,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Scanner Addon: </label>
@@ -667,7 +667,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -695,7 +695,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('jammer')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('jammer')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -724,7 +724,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('treads')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('treads')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -753,7 +753,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
@@ -780,7 +780,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
@@ -807,7 +807,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
             </Modal>
 					</div>
 				}
