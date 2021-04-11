@@ -412,9 +412,6 @@ class ListingsView extends React.Component<Props, State> {
             <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => this.closeModal()}>Close</button>
           </Modal>
           <br/>
-          <div className="description" align="center">
-            {/* <h3 style={this.style1}>{this.getSalesTypeDesc(this.props.sellerType)}</h3> */}
-          </div>
           <br/><br/><br/><br/>
           {this.state.itemsForSale.length === 0 ? <h5>No sales to load</h5> : this.getSalesBySellerType()}
           <ToastContainer />
