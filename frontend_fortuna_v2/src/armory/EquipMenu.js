@@ -16,6 +16,10 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
     left: "25%"
   }
 
+  const tableStyle = {
+    border: "1px solid black"
+  }
+
   return (
     <div>
       {(currentPartIndex === -1) ?
@@ -23,34 +27,34 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
 					<div>
 						<h4 className="font" style={divStyle}>Component Menu</h4>
 						<div className="componentMenu">
-							<table>
+							<table style={tableStyle}>
 								<thead>
 									<tr>
-										<th className="font">Component Name</th>
-										<th className="font">Number Owned</th>
-										<th className="font">Point Value</th>
+										<th style={tableStyle} className="font">Component Name</th>
+										<th style={tableStyle} className="font">Number Owned</th>
+										<th style={tableStyle} className="font">Point Value</th>
 									</tr>
 								</thead>
 								<tbody>
 									{(componentList == null) ? <tr></tr> : componentList.map(({componentName, numberOwned}, index) => (
 										<tr key={index}>
-											<td align="left">
+											<td style={tableStyle} align="left">
 												<button
-													className="componentMenuBtn"
+													className="componentMenuBtn font"
 													onClick={() => { updateComponent(componentName, currentPartIndex); closeModals(part);}}
 													disabled={checkPoints(componentName, currentPartIndex)}
 												>
 													{toTitleCase(componentName)}
 												</button>
 											</td>
-											<td>{numberOwned}</td>
-											<td>{getComponentPoints(componentName)}</td>
+											<td style={tableStyle}>{numberOwned}</td>
+											<td style={tableStyle}>{getComponentPoints(componentName)}</td>
 										</tr>
 									))}
 									{(currentPartIndex === 0 || currentPartIndex === 7) ?
 										<tr></tr> :
 										<tr>
-											<td align="left">
+											<td style={tableStyle} align="left">
 												<button
 													className="componentMenuBtn font"
 													onClick={() => {updateComponent('empty', currentPartIndex); closeModals(part);}}
@@ -58,7 +62,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
 													Empty
 												</button>
 											</td>
-											<td></td><td></td>
+											<td style={tableStyle}></td><td style={tableStyle}></td>
 										</tr>
 									}
 								</tbody>
