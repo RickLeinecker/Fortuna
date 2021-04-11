@@ -23,6 +23,7 @@ import ItemCards from './ItemCards.js'
 import TankCards from './TankCards.js'
 import CasusCards from './CasusCards.js';
 
+import Modal from 'react-modal';
 
 type Props = {|
 	sellerType: SellingType,
@@ -54,6 +55,7 @@ class ListingsView extends React.Component<Props, State> {
 			postsPerPageCasus: 3,
 			totalPosts: 0,
 			userTanks: [],
+      modalOpen: false
 		}
 	this.getSales = this.getSales.bind(this);
     this.buyItem = this.buyItem.bind(this);
@@ -198,6 +200,8 @@ class ListingsView extends React.Component<Props, State> {
     }
   }
 
+
+
   buttonStyle = {
     position: "relative",
     left: "80px"
@@ -328,6 +332,15 @@ class ListingsView extends React.Component<Props, State> {
 	  }
 	  return this.sellerDesc
   }
+
+  openModal() {
+    this.setState({ modalOpen: true });
+  }
+
+  closeModal() {
+    this.setState({ modalOpen: false });
+  }
+
 	style1 = {
 		width: "fit-content",
 		backgroundColor: "#012074",
@@ -341,6 +354,22 @@ class ListingsView extends React.Component<Props, State> {
     display: "block",
     marginLeft: "auto",
     marginRight: "auto"
+  }
+
+  customStyles = {
+    content : {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '20%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid",
+      maxHeight: "100vh"
+    }
   }
 
 	render(): React.Node  {
@@ -369,11 +398,20 @@ class ListingsView extends React.Component<Props, State> {
 
         <Container fluid>
           <br/><br/>
-          <h1 style={{textAlign: "center"}}>{this.formatTitle(this.props.sellerType)}</h1>
-			<br/>
-			<div className="description" align="center">
-			<h3 style={this.style1}>{this.getSalesTypeDesc(this.props.sellerType)}</h3>
-			</div>
+          <h1 style={{textAlign: "center"}}>
+            {this.formatTitle(this.props.sellerType)}
+            <img style={{overflow: "hidden", position: "relative", left: "20px", borderRadius: "4px"}} width="30" height="30" src="question.png" alt="" onClick={() => this.openModal()} />  
+          </h1>
+          <Modal
+            isOpen={this.state.modalOpen}
+            style={this.customStyles}
+            contentLabel="Help Description"
+          >
+            {this.getSalesTypeDesc(this.props.sellerType)}
+            <br/><br/><br/>
+            <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => this.closeModal()}>Close</button>
+          </Modal>
+          <br/>
           <br/><br/><br/><br/>
           {this.state.itemsForSale.length === 0 ? <h5>No sales to load</h5> : this.getSalesBySellerType()}
           <ToastContainer />
