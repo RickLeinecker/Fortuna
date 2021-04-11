@@ -40,7 +40,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
 										<tr key={index}>
 											<td style={tableStyle} align="left">
 												<button
-													className="componentMenuBtn"
+													className="componentMenuBtn font"
 													onClick={() => { updateComponent(componentName, currentPartIndex); closeModals(part);}}
 													disabled={checkPoints(componentName, currentPartIndex)}
 												>
