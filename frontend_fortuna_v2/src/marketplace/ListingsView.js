@@ -400,7 +400,7 @@ class ListingsView extends React.Component<Props, State> {
           <br/><br/>
           <h1 style={{textAlign: "center"}}>
             {this.formatTitle(this.props.sellerType)}
-            <img style={{overflow: "hidden"}} width="80" height="80" src="question.png" alt="" onClick={() => this.openModal()} />  
+            <img style={{overflow: "hidden", position: "relative", left: "20px", borderRadius: "4px"}} width="30" height="30" src="question.png" alt="" onClick={() => this.openModal()} />  
           </h1>
           <Modal
             isOpen={this.state.modalOpen}
