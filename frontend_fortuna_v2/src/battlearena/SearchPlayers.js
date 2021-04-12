@@ -75,7 +75,7 @@ class SearchPlayers extends React.Component<Props, State> {
 				/>
 				<div className="searchPlayersList">
 					<br/>
-					<h6 style={this.divStyle}>Click the Player to Challenge</h6>
+					<h6 style={this.divStyle}>Current List Of Players Wagering:</h6>
 					<ul>
 						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>
