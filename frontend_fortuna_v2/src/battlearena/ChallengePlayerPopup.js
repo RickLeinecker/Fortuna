@@ -79,9 +79,8 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 
 				console.log("similar users: ", similarSkilledUsers);
 
+				// If no users found, create a bot match
 				if(similarSkilledUsers.length === 0) {
-					// toast.error('No users found with similar skill level.');
-					// return;
 					const bot = new User(
 						this.state.botNames[Math.floor(Math.random() * this.state.botNames.length)],
 						1000000,
@@ -99,18 +98,20 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				}
 			});
 		}
+		// 3 v 3
 		else {
 			getAllUsers(users => {
 				const similarSkilledUsers: Array<User> = users.filter(user => 
-					((user.elo - this.state.userElo) >= -100 
-					&& (user.elo - this.state.userElo) <= 100) 
+					((user.elo - this.state.userElo) >= -200 
+					&& (user.elo - this.state.userElo) <= 200) 
 					&& user.wager3v3 > 0
 					&& user.username !== this.state.myUsername
 				);
+				// create bot match if no user is found.
 				if(similarSkilledUsers.length === 0) {
 					toast.error('No users found with similar skill level.');
 					return;
-				} 
+				}
 				else {
 					// If a user is found. Open the challenge popup and find a random user.
 					this.setState({challengePlayerOpen: true, quickplayPlayer: similarSkilledUsers[Math.floor(Math.random() * similarSkilledUsers.length)]});
@@ -160,7 +161,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 					open={this.state.challengePlayerOpen}
 					onClose={() => this.setState({challengePlayerOpen: false})}
 				>
-					<div className="popup">
+					<div className="popup_quickplay">
 						<h4>
 							Challenge {(this.props.playerChallenged?.username ?? this.state.quickplayPlayer.username) + ' '} 
 							with ${this.props.battleType === '1 vs 1' ? 

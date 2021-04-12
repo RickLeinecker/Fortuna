@@ -188,7 +188,7 @@ class BattleArena extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 		<div id="Parent" className='background-image'>
-      <br/>
+     		 <br/>
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
@@ -198,14 +198,23 @@ class BattleArena extends React.Component<Props, State> {
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column challenge">
-
+				<div className="quickplay">
+						<h5 style={this.divStyle}>Start a Match</h5>
+						<ChallengePlayerPopup
+							onChallengePlayer={(user) => this.onChallengePlayer(user)}
+							playerChallenged={null}
+							battleType={this.state.battleType}
+						/>
+				</div>
+				<br/>
 				<div className="search">
-				<SearchPlayers
-					onChallengePlayer={(user) => this.onChallengePlayer(user)}
-					battleType={this.state.battleType}
-				/>
+					<SearchPlayers
+						onChallengePlayer={(user) => this.onChallengePlayer(user)}
+						battleType={this.state.battleType}
+					/>
 				</div>
 			</div>
+
 			<div className="column battletype">
 				<h5 style={this.divStyle}>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
@@ -274,29 +283,19 @@ class BattleArena extends React.Component<Props, State> {
 				<button
 					className="primarybtn"
 					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
-          style={this.buttonDivStyle}
+          			style={this.buttonDivStyle}
 				>
 					Change Battle Type
 				</button>
 			</div>
-			<div className="column info">
-				<h5>Challenge a Player</h5>
+			<div className='wager_info'>
+				<h5 style={this.divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup
 						ref="SetWagerPopup"
 						onWagerUpdate={this.onWagerUpdate}
 					/>
 				</div>
-				<br/>
-				<div className="quickplay">
-					<ChallengePlayerPopup
-						onChallengePlayer={(user) => this.onChallengePlayer(user)}
-						playerChallenged={null}
-						battleType={this.state.battleType}
-					/>
-				</div>
-				<br/>
-
 			</div>
 			<ToastContainer />
 			<JoyRide
