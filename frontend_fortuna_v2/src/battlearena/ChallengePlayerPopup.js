@@ -85,7 +85,7 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 						this.state.botNames[Math.floor(Math.random() * this.state.botNames.length)],
 						1000000,
 						50,
-						50,
+						100,
 						getMasterAccountId(),
 						1000,
 						[]
@@ -109,8 +109,18 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 				);
 				// create bot match if no user is found.
 				if(similarSkilledUsers.length === 0) {
-					toast.error('No users found with similar skill level.');
-					return;
+					// toast.error('No users found with similar skill level.');
+					// return;
+					const bot = new User(
+						this.state.botNames[Math.floor(Math.random() * this.state.botNames.length)],
+						1000000,
+						50,
+						100,
+						getMasterAccountId(),
+						1000,
+						[]
+					);
+					this.setState({challengePlayerOpen: true, quickplayPlayer: bot})
 				}
 				else {
 					// If a user is found. Open the challenge popup and find a random user.

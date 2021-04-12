@@ -13,7 +13,7 @@ import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/typesAndClasses/User.js';
-import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
+import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall, prepare3v3BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -85,9 +85,6 @@ class BattleArena extends React.Component<Props, State> {
 			});
 		});
 
-		// Testing purposes
-		console.log(getLoginToken());
-
 		getMasterTanks(tanks => {
 			this.setState({botTanks: tanks});
 		});
@@ -136,7 +133,6 @@ class BattleArena extends React.Component<Props, State> {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				//TODO: select an appropriate arena depending on the match
-				setBattlegroundArena('DIRT');
 				window.location.href=verifyLink('/Battleground');
 			});
 		}
@@ -149,7 +145,18 @@ class BattleArena extends React.Component<Props, State> {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				//TODO: select an appropriate arena depending on the match
-				setBattlegroundArena('DIRT');
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
+		else if (this.state.battleType === '3 vs 3' && player.userId === getMasterAccountId()) {
+			const botOne = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+			const botTwo = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+			const botThree = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+
+			prepare3v3BotAPICall(myTankOne, myTankTwo, myTankThree, player, botOne, botTwo, botThree, matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
 				window.location.href=verifyLink('/Battleground');
 			});
 		}
@@ -158,7 +165,6 @@ class BattleArena extends React.Component<Props, State> {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				//TODO: select an appropriate arena depending on the match
-				setBattlegroundArena('DIRT');
 				window.location.href=verifyLink('/Battleground');
 			});
 		}

@@ -48,6 +48,19 @@ router.post('/prepareMatch3v3', [
 		.isMongoId()
 ], auth, battleController.prepareMatch3v3);
 
+// Prepares the battleRecord for a match and updates the balance of the challenger
+// Header: x-auth-token
+// Body: challengerTankIds and personBeingChallengedId
+// Returns the newly created batlleRecordId
+router.post('/prepareBotMatch3v3', [
+	check('myTankIds')
+		.isArray({ min: 3, max: 3}),
+	check('botTankIds')
+		.isArray({ min: 3, max: 3}),
+	check('masterId', 'personBeingChallengedId is required')
+		.isMongoId()
+], auth, battleController.prepareBotMatch3v3);
+
 // Updates elo and currency of both players after a match is complete
 // Header: x-auth-token
 // Body: winner (0 for a tie, 1 for userOne(challengee), 2 for userTwo(challenger) and the battleId

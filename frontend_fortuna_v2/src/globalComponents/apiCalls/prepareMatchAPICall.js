@@ -110,5 +110,58 @@ function prepare3v3APICall(myTankOne: ?Tank, myTankTwo: ?Tank, myTankThree: ?Tan
 	);
 }
 
+function prepare3v3BotAPICall(myTankOne: ?Tank, myTankTwo: ?Tank, myTankThree: ?Tank, otherPlayer: User, botOne: ?Tank, botTwo: ?Tank, botThree: ?Tank, onLoad:(matchId: string) => void) {
+	const myTankIds: Array<?string> = [null, null, null];
+	const botTankIds: Array<?string> = [null, null, null];
+	
+	if (myTankOne != null) {
+		myTankIds[0] = myTankOne._id;
+	}
+	if (myTankTwo != null) {
+		myTankIds[1] = myTankTwo._id;
+	}
+	if (myTankThree != null) {
+		myTankIds[2] = myTankThree._id;
+	}
 
-export { prepare1v1APICall, prepare1v1BotAPICall, prepare3v3APICall };
+	if (botOne != null) {
+		botTankIds[0] = botOne._id;
+	}
+	if (botTwo != null) {
+		botTankIds[1] = botTwo._id;
+	}
+	if (botThree != null) {
+		botTankIds[2] = botThree._id;
+	}
+
+	const responsePromise: Promise<Response> = fetch('api/battle/prepareBotMatch3v3', {
+		method: 'POST',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true',
+			'x-auth-token': getLoginToken()
+		},
+		body: JSON.stringify({
+			masterId: otherPlayer.userId,
+			myTankIds: myTankIds,
+			botTankIds: botTankIds
+		})
+	});
+	responsePromise.then (
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				const matchId = data;
+				console.log('successfully created match with id: '+matchId);
+				onLoad(matchId);
+			}
+		})
+	);
+}
+
+export { prepare1v1APICall, prepare1v1BotAPICall, prepare3v3APICall, prepare3v3BotAPICall };
