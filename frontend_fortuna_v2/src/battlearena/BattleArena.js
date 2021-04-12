@@ -13,7 +13,7 @@ import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/typesAndClasses/User.js';
-import { prepare3v3APICall, prepare1v1APICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
+import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -23,8 +23,10 @@ import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
 import JoyRide from "react-joyride";
-
+import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
+import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
+import getLoginToken from '../globalComponents/getLoginToken';
 
 type Props = {||};
 
@@ -34,6 +36,7 @@ type State = {|
 	selectedTankThree: ?Tank,
 	allTanks: Array<Tank>,
 	userElo: number,
+	botTanks: Array<Tank>,
 	battleType: BattleType
 |};
 
@@ -75,19 +78,26 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		document.body.style.backgroundImage = "url('/login_background.gif')"
-
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
 				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
 		});
+
+		// Testing purposes
+		console.log(getLoginToken());
+
+		getMasterTanks(tanks => {
+			this.setState({botTanks: tanks});
+		});
+
 		getReplayListAPICall(() => {});
+
 		getFirstTimePlayAPICall((res) => {
 			console.log("RES: ", res);
-			this.state.run = res;
-			if(this.state.run == true)
+			this.setState({run: res})
+			if(this.state.run === true)
 			{
 				setFirstTimePlayAPICall();
 
@@ -117,7 +127,20 @@ class BattleArena extends React.Component<Props, State> {
 			return;
 		}
 
-		if (this.state.battleType === '1 vs 1') {
+		if (this.state.battleType === '1 vs 1' && player.userId === getMasterAccountId()) {
+			if (myTankOne == null) {
+				toast.error('No tank selected!');
+				return;
+			}
+			prepare1v1BotAPICall(myTankOne, player, this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)], matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
+				setBattlegroundArena('DIRT');
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
+		else if (this.state.battleType === '1 vs 1') {
 			if (myTankOne == null) {
 				toast.error('No tank selected!');
 				return;

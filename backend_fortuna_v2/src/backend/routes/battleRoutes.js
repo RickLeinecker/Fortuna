@@ -25,6 +25,18 @@ router.post('/prepareMatch1v1', [
 		.isMongoId()
 ], auth, battleController.prepareMatch1v1);
 
+// Gets each users favorite tank
+// Header: x-auth-token
+// Body: challengerTankId (logged in user's tank id) and
+// personBeingChallengedId (opponent's user id)
+// Returns battle record id -- can easily be changed to the whole record if needed
+router.post('/prepareBotMatch1v1', [
+	check('myTankId', 'challengerTankId is required')
+		.isMongoId(),
+	check('masterId', 'personBeingChallengedId is required')
+		.isMongoId()
+], auth, battleController.prepareBotMatch1v1);
+
 // Prepares the battleRecord for a match and updates the balance of the challenger
 // Header: x-auth-token
 // Body: challengerTankIds and personBeingChallengedId

@@ -5,6 +5,8 @@ import Popup from 'reactjs-popup';
 import User from '../globalComponents/typesAndClasses/User.js';
 import getAllUsers from '../globalComponents/apiCalls/getAllUsersAPICall.js';
 import getUser from '../globalComponents/apiCalls/getUserAPICall.js';
+import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
+
 import { ToastContainer , toast } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
@@ -18,7 +20,8 @@ type State = {|
 	challengePlayerOpen: boolean,
 	quickplayPlayer: User,
 	userElo: number,
-	myUsername: string
+	myUsername: string,
+	botNames: Array<String>
 |};
 
 // Challenge Player Component. Creates a Popup to prevent accidental challenges.
@@ -44,7 +47,14 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 			challengePlayerOpen: false,
 			quickplayPlayer: blankUser,
 			userElo: 0,
-			myUsername: ''
+			myUsername: '',
+			botTanks: [],
+			botNames: [
+				'Kiona',
+				'Georgia',
+				'Lingo Doctor',
+				'Steve',
+			]
 		}
 	}
 
@@ -61,15 +71,27 @@ class ChallengePlayerPopup extends React.Component<Props, State> {
 		if (this.props.battleType === '1 vs 1') {
 			getAllUsers(users => {
 				const similarSkilledUsers: Array<User> = users.filter(user => 
-					((user.elo - this.state.userElo) >= -100 
-					&& (user.elo - this.state.userElo) <= 100) 
+					((user.elo - this.state.userElo) >= -200 
+					&& (user.elo - this.state.userElo) <= 200) 
 					&& user.wager > 0
 					&& user.username !== this.state.myUsername
 				);
 
+				console.log("similar users: ", similarSkilledUsers);
+
 				if(similarSkilledUsers.length === 0) {
-					toast.error('No users found with similar skill level.');
-					return;
+					// toast.error('No users found with similar skill level.');
+					// return;
+					const bot = new User(
+						this.state.botNames[Math.floor(Math.random() * this.state.botNames.length)],
+						1000000,
+						50,
+						50,
+						getMasterAccountId(),
+						1000,
+						[]
+					);
+					this.setState({challengePlayerOpen: true, quickplayPlayer: bot})
 				} 
 				else {
 					// If a user is found. Open the challenge popup and find a random user.

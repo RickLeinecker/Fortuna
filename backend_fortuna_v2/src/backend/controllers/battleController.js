@@ -136,6 +136,113 @@ exports.prepareMatch1v1 = async (req: Request, res: Response) => {
 	}
 }
 
+exports.prepareBotMatch1v1 = async (req: Request, res: Response) => {
+
+	// Contains errors for failed validation.
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		// Return 400 for a bad request
+		return res
+			.status(400)
+			.json({ errors: errors.array() });
+	}
+	//      bot ID      userTankId       bot tank ID
+	const { masterId, myTankId, botTankId } = req.body;
+
+	try {
+		// Need to do query explicitly so that the returned doc isn't local to the try catch
+		const masterUser = await User.findById(masterId);
+
+		if(masterUser == null){
+			return res
+			.status(404)
+			.json({ msg: 'Could not find the personBeingChallenged in DB'})
+		}
+
+		const botTank = await Tank.findById(botTankId);
+
+		if (botTank == null) {
+			return res
+				.status(404)
+				.json({ msg: "Could not find the bot Tank in DB"});
+		}
+
+		const myTank = await Tank.findById(myTankId);
+
+		if (myTank == null) {
+			return res
+				.status(404)
+				.json({ msg: "Could not find the challenger's Tank in DB"});
+		}
+
+		// Query the amount of money the challenger has
+		const myUser = await User.findById(myTank.userId, 'money');
+
+		if (myUser == null) {
+			console.log('Could not find the challenger in DB');
+			return res
+				.status(404)
+				.json({ msg: 'Could not find the challenger in DB'});
+		}
+
+		if (myUser.money < 50) {
+			console.log('Challenger does not have enough money to wager');
+			return res
+				.status(401)
+				.json({ msg: 'Challenger does not have enough money to wager'});
+		}
+
+
+		const newRecord = new BattleRecord({
+			userOne: myUser,
+			userTwo: masterUser,
+			'tankOne.tankName': myTank.tankName,
+			'tankOne.components': myTank.components,
+			'tankOne.casusCode': myTank.casusCode,
+			'tankTwo.tankName': botTank.tankName,
+			'tankTwo.components': botTank.components,
+			'tankTwo.casusCode': botTank.casusCode,
+			winner: -1,
+			prizeMoney: (50 * 2), // Each person puts in for the wager
+			eloExchanged: 0
+		});
+
+		if (Math.random()<0.5) {
+			newRecord.map = 'DIRT';
+		} else {
+			newRecord.map = 'HEX';
+		}
+
+		// Take the wager amount from the challenger's money
+		const challengerBalance = myUser.money - 50;
+		myUser.money = challengerBalance;
+
+
+		// Save the updated balance to the db
+		await myUser.save();
+
+		await newRecord.save ((err: Error) => {
+			if (err) {
+				console.error(err.message);
+				return res
+					.status(500)
+					.json({ msg: 'Unable to save battle record to DB.' });
+			}
+			else{
+				console.log('Match successfully created!');
+				return res
+					.status(200)
+					.send(newRecord._id);
+			}
+		});
+	} catch (err) {
+		return res
+			.status(500)
+			.json({ msg: 'Server Error'});
+	}
+}
+
 exports.prepareMatch3v3 = async (req: Request, res: Response) => {
 	// Checks that we have received the correct body from the frontend 
 	const errors = validationResult(req);
