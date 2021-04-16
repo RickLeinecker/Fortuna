@@ -13,7 +13,7 @@ import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/typesAndClasses/User.js';
-import { prepare3v3APICall, prepare1v1APICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
+import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall, prepare3v3BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -23,8 +23,10 @@ import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
 import JoyRide from "react-joyride";
-
+import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
+import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
+import getLoginToken from '../globalComponents/getLoginToken';
 
 type Props = {||};
 
@@ -34,6 +36,7 @@ type State = {|
 	selectedTankThree: ?Tank,
 	allTanks: Array<Tank>,
 	userElo: number,
+	botTanks: Array<Tank>,
 	battleType: BattleType
 |};
 
@@ -75,19 +78,23 @@ class BattleArena extends React.Component<Props, State> {
 	}
 
 	componentDidMount(): void {
-		document.body.style.backgroundImage = "url('/login_background.gif')"
-
 		getAllUsersTanks(allTanks => {
 			this.setState({
 				allTanks: allTanks,
 				selectedTankOne: getPreferredSelectedTank(allTanks)
 			});
 		});
+
+		getMasterTanks(tanks => {
+			this.setState({botTanks: tanks});
+		});
+
 		getReplayListAPICall(() => {});
+
 		getFirstTimePlayAPICall((res) => {
 			console.log("RES: ", res);
-			this.state.run = res;
-			if(this.state.run == true)
+			this.setState({run: res})
+			if(this.state.run === true)
 			{
 				setFirstTimePlayAPICall();
 
@@ -117,7 +124,19 @@ class BattleArena extends React.Component<Props, State> {
 			return;
 		}
 
-		if (this.state.battleType === '1 vs 1') {
+		if (this.state.battleType === '1 vs 1' && player.userId === getMasterAccountId()) {
+			if (myTankOne == null) {
+				toast.error('No tank selected!');
+				return;
+			}
+			prepare1v1BotAPICall(myTankOne, player, this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)], matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
+		else if (this.state.battleType === '1 vs 1') {
 			if (myTankOne == null) {
 				toast.error('No tank selected!');
 				return;
@@ -126,7 +145,18 @@ class BattleArena extends React.Component<Props, State> {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				//TODO: select an appropriate arena depending on the match
-				setBattlegroundArena('DIRT');
+				window.location.href=verifyLink('/Battleground');
+			});
+		}
+		else if (this.state.battleType === '3 vs 3' && player.userId === getMasterAccountId()) {
+			const botOne = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+			const botTwo = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+			const botThree = this.state.botTanks[Math.floor(Math.random() * this.state.botTanks.length)];
+
+			prepare3v3BotAPICall(myTankOne, myTankTwo, myTankThree, player, botOne, botTwo, botThree, matchId => {
+				console.log('Successfully prepared match with id: '+matchId);
+				setMatchForBattleground(matchId);
+				//TODO: select an appropriate arena depending on the match
 				window.location.href=verifyLink('/Battleground');
 			});
 		}
@@ -135,7 +165,6 @@ class BattleArena extends React.Component<Props, State> {
 				console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				//TODO: select an appropriate arena depending on the match
-				setBattlegroundArena('DIRT');
 				window.location.href=verifyLink('/Battleground');
 			});
 		}
@@ -165,7 +194,7 @@ class BattleArena extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 		<div id="Parent" className='background-image'>
-      <br/>
+     		 <br/>
 			<MainNavbar
 				linkName="/Login"
 				returnName="Logout"
@@ -175,14 +204,23 @@ class BattleArena extends React.Component<Props, State> {
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
 			<div className="column challenge">
-
+				<div className="quickplay">
+						<h5 style={this.divStyle}>Start a Match</h5>
+						<ChallengePlayerPopup
+							onChallengePlayer={(user) => this.onChallengePlayer(user)}
+							playerChallenged={null}
+							battleType={this.state.battleType}
+						/>
+				</div>
+				<br/>
 				<div className="search">
-				<SearchPlayers
-					onChallengePlayer={(user) => this.onChallengePlayer(user)}
-					battleType={this.state.battleType}
-				/>
+					<SearchPlayers
+						onChallengePlayer={(user) => this.onChallengePlayer(user)}
+						battleType={this.state.battleType}
+					/>
 				</div>
 			</div>
+
 			<div className="column battletype">
 				<h5 style={this.divStyle}>Choose your Tank{this.state.battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
@@ -251,29 +289,19 @@ class BattleArena extends React.Component<Props, State> {
 				<button
 					className="primarybtn"
 					onClick={(this.state.battleType === '1 vs 1') ? () => this.setState({battleType: '3 vs 3'}) : () => this.setState({battleType: '1 vs 1'})}
-          style={this.buttonDivStyle}
+          			style={this.buttonDivStyle}
 				>
 					Change Battle Type
 				</button>
 			</div>
-			<div className="column info">
-				<h5>Challenge a Player</h5>
+			<div className='wager_info'>
+				<h5 style={this.divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup
 						ref="SetWagerPopup"
 						onWagerUpdate={this.onWagerUpdate}
 					/>
 				</div>
-				<br/>
-				<div className="quickplay">
-					<ChallengePlayerPopup
-						onChallengePlayer={(user) => this.onChallengePlayer(user)}
-						playerChallenged={null}
-						battleType={this.state.battleType}
-					/>
-				</div>
-				<br/>
-
 			</div>
 			<ToastContainer />
 			<JoyRide

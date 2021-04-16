@@ -25,6 +25,18 @@ router.post('/prepareMatch1v1', [
 		.isMongoId()
 ], auth, battleController.prepareMatch1v1);
 
+// Gets each users favorite tank
+// Header: x-auth-token
+// Body: challengerTankId (logged in user's tank id) and
+// personBeingChallengedId (opponent's user id)
+// Returns battle record id -- can easily be changed to the whole record if needed
+router.post('/prepareBotMatch1v1', [
+	check('myTankId', 'challengerTankId is required')
+		.isMongoId(),
+	check('masterId', 'personBeingChallengedId is required')
+		.isMongoId()
+], auth, battleController.prepareBotMatch1v1);
+
 // Prepares the battleRecord for a match and updates the balance of the challenger
 // Header: x-auth-token
 // Body: challengerTankIds and personBeingChallengedId
@@ -35,6 +47,19 @@ router.post('/prepareMatch3v3', [
 	check('personBeingChallengedId', 'personBeingChallengedId is required')
 		.isMongoId()
 ], auth, battleController.prepareMatch3v3);
+
+// Prepares the battleRecord for a match and updates the balance of the challenger
+// Header: x-auth-token
+// Body: challengerTankIds and personBeingChallengedId
+// Returns the newly created batlleRecordId
+router.post('/prepareBotMatch3v3', [
+	check('myTankIds')
+		.isArray({ min: 3, max: 3}),
+	check('botTankIds')
+		.isArray({ min: 3, max: 3}),
+	check('masterId', 'personBeingChallengedId is required')
+		.isMongoId()
+], auth, battleController.prepareBotMatch3v3);
 
 // Updates elo and currency of both players after a match is complete
 // Header: x-auth-token

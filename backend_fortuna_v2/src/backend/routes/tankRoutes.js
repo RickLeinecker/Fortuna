@@ -66,6 +66,13 @@ router.patch('/unfavoriteTankTeam', auth, tankController.unfavoriteTankTeam);
 // Returns array of tanks
 router.get('/userTanks', auth, tankController.userTanks);
 
+// Retrieve array of all master tanks
+// Route call: /masterTanks
+// Header: N/A
+// Body: N/A
+// Returns array of tanks
+router.get('/masterTanks', tankController.masterTanks);
+
 // Creates a new tank and assigns it to a user
 // Route Call: /assignTank
 // Header: x-auth-token

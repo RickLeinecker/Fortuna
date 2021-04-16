@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import './BattleArena.css'
 import Replay from '../globalComponents/typesAndClasses/Replay.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import Cookies from 'universal-cookie'
@@ -71,8 +72,8 @@ class Replays extends React.Component<Props, State> {
 	render(): React.Node {
 		return (
 			<div className="replayTable" style={this.props.styling}>
-				{this.state.username != null ? <h4>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
-				<table>
+				{this.state.username != null ? <h4 className='h4'>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
+				<table min-width='80%' width='80%'>
 					<thead>
 						<tr>
 							<th>Opponent</th>
