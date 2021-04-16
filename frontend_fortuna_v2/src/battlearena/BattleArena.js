@@ -9,10 +9,10 @@ import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
 import SelectTank from '../globalComponents/SelectTank.js';
 import Tank from '../tanks/Tank.js';
-import { getAllUsersTanks, getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
+import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
 import User from '../globalComponents/typesAndClasses/User.js';
-import { prepare3v3APICall, prepare1v1APICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
+import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall, prepare3v3BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
@@ -22,9 +22,11 @@ import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
 import JoyRide from "react-joyride";
-
+import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
+import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
-import getMasterAccountId from '../globalComponents/getMasterAccountId';
+import getLoginToken from '../globalComponents/getLoginToken';
+import { TweenMax, TweenLite, Power3 } from 'gsap';
 
 function BattleArena() {
 
@@ -58,9 +60,12 @@ function BattleArena() {
 
   let navbarRef = useRef(null);
   let wagerRef = useRef(null);
+  let left = useRef(null);
+  let mid = useRef(null);
+  let right = useRef(null);
 
   useEffect(() => {
-
+    verifyLogin();
     getAllUsersTanks(allTanks => {
       setAllTanks(allTanks);
       setSelectedTankOne(getPreferredSelectedTank(allTanks));
@@ -80,6 +85,10 @@ function BattleArena() {
         setFirstTimePlayAPICall();
       }
     })
+
+    TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
   },[])
 
@@ -102,7 +111,7 @@ function BattleArena() {
       return;
     }
 
-    if (battleType === '1 vs 1' && player.useId === getMasterAccountId())
+    if (battleType === '1 vs 1' && player.userId === getMasterAccountId())
     {
       if (myTankOne == null)
       {
@@ -110,7 +119,7 @@ function BattleArena() {
         return;
       }
 
-      prepare1v1APICall(myTankOne, player, botTanks[Math.floor(Math.random() * botTanks.length)], (matchId) => {
+      prepare1v1BotAPICall(myTankOne, player, botTanks[Math.floor(Math.random() * botTanks.length)], (matchId) => {
         console.log('Successfully prepared match with id: '+matchId);
         setMatchForBattleground(matchId);
         window.location.href=verifyLink('/Battleground');
@@ -136,7 +145,7 @@ function BattleArena() {
 			const botTwo = botTanks[Math.floor(Math.random() * botTanks.length)];
 			const botThree = botTanks[Math.floor(Math.random() * botTanks.length)];
 
-      prepare3v3APICall(myTankOne, myTankTwo, myTankThree, player, botOne, botTwo, botThree, (matchId) => {
+      prepare3v3BotAPICall(myTankOne, myTankTwo, myTankThree, player, botOne, botTwo, botThree, (matchId) => {
         console.log('Successfully prepared match with id: '+matchId);
 				setMatchForBattleground(matchId);
 				window.location.href=verifyLink('/Battleground');
@@ -183,7 +192,7 @@ function BattleArena() {
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
-			<div className="column challenge">
+			<div className="column challenge" ref={el => left = el}>
 				<div className="quickplay">
 						<h5 style={divStyle}>Start a Match</h5>
 						<ChallengePlayerPopup
@@ -201,7 +210,7 @@ function BattleArena() {
 				</div>
 			</div>
 
-			<div className="column battletype">
+			<div className="column battletype" ref={el => mid = el}>
 				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(battleType === '1 vs 1') ?
@@ -274,7 +283,7 @@ function BattleArena() {
 					Change Battle Type
 				</button>
 			</div>
-			<div className='wager_info'>
+			<div className='wager_info' ref={el => right = el}>
 				<h5 style={divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup
@@ -298,6 +307,5 @@ function BattleArena() {
 		</div>
 	);
 }
-
 
 export default BattleArena

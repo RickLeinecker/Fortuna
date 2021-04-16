@@ -22,8 +22,8 @@ import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import {toast} from "react-toastify";
 import getErrorFromObject from "../globalComponents/getErrorFromObject";
 import setLoginToken from "../globalComponents/setLoginToken";
-import JoyRide from 'react-joyride'
-import { TweenMax, TweenLite, Power3 } from 'gsap'
+import JoyRide from 'react-joyride';
+import { TweenMax, TweenLite, Power3 } from 'gsap';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 
