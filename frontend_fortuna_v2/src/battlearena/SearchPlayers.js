@@ -66,15 +66,16 @@ class SearchPlayers extends React.Component<Props, State> {
 		);
 		return (
 			<div className="searchPlayers">
-				<h6 style={this.divStyle}>Click the Player to Challenge</h6>
+				<h6 style={this.divStyle}>Press Enter to Search for Player</h6>
 				<input 
 					type="text" 
-					className="inputText" 
+					className="inputText_battleArena" 
 					placeholder="Search Players" 
 					onKeyPress={this.handleKeyPress}
 				/>
 				<div className="searchPlayersList">
-					<h6 style={this.divStyle}>Press Enter to Search</h6>
+					<br/>
+					<h6 style={this.divStyle}>Current List Of Players Wagering:</h6>
 					<ul>
 						{playersToRender.map((user, index) =>
 							<div className="searchPlayerListItem" key={index}>

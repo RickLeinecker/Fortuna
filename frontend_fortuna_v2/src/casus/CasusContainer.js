@@ -28,7 +28,6 @@ type State = {
 class CasusContainer extends React.Component<Props, State> {
 
 	componentDidMount(): void {
-    document.body.style.backgroundRepeat = "round"
     const ref = this.refs.navbarRef
        getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
@@ -83,7 +82,6 @@ class CasusContainer extends React.Component<Props, State> {
 	}
 
     componentDidMount(): void {
-        document.body.style.backgroundRepeat = "round"
         const ref = this.refs.navbarRef
         getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
@@ -100,9 +98,8 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-      <div id="Parent" className='background-image'>
+      <div id="Parent" className='background-image-casus'>
         <MainNavbar
-          className='background-image'
           linkName="/Armory"
           returnName="To Armory"
           pageName="Armory"
