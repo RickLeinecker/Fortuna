@@ -22,8 +22,8 @@ import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import {toast} from "react-toastify";
 import getErrorFromObject from "../globalComponents/getErrorFromObject";
 import setLoginToken from "../globalComponents/setLoginToken";
-import JoyRide from 'react-joyride'
-import { TweenMax, TweenLite, Power3 } from 'gsap'
+import JoyRide from 'react-joyride';
+import { TweenMax, TweenLite, Power3 } from 'gsap';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 
@@ -47,47 +47,47 @@ const MainMenu  = () => {
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
-    const [battleType, setBattleType] = useState('1 vs 1')
-    const [run, setRun] = useState(false);
-    const [tourSteps, setTourSteps] = useState([
-        {
-          target: ".menuheader",
-          disableBeacon: true,
-          content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages. Feel free to exit these tutorials at anytime"
-        },
-        {
-          target: ".tankSelect",
-          content: "The navbar will serve as your main navigation through the Fortuna system"
-        },
-        {
-          target: ".battleRecord",
-          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
-        },
-        {
-          target: '.training',
-          content: "The Training Arena is a place to test out your tanks against bots"
-        },
-        {
-          target: ".select",
-          content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code"
-        },
-        {
-          target: ".menuright",
-          content: "This Leaderboard shows you the Top Ten most POWERFUL players in the entire land of Vessint, the world we currently reside in "
-        },
-        {
-          target: ".credits",
-          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game"
-        },
-        {
-            target: ".editTank",
-            content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor"
-        },
-        {
-            target: ".play",
-            content: "Play against tanks that other players have wagered and programmed. Don't forget to get some starter code from the Marketplace first!"
-        }
-      ])
+  const [battleType, setBattleType] = useState('1 vs 1')
+  const [run, setRun] = useState(false);
+  const [tourSteps, setTourSteps] = useState([
+      {
+        target: ".menuheader",
+        disableBeacon: true,
+        content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages. Feel free to exit these tutorials at anytime"
+      },
+      {
+        target: ".tankSelect",
+        content: "The navbar will serve as your main navigation through the Fortuna system"
+      },
+      {
+        target: ".battleRecord",
+        content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
+      },
+      {
+        target: '.training',
+        content: "The Training Arena is a place to test out your tanks against bots"
+      },
+      {
+        target: ".select",
+        content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code"
+      },
+      {
+        target: ".menuright",
+        content: "This Leaderboard shows you the Top Ten most POWERFUL players in the entire land of Vessint, the world we currently reside in "
+      },
+      {
+        target: ".credits",
+        content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game"
+      },
+      {
+          target: ".editTank",
+          content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor"
+      },
+      {
+          target: ".play",
+          content: "Play against tanks that other players have wagered and programmed. Don't forget to get some starter code from the Marketplace first!"
+      }
+    ])
 
 
     let left = useRef(null);
