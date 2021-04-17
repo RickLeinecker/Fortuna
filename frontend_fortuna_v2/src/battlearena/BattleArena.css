@@ -212,6 +212,7 @@
 }
 
 .popup_quickplay{
+    text-align: center;
     color: #ff47ff;
     font-family: 'Press Start 2P', cursive;
     padding: 20px 20px 20px 20px;
