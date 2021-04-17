@@ -87,7 +87,7 @@ class Replays extends React.Component<Props, State> {
 							<th>Result</th>
 							<th>Replay</th>
 							<th>Prize</th>
-							<th>Elo</th>
+							<th>ELO</th>
 							<th>Type</th>
 						</tr>
 					</thead>
@@ -96,7 +96,7 @@ class Replays extends React.Component<Props, State> {
 							<tr key={replay.replayId}>
 								<td id="opponent" className="name">{(this.state.username === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td id="result">{this.getMatchResult(replay)}</td>
-								<td><button className="reallySmallBtn" style={{fontSize: "x-small"}} onClick={() => this.watchReplay(replay)}>View</button></td>
+								<td id="replay"><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
 								<td id="prize">{this.getMatchResult(replay) === 'Win' ? '+' + replay.prizeMoney : '-' + replay.prizeMoney}</td>
 								<td id="elo">{this.getMatchResult(replay) === 'Win' ? '+' + replay.eloExchanged : '-' + replay.eloExchanged}</td>
 								<td id="type">{replay.tankOneName == null ? '3v3' : '1v1'}</td>

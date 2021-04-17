@@ -75,7 +75,7 @@
 .replayTable {
     font-size: 15px;
     text-align: center;
-    width: max-content;
+    width: fit-content;
 }
 
 .replayTable table {
@@ -126,22 +126,31 @@
 
 .replayTable #opponent {
     color: #04CCFF;
+    width: fit-content;
 }
 
 .replayTable #result {
     color: #ff47ff;
+    width: fit-content;
+}
+.replayTable #replay {
+    font-size: x-small;
+
 }
 
 .replayTable #prize {
     color: #ff47ff;
+    width: fit-content;
 }
 
 .replayTable #elo {
     color: #ff47ff;
+    width: fit-content;
 }
 
 .replayTable #type {
     color: #20ffff;
+    width: fit-content;
 }
 
 /* Tank Display Styling */

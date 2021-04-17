@@ -283,9 +283,9 @@ const MainMenu  = () => {
 						<Leaderboard />
 					</div>
           <br/>
-          <Link  to={verifyLink("/Credits")}>
+
             <button className="marketBtn creditsButton">Credits</button>
-          </Link>
+
         </div>
       </div>
       <JoyRide 
