@@ -1,6 +1,6 @@
 {
   email rickleinecker@gmail.com
-  acme_ca https://acme-v02.api.letsencrypt.org/directory
+  acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
 www.fortunacombat.com:443, fortunacombat.com:443 {
