@@ -35,11 +35,21 @@
 
 /* Search Player List Styling */
 .searchPlayersList {
-	margin-top: 20px;
+	margin-top: 10px;
+}
+
+.inputText_battleArena {
+    padding-left: 5px;
+	width: 100%;
+	border-radius: 4px;
+	border-color: #04CCFF;
+	background-color: #04CCFF;
+	color: #000921;
 }
 
 .searchPlayerListItem {
 	display: list-item;
+    color: #ff47ff;
 }
 
 .searchPlayersList ul {
@@ -55,6 +65,7 @@
 
 .searchPlayers {
     text-align: center;
+    margin-top: 10px;
 }
 
 /* Replay Table Styling */
@@ -173,3 +184,28 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+  /* prevents header from collapsing when resizing*/
+  .h4{
+   min-width: 455px;
+   max-width: 140%;
+  }
+
+  .wager_info {
+      margin-top: 170px;
+  }
+
+.quickplay {
+    margin-top: 72px;
+}
+
+.popup_quickplay{
+    color: #ff47ff;
+    font-family: 'Press Start 2P', cursive;
+	padding: 20px 20px 20px 20px;
+	background-color: #00103a;
+}
+
+.correctColor {
+    color: #ff47ff;
+}

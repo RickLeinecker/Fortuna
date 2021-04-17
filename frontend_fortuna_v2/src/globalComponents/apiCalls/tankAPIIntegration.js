@@ -252,6 +252,35 @@ function getAllUsersTanks(onLoad: (allTanks: Array<Tank>) => void): void {
 	);
 }
 
+// This function gets all of the tanks the user is associated with
+function getMasterTanks(onLoad: (allTanks: Array<Tank>) => void): void {
+	const responsePromise: Promise<Response> = fetch('/api/tank/masterTanks/', {
+		method: 'GET',
+		headers: {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/json',
+			'Access-Control-Allow-Credentials': 'true'
+		},
+	});
+	responsePromise.then (
+		response => response.json().then(data => {
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(data);
+				toast.error(getErrorFromObject(data));
+			}
+			else {
+				const allTanks: Array<Tank> = [];
+				for(const tank of data) {
+					allTanks.push(getTank(tank));
+				}
+				onLoad(allTanks);
+			}
+		})
+	);
+}
+
+
 function createTank(tank: Tank, onLoad:() => void): void {
 	const responsePromise: Promise<Response> = fetch('/api/tank/assignTank', {
 		method: 'POST',
@@ -350,6 +379,7 @@ export {
 	removeFavoriteTankTeamIds,
 	updateTank,
 	getAllUsersTanks,
+	getMasterTanks,
 	createTank,
 	deleteTank,
 	getTanksById

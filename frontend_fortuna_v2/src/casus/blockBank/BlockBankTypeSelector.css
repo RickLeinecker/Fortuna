@@ -22,6 +22,7 @@
   border: 1px solid black;
   background-color: #ff6ec7;
   font-family: 'Press Start 2P', cursive;
+  min-width: 160px;
 }
 
 .helpButton {

@@ -37,13 +37,18 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		}
 	}
 
+ 
+
 	// Once mounted, get the userId, favorite tank id, and favorite tank team ids.
 	componentDidMount(): void {
     this.setState({ loading: true });
 		getUserAPICall(user => {
-			this.setState({userId: user.userId});
-			this.getAllUsersTanksForSell();
+			this.setState({userId: user.userId}, () => {
+        this.getAllUsersTanksForSell();
+      });
 		});
+
+
 
 		getFavoriteTank(tank => {
 			if (tank != null) {
@@ -71,15 +76,9 @@ class MakeATankSaleView extends React.Component<Props, State> {
 					allTanks.splice(index, 1);
 				}
 
-				// FInd the favorite tank team and remove them if they exist.
-				for (let i: number = 0; i < 3; i++) {
-					const index = allTanks.map(tank => tank._id).indexOf(this.state.favTankTeamIds[i]);
-					if (index > -1) {
-						allTanks.splice(index, 1);
-					}
-				}
+        this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCodeId, loading: false});
+        
 
-				this.setState({tanksToSell: allTanks, tankBeingSoldId: (allTanks.length === 0) ? '' : allTanks[0]._id, tankCasusCode: allTanks[0]._id.casusCode, loading: false});
 		});
 	};
 
@@ -102,7 +101,7 @@ class MakeATankSaleView extends React.Component<Props, State> {
 			() => {
 				toast.success("Tank Placed in Market.");
 				this.getAllUsersTanksForSell();
-				this.setState({salePrice: 0, loading: false});
+				this.setState({salePrice: 1, loading: false});
 				this.props.onItemSold();
 			},
       () => {
@@ -111,47 +110,8 @@ class MakeATankSaleView extends React.Component<Props, State> {
 		);
 	}
 
-  selectStyle = {
-    cursor: "pointer",
-    width: "20%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "720px",
-    position: "relative"
-  }
-
-  inputStyle = {
-    cursor: "pointer",
-    width: "5%",
-    padding: "7px 7px 7px 7px",
-    borderRadius: "2px",
-    borderColor: "#04CCFF",
-    backgroundColor: "#04CCFF",
-    color: "#000921",
-    left: "850px",
-    position: "relative"
-  }
-
-
-  tankLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "830px",
-    position: "relative"
-  }
-
-  sellLabelStyle = {
-    color: "white",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    left: "850px",
-    position: "relative"
-  }
-
   buttonStyle = {
-    left: "850px",
+    left: "110px",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
   }
 
@@ -177,19 +137,18 @@ class MakeATankSaleView extends React.Component<Props, State> {
       return (
         <div id="Parent">
           <br/><br/><br/>
-          <label style={this.tankLabelStyle}>Select a tank to Sell</label>
+          <label>Select a tank to Sell</label>
           <br/><br/>
           <select
             className="dropdownMenu"
             onChange={e => this.setState({tankBeingSoldId: e.target.value})}
-            style={this.selectStyle}
           >
             {this.state.tanksToSell.map(({ tankName, _id }, index) =>
               <option key={index}  value={_id}>{tankName}</option>
             )}
           </select>
           <br/><br/><br/>
-          <label style={this.sellLabelStyle}>Selling Price</label>
+          <label>Selling Price</label>
           <br/>
           <input
             type="number"
@@ -197,11 +156,9 @@ class MakeATankSaleView extends React.Component<Props, State> {
             className="inputText"
             onChange={e => this.setState({salePrice: e.target.value})}
             min="1"
-            style={this.inputStyle}
           ></input>
           <br/><br/><br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfATank}>Sell</button>
-          <ToastContainer />
         </div>
       );
     }
