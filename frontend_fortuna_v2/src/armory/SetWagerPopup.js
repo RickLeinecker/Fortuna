@@ -177,6 +177,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
   divStyle = {
     color: "white",
+	  fontFamily: '"Press Start 2P", cursive',
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
@@ -253,7 +254,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 						<div className="popup_quickplay">
 							<br/>
 							<h5>Select Wager's Battle Type</h5>
-							<div className="row center">
+							<div >
 								<button 
 									onClick={() => this.setState({battleType: '1 vs 1'})}
 									className="smallbtn"
