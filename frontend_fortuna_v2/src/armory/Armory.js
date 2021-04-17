@@ -40,7 +40,7 @@ import TankDisplay from '../tanks/TankDisplay.js';
 import { TweenMax, Power3 } from 'gsap'
 import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
-import JoyRide from "react-joyride";
+import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
 import Modal from 'react-modal';
 import EquipMenu from './EquipMenu';
 
@@ -426,7 +426,17 @@ function Armory() {
     }
   }
 
+	const handleJoyrideCallback = (data) => {
+		const { status, type } = data;
+		const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+		if (finishedStatuses.includes(status)) {
+			setRun(false);
+		}}
 
+	const enableJoyride =  ()  => {
+		let test = true
+		setRun(test)
+	}
 	return (
 		<div id="Parent" className='background-image-armory'>
       <br/>
@@ -440,6 +450,13 @@ function Armory() {
 				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				//]}
 			/>
+			<div className="navbar">
+				<div className="navhelp">
+					<button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
+				</div>
+
+			</div>
+
 			<div className="column armoryleft">
 				<h4 className="font" style={divStyle}>Selected Tank</h4>
 				{selectedTank==null?<div></div>:
@@ -815,6 +832,9 @@ function Armory() {
 				steps={tourSteps}
 				run={run}
 				continuous={true}
+				callback={handleJoyrideCallback}
+				showSkipButton
+				showProgress
 				styles={{
 					options: {
 						zIndex: 1000,

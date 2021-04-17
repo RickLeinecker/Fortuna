@@ -69,10 +69,11 @@ class SearchPlayers extends React.Component<Props, State> {
 				<h6 style={this.divStyle}>Press Enter to Search for Player</h6>
 				<input 
 					type="text" 
-					className="inputText_battleArena" 
+					className="inputText_battleArena"
 					placeholder="Search Players" 
 					onKeyPress={this.handleKeyPress}
 				/>
+				<br/>
 				<div className="searchPlayersList">
 					<br/>
 					<h6 style={this.divStyle}>Current List Of Players Wagering:</h6>

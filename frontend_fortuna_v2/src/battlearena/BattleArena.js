@@ -21,7 +21,8 @@ import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTa
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
-import JoyRide from "react-joyride";
+import JoyRide, {ACTIONS, EVENTS, STATUS} from "react-joyride";
+
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
@@ -160,6 +161,7 @@ function BattleArena() {
   }
 
   const divStyle = {
+      fontFamily: '"Press Start 2P", cursive',
     color: "white",
     textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
   }
@@ -179,6 +181,18 @@ function BattleArena() {
     navbar.reloadNavbar();
   }
 
+  const handleJoyrideCallback = (data) => {
+		const { status, type } = data;
+		const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+		if (finishedStatuses.includes(status)) {
+			setRun(false)
+		}}
+
+		const enableJoyride =  (): void  => {
+		setRun(true)
+	}
+
+
   return (
 		<div id="Parent" className='background-image'>
      		 <br/>
@@ -190,7 +204,12 @@ function BattleArena() {
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
-			<div className="column challenge">
+            <div className="navbar">
+                <div className="navhelp">
+                    <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
+                </div>
+            </div>
+			<div className="column challenge" ref={el => left = el}>
 				<div className="quickplay">
 						<h5 style={divStyle}>Start a Match</h5>
 						<ChallengePlayerPopup
@@ -276,7 +295,7 @@ function BattleArena() {
 				<button
 					className="primarybtn"
 					onClick={(battleType === '1 vs 1') ? () => setBattleType('3 vs 3') : () => setBattleType('1 vs 1')}
-          style={buttonDivStyle}
+                    style={buttonDivStyle}
 				>
 					Change Battle Type
 				</button>
@@ -295,6 +314,9 @@ function BattleArena() {
 				steps={tourSteps}
 				run={run}
 				continuous={true}
+				callback={handleJoyrideCallback}
+				showSkipButton
+				showProgress
 				styles={{
 					options: {
 						zIndex: 1000,

@@ -29,8 +29,8 @@ function CasusCards({ sellerType, casusCode, buyItem, postsPerPage, totalPosts, 
     return (
       <Col md="auto" style={colStyle}>
         <Card style={style} key={index}>
-          <Card.Header>{isMaster(sellerId)}</Card.Header>
-          <Card.Body>
+          <Card.Header style={{textAlign: "center"}}>{isMaster(sellerId)}</Card.Header>
+          <Card.Body style={{textAlign: "center"}}>
             <Card.Title>{saleName} Casus Code</Card.Title>
             <Card.Title>Price: ${price}</Card.Title>
             <Card.Title>Quantity: {amount}</Card.Title>

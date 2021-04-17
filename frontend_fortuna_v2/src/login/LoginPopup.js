@@ -7,6 +7,7 @@ import setLoginToken from '../globalComponents/setLoginToken.js';
 import getErrorFromObject from '../globalComponents/getErrorFromObject.js';
 import { verifyLink } from '../globalComponents/verifyLink.js';
 import { ToastContainer , toast } from 'react-toastify';
+import ResendEmailPopup from "./ResendEmailPopup";
 
 type Props = {||};
 
@@ -120,9 +121,11 @@ class LoginPopup extends React.Component<Props, State> {
       : toast.success('Please click the link we sent to your email to verify your account.');
 	}
 
+
+
 	render(): React.Node {
 		const loginButton = (
-			<button className="popupbtn" onClick={() => this.handleLoginClick()}>
+			<button type="submit" className="popupbtn" onClick={() => this.handleLoginClick()}>
 				Login
 			</button>
 		);
@@ -151,10 +154,11 @@ class LoginPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<h3>Login</h3>
-						<div className="row col-md-12">
-							<label>Username</label>
-							<div className="input-group">
+						<div >
+							<label >Username</label>
+							<div className="input-group" >
 								<input
+
 									type="text"
 									className="inputText"
 									name="loginUserName"
@@ -163,7 +167,7 @@ class LoginPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div>
 							<label>Password</label>
 							<div className="input-group">
 								<input
@@ -174,9 +178,14 @@ class LoginPopup extends React.Component<Props, State> {
 									onChange={e => this.setState({ password: e.target.value})}
 								/>
 							</div>
-							<div className="help-block with-errors text-danger"></div>
+							<div >
+								<ResendEmailPopup/>
+							</div>
 						</div>
-						<div className="row col-md-12">
+
+						<div>
+
+							<br/>
 							<button
 								type="button"
 								style={{ paddingLeft: 0, marginTop: 20 }}
@@ -187,7 +196,7 @@ class LoginPopup extends React.Component<Props, State> {
 							</button>
 						</div>
 						<br/>
-						<div className="row col-md-12">
+						<div>
 							{loginButton}
 							{cancelButton}
 						</div>
@@ -199,7 +208,7 @@ class LoginPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<h3>Password Reset Request</h3>
-						<div className="row col-md-12">
+						<div>
 							<label>Enter Your Account Email</label>
 							<div className="input-group">
 								<input
@@ -209,9 +218,10 @@ class LoginPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div >
 							{sendPwdResetButton}
 							{cancelPwdResetButton}
+
 						</div>
 					</div>
 				</Popup>

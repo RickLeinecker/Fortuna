@@ -11,7 +11,7 @@ class InfoPopup extends React.Component<{||}> {
 				trigger = {
 					<button className="clearbtn">
 						<div className="infotext">
-							<h5>&#60;Fortuna Briefing&#62;</h5>
+							<h4>What is Fortuna?</h4>
 						</div>
 					</button>
 				} modal>

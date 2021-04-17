@@ -17,11 +17,13 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
     backgroundColor: "#012074",
     border: "4px solid #1969e5",
     padding: "10px",
+
   }
 
   const colStyle = {
     padding: "5px",
-    margin: "5px"
+    margin: "5px",
+
   }
 
   // Format itemCard title names
@@ -34,15 +36,15 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
   const createCardItem = (index, sellerId, saleName, description, price, amount, saleId, buyItem) => {
     return (
       <Col md="auto" style={colStyle}>
-        <Card style={cardStyle} key={index}>
-          <Card.Header>{isMaster(sellerId)}</Card.Header>
-          <Card.Body>
+        <Card  style={cardStyle} key={index}>
+          <Card.Header style={{textAlign: "center"}}>{isMaster(sellerId)}</Card.Header>
+          <Card.Body style={{textAlign: "center"}}>
             <Card.Title> {formatTitle(saleName)} </Card.Title>
             <Card.Title>Price: ${price} Quantity: {amount}</Card.Title>
-            <Card.Text>
+            <Card.Text >
               {description}
             </Card.Text>
-            <Button variant="primary" onClick={() => buyItem(sellerId, saleId)}>Buy</Button>
+            <Button  variant="primary" onClick={() => buyItem(sellerId, saleId)}>Buy</Button>
           </Card.Body>
         </Card>
       </Col>
