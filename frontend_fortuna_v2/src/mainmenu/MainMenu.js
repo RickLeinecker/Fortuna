@@ -132,9 +132,9 @@ const MainMenu  = () => {
 
 
 
-    TweenMax.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenMax.from(left, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
     TweenMax.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenMax.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+    TweenMax.from(right, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
 	}, [])
 

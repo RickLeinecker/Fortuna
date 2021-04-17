@@ -86,9 +86,9 @@ function TrainingArena() {
     })
 
 
-    TweenMax.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenMax.from(leftT, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
     TweenMax.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenMax.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+    TweenMax.from(rightT, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
 
       getFirstTimeTrainingAPICall((res) => {
