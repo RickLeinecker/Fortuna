@@ -86,9 +86,7 @@ function BattleArena() {
       }
     })
 
-    TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
     TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
   },[])
 
@@ -192,7 +190,7 @@ function BattleArena() {
 				// linkName="/MainMenu"
 				// youtubeLinks={["https://www.youtube.com/watch?v=9lGqrj6_X7Y"]}
  			/>
-			<div className="column challenge" ref={el => left = el}>
+			<div className="column challenge">
 				<div className="quickplay">
 						<h5 style={divStyle}>Start a Match</h5>
 						<ChallengePlayerPopup
@@ -283,7 +281,7 @@ function BattleArena() {
 					Change Battle Type
 				</button>
 			</div>
-			<div className='wager_info' ref={el => right = el}>
+			<div className='wager_info'>
 				<h5 style={divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup

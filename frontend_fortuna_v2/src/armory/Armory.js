@@ -154,9 +154,7 @@ function Armory() {
 		getTanks();
 		getUserInventory();
 
-		 TweenLite.from(armleft, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
 		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-		 TweenLite.from(armright, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 
 		getFirstTimeLoadoutAPICall((res) => {
@@ -442,7 +440,7 @@ function Armory() {
 				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				//]}
 			/>
-			<div className="column armoryleft" ref={el => armleft = el}>
+			<div className="column armoryleft">
 				<h4 className="font" style={divStyle}>Selected Tank</h4>
 				{selectedTank==null?<div></div>:
 					<SelectTank
@@ -498,7 +496,7 @@ function Armory() {
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
 			</div>
-			<div ref={el => armright = el}>
+			<div>
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Points Used</h5>
