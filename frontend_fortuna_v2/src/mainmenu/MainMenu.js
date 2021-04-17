@@ -23,7 +23,7 @@ import {toast} from "react-toastify";
 import getErrorFromObject from "../globalComponents/getErrorFromObject";
 import setLoginToken from "../globalComponents/setLoginToken";
 import JoyRide from 'react-joyride';
-import { TweenMax, TweenLite, Power3 } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 
@@ -121,9 +121,9 @@ const MainMenu  = () => {
 
 
 
-    TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+    TweenMax.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenMax.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenMax.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 	}, [])
 
