@@ -70,8 +70,8 @@ class ResendEmailPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<button type="button" className="clearbtn" onClick={() => this.setState({popupOpen: true})}>
-					<div className="logintext">
+				<button style={{ paddingLeft: 0, marginTop: 40 }} type="button" className="clearbtn" onClick={() => this.setState({popupOpen: true})}>
+					<div>
 						Resend Confirmation Email
 					</div>
 				</button>
@@ -80,7 +80,8 @@ class ResendEmailPopup extends React.Component<Props, State> {
 					onClose={() => this.handleCancelClick()}
 				>
 					<div className="popup">
-						<div className="row col-md-12">
+						<h3>Resend Email Verification</h3>
+						<div >
 							<label>Email</label>
 							<div className="input-group">
 								<input
@@ -92,7 +93,7 @@ class ResendEmailPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div >
 							{resendButton}
 							{cancelButton}
 						</div>

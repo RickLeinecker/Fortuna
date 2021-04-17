@@ -37,19 +37,19 @@ type State = {
 // username (takes API call for logged in user's name)
 // userCurrency (takes API call for logged in user's currency)
 //
-// EXAMPLE PROP USAGE = <Navbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" />
+// EXAMPLE PROP USAGE = <MainNavbar linkName="Mainmenu" returnName="Back to Main Menu" pageName="Armory" />
 
 class MainNavbar extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-
 		// Get initial money from cookies.
 		const cookies = new Cookies();
 		this.state = {
 			username: cookies.get('username'),
 			userCurrency: cookies.get('money')
 		}
+
 	}
 
 	// Once mounted, set the cookie to store user's name and money.
@@ -113,6 +113,8 @@ class MainNavbar extends React.Component<Props, State> {
 			}/>
 		);
 
+
+
 		return (
 			<div className="navbar">
 				<div className="navleft">
@@ -140,7 +142,9 @@ class MainNavbar extends React.Component<Props, State> {
 				</Link>
 				</div>
 				<div className="navright">
+
 					<h5 style={this.divStyle}>{this.state.username} | ${this.state.userCurrency}</h5>
+
 				</div>
 			</div>
 		)

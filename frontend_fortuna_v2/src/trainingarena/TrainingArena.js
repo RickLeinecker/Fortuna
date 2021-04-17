@@ -22,7 +22,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType';
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
-import JoyRide from 'react-joyride';
+import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
 import { TweenMax, Power3 } from 'gsap';
 import getFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/getFirstTimeLoadoutAPICall";
 import setFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/setFirstTimeLoadoutAPICall";
@@ -58,11 +58,11 @@ function TrainingArena() {
     {
       target: ".leftTank",
       disableBeacon: true,
-      content: "Select YOUR tank for training in this slot"
+      content: "Select a tank you own for training in this slot."
     },
     {
       target: ".taright",
-      content: "Then select a separate enemy bot tank",
+      content: "Then select a separate enemy bot tank.",
     },
     {
       target: ".chooseArena",
@@ -169,6 +169,18 @@ function TrainingArena() {
 
   const preferredArena=getPreferredArena(battleType);
 
+    const handleJoyrideCallback = (data) => {
+        const { status, type } = data;
+        const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+        if (finishedStatuses.includes(status)) {
+            setRun(false);
+        }}
+
+    const enableJoyride =  ()  => {
+        let test = true
+        setRun(test)
+    }
+
   return (
     <div id="Parent" className='background-image'>
       <br/>
@@ -178,6 +190,12 @@ function TrainingArena() {
         pageName="Training Arena"
         //youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
+        <div className="navbar">
+            <div className="navhelp">
+                <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
+            </div>
+
+        </div>
       <div className="column taleft" ref={el => leftT = el}>
         <h5 style={divStyle}>Choose your Tank, Commander</h5>
         <br/>
@@ -362,6 +380,9 @@ function TrainingArena() {
         steps={tourSteps}
         run={run}
         continuous={true}
+        callback={handleJoyrideCallback}
+        showSkipButton
+        showProgress
         styles={{
           options: {
             zIndex: 1000,

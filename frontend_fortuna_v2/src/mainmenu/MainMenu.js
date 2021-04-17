@@ -22,8 +22,8 @@ import type {BattleType} from "../globalComponents/typesAndClasses/BattleType";
 import {toast} from "react-toastify";
 import getErrorFromObject from "../globalComponents/getErrorFromObject";
 import setLoginToken from "../globalComponents/setLoginToken";
-import JoyRide from 'react-joyride';
-import { TweenMax, Power3 } from 'gsap';
+import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
+import { TweenMax, TweenLite, Power3 } from 'gsap'
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 
@@ -47,47 +47,57 @@ const MainMenu  = () => {
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
-  const [battleType, setBattleType] = useState('1 vs 1')
-  const [run, setRun] = useState(false);
-  const [tourSteps, setTourSteps] = useState([
-      {
-        target: ".menuheader",
-        disableBeacon: true,
-        content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages. Feel free to exit these tutorials at anytime"
-      },
-      {
-        target: ".tankSelect",
-        content: "The navbar will serve as your main navigation through the Fortuna system"
-      },
-      {
-        target: ".battleRecord",
-        content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
-      },
-      {
-        target: '.training',
-        content: "The Training Arena is a place to test out your tanks against bots"
-      },
-      {
-        target: ".select",
-        content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code"
-      },
-      {
-        target: ".menuright",
-        content: "This Leaderboard shows you the Top Ten most POWERFUL players in the entire land of Vessint, the world we currently reside in "
-      },
-      {
-        target: ".credits",
-        content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game"
-      },
-      {
-          target: ".editTank",
-          content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor"
-      },
-      {
-          target: ".play",
-          content: "Play against tanks that other players have wagered and programmed. Don't forget to get some starter code from the Marketplace first!"
-      }
-    ])
+    const [battleType, setBattleType] = useState('1 vs 1')
+    const [run, setRun] = useState(false);
+    const [tourSteps, setTourSteps] = useState([
+        {
+          target: ".background-image",
+          disableBeacon: true,
+          content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages but feel free to skip them!"
+        },
+        {
+            target: ".navhelp",
+            content: "Click here to bring back the tutorial for a page anytime."
+        },
+        {
+          target: ".tankSelect",
+          content: "The navbar will serve as your main navigation through the Fortuna system."
+        },
+        {
+          target: ".menuleft",
+          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
+        },
+        {
+          target: '.training',
+          content: "The Training Arena is a place to test out your tanks against bots."
+        },
+        {
+          target: ".select",
+          content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code."
+        },
+        {
+          target: ".menuright",
+          content: "This Leaderboard shows you the current Top Ten most powerful Champions in the entire land of Vessint, the dystopian world we currently reside in."
+        },
+        {
+          target: ".credits",
+          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game."
+        },
+        {
+            target: ".editTank",
+            content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor."
+        },
+        {
+            target: ".play",
+            content: "Play against tanks that other players have wagered and programmed."
+        }
+        ,
+        {
+            target: ".tankSelect",
+            content: "Don't forget to get some starter code from the Marketplace first!"
+
+        }
+      ])
 
 
     let left = useRef(null);
@@ -95,7 +105,8 @@ const MainMenu  = () => {
     let right = useRef(null);
 
 
-	useEffect(() => {
+	useEffect(() =>
+    {
 
 		document.body.style.backgroundImage = "url('/login_background.gif')"
 		document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
@@ -128,11 +139,28 @@ const MainMenu  = () => {
 	}, [])
 
 
-
-  const style = {
-    position: "relative",
-    left: "50px"
+  const style =
+  {
+     position: "relative",
+     left: "50px"
   }
+
+
+  const handleJoyrideCallback = (data) =>
+  {
+	    const { status, type } = data;
+        const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+        if (finishedStatuses.includes(status))
+        {
+            setRun(false);
+        }
+  }
+
+  //enables Joyride if Need Help button is pressed
+  const enableJoyride =  ()  => {
+     let help = true
+     setRun(help)
+    }
 
 	return (
     <>
@@ -143,12 +171,32 @@ const MainMenu  = () => {
             linkName="/Login"
             returnName="Logout"
             pageName="Main Menu"
+            enableJoyride={enableJoyride}
           />
+            <div className="navbar">
+                <div className="navhelp">
+                    <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
+                </div>
+            </div>
         </div>
         <h1 className="menuheader">How much you in for today?</h1>
+          {/*
+          <p className="marquee">
+              <span>Welcome to the Fortuna Battle Arena! </span>
+          </p>
+          <p className="marquee">
+              <span></span>
+          </p>
+          <p className="marquee">
+              <span>May the Goddess of Fortune lead you to riches today!</span>
+          </p>
+          <p className="marquee marquee2">
+              <span>This is text - This is text - This is text </span>
+          </p>
+            */}
         <div className="column menuleft battleRecord" ref={el => left = el}>
           <Replays/>
-          <br/><br/><br/>
+          <br/><br/>
           <Link to={verifyLink("/TrainingArena")}>
             <button className="marketBtn train">Training</button>
           </Link>
@@ -230,6 +278,7 @@ const MainMenu  = () => {
           </Link>
         </div>
         <div className="column menuright" ref={el => right = el}>
+            <h4 className="infotext">The Hall of Champions</h4>
           <div className= "loginleader" style={style}>
 						<Leaderboard />
 					</div>
@@ -242,7 +291,10 @@ const MainMenu  = () => {
       <JoyRide 
           steps={tourSteps}
           run={run}
-          continuous={true} 
+          callback={handleJoyrideCallback}
+          showSkipButton
+          showProgress
+          continuous={true}
           styles={{
             options: {
               zIndex: 1000,

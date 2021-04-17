@@ -63,6 +63,13 @@ class Replays extends React.Component<Props, State> {
 		return 'Unable to get result.';
 	}
 
+	battleRecordTitle = {
+		backgroundColor: "rgba(0,0,0,.5)",
+		fontFamily: '"Press Start 2P", cursive',
+		color:"white",
+		fontSize: 20
+	}
+
 	watchReplay(replay: Replay): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 		setMatchForBattleground(replay.replayId);
@@ -71,9 +78,9 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable" style={this.props.styling}>
-				{this.state.username != null ? <h4 className='h4'>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
-				<table min-width='80%' width='80%'>
+			<div className="replayTable" >
+				{this.state.username != null ? <h4 style={this.battleRecordTitle}>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
+				<table>
 					<thead>
 						<tr>
 							<th>Opponent</th>
