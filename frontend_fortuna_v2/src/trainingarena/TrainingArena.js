@@ -23,7 +23,7 @@ import type { BattleType } from '../globalComponents/typesAndClasses/BattleType'
 import getPreferredBattleType from './getPreferredBattleType.js';
 import setPreferredBattleType from './setPreferredBattleType.js';
 import JoyRide from 'react-joyride';
-import { TweenLite, Power3 } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 import getFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/getFirstTimeLoadoutAPICall";
 import setFirstTimeLoadoutAPICall from "../globalComponents/apiCalls/setFirstTimeLoadoutAPICall";
 import setFirstTimeTrainingAPICall from "../globalComponents/apiCalls/setFirstTimeTrainingAPICall";
@@ -86,9 +86,9 @@ function TrainingArena() {
     })
 
 
-    TweenLite.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-    TweenLite.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenLite.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+    TweenMax.from(leftT, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+    TweenMax.from(midT, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenMax.from(rightT, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
 
       getFirstTimeTrainingAPICall((res) => {

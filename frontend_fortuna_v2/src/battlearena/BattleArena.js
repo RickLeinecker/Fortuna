@@ -26,7 +26,7 @@ import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
 import getLoginToken from '../globalComponents/getLoginToken';
-import { TweenMax, TweenLite, Power3 } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 
 function BattleArena() {
 
@@ -86,7 +86,7 @@ function BattleArena() {
       }
     })
 
-    TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenMax.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
 
   },[])
 

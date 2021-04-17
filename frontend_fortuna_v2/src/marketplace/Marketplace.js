@@ -14,7 +14,7 @@ import JoyRide from "react-joyride";
 import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
-import { TweenMax, Power3, TweenLite } from 'gsap';
+import { TweenMax, Power3 } from 'gsap';
 import Modal from 'react-modal'
 import { ToastContainer , toast } from 'react-toastify';
 
@@ -61,8 +61,8 @@ function Marketplace() {
 
     Modal.setAppElement('body');
     
-    TweenLite.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-    TweenLite.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
+    TweenMax.from(buyDown, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+    TweenMax.from(sellUp, 1, {opacity: 0, y: 200, ease: Power3.easeInOut});
 
   }, []);
 

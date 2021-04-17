@@ -37,7 +37,7 @@ import Jammer from '../tanks/Jammer.js';
 import Treads from '../tanks/Treads.js';
 import setTankForCasus from '../globalComponents/setTankForCasus.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import { TweenMax, Power3, TweenLite } from 'gsap'
+import { TweenMax, Power3 } from 'gsap'
 import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import JoyRide from "react-joyride";
@@ -154,7 +154,7 @@ function Armory() {
 		getTanks();
 		getUserInventory();
 
-		 TweenLite.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+		 TweenMax.from(armMid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
 
 
 		getFirstTimeLoadoutAPICall((res) => {
