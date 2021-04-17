@@ -118,7 +118,7 @@ class CasusContainer extends React.Component<Props, State> {
 		return (
       <div id="Parent" className='background-image-casus'>
         <MainNavbar
-          linkName="/Casus"
+          linkName="/Armory"
           returnName="To Armory"
           pageName="Casus"
           ref="navbarRef"
