@@ -77,7 +77,7 @@ function TrainingArena() {
     getAllUsersTanks(allTanks => {
       setAllTanks(allTanks);
       setSelectedTankOne(getPreferredSelectedTank(allTanks));
-	 document.body.style.backgroundImage = "url('/login_background.gif')"
+
     })
 
     getBotTanksAPICall(botTanks => {

@@ -106,7 +106,7 @@ const Credits  = () => {
 
     useEffect(() => {
 
-        document.body.style.backgroundImage = "url('/login_background.gif')"
+
         document.body.style.fontFamily = "font-family: 'Press Start 2P', cursive;"
         getAllUsersTanks(allTanks => {
             {
@@ -130,9 +130,9 @@ const Credits  = () => {
 
 
 
-        TweenLite.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
-        TweenLite.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
-        TweenLite.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
+        TweenMax.from(left, 1, {opacity: 0, x: -200, ease: Power3.easeInOut});
+        TweenMax.from(mid, 1, {opacity: 0, y: -200, ease: Power3.easeInOut});
+        TweenMax.from(right, 1, {opacity: 0, x: 200, ease: Power3.easeInOut});
 
     }, [])
 

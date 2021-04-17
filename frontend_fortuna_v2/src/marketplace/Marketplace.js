@@ -48,7 +48,7 @@ function Marketplace() {
 
   useEffect(() => {
     verifyLogin();
-    document.body.style.backgroundImage = "url('/login_background.gif')"
+
       getFirstTimeMarketplaceAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
