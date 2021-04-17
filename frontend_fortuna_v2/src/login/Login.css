@@ -1,8 +1,10 @@
 /* Login/Signup Page Styling */
 .loginleft {
+
 	width: 30%;
 	padding-left: 2%;
-	margin-top: 20%;
+	margin-top: 19%;
+
 }
 
 .loginright {
@@ -45,7 +47,8 @@
 	color: #FFFFFF;
 	text-transform: uppercase;
 	text-decoration: none;
-	border: 0.2em solid #FFFFFF;
+	text-decoration: none;
+
   padding: 0.5em 1em;
   font-family: 'Press Start 2P', cursive;
 }
@@ -56,6 +59,7 @@
 	position: absolute;
 	width: 10%;
 	background: #000921;
+
 	height: 0.3em;
 	right: 20%;
 	top: -0.21em;
@@ -97,10 +101,14 @@
 		2px -2px 0 #04213F,
 		-2px 2px 0 #04213F,
 		2px 2px 0 #04213F;
+
 }
 
 .infotext {
 	/*color: #20ffff;*/
+	text-align: center;
+	width: 435px;
+	font-family: 'Press Start 2P', cursive;
 	color: #ffffff;
 	text-shadow:
 		-2px -2px 0 #04213F,
@@ -108,10 +116,23 @@
 		-2px 2px 0 #04213F,
 		2px 2px 0 #04213F;
 }
+.infotextLogin {
+	/*color: #20ffff;*/
+	text-align: center;
+	width: 335px;
+	font-family: 'Press Start 2P', cursive;
+	color: #ffffff;
+	text-shadow:
+			-2px -2px 0 #04213F,
+			2px -2px 0 #04213F,
+			-2px 2px 0 #04213F,
+			2px 2px 0 #04213F;
+}
 
 .fixedHeight {
 	height: 60px;
 }
+
 
 .confirmPage {
 	text-align: center;

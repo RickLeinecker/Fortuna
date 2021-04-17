@@ -10,7 +10,7 @@ import MakeCasusCodeSaleView from './MakeCasusCodeSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
 import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
-import JoyRide from "react-joyride";
+import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
 import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
@@ -33,21 +33,22 @@ function Marketplace() {
       },
     {
         target: ".casusCode",
-        content: "Click here to buy some starter code that goes with the default starter tanks!"
+        content: "Click here to buy some starter code that goes with their corresponding default starter tank."
     },
       {
           target: ".sell",
-          content: "Sell anything you own or create to make some extra cash"
+          content: "Sell anything you own or create to make some extra cash."
+
       }
   ]);
 
   let navbarRef = useRef(null);
   let buyDown = useRef(null);
   let sellUp = useRef(null);
-  
+
   useEffect(() => {
     verifyLogin();
-    document.body.style.backgroundImage = "url('/login_background.gif')"
+
       getFirstTimeMarketplaceAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
@@ -183,6 +184,17 @@ function Marketplace() {
       partView = (<h2>Select a type</h2>);
       break;
   }
+  const handleJoyrideCallback = (data) => {
+    const { status, type } = data;
+    const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+    if (finishedStatuses.includes(status)) {
+      setRun(false);
+    }}
+
+  const enableJoyride =  ()  => {
+    let test = true
+    setRun(test)
+  }
 
   if (marketplaceViewClicked)
   {
@@ -212,6 +224,12 @@ function Marketplace() {
             pageName="Marketplace"
             ref={navbarRef}
           />
+          <div className="navbar">
+            <div className="navhelp">
+              <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
+            </div>
+
+          </div>
           <br/>
           <br/>
           <br/>
@@ -287,6 +305,9 @@ function Marketplace() {
                 steps={tourSteps}
                 run={run}
                 continuous={true}
+                callback={handleJoyrideCallback}
+                showSkipButton
+                showProgress
                 styles={{
                     options: {
                         zIndex: 1000,

@@ -26,6 +26,7 @@ body {
   font-family: 'Press Start 2P', cursive;
   color: white;
  }
+
  description {
 	 background-color: #012074;
 	 border: 4px solid #1969e5;
@@ -33,13 +34,14 @@ body {
 
 /* login leaderboard */
 .loginleader{
+
 	font-family: 'Press Start 2P', cursive;
 	/*color: #007efc;*/
 	padding: 10px;
-	background-color: #012074;
+	background-color: rgba(0,0,0,.5);
 	border: 4px solid #1969e5;
 	/*border-radius: 8px;*/
-	width: 380px;
+	width: 335px;
 }
 
 /* Leaderboard table*/
@@ -62,7 +64,7 @@ body {
 }
 
 .loginleader #title {
-	color: #20ffff;
+	color: white;
 }
 
 .haveScorebarIfSmall {
@@ -97,12 +99,16 @@ body {
 
 /* Input Styling */
 .inputText {
+	position: relative;
+	display: block;
+	margin: 0 auto;
 	padding-left: 5px;
-	width: 100%;
+	width: 70%;
 	border-radius: 4px;
 	border-color: #04CCFF;
 	background-color: #04CCFF;
 	color: #000921;
+	text-align: center;
 }
 
 ::placeholder {
@@ -184,11 +190,22 @@ body {
 	border: 2px solid #ff47ff;
 }
 
+.navhelp {
+	text-align: right;
+	width: 25%;
+	margin-left: 80%;
+
+}
+
 /* Popup Styling */
 .popup {
+
 	font-family: 'Press Start 2P', cursive;
 	padding: 20px 20px 20px 20px;
 	background-color: #00103a;
+}
+.popup-overlay {
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .popup p {
@@ -208,6 +225,7 @@ body {
 }
 
 .popup input {
+
 	margin-top: 0px;
 }
 
@@ -374,6 +392,8 @@ body {
 	background: #04CCFF;
 	border: 2px solid #04CCFF;
 	border-radius: 3px;
+	position: relative;
+	left: 15px;
   width: 60px;
   font-family: 'Press Start 2P', cursive;
 }
@@ -550,11 +570,38 @@ select {
 
 .footer {
   margin-top: 50px;
-  border: 1px solid black;
   float: left;
   width:99%;
   height: 10%;
   position: fixed;
   clear: both;
   margin-top: 900px;
+}
+
+/* Moving text */
+.marquee {
+	color: white;
+	font-family: 'Press Start 2P', cursive;
+	white-space: nowrap;
+	position: absolute;
+}
+
+.marquee span {
+	display: inline-block;
+	padding-left: 100%;
+	animation: marquee 30s linear infinite;
+}
+
+.marquee2 span {
+	animation-delay: 10s;
+	animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(-100%, 0);
+	}
 }
