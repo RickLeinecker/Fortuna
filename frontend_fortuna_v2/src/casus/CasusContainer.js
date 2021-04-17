@@ -49,7 +49,7 @@ class CasusContainer extends React.Component<Props, State> {
       tankName: 'loading tank...',
       tour_steps: [
         {
-          target: ".background-image",
+          target: ".background-image-casus",
           disableBeacon: true,
           content: "Welcome to Casus, the simplified code editor that allows you to program your tanks movement and actions",
         },
