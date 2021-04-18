@@ -33,13 +33,8 @@ function setFirstTimeCasusAPICall(onLoad:(firstTimeCasus: boolean) => void) {
 
             }
             else {
-
-
-
                 console.log('set first time status for Casus page: ');
-
                 console.log('success ');
-
             }
         })
     );
