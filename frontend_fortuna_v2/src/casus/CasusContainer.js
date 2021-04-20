@@ -149,6 +149,7 @@ class CasusContainer extends React.Component<Props, State> {
             onBlocksDragged={this.onBlocksDragged}
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
+          <br/><br/><br/><br/>
           <Row>
             <Col>
               <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
