@@ -177,6 +177,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
   divStyle = {
     color: "white",
+	  fontFamily: '"Press Start 2P", cursive',
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
@@ -210,7 +211,6 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<h5 style={this.divStyle}>Wager a Tank</h5>
 				<div className="row rowPadding">
 					<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
 						Setup
@@ -228,8 +228,8 @@ class SetWagerPopup extends React.Component<Props, State> {
 					</button>
 				</div>
 				<br/>
-				<h6>Current 1v1 Wager:</h6>
-				<label>{this.state.userWager1v1Tank == null || this.state.userWager===0 ?
+				<h6 style={this.divStyle}>Current 1v1 Wager:</h6>
+				<label style={this.divStyle}>{this.state.userWager1v1Tank == null || this.state.userWager===0 ?
 					<div style={this.divStyle}>No set 1v1 wager tank<br/><br/></div> : 
 					<label>
 						<div className="wagerTank">{this.state.userWager1v1Tank.tankName}</div> for {this.state.userWager}
@@ -251,10 +251,10 @@ class SetWagerPopup extends React.Component<Props, State> {
 						open={this.state.setWagerOpen}
 						onClose={() => this.setState({setWagerOpen: false, newWager3v3Tanks: [null, null, null]})}
 					>
-						<div className="popup">
+						<div className="popup_quickplay">
 							<br/>
 							<h5>Select Wager's Battle Type</h5>
-							<div className="row center">
+							<div >
 								<button 
 									onClick={() => this.setState({battleType: '1 vs 1'})}
 									className="smallbtn"
@@ -307,7 +307,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 								</div>
 							}
 							<br/>
-							<h6>Input amount to wager your tank{this.state.battleType === '1 vs 1' ? ' for' : 's for'}</h6>
+							<h6 className='correctColor'>Input amount to wager your tank{this.state.battleType === '1 vs 1' ? ' for' : 's for'}</h6>
 							<input 
 								type="number" 
 								className="inputText"

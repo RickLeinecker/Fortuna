@@ -142,8 +142,14 @@
     color: #04CCFF;
 }
 
+.ArmoryTitle {
+    color: "white";
+    font-size: 30px;
+    text-shadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black";
+}
+
 .background-image-armory {
-    background: url('/armory_image_revised.png');
+    background: url('/armory_image.png');
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;

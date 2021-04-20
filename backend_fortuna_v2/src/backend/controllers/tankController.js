@@ -8,6 +8,8 @@ const Tank = require('../../models/tankModel');
 
 const { validationResult } = require('express-validator');
 
+require('dotenv');
+const master = process.env.REACT_APP_MASTER_ACCOUNT;
 
 exports.getFavorite = async (req: Request, res: Response) => {
 	try {
@@ -263,6 +265,25 @@ exports.userTanks = async (req: Request, res: Response) => {
 		} 
 		else {
 			console.log("Successfully found tanks for user");
+
+			return res
+				.status(200)
+				.send(tanks);
+		}
+	});
+}
+
+exports.masterTanks = async (req: Request, res: Response) => {
+	await Tank.find({ userId: master}, (err: Error, tanks: Array<Tank>) => {
+		if (err) {
+			console.error(err.message)
+
+			return res
+				.status(404)
+				.json({msg: 'tank not found in DB'});
+		}
+		else {
+			console.log("Successfully found tanks for bots");
 
 			return res
 				.status(200)

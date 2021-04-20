@@ -9,6 +9,7 @@ import Login from './login/Login.js';
 import MainMenu from './mainmenu/MainMenu.js';
 import Marketplace from './marketplace/Marketplace.js';
 import CasusContainer from './casus/CasusContainer.js';
+import Credits from './credits/Credits';
 import BattleArena from './battlearena/BattleArena.js';
 import Armory from './armory/Armory.js';
 import TrainingArena from './trainingarena/TrainingArena.js';
@@ -34,6 +35,7 @@ const routing = (
 				<Route path="/Battleground" component={BattlegroundContainer} />
 				<Route path = '/ConfirmEmail/:token/:email' component= {ConfirmEmail}/>
 				<Route path='/ResetPassword/:token/:email' component={ResetPassword}/>
+				<Route path='/Credits' component={Credits}/>
 				</Fragment>
 			</Switch>
 		</div>

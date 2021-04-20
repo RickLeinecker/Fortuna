@@ -35,34 +35,7 @@ function BlockBank(props) {
     setSelectedSection(section);
   }
 
-  /* ADD HELP MODAL */
-  /* using react model
-    inside of modal set a component that can change state as
-    new help options are selected
-  */
-  const openModal = () => {
-    setModalIsOpen(true);
-    console.log("open");
-  }
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    console.log("closed")
-  }
-
-  const customStyles = {
-    content : {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      borderRadius: '10px',
-      backgroundColor: "#012074",
-      borderStyle: "solid"
-    }
-  }
 
 
   return (
@@ -81,15 +54,6 @@ function BlockBank(props) {
       <br/>
       <br/>
       <br/>
-      <button className="helpButton" onClick={openModal}>Help</button>
-      <Modal
-        isOpen={modalIsOpen}
-        style={customStyles}
-        contentLabel="Help Modal"
-      >
-        <Help />
-        <Button className="helpButton parent" onClick={closeModal}>Close</Button>
-      </Modal>
     </>
   );
 }

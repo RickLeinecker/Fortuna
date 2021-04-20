@@ -49,6 +49,21 @@ class SignupPopup extends React.Component<Props, State> {
 			return;
 		}
 
+		// Check length, if more than 8 chars, will ruin the Top 10 box formatting.
+		if (this.state.userName.length > 9 || this.state.userName.length < 3) {
+			toast.error('Username must be between 3 and 8 characters.');
+			return;
+		}
+
+		const hasWhiteSpace = (s) => {
+			return /\s/g.test(s);
+		}
+
+		if (hasWhiteSpace(this.state.userName)) {
+			toast.error('Username must not have any spaces.');
+			return;
+		}
+
 		// Age verification
 		const birthDate = new Date(this.state.birthYear, (+this.state.birthMonth-1), this.state.birthDay)
 		const today = new Date(Date.now());
@@ -157,10 +172,11 @@ class SignupPopup extends React.Component<Props, State> {
     }
   }
 
+
 	render(): React.Node {
 		return (
 			<div>
-				<button type="button" className="clearbtn" onClick={() => this.setState({signupDialogOpen: true})}>
+				<button type="button" className="loginbtn" onClick={() => this.setState({signupDialogOpen: true})}>
 					<div className="logintext">
 						Signup
 					</div>
@@ -171,7 +187,7 @@ class SignupPopup extends React.Component<Props, State> {
 				>
 					<div className="popup">
 						<h3>Signup</h3>
-						<div className="row col-md-12">
+						<div>
 							<label>Email</label>
 							<div className="input-group">
 								<input
@@ -181,7 +197,7 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div>
 							<label>Username</label>
 							<div className="input-group">
 								<input
@@ -191,7 +207,7 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div>
 							<label>Password</label>
 							<div className="input-group">
 								<input
@@ -201,7 +217,7 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
+						<div>
 							<label>Confirm Password</label>
 							<div className="input-group">
 								<input
@@ -211,9 +227,9 @@ class SignupPopup extends React.Component<Props, State> {
 								/>
 							</div>
 						</div>
-						<div className="row col-md-12">
-							<label id="DOBlabel">Date of Birth <br /> Month  Day  Year</label>
-							<div className="input-group">
+						<div>
+							<label id="DOBlabel">Date of Birth <br/> Month  Day  Year</label>
+							<div className="input-group" >
 						     <input id="month"
 							     type="text"
 								className="inputText"
@@ -241,7 +257,7 @@ class SignupPopup extends React.Component<Props, State> {
 							</div>
 						</div>
 						<br/>
-						<div className="row col-md-12">
+						<div>
 							<button className="popupbtn" onClick={() => this.handleSignUpClick()}>
 								Signup
 							</button>
@@ -260,9 +276,11 @@ class SignupPopup extends React.Component<Props, State> {
           onFailure={this.responseErrorGoogle}
           cookiePolicy={'single_host_origin'}
           render={renderProps => (
-            <button type="button" className="clearbtn logintext" style={{color: "white"}} onClick={renderProps.onClick}>Login With Google</button>
+
+          	<button type="button" className="loginbtn" style={{color: "white"}} onClick={renderProps.onClick}>Login With Google</button>
           )}
         />
+
 				<ToastContainer />
 			</div>
 		);

@@ -27,8 +27,8 @@ function TankCards({sellerType, tanks, buyItem, postsPerPage, totalPosts, findTa
     return (
       <Col md="auto" style={colStyle}>
         <Card style={style} key={index}>
-          <Card.Header>{isMaster(sellerId)}</Card.Header>
-          <Card.Body>
+          <Card.Header style={{textAlign: "center"}}>{isMaster(sellerId)}</Card.Header>
+          <Card.Body style={{textAlign: "center"}}>
             {tankToUse == null ? <h5>Loading Tank... </h5> : 
               <>
                 <Card.Title>{tankToUse.tankName}</Card.Title>

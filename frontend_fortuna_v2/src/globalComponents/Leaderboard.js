@@ -36,13 +36,15 @@ class Leaderboard extends React.Component<Props, State> {
 
   divStyle = {
     color: "white",
-    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
+    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black",
+
+
   }
 
 	render(): React.Node {
 		return (
+
 			<div style={this.divStyle}>
-				<h4 id = "title">Top Commanders</h4>
 				<table>
 					<tbody>
 						{this.state.leaders.map(({username, elo}, index) =>

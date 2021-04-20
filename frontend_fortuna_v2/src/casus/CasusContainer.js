@@ -12,7 +12,7 @@ import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.
 import {ToastContainer} from 'react-toastify';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import JoyRide from 'react-joyride';
+import JoyRide, {ACTIONS, EVENTS, STATUS} from "react-joyride";
 import getFirstTimeHomeAPICall from "../globalComponents/apiCalls/getFirstTimeHomeAPICall";
 import setFirstTimeHomeAPICall from "../globalComponents/apiCalls/setFirstTimeHomeAPICall";
 import setFirstTimeCasusAPICall from "../globalComponents/apiCalls/setFirstTimeCasusAPICall";
@@ -28,7 +28,6 @@ type State = {
 class CasusContainer extends React.Component<Props, State> {
 
 	componentDidMount(): void {
-    document.body.style.backgroundRepeat = "round"
     const ref = this.refs.navbarRef
        getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
@@ -50,14 +49,22 @@ class CasusContainer extends React.Component<Props, State> {
       tankName: 'loading tank...',
       tour_steps: [
         {
-          target: ".mt-12",
+          target: ".background-image-casus",
           disableBeacon: true,
           content: "Welcome to Casus, the simplified code editor that allows you to program your tanks movement and actions",
         },
         {
           target: ".blockShelf",
-          content: "These code blocks can be dragged into the canvas above to create code. If you're placing code blocks inside of each other, make sure the shapes match!"
+          content: "This is the Code Block Shelf. These code blocks can be dragged into the canvas above to create code. If you're placing code blocks inside of each other, make sure the shapes match!"
         },
+          {
+              target: ".mt-12",
+              content: "Code blocks can be dragged back into the shelf to be removed. Be careful removing code blocks! As you add code, the blocks will combine into a single unit "
+          },
+          {
+              target: ".undoBtn",
+              content: "If you make any mistakes, here are the Undo and Redo buttons"
+          },
         {
           target: ".blockTypeSelect",
           content: "Here are different categories for your code blocks to help you find different code types and shapes"
@@ -68,7 +75,7 @@ class CasusContainer extends React.Component<Props, State> {
         },
         {
           target: ".testCode",
-          content: "Click here to test your code"
+          content: "Test your code by taking your Tank into the Training Arena!"
         }
       ],
       run: false
@@ -81,9 +88,18 @@ class CasusContainer extends React.Component<Props, State> {
 		});
 
 	}
+    handleJoyrideCallback = (data) => {
+        const { status, type } = data;
+        const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+        if (finishedStatuses.includes(status)) {
+            this.setState({run:false})
+        }}
+
+    enableJoyride =  (): void  => {
+        this.setState({run:true})
+    }
 
     componentDidMount(): void {
-        document.body.style.backgroundRepeat = "round"
         const ref = this.refs.navbarRef
         getFirstTimeCasusAPICall((res) => {
             console.log("RES: ", res);
@@ -100,18 +116,23 @@ class CasusContainer extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-      <div id="Parent" className='background-image'>
+      <div id="Parent" className='background-image-casus'>
         <MainNavbar
-          className='background-image'
           linkName="/Armory"
           returnName="To Armory"
-          pageName="Armory"
+          pageName="Casus"
           ref="navbarRef"
           //youtubeLinks={[
           //	'https://www.youtube.com/watch?v=kEClhrMWogY',
           //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
           //]}
         />
+          <div className="navbar">
+              <div className="navhelp">
+                  <button className="navbtn" onClick={()=>this.enableJoyride()} >Need Help?</button>
+              </div>
+
+          </div>
         <Container fluid>
           <Row className="mt-12">
             <Col md={12} className="editor">
@@ -128,6 +149,7 @@ class CasusContainer extends React.Component<Props, State> {
             onBlocksDragged={this.onBlocksDragged}
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
+          <br/><br/><br/><br/>
           <Row>
             <Col>
               <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>
@@ -137,7 +159,10 @@ class CasusContainer extends React.Component<Props, State> {
           <JoyRide 
             steps={this.state.tour_steps}
             run={this.state.run}
-            continuous={true} 
+            continuous={true}
+            callback={this.handleJoyrideCallback}
+            showSkipButton
+            showProgress
             styles={{
               options: {
                 zIndex: 1000,

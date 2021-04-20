@@ -1,6 +1,7 @@
 //@flow strict
 
 import * as React from 'react';
+import './BattleArena.css'
 import Replay from '../globalComponents/typesAndClasses/Replay.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import Cookies from 'universal-cookie'
@@ -62,6 +63,13 @@ class Replays extends React.Component<Props, State> {
 		return 'Unable to get result.';
 	}
 
+	battleRecordTitle = {
+		backgroundColor: "rgba(0,0,0,.5)",
+		fontFamily: '"Press Start 2P", cursive',
+		color:"white",
+		fontSize: 20
+	}
+
 	watchReplay(replay: Replay): void {
 		setReturnToFromBattlegroundLink('/BattleArena');
 		setMatchForBattleground(replay.replayId);
@@ -70,8 +78,8 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable" style={this.props.styling}>
-				{this.state.username != null ? <h4>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
+			<div className="replayTable" >
+				{this.state.username != null ? <h4 style={this.battleRecordTitle}>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
 						<tr>
@@ -79,7 +87,7 @@ class Replays extends React.Component<Props, State> {
 							<th>Result</th>
 							<th>Replay</th>
 							<th>Prize</th>
-							<th>Elo</th>
+							<th>ELO</th>
 							<th>Type</th>
 						</tr>
 					</thead>
@@ -88,7 +96,7 @@ class Replays extends React.Component<Props, State> {
 							<tr key={replay.replayId}>
 								<td id="opponent" className="name">{(this.state.username === replay.playerOneName) ? replay.playerTwoName : replay.playerOneName}</td>
 								<td id="result">{this.getMatchResult(replay)}</td>
-								<td><button className="reallySmallBtn" style={{fontSize: "x-small"}} onClick={() => this.watchReplay(replay)}>View</button></td>
+								<td id="replay"><button className="reallySmallBtn" onClick={() => this.watchReplay(replay)}>View</button></td>
 								<td id="prize">{this.getMatchResult(replay) === 'Win' ? '+' + replay.prizeMoney : '-' + replay.prizeMoney}</td>
 								<td id="elo">{this.getMatchResult(replay) === 'Win' ? '+' + replay.eloExchanged : '-' + replay.eloExchanged}</td>
 								<td id="type">{replay.tankOneName == null ? '3v3' : '1v1'}</td>
