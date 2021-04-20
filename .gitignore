@@ -11,6 +11,7 @@
 # production
 /build
 /lib/*
+/backend_fortuna_v2/lib/*
 
 # misc
 .DS_Store

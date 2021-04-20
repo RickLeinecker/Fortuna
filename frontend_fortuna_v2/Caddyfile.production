@@ -1,5 +1,5 @@
 {
-  email rick@jsventures.com
+  email rickleinecker@gmail.com
   acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
@@ -11,5 +11,5 @@ www.fortunacombat.com:443, fortunacombat.com:443 {
     file_server
   }
 
-  tls rick@jsventures.com
+  tls rickleinecker@gmail.com
 }
