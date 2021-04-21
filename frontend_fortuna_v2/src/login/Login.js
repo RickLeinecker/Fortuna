@@ -64,10 +64,10 @@ leaderboard = {
 						<br/>
 					</div>
 				</div>
-				<div className="column loginright">
+				<div className="column loginright" title="loginright">
 
 					<InfoPopup />
-					<p style={this.style}>
+					<p style={this.style} title="fortunainfo">
 						<br/>
 						Fortuna is a tank simulation game available online for FREE, based
 						on the book "The Birth of Jai", written by Richard Leinecker.

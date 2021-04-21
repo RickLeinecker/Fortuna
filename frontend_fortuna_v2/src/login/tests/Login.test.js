@@ -10,3 +10,19 @@ it('checkLoginRender', () => {
   expect(leader).toBeTruthy();
   
 })
+
+it('loginright', () => {
+  const { queryByTitle } = render(<Login />);
+  const loginright = queryByTitle("loginright");
+
+  expect(loginright).toBeTruthy();
+  
+})
+
+it('info', () => {
+  const { queryByTitle } = render(<Login />);
+  const info = queryByTitle("fortunainfo");
+
+  expect(info).toBeTruthy();
+  
+})
