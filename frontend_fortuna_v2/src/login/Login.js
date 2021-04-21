@@ -44,7 +44,7 @@ leaderboard = {
 
 
 		return (
-			<div className='background-image'>
+			<div className='background-image' title="leaderboardTest">
 				<div className="column loginleft ">
 					<h4 className="infotextLogin">The Hall of Champions</h4>
 					<div className= "loginleader" style={this.leaderboard}>
