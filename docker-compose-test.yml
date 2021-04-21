@@ -7,9 +7,9 @@ services:
       context: ./frontend_fortuna_v2/
       dockerfile: test.Dockerfile
     volumes:
-      - "nodemodules:/app/node_modules"
+      - "_nodemodules:/app/node_modules"
       - "./frontend_fortuna_v2:/app"
     command: npm test
 
 volumes:
-  nodemodules:
+  _nodemodules:
