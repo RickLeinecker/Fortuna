@@ -69,7 +69,7 @@ class ResendEmailPopup extends React.Component<Props, State> {
 		);
 
 		return (
-			<div>
+			<div title="resendEmail">
 				<button style={{ paddingLeft: 0, marginTop: 40 }} type="button" className="clearbtn" onClick={() => this.setState({popupOpen: true})}>
 					<div>
 						Resend Confirmation Email
