@@ -108,7 +108,6 @@ function Marketplace() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     textAlign: "center",
     right: "70px",
-    position: "relative"
   }
 
   const onMoneyChanged = () => {
@@ -236,21 +235,21 @@ function Marketplace() {
           <Container className="buy" ref={el => buyDown = el}>
             <h1 style={divStyle}>Buy</h1>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('weapon')}>Weapons</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scanner')}>Scanners</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scannerAddon')}>Scanner Add-Ons</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('chassis')}>Chassis</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('jammer')}>Jammers</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('treads')}>Treads</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('item')}>Items</button></Col>
               <Col className="casusCode"><button className="marketBtn" onClick={() => setMarketplaceViewClicked('casusCode')}>Casus Code</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('tank')}>Tanks</button></Col>
