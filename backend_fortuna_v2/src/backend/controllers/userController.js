@@ -86,7 +86,7 @@ exports.googleLogin = async (req, response) => {
 
             let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified, expirationDate});
             
-            if (userName > 9)
+            if (userName.length > 9)
             {
               user.userName = userName.substring(0,9);
             }
