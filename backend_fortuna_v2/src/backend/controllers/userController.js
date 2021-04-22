@@ -1097,14 +1097,17 @@ exports.setFirstTimeHome = async (req: Request, res: Response) => {
 
   let _firstTimeHome = req.body.firstTimeHome;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
     {
       firstTimeHome: _firstTimeHome
     }, function (err, docs) {
       if (err)
         res.json(err)
-      else
-        console.log("Changing firstTimeHome to false!");
+	  else
+	  {
+		  console.log("Changing firstTimeHome to false!");
+		  return res.status(200).send("set firstTimeHome to false")
+	  }
     })
 }
 
@@ -1112,14 +1115,17 @@ exports.setFirstTimePlay = async (req: Request, res: Response) => {
 
 	let _firstTimePlay = req.body.firstTimePlay;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimePlay: _firstTimePlay
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimePlay to false!");
+				return res.status(200).send("set firstTimePlay to false")
+			}
 		})
 }
 
@@ -1127,14 +1133,17 @@ exports.setFirstTimeLoadout = async (req: Request, res: Response) => {
 
 	let _firstTimeLoadout = req.body.firstTimeLoadout;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeLoadout: _firstTimeLoadout
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeLoadout to false!");
+				return res.status(200).send("set firstTimeLoadout to false")
+			}
 		})
 }
 
@@ -1142,14 +1151,18 @@ exports.setFirstTimeTraining = async (req: Request, res: Response) => {
 
 	let _firstTimeTraining = req.body.firstTimeTraining;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeTraining: _firstTimeTraining
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeTraining to false!");
+				return res.status(200).send("set firstTimeTraining to false")
+			}
+
 		})
 }
 
@@ -1157,14 +1170,17 @@ exports.setFirstTimeMarketplace = async (req: Request, res: Response) => {
 
 	let _firstTimeMarketplace = req.body.firstTimeMarketplace;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeMarketplace: _firstTimeMarketplace
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeMarketplace to false!");
+				return res.status(200).send("set firstTimeMarketplace to false")
+			}
 		})
 }
 
@@ -1172,14 +1188,17 @@ exports.setFirstTimeCasus = async (req: Request, res: Response) => {
 
 	let _firstTimeCasus = req.body.firstTimeCasus;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeCasus: _firstTimeCasus
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeCasus to false!");
+				return res.status(200).send("set firstTimeCasus to false")
+			}
 		})
 }
 
