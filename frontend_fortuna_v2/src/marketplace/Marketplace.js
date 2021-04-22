@@ -215,7 +215,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent" className='background-image'>
+        <div id="Parent" className='background-image' title="rootMainMarket">
           <br/>
           <MainNavbar
             className='background-image'
