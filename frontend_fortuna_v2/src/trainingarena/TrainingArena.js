@@ -310,7 +310,7 @@ function TrainingArena() {
 
 
       </div>
-      <div className="column taright" ref={el => rightT = el}>
+      <div className="column taright" ref={el => rightT = el} title="rightCol">
         <h5 style={divStyle}>Choose a Training Bot</h5>
         <br/>
         {(battleType === '1 vs 1') ?
