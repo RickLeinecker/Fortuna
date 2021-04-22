@@ -61,38 +61,54 @@ function Armory() {
 	const [points, setPoints] = useState(0);
 	const [run, setRun] = useState(false);
   
-	const [openWeapon, setOpenWeapon] = useState(false);
+	const [openWeapon1, setOpenWeapon1] = useState(false);
+	const [openWeapon2, setOpenWeapon2] = useState(false);
 	const [openChassis, setOpenChassis] = useState(false);
 	const [openScanners, setOpenScanners] = useState(false);
-	const [openScannerAddon, setOpenScannerAddon] = useState(false);
+	const [openScannerAddon1, setOpenScannerAddon1] = useState(false);
+	const [openScannerAddon2, setOpenScannerAddon2] = useState(false);
 	const [openJammers, setOpenJammers] = useState(false);
 	const [openTreads, setOpenTreads] = useState(false);
-	const [openItem, setOpenItem] = useState(false);
+	const [openItem1, setOpenItem1] = useState(false);
+	const [openItem2, setOpenItem2] = useState(false);
+	const [openItem3, setOpenItem3] = useState(false);
 
   const openModals = (choice) => {
     switch(choice)
     {
-      case 'weapon':
-        setOpenWeapon(true);
+      case 'weapon1':
+        setOpenWeapon1(true);
         break;
+      case 'weapon2':
+		setOpenWeapon2(true);
+		break;
       case 'chassis':
         setOpenChassis(true);
         break;
       case 'scanner':
         setOpenScanners(true);
         break;
-      case 'scannerAdd':
-        setOpenScannerAddon(true);
+      case 'scannerAdd1':
+        setOpenScannerAddon1(true);
         break;
+	  case 'scannerAdd2':
+		setOpenScannerAddon2(true);
+		break;
       case 'jammer':
         setOpenJammers(true);
         break;
       case 'treads':
         setOpenTreads(true);
         break;
-      case 'item':
-        setOpenItem(true);
+      case 'item1':
+        setOpenItem1(true);
         break;
+      case 'item2':
+		setOpenItem2(true);
+		break;
+	  case 'item3':
+		setOpenItem3(true);
+		break;
       default:
         break;
     }
@@ -101,27 +117,39 @@ function Armory() {
   const closeModals = (choice) => {
     switch(choice)
     {
-      case 'weapon':
-        setOpenWeapon(false);
+      case 'weapon1':
+        setOpenWeapon1(false);
         break;
+	  case 'weapon2':
+		setOpenWeapon2(false);
+		break;
       case 'chassis':
         setOpenChassis(false);
         break;
       case 'scanner':
         setOpenScanners(false);
         break;
-      case 'scannerAdd':
-        setOpenScannerAddon(false);
+      case 'scannerAdd1':
+        setOpenScannerAddon1(false);
         break;
+	  case 'scannerAdd2':
+		setOpenScannerAddon2(false);
+		break;
       case 'jammer':
         setOpenJammers(false);
         break;
       case 'treads':
         setOpenTreads(false);
         break;
-      case 'item':
-        setOpenItem(false);
+      case 'item1':
+        setOpenItem1(false);
         break;
+      case 'item2':
+		setOpenItem2(false);
+		break;
+	  case 'item3':
+		setOpenItem3(false);
+		break;
       default:
         break;
     }
@@ -140,7 +168,7 @@ function Armory() {
 		{
 			target: ".armoryright",
 			content:
-				"Equip and customize your tanks with weapons, equipment, or items that you have purchased from the Marketplace"
+				"Equip and customize your tanks with weapons, equipment, or items that you have purchased from the Marketplace. "
 		}
 	])
 
@@ -400,6 +428,7 @@ function Armory() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
+
   const divStyle2 = {
     color: "#aa00ff",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -420,10 +449,13 @@ function Armory() {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
-      backgroundColor: "#012074",
+      backgroundColor: "rgba(0,0,0,.5)",
       borderStyle: "solid",
       maxHeight: "100vh"
-    }
+    },
+    overlay:{
+    	backgroundColor: "rgba(0,0,0,.5)"
+	}
   }
 
 	const handleJoyrideCallback = (data) => {
@@ -458,16 +490,7 @@ function Armory() {
 			</div>
 
 			<div className="column armoryleft">
-				<h4 className="font" style={divStyle}>Selected Tank</h4>
-				{selectedTank==null?<div></div>:
-					<SelectTank
-						selectedTank={selectedTank}
-						allTanks={allTanks}
-						changeSelectedTank={(tank) => changeSelectedTank(tank)}
-						propogateChangesToCasus={true}
-						allowRemoveTank={false}
-					/>
-				}
+
 
 				<br/><br/>
 				<label className="font" style={divStyle}>Casus</label>
@@ -508,10 +531,24 @@ function Armory() {
 
 			</div>
 			<div className="column armorymiddle" ref={el => armMid = el}>
-				<h1 className="ArmoryTitle">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+
+
+				<h4 className="font" style={divStyle}>Currently Modifying:</h4>
+				{selectedTank==null?<div></div>:
+					<SelectTank
+						selectedTank={selectedTank}
+						allTanks={allTanks}
+						changeSelectedTank={(tank) => changeSelectedTank(tank)}
+						propogateChangesToCasus={true}
+						allowRemoveTank={false}
+					/>
+				}
+
+
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
+
 			</div>
 			<div>
 				{selectedTank==null?<div></div>:
@@ -549,13 +586,13 @@ function Armory() {
 						<label className="font" style={divStyle}>Main Gun: </label>
 						<button
 							className={(currentPartIndex === 1) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1); setOpenWeapon(true)}}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(1); setOpenWeapon1(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
             <Modal
-              isOpen={openWeapon}
+              isOpen={openWeapon1}
               style={customStyles}
               contentLabel="weapon1"
             >
@@ -566,23 +603,23 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='weapon'
+                part='weapon1'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
+              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('weapon1')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Secondary Gun: </label>
 						<button
 							className={(currentPartIndex === 2) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2); setOpenWeapon(true)}}
+							onClick={() => {setComponentList(weapons); setCurrentPartIndex(2); setOpenWeapon2(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.secondaryGun.name)}
 						</button>
             <Modal
-              isOpen={openWeapon}
+              isOpen={openWeapon2}
               style={customStyles}
               contentLabel="weapon2"
             >
@@ -593,11 +630,11 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='weapon'
+                part='weapon2'
                 closeModals={closeModals}
               />
               <br/><br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('weapon')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('weapon2')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -632,14 +669,14 @@ function Armory() {
 						<label className="font" style={divStyle}>Scanner Addon: </label>
 						<button
 							className={(currentPartIndex === 4) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4); setOpenScannerAddon(true)}}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(4); setOpenScannerAddon1(true)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
             <Modal
-              isOpen={openScannerAddon}
+              isOpen={openScannerAddon1}
               style={customStyles}
               contentLabel="scannerAdd1"
             >
@@ -650,24 +687,24 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='scannerAdd'
+                part='scannerAdd1'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd1')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Scanner Addon: </label>
 						<button
 							className={(currentPartIndex === 5) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5); setOpenScannerAddon(true)}}
+							onClick={() => {setComponentList(scannerAddons); setCurrentPartIndex(5); setOpenScannerAddon2(true)}}
 							disabled={(selectedTank.scanner.name === 'empty') ? true : false}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.scannerAddonTwo.name)}
 						</button>
             <Modal
-              isOpen={openScannerAddon}
+              isOpen={openScannerAddon2}
               style={customStyles}
               contentLabel="scannerAdd2"
             >
@@ -678,11 +715,11 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='scannerAdd'
+                part='scannerAdd2'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('scannerAdd2')}>Close</button>
             </Modal>
 						<br/>
 						<br/>
@@ -747,13 +784,13 @@ function Armory() {
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 8) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(8); setOpenItem(true)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(8); setOpenItem1(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
             <Modal
-              isOpen={openItem}
+              isOpen={openItem1}
               style={customStyles}
               contentLabel="item1"
             >
@@ -764,23 +801,23 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='item'
+                part='item1'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item1')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 9) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(9); setOpenItem(true)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(9); setOpenItem2(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
             <Modal
-              isOpen={openItem}
+              isOpen={openItem2}
               style={customStyles}
               contentLabel="item2"
             >
@@ -791,23 +828,23 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='item'
+                part='item2'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item2')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Item: </label>
 						<button
 							className={(currentPartIndex === 10) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
-							onClick={() => {setComponentList(items); setCurrentPartIndex(10); setOpenItem(true)}}
+							onClick={() => {setComponentList(items); setCurrentPartIndex(10); setOpenItem3(true)}}
               style={divStyle2}
 						>
 							{toTitleCase(selectedTank.itemThree.name)}
 						</button>
             <Modal
-              isOpen={openItem}
+              isOpen={openItem3}
               style={customStyles}
               contentLabel="item3"
             >
@@ -818,11 +855,11 @@ function Armory() {
                 divStyle={divStyle}
                 componentList={componentList}
                 currentPartIndex={currentPartIndex}
-                part='item'
+                part='item3'
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('item3')}>Close</button>
             </Modal>
 					</div>
 				}
