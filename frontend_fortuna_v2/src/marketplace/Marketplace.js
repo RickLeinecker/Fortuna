@@ -129,10 +129,14 @@ function Marketplace() {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
+      borderWidth: '4px',
       backgroundColor: "#012074",
       borderStyle: "solid",
       maxHeight: "100vh"
-    }
+    },
+    overlay:{
+      backgroundColor: "rgba(0,0,0,.5)"
+  }
   }
 
   let partView = null;
@@ -270,7 +274,7 @@ function Marketplace() {
                 >
                   <MakeAComponentSaleView onItemSold={onMoneyChanged} />
                   <br/><br/>
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('component')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('component')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}>
@@ -282,7 +286,7 @@ function Marketplace() {
                 >
                   <MakeCasusCodeSaleView onItemSold={onMoneyChanged} />
                   <br /><br />
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}>
@@ -294,7 +298,7 @@ function Marketplace() {
                 >
                   <MakeATankSaleView onItemSold={onMoneyChanged} />
                   <br /><br />
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('tank')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('tank')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>

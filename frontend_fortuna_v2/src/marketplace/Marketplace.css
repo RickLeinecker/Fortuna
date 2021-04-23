@@ -120,3 +120,7 @@ ul > li {
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+  .fount {
+	font-family: 'Press Start 2P';
+  }
