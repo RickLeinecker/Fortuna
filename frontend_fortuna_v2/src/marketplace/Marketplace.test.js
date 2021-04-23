@@ -17,3 +17,25 @@ it('mainMarket', () => {
   expect(part).toBeTruthy();
 
 })
+
+it('mainMarket2', () => {
+  const { queryByTitle } = render(
+    <BrowserRouter>
+      <Marketplace/>
+    </BrowserRouter>
+  );
+
+  const container = queryByTitle("marketContainer1");
+  expect(container).toBeTruthy();
+})
+
+it('mainMarket2', () => {
+  const { queryByTitle } = render(
+    <BrowserRouter>
+      <Marketplace/>
+    </BrowserRouter>
+  );
+
+  const container = queryByTitle("marketContainer2");
+  expect(container).toBeTruthy();
+})

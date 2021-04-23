@@ -20,37 +20,37 @@ it('help', () => {
 
 })
 
-// it('leftCol', () => {
-//   const { queryByTitle } = render(
-//     <BrowserRouter>
-//       <TrainingArena/>
-//     </BrowserRouter>
-//   );
-//   const left = queryByTitle("leftCol");
+it('leftCol', () => {
+  const { queryByTitle } = render(
+    <BrowserRouter>
+      <TrainingArena/>
+    </BrowserRouter>
+  );
+  const left = queryByTitle("leftCol");
 
-//   expect(left).toBeTruthy();
-// })
+  expect(left).toBeTruthy();
+})
 
-// it('midCol', () => {
-//   const { queryByTitle } = render(
-//     <BrowserRouter>
-//       <TrainingArena/>
-//     </BrowserRouter>
-//   );
+it('midCol', () => {
+  const { queryByTitle } = render(
+    <BrowserRouter>
+      <TrainingArena/>
+    </BrowserRouter>
+  );
 
-//   const mid = queryByTitle("midCol");
+  const mid = queryByTitle("midCol");
 
-//   expect(mid).toBeTruthy();
-// })
+  expect(mid).toBeTruthy();
+})
 
-// it('rightCol', () => {
-//   const { queryByTitle } = render(
-//     <BrowserRouter>
-//       <TrainingArena/>
-//     </BrowserRouter>
-//   );
+it('rightCol', () => {
+  const { queryByTitle } = render(
+    <BrowserRouter>
+      <TrainingArena/>
+    </BrowserRouter>
+  );
 
-//   const right = queryByTitle("rightCol");
+  const right = queryByTitle("rightCol");
 
-//   expect(right).toBeTruthy();
-// })
+  expect(right).toBeTruthy();
+})
