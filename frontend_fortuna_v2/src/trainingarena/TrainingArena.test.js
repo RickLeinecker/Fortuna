@@ -5,8 +5,6 @@ import TrainingArena from './TrainingArena';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import 'jest-canvas-mock';
-
 it('help', () => {
   const { queryByTitle } = render(
     <BrowserRouter>
