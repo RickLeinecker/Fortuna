@@ -85,97 +85,102 @@ exports.googleLogin = async (req, response) => {
             let expirationDate = null;
 
             let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified, expirationDate});
+            
+            if (userName.length > 9)
+            {
+              user.userName = userName.substring(0,9);
+            }
 
-		  // Create initial tanks for user
-		  let tank1 = new Tank();
-		  tank1.userId = user.id;
-		  tank1.tankName = `Default Dan`;
-		  tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
-		  tank1.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            // Create initial tanks for user
+            let tank1 = new Tank();
+            tank1.userId = user.id;
+            tank1.tankName = `Default Dan`;
+            tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+            tank1.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
-		  let tank2 = new Tank();
-		  tank2.userId = user.id;
-		  tank2.tankName = `Long Range Tank`;
-		  tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
-		  tank2.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            let tank2 = new Tank();
+            tank2.userId = user.id;
+            tank2.tankName = `Long Range Tank`;
+            tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+            tank2.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
-		  let tank3 = new Tank();
-		  tank3.userId = user.id;
-		  tank3.tankName = `Close Range Tank`;
-		  tank3.components = ['heavy', 'shotgun', 'empty', 'empty', 'empty', 'empty', 'empty', 'armoredTreads', 'empty', 'empty', 'empty'];
-		  tank3.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            let tank3 = new Tank();
+            tank3.userId = user.id;
+            tank3.tankName = `Close Range Tank`;
+            tank3.components = ['heavy', 'shotgun', 'empty', 'empty', 'empty', 'empty', 'empty', 'armoredTreads', 'empty', 'empty', 'empty'];
+            tank3.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
-		  let tank4 = new Tank();
-		  tank4.userId = user.id;
-		  tank4.tankName = `Mines Tank`;
-		  tank4.components = ['light', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'mine', 'mine', 'mine'];
-		  tank4.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            let tank4 = new Tank();
+            tank4.userId = user.id;
+            tank4.tankName = `Mines Tank`;
+            tank4.components = ['light', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'mine', 'mine', 'mine'];
+            tank4.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
-		  let tank5 = new Tank();
-		  tank5.userId = user.id;
-		  tank5.tankName = `Sensor Tank`;
-		  tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
-		  tank5.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            let tank5 = new Tank();
+            tank5.userId = user.id;
+            tank5.tankName = `Sensor Tank`;
+            tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+            tank5.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
-		  let tank6 = new Tank();
-		  tank6.userId = user.id;
-		  tank6.tankName = `Jammer Tank`;
-		  tank6.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'mediumRangeJammer', 'advancedTreads', 'empty', 'empty', 'empty'];
-		  tank6.casusCode = {
-			  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-			  highlighted: false,
-			  blockClass: "ContainerBlock",
-			  children: [{
-				  boundingBox: { x: 0, y: 0, w: 64, h: 23 },
-				  highlighted: true,
-				  blockClass: "EmptyBlock",
-				  dataType: "VOID" }]
-		  };
+            let tank6 = new Tank();
+            tank6.userId = user.id;
+            tank6.tankName = `Jammer Tank`;
+            tank6.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'mediumRangeJammer', 'advancedTreads', 'empty', 'empty', 'empty'];
+            tank6.casusCode = {
+              boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+              highlighted: false,
+              blockClass: "ContainerBlock",
+              children: [{
+                boundingBox: { x: 0, y: 0, w: 64, h: 23 },
+                highlighted: true,
+                blockClass: "EmptyBlock",
+                dataType: "VOID" }]
+            };
 
 
             const salt = await bcrypt.genSalt(10);
@@ -210,59 +215,59 @@ exports.googleLogin = async (req, response) => {
             });
 
 
-		  await tank1.save((err: Error) => {
-              if (err) {
-                console.error(err.message);
-                return response
-                  .status(500)
-                  .json({ msg: 'Could not save user\'s 1st initial tank.' });
-              }
-            });
+          await tank1.save((err: Error) => {
+                  if (err) {
+                    console.error(err.message);
+                    return response
+                      .status(500)
+                      .json({ msg: 'Could not save user\'s 1st initial tank.' });
+                  }
+                });
 
-		  await tank2.save((err: Error) => {
-			  if (err) {
-				  console.error(err.message);
-				  return res
-					  .status(500)
-					  .json({ msg: 'Could not save user\'s 2nd initial tank.' });
-			  }
-		  });
+          await tank2.save((err: Error) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(500)
+                .json({ msg: 'Could not save user\'s 2nd initial tank.' });
+            }
+          });
 
-		  await tank3.save((err: Error) => {
-			  if (err) {
-				  console.error(err.message);
-				  return res
-					  .status(500)
-					  .json({ msg: 'Could not save user\'s 3rd initial tank.' });
-			  }
-		  });
+          await tank3.save((err: Error) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(500)
+                .json({ msg: 'Could not save user\'s 3rd initial tank.' });
+            }
+          });
 
-		  await tank4.save((err: Error) => {
-			  if (err) {
-				  console.error(err.message);
-				  return res
-					  .status(500)
-					  .json({ msg: 'Could not save user\'s 4th initial tank.' });
-			  }
-		  });
+          await tank4.save((err: Error) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(500)
+                .json({ msg: 'Could not save user\'s 4th initial tank.' });
+            }
+          });
 
-		  await tank5.save((err: Error) => {
-			  if (err) {
-				  console.error(err.message);
-				  return res
-					  .status(500)
-					  .json({ msg: 'Could not save user\'s 5th initial tank.' });
-			  }
-		  });
+          await tank5.save((err: Error) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(500)
+                .json({ msg: 'Could not save user\'s 5th initial tank.' });
+            }
+          });
 
-		  await tank6.save((err: Error) => {
-			  if (err) {
-				  console.error(err.message);
-				  return res
-					  .status(500)
-					  .json({ msg: 'Could not save user\'s 6th initial tank.' });
-			  }
-		  });
+          await tank6.save((err: Error) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(500)
+                .json({ msg: 'Could not save user\'s 6th initial tank.' });
+            }
+          });
 
             // Proceed with JWT Creation
             const payload = {
