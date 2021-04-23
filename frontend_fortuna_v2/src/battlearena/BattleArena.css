@@ -197,6 +197,32 @@
     background-size: cover;
   }
 
+  /* prevents header from collapsing when resizing*/
+  .h4{
+      min-width: 455px;
+      max-width: 140%;
+  }
+
+  .wager_info {
+      margin-top: 170px;
+  }
+
+  .quickplay {
+      margin-top: 72px;
+  }
+
+  .popup_quickplay{
+      text-align: center;
+      color: #ff47ff;
+      font-family: 'Press Start 2P', cursive;
+      padding: 20px 20px 20px 20px;
+      background-color: #00103a;
+  }
+
+  .correctColor {
+      color: #ff47ff;
+  }
+
   /* Button Styling */
 
   .primarybtn {
