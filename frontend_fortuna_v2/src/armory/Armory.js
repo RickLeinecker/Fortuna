@@ -510,7 +510,7 @@ function Armory() {
 
 			</div>
 			<div className="column armorymiddle" ref={el => armMid = el}>
-				<h1 className="font" style={divStyle}>{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+				<h1 className="ArmoryTitle">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
