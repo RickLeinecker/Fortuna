@@ -198,17 +198,18 @@ exports.prepareBotMatch1v1 = async (req: Request, res: Response) => {
 
 
 		const newRecord = new BattleRecord({
-			userOne: myUser,
-			userTwo: masterUser,
-			'tankOne.tankName': myTank.tankName,
-			'tankOne.components': myTank.components,
-			'tankOne.casusCode': myTank.casusCode,
-			'tankTwo.tankName': botTank.tankName,
-			'tankTwo.components': botTank.components,
-			'tankTwo.casusCode': botTank.casusCode,
+			userOne: masterUser,
+			userTwo: myUser,
+			'tankOne.tankName': botTank.tankName,
+			'tankOne.components': botTank.components,
+			'tankOne.casusCode': botTank.casusCode,
+			'tankTwo.tankName': myTank.tankName,
+			'tankTwo.components': myTank.components,
+			'tankTwo.casusCode': myTank.casusCode,
 			winner: -1,
 			prizeMoney: (botWager1v1 * 2), // Each person puts in for the wager
-			eloExchanged: 0
+			eloExchanged: 0,
+			botMatch: true
 		});
 
 		if (Math.random()<0.5) {
@@ -462,11 +463,12 @@ exports.prepareBotMatch3v3 = async (req: Request, res: Response) => {
 		const newRecord = new BattleRecord({
 			userOne: masterId,
 			userTwo: myUserId,
-			tankTeamOne: myTankTeam,
-			tankTeamTwo: botTankTeam,
+			tankTeamOne: botTankTeam,
+			tankTeamTwo: myTankTeam,
 			winner: -1,
 			prizeMoney: (botWager3v3 * 2), // Each person puts in for the wager
-			eloExchanged: 0
+			eloExchanged: 0,
+			botMatch: true
 		});
 
 		if (Math.random()<0.5) {
@@ -542,227 +544,349 @@ exports.reportResults = async (req: Request, res: Response) => {
 			}
 		}
 
-		if (winner === 0) { // tie
-			// Update the ties for user stats, users get back half their wager .7 of their wager money which is .35 of the prizemoney
-			const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
-			const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
+		if (battle.botMatch) {
+			if (winner === 0) { // tie
+				const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
 
-			if (userOne == null) {
-				console.log('userOne not found');
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userOne'});
-			}
-			else if (userTwo == null){
-				console.log('userTwo not found');
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userTwo'});
-			}
-
-			const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
-			const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
-
-			// Record elo exchanged on tie
-			battle.eloExchanged = Math.abs(userOne.stats.elo-newUserOneElo);
-
-			userOne.stats.elo = newUserOneElo;
-			userTwo.stats.elo = newUserTwoElo;
-
-			battle.winner = winner;
-
-			// Save battle winner and users money
-			await userOne.save();
-			await userTwo.save();
-			await battle.save();
-
-		}
-		else if (winner === 1) { // userOne victory
-
-			// Update money and wins for user one
-			const userOne = await User.findById(battle.userOne);
-
-			if (userOne == null) {
-				console.log('userOne not found')
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userOne'});
-			}
-
-			// Update money with first win of day bonus, if applicable
-			const aDay = 60 * 60 * 24 * 1000;
-			const compare = (!userOne.stats.lastFirstWinOfDay) ? (new Date() - userOne.stats.lastFirstWinOfDay) : 0;
-			// If last recorded first win of the day is null or it's been over a day since
-			if (userOne.stats.lastFirstWinOfDay == null || compare > aDay) {
-				// If it's been over 2 days since, the streak is broken
-				if (compare > (aDay*2)) {
-					userOne.stats.firstWinOfDayStreak = 0;
-					console.log("Streak Broken :(");
+				if (userTwo == null) {
+					console.log('userTwo not found');
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
 				}
-				// Give bonus based on current streak
-				if (userOne.stats.firstWinOfDayStreak === 0) {
-					// +100 for first day of the streak
-					userOne.money += (battle.prizeMoney + 100);
-					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 1 Bonus");
-					bonusAdded = 100;
-				}
-				else if (userOne.stats.firstWinOfDayStreak === 1) {
-					// +200 for second day of the streak
-					userOne.money += (battle.prizeMoney + 200);
-					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");
-					bonusAdded = 200;			
-				}
-				else {
-					// +300 for third day of the streak onward.
-					userOne.money += (battle.prizeMoney + 300);
-					userOne.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");
-					bonusAdded = 300;				
-				}
-				// Set lastFirstWindOfDay
-				userOne.stats.lastFirstWinOfDay = new Date();
+
+				// Update user elo as if bot was of same elo score
+				const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userTwo.stats.elo);
+
+				// Update battle data and user elo score
+				battle.eloExchanged = Math.abs(userTwo.stats.elo-newUserTwoElo);
+				userTwo.stats.elo = newUserTwoElo;
+				battle.winner = winner;
+
+				await userTwo.save();
+				await battle.save();
 			}
-			// Update stats
-			userOne.stats.wins += 1;
+			else if (winner === 1) { // bot victory
+				// Update money and losses for user two
+				const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.losses' : 1 } }, {new: true});
 
-			// Update money and losses for user two
-			const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.losses' : 1 } }, {new: true});
-
-			if (userTwo == null) {
-				console.log('userTwo not found')
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userTwo'});
-			}
-
-			// Calculate new elo values, returns the value of the player in the first parameter
-			const newUserOneElo = eloRating.ifWins(userOne.stats.elo, userTwo.stats.elo);
-			const newUserTwoElo = eloRating.ifLoses(userTwo.stats.elo, userOne.stats.elo);
-
-			const eloExchanged = newUserOneElo - userOne.stats.elo;
-
-			userOne.stats.elo = newUserOneElo;
-			userTwo.stats.elo = newUserTwoElo;
-
-			battle.eloExchanged = eloExchanged;
-			battle.winner = winner;
-
-			userOne.money = userOne.money + battle.prizeMoney;
-
-			// Save elo updates
-			await battle.save();
-			await userOne.save();
-			await userTwo.save();
-
-			// Check for if the logged in user got a first win of the day.
-			if (bonusAdded > 0 && req.user.id === userOne.id) {
-				console.log('Battlerecord complete');
-				return res
-					.status(200)
-					.json({ msg: 'First win of the day, day ' + userOne.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
-			}
-		}
-		else if (winner === 2) { // userTwo victory
-			// Update money and losses for user one
-			const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { 'stats.losses' : 1 } }, {new: true});
-
-			if (userOne == null) {
-				console.log('userOne not found')
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userOne'});
-			}
-
-			// Update money and wins for user two
-			const userTwo = await User.findById(battle.userTwo);
-
-			if (userTwo == null) {
-				console.log('userTwo not found')
-				return res
-					.status(404)
-					.json({ msg: 'Could not find userTwo'});
-			}
-
-			// Update money with first win of day bonus, if applicable
-			const aDay = 60 * 60 * 24 * 1000;
-			const compare = (!userTwo.stats.lastFirstWinOfDay) ? (new Date() - userTwo.stats.lastFirstWinOfDay) : 0;
-			// If last recorded first win of the day is null or it's been over a day since
-			if (userTwo.stats.lastFirstWinOfDay == null || compare > aDay) {
-				// If it's been over 2 days since, the streak is broken
-				if (compare > (aDay*2)) {
-					userTwo.stats.firstWinOfDayStreak = 0;
-					console.log("Streak Broken :(");	
+				if (userTwo == null) {
+					console.log('userTwo not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
 				}
-				// Give bonus based on current streak
-				if (userTwo.stats.firstWinOfDayStreak === 0) {
-					// +100 for first day of the streak
-					userTwo.money += (battle.prizeMoney + 100);
-					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 1 Bonus");
-					bonusAdded = 100;
-				}
-				else if (userTwo.stats.firstWinOfDayStreak === 1) {
-					// +200 for second day of the streak
-					userTwo.money += (battle.prizeMoney + 200);
-					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 2 Bonus");
-					bonusAdded = 200;				
-				}
-				else {
-					// +300 for third day of the streak onward
-					userTwo.money += (battle.prizeMoney + 300);
-					userTwo.stats.firstWinOfDayStreak++;
-					console.log("Given First Win of Day 3+ Bonus.");
-					bonusAdded = 300;				
-				}
-				// Set lastFirstWindOfDay
-				userTwo.stats.lastFirstWinOfDay = new Date();
+
+				// Calculate new elo values, returns the value of the player in the first parameter
+				const newUserOneElo = eloRating.ifWins(userTwo.stats.elo, userTwo.stats.elo);
+				const newUserTwoElo = eloRating.ifLoses(userTwo.stats.elo, userTwo.stats.elo);
+
+				// Update records
+				const eloExchanged = newUserOneElo - userTwo.stats.elo;
+				userTwo.stats.elo = newUserTwoElo;
+				battle.eloExchanged = eloExchanged;
+				battle.winner = winner;
+
+				// Save elo updates
+				await battle.save();
+				await userTwo.save();
 			}
-			// Update stats
-			userTwo.stats.wins += 1;
+			else { // user victory
+				// Update money and wins for user two
+				const userTwo = await User.findById(battle.userTwo);
 
-			// Calculate new elo values, returns the value of the player in the first parameter
-			const newUserOneElo = eloRating.ifLoses(userOne.stats.elo, userTwo.stats.elo);
-			const newUserTwoElo = eloRating.ifWins(userTwo.stats.elo, userOne.stats.elo);
+				if (userTwo == null) {
+					console.log('userTwo not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
+				}
 
-			const eloExchanged = newUserTwoElo - userTwo.stats.elo;
+				// Update money with first win of day bonus, if applicable
+				const aDay = 60 * 60 * 24 * 1000;
+				const compare = (!userTwo.stats.lastFirstWinOfDay) ? (new Date() - userTwo.stats.lastFirstWinOfDay) : 0;
+				// If last recorded first win of the day is null or it's been over a day since
+				if (userTwo.stats.lastFirstWinOfDay == null || compare > aDay) {
+					// If it's been over 2 days since, the streak is broken
+					if (compare > (aDay*2)) {
+						userTwo.stats.firstWinOfDayStreak = 0;
+						console.log("Streak Broken :(");
+					}
+					// Give bonus based on current streak
+					if (userTwo.stats.firstWinOfDayStreak === 0) {
+						// +100 for first day of the streak
+						userTwo.money += (battle.prizeMoney + 100);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 1 Bonus");
+						bonusAdded = 100;
+					}
+					else if (userTwo.stats.firstWinOfDayStreak === 1) {
+						// +200 for second day of the streak
+						userTwo.money += (battle.prizeMoney + 200);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 2 Bonus");
+						bonusAdded = 200;
+					}
+					else {
+						// +300 for third day of the streak onward
+						userTwo.money += (battle.prizeMoney + 300);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 3+ Bonus.");
+						bonusAdded = 300;
+					}
+					// Set lastFirstWindOfDay
+					userTwo.stats.lastFirstWinOfDay = new Date();
+				}
+				// Update stats
+				userTwo.stats.wins += 1;
 
-			userOne.stats.elo = newUserOneElo;
-			userTwo.stats.elo = newUserTwoElo;
+				// Calculate new elo values, returns the value of the player in the first parameter
+				const newUserOneElo = eloRating.ifLoses(userTwo.stats.elo, userTwo.stats.elo);
+				const newUserTwoElo = eloRating.ifWins(userTwo.stats.elo, userTwo.stats.elo);
 
-			battle.eloExchanged = eloExchanged;
-			battle.winner = winner;
+				// Update records
+				const eloExchanged = newUserTwoElo - userTwo.stats.elo;
+				userTwo.stats.elo = newUserTwoElo;
+				battle.eloExchanged = eloExchanged;
+				battle.winner = winner;
 
-			userTwo.money = userTwo.money + battle.prizeMoney;
+				userTwo.money = userTwo.money + battle.prizeMoney;
 
-			// Save elo updates
-			await battle.save();
-			await userOne.save();
-			await userTwo.save();
+				// Save elo updates
+				await battle.save();
+				await userTwo.save();
 
-			// Check if the logged in user got their first win.
-			if (bonusAdded > 0 && req.user.id === userTwo.id) {
-				console.log('Battlerecord complete');
-				return res
-					.status(200)
-					.json({ msg: 'First win of the day, day ' + userTwo.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+				// Check if the logged in user got their first win.
+				if (bonusAdded > 0 && req.user.id === userTwo.id) {
+					console.log('Battlerecord complete');
+					return res
+						.status(200)
+						.json({ msg: 'First win of the day, day ' + userTwo.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+				}
 			}
 		}
-		else { // Invalid victor
-			console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the personBeingChallenged is the victor, or 2 in the event the challenger is the victor');
-			return res
-				.status(400)
-				.json({ msg: 'Bad Request'});
-		}
+		else { // user v user match
+			if (winner === 0) { // tie
+				// Update the ties for user stats, users get back half their wager .7 of their wager money which is .35 of the prizemoney
+				const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
+				const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { money: Math.ceil(battle.prizeMoney * .35), 'stats.ties' : 1 } }, {new: true});
 
+				if (userOne == null) {
+					console.log('userOne not found');
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userOne'});
+				}
+				else if (userTwo == null){
+					console.log('userTwo not found');
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
+				}
+
+				const newUserOneElo = eloRating.ifTies(userOne.stats.elo, userTwo.stats.elo);
+				const newUserTwoElo = eloRating.ifTies(userTwo.stats.elo, userOne.stats.elo);
+
+				// Record elo exchanged on tie
+				battle.eloExchanged = Math.abs(userOne.stats.elo-newUserOneElo);
+
+				userOne.stats.elo = newUserOneElo;
+				userTwo.stats.elo = newUserTwoElo;
+
+				battle.winner = winner;
+
+				// Save battle winner and users money
+				await userOne.save();
+				await userTwo.save();
+				await battle.save();
+
+			}
+			else if (winner === 1) { // userOne victory
+
+				// Update money and wins for user one
+				const userOne = await User.findById(battle.userOne);
+
+				if (userOne == null) {
+					console.log('userOne not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userOne'});
+				}
+
+				// Update money with first win of day bonus, if applicable
+				const aDay = 60 * 60 * 24 * 1000;
+				const compare = (!userOne.stats.lastFirstWinOfDay) ? (new Date() - userOne.stats.lastFirstWinOfDay) : 0;
+				// If last recorded first win of the day is null or it's been over a day since
+				if (userOne.stats.lastFirstWinOfDay == null || compare > aDay) {
+					// If it's been over 2 days since, the streak is broken
+					if (compare > (aDay*2)) {
+						userOne.stats.firstWinOfDayStreak = 0;
+						console.log("Streak Broken :(");
+					}
+					// Give bonus based on current streak
+					if (userOne.stats.firstWinOfDayStreak === 0) {
+						// +100 for first day of the streak
+						userOne.money += (battle.prizeMoney + 100);
+						userOne.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 1 Bonus");
+						bonusAdded = 100;
+					}
+					else if (userOne.stats.firstWinOfDayStreak === 1) {
+						// +200 for second day of the streak
+						userOne.money += (battle.prizeMoney + 200);
+						userOne.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 2 Bonus");
+						bonusAdded = 200;
+					}
+					else {
+						// +300 for third day of the streak onward.
+						userOne.money += (battle.prizeMoney + 300);
+						userOne.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 3+ Bonus.");
+						bonusAdded = 300;
+					}
+					// Set lastFirstWindOfDay
+					userOne.stats.lastFirstWinOfDay = new Date();
+				}
+				// Update stats
+				userOne.stats.wins += 1;
+
+				// Update money and losses for user two
+				const userTwo = await User.findByIdAndUpdate(battle.userTwo, { $inc: { 'stats.losses' : 1 } }, {new: true});
+
+				if (userTwo == null) {
+					console.log('userTwo not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
+				}
+
+				// Calculate new elo values, returns the value of the player in the first parameter
+				const newUserOneElo = eloRating.ifWins(userOne.stats.elo, userTwo.stats.elo);
+				const newUserTwoElo = eloRating.ifLoses(userTwo.stats.elo, userOne.stats.elo);
+
+				const eloExchanged = newUserOneElo - userOne.stats.elo;
+
+				userOne.stats.elo = newUserOneElo;
+				userTwo.stats.elo = newUserTwoElo;
+
+				battle.eloExchanged = eloExchanged;
+				battle.winner = winner;
+
+				userOne.money = userOne.money + battle.prizeMoney;
+
+				// Save elo updates
+				await battle.save();
+				await userOne.save();
+				await userTwo.save();
+
+				// Check for if the logged in user got a first win of the day.
+				if (bonusAdded > 0 && req.user.id === userOne.id) {
+					console.log('Battlerecord complete');
+					return res
+						.status(200)
+						.json({ msg: 'First win of the day, day ' + userOne.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+				}
+			}
+			else if (winner === 2) { // userTwo victory
+				// Update money and losses for user one
+				const userOne = await User.findByIdAndUpdate(battle.userOne, { $inc: { 'stats.losses' : 1 } }, {new: true});
+
+				if (userOne == null) {
+					console.log('userOne not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userOne'});
+				}
+
+				// Update money and wins for user two
+				const userTwo = await User.findById(battle.userTwo);
+
+				if (userTwo == null) {
+					console.log('userTwo not found')
+					return res
+						.status(404)
+						.json({ msg: 'Could not find userTwo'});
+				}
+
+				// Update money with first win of day bonus, if applicable
+				const aDay = 60 * 60 * 24 * 1000;
+				const compare = (!userTwo.stats.lastFirstWinOfDay) ? (new Date() - userTwo.stats.lastFirstWinOfDay) : 0;
+				// If last recorded first win of the day is null or it's been over a day since
+				if (userTwo.stats.lastFirstWinOfDay == null || compare > aDay) {
+					// If it's been over 2 days since, the streak is broken
+					if (compare > (aDay*2)) {
+						userTwo.stats.firstWinOfDayStreak = 0;
+						console.log("Streak Broken :(");
+					}
+					// Give bonus based on current streak
+					if (userTwo.stats.firstWinOfDayStreak === 0) {
+						// +100 for first day of the streak
+						userTwo.money += (battle.prizeMoney + 100);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 1 Bonus");
+						bonusAdded = 100;
+					}
+					else if (userTwo.stats.firstWinOfDayStreak === 1) {
+						// +200 for second day of the streak
+						userTwo.money += (battle.prizeMoney + 200);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 2 Bonus");
+						bonusAdded = 200;
+					}
+					else {
+						// +300 for third day of the streak onward
+						userTwo.money += (battle.prizeMoney + 300);
+						userTwo.stats.firstWinOfDayStreak++;
+						console.log("Given First Win of Day 3+ Bonus.");
+						bonusAdded = 300;
+					}
+					// Set lastFirstWindOfDay
+					userTwo.stats.lastFirstWinOfDay = new Date();
+				}
+				// Update stats
+				userTwo.stats.wins += 1;
+
+				// Calculate new elo values, returns the value of the player in the first parameter
+				const newUserOneElo = eloRating.ifLoses(userOne.stats.elo, userTwo.stats.elo);
+				const newUserTwoElo = eloRating.ifWins(userTwo.stats.elo, userOne.stats.elo);
+
+				const eloExchanged = newUserTwoElo - userTwo.stats.elo;
+
+				userOne.stats.elo = newUserOneElo;
+				userTwo.stats.elo = newUserTwoElo;
+
+				battle.eloExchanged = eloExchanged;
+				battle.winner = winner;
+
+				userTwo.money = userTwo.money + battle.prizeMoney;
+
+				// Save elo updates
+				await battle.save();
+				await userOne.save();
+				await userTwo.save();
+
+				// Check if the logged in user got their first win.
+				if (bonusAdded > 0 && req.user.id === userTwo.id) {
+					console.log('Battlerecord complete');
+					return res
+						.status(200)
+						.json({ msg: 'First win of the day, day ' + userTwo.stats.firstWinOfDayStreak + ' $' + bonusAdded + ' added!' });
+				}
+			}
+			else { // Invalid victor
+				console.error('Number not expected: please enter either 0 in the event of a tie, 1 in the event the personBeingChallenged is the victor, or 2 in the event the challenger is the victor');
+				return res
+					.status(400)
+					.json({ msg: 'Bad Request'});
+			}
+		}
 
 		console.log('All documents updated successfully! BattleRecord complete');
 		return res
 			.status(200)
 			.send(battle);
-		
+
 	} catch (err) {
 		console.error('Update failed')
 		return res
