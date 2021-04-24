@@ -40,6 +40,11 @@ const BattleRecord = new Mongoose.model('BattleRecord', new Mongoose.Schema({
         type: Number,
         required: true
     },
+    // Distinguish difference between bot and regular match
+    botMatch: {
+        type: Boolean,
+        default: false
+    },
     // Keeping the old 1v1 tank listings here so the current implementations won't break.
     // User one's tank state for this battle
     tankOne: {

@@ -1,5 +1,6 @@
 //@flow strict
 import * as React from 'react';
+import './Marketplace.css';
 import { ToastContainer , toast } from 'react-toastify';
 import Component from '../globalComponents/typesAndClasses/Component.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
@@ -84,9 +85,21 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
 		return responseString;
 	}
 
+  divStyle = {
+	color: 'white',
+	fontSize: '15px',
+	textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+	textAlign: 'center'
+	}
+
   buttonStyle = {
+	color: 'white',
     left: "110px",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+	margin: '0',
+	position: 'absolute',
+	left: '50%',
+	transform: 'translate(-50%, -50%)'
   }
 
   spinnerStyle = {
@@ -110,24 +123,25 @@ class MakeAComponentSaleView extends React.Component<Props, State> {
     else {
       return (
         <div id="Parent">
-          <br/><br/><br/>
-          <label>Select an Item to Sell</label>
+          <br/>
+          <div className='fount' style={this.divStyle}>Select an Item to Sell</div>
           <br/>
           <select className="dropdownMenu" onChange={e => this.setState({itemID: e.target.value})}>
             {this.state.itemsToSell.map(({ componentName, numberOwned }, index) => 
               <option key={index}  value={componentName}>{toTitleCase(componentName)} {'(' + numberOwned + ')'}</option>
             )}
           </select>
-          <br/><br/><br/>
-          <label>Selling Price</label>
+          <br/>
+          <div className='fount' style={this.divStyle}>Selling Price</div>
           <br/>
           <input type="number" className="inputText" value={this.state.salePrice} min="1" onChange={e => this.setState({salePrice: e.target.value})}></input>
-          <br/><br/><br/>
-          <label>Amount to Sell</label>
+          <br/>
+          <div className='fount' style={this.divStyle}>Amount to Sell</div>
           <br/>
           <input min="1" type="number" className="inputText" value={this.state.itemAmount} onChange={e => this.setState({itemAmount: e.target.value})}></input>
           <br/><br/><br/>
           <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfAComponent}>Sell</button>
+		  <br/>
         </div>
       );
     }
