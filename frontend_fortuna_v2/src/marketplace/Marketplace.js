@@ -218,7 +218,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent" className='background-image'>
+        <div id="Parent" className='background-image' title="rootMainMarket">
           <br/>
           <MainNavbar
             className='background-image'
@@ -236,7 +236,7 @@ function Marketplace() {
           <br/>
           <br/>
           <br/>
-          <Container className="buy" ref={el => buyDown = el}>
+          <Container className="buy" ref={el => buyDown = el} title="marketContainer1">
             <h1 style={divStyle}>Buy</h1>
             <br/>
             <Row style={divStyle}>
@@ -261,7 +261,7 @@ function Marketplace() {
           </Container>
           <br/>
           <br/>
-          <Container className="sell" ref={el => sellUp = el}>
+          <Container className="sell" ref={el => sellUp = el} title="marketContainer2">
             <h1 style={divStyle}>Sell</h1>
             <br/>
             <Row >

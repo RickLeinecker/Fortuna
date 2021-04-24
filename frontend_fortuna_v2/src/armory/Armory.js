@@ -440,7 +440,7 @@ function Armory() {
 		setRun(test)
 	}
 	return (
-		<div id="Parent" className='background-image-armory'>
+		<div id="Parent" className='background-image-armory' title="armoryRoot">
       <br/>
 			<MainNavbar
 				linkName="/Login"
@@ -452,14 +452,14 @@ function Armory() {
 				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				//]}
 			/>
-			<div className="navbar">
+			<div className="navbar" title="armNav">
 				<div className="navhelp">
 					<button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
 				</div>
 
 			</div>
 
-			<div className="column armoryleft">
+			<div className="column armoryleft" title="armLeft">
 				<h4 className="font" style={divStyle}>Selected Tank</h4>
 				{selectedTank==null?<div></div>:
 					<SelectTank
@@ -509,13 +509,13 @@ function Armory() {
 				<br/><br/>
 
 			</div>
-			<div className="column armorymiddle" ref={el => armMid = el}>
+			<div className="column armorymiddle" ref={el => armMid = el} title="armMid">
 				<h1 className="ArmoryTitle">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
 			</div>
-			<div>
+			<div title="armRight">
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Points Used</h5>
