@@ -253,6 +253,8 @@ function Armory() {
 				SetWagerPopupRef.updateWagerTankName(tank.tankName);
 			}
 		})
+
+		window.location.reload(false);
 	}
 
 	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
