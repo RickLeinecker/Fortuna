@@ -125,6 +125,10 @@ body {
 	border-color: #04CCFF;
 	background-color: #04CCFF;
 	color: #000921;
+	text-align-last: center;
+	text-align: center;
+	-ms-text-align-last: center;
+	-moz-text-align-last: center;
 }
 
 .dropdownMenu option {

@@ -37,6 +37,7 @@ function getMatchAPICall(
 					console.log(data);
 					const dataT1=data.tankOne;
 					const dataT2=data.tankTwo;
+					const arena=data.map;
 					const backendTank1=new BackendTank(
 						'uh_oh_no_tank_id',
 						dataT1.components,
@@ -55,7 +56,7 @@ function getMatchAPICall(
 					);
 					const tank1=getTank(backendTank1);
 					const tank2=getTank(backendTank2);
-					onLoad([tank1, null, null, tank2, null, null], matchId, getBattlegroundArena());
+					onLoad([tank1, null, null, tank2, null, null], matchId, arena);
 				}
 				else {
 					const teamOne=data.tankTeamOne;
