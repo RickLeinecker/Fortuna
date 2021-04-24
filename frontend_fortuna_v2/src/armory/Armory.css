@@ -11,6 +11,14 @@
   font-family: 'Press Start 2P', cursive;
   text-align: center;
 }
+.casusFont {
+    color: 'white';
+    font-size: 32px;
+    text-shadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black';
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+
+}
 
 .rowPadding {
     padding-left: 15px;
@@ -70,6 +78,7 @@
     border: none;
     background: none;
     color: #aa00ff;
+
 }
 
 .selectedComponent {

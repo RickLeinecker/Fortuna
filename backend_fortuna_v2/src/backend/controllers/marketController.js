@@ -213,11 +213,11 @@ exports.addMarketSale = async (req: Request, res: Response) => {
 					case 'plasma':
 						itemDesc = 'High damage with average range; low uptime and cooldown.'
 						break;
-						case 'pulseLaser':
-						itemDesc = 'A 360 degree range, hitting everything around it at the cost of low damage and range.'
+					case 'pulseLaser':
+						itemDesc = '360 degree range with low damage and range'
 						break;
 					case 'lancer':
-						itemDesc = 'close range heat weapon; high damage with low range and uptime.'
+						itemDesc = 'Close range heat weapon; high damage with low range and uptime.'
 						break;
 					case 'deathRay':
 						itemDesc = 'Devastating long range weapon with high cooldown and low uptime.'

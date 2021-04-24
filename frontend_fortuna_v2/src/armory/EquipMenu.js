@@ -33,7 +33,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
 									<tr>
 										<th style={tableStyle} className="font">Component Name</th>
 										<th style={tableStyle} className="font">Number Owned</th>
-										<th style={tableStyle} className="font">Point Value</th>
+										<th style={tableStyle} className="font">Item's Point Vaule</th>
 									</tr>
 								</thead>
 								<tbody>

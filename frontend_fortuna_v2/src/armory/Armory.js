@@ -162,13 +162,13 @@ function Armory() {
 		{
 			target: ".armoryleft",
 			disableBeacon: true,
-			content: "Options to create and manage tanks",
+			content: "Enter Casus for your currently equipped Tank, import code from another tank, or create and edit new tanks to add variety to your arsenal ",
 
 		},
 		{
 			target: ".armoryright",
 			content:
-				"Equip and customize your tanks with weapons, equipment, or items that you have purchased from the Marketplace. "
+				"To balance battles, you are allowed a maximum of 10 Equipment Points."
 		}
 	])
 
@@ -434,6 +434,14 @@ function Armory() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
+	const pointStyle = {
+		color: "white",
+		position:"relative",
+		left:"5%",
+		bottom:"2px",
+		marginBottom:"50px"
+	}
+
   const divStyle3 = {
     color: "#04CCFF",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -493,7 +501,7 @@ function Armory() {
 
 
 				<br/><br/>
-				<label className="font" style={divStyle}>Casus</label>
+				<label className="casusFont" style={divStyle}>Casus</label>
 				<br/>
 				<Link to={verifyLink("/Casus")}>
 					<button className="primarybtn" style={divStyle}>Edit Tank Code</button>
@@ -562,6 +570,11 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.chassis.name)}
 						</button>
+
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.chassis.name)+" Points"}
+						</h7>
+
             <Modal
               isOpen={openChassis}
               style={customStyles}
@@ -591,6 +604,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.mainGun.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openWeapon1}
               style={customStyles}
@@ -607,7 +623,7 @@ function Armory() {
                 closeModals={closeModals}
               />
               <br/><br/>
-              <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('weapon1')}>Close</button>
+              <button style={{width: "20%", position: "relative", left: "38%"}} className="marketBtn" onClick={() => closeModals('weapon1')}>Close</button>
             </Modal>
 						<br/>
 						<label className="font" style={divStyle}>Secondary Gun: </label>
@@ -618,6 +634,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.secondaryGun.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.secondaryGun.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openWeapon2}
               style={customStyles}
@@ -647,6 +666,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.scanner.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.scanner.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openScanners}
               style={customStyles}
@@ -675,6 +697,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.scannerAddonOne.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openScannerAddon1}
               style={customStyles}
@@ -703,6 +728,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.scannerAddonTwo.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.scannerAddonTwo.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openScannerAddon2}
               style={customStyles}
@@ -731,6 +759,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.jammer.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.jammer.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openJammers}
               style={customStyles}
@@ -760,6 +791,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.treads.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.treads.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openTreads}
               style={customStyles}
@@ -789,6 +823,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.itemOne.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openItem1}
               style={customStyles}
@@ -816,6 +853,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.itemTwo.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openItem2}
               style={customStyles}
@@ -843,6 +883,9 @@ function Armory() {
 						>
 							{toTitleCase(selectedTank.itemThree.name)}
 						</button>
+						<h7 style={pointStyle}>
+							{getComponentPoints(selectedTank.itemThree.name)+" Points"}
+						</h7>
             <Modal
               isOpen={openItem3}
               style={customStyles}
