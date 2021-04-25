@@ -54,7 +54,7 @@ class Replays extends React.Component<Props, State> {
 			case 0:
 				return 'tie';
 			case -1:
-				return 'Unfinished: view to see result';
+				return 'Unfinished';
 			default:
 				console.log('Match result outside of range (-1 to 2).');
 				break;

@@ -397,9 +397,9 @@ body {
 	border: 2px solid #04CCFF;
 	border-radius: 3px;
 	position: relative;
-	left: 15px;
-  width: 60px;
-  font-family: 'Press Start 2P', cursive;
+	left: 10px;
+  width: 80%;
+  /* font-family: 'Press Start 2P', cursive; */
 }
 
 .reallySmallBtn:disabled {

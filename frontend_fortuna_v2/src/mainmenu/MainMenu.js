@@ -348,8 +348,13 @@ const MainMenu  = () => {
           continuous={true}
           styles={{
             options: {
+              arrowColor: '#e3ffeb',
+              backgroundColor: '#e3ffeb',
+              overlayColor: 'rgba(79, 26, 0, 0.4)',
+              primaryColor: '#04CCFF',
+              textColor: '#004a14',
+              width: 500,
               zIndex: 1000,
-              spotlightShadow: 'blue'
             }
           }}
       />
