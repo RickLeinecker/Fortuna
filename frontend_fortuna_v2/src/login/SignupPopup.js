@@ -49,6 +49,21 @@ class SignupPopup extends React.Component<Props, State> {
 			return;
 		}
 
+		// Check length, if more than 9 chars, will ruin the Top 10 box formatting.
+		if (this.state.userName.length > 9 || this.state.userName.length < 3) {
+			toast.error('Username must be between 3 and 9 characters.');
+			return;
+		}
+
+		const hasWhiteSpace = (s) => {
+			return /\s/g.test(s);
+		}
+
+		if (hasWhiteSpace(this.state.userName)) {
+			toast.error('Username must not have any spaces.');
+			return;
+		}
+
 		// Age verification
 		const birthDate = new Date(this.state.birthYear, (+this.state.birthMonth-1), this.state.birthDay)
 		const today = new Date(Date.now());
@@ -160,7 +175,7 @@ class SignupPopup extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div>
+			<div title="signRoot">
 				<button type="button" className="loginbtn" onClick={() => this.setState({signupDialogOpen: true})}>
 					<div className="logintext">
 						Signup

@@ -30,7 +30,6 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
     const ref = this.refs.navbarRef
        getFirstTimeCasusAPICall((res) => {
-            console.log("RES: ", res);
             this.setState({run:res});
        })
 
@@ -49,7 +48,7 @@ class CasusContainer extends React.Component<Props, State> {
       tankName: 'loading tank...',
       tour_steps: [
         {
-          target: ".background-image",
+          target: ".background-image-casus",
           disableBeacon: true,
           content: "Welcome to Casus, the simplified code editor that allows you to program your tanks movement and actions",
         },
@@ -127,13 +126,13 @@ class CasusContainer extends React.Component<Props, State> {
           //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
           //]}
         />
-          <div className="navbar">
+          <div className="navbar" title="casusNav">
               <div className="navhelp">
                   <button className="navbtn" onClick={()=>this.enableJoyride()} >Need Help?</button>
               </div>
 
           </div>
-        <Container fluid>
+        <Container fluid title="casusContainer">
           <Row className="mt-12">
             <Col md={12} className="editor">
               <CasusEditor 
@@ -149,6 +148,7 @@ class CasusContainer extends React.Component<Props, State> {
             onBlocksDragged={this.onBlocksDragged}
             onDraggedBlocksReleased={this.onDraggedBlocksReleased}
           />
+          <br/><br/><br/><br/>
           <Row>
             <Col>
               <Link to="TrainingArena"><Button className="testCode">Test Code</Button></Link>

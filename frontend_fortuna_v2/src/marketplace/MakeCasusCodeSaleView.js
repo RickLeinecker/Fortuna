@@ -1,5 +1,6 @@
 //@flow strict
 import * as React from 'react';
+import './Marketplace.css';
 import Tank from '../tanks/Tank.js';
 import { getAllUsersTanks, getFavoriteTank, getFavoriteTankTeam } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
@@ -95,9 +96,21 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
 		);
 	}
 
+  divStyle = {
+	color: 'white',
+	fontSize: '15px',
+	textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+	textAlign: 'center'
+  }
+
   buttonStyle = {
+	color: 'white',
     left: "110px",
-    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black"
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+	margin: '0',
+	position: 'absolute',
+	left: '50%',
+	transform: 'translate(-50%, -50%)'
   }
 
   spinnerStyle = {
@@ -121,9 +134,9 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
     else {
       return (
         <div id="Parent">
-          <br/><br/><br/>
-          <label>Select a tank's casus code to Sell</label>
-          <br/><br/>
+          <br/>
+          <div className='fount' style={this.divStyle}>Select a tank's casus code to Sell</div>
+          <br/>
           <select
             className="dropdownMenu"
             onChange={e => this.setState({tankBeingSoldId: e.target.value})}
@@ -132,9 +145,9 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
               <option key={index}  value={_id}>{tankName}</option>
             )}
           </select>
-          <br/><br/><br/>
-          <label>Selling Price</label>
-          <br/><br/>
+          <br/>
+          <div className='fount' style={this.divStyle}>Selling Price</div>
+          <br/>
           <input
             type="number"
             value={this.state.salePrice}
@@ -142,8 +155,9 @@ class MakeCasusCodeSaleView extends React.Component<Props, State> {
             min="1"
             onChange={e => this.setState({salePrice: e.target.value})}
           ></input>
-          <br/><br/><br/><br/>
-          <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
+          <br/><br/><br/>
+		  <button style={this.buttonStyle} className="primarybtn" onClick={this.makeASaleOfCasusCode}>Sell</button>
+          <br/>
         </div>
       );
     }

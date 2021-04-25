@@ -144,8 +144,8 @@ class LoginPopup extends React.Component<Props, State> {
 		);
 
 		return (
-			<div>
-				<button type="button" className="loginbtn" onClick={() => this.setState({loginDialogOpen: true})}>
+			<div title="logpopup">
+				<button type="button" className="loginbtn" title="logBtn" onClick={() => this.setState({loginDialogOpen: true})}>
 					Login
 				</button>
 				<Popup
@@ -206,7 +206,7 @@ class LoginPopup extends React.Component<Props, State> {
 					open={this.state.resetPasswordOpen}
 					onClose={() => this.handleCancelResetPassword()}
 				>
-					<div className="popup">
+					<div className="popup" title="pwPop">
 						<h3>Password Reset Request</h3>
 						<div>
 							<label>Enter Your Account Email</label>

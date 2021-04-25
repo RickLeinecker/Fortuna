@@ -108,7 +108,6 @@ function Marketplace() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
     textAlign: "center",
     right: "70px",
-    position: "relative"
   }
 
   const onMoneyChanged = () => {
@@ -130,10 +129,14 @@ function Marketplace() {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
+      borderWidth: '4px',
       backgroundColor: "#012074",
       borderStyle: "solid",
       maxHeight: "100vh"
-    }
+    },
+    overlay:{
+      backgroundColor: "rgba(0,0,0,.5)"
+  }
   }
 
   let partView = null;
@@ -215,7 +218,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent" className='background-image'>
+        <div id="Parent" className='background-image' title="rootMainMarket">
           <br/>
           <MainNavbar
             className='background-image'
@@ -233,24 +236,24 @@ function Marketplace() {
           <br/>
           <br/>
           <br/>
-          <Container className="buy" ref={el => buyDown = el}>
+          <Container className="buy" ref={el => buyDown = el} title="marketContainer1">
             <h1 style={divStyle}>Buy</h1>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('weapon')}>Weapons</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scanner')}>Scanners</button></Col>
               <Col md={4}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('scannerAddon')}>Scanner Add-Ons</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('chassis')}>Chassis</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('jammer')}>Jammers</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('treads')}>Treads</button></Col>
             </Row>
             <br/>
             <br/>
-            <Row >
+            <Row style={divStyle}>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('item')}>Items</button></Col>
               <Col className="casusCode"><button className="marketBtn" onClick={() => setMarketplaceViewClicked('casusCode')}>Casus Code</button></Col>
               <Col><button className="marketBtn" onClick={() => setMarketplaceViewClicked('tank')}>Tanks</button></Col>
@@ -258,7 +261,7 @@ function Marketplace() {
           </Container>
           <br/>
           <br/>
-          <Container className="sell" ref={el => sellUp = el}>
+          <Container className="sell" ref={el => sellUp = el} title="marketContainer2">
             <h1 style={divStyle}>Sell</h1>
             <br/>
             <Row >
@@ -271,7 +274,7 @@ function Marketplace() {
                 >
                   <MakeAComponentSaleView onItemSold={onMoneyChanged} />
                   <br/><br/>
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('component')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('component')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}>
@@ -283,7 +286,7 @@ function Marketplace() {
                 >
                   <MakeCasusCodeSaleView onItemSold={onMoneyChanged} />
                   <br /><br />
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('casus')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}>
@@ -295,7 +298,7 @@ function Marketplace() {
                 >
                   <MakeATankSaleView onItemSold={onMoneyChanged} />
                   <br /><br />
-                  <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => closeModals('tank')}>Close</button>
+                  <button style={{width: "50%", position: "relative", left: "85px"}} className="marketBtn" onClick={() => closeModals('tank')}>Close</button>
                 </Modal>
               </Col>
               <Col md={3}><button className="marketBtn" onClick={() => setMarketplaceViewClicked('removeASale')}>Remove a Sale</button></Col>
