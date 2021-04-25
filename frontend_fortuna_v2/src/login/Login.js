@@ -70,7 +70,7 @@ leaderboard = {
 					<p style={this.style}>
 						<br/>
 						Fortuna is a tank simulation game available online for FREE, based
-						on the book "The Birth of Jai", written by Richard Leinecker.
+						on the book "Birth of Jai", written by Richard Leinecker.
 						<br/><br/>
 						Players can build, customize, and program their tanks for
 						prize money in order to upgrade their tanks, build new strategies,

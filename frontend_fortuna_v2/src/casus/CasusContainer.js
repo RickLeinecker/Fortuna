@@ -143,7 +143,7 @@ class CasusContainer extends React.Component<Props, State> {
               />
             </Col>
           </Row>
-          <br></br>
+
           <BlockBank
             draggedBlocks={this.state.draggedBlocks}
             onBlocksDragged={this.onBlocksDragged}

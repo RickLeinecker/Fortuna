@@ -387,7 +387,7 @@ exports.register = async (req: Request, res: Response) => {
 			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
 			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
 			<p>Please verify your Fortuna account by using the link below:</p>
 			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
