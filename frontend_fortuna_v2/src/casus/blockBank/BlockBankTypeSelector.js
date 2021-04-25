@@ -55,6 +55,9 @@ class BlockBankTypeSelector extends React.Component<Props> {
         borderRadius: '10px',
         backgroundColor: "#012074",
         borderStyle: "solid"
+      },
+      overlay:{
+        backgroundColor: "rgba(0,0,0,.5)"
       }
     }
 
