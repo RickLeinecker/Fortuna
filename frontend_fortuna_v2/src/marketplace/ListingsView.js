@@ -144,12 +144,10 @@ class ListingsView extends React.Component<Props, State> {
 
 	// When an item is purchased, update the sale listings.
 	buyItem (sellerId: string, saleId: string): void {
-    this.setState({ loading: true })
 		marketSale(this.state.userId, sellerId, saleId, success => {
 			toast.success("Item Purchased.");
 			this.props.onItemBought();
 			this.getSales();
-      this.setState({ loading: false })
 		},() =>{
 			this.setState({loading:false})
 		});
