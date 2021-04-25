@@ -191,7 +191,9 @@ const MainMenu  = () => {
   }
 
   const creditsStyle = {
-    color: "white"
+    color: "white",
+    position: "relative",
+    right: "200px"
   }
 
 	return (
