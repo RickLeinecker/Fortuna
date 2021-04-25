@@ -281,6 +281,8 @@ function Armory() {
 				SetWagerPopupRef.updateWagerTankName(tank.tankName);
 			}
 		})
+
+		window.location.reload(false);
 	}
 
 	// Checks the other items the tank has equipped in order to prevent two C4, nitro repair, etc.
@@ -428,7 +430,6 @@ function Armory() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
-
   const divStyle2 = {
     color: "#aa00ff",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
@@ -478,7 +479,7 @@ function Armory() {
 		setRun(test)
 	}
 	return (
-		<div id="Parent" className='background-image-armory'>
+		<div id="Parent" className='background-image-armory' title="armoryRoot">
       <br/>
 			<MainNavbar
 				linkName="/Login"
@@ -490,16 +491,14 @@ function Armory() {
 				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				//]}
 			/>
-			<div className="navbar">
+			<div className="navbar" title="armNav">
 				<div className="navhelp">
 					<button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
 				</div>
 
 			</div>
 
-			<div className="column armoryleft">
-
-
+			<div className="column armoryleft" title="armLeft">
 				<br/><br/>
 				<label className="casusFont" style={divStyle}>Casus</label>
 				<br/>
@@ -556,9 +555,8 @@ function Armory() {
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
-
 			</div>
-			<div>
+			<div title="armRight">
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Points Used</h5>

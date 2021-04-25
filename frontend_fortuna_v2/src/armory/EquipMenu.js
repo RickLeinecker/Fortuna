@@ -24,7 +24,7 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
     <div>
       {(currentPartIndex === -1) ?
 					<div></div> :
-					<div>
+					<div title="equipRoot">
 						<h4 className="font" style={divStyle}>Component Menu</h4>
                       <br/>
 						<div className="componentMenu">

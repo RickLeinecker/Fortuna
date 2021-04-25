@@ -30,7 +30,6 @@ class CasusContainer extends React.Component<Props, State> {
 	componentDidMount(): void {
     const ref = this.refs.navbarRef
        getFirstTimeCasusAPICall((res) => {
-            console.log("RES: ", res);
             this.setState({run:res});
        })
 
@@ -127,13 +126,13 @@ class CasusContainer extends React.Component<Props, State> {
           //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
           //]}
         />
-          <div className="navbar">
+          <div className="navbar" title="casusNav">
               <div className="navhelp">
                   <button className="navbtn" onClick={()=>this.enableJoyride()} >Need Help?</button>
               </div>
 
           </div>
-        <Container fluid>
+        <Container fluid title="casusContainer">
           <Row className="mt-12">
             <Col md={12} className="editor">
               <CasusEditor 

@@ -85,7 +85,7 @@ exports.googleLogin = async (req, response) => {
             let expirationDate = null;
 
             let user = new User({userName, email, password, favoriteTanks, lastLogin, isVerified, expirationDate});
-            
+
             if (userName.length > 9)
             {
               user.userName = userName.substring(0,9);
@@ -94,7 +94,7 @@ exports.googleLogin = async (req, response) => {
             // Create initial tanks for user
             let tank1 = new Tank();
             tank1.userId = user.id;
-            tank1.tankName = `Default Dan`;
+            tank1.tankName = `Kiona\'s Tank`;
             tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
             tank1.casusCode = {
               boundingBox: { x: 0, y: 0, w: 64, h: 23 },
@@ -468,7 +468,7 @@ exports.login = async (req: Request, res: Response) => {
 			// Create initial tanks for user
 			let tank1 = new Tank();
 			tank1.userId = user.id;
-			tank1.tankName = `Default Dan`;
+			tank1.tankName = `Kiona\'s Tank`;
 			tank1.components = ['moddable', 'machineGun', 'empty', 'empty', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
 			tank1.casusCode = {
 				boundingBox: { x: 0, y: 0, w: 64, h: 23 },

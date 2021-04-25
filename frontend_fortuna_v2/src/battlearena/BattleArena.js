@@ -195,7 +195,7 @@ function BattleArena() {
 
 
   return (
-		<div id="Parent" className='background-image'>
+		<div id="Parent" className='background-image' title="arenaRoot">
      		 <br/>
 			<MainNavbar
 				linkName="/Login"
@@ -210,7 +210,7 @@ function BattleArena() {
                     <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
                 </div>
             </div>
-			<div className="column challenge" ref={el => left = el}>
+			<div className="column challenge" ref={el => left = el} title="arenaleft">
 				<div className="quickplay">
 						<h5 style={divStyle}>Start a Match</h5>
 						<ChallengePlayerPopup
@@ -228,7 +228,7 @@ function BattleArena() {
 				</div>
 			</div>
 
-			<div className="column battletype" ref={el => mid = el}>
+			<div className="column battletype" ref={el => mid = el} title="arenaMid">
 				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(battleType === '1 vs 1') ?
@@ -301,7 +301,7 @@ function BattleArena() {
 					Change Battle Type
 				</button>
 			</div>
-			<div className='wager_info'>
+			<div className='wager_info' title="arenaRight">
 				<h5 style={divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup

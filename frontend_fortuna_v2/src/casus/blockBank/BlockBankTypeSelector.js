@@ -55,11 +55,14 @@ class BlockBankTypeSelector extends React.Component<Props> {
         borderRadius: '10px',
         backgroundColor: "#012074",
         borderStyle: "solid"
+      },
+      overlay:{
+        backgroundColor: "rgba(0,0,0,.5)"
       }
     }
 
 
-  
+
 	render():React.Node {
 
 		//sections:
@@ -73,13 +76,13 @@ class BlockBankTypeSelector extends React.Component<Props> {
         <Container className="blockTypeSelect" fluid>
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow</Button></Col>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables and Constants</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('MATH')}>Math</Button></Col>
           </Row>
           <Row>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('DOUBLES')}>Doubles</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('DOUBLES')}>Double Operations</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('LOGIC')}>Logic</Button></Col>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('INTS')}>Integers</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('INTS')}>Integer Operations</Button></Col>
           </Row>
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('LISTS')}>Lists</Button></Col>

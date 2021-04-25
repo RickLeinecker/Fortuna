@@ -64,7 +64,7 @@ class ConfirmEmail extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="confirmPage">
+			<div className="confirmPage" title="confirm-page">
 				<h3>{this.state.message}</h3>
 				<br/>
 				<Link to={verifyLink("/Login")}>
