@@ -190,13 +190,13 @@ function TrainingArena() {
         pageName="Training Arena"
         //youtubeLinks={["https://www.youtube.com/watch?v=7Tm4GYbsGYw"]}
       />
-        <div className="navbar" title="helpBtn">
+        <div className="navbar" data-testid="helpBtn">
             <div className="navhelp">
                 <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
             </div>
 
         </div>
-      <div className="column taleft" ref={el => leftT = el} title="leftCol">
+      <div className="column taleft" ref={el => leftT = el} data-testid="leftCol">
         <h5 style={divStyle}>Choose your Tank, Commander</h5>
         <br/>
         {(battleType === '1 vs 1') ?
@@ -261,7 +261,7 @@ function TrainingArena() {
           </div>
         }
       </div>
-      <div className="column tamiddle" ref={el => midT = el} title="midCol">
+      <div className="column tamiddle" ref={el => midT = el} data-testid="midCol">
         <h5 style={divStyle}>Current Battle Type: {battleType}</h5>
         <button
           className="primarybtn changeType"
@@ -310,7 +310,7 @@ function TrainingArena() {
 
 
       </div>
-      <div className="column taright" ref={el => rightT = el} title="rightCol">
+      <div className="column taright" ref={el => rightT = el} data-testid="rightCol">
         <h5 style={divStyle}>Choose a Training Bot</h5>
         <br/>
         {(battleType === '1 vs 1') ?

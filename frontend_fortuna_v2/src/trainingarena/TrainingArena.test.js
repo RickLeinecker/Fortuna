@@ -6,49 +6,49 @@ import TrainingArena from './TrainingArena';
 import { BrowserRouter } from 'react-router-dom';
 
 it('help', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <TrainingArena/>
     </BrowserRouter>
     );
 
-  const help = queryByTitle("helpBtn");
+  const help = getByTestId("helpBtn");
 
   expect(help).toBeTruthy();
 
 })
 
 it('leftCol', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <TrainingArena/>
     </BrowserRouter>
   );
-  const left = queryByTitle("leftCol");
+  const left = getByTestId("leftCol");
 
   expect(left).toBeTruthy();
 })
 
 it('midCol', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <TrainingArena/>
     </BrowserRouter>
   );
 
-  const mid = queryByTitle("midCol");
+  const mid = getByTestId("midCol");
 
   expect(mid).toBeTruthy();
 })
 
 it('rightCol', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <TrainingArena/>
     </BrowserRouter>
   );
 
-  const right = queryByTitle("rightCol");
+  const right = getByTestId("rightCol");
 
   expect(right).toBeTruthy();
 })

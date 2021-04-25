@@ -78,7 +78,7 @@ class Replays extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="replayTable" title="replayRoot">
+			<div className="replayTable" data-testid="replayRoot">
 				{this.state.username != null ? <h4 style={this.battleRecordTitle}>{this.state.username}'s Battle Record</h4> : <h4>Battle Record</h4>}
 				<table>
 					<thead>
