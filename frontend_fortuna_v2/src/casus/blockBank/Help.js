@@ -115,6 +115,9 @@ function Help() {
       backgroundColor: "#012074",
       borderStyle: "solid",
       maxHeight: "100vh"
+    },
+    overlay:{
+      backgroundColor: "rgba(0,0,0,.5)"
     }
   }
 

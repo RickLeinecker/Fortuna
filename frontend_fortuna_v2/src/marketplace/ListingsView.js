@@ -368,9 +368,9 @@ class ListingsView extends React.Component<Props, State> {
       borderStyle: "solid",
       maxHeight: "100vh"
     },
-	overlay:{
-		backgroundColor: "rgba(0,0,0,.5)"
-	}
+    overlay:{
+      backgroundColor: "rgba(0,0,0,.5)"
+    }
   }
 
 	render(): React.Node  {

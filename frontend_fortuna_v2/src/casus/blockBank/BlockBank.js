@@ -40,13 +40,13 @@ function BlockBank(props) {
 
   return (
     <>
-      <div className="stickyPosition"> 
+      <div className="stickyPosition">
         <div>
           <BlockBankTypeSelector onSectionClicked={onSectionClicked} />
         </div>
         <div className="flexRight blockShelf">
           <BlockBankBlockShelf
-            selectedSection={selectedSection} 
+            selectedSection={selectedSection}
             {...props}
           />
         </div>
