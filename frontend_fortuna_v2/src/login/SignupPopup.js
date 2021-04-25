@@ -49,9 +49,9 @@ class SignupPopup extends React.Component<Props, State> {
 			return;
 		}
 
-		// Check length, if more than 8 chars, will ruin the Top 10 box formatting.
+		// Check length, if more than 9 chars, will ruin the Top 10 box formatting.
 		if (this.state.userName.length > 9 || this.state.userName.length < 3) {
-			toast.error('Username must be between 3 and 8 characters.');
+			toast.error('Username must be between 3 and 9 characters.');
 			return;
 		}
 
