@@ -312,10 +312,15 @@ function Marketplace() {
                 showSkipButton
                 showProgress
                 styles={{
-                    options: {
-                        zIndex: 1000,
-                        spotlightShadow: 'blue'
-                    }
+                  options: {
+                    arrowColor: '#414a4',
+                    backgroundColor: '#e3ffeb',
+                    overlayColor: 'rgba(79, 26, 0, 0.4)',
+                    primaryColor: '#414a4c',
+                    textColor: '#414a4c',
+                    width: 500,
+                    zIndex: 1000,
+                  }
                 }}
             />
           <ToastContainer />
