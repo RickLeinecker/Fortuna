@@ -126,13 +126,13 @@ class CasusContainer extends React.Component<Props, State> {
           //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
           //]}
         />
-          <div className="navbar" title="casusNav">
+          <div className="navbar" data-testid="casusNav">
               <div className="navhelp">
                   <button className="navbtn" onClick={()=>this.enableJoyride()} >Need Help?</button>
               </div>
 
           </div>
-        <Container fluid title="casusContainer">
+        <Container fluid data-testid="casusContainer">
           <Row className="mt-12">
             <Col md={12} className="editor">
               <CasusEditor 

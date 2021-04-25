@@ -164,7 +164,7 @@ const MainMenu  = () => {
 
 	return (
     <>
-      <div id="Parent" className='background-image' title="mainMenuRoot">
+      <div id="Parent" className='background-image' data-testid="mainMenuRoot">
         <br/>
         <div className="tankSelect">
           <MainNavbar

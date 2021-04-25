@@ -65,7 +65,7 @@ class SearchPlayers extends React.Component<Props, State> {
 			this.state.player3v3List.filter(user => user.username.includes(this.state.queryString))
 		);
 		return (
-			<div className="searchPlayers" title="searchRoot">
+			<div className="searchPlayers" data-testid="searchRoot">
 				<h6 style={this.divStyle}>Press Enter to Search for Player</h6>
 				<input 
 					type="text" 

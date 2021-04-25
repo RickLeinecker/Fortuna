@@ -34,7 +34,7 @@ class YoutubeVideoPopup extends React.Component<Props, State> {
 					<iframe 
 						key={link+'_Iframe'}
 						src={link} 
-						title='yotubeVideo' 
+						data-testid='yotubeVideo' 
 						height='480' 
 						width='720'
 					/>
