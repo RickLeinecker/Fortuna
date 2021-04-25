@@ -8,56 +8,56 @@ import ResetPassword from './ResetPassword';
 import SignupPopup from './SignupPopup';
 
 it('sign', () => {
-  const { queryByTitle } = render(<SignupPopup/>);
-  const sign = queryByTitle("signRoot");
+  const { getByTestId } = render(<SignupPopup/>);
+  const sign = getByTestId("signRoot");
 
   expect(sign).toBeTruthy()
 })
 
 it('reset', () => {
-  const { queryByTitle } = render(<ResetPassword/>);
-  const reset = queryByTitle("resetPw")
+  const { getByTestId } = render(<ResetPassword/>);
+  const reset = getByTestId("resetPw")
 
   expect(reset).toBeTruthy()
 })
 
 it('resend', () => {
-  const { queryByTitle } = render(<ResendEmailPopup/>);
-  const resend = queryByTitle("resendEmail");
+  const { getByTestId } = render(<ResendEmailPopup/>);
+  const resend = getByTestId("resendEmail");
 
   expect(resend).toBeTruthy()
 })
 
 
 it('checkLoginRender', () => {
-  const { queryByTitle } = render(<Login />);
-  const leader = queryByTitle("leaderboardTest");
+  const { getByTestId } = render(<Login />);
+  const leader = getByTestId("leaderboardTest");
 
   expect(leader).toBeTruthy();
   
 })
 
 it('loginright', () => {
-  const { queryByTitle } = render(<Login />);
-  const loginright = queryByTitle("loginright");
+  const { getByTestId } = render(<Login />);
+  const loginright = getByTestId("loginright");
 
   expect(loginright).toBeTruthy();
   
 })
 
 it('info', () => {
-  const { queryByTitle } = render(<Login />);
-  const info = queryByTitle("fortunainfo");
+  const { getByTestId } = render(<Login />);
+  const info = getByTestId("fortunainfo");
 
   expect(info).toBeTruthy();
   
 })
 
 it('logPopRootDiv', () => {
-  const { queryByTitle } = render(<LoginPopup/>);
+  const { getByTestId } = render(<LoginPopup/>);
 
-  const logpop = queryByTitle("logpopup");
-  const logBtn = queryByTitle("logBtn");
+  const logpop = getByTestId("logpopup");
+  const logBtn = getByTestId("logBtn");
 
   expect(logpop).toBeTruthy();
   expect(logBtn).toBeTruthy();

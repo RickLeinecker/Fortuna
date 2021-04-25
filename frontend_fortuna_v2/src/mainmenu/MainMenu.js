@@ -24,7 +24,8 @@ import getErrorFromObject from "../globalComponents/getErrorFromObject";
 import setLoginToken from "../globalComponents/setLoginToken";
 import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
 import { TweenMax, TweenLite, Power3 } from 'gsap'
-import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
+import { Container, Row, Col, Jumbotron, Button } from 'react-bootstrap';
+import Modal from 'react-modal';
 
 
 // type Props = {||};
@@ -47,57 +48,58 @@ const MainMenu  = () => {
 	const [selectedTankThree, setSelectedTankThree] = useState(null);
 	const [allTanks, setAllTanks] = useState([]);
 	const [userElo, setUserElo] = useState(0);
-    const [battleType, setBattleType] = useState('1 vs 1')
-    const [run, setRun] = useState(false);
-    const [tourSteps, setTourSteps] = useState([
-        {
-          target: ".background-image",
-          disableBeacon: true,
-          content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages but feel free to skip them!"
-        },
-        {
-            target: ".navhelp",
-            content: "Click here to bring back the tutorial for a page anytime."
-        },
-        {
+  const [battleType, setBattleType] = useState('1 vs 1')
+  const [run, setRun] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [tourSteps, setTourSteps] = useState([
+      {
+        target: ".background-image",
+        disableBeacon: true,
+        content: "Welcome to Fortuna! Tutorials like this will only come up your first time visiting important pages but feel free to skip them!"
+      },
+      {
+          target: ".navhelp",
+          content: "Click here to bring back the tutorial for a page anytime."
+      },
+      {
+        target: ".tankSelect",
+        content: "The navbar will serve as your main navigation through the Fortuna system."
+      },
+      {
+        target: ".menuleft",
+        content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
+      },
+      {
+        target: '.training',
+        content: "The Training Arena is a place to test out your tanks against bots."
+      },
+      {
+        target: ".select",
+        content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code."
+      },
+      {
+        target: ".menuright",
+        content: "This Leaderboard shows you the current Top Ten most powerful Champions in the entire land of Vessint, the dystopian world we currently reside in."
+      },
+      {
+        target: ".credits",
+        content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game."
+      },
+      {
+          target: ".editTank",
+          content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor."
+      },
+      {
+          target: ".play",
+          content: "Play against tanks that other players have wagered and programmed."
+      }
+      ,
+      {
           target: ".tankSelect",
-          content: "The navbar will serve as your main navigation through the Fortuna system."
-        },
-        {
-          target: ".menuleft",
-          content: "Your Battle Record will fill up with past matches so you can watch them and learn from past mistakes or victories!"
-        },
-        {
-          target: '.training',
-          content: "The Training Arena is a place to test out your tanks against bots."
-        },
-        {
-          target: ".select",
-          content: "Here is your currently selected tank. You have been rewarded with six starter tanks with NO code. Please go to the Marketplace after this to inject their corresponding code."
-        },
-        {
-          target: ".menuright",
-          content: "This Leaderboard shows you the current Top Ten most powerful Champions in the entire land of Vessint, the dystopian world we currently reside in."
-        },
-        {
-          target: ".credits",
-          content: "Look at the Credits to honor those who put their blood, sweat, and tears into this game."
-        },
-        {
-            target: ".editTank",
-            content: "One of the most important features of this game is creating and editing your tanks code in Casus, our custom code editor."
-        },
-        {
-            target: ".play",
-            content: "Play against tanks that other players have wagered and programmed."
-        }
-        ,
-        {
-            target: ".tankSelect",
-            content: "Don't forget to get some starter code from the Marketplace first!"
+          content: "Don't forget to get some starter code from the Marketplace first!"
 
-        }
-      ])
+      }
+    ])
 
 
     let left = useRef(null);
@@ -145,26 +147,56 @@ const MainMenu  = () => {
      left: "50px"
   }
 
+  const openCredits = () => {
+    setModalOpen(true);
+  }
+
+  const closeCredits = () => {
+    setModalOpen(false);
+  }
+
+  const customStyles = {
+    content : {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      width: '40%',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '10px',
+      backgroundColor: "#012074",
+      borderStyle: "solid",
+      maxHeight: "100vh"
+    },
+    overlay:{
+      backgroundColor: "rgba(0,0,0,.5)"
+    }
+  }
+
 
   const handleJoyrideCallback = (data) =>
   {
-	    const { status, type } = data;
-        const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
-        if (finishedStatuses.includes(status))
-        {
-            setRun(false);
-        }
+    const { status, type } = data;
+      const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
+      if (finishedStatuses.includes(status))
+      {
+          setRun(false);
+      }
   }
 
   //enables Joyride if Need Help button is pressed
   const enableJoyride =  ()  => {
-     let help = true
-     setRun(help)
-    }
+     setRun(true)
+  }
+
+  const creditsStyle = {
+    color: "white"
+  }
 
 	return (
     <>
-      <div id="Parent" className='background-image' title="mainMenuRoot">
+      <div id="Parent" className='background-image' data-testid="mainMenuRoot">
         <br/>
         <div className="tankSelect">
           <MainNavbar
@@ -283,9 +315,28 @@ const MainMenu  = () => {
 						<Leaderboard />
 					</div>
           <br/>
-
-            <button className="marketBtn creditsButton">Credits</button>
-
+          <button className="marketBtn creditsButton" onClick={() => openCredits()}>Credits</button>
+          <Modal
+            isOpen={modalOpen}
+            style={customStyles}
+            contentLabel="Credits Modal"
+          >
+            <h5 style={creditsStyle}>
+              <strong>Developers version 1:</strong> Jorge Vidal, Baylor Maloney, Adam Blair, Emil Dolorfino, David Harmeyer
+              <br/><br/>
+              <strong>Developers version 2:</strong> John Cordero, Brittanie Staton, Will Bechtel, Sarinda Samarasinghe
+            </h5>
+            <br/><br/>
+            <h7 style={creditsStyle}>
+              Photo Credits:
+            </h7>
+            <br/>
+            <a href="https://www.artstation.com/artwork/GXwZgz" style={creditsStyle}>www.artstation.com</a>
+            <br/>
+            <a href="https://www.itl.cat/pngfile/big/4-43065_anime-wallpaper-gif-1080p.jpg" style={creditsStyle}>www.itl.cat</a>
+            <br/><br/>
+            <Button onClick={() => closeCredits()}>Close</Button>
+          </Modal>  
         </div>
       </div>
       <JoyRide 

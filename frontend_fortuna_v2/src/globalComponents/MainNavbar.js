@@ -116,14 +116,14 @@ class MainNavbar extends React.Component<Props, State> {
 
 
 		return (
-			<div className="navbar" title="navRoot">
-				<div className="navleft" title="navLeft">
+			<div className="navbar" data-testid="navRoot">
+				<div className="navleft" data-testid="navLeft">
 					<div className="row rowPadding">
 					{link}&emsp;
 					{youtubeLinks}
 					</div>
 				</div>
-				<div className="navmiddle" title="navMid">
+				<div className="navmiddle" data-testid="navMid">
 				<h4>{this.props.pageName}</h4>
 				<Link to={verifyLink("/MainMenu")}>
 					<button className="navbtn">Home</button>
@@ -141,7 +141,7 @@ class MainNavbar extends React.Component<Props, State> {
 					<button className="navbtn">Marketplace</button>
 				</Link>
 				</div>
-				<div className="navright" title="navRight">
+				<div className="navright" data-testid="navRight">
 					<h5 style={this.divStyle}>{this.state.username} | ${this.state.userCurrency}</h5>
 				</div>
 			</div>
