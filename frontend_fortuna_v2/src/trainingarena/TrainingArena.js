@@ -210,7 +210,7 @@ function TrainingArena() {
             />
             {selectedTankOne == null ? <div className="emptyTankBig"></div> : <TankDisplay tankToDisplay={selectedTankOne} smallTank={false} />}
           </div> :
-          <div className="threeTankDisplay three_tank">
+          <div className="threeTankDisplay">
             <table>
               <thead>
                 <tr>
