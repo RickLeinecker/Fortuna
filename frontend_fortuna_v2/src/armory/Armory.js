@@ -538,7 +538,7 @@ function Armory() {
 
 			</div>
 			<div className="column armorymiddle" ref={el => armMid = el} data-testid="armMid">
-				<h1 className="ArmoryTitle">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
+
 				<h4 className="font" style={divStyle}>Currently Modifying:</h4>
 				{selectedTank==null?<div></div>:
 					<SelectTank

@@ -363,7 +363,8 @@ class ListingsView extends React.Component<Props, State> {
       borderRadius: '10px',
       backgroundColor: "#012074",
       borderStyle: "solid",
-      maxHeight: "100vh"
+      maxHeight: "100vh",
+	  textAlign: "center"
     },
     overlay:{
       backgroundColor: "rgba(0,0,0,.5)"
@@ -407,7 +408,7 @@ class ListingsView extends React.Component<Props, State> {
           >
             {this.getSalesTypeDesc(this.props.sellerType)}
             <br/><br/><br/>
-            <button style={{width: "50%", position: "relative", left: "80px"}} className="marketBtn" onClick={() => this.closeModal()}>Close</button>
+            <button style={{width: "50%", position: "relative"}} className="marketBtn" onClick={() => this.closeModal()}>Close</button>
           </Modal>
           <br/>
           <br/><br/><br/><br/>
