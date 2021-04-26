@@ -161,7 +161,7 @@ function BattleArena() {
   }
 
   const divStyle = {
-      fontFamily: '"Press Start 2P", cursive',
+    fontFamily: '"Press Start 2P", cursive',
     color: "white",
     textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
   }
@@ -317,12 +317,17 @@ function BattleArena() {
 				callback={handleJoyrideCallback}
 				showSkipButton
 				showProgress
-				styles={{
-					options: {
-						zIndex: 1000,
-						spotlightShadow: 'blue'
-					}
-				}}
+        styles={{
+          options: {
+            arrowColor: '#414a4',
+            backgroundColor: '#e3ffeb',
+            overlayColor: 'rgba(79, 26, 0, 0.4)',
+            primaryColor: '#414a4c',
+            textColor: '#414a4c',
+            width: 500,
+            zIndex: 1000,
+          }
+        }}
 			/>
 		</div>
 	);
