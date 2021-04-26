@@ -8,15 +8,14 @@ import MakeAComponentSaleView from './MakeAComponentSaleView.js';
 import MakeATankSaleView from './MakeATankSaleView.js';
 import MakeCasusCodeSaleView from './MakeCasusCodeSaleView.js';
 import RemoveASaleView from './RemoveASaleView.js';
-import type { MarketplaceViewType } from '../globalComponents/typesAndClasses/MarketplaceViewType.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
-import JoyRide, {ACTIONS, EVENTS, STATUS} from 'react-joyride'
+import JoyRide, {STATUS} from 'react-joyride'
 import getFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/getFirstTimeMarketplaceAPICall";
 import setFirstTimeMarketplaceAPICall from "../globalComponents/apiCalls/setFirstTimeMarketplaceAPICall";
-import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { TweenMax, Power3 } from 'gsap';
 import Modal from 'react-modal'
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 function Marketplace() {
 
@@ -25,7 +24,7 @@ function Marketplace() {
   const [componentModalOpen, setComponentModalOpen] = useState(false);
   const [tankModalOpen, setTankModalOpen] = useState(false);
   const [casusModalOpen, setCasusModalOpen] = useState(false);
-  const [tourSteps, setTourSteps] = useState([
+  const [tourSteps] = useState([
       {
           target: ".buy",
           disableBeacon: true,
@@ -52,7 +51,7 @@ function Marketplace() {
       getFirstTimeMarketplaceAPICall((res) => {
           console.log("RES: ", res);
           setRun(res);
-          if(res == true)
+          if(res === true)
           {
               setFirstTimeMarketplaceAPICall();
           }
@@ -188,7 +187,7 @@ function Marketplace() {
       break;
   }
   const handleJoyrideCallback = (data) => {
-    const { status, type } = data;
+    const { status } = data;
     const finishedStatuses = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setRun(false);

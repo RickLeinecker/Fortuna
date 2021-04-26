@@ -5,8 +5,7 @@ import Popup from 'reactjs-popup';
 import Tank from '../tanks/Tank.js';
 import { ToastContainer , toast } from 'react-toastify';
 import saveCasus from '../casus/saveCasus.js';
-import { getMarketSales, marketSale, getMarketTanks, getMarketCasusCode } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
-import ListingView from './ListingsView.js'
+import { marketSale } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 
 type Props = {|
 	selectedTank: Tank,
@@ -24,7 +23,6 @@ type State = {|
 	casusCodeForSale: Array<SaleObject>,
 |};
 
-var saleSuccess = false;
 
 class PurchaseCasusCode extends React.Component<Props, State> {
 

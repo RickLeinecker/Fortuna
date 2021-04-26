@@ -6,7 +6,6 @@ import { getTank } from '../../tanks/TankLoader.js';
 import BackendTank from '../../tanks/BackendTank.js';
 import { toast } from 'react-toastify';
 import getErrorFromObject from '../getErrorFromObject.js';
-import getBattlegroundArena from '../../battleground/getBattlegroundArena.js';
 import type {ArenaType} from '../../battleground/ArenaType.js';
 
 //gets the user when passed a token stored as the login token

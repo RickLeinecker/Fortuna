@@ -7,7 +7,7 @@ import getAllUsers from '../globalComponents/apiCalls/getAllUsersAPICall.js';
 import getUser from '../globalComponents/apiCalls/getUserAPICall.js';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer  } from 'react-toastify';
 import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
 
 type Props = {|
