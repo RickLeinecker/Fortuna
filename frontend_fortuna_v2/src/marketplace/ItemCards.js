@@ -43,8 +43,8 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
   const createCardItem = (index, sellerId, saleName, description, price, amount, saleId, buyItem) => {
 
 
+    let picture;
 
-    let picture
     switch(saleName) {
       case 'machineGun':
         picture = (<img src="/Gun2.png" width="100" height="100"/>);
