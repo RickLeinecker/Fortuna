@@ -479,7 +479,7 @@ function Armory() {
 		setRun(test)
 	}
 	return (
-		<div id="Parent" className='background-image-armory' title="armoryRoot">
+		<div id="Parent" className='background-image-armory' data-testid="armoryRoot">
       <br/>
 			<MainNavbar
 				linkName="/Login"
@@ -491,7 +491,7 @@ function Armory() {
 				//	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
 				//]}
 			/>
-			<div className="navbar" title="armNav">
+			<div className="navbar" data-testid="armNav">
 				<div className="navhelp">
 					<button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
 				</div>
@@ -537,9 +537,8 @@ function Armory() {
 				<br/><br/>
 
 			</div>
-			<div className="column armorymiddle" ref={el => armMid = el}>
-
-
+			<div className="column armorymiddle" ref={el => armMid = el} data-testid="armMid">
+				<h1 className="ArmoryTitle">{selectedTank?.tankName ?? 'Loading tanks...'}</h1>
 				<h4 className="font" style={divStyle}>Currently Modifying:</h4>
 				{selectedTank==null?<div></div>:
 					<SelectTank
@@ -556,7 +555,7 @@ function Armory() {
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
 			</div>
-			<div title="armRight">
+			<div data-testid="armRight">
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Point(s) Used</h5>
@@ -913,12 +912,17 @@ function Armory() {
 				callback={handleJoyrideCallback}
 				showSkipButton
 				showProgress
-				styles={{
-					options: {
-						zIndex: 1000,
-						spotlightShadow: 'blue'
-					}
-				}}
+        styles={{
+          options: {
+            arrowColor: '#414a4',
+            backgroundColor: '#e3ffeb',
+            overlayColor: 'rgba(79, 26, 0, 0.4)',
+            primaryColor: '#414a4c',
+            textColor: '#414a4c',
+            width: 500,
+            zIndex: 1000,
+          }
+        }}
 			/>
 		</div>
 	);

@@ -81,7 +81,6 @@
 .replayTable {
     font-size: 15px;
     text-align: center;
-    width: fit-content;
 }
 
 .replayTable table {
@@ -117,13 +116,15 @@
 
 .replayTable th {
     padding: 12px;
-    text-align: center;
     width: 16%;
+    position: relative;
+    right: 10px
 }
 
 .replayTable td {
     width: 16%;
-    padding: 7px;
+    padding: 5px;
+    text-align: center;
     border-left: none;
     border-right: none;
     border-top: 1px solid #04CCFF;
@@ -132,31 +133,33 @@
 
 .replayTable #opponent {
     color: #04CCFF;
-    width: fit-content;
 }
 
 .replayTable #result {
     color: #ff47ff;
-    width: fit-content;
+    font-size: small;
 }
+
 .replayTable #replay {
     font-size: x-small;
-
+    text-align: center;
+    font-weight: bold;
 }
 
 .replayTable #prize {
     color: #ff47ff;
-    width: fit-content;
+    font-size: small;
+    padding-left: 25px;
 }
 
 .replayTable #elo {
     color: #ff47ff;
-    width: fit-content;
+    font-size: small;
 }
 
 .replayTable #type {
     color: #20ffff;
-    width: fit-content;
+    font-size: small;
 }
 
 /* Tank Display Styling */

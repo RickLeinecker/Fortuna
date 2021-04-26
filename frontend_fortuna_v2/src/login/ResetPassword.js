@@ -95,7 +95,7 @@ class ResetPassword extends React.Component<Props, State> {
         }
 
         return (
-			<div className="vcenter" title="resetPw">
+			<div className="vcenter" data-testid="resetPw">
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 <div className="reset">
 				<h3 className="row col-md-12 d-flex justify-content-center">Password Reset</h3>

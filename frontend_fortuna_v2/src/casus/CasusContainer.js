@@ -126,13 +126,13 @@ class CasusContainer extends React.Component<Props, State> {
           //	'https://www.youtube.com/watch?v=1nnY9wlLOYU'
           //]}
         />
-          <div className="navbar" title="casusNav">
+          <div className="navbar" data-testid="casusNav">
               <div className="navhelp">
                   <button className="navbtn" onClick={()=>this.enableJoyride()} >Need Help?</button>
               </div>
 
           </div>
-        <Container fluid title="casusContainer">
+        <Container fluid data-testid="casusContainer">
           <Row className="mt-12">
             <Col md={12} className="editor">
               <CasusEditor 
@@ -164,8 +164,13 @@ class CasusContainer extends React.Component<Props, State> {
             showProgress
             styles={{
               options: {
+                arrowColor: '#414a4',
+                backgroundColor: '#e3ffeb',
+                overlayColor: 'rgba(79, 26, 0, 0.4)',
+                primaryColor: '#414a4c',
+                textColor: '#414a4c',
+                width: 500,
                 zIndex: 1000,
-                spotlightShadow: 'blue'
               }
             }}
           />

@@ -54,14 +54,14 @@ class SelectTank extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div title="tankRoot">
+			<div data-testid="tankRoot">
 				<button 
 					className={(this.state.showTanks) ? "tankListBtn selectedTank" : "tankListBtn"}
 					onClick={() => this.setState({showTanks: true})}
 				>
 						{(this.props.selectedTank?.tankName??'No Tank Selected')} 
 				</button>
-				<div title="tankTrue">
+				<div data-testid="tankTrue">
 					{(this.state.showTanks) ?
 						<div className="tankList">
 							<h6 style={this.h6Style}>Select a Tank</h6>
@@ -83,7 +83,7 @@ class SelectTank extends React.Component<Props, State> {
 								<div></div>
 							}
 						</div> :
-						<div title="tankFalse"></div>
+						<div data-testid="tankFalse"></div>
 					}
 				</div>
 			</div>

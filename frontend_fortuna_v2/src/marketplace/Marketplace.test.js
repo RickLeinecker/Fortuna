@@ -7,35 +7,35 @@ import { BrowserRouter } from 'react-router-dom';
 
 
 it('mainMarket', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Marketplace/>
     </BrowserRouter>
   );
-  const part = queryByTitle("rootMainMarket");
+  const part = getByTestId("rootMainMarket");
 
   expect(part).toBeTruthy();
 
 })
 
 it('mainMarket2', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Marketplace/>
     </BrowserRouter>
   );
 
-  const container = queryByTitle("marketContainer1");
+  const container = getByTestId("marketContainer1");
   expect(container).toBeTruthy();
 })
 
 it('mainMarket2', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Marketplace/>
     </BrowserRouter>
   );
 
-  const container = queryByTitle("marketContainer2");
+  const container = getByTestId("marketContainer2");
   expect(container).toBeTruthy();
 })

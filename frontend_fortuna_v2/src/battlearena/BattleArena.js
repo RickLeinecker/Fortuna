@@ -57,7 +57,6 @@ function BattleArena() {
       target: ".wager_info",
       content: "The minimum wager is $50 and you need to have a tank wagered for others to battle against you!"
     }
-
   ]);
 
   let navbarRef = useRef(null);
@@ -162,10 +161,9 @@ function BattleArena() {
   }
 
   const divStyle = {
-      fontFamily: '"Press Start 2P", cursive',
+    fontFamily: '"Press Start 2P", cursive',
     color: "white",
-    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black",
-
+    textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black"
   }
 
   const buttonDivStyle = {
@@ -196,7 +194,7 @@ function BattleArena() {
 
 
   return (
-		<div id="Parent" className='background-image' title="arenaRoot">
+		<div id="Parent" className='background-image' data-testid="arenaRoot">
      		 <br/>
 			<MainNavbar
 				linkName="/Login"
@@ -211,7 +209,7 @@ function BattleArena() {
                     <button className="navbtn" onClick={()=>enableJoyride()} >Need Help?</button>
                 </div>
             </div>
-			<div className="column challenge" ref={el => left = el} title="arenaleft">
+			<div className="column challenge" ref={el => left = el} data-testid="arenaleft">
 				<div className="quickplay">
 						<h5 style={divStyle}>Start a Match</h5>
 						<ChallengePlayerPopup
@@ -229,8 +227,8 @@ function BattleArena() {
 				</div>
 			</div>
 
-			<div className="column battletype" ref={el => mid = el} title="arenaMid">
-				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Challenger</h5>
+			<div className="column battletype" ref={el => mid = el} data-testid="arenaMid">
+				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
 				<br/>
 				{(battleType === '1 vs 1') ?
 					<div>
@@ -302,7 +300,7 @@ function BattleArena() {
 					Change Battle Type
 				</button>
 			</div>
-			<div className='wager_info' title="arenaRight">
+			<div className='wager_info' data-testid="arenaRight">
 				<h5 style={divStyle} text-align='center'>Wager a Tank</h5>
 				<div className="wager">
 					<SetWagerPopup
@@ -319,12 +317,17 @@ function BattleArena() {
 				callback={handleJoyrideCallback}
 				showSkipButton
 				showProgress
-				styles={{
-					options: {
-						zIndex: 1000,
-						spotlightShadow: 'blue'
-					}
-				}}
+        styles={{
+          options: {
+            arrowColor: '#414a4',
+            backgroundColor: '#e3ffeb',
+            overlayColor: 'rgba(79, 26, 0, 0.4)',
+            primaryColor: '#414a4c',
+            textColor: '#414a4c',
+            width: 500,
+            zIndex: 1000,
+          }
+        }}
 			/>
 		</div>
 	);
