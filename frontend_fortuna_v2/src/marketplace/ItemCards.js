@@ -43,38 +43,38 @@ function ItemCards({ sellerType, items, buyItem, postsPerPage, totalPosts, isMas
   const createCardItem = (index, sellerId, saleName, description, price, amount, saleId, buyItem) => {
 
 
+    let picture;
 
-    let picture
     switch(saleName) {
       case 'machineGun':
         picture = (<img src="/Gun2.png" width="100" height="100"/>);
         break;
       case 'grenadeLauncher':
-        picture = (<img src="/Gun1.png" width="100" height="100"/>);
+        picture = (<img src="/gun1.png" width="100" height="100"/>);
         break;
       case 'missile':
-        picture = (<img src="/Gun9.png" width="100" height="100"/>);
+        picture = (<img src="/gun9.png" width="100" height="100"/>);
         break;
       case 'laser':
-        picture = (<img src="/Gun3.png" width="100" height="100"/>);
+        picture = (<img src="/gun3.png" width="100" height="100"/>);
         break;
       case 'plasma':
-        picture = (<img src="/Gun4.png" width="100" height="100"/>);
+        picture = (<img src="/gun4.png" width="100" height="100"/>);
         break;
       case 'shotgun':
-        picture = (<img src="/Gun7.png" width="100" height="100"/>);
+        picture = (<img src="/gun7.png" width="100" height="100"/>);
         break;
       case 'lancer':
-        picture = (<img src="/Gun8.png" width="100" height="100"/>);
+        picture = (<img src="/gun8.png" width="100" height="100"/>);
         break;
       case 'vulcanCannon':
-        picture = (<img src="/Gun5.png" width="100" height="100"/>);
+        picture = (<img src="/gun5.png" width="100" height="100"/>);
         break;
       case 'pulseLaser':
         picture = (<img src="/Gun10.png" width="100" height="100"/>);
         break;
       case 'deathRay':
-        picture = (<img src="/Gun6.png" width="100" height="100"/>);
+        picture = (<img src="/gun6.png" width="100" height="100"/>);
         break;
       case 'shortRangeScanner':
         picture = (<img src="/scannerSmall.png" width="100" height="100"/>);
