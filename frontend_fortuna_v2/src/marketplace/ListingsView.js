@@ -286,13 +286,13 @@ class ListingsView extends React.Component<Props, State> {
 			  this.sellerDesc = 'Here you can buy different weapons, each with their own advantages and disadvantages versus enemy tanks.'
 			  break;
 		  case 'scanner' :
-			  this.sellerDesc = 'Scanners help you detect enemy tanks. Their range is dependent on what tier you purchase, so save up to get a easy advantage!'
+			  this.sellerDesc = 'Scanners help you detect enemy tanks. Their range is dependent on what tier you purchase, so save up to get a easy advantage and detect enemy tanks from further away!'
 			  break;
 		  case 'scannerAddon' :
 			  this.sellerDesc = 'These are enhancements for your scanner that can be used to scan for traps or prevent your scanner from being jammed.'
 			  break;
 		  case 'chassis' :
-			  this.sellerDesc = 'Chassis determine how much armor and speed your tanks have, so try out different chassis for different play styles!'
+			  this.sellerDesc = 'Chassis type determine how much armor and speed your tanks have, so try out different chassis for different play styles. Moddable Chassis allow give you more points to allow you to add more equipment!'
 			  break;
 		  case 'jammer' :
 			  this.sellerDesc = 'Jammers function similar to scanners, but counter enemy scanners instead of revealing enemy tanks.'
@@ -301,16 +301,13 @@ class ListingsView extends React.Component<Props, State> {
 			  this.sellerDesc = 'Treads can add armor or speed to help out a bulky chassis move faster or a speedy chassis get additional armor.'
 			  break;
 		  case 'item' :
-			  this.sellerDesc = 'Items give some extra versatility and functionality in battle such as speed boosting heal, mines, etc...'
+			  this.sellerDesc = 'Items give some extra versatility and functionality in battle such as speed boosting heal, mines, etc... but keep in mind, they are consumable!'
 			  break;
 		  case 'casusCode' :
-			  this.sellerDesc = 'Buy another players Casus code and modify it as your own! Be sure to check the code to make sure you have the necessary equipment to make the code work.'
+			  this.sellerDesc = 'Buy another players Casus code and modify it as your own! Be sure to check the code after purchase to make sure you have the necessary equipment to make the code work.'
 			  break;
 		  case 'tank' :
 			  this.sellerDesc = 'Have a lot of money but struggling with battles? Purchase another players tank that comes with their coded casus code!'
-			  break;
-		  case 'casusBlock' :
-			  this.sellerDesc = 'Chassis determine how much armor and speed your tanks have, so try out different chassis for different play styles!'
 			  break;
 		  case 'makeAComponentSale' :
 			  this.sellerDesc = 'Sell any component on the marketplace for other players to purchase.'
@@ -322,7 +319,7 @@ class ListingsView extends React.Component<Props, State> {
 			  this.sellerDesc = 'Sell you any tanks you own with their currently attached equipment and Casus code'
 			  break;
 		  case 'removeASale' :
-			  this.sellerDesc = 'And click here to remove any sale you have up on the marketplace.'
+			  this.sellerDesc = 'Remove any sale you have up on the marketplace.'
 			  break;
 		  default :
 			  this.sellerDesc = ''

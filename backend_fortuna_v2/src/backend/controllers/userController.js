@@ -383,7 +383,7 @@ exports.register = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-			'Greetings Commander '+user.userName+'!\n\n' +
+			'Greetings Challenger '+user.userName+'!\n\n' +
 			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
 			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
@@ -782,13 +782,13 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-			'Greetings Commander '+user.userName+'!\n\n' +
+			'Greetings Challenger '+user.userName+'!\n\n' +
 			'We recieved word that you needed to reconfirm your email.\n' +
 			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
 			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-			<p>We recieved word that you needed to reconfirm your email.<br />
+		const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
+			<p>We received word that you needed to reconfirm your email.<br />
 			Please verify your Fortuna account by using the link below:</p>
 			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
@@ -1413,13 +1413,13 @@ exports.passwordResetReq = async (req: Request, res: Response) => {
 	});
 
 	const textBody =
-		'Greetings Commander '+user.userName+'!\n\n' +
+		'Greetings Challenger '+user.userName+'!\n\n' +
 		'We recieved word that you needed to reset your password.\n' +
 		'Please reset your Fortuna account password by copying and pasting the link below into your browser:\n\n' +
 		'http://'+FRONTEND+'/ResetPassword/'+token.token+'/'+user.email + '\n\n' +
 		'If this request was not made by you, feel free to disregard this email.';
 
-	const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+	const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
 		<p>We recieved word that you needed to reset your password.<br />
 		Please reset your Fortuna account password by using the link below:</p>
 		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>

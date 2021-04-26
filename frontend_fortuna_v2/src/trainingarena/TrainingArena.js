@@ -197,7 +197,7 @@ function TrainingArena() {
 
         </div>
       <div className="column taleft" ref={el => leftT = el} title="leftCol">
-        <h5 style={divStyle}>Choose your Tank, Commander</h5>
+        <h5 style={divStyle}>Choose your Tank, Challenger</h5>
         <br/>
         {(battleType === '1 vs 1') ?
           <div className="leftTank">

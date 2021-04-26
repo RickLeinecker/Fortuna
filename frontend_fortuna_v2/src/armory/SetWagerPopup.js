@@ -211,7 +211,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 
 		return (
 			<div>
-				<div className="row rowPadding">
+				<div >
 					<button className="smallbtn" onClick={() => this.setState({setWagerOpen: true})}>
 						Setup
 					</button>

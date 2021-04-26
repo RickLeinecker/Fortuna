@@ -118,7 +118,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 					onClose={() => this.setState({newTankDialogOpen: false})}
 				>
 					<div className="popup">
-						<div className="row col-md-12">
+						<div>
 							<label>New Tank Name</label>
 							<div className="input-group">
 								<input 
@@ -149,7 +149,7 @@ class CreateNewTankPopup extends React.Component<Props, State> {
 							</div>
 						</div>
 						<br/>
-						<div className="row col-md-12">
+						<div>
 							{createButton}
 							{cancelButton}
 						</div>

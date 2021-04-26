@@ -29,7 +29,7 @@
 }
 
 .armorymiddle {
-    width: 40%;
+    width: 34%;
     text-align: center;
     margin-top: 5%;
 }
@@ -39,8 +39,9 @@
 }
 
 .armoryright {
-    width: 28%;
+    width: max-content;
     margin-top: 5%;
+
     padding: 10px;
     border: 4px solid #ff47ff;
     background-color: rgba(0,0,0,.5);
@@ -148,7 +149,7 @@
 }
 
 .deletePopup {
-    text-align: left;
+    text-align: center;
 }
 
 .wagerTank {

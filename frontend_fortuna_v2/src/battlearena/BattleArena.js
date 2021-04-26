@@ -41,22 +41,23 @@ function BattleArena() {
   const [botTanks, setBotTanks] = useState(null);
   const [tourSteps, setTourSteps] = useState([
     {
-      target: ".battletype",
+      target: ".quickplay",
       disableBeacon: true,
-      content: "Change between 1 v 1, or 3 v 3",
+      content: "Quickly find a match with someone's wagered tank in your ELO rank",
     },
     {
       target: ".search",
       content: "Search for a specific player and challenge any tanks they are wagering"
     },
     {
-      target: ".wager",
-      content: "The minimum wager is $50 and you need to have a tank wagered for others to battle against you!"
+      target: ".battletype",
+      content: "Change between 1 v 1, or 3 v 3"
     },
     {
-      target: ".quickplay",
-      content: "Quickly find a match with someone's wagered tank in your ELO rank"
+      target: ".wager_info",
+      content: "The minimum wager is $50 and you need to have a tank wagered for others to battle against you!"
     }
+
   ]);
 
   let navbarRef = useRef(null);
@@ -229,7 +230,7 @@ function BattleArena() {
 			</div>
 
 			<div className="column battletype" ref={el => mid = el} title="arenaMid">
-				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Commander</h5>
+				<h5 style={divStyle}>Choose your Tank{battleType === '1 vs 1' ? '' : 's'}, Challenger</h5>
 				<br/>
 				{(battleType === '1 vs 1') ?
 					<div>

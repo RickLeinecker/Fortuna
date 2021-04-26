@@ -203,7 +203,7 @@ body {
 
 /* Popup Styling */
 .popup {
-
+	text-align: center;
 	font-family: 'Press Start 2P', cursive;
 	padding: 20px 20px 20px 20px;
 	background-color: #00103a;
@@ -397,9 +397,8 @@ body {
 	border: 2px solid #04CCFF;
 	border-radius: 3px;
 	position: relative;
-	left: 15px;
-  width: 60px;
-  font-family: 'Press Start 2P', cursive;
+  	width: 60px;
+  	font-family: 'Press Start 2P', cursive;
 }
 
 .reallySmallBtn:disabled {
@@ -559,7 +558,12 @@ select {
 }
 
 .vcenter{
-	margin-top: 15%;
+	background: url('/login_background.gif');
+	height: 100vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
 }
 
 .center {

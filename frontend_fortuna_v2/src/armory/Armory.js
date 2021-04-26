@@ -168,7 +168,7 @@ function Armory() {
 		{
 			target: ".armoryright",
 			content:
-				"To balance battles, you are allowed a maximum of 10 Equipment Points."
+				"To balance battles, you are allowed a maximum of 10 Equipment Points. Purchase equipment from the Marketplace to discover their point costs and pros and cons!"
 		}
 	])
 
@@ -438,9 +438,9 @@ function Armory() {
 	const pointStyle = {
 		color: "white",
 		position:"relative",
-		left:"5%",
-		bottom:"2px",
-		marginBottom:"50px"
+		bottom:"3px",
+		marginBottom:"50px",
+		font:"1px"
 	}
 
   const divStyle3 = {
@@ -559,7 +559,7 @@ function Armory() {
 			<div title="armRight">
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
-						<h5 className="font" style={divStyle}>{points}/10 Points Used</h5>
+						<h5 className="font" style={divStyle}>{points}/10 Point(s) Used</h5>
 						<label className="font" style={divStyle}>Chassis: </label>
 						<button
 							className={(currentPartIndex === 0) ? "componentMenuBtn selectedComponent font" : "componentMenuBtn font"}
@@ -570,7 +570,7 @@ function Armory() {
 						</button>
 
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.chassis.name)+" Points"}
+							{getComponentPoints(selectedTank.chassis.name)+" Point(s)"}
 						</h7>
 
             <Modal
@@ -603,7 +603,7 @@ function Armory() {
 							{toTitleCase(selectedTank.mainGun.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.mainGun.name)+" Points"}
+							{getComponentPoints(selectedTank.mainGun.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openWeapon1}
@@ -633,7 +633,7 @@ function Armory() {
 							{toTitleCase(selectedTank.secondaryGun.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.secondaryGun.name)+" Points"}
+							{getComponentPoints(selectedTank.secondaryGun.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openWeapon2}
@@ -665,7 +665,7 @@ function Armory() {
 							{toTitleCase(selectedTank.scanner.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.scanner.name)+" Points"}
+							{getComponentPoints(selectedTank.scanner.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openScanners}
@@ -696,7 +696,7 @@ function Armory() {
 							{toTitleCase(selectedTank.scannerAddonOne.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.scannerAddonOne.name)+" Points"}
+							{getComponentPoints(selectedTank.scannerAddonOne.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openScannerAddon1}
@@ -727,7 +727,7 @@ function Armory() {
 							{toTitleCase(selectedTank.scannerAddonTwo.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.scannerAddonTwo.name)+" Points"}
+							{getComponentPoints(selectedTank.scannerAddonTwo.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openScannerAddon2}
@@ -758,7 +758,7 @@ function Armory() {
 							{toTitleCase(selectedTank.jammer.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.jammer.name)+" Points"}
+							{getComponentPoints(selectedTank.jammer.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openJammers}
@@ -790,7 +790,7 @@ function Armory() {
 							{toTitleCase(selectedTank.treads.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.treads.name)+" Points"}
+							{getComponentPoints(selectedTank.treads.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openTreads}
@@ -822,7 +822,7 @@ function Armory() {
 							{toTitleCase(selectedTank.itemOne.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.itemOne.name)+" Points"}
+							{getComponentPoints(selectedTank.itemOne.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openItem1}
@@ -852,7 +852,7 @@ function Armory() {
 							{toTitleCase(selectedTank.itemTwo.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.itemTwo.name)+" Points"}
+							{getComponentPoints(selectedTank.itemTwo.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openItem2}
@@ -882,7 +882,7 @@ function Armory() {
 							{toTitleCase(selectedTank.itemThree.name)}
 						</button>
 						<h7 style={pointStyle}>
-							{getComponentPoints(selectedTank.itemThree.name)+" Points"}
+							{getComponentPoints(selectedTank.itemThree.name)+" Point(s)"}
 						</h7>
             <Modal
               isOpen={openItem3}
