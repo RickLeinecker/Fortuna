@@ -196,7 +196,7 @@ function TrainingArena() {
             </div>
 
         </div>
-      <div className="column taleft" ref={el => leftT = el} ata-testid="leftCol">
+      <div className="column taleft" ref={el => leftT = el} data-testid="leftCol">
         <h5 style={divStyle}>Choose your Tank, Challenger</h5>
         <br/>
         {(battleType === '1 vs 1') ?
