@@ -12,12 +12,12 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
   const divStyle = {
     color: "white",
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
-    position: "relative",
     left: "25%"
   }
 
   const tableStyle = {
-    border: "1px solid black"
+    border: "3px solid #04CCFF",
+    textAlign: "center"
   }
 
   return (
@@ -26,13 +26,14 @@ function EquipMenu({ checkPoints, updatePoints, updateComponent, componentList, 
 					<div></div> :
 					<div data-testid="equipRoot">
 						<h4 className="font" style={divStyle}>Component Menu</h4>
+                      <br/>
 						<div className="componentMenu">
 							<table style={tableStyle}>
 								<thead>
 									<tr>
 										<th style={tableStyle} className="font">Component Name</th>
 										<th style={tableStyle} className="font">Number Owned</th>
-										<th style={tableStyle} className="font">Point Value</th>
+										<th style={tableStyle} className="font">Item's Point Vaule</th>
 									</tr>
 								</thead>
 								<tbody>

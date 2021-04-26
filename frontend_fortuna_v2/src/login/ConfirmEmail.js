@@ -56,7 +56,7 @@ class ConfirmEmail extends React.Component<Props, State> {
 			})
 		).catch(
 			(error) => {
-				console.log('Couldnt connect to server!');
+				console.log("Couldn't connect to server!");
 				console.log(error);
 			}
 		);
@@ -64,12 +64,15 @@ class ConfirmEmail extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div className="confirmPage" data-testid="confirm-page">
-				<h3>{this.state.message}</h3>
-				<br/>
-				<Link to={verifyLink("/Login")}>
-					<button className="primarybtn">Return to Login</button>
-				</Link>
+			<div className="background-image" title="confirm-page">
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+				<div className="confirm">
+					<h5>{this.state.message}</h5>
+					<br/>
+					<Link to={verifyLink("/Login")}>
+						<button className="primarybtn">Return to Login</button>
+					</Link>
+				</div>
 			</div>
 		);
 	}

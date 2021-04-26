@@ -96,6 +96,8 @@ class ResetPassword extends React.Component<Props, State> {
 
         return (
 			<div className="vcenter" data-testid="resetPw">
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <div className="reset">
 				<h3 className="row col-md-12 d-flex justify-content-center">Password Reset</h3>
 				<div className="row col-md-12 d-flex justify-content-center">
 					<label>Enter Your New Password</label>
@@ -121,6 +123,7 @@ class ResetPassword extends React.Component<Props, State> {
 					{button}
 				</div>
 				<ToastContainer />
+                </div>
 			</div>
         );
     }
