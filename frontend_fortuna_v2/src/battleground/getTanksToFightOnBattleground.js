@@ -6,6 +6,7 @@ import getBotTanksAPICall from '../globalComponents/apiCalls/getBotTanksAPICall.
 import {getAllUsersTanks} from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import getMatchAPICall from '../globalComponents/apiCalls/getMatchAPICall.js';
 import type {ArenaType} from './ArenaType.js';
+import setBattlegroundArena from './setBattlegroundArena.js';
 
 // On the onTankLoaded callback, indecies 0-2 refer to tanks on Team1
 // indecies 3-5 refer to tanks on team2
@@ -54,6 +55,7 @@ function getTanksToFightOnBattleground(
 		console.log('trying to load match '+matchId);
 		getMatchAPICall(matchId, (tanksLoaded, matchId, arenaType) => {
 			console.log('match loaded!');
+			setBattlegroundArena(arenaType);
 			onArenaLoaded(arenaType);
 			for (let i=0; i<6; i++) {
 				if (tanksLoaded[i] != null) {

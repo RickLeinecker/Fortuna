@@ -5,20 +5,13 @@ import type{ SellingType } from '../globalComponents/typesAndClasses/SellingType
 import getUserAPICall from '../globalComponents/apiCalls/getUserAPICall.js';
 import SaleObject from '../globalComponents/typesAndClasses/SaleObject.js';
 import { ToastContainer , toast } from 'react-toastify';
-import { toTitleCase } from '../globalComponents/Utility.js';
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import { getMarketSales, marketSale, getMarketTanks, getMarketCasusCode } from '../globalComponents/apiCalls/marketPlaceAPIConnections.js';
 import { allComponents } from '../globalComponents/typesAndClasses/TankComponent.js';
 import Tank from '../tanks/Tank.js';
 import { getTanksById } from '../globalComponents/apiCalls/tankAPIIntegration';
-import TankDisplay from '../tanks/TankDisplay.js';
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
-import {Container, Row, Col} from 'react-bootstrap';
-import Pagination from './Pagination.js'
-import {reviveAsContainer} from '../casus/reviveCasusBlock.js';
-import PurchaseCasusCode from './PurchaseCasusCode.js';
-import DisplayDescription from './DisplayDescription.js';
-
+import {Container} from 'react-bootstrap';
 import ItemCards from './ItemCards.js'
 import TankCards from './TankCards.js'
 import CasusCards from './CasusCards.js';
@@ -399,7 +392,7 @@ class ListingsView extends React.Component<Props, State> {
           <br/><br/>
           <h1 style={{textAlign: "center"}}>
             {this.formatTitle(this.props.sellerType)}
-            <img style={{overflow: "hidden", position: "relative", left: "10px", borderRadius: "4px"}} width="45" height="45" src="question.png" alt="" onClick={() => this.openModal()} />
+            <img style={{overflow: "hidden", position: "relative", left: "10px", borderRadius: "4px"}} width="45" height="45" src="question2.png" alt="" onClick={() => this.openModal()} />
           </h1>
           <Modal
             isOpen={this.state.modalOpen}

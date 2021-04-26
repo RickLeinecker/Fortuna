@@ -8,25 +8,25 @@ import { verifyLink } from '../globalComponents/verifyLink.js';
 import { verifyLogin } from '../globalComponents/apiCalls/verifyLogin.js';
 import setReturnToFromBattlegroundLink from '../battleground/setReturnToFromBattlegroundLink.js';
 import SelectTank from '../globalComponents/SelectTank.js';
-import Tank from '../tanks/Tank.js';
+
 import { getAllUsersTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import TankDisplay from '../tanks/TankDisplay.js';
-import User from '../globalComponents/typesAndClasses/User.js';
+
 import { prepare3v3APICall, prepare1v1APICall, prepare1v1BotAPICall, prepare3v3BotAPICall } from '../globalComponents/apiCalls/prepareMatchAPICall.js';
 import { setMatchForBattleground } from '../battleground/setTanksToFightInBattleground.js';
 import getReplayListAPICall from '../globalComponents/apiCalls/getReplayListAPICall.js';
 import { ToastContainer , toast } from 'react-toastify';
-import setBattlegroundArena from '../battleground/setBattlegroundArena.js';
+
 import getPreferredSelectedTank from '../globalComponents/getPreferredSelectedTank.js';
-import type { BattleType } from '../globalComponents/typesAndClasses/BattleType.js';
+
 import setFirstTimePlayAPICall from "../globalComponents/apiCalls/setFirstTimePlayAPICall";
 import getFirstTimePlayAPICall from "../globalComponents/apiCalls/getFirstTimePlayAPICall";
-import JoyRide, {ACTIONS, EVENTS, STATUS} from "react-joyride";
+import JoyRide, {STATUS} from "react-joyride";
 
 import getMasterAccountId from '../globalComponents/getMasterAccountId.js';
 import { getMasterTanks } from '../globalComponents/apiCalls/tankAPIIntegration.js';
 import SetWagerPopup from "../armory/SetWagerPopup";
-import getLoginToken from '../globalComponents/getLoginToken';
+
 import { TweenMax, Power3 } from 'gsap';
 
 function BattleArena() {
@@ -35,11 +35,10 @@ function BattleArena() {
   const [selectedTankTwo, setSelectedTankTwo] = useState(null);
   const [selectedTankThree, setSelectedTankThree] = useState(null);
   const [allTanks, setAllTanks] = useState([]);
-  const [userElo, setUserElo] = useState(0);
   const [battleType, setBattleType] = useState('1 vs 1');
   const [run, setRun] = useState(false);
   const [botTanks, setBotTanks] = useState(null);
-  const [tourSteps, setTourSteps] = useState([
+  const [tourSteps] = useState([
     {
       target: ".quickplay",
       disableBeacon: true,
@@ -63,7 +62,7 @@ function BattleArena() {
   let wagerRef = useRef(null);
   let left = useRef(null);
   let mid = useRef(null);
-  let right = useRef(null);
+
 
   useEffect(() => {
     verifyLogin();
@@ -171,10 +170,6 @@ function BattleArena() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
-  const style = {
-    position: "relative",
-    left: "50px"
-  }
 
   const onWagerUpdate = () => {
     const navbar = navbarRef.current;

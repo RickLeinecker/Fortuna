@@ -56,7 +56,7 @@ function TrainingArena() {
   const [run, setRun] = useState(false);
   const [tourSteps, setTourSteps] = useState([
     {
-      target: ".leftTank",
+      target: ".taleft",
       disableBeacon: true,
       content: "Select a tank you own for training in this slot."
     },

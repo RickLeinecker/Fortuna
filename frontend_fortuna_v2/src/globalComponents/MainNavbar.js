@@ -8,7 +8,6 @@ import { verifyLink } from './verifyLink.js';
 import getUserAPICall from './apiCalls/getUserAPICall.js';
 import YoutubeVideoPopup from './YoutubeVideoPopup.js';
 
-import { Navbar, Form, Nav, NavDropdown, Button, FormControl } from 'react-bootstrap'
 
 type Props = {
 	linkName: LinkType,

@@ -498,8 +498,9 @@ function Armory() {
 
 			</div>
 
-			<div className="column armoryleft" title="armLeft">
+			<div className="column armoryleft" data-testid="armLeft">
 				<br/><br/>
+
 				<label className="casusFont" style={divStyle}>Casus</label>
 				<br/>
 				<Link to={verifyLink("/Casus")}>
@@ -540,22 +541,24 @@ function Armory() {
 			<div className="column armorymiddle" ref={el => armMid = el} data-testid="armMid">
 
 				<h4 className="font" style={divStyle}>Currently Modifying:</h4>
-				{selectedTank==null?<div></div>:
-					<SelectTank
-						selectedTank={selectedTank}
-						allTanks={allTanks}
-						changeSelectedTank={(tank) => changeSelectedTank(tank)}
-						propogateChangesToCasus={true}
-						allowRemoveTank={false}
-					/>
-				}
-
+				<div>
+					{selectedTank==null?<div></div>:
+						<SelectTank
+							selectedTank={selectedTank}
+							allTanks={allTanks}
+							changeSelectedTank={(tank) => changeSelectedTank(tank)}
+							propogateChangesToCasus={true}
+							allowRemoveTank={false}
+						/>
+					}
+				</div>
 
 				{selectedTank==null?<div></div>:
 					<TankDisplay tankToDisplay={selectedTank} smallTank={false} />
 				}
 			</div>
 			<div data-testid="armRight">
+
 				{selectedTank==null?<div></div>:
 					<div className="column armoryright" style={{position: "relative"}}>
 						<h5 className="font" style={divStyle}>{points}/10 Point(s) Used</h5>

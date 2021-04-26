@@ -11,8 +11,13 @@
 }
 .background-image {
 	background: url('/login_background.gif');
-	height: 100vh;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	min-height: 100%;
+	min-width: 1024px;
+	width: 100%;
+	height: auto;
+	position: absolute;
+
 }
