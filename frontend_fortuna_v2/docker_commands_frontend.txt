@@ -9,6 +9,8 @@ cleanup dangling images: docker rmi $(docker images -f "dangling=true" -q)
  docker run -d -p 8000:80 -v /frontend_fortuna_v2/public:/usr/share/nginx/html --name my-nginx nginx
 
 
+stop containers in production type into the console: ENV=production docker-compose -f docker-compose-production.yml down -v
+
  acmeV2 production: https://acme-v02.api.letsencrypt.org/directory
 
  acmev2 staging: https://acme-staging-v02.api.letsencrypt.org/directory

@@ -21,7 +21,7 @@ build-production:
 	cd backend_fortuna_v2 && $(MAKE) build
 
 run-production:
-	ENV=production docker-compose -f docker-compose-production.yml up
+	ENV=production docker-compose -f -d docker-compose-production.yml up
 
 SSH_STRING:=root@165.22.39.162
 
