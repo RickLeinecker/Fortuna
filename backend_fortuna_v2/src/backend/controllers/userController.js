@@ -110,7 +110,7 @@ exports.googleLogin = async (req, response) => {
             let tank2 = new Tank();
             tank2.userId = user.id;
             tank2.tankName = `Long Range Tank`;
-            tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+            tank2.components = ['light', 'missile', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
             tank2.casusCode = {
               boundingBox: { x: 0, y: 0, w: 64, h: 23 },
               highlighted: false,
@@ -155,7 +155,7 @@ exports.googleLogin = async (req, response) => {
             let tank5 = new Tank();
             tank5.userId = user.id;
             tank5.tankName = `Sensor Tank`;
-            tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+            tank5.components = ['moddable', 'vulcanCannon', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
             tank5.casusCode = {
               boundingBox: { x: 0, y: 0, w: 64, h: 23 },
               highlighted: false,
@@ -383,11 +383,11 @@ exports.register = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-			'Greetings Commander '+user.userName+'!\n\n' +
+			'Greetings Challenger '+user.userName+'!\n\n' +
 			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
 			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+		const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
 			<p>Please verify your Fortuna account by using the link below:</p>
 			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
@@ -493,7 +493,7 @@ exports.login = async (req: Request, res: Response) => {
 			let tank2 = new Tank();
 			tank2.userId = user.id;
 			tank2.tankName = `Long Range Tank`;
-			tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+			tank2.components = ['light', 'missile', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
 			tank2.casusCode = {
 				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
 				highlighted: false,
@@ -565,7 +565,7 @@ exports.login = async (req: Request, res: Response) => {
 			let tank5 = new Tank();
 			tank5.userId = user.id;
 			tank5.tankName = `Sensor Tank`;
-			tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+			tank5.components = ['moddable', 'vulcanCannon', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
 			tank5.casusCode = {
 				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
 				highlighted: false,
@@ -782,13 +782,13 @@ exports.resendConfirm = async (req: Request, res: Response) => {
 		});
 
 		const textBody =
-			'Greetings Commander '+user.userName+'!\n\n' +
+			'Greetings Challenger '+user.userName+'!\n\n' +
 			'We recieved word that you needed to reconfirm your email.\n' +
 			'Please verify your Fortuna account by copying and pasting the link below into your browser:\n\n' +
 			'http://'+FRONTEND+'/ConfirmEmail/'+token.token+'/'+user.email;
 
-		const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
-			<p>We recieved word that you needed to reconfirm your email.<br />
+		const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
+			<p>We received word that you needed to reconfirm your email.<br />
 			Please verify your Fortuna account by using the link below:</p>
 			<a href="http://${FRONTEND}/ConfirmEmail/${token.token}/${user.email}">Verify your Fortuna account</a>`;
 
@@ -1102,14 +1102,17 @@ exports.setFirstTimeHome = async (req: Request, res: Response) => {
 
   let _firstTimeHome = req.body.firstTimeHome;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
     {
       firstTimeHome: _firstTimeHome
     }, function (err, docs) {
       if (err)
         res.json(err)
-      else
-        console.log("Changing firstTimeHome to false!");
+	  else
+	  {
+		  console.log("Changing firstTimeHome to false!");
+		  return res.status(200).send("set firstTimeHome to false")
+	  }
     })
 }
 
@@ -1117,14 +1120,17 @@ exports.setFirstTimePlay = async (req: Request, res: Response) => {
 
 	let _firstTimePlay = req.body.firstTimePlay;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimePlay: _firstTimePlay
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimePlay to false!");
+				return res.status(200).send("set firstTimePlay to false")
+			}
 		})
 }
 
@@ -1132,14 +1138,17 @@ exports.setFirstTimeLoadout = async (req: Request, res: Response) => {
 
 	let _firstTimeLoadout = req.body.firstTimeLoadout;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeLoadout: _firstTimeLoadout
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeLoadout to false!");
+				return res.status(200).send("set firstTimeLoadout to false")
+			}
 		})
 }
 
@@ -1147,14 +1156,18 @@ exports.setFirstTimeTraining = async (req: Request, res: Response) => {
 
 	let _firstTimeTraining = req.body.firstTimeTraining;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeTraining: _firstTimeTraining
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeTraining to false!");
+				return res.status(200).send("set firstTimeTraining to false")
+			}
+
 		})
 }
 
@@ -1162,14 +1175,17 @@ exports.setFirstTimeMarketplace = async (req: Request, res: Response) => {
 
 	let _firstTimeMarketplace = req.body.firstTimeMarketplace;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeMarketplace: _firstTimeMarketplace
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeMarketplace to false!");
+				return res.status(200).send("set firstTimeMarketplace to false")
+			}
 		})
 }
 
@@ -1177,14 +1193,17 @@ exports.setFirstTimeCasus = async (req: Request, res: Response) => {
 
 	let _firstTimeCasus = req.body.firstTimeCasus;
 
-	const user = await User.findByIdAndUpdate({_id: req.user.id},
+	await User.findByIdAndUpdate({_id: req.user.id},
 		{
 			firstTimeCasus: _firstTimeCasus
 		}, function (err, docs) {
 			if (err)
 				res.json(err)
 			else
+			{
 				console.log("Changing firstTimeCasus to false!");
+				return res.status(200).send("set firstTimeCasus to false")
+			}
 		})
 }
 
@@ -1394,13 +1413,13 @@ exports.passwordResetReq = async (req: Request, res: Response) => {
 	});
 
 	const textBody =
-		'Greetings Commander '+user.userName+'!\n\n' +
+		'Greetings Challenger '+user.userName+'!\n\n' +
 		'We recieved word that you needed to reset your password.\n' +
 		'Please reset your Fortuna account password by copying and pasting the link below into your browser:\n\n' +
 		'http://'+FRONTEND+'/ResetPassword/'+token.token+'/'+user.email + '\n\n' +
 		'If this request was not made by you, feel free to disregard this email.';
 
-	const htmlBody = `<h2>Greetings Commander ${user.userName}!</h2>
+	const htmlBody = `<h2>Greetings Challenger ${user.userName}!</h2>
 		<p>We recieved word that you needed to reset your password.<br />
 		Please reset your Fortuna account password by using the link below:</p>
 		<a href="http://${FRONTEND}/ResetPassword/${token.token}/${user.email}">Reset your Fortuna account password</a>

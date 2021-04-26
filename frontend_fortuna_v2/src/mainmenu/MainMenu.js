@@ -191,12 +191,14 @@ const MainMenu  = () => {
   }
 
   const creditsStyle = {
-    color: "white"
+    color: "white",
+    position: "relative",
+    right: "200px"
   }
 
 	return (
     <>
-      <div id="Parent" className='background-image' title="mainMenuRoot">
+      <div id="Parent" className='background-image' data-testid="mainMenuRoot">
         <br/>
         <div className="tankSelect">
           <MainNavbar
@@ -348,8 +350,13 @@ const MainMenu  = () => {
           continuous={true}
           styles={{
             options: {
+              arrowColor: '#414a4',
+              backgroundColor: '#e3ffeb',
+              overlayColor: 'rgba(79, 26, 0, 0.4)',
+              primaryColor: '#414a4c',
+              textColor: '#414a4c',
+              width: 500,
               zIndex: 1000,
-              spotlightShadow: 'blue'
             }
           }}
       />

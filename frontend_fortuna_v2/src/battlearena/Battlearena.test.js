@@ -8,65 +8,65 @@ import SearchPlayers from './SearchPlayers';
 import { BrowserRouter } from 'react-router-dom';
 
 it('arenaRoot', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Battlearena/>
     </BrowserRouter>
   );
 
-  const root = queryByTitle("arenaRoot");
+  const root = getByTestId("arenaRoot");
 
   expect(root).toBeTruthy();
 });
 
 it('arenaleft', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Battlearena/>
     </BrowserRouter>
   );
 
-  const left = queryByTitle("arenaleft");
+  const left = getByTestId("arenaleft");
 
   expect(left).toBeTruthy();
 });
 
 it('arenaMid', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Battlearena/>
     </BrowserRouter>
   );
 
-  const mid = queryByTitle("arenaMid");
+  const mid = getByTestId("arenaMid");
 
   expect(mid).toBeTruthy();
 });
 
 it('arenaRight', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <Battlearena/>
     </BrowserRouter>
   );
 
-  const right = queryByTitle("arenaRight");
+  const right = getByTestId("arenaRight");
 
   expect(right).toBeTruthy();
 });
 
 it('replayRoot', () => {
-  const { queryByTitle } = render(<Replays/>);
+  const { getByTestId } = render(<Replays/>);
 
-  const replay = queryByTitle("replayRoot");
+  const replay = getByTestId("replayRoot");
 
   expect(replay).toBeTruthy();
 });
 
 it('searchRoot', () => {
-  const { queryByTitle } = render(<SearchPlayers/>);
+  const { getByTestId } = render(<SearchPlayers/>);
 
-  const replay = queryByTitle("searchRoot");
+  const replay = getByTestId("searchRoot");
 
   expect(replay).toBeTruthy();
 });

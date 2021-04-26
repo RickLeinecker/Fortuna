@@ -169,3 +169,25 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+.confirm {
+	text-align: center;
+	color: white;
+	padding: 10px;
+	margin: auto;
+	position: ;
+	width: 50%;
+	background-color: rgba(0,0,0,.5);
+	border: 4px solid #1969e5;
+	font-family: 'Press Start 2P', cursive;
+}
+.reset {
+	text-align: center;
+	color: white;
+	padding: 10px;
+	width: fit-content;
+	margin: auto;
+	background-color: rgba(0,0,0,.5);
+	border: 4px solid #1969e5;
+	font-family: 'Press Start 2P', cursive;
+}

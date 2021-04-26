@@ -218,7 +218,7 @@ function Marketplace() {
   }
   else {
       return (
-        <div id="Parent" className='background-image' title="rootMainMarket">
+        <div id="Parent" className='background-image' data-testid="rootMainMarket">
           <br/>
           <MainNavbar
             className='background-image'
@@ -236,7 +236,7 @@ function Marketplace() {
           <br/>
           <br/>
           <br/>
-          <Container className="buy" ref={el => buyDown = el} title="marketContainer1">
+          <Container className="buy" ref={el => buyDown = el} data-testid="marketContainer1">
             <h1 style={divStyle}>Buy</h1>
             <br/>
             <Row style={divStyle}>
@@ -261,7 +261,7 @@ function Marketplace() {
           </Container>
           <br/>
           <br/>
-          <Container className="sell" ref={el => sellUp = el} title="marketContainer2">
+          <Container className="sell" ref={el => sellUp = el} data-testid="marketContainer2">
             <h1 style={divStyle}>Sell</h1>
             <br/>
             <Row >
@@ -312,10 +312,15 @@ function Marketplace() {
                 showSkipButton
                 showProgress
                 styles={{
-                    options: {
-                        zIndex: 1000,
-                        spotlightShadow: 'blue'
-                    }
+                  options: {
+                    arrowColor: '#414a4',
+                    backgroundColor: '#e3ffeb',
+                    overlayColor: 'rgba(79, 26, 0, 0.4)',
+                    primaryColor: '#414a4c',
+                    textColor: '#414a4c',
+                    width: 500,
+                    zIndex: 1000,
+                  }
                 }}
             />
           <ToastContainer />

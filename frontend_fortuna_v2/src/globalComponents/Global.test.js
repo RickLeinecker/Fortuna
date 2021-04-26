@@ -8,69 +8,69 @@ import SelectTank from './SelectTank';
 import { BrowserRouter } from 'react-router-dom';
 
 it('leaderRoot', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <Leaderboard/>
   )
 
-  const leader = queryByTitle("leaderRoot");
+  const leader = getByTestId("leaderRoot");
 
   expect(leader).toBeTruthy();
 });
 
 it('navRoot', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <MainNavbar/>
     </BrowserRouter>
   )
 
-  const root = queryByTitle("navRoot");
+  const root = getByTestId("navRoot");
 
   expect(root).toBeTruthy();
 });
 
 it('navLeft', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <MainNavbar/>
     </BrowserRouter>
   )
 
-  const left = queryByTitle("navLeft");
+  const left = getByTestId("navLeft");
 
   expect(left).toBeTruthy();
 });
 
 it('navMid', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <MainNavbar/>
     </BrowserRouter>
   )
 
-  const mid = queryByTitle("navMid");
+  const mid = getByTestId("navMid");
 
   expect(mid).toBeTruthy();
 });
 
 it('navRight', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <BrowserRouter>
       <MainNavbar/>
     </BrowserRouter>
   )
 
-  const right = queryByTitle("navRight");
+  const right = getByTestId("navRight");
 
   expect(right).toBeTruthy();
 });
 
 it('tankRoot', () => {
-  const { queryByTitle } = render(
+  const { getByTestId } = render(
     <SelectTank/>
   )
 
-  const tank = queryByTitle("tankRoot");
+  const tank = getByTestId("tankRoot");
 
   expect(tank).toBeTruthy();
 });

@@ -175,7 +175,7 @@ class SignupPopup extends React.Component<Props, State> {
 
 	render(): React.Node {
 		return (
-			<div title="signRoot">
+			<div data-testid="signRoot">
 				<button type="button" className="loginbtn" onClick={() => this.setState({signupDialogOpen: true})}>
 					<div className="logintext">
 						Signup
