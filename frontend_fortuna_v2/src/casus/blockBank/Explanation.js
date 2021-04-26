@@ -20,16 +20,27 @@ function Explanation({ choice }) {
     textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
   }
 
+  const hstyle = {
+    color: 'white',
+    textShadow: '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black',
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
+
   const imgStyle = {
-    borderRadius: "20px",
-    boxShadow: "2px 2px 2px 2px 5px grey"
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '0px',
+    borderRadius: '20px',
+    boxShadow: '2px 2px 2px 2px 5px grey'
   }
 
   if (choice === choices.CONTROL_FLOW)
   {
     return (
       <div>
-        <p style={pstyle}>Info on Control Flow</p>
+        <p style={hstyle}>Info on If-Statements and Loops</p>
         <br/>
         <p style={pstyle}>
           If statements are used to execute different lines of code,
@@ -39,6 +50,7 @@ function Explanation({ choice }) {
           afterwards specifies another group of code lines that is only executed with the condition is false.
         </p>
         <img style={imgStyle} src="/help/if_statement.png" alt="image"/>
+	   <br/>
         <p style={pstyle}>
           A while loop is used to repeat lines of code when you are
           uncertain exactly how many times they should be repeated.
@@ -48,6 +60,7 @@ function Explanation({ choice }) {
           each execution of the group of code lines.
         </p>
         <img style={imgStyle} src="/help/while_loop.png" alt="image" width="600" height="300" />
+	   <br/>
         <p style={pstyle}>
           A for loop is used to repeat lines of code when you know how many
           times you want to repeat them. The for loop uses a counter variables,
@@ -58,6 +71,11 @@ function Explanation({ choice }) {
           lines that should be executed repeatedly while the counter inequality is true.
         </p>
         <img style={imgStyle} src="/help/for_loop.png" alt="image"/>
+	   <br/>
+	   <p style={pstyle}>
+          You might want to use if-statements if you want your tank to act differently based on whats happening,
+		like if it bumped into a wall or not. Loops can be used to repeat code in succession without recreating the whole thing multple times.
+        </p>
       </div>
     )
   }
@@ -65,7 +83,7 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Variables</p>
+        <p style={hstyle}>Info on Variables</p>
         <br/>
         <p style={pstyle}>
           Variables, like in math, are names that represent values
@@ -74,6 +92,9 @@ function Explanation({ choice }) {
           integers (int), numbers with decimals (doubles), and true/false values (booleans)
         </p>
         <img style={imgStyle} src="/help/variables.png" alt="image"/>
+	   <p style={pstyle}>
+          Variables can be used to help your tank keep track of values, like remembering how many times it hit a wall.
+        </p>
       </div>
     )
   }
@@ -81,10 +102,14 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Math</p>
+        <p style={pstyle}>Info on Exponents and Trigonometry</p>
         <br/>
         <p style={pstyle}>The Math library provides multiple trigonometric functions, as well as square root and exponentiation. These functions only take doubles as inputs, and only output double values.</p>
         <img style={imgStyle} src="/help/math1.png" alt="image"/>
+	   <br/>
+	   <p style={pstyle}>
+          You might use trigonometry to performs calculations involving angles for your tank's orientation and aiming.
+        </p>
       </div>
     )
   }
@@ -92,17 +117,17 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Integer Operations</p>
+        <p style={hstyle}>Info on Integer Operations</p>
         <br/>
         <p style={pstyle}>The integer operations have return types varying from booleans to doubles to integers. For the following examples, let:</p>
         <img style={imgStyle} src="/help/int1.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>The operations that return booleans are inequalities.</p>
         <img style={imgStyle} src="/help/int2.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>The operations that return integers are arithmetic, modulo, absolute value, and min/max.</p>
         <img style={imgStyle} src="/help/int3.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>Converting a integer to a double will return a double.</p>
         <img style={imgStyle} src="/help/int4.png" alt="image"/>
       </div>
@@ -112,17 +137,17 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Doubles Operations</p>
+        <p style={hstyle}>Info on Double Operations</p>
         <br/>
         <p style={pstyle}>The doubles operations have return types varying from booleans to doubles to integers. For the following examples, let:</p>
         <img style={imgStyle} src="/help/doub1.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>The operations that return booleans are inequalities.</p>
         <img style={imgStyle} src="/help/doub2.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>The operations that return doubles are arithmetic, absolute value, and min/max.</p>
         <img style={imgStyle} src="/help/doub3.png" alt="image"/>
-        <br/>
+	   <br/>
         <p style={pstyle}>Rounding and truncating a double will return an integer.</p>
         <img style={imgStyle} src="/help/doub4.png" alt="image"/>
       </div>
@@ -132,7 +157,7 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Logic operations</p>
+        <p style={hstyle}>Info on Logic operations</p>
         <br/>
         <p style={pstyle}>Logic operations work with boolean values, and output boolean values. For the following examples, let:</p>
 	   <img style={imgStyle} src="/help/logic1.png" alt="image"/>
@@ -148,6 +173,10 @@ function Explanation({ choice }) {
 	   <br/>
 	   <p style={pstyle}>Logical NOT returns the opposite of the input operand.</p>
 	   <img style={imgStyle} src="/help/logic5.png" alt="image"/>
+  	   <br/>
+  	   <p style={pstyle}>
+  	   Logical operations can help when dealing with multiple conditions you have to check and compare.
+  	   </p>
       </div>
     )
   }
@@ -155,7 +184,7 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Lists</p>
+        <p style={hstyle}>Info on Lists</p>
         <br/>
         <p style={pstyle}>
           Lists are used to group and organize values.
@@ -164,6 +193,9 @@ function Explanation({ choice }) {
           list can be created, modified, and deleted from any position in the list.
         </p>
         <img style={imgStyle} src="/help/lists.png" alt="image"/>
+  	   <p style={pstyle}>
+  	   An example use of a list in CASUS is to store the enemy tank coordinates from a scanner.
+  	   </p>
       </div>
     )
   }
@@ -171,7 +203,7 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Debugging</p>
+        <p style={hstyle}>Info on Debugging</p>
         <br/>
         <p style={pstyle}>Debugging is the process of finding and fixing errors in your code. The most simple method of debugging is to log the values of variables in the intermediate steps of your code to ensure that everything is being calculated properly.</p>
 	   <p style={pstyle}>This can be done using the print function.</p>
@@ -183,7 +215,7 @@ function Explanation({ choice }) {
   {
     return (
       <div>
-        <p style={pstyle}>Info on Functions</p>
+        <p style={hstyle}>Info on Functions</p>
         <br/>
         <p style={pstyle}>
           Functions are named groups of code lines for easy reference.
@@ -193,6 +225,9 @@ function Explanation({ choice }) {
           which is the output of the function, if any.
         </p>
         <img style={imgStyle} src="/help/functions.png" alt="image"/>
+  	   <p style={pstyle}>
+  	   Functions can be used to code for actions like aiming that you can call later when ready to use.
+  	   </p>
       </div>
     )
   }

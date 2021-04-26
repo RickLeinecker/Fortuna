@@ -38,12 +38,12 @@ class BlockBankTypeSelector extends React.Component<Props> {
       this.setState({ modalIsOpen: true });
       console.log("open");
     }
-  
+
     closeModal = () => {
       this.setState({ modalIsOpen: false });
       console.log("closed")
     }
-  
+
     customStyles = {
       content : {
         top: '50%',
@@ -75,13 +75,13 @@ class BlockBankTypeSelector extends React.Component<Props> {
       <>
         <Container className="blockTypeSelect" fluid>
           <Row>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('CONTROL_FLOW')}>Control Flow and Functions</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('VARIABLES')}>Variables and Constants</Button></Col>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('MATH')}>Math</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('MATH')}>Exponents and Trigonometry</Button></Col>
           </Row>
           <Row>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('DOUBLES')}>Double Operations</Button></Col>
-            <Col md={4}><Button className="spacing" onClick={() => this.showSection('LOGIC')}>Logic</Button></Col>
+            <Col md={4}><Button className="spacing" onClick={() => this.showSection('LOGIC')}>Logic Operations</Button></Col>
             <Col md={4}><Button className="spacing" onClick={() => this.showSection('INTS')}>Integer Operations</Button></Col>
           </Row>
           <Row>
