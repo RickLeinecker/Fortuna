@@ -110,7 +110,7 @@ exports.googleLogin = async (req, response) => {
             let tank2 = new Tank();
             tank2.userId = user.id;
             tank2.tankName = `Long Range Tank`;
-            tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+            tank2.components = ['light', 'missile', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
             tank2.casusCode = {
               boundingBox: { x: 0, y: 0, w: 64, h: 23 },
               highlighted: false,
@@ -155,7 +155,7 @@ exports.googleLogin = async (req, response) => {
             let tank5 = new Tank();
             tank5.userId = user.id;
             tank5.tankName = `Sensor Tank`;
-            tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+            tank5.components = ['moddable', 'vulcanCannon', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
             tank5.casusCode = {
               boundingBox: { x: 0, y: 0, w: 64, h: 23 },
               highlighted: false,
@@ -493,7 +493,7 @@ exports.login = async (req: Request, res: Response) => {
 			let tank2 = new Tank();
 			tank2.userId = user.id;
 			tank2.tankName = `Long Range Tank`;
-			tank2.components = ['light', 'laser', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
+			tank2.components = ['light', 'missile', 'empty', 'empty', 'empty', 'empty', 'empty', 'fastTreads', 'empty', 'empty', 'empty'];
 			tank2.casusCode = {
 				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
 				highlighted: false,
@@ -565,7 +565,7 @@ exports.login = async (req: Request, res: Response) => {
 			let tank5 = new Tank();
 			tank5.userId = user.id;
 			tank5.tankName = `Sensor Tank`;
-			tank5.components = ['moddable', 'machineGun', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
+			tank5.components = ['moddable', 'vulcanCannon', 'empty', 'mediumRangeScanner', 'empty', 'empty', 'empty', 'advancedTreads', 'empty', 'empty', 'empty'];
 			tank5.casusCode = {
 				boundingBox: { x: 0, y: 0, w: 64, h: 23 },
 				highlighted: false,
