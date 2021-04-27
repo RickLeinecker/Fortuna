@@ -165,13 +165,13 @@ const MainMenu  = () => {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       borderRadius: '10px',
-      backgroundColor: "#012074",
+      backgroundColor: "rgba(0,0,0,.5)",
       borderStyle: "solid",
       maxHeight: "100vh"
     },
     overlay:{
-      backgroundColor: "rgba(0,0,0,.5)"
-    }
+    	backgroundColor: "rgba(0,0,0,.5)"
+	  }
   }
 
 
@@ -192,8 +192,7 @@ const MainMenu  = () => {
 
   const creditsStyle = {
     color: "white",
-    position: "relative",
-    right: "200px"
+    fontSize: "small"
   }
 
 	return (
@@ -330,12 +329,12 @@ const MainMenu  = () => {
             </h5>
             <br/><br/>
             <h7 style={creditsStyle}>
-              Photo Credits:
+              <strong>Photo Credits:</strong>
             </h7>
             <br/>
-            <a href="https://www.artstation.com/artwork/GXwZgz" style={creditsStyle}>www.artstation.com</a>
+            <h7 style={creditsStyle}>https://www.artstation.com/artwork/GXwZgz</h7>
             <br/>
-            <a href="https://www.itl.cat/pngfile/big/4-43065_anime-wallpaper-gif-1080p.jpg" style={creditsStyle}>www.itl.cat</a>
+            <h7 style={creditsStyle}>https://www.itl.cat/pngfile/big/4-43065_anime-wallpaper-gif-1080p.jpg</h7>
             <br/><br/>
             <Button onClick={() => closeCredits()}>Close</Button>
           </Modal>  
