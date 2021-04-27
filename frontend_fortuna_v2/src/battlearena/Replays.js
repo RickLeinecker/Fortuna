@@ -67,6 +67,8 @@ class Replays extends React.Component<Props, State> {
 		backgroundColor: "rgba(0,0,0,.5)",
 		fontFamily: '"Press Start 2P", cursive',
 		color:"white",
+		minWidth: '455px',
+		maxWidth: '80%',
 		fontSize: 16,
     padding: "5px"
 	}
