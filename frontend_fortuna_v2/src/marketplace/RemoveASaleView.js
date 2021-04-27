@@ -85,23 +85,23 @@ function RemoveASaleView() {
       case 'machineGun':
         return (<img src="/Gun2.png" width="100" height="100"/>);
       case 'grenadeLauncher':
-        return (<img src="/Gun1.png" width="100" height="100"/>);
+        return (<img src="/gun1.png" width="100" height="100"/>);
       case 'missile':
-        return (<img src="/Gun9.png" width="100" height="100"/>);
+        return (<img src="/gun9.png" width="100" height="100"/>);
       case 'laser':
-        return (<img src="/Gun3.png" width="100" height="100"/>);
+        return (<img src="/gun3.png" width="100" height="100"/>);
       case 'plasma':
-        return (<img src="/Gun4.png" width="100" height="100"/>);
+        return (<img src="/gun4.png" width="100" height="100"/>);
       case 'shotgun':
-        return (<img src="/Gun7.png" width="100" height="100"/>);
+        return (<img src="/gun7.png" width="100" height="100"/>);
       case 'lancer':
-        return (<img src="/Gun8.png" width="100" height="100"/>);
+        return (<img src="/gun8.png" width="100" height="100"/>);
       case 'vulcanCannon':
-        return (<img src="/Gun5.png" width="100" height="100"/>);
+        return (<img src="/gun5.png" width="100" height="100"/>);
       case 'pulseLaser':
         return (<img src="/Gun10.png" width="100" height="100"/>);
       case 'deathRay':
-        return (<img src="/Gun6.png" width="100" height="100"/>);
+        return (<img src="/gun6.png" width="100" height="100"/>);
       case 'shortRangeScanner':
         return (<img src="/scannerSmall.png" width="100" height="100"/>);
       case 'mediumRangeScanner':

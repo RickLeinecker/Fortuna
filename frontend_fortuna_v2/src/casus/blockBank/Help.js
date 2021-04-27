@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import Modal from 'react-modal'
 import Explanation from './Explanation'
+import './Help.css'
 
 function Help() {
   const [controlModalIsOpen, setControlModalIsOpen] = useState(false);
@@ -11,7 +12,7 @@ function Help() {
   const [doublesModalIsOpen, setDoublesModalIsOpen] = useState(false);
   const [logicModalIsOpen, setLogicModalIsOpen] = useState(false);
   const [integerModalIsOpen, setIntegerModalIsOpen] = useState(false);
-  
+
   const [listsModalIsOpen, setListsModalIsOpen] = useState(false);
   const [debugModalIsOpen, setDebugModalIsOpen] = useState(false);
   const [functionsModalIsOpen, setFunctionsModalIsOpen] = useState(false);
@@ -35,7 +36,7 @@ function Help() {
   const openModals = (choice) => {
     switch(choice)
     {
-      case choices.CONTROL_FLOW: 
+      case choices.CONTROL_FLOW:
         setControlModalIsOpen(true);
         break;
       case choices.VARIABLES:
@@ -70,7 +71,7 @@ function Help() {
   const closeModals = (choice) => {
     switch(choice)
     {
-      case choices.CONTROL_FLOW: 
+      case choices.CONTROL_FLOW:
         setControlModalIsOpen(false);
         break;
       case choices.VARIABLES:
@@ -114,7 +115,8 @@ function Help() {
       borderRadius: '10px',
       backgroundColor: "#012074",
       borderStyle: "solid",
-      maxHeight: "100vh"
+      maxHeight: "100vh",
+	 maxWidth: '1000px',
     },
     overlay:{
       backgroundColor: "rgba(0,0,0,.5)"
@@ -132,7 +134,7 @@ function Help() {
         <p style={pstyle}>What would you like more information on?</p>
         <Row>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.CONTROL_FLOW)}>Control Flow</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.CONTROL_FLOW)}>Control Flow and Functions</Button>
             <Modal
               isOpen={controlModalIsOpen}
               style={customStyles}
@@ -140,11 +142,11 @@ function Help() {
             >
               <Explanation choice={choices.CONTROL_FLOW} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.CONTROL_FLOW)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.CONTROL_FLOW)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.VARIABLES)}>Variables</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.VARIABLES)}>Variables and Constants</Button>
             <Modal
               isOpen={variablesModalIsOpen}
               style={customStyles}
@@ -152,11 +154,11 @@ function Help() {
             >
               <Explanation choice={choices.VARIABLES} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.VARIABLES)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.VARIABLES)}>Close</Button>
             </Modal>
           </Col>
           <Col  md={4}>
-            <Button onClick={() => openModals(choices.MATH)}>Math</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.MATH)}>Exponents and Trigonometry</Button>
             <Modal
               isOpen={mathModalIsOpen}
               style={customStyles}
@@ -164,7 +166,7 @@ function Help() {
             >
               <Explanation choice={choices.MATH} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.MATH)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.MATH)}>Close</Button>
             </Modal>
           </Col>
           {/* <Col md={6}/> */}
@@ -172,7 +174,7 @@ function Help() {
         <div className="divider"/>
         <Row>
           <Col md={4}>
-          <Button onClick={() => openModals(choices.DOUBLES)}>Doubles</Button>
+          <Button className="spacingHelp" onClick={() => openModals(choices.DOUBLES)}>Double Operations</Button>
             <Modal
               isOpen={doublesModalIsOpen}
               style={customStyles}
@@ -180,11 +182,11 @@ function Help() {
             >
               <Explanation choice={choices.DOUBLES} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.DOUBLES)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.DOUBLES)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.LOGIC)}>Logic</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.LOGIC)}>Logic Operations</Button>
             <Modal
               isOpen={logicModalIsOpen}
               style={customStyles}
@@ -192,11 +194,11 @@ function Help() {
             >
               <Explanation choice={choices.LOGIC} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.LOGIC)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.LOGIC)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.INTEGERS)}>Integers</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.INTEGERS)}>Integer Operations</Button>
             <Modal
               isOpen={integerModalIsOpen}
               style={customStyles}
@@ -204,7 +206,7 @@ function Help() {
             >
               <Explanation choice={choices.INTEGERS} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.INTEGERS)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.INTEGERS)}>Close</Button>
             </Modal>
           </Col>
           {/* <Col md={6}/> */}
@@ -212,7 +214,7 @@ function Help() {
         <div className="divider"/>
         <Row>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.LISTS)}>Lists</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.LISTS)}>Lists</Button>
             <Modal
               isOpen={listsModalIsOpen}
               style={customStyles}
@@ -220,11 +222,11 @@ function Help() {
             >
               <Explanation choice={choices.LISTS} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.LISTS)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.LISTS)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.DEBUG)}>Debug</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.DEBUG)}>Debug</Button>
             <Modal
               isOpen={debugModalIsOpen}
               style={customStyles}
@@ -232,11 +234,11 @@ function Help() {
             >
               <Explanation choice={choices.DEBUG} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.DEBUG)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.DEBUG)}>Close</Button>
             </Modal>
           </Col>
           <Col md={4}>
-            <Button onClick={() => openModals(choices.FUNCTIONS)}>Functions</Button>
+            <Button className="spacingHelp" onClick={() => openModals(choices.FUNCTIONS)}>Functions</Button>
             <Modal
               isOpen={functionsModalIsOpen}
               style={customStyles}
@@ -244,7 +246,7 @@ function Help() {
             >
               <Explanation choice={choices.FUNCTIONS} />
               <div className="divider-top" />
-              <Button onClick={() => closeModals(choices.FUNCTIONS)}>Close</Button>
+              <Button className="closingHelp" onClick={() => closeModals(choices.FUNCTIONS)}>Close</Button>
             </Modal>
           </Col>
         </Row>

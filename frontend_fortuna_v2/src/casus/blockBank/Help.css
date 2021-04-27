@@ -1,0 +1,13 @@
+.spacingHelp {
+	font-family: 'Press Start 2P', cursive;
+	font-size: .8em;
+	margin: 10px;
+}
+
+.closingHelp {
+	font-family: 'Press Start 2P', cursive;
+	font-size: 1em;
+	display: grid;
+	margin: auto;
+	margin-top: 0px;
+}
