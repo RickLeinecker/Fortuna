@@ -471,7 +471,7 @@ function Armory() {
     },
     overlay:{
     	backgroundColor: "rgba(0,0,0,.5)"
-	}
+	  }
   }
 
 	const handleJoyrideCallback = (data) => {
