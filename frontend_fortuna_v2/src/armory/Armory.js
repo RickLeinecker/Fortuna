@@ -448,6 +448,13 @@ function Armory() {
     textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
   }
 
+  const tankOptions = {
+    color: "white",
+    textShadow: "-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black",
+    position: "relative",
+    right: "160px"
+  }
+
   const customStyles = {
     content : {
       top: '50%',
@@ -513,7 +520,7 @@ function Armory() {
 					/>
 				}
 				<br/><br/><br/><br/>
-				<h5 className="font" style={divStyle}>Tank Options</h5>
+				<h5 className="font" style={tankOptions}>Tank Options</h5>
 				<div className="row rowPadding">
 					{selectedTank==null?<div></div>:
 						<RenameTankPopup
