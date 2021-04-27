@@ -26,7 +26,7 @@ function Marketplace() {
   const [casusModalOpen, setCasusModalOpen] = useState(false);
   const [tourSteps] = useState([
       {
-          target: ".buy",
+          target: ".background-image",
           disableBeacon: true,
           content: "Welcome to the Marketplace! Use this section to buy components, items, code, and tanks to use in the battlefield!"
       },

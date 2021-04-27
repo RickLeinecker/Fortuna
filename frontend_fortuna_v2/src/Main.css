@@ -208,6 +208,12 @@ body {
 	padding: 20px 20px 20px 20px;
 	background-color: #00103a;
 }
+.popup-remove {
+	text-align: center;
+	font-family: 'Press Start 2P', cursive;
+	padding: 20px 20px 20px 20px;
+	background-color: #00103a;
+}
 .popup-overlay {
 	background-color: rgba(0, 0, 0, 0.5);
 }

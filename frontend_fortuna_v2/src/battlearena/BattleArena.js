@@ -42,15 +42,15 @@ function BattleArena() {
     {
       target: ".quickplay",
       disableBeacon: true,
-      content: "Quickly find a match with someone's wagered tank in your ELO rank",
+      content: "Quickly find a match with someone's wagered tank in your ELO rank. If there is no one to wager, you will be matched up with a bot. ",
     },
     {
       target: ".search",
-      content: "Search for a specific player and challenge any tanks they are wagering"
+      content: "Search for a specific player and challenge any tanks they are wagering."
     },
     {
       target: ".battletype",
-      content: "Change between 1 v 1, or 3 v 3"
+      content: "Change between 1 v 1, or 3 v 3."
     },
     {
       target: ".wager_info",

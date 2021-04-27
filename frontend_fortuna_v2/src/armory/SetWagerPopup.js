@@ -325,7 +325,7 @@ class SetWagerPopup extends React.Component<Props, State> {
 						<div className="popup">
 							<br/>
 							<h5>Select Wager's Battle Type</h5>
-							<div className="row center">
+							<div>
 								<button 
 									onClick={() => this.setState({battleType: '1 vs 1'})}
 									className="smallbtn"

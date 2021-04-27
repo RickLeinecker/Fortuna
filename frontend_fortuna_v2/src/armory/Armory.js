@@ -523,17 +523,17 @@ function Armory() {
 				<br/><br/><br/><br/>
 				<h5 className="font" style={tankOptions}>Tank Options</h5>
 				<div className="row rowPadding">
+					<CreateNewTankPopup
+						chassis={chassis}
+						treads={treads}
+					/>&emsp;
 					{selectedTank==null?<div></div>:
 						<RenameTankPopup
 							tank={selectedTank}
 							renameTank={renameTank}
 						/>
-					}&emsp;
-
-					<CreateNewTankPopup
-						chassis={chassis}
-						treads={treads}
-					/><br/>&emsp;
+					}
+					<br/>&emsp;
 
 					{selectedTank==null?<div></div>:
 
